@@ -13,8 +13,35 @@ namespace Loqui.Generation
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
-            string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.TargetObjectGeneration.GetMaskString(typeStr)}>")}";
-            string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.TargetObjectGeneration.GetMaskString(typeStr)}>")}";
+            string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.GetMaskString(typeStr)}>")}";
+            string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
+
+            string itemStr;
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    itemStr = $"KeyValuePair<{keyStr}, {valueStr}>";
+                    break;
+                case DictMode.KeyedValue:
+                    itemStr = valueStr;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return itemStr;
+        }
+
+        public static string GetErrorMaskString(IDictType dictType)
+        {
+            return $"MaskItem<Exception, IEnumerable<{GetSubErrorMaskString(dictType)}>>";
+        }
+
+        public static string GetSubErrorMaskString(IDictType dictType)
+        {
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+            string keyStr = $"{(keyLoquiType == null ? "Exception" : $"MaskItem<Exception, {keyLoquiType.Mask(MaskType.Error)}>")}";
+            string valueStr = $"{(valueLoquiType == null ? "Exception" : $"MaskItem<Exception, {valueLoquiType.Mask(MaskType.Error)}>")}";
 
             string itemStr;
             switch (dictType.Mode)
@@ -38,12 +65,12 @@ namespace Loqui.Generation
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, "Exception")}(ex, null);");
+            fg.AppendLine($"this.{field.Name} = new {GetErrorMaskString(field as IDictType)}(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
-            fg.AppendLine($"this.{field.Name} = ({GetMaskString(field as IDictType, "Exception")})obj;");
+            fg.AppendLine($"this.{field.Name} = ({GetErrorMaskString(field as IDictType)})obj;");
         }
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
@@ -272,7 +299,7 @@ namespace Loqui.Generation
                     break;
                 case DictMode.KeyedValue:
                     var loqui = dictType.ValueTypeGen as LoquiType;
-                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<MaskItem<Exception, {loqui.GenerateMaskString("Exception")}>>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<MaskItem<Exception, {loqui.GenerateMaskString("Exception")}>>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<MaskItem<Exception, {loqui.Mask(MaskType.Error)}>>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<MaskItem<Exception, {loqui.Mask(MaskType.Error)}>>({accessor}.Specific.And({rhsAccessor}.Specific)));");
                     break;
                 default:
                     throw new NotImplementedException();
@@ -291,7 +318,7 @@ namespace Loqui.Generation
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)
         {
-            return GetMaskString(field as IDictType, "Exception");
+            return DictMaskFieldGeneration.GetErrorMaskString(field as IDictType);
         }
 
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)

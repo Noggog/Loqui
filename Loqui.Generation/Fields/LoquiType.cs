@@ -163,7 +163,7 @@ namespace Loqui.Generation
 
         public override string EqualsMaskAccessor(string accessor) => $"{accessor}.Overall";
 
-        public string MaskItemString(MaskType type)
+        public string Mask(MaskType type)
         {
             if (this.GenericDef != null)
             {
@@ -189,7 +189,14 @@ namespace Loqui.Generation
             {
                 return this.TargetObjectGeneration.Mask_Specified(type, this.GenericSpecification);
             }
-            return this.TargetObjectGeneration.Mask(type);
+            else if (this.TargetObjectGeneration != null)
+            {
+                return this.TargetObjectGeneration.Mask(type);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public override bool CopyNeedsTryCatch => true;
@@ -753,14 +760,14 @@ namespace Loqui.Generation
                         args.Add($"doMasks: doMasks");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"errorMask: (doMasks ? new Func<{this.MaskItemString(MaskType.Error)}>(() =>");
+                            gen.AppendLine($"errorMask: (doMasks ? new Func<{this.Mask(MaskType.Error)}>(() =>");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"var baseMask = errorMask();");
                                 gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
                                 using (new BraceWrapper(gen))
                                 {
-                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.MaskItemString(MaskType.Error)}>(null, new {this.MaskItemString(MaskType.Error)}());");
+                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.Mask(MaskType.Error)}>(null, new {this.Mask(MaskType.Error)}());");
                                 }
                                 gen.AppendLine($"return baseMask.{this.Name}.Specific;");
                             }
@@ -1056,25 +1063,6 @@ namespace Loqui.Generation
                 ret.CustomData[custom.Key] = custom.Value;
             }
             return ret;
-        }
-
-        public string Mask(MaskType type)
-        {
-            if (this.TargetObjectGeneration != null)
-            {
-                if (this.GenericSpecification != null)
-                {
-                    return this.TargetObjectGeneration.Mask_Specified(type, this.GenericSpecification);
-                }
-                else
-                {
-                    return this.TargetObjectGeneration.Mask(type);
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
         }
 
         public override bool IsNullable()

@@ -40,7 +40,7 @@ namespace Loqui.Generation
             ListType listType = field as ListType;
             if (listType.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.MaskItemString(MaskType.Copy)}> {field.Name};");
+                fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}> {field.Name};");
             }
             else
             {
@@ -173,7 +173,7 @@ namespace Loqui.Generation
             }
             else
             {
-                itemStr = $"MaskItem<Exception, {loquiType.MaskItemString(MaskType.Error)}>";
+                itemStr = $"MaskItem<Exception, {loquiType.Mask(MaskType.Error)}>";
             }
             fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<{itemStr}>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{itemStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
         }
@@ -199,7 +199,7 @@ namespace Loqui.Generation
             }
             else
             {
-                itemStr = $"MaskItem<Exception, {loquiType.MaskItemString(MaskType.Error)}>";
+                itemStr = $"MaskItem<Exception, {loquiType.Mask(MaskType.Error)}>";
             }
             return $"MaskItem<Exception, IEnumerable<{itemStr}>>";
         }

@@ -26,7 +26,7 @@ namespace Loqui.Generation
             if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Write"))
+                    $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.Mask(MaskType.Error)}>.Instance.Write"))
                 {
                     args.Add($"writer: {writerAccessor}");
                     args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
@@ -47,7 +47,7 @@ namespace Loqui.Generation
             {
                 UnsafeXmlTranslationGeneration unsafeXml = new UnsafeXmlTranslationGeneration()
                 {
-                    ErrMaskString = $"MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>"
+                    ErrMaskString = $"MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>"
                 };
                 unsafeXml.GenerateWrite(
                     fg: fg,
@@ -92,21 +92,21 @@ namespace Loqui.Generation
                             {
                                 subArgs.Add($"root: {nodeAccessor}");
                                 subArgs.Add($"doMasks: {doMaskAccessor}");
-                                subArgs.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} {typeGen.Name}createMask");
+                                subArgs.Add($"errorMask: out {loquiGen.Mask(MaskType.Error)} {typeGen.Name}createMask");
                             }
                         });
                         args.Add("def: null");
                         args.Add("cmds: null");
                         args.Add("copyMask: null");
                         args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out {loquiGen.MaskItemString(MaskType.Error)} {typeGen.Name}copyMask");
+                        args.Add($"errorMask: out {loquiGen.Mask(MaskType.Error)} {typeGen.Name}copyMask");
                     }
                     using (var args = new ArgsWrapper(fg,
                         "ErrorMask.HandleErrorMask"))
                     {
                         args.Add(maskAccessor);
                         args.Add($"index: (int){typeGen.IndexEnumName}");
-                        args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>.WrapValue({loquiGen.MaskItemString(MaskType.Error)}.Combine({typeGen.Name}createMask, {typeGen.Name}copyMask))");
+                        args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>.WrapValue({loquiGen.Mask(MaskType.Error)}.Combine({typeGen.Name}createMask, {typeGen.Name}copyMask))");
                     }
                 }
                 else
@@ -125,7 +125,7 @@ namespace Loqui.Generation
             {
                 UnsafeXmlTranslationGeneration unsafeXml = new UnsafeXmlTranslationGeneration()
                 {
-                    ErrMaskString = $"MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>"
+                    ErrMaskString = $"MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>"
                 };
                 var isProperty = itemAccessor.PropertyAccess != null;
                 unsafeXml.GenerateCopyInRet(
@@ -140,7 +140,7 @@ namespace Loqui.Generation
                 {
                     args.Add(maskAccessor);
                     args.Add($"index: (int){typeGen.IndexEnumName}");
-                    args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>.WrapValue({typeGen.Name}unsafeMask)");
+                    args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>.WrapValue({typeGen.Name}unsafeMask)");
                 }
                 if (isProperty)
                 {
@@ -179,7 +179,7 @@ namespace Loqui.Generation
             if (loquiGen.TargetObjectGeneration != null)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.MaskItemString(MaskType.Error)}>.Instance.Parse",
+                    $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.Mask(MaskType.Error)}>.Instance.Parse",
                     suffixLine: suffix))
                 {
                     args.Add($"root: {nodeAccessor}");
@@ -199,7 +199,7 @@ namespace Loqui.Generation
             {
                 UnsafeXmlTranslationGeneration unsafeXml = new UnsafeXmlTranslationGeneration()
                 {
-                    ErrMaskString = $"MaskItem<Exception, {loquiGen.MaskItemString(MaskType.Error)}>"
+                    ErrMaskString = $"MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>"
                 };
                 unsafeXml.GenerateCopyInRet(
                     fg: fg,

@@ -8,12 +8,12 @@ namespace Loqui.Generation
         public override string GetErrorMaskTypeStr(TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
-            return $"MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>";
+            return $"MaskItem<Exception, {loqui.Mask(MaskType.Error)}>";
         }
 
         public static string GetObjectErrorMask(LoquiType loqui, string accessor)
         {
-            return $"new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>(null, {accessor})";
+            return $"new MaskItem<Exception, {loqui.Mask(MaskType.Error)}>(null, {accessor})";
         }
 
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
@@ -25,19 +25,19 @@ namespace Loqui.Generation
         public override void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"public MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}> {field.Name};");
+            fg.AppendLine($"public MaskItem<Exception, {loqui.Mask(MaskType.Error)}> {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"this.{field.Name} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>(ex, null);");
+            fg.AppendLine($"this.{field.Name} = new MaskItem<Exception, {loqui.Mask(MaskType.Error)}>(ex, null);");
         }
 
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>)obj;");
+            fg.AppendLine($"this.{field.Name} = (MaskItem<Exception, {loqui.Mask(MaskType.Error)}>)obj;");
         }
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
@@ -52,7 +52,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.MaskItemString(MaskType.Copy)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}> {field.Name};");
                 }
             }
             else
@@ -132,11 +132,11 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (!IsUnknownGeneric(loqui))
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), ((IErrorMask<{loqui.MaskItemString(MaskType.Error)}>){accessor}.Specific).Combine({rhsAccessor}.Specific));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.Mask(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), ((IErrorMask<{loqui.Mask(MaskType.Error)}>){accessor}.Specific).Combine({rhsAccessor}.Specific));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.MaskItemString(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.LoquiHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<Exception, {loqui.Mask(MaskType.Error)}>({accessor}.Overall.Combine({rhsAccessor}.Overall), Loqui.Internal.LoquiHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
             }
         }
 
