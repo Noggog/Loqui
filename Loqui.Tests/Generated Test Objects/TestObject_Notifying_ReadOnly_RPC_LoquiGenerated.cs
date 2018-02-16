@@ -89,6 +89,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Byte[]> ITestObject_Notifying_ReadOnly_RPCGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Boolean?> _BoolN = NotifyingItem.Factory<Boolean?>();
         public INotifyingItemGetter<Boolean?> BoolN_Property => _BoolN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -101,6 +102,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Boolean?> ITestObject_Notifying_ReadOnly_RPCGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Boolean> _Bool = NotifyingItem.Factory<Boolean>();
         public INotifyingItemGetter<Boolean> Bool_Property => _Bool;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -113,6 +115,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Boolean> ITestObject_Notifying_ReadOnly_RPCGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Char?> _CharN = NotifyingItem.Factory<Char?>();
         public INotifyingItemGetter<Char?> CharN_Property => _CharN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -125,6 +128,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Char?> ITestObject_Notifying_ReadOnly_RPCGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Char> _Char = NotifyingItem.Factory<Char>();
         public INotifyingItemGetter<Char> Char_Property => _Char;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -137,6 +141,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Char> ITestObject_Notifying_ReadOnly_RPCGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<DateTime?> _DateTimeNull = NotifyingItem.Factory<DateTime?>();
         public INotifyingItemGetter<DateTime?> DateTimeNull_Property => _DateTimeNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -149,6 +154,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<DateTime?> ITestObject_Notifying_ReadOnly_RPCGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<DateTime> _DateTime = NotifyingItem.Factory<DateTime>();
         public INotifyingItemGetter<DateTime> DateTime_Property => _DateTime;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -161,6 +167,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<DateTime> ITestObject_Notifying_ReadOnly_RPCGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Double?> _DoubleN = NotifyingItem.Factory<Double?>();
         public INotifyingItemGetter<Double?> DoubleN_Property => _DoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -184,6 +191,7 @@ namespace Loqui.Tests
         public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region Double
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Double> _Double = NotifyingItem.Factory<Double>();
         public INotifyingItemGetter<Double> Double_Property => _Double;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -207,6 +215,7 @@ namespace Loqui.Tests
         public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Single?> _FloatN = NotifyingItem.Factory<Single?>();
         public INotifyingItemGetter<Single?> FloatN_Property => _FloatN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -230,6 +239,7 @@ namespace Loqui.Tests
         public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Float
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Single> _Float = NotifyingItem.Factory<Single>();
         public INotifyingItemGetter<Single> Float_Property => _Float;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -253,6 +263,7 @@ namespace Loqui.Tests
         public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int16?> _Int16N = NotifyingItem.Factory<Int16?>();
         public INotifyingItemGetter<Int16?> Int16N_Property => _Int16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -276,6 +287,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int16
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int16> _Int16 = NotifyingItem.Factory<Int16>();
         public INotifyingItemGetter<Int16> Int16_Property => _Int16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -299,6 +311,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int32?> _Int32N = NotifyingItem.Factory<Int32?>();
         public INotifyingItemGetter<Int32?> Int32N_Property => _Int32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -322,6 +335,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int32
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int32> _Int32 = NotifyingItem.Factory<Int32>();
         public INotifyingItemGetter<Int32> Int32_Property => _Int32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -345,6 +359,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int64?> _Int64N = NotifyingItem.Factory<Int64?>();
         public INotifyingItemGetter<Int64?> Int64N_Property => _Int64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -368,6 +383,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int64
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Int64> _Int64 = NotifyingItem.Factory<Int64>();
         public INotifyingItemGetter<Int64> Int64_Property => _Int64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -391,6 +407,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<SByte?> _Int8N = NotifyingItem.Factory<SByte?>();
         public INotifyingItemGetter<SByte?> Int8N_Property => _Int8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -414,6 +431,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Int8
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<SByte> _Int8 = NotifyingItem.Factory<SByte>();
         public INotifyingItemGetter<SByte> Int8_Property => _Int8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -437,6 +455,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<bool> _Unsafe = NotifyingItem.Factory<bool>();
         public INotifyingItemGetter<bool> Unsafe_Property => _Unsafe;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -449,6 +468,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<bool> ITestObject_Notifying_ReadOnly_RPCGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<ObjectToRef> _UnsafeLoqui = NotifyingItem.Factory<ObjectToRef>();
         public INotifyingItemGetter<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -461,6 +481,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<ObjectToRef> _UnsafeNull = NotifyingItem.Factory<ObjectToRef>();
         public INotifyingItemGetter<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -473,6 +494,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<ObjectToRef> ITestObject_Notifying_ReadOnly_RPCGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P2Int?> _P2IntN = NotifyingItem.Factory<P2Int?>();
         public INotifyingItemGetter<P2Int?> P2IntN_Property => _P2IntN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -485,6 +507,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P2Int?> ITestObject_Notifying_ReadOnly_RPCGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P2Int> _P2Int = NotifyingItem.Factory<P2Int>();
         public INotifyingItemGetter<P2Int> P2Int_Property => _P2Int;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -497,6 +520,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P2Int> ITestObject_Notifying_ReadOnly_RPCGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P3Double?> _P3DoubleN = NotifyingItem.Factory<P3Double?>();
         public INotifyingItemGetter<P3Double?> P3DoubleN_Property => _P3DoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -509,6 +533,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P3Double?> ITestObject_Notifying_ReadOnly_RPCGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P3Double> _P3Double = NotifyingItem.Factory<P3Double>();
         public INotifyingItemGetter<P3Double> P3Double_Property => _P3Double;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -521,6 +546,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P3Double> ITestObject_Notifying_ReadOnly_RPCGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P3Int?> _P3IntN = NotifyingItem.Factory<P3Int?>();
         public INotifyingItemGetter<P3Int?> P3IntN_Property => _P3IntN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -533,6 +559,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P3Int?> ITestObject_Notifying_ReadOnly_RPCGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<P3Int> _P3Int = NotifyingItem.Factory<P3Int>();
         public INotifyingItemGetter<P3Int> P3Int_Property => _P3Int;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -545,6 +572,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<P3Int> ITestObject_Notifying_ReadOnly_RPCGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Percent?> _PercentN = NotifyingItem.Factory<Percent?>();
         public INotifyingItemGetter<Percent?> PercentN_Property => _PercentN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -557,6 +585,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Percent?> ITestObject_Notifying_ReadOnly_RPCGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Percent> _Percent = NotifyingItem.Factory<Percent>();
         public INotifyingItemGetter<Percent> Percent_Property => _Percent;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -569,6 +598,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<Percent> ITestObject_Notifying_ReadOnly_RPCGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt8?> _RangeInt8N = NotifyingItem.Factory<RangeInt8?>();
         public INotifyingItemGetter<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -581,6 +611,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt8?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt8> _RangeInt8 = NotifyingItem.Factory<RangeInt8>();
         public INotifyingItemGetter<RangeInt8> RangeInt8_Property => _RangeInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -593,6 +624,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt8> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt16?> _RangeInt16N = NotifyingItem.Factory<RangeInt16?>();
         public INotifyingItemGetter<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -605,6 +637,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt16?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt16> _RangeInt16 = NotifyingItem.Factory<RangeInt16>();
         public INotifyingItemGetter<RangeInt16> RangeInt16_Property => _RangeInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -617,6 +650,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt16> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt32?> _RangeInt32N = NotifyingItem.Factory<RangeInt32?>();
         public INotifyingItemGetter<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -629,6 +663,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt32?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt32> _RangeInt32 = NotifyingItem.Factory<RangeInt32>();
         public INotifyingItemGetter<RangeInt32> RangeInt32_Property => _RangeInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -641,6 +676,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt32> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt64?> _RangeInt64N = NotifyingItem.Factory<RangeInt64?>();
         public INotifyingItemGetter<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -653,6 +689,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt64?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeInt64> _RangeInt64 = NotifyingItem.Factory<RangeInt64>();
         public INotifyingItemGetter<RangeInt64> RangeInt64_Property => _RangeInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -665,6 +702,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeInt64> ITestObject_Notifying_ReadOnly_RPCGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt8?> _RangeUInt8N = NotifyingItem.Factory<RangeUInt8?>();
         public INotifyingItemGetter<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -677,6 +715,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt8?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt8> _RangeUInt8 = NotifyingItem.Factory<RangeUInt8>();
         public INotifyingItemGetter<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -689,6 +728,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt8> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt16?> _RangeUInt16N = NotifyingItem.Factory<RangeUInt16?>();
         public INotifyingItemGetter<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -701,6 +741,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt16?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt16> _RangeUInt16 = NotifyingItem.Factory<RangeUInt16>();
         public INotifyingItemGetter<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -713,6 +754,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt16> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt32?> _RangeUInt32N = NotifyingItem.Factory<RangeUInt32?>();
         public INotifyingItemGetter<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -725,6 +767,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt32?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt32> _RangeUInt32 = NotifyingItem.Factory<RangeUInt32>();
         public INotifyingItemGetter<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -737,6 +780,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt32> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt64?> _RangeUInt64N = NotifyingItem.Factory<RangeUInt64?>();
         public INotifyingItemGetter<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -749,6 +793,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt64?> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<RangeUInt64> _RangeUInt64 = NotifyingItem.Factory<RangeUInt64>();
         public INotifyingItemGetter<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -761,6 +806,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<RangeUInt64> ITestObject_Notifying_ReadOnly_RPCGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<String> _String = NotifyingItem.Factory<String>();
         public INotifyingItemGetter<String> String_Property => _String;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -773,6 +819,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<String> ITestObject_Notifying_ReadOnly_RPCGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<FilePath> _FilePath = NotifyingItem.Factory<FilePath>();
         public INotifyingItemGetter<FilePath> FilePath_Property => _FilePath;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -785,6 +832,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<FilePath> ITestObject_Notifying_ReadOnly_RPCGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<FilePath?> _FilePathNull = NotifyingItem.Factory<FilePath?>();
         public INotifyingItemGetter<FilePath?> FilePathNull_Property => _FilePathNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -797,6 +845,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<FilePath?> ITestObject_Notifying_ReadOnly_RPCGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<DirectoryPath> _DirectoryPath = NotifyingItem.Factory<DirectoryPath>();
         public INotifyingItemGetter<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -809,6 +858,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<DirectoryPath> ITestObject_Notifying_ReadOnly_RPCGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<DirectoryPath?> _DirectoryPathNull = NotifyingItem.Factory<DirectoryPath?>();
         public INotifyingItemGetter<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -821,6 +871,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<DirectoryPath?> ITestObject_Notifying_ReadOnly_RPCGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UDouble?> _UDoubleN = NotifyingItem.Factory<UDouble?>();
         public INotifyingItemGetter<UDouble?> UDoubleN_Property => _UDoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -844,6 +895,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UDouble
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UDouble> _UDouble = NotifyingItem.Factory<UDouble>();
         public INotifyingItemGetter<UDouble> UDouble_Property => _UDouble;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -867,6 +919,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt16?> _UInt16N = NotifyingItem.Factory<UInt16?>();
         public INotifyingItemGetter<UInt16?> UInt16N_Property => _UInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -890,6 +943,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt16
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt16> _UInt16 = NotifyingItem.Factory<UInt16>();
         public INotifyingItemGetter<UInt16> UInt16_Property => _UInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -913,6 +967,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt32?> _UInt32N = NotifyingItem.Factory<UInt32?>();
         public INotifyingItemGetter<UInt32?> UInt32N_Property => _UInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -936,6 +991,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt32
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt32> _UInt32 = NotifyingItem.Factory<UInt32>();
         public INotifyingItemGetter<UInt32> UInt32_Property => _UInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -959,6 +1015,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt64?> _UInt64N = NotifyingItem.Factory<UInt64?>();
         public INotifyingItemGetter<UInt64?> UInt64N_Property => _UInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -982,6 +1039,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt64
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<UInt64> _UInt64 = NotifyingItem.Factory<UInt64>();
         public INotifyingItemGetter<UInt64> UInt64_Property => _UInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1005,6 +1063,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Byte?> _UInt8N = NotifyingItem.Factory<Byte?>();
         public INotifyingItemGetter<Byte?> UInt8N_Property => _UInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1028,6 +1087,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region UInt8
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<Byte> _UInt8 = NotifyingItem.Factory<Byte>();
         public INotifyingItemGetter<Byte> UInt8_Property => _UInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1051,6 +1111,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<TestEnum> _Enum = NotifyingItem.Factory<TestEnum>();
         public INotifyingItemGetter<TestEnum> Enum_Property => _Enum;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1063,6 +1124,7 @@ namespace Loqui.Tests
         INotifyingItemGetter<TestEnum> ITestObject_Notifying_ReadOnly_RPCGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected readonly INotifyingItem<TestEnum?> _EnumNull = NotifyingItem.Factory<TestEnum?>();
         public INotifyingItemGetter<TestEnum?> EnumNull_Property => _EnumNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

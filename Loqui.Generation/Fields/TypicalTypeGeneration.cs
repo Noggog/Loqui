@@ -70,6 +70,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         GenerateNotifyingCtor(fg);
                     }
                     fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
@@ -96,6 +97,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         GenerateNotifyingCtor(fg);
                     }
                     fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
