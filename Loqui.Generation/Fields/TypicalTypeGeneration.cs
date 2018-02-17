@@ -93,7 +93,7 @@ namespace Loqui.Generation
                 {
                     if (this.RaisePropertyChanged)
                     {
-                        fg.AppendLine($"protected readonly INotifyingItem<{TypeName}> _{this.Name};");
+                        fg.AppendLine($"protected INotifyingItem<{TypeName}> _{this.Name};");
                     }
                     else
                     {
@@ -194,7 +194,7 @@ namespace Loqui.Generation
                     throw new NotImplementedException();
                 }
             }
-            return $"protected readonly I{item}<{TypeName}> _{this.Name}";
+            return $"protected I{item}<{TypeName}> _{this.Name}";
         }
 
         protected void GenerateNotifyingCtor(FileGeneration fg)

@@ -47,7 +47,7 @@ namespace Loqui.Tests
         #endregion
 
         #region ByteArray
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArray = HasBeenSetItem.Factory<Byte[]>(
+        protected IHasBeenSetItem<Byte[]> _ByteArray = HasBeenSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[4]);
         public IHasBeenSetItem<Byte[]> ByteArray_Property => _ByteArray;
@@ -63,7 +63,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArray_Property => this.ByteArray_Property;
         #endregion
         #region ByteArrayNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNull = HasBeenSetItem.Factory<Byte[]>(markAsSet: false);
+        protected IHasBeenSetItem<Byte[]> _ByteArrayNull = HasBeenSetItem.Factory<Byte[]>(markAsSet: false);
         public IHasBeenSetItem<Byte[]> ByteArrayNull_Property => _ByteArrayNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte[] ByteArrayNull
@@ -77,7 +77,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArrayNull_Property => this.ByteArrayNull_Property;
         #endregion
         #region ByteArrayNotNull
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArrayNotNull = HasBeenSetItem.Factory<Byte[]>(
+        protected IHasBeenSetItem<Byte[]> _ByteArrayNotNull = HasBeenSetItem.Factory<Byte[]>(
             markAsSet: false,
             noNullFallback: () => new byte[3]);
         public IHasBeenSetItem<Byte[]> ByteArrayNotNull_Property => _ByteArrayNotNull;
@@ -93,7 +93,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArrayNotNull_Property => this.ByteArrayNotNull_Property;
         #endregion
         #region ByteArraySingleton
-        protected readonly IHasBeenSetItem<Byte[]> _ByteArraySingleton = HasBeenSetItem.Factory<Byte[]>(
+        protected IHasBeenSetItem<Byte[]> _ByteArraySingleton = HasBeenSetItem.Factory<Byte[]>(
             markAsSet: true,
             noNullFallback: () => new byte[3]);
         public IHasBeenSetItem<Byte[]> ByteArraySingleton_Property => _ByteArraySingleton;
@@ -109,7 +109,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte[]> ITestObject_HasBeenSetGetter.ByteArraySingleton_Property => this.ByteArraySingleton_Property;
         #endregion
         #region BoolN
-        protected readonly IHasBeenSetItem<Boolean?> _BoolN = HasBeenSetItem.Factory<Boolean?>(markAsSet: false);
+        protected IHasBeenSetItem<Boolean?> _BoolN = HasBeenSetItem.Factory<Boolean?>(markAsSet: false);
         public IHasBeenSetItem<Boolean?> BoolN_Property => _BoolN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean? BoolN
@@ -121,7 +121,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Boolean?> ITestObject_HasBeenSetGetter.BoolN_Property => this.BoolN_Property;
         #endregion
         #region Bool
-        protected readonly IHasBeenSetItem<Boolean> _Bool = HasBeenSetItem.Factory<Boolean>(markAsSet: false);
+        protected IHasBeenSetItem<Boolean> _Bool = HasBeenSetItem.Factory<Boolean>(markAsSet: false);
         public IHasBeenSetItem<Boolean> Bool_Property => _Bool;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean Bool
@@ -133,7 +133,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Boolean> ITestObject_HasBeenSetGetter.Bool_Property => this.Bool_Property;
         #endregion
         #region CharN
-        protected readonly IHasBeenSetItem<Char?> _CharN = HasBeenSetItem.Factory<Char?>(markAsSet: false);
+        protected IHasBeenSetItem<Char?> _CharN = HasBeenSetItem.Factory<Char?>(markAsSet: false);
         public IHasBeenSetItem<Char?> CharN_Property => _CharN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char? CharN
@@ -145,7 +145,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Char?> ITestObject_HasBeenSetGetter.CharN_Property => this.CharN_Property;
         #endregion
         #region Char
-        protected readonly IHasBeenSetItem<Char> _Char = HasBeenSetItem.Factory<Char>(markAsSet: false);
+        protected IHasBeenSetItem<Char> _Char = HasBeenSetItem.Factory<Char>(markAsSet: false);
         public IHasBeenSetItem<Char> Char_Property => _Char;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Char Char
@@ -157,7 +157,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Char> ITestObject_HasBeenSetGetter.Char_Property => this.Char_Property;
         #endregion
         #region DateTimeNull
-        protected readonly IHasBeenSetItem<DateTime?> _DateTimeNull = HasBeenSetItem.Factory<DateTime?>(markAsSet: false);
+        protected IHasBeenSetItem<DateTime?> _DateTimeNull = HasBeenSetItem.Factory<DateTime?>(markAsSet: false);
         public IHasBeenSetItem<DateTime?> DateTimeNull_Property => _DateTimeNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime? DateTimeNull
@@ -169,7 +169,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<DateTime?> ITestObject_HasBeenSetGetter.DateTimeNull_Property => this.DateTimeNull_Property;
         #endregion
         #region DateTime
-        protected readonly IHasBeenSetItem<DateTime> _DateTime = HasBeenSetItem.Factory<DateTime>(markAsSet: false);
+        protected IHasBeenSetItem<DateTime> _DateTime = HasBeenSetItem.Factory<DateTime>(markAsSet: false);
         public IHasBeenSetItem<DateTime> DateTime_Property => _DateTime;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DateTime DateTime
@@ -181,7 +181,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<DateTime> ITestObject_HasBeenSetGetter.DateTime_Property => this.DateTime_Property;
         #endregion
         #region DoubleN
-        protected readonly IHasBeenSetItem<Double?> _DoubleN = HasBeenSetItem.Factory<Double?>(markAsSet: false);
+        protected IHasBeenSetItem<Double?> _DoubleN = HasBeenSetItem.Factory<Double?>(markAsSet: false);
         public IHasBeenSetItem<Double?> DoubleN_Property => _DoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double? DoubleN
@@ -193,7 +193,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Double?> ITestObject_HasBeenSetGetter.DoubleN_Property => this.DoubleN_Property;
         #endregion
         #region DoubleN_Ranged
-        protected readonly IHasBeenSetItem<Double?> _DoubleN_Ranged = HasBeenSetItem.Factory<Double?>(markAsSet: false);
+        protected IHasBeenSetItem<Double?> _DoubleN_Ranged = HasBeenSetItem.Factory<Double?>(markAsSet: false);
         public IHasBeenSetItem<Double?> DoubleN_Ranged_Property => _DoubleN_Ranged;
         public Double? DoubleN_Ranged
         {
@@ -205,7 +205,7 @@ namespace Loqui.Tests
         public static RangeDouble DoubleN_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region Double
-        protected readonly IHasBeenSetItem<Double> _Double = HasBeenSetItem.Factory<Double>(markAsSet: false);
+        protected IHasBeenSetItem<Double> _Double = HasBeenSetItem.Factory<Double>(markAsSet: false);
         public IHasBeenSetItem<Double> Double_Property => _Double;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Double Double
@@ -217,7 +217,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Double> ITestObject_HasBeenSetGetter.Double_Property => this.Double_Property;
         #endregion
         #region Double_Ranged
-        protected readonly IHasBeenSetItem<Double> _Double_Ranged = HasBeenSetItem.Factory<Double>(markAsSet: false);
+        protected IHasBeenSetItem<Double> _Double_Ranged = HasBeenSetItem.Factory<Double>(markAsSet: false);
         public IHasBeenSetItem<Double> Double_Ranged_Property => _Double_Ranged;
         public Double Double_Ranged
         {
@@ -229,7 +229,7 @@ namespace Loqui.Tests
         public static RangeDouble Double_Ranged_Range = new RangeDouble(-5.41d, 5.51d);
         #endregion
         #region FloatN
-        protected readonly IHasBeenSetItem<Single?> _FloatN = HasBeenSetItem.Factory<Single?>(markAsSet: false);
+        protected IHasBeenSetItem<Single?> _FloatN = HasBeenSetItem.Factory<Single?>(markAsSet: false);
         public IHasBeenSetItem<Single?> FloatN_Property => _FloatN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single? FloatN
@@ -241,7 +241,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Single?> ITestObject_HasBeenSetGetter.FloatN_Property => this.FloatN_Property;
         #endregion
         #region FloatN_Ranged
-        protected readonly IHasBeenSetItem<Single?> _FloatN_Ranged = HasBeenSetItem.Factory<Single?>(markAsSet: false);
+        protected IHasBeenSetItem<Single?> _FloatN_Ranged = HasBeenSetItem.Factory<Single?>(markAsSet: false);
         public IHasBeenSetItem<Single?> FloatN_Ranged_Property => _FloatN_Ranged;
         public Single? FloatN_Ranged
         {
@@ -253,7 +253,7 @@ namespace Loqui.Tests
         public static RangeFloat FloatN_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Float
-        protected readonly IHasBeenSetItem<Single> _Float = HasBeenSetItem.Factory<Single>(markAsSet: false);
+        protected IHasBeenSetItem<Single> _Float = HasBeenSetItem.Factory<Single>(markAsSet: false);
         public IHasBeenSetItem<Single> Float_Property => _Float;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Single Float
@@ -265,7 +265,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Single> ITestObject_HasBeenSetGetter.Float_Property => this.Float_Property;
         #endregion
         #region Float_Ranged
-        protected readonly IHasBeenSetItem<Single> _Float_Ranged = HasBeenSetItem.Factory<Single>(markAsSet: false);
+        protected IHasBeenSetItem<Single> _Float_Ranged = HasBeenSetItem.Factory<Single>(markAsSet: false);
         public IHasBeenSetItem<Single> Float_Ranged_Property => _Float_Ranged;
         public Single Float_Ranged
         {
@@ -277,7 +277,7 @@ namespace Loqui.Tests
         public static RangeFloat Float_Ranged_Range = new RangeFloat(-5.41f, 5.51f);
         #endregion
         #region Int16N
-        protected readonly IHasBeenSetItem<Int16?> _Int16N = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
+        protected IHasBeenSetItem<Int16?> _Int16N = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
         public IHasBeenSetItem<Int16?> Int16N_Property => _Int16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16? Int16N
@@ -289,7 +289,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int16?> ITestObject_HasBeenSetGetter.Int16N_Property => this.Int16N_Property;
         #endregion
         #region Int16N_Ranged
-        protected readonly IHasBeenSetItem<Int16?> _Int16N_Ranged = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
+        protected IHasBeenSetItem<Int16?> _Int16N_Ranged = HasBeenSetItem.Factory<Int16?>(markAsSet: false);
         public IHasBeenSetItem<Int16?> Int16N_Ranged_Property => _Int16N_Ranged;
         public Int16? Int16N_Ranged
         {
@@ -301,7 +301,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16N_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int16
-        protected readonly IHasBeenSetItem<Int16> _Int16 = HasBeenSetItem.Factory<Int16>(markAsSet: false);
+        protected IHasBeenSetItem<Int16> _Int16 = HasBeenSetItem.Factory<Int16>(markAsSet: false);
         public IHasBeenSetItem<Int16> Int16_Property => _Int16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int16 Int16
@@ -313,7 +313,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int16> ITestObject_HasBeenSetGetter.Int16_Property => this.Int16_Property;
         #endregion
         #region Int16_Ranged
-        protected readonly IHasBeenSetItem<Int16> _Int16_Ranged = HasBeenSetItem.Factory<Int16>(markAsSet: false);
+        protected IHasBeenSetItem<Int16> _Int16_Ranged = HasBeenSetItem.Factory<Int16>(markAsSet: false);
         public IHasBeenSetItem<Int16> Int16_Ranged_Property => _Int16_Ranged;
         public Int16 Int16_Ranged
         {
@@ -325,7 +325,7 @@ namespace Loqui.Tests
         public static RangeInt16 Int16_Ranged_Range = new RangeInt16(-6, 7);
         #endregion
         #region Int32N
-        protected readonly IHasBeenSetItem<Int32?> _Int32N = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
+        protected IHasBeenSetItem<Int32?> _Int32N = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
         public IHasBeenSetItem<Int32?> Int32N_Property => _Int32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32? Int32N
@@ -337,7 +337,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int32?> ITestObject_HasBeenSetGetter.Int32N_Property => this.Int32N_Property;
         #endregion
         #region Int32N_Ranged
-        protected readonly IHasBeenSetItem<Int32?> _Int32N_Ranged = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
+        protected IHasBeenSetItem<Int32?> _Int32N_Ranged = HasBeenSetItem.Factory<Int32?>(markAsSet: false);
         public IHasBeenSetItem<Int32?> Int32N_Ranged_Property => _Int32N_Ranged;
         public Int32? Int32N_Ranged
         {
@@ -349,7 +349,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32N_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int32
-        protected readonly IHasBeenSetItem<Int32> _Int32 = HasBeenSetItem.Factory<Int32>(markAsSet: false);
+        protected IHasBeenSetItem<Int32> _Int32 = HasBeenSetItem.Factory<Int32>(markAsSet: false);
         public IHasBeenSetItem<Int32> Int32_Property => _Int32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32 Int32
@@ -361,7 +361,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int32> ITestObject_HasBeenSetGetter.Int32_Property => this.Int32_Property;
         #endregion
         #region Int32_Ranged
-        protected readonly IHasBeenSetItem<Int32> _Int32_Ranged = HasBeenSetItem.Factory<Int32>(markAsSet: false);
+        protected IHasBeenSetItem<Int32> _Int32_Ranged = HasBeenSetItem.Factory<Int32>(markAsSet: false);
         public IHasBeenSetItem<Int32> Int32_Ranged_Property => _Int32_Ranged;
         public Int32 Int32_Ranged
         {
@@ -373,7 +373,7 @@ namespace Loqui.Tests
         public static RangeInt32 Int32_Ranged_Range = new RangeInt32(-6, 7);
         #endregion
         #region Int64N
-        protected readonly IHasBeenSetItem<Int64?> _Int64N = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
+        protected IHasBeenSetItem<Int64?> _Int64N = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
         public IHasBeenSetItem<Int64?> Int64N_Property => _Int64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64? Int64N
@@ -385,7 +385,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int64?> ITestObject_HasBeenSetGetter.Int64N_Property => this.Int64N_Property;
         #endregion
         #region Int64N_Ranged
-        protected readonly IHasBeenSetItem<Int64?> _Int64N_Ranged = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
+        protected IHasBeenSetItem<Int64?> _Int64N_Ranged = HasBeenSetItem.Factory<Int64?>(markAsSet: false);
         public IHasBeenSetItem<Int64?> Int64N_Ranged_Property => _Int64N_Ranged;
         public Int64? Int64N_Ranged
         {
@@ -397,7 +397,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64N_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int64
-        protected readonly IHasBeenSetItem<Int64> _Int64 = HasBeenSetItem.Factory<Int64>(markAsSet: false);
+        protected IHasBeenSetItem<Int64> _Int64 = HasBeenSetItem.Factory<Int64>(markAsSet: false);
         public IHasBeenSetItem<Int64> Int64_Property => _Int64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64 Int64
@@ -409,7 +409,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Int64> ITestObject_HasBeenSetGetter.Int64_Property => this.Int64_Property;
         #endregion
         #region Int64_Ranged
-        protected readonly IHasBeenSetItem<Int64> _Int64_Ranged = HasBeenSetItem.Factory<Int64>(markAsSet: false);
+        protected IHasBeenSetItem<Int64> _Int64_Ranged = HasBeenSetItem.Factory<Int64>(markAsSet: false);
         public IHasBeenSetItem<Int64> Int64_Ranged_Property => _Int64_Ranged;
         public Int64 Int64_Ranged
         {
@@ -421,7 +421,7 @@ namespace Loqui.Tests
         public static RangeInt64 Int64_Ranged_Range = new RangeInt64(-6, 7);
         #endregion
         #region Int8N
-        protected readonly IHasBeenSetItem<SByte?> _Int8N = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
+        protected IHasBeenSetItem<SByte?> _Int8N = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
         public IHasBeenSetItem<SByte?> Int8N_Property => _Int8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte? Int8N
@@ -433,7 +433,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<SByte?> ITestObject_HasBeenSetGetter.Int8N_Property => this.Int8N_Property;
         #endregion
         #region Int8N_Ranged
-        protected readonly IHasBeenSetItem<SByte?> _Int8N_Ranged = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
+        protected IHasBeenSetItem<SByte?> _Int8N_Ranged = HasBeenSetItem.Factory<SByte?>(markAsSet: false);
         public IHasBeenSetItem<SByte?> Int8N_Ranged_Property => _Int8N_Ranged;
         public SByte? Int8N_Ranged
         {
@@ -445,7 +445,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8N_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Int8
-        protected readonly IHasBeenSetItem<SByte> _Int8 = HasBeenSetItem.Factory<SByte>(markAsSet: false);
+        protected IHasBeenSetItem<SByte> _Int8 = HasBeenSetItem.Factory<SByte>(markAsSet: false);
         public IHasBeenSetItem<SByte> Int8_Property => _Int8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public SByte Int8
@@ -457,7 +457,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<SByte> ITestObject_HasBeenSetGetter.Int8_Property => this.Int8_Property;
         #endregion
         #region Int8_Ranged
-        protected readonly IHasBeenSetItem<SByte> _Int8_Ranged = HasBeenSetItem.Factory<SByte>(markAsSet: false);
+        protected IHasBeenSetItem<SByte> _Int8_Ranged = HasBeenSetItem.Factory<SByte>(markAsSet: false);
         public IHasBeenSetItem<SByte> Int8_Ranged_Property => _Int8_Ranged;
         public SByte Int8_Ranged
         {
@@ -469,7 +469,7 @@ namespace Loqui.Tests
         public static RangeInt8 Int8_Ranged_Range = new RangeInt8(-6, 7);
         #endregion
         #region Unsafe
-        protected readonly IHasBeenSetItem<bool> _Unsafe = HasBeenSetItem.Factory<bool>(markAsSet: false);
+        protected IHasBeenSetItem<bool> _Unsafe = HasBeenSetItem.Factory<bool>(markAsSet: false);
         public IHasBeenSetItem<bool> Unsafe_Property => _Unsafe;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Unsafe
@@ -481,7 +481,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<bool> ITestObject_HasBeenSetGetter.Unsafe_Property => this.Unsafe_Property;
         #endregion
         #region UnsafeLoqui
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeLoqui = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
+        protected IHasBeenSetItem<ObjectToRef> _UnsafeLoqui = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
         public IHasBeenSetItem<ObjectToRef> UnsafeLoqui_Property => _UnsafeLoqui;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeLoqui
@@ -493,7 +493,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.UnsafeLoqui_Property => this.UnsafeLoqui_Property;
         #endregion
         #region UnsafeNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _UnsafeNull = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
+        protected IHasBeenSetItem<ObjectToRef> _UnsafeNull = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
         public IHasBeenSetItem<ObjectToRef> UnsafeNull_Property => _UnsafeNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef UnsafeNull
@@ -505,7 +505,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.UnsafeNull_Property => this.UnsafeNull_Property;
         #endregion
         #region P2IntN
-        protected readonly IHasBeenSetItem<P2Int?> _P2IntN = HasBeenSetItem.Factory<P2Int?>(markAsSet: false);
+        protected IHasBeenSetItem<P2Int?> _P2IntN = HasBeenSetItem.Factory<P2Int?>(markAsSet: false);
         public IHasBeenSetItem<P2Int?> P2IntN_Property => _P2IntN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int? P2IntN
@@ -517,7 +517,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P2Int?> ITestObject_HasBeenSetGetter.P2IntN_Property => this.P2IntN_Property;
         #endregion
         #region P2Int
-        protected readonly IHasBeenSetItem<P2Int> _P2Int = HasBeenSetItem.Factory<P2Int>(markAsSet: false);
+        protected IHasBeenSetItem<P2Int> _P2Int = HasBeenSetItem.Factory<P2Int>(markAsSet: false);
         public IHasBeenSetItem<P2Int> P2Int_Property => _P2Int;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P2Int P2Int
@@ -529,7 +529,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P2Int> ITestObject_HasBeenSetGetter.P2Int_Property => this.P2Int_Property;
         #endregion
         #region P3DoubleN
-        protected readonly IHasBeenSetItem<P3Double?> _P3DoubleN = HasBeenSetItem.Factory<P3Double?>(markAsSet: false);
+        protected IHasBeenSetItem<P3Double?> _P3DoubleN = HasBeenSetItem.Factory<P3Double?>(markAsSet: false);
         public IHasBeenSetItem<P3Double?> P3DoubleN_Property => _P3DoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double? P3DoubleN
@@ -541,7 +541,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P3Double?> ITestObject_HasBeenSetGetter.P3DoubleN_Property => this.P3DoubleN_Property;
         #endregion
         #region P3Double
-        protected readonly IHasBeenSetItem<P3Double> _P3Double = HasBeenSetItem.Factory<P3Double>(markAsSet: false);
+        protected IHasBeenSetItem<P3Double> _P3Double = HasBeenSetItem.Factory<P3Double>(markAsSet: false);
         public IHasBeenSetItem<P3Double> P3Double_Property => _P3Double;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Double P3Double
@@ -553,7 +553,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P3Double> ITestObject_HasBeenSetGetter.P3Double_Property => this.P3Double_Property;
         #endregion
         #region P3IntN
-        protected readonly IHasBeenSetItem<P3Int?> _P3IntN = HasBeenSetItem.Factory<P3Int?>(markAsSet: false);
+        protected IHasBeenSetItem<P3Int?> _P3IntN = HasBeenSetItem.Factory<P3Int?>(markAsSet: false);
         public IHasBeenSetItem<P3Int?> P3IntN_Property => _P3IntN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int? P3IntN
@@ -565,7 +565,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P3Int?> ITestObject_HasBeenSetGetter.P3IntN_Property => this.P3IntN_Property;
         #endregion
         #region P3Int
-        protected readonly IHasBeenSetItem<P3Int> _P3Int = HasBeenSetItem.Factory<P3Int>(markAsSet: false);
+        protected IHasBeenSetItem<P3Int> _P3Int = HasBeenSetItem.Factory<P3Int>(markAsSet: false);
         public IHasBeenSetItem<P3Int> P3Int_Property => _P3Int;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public P3Int P3Int
@@ -577,7 +577,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<P3Int> ITestObject_HasBeenSetGetter.P3Int_Property => this.P3Int_Property;
         #endregion
         #region PercentN
-        protected readonly IHasBeenSetItem<Percent?> _PercentN = HasBeenSetItem.Factory<Percent?>(markAsSet: false);
+        protected IHasBeenSetItem<Percent?> _PercentN = HasBeenSetItem.Factory<Percent?>(markAsSet: false);
         public IHasBeenSetItem<Percent?> PercentN_Property => _PercentN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent? PercentN
@@ -589,7 +589,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Percent?> ITestObject_HasBeenSetGetter.PercentN_Property => this.PercentN_Property;
         #endregion
         #region Percent
-        protected readonly IHasBeenSetItem<Percent> _Percent = HasBeenSetItem.Factory<Percent>(markAsSet: false);
+        protected IHasBeenSetItem<Percent> _Percent = HasBeenSetItem.Factory<Percent>(markAsSet: false);
         public IHasBeenSetItem<Percent> Percent_Property => _Percent;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Percent Percent
@@ -601,7 +601,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Percent> ITestObject_HasBeenSetGetter.Percent_Property => this.Percent_Property;
         #endregion
         #region RangeInt8N
-        protected readonly IHasBeenSetItem<RangeInt8?> _RangeInt8N = HasBeenSetItem.Factory<RangeInt8?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt8?> _RangeInt8N = HasBeenSetItem.Factory<RangeInt8?>(markAsSet: false);
         public IHasBeenSetItem<RangeInt8?> RangeInt8N_Property => _RangeInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8? RangeInt8N
@@ -613,7 +613,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt8?> ITestObject_HasBeenSetGetter.RangeInt8N_Property => this.RangeInt8N_Property;
         #endregion
         #region RangeInt8
-        protected readonly IHasBeenSetItem<RangeInt8> _RangeInt8 = HasBeenSetItem.Factory<RangeInt8>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt8> _RangeInt8 = HasBeenSetItem.Factory<RangeInt8>(markAsSet: false);
         public IHasBeenSetItem<RangeInt8> RangeInt8_Property => _RangeInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt8 RangeInt8
@@ -625,7 +625,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt8> ITestObject_HasBeenSetGetter.RangeInt8_Property => this.RangeInt8_Property;
         #endregion
         #region RangeInt16N
-        protected readonly IHasBeenSetItem<RangeInt16?> _RangeInt16N = HasBeenSetItem.Factory<RangeInt16?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt16?> _RangeInt16N = HasBeenSetItem.Factory<RangeInt16?>(markAsSet: false);
         public IHasBeenSetItem<RangeInt16?> RangeInt16N_Property => _RangeInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16? RangeInt16N
@@ -637,7 +637,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt16?> ITestObject_HasBeenSetGetter.RangeInt16N_Property => this.RangeInt16N_Property;
         #endregion
         #region RangeInt16
-        protected readonly IHasBeenSetItem<RangeInt16> _RangeInt16 = HasBeenSetItem.Factory<RangeInt16>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt16> _RangeInt16 = HasBeenSetItem.Factory<RangeInt16>(markAsSet: false);
         public IHasBeenSetItem<RangeInt16> RangeInt16_Property => _RangeInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt16 RangeInt16
@@ -649,7 +649,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt16> ITestObject_HasBeenSetGetter.RangeInt16_Property => this.RangeInt16_Property;
         #endregion
         #region RangeInt32N
-        protected readonly IHasBeenSetItem<RangeInt32?> _RangeInt32N = HasBeenSetItem.Factory<RangeInt32?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt32?> _RangeInt32N = HasBeenSetItem.Factory<RangeInt32?>(markAsSet: false);
         public IHasBeenSetItem<RangeInt32?> RangeInt32N_Property => _RangeInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32? RangeInt32N
@@ -661,7 +661,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt32?> ITestObject_HasBeenSetGetter.RangeInt32N_Property => this.RangeInt32N_Property;
         #endregion
         #region RangeInt32
-        protected readonly IHasBeenSetItem<RangeInt32> _RangeInt32 = HasBeenSetItem.Factory<RangeInt32>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt32> _RangeInt32 = HasBeenSetItem.Factory<RangeInt32>(markAsSet: false);
         public IHasBeenSetItem<RangeInt32> RangeInt32_Property => _RangeInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt32 RangeInt32
@@ -673,7 +673,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt32> ITestObject_HasBeenSetGetter.RangeInt32_Property => this.RangeInt32_Property;
         #endregion
         #region RangeInt64N
-        protected readonly IHasBeenSetItem<RangeInt64?> _RangeInt64N = HasBeenSetItem.Factory<RangeInt64?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt64?> _RangeInt64N = HasBeenSetItem.Factory<RangeInt64?>(markAsSet: false);
         public IHasBeenSetItem<RangeInt64?> RangeInt64N_Property => _RangeInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64? RangeInt64N
@@ -685,7 +685,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt64?> ITestObject_HasBeenSetGetter.RangeInt64N_Property => this.RangeInt64N_Property;
         #endregion
         #region RangeInt64
-        protected readonly IHasBeenSetItem<RangeInt64> _RangeInt64 = HasBeenSetItem.Factory<RangeInt64>(markAsSet: false);
+        protected IHasBeenSetItem<RangeInt64> _RangeInt64 = HasBeenSetItem.Factory<RangeInt64>(markAsSet: false);
         public IHasBeenSetItem<RangeInt64> RangeInt64_Property => _RangeInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeInt64 RangeInt64
@@ -697,7 +697,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeInt64> ITestObject_HasBeenSetGetter.RangeInt64_Property => this.RangeInt64_Property;
         #endregion
         #region RangeUInt8N
-        protected readonly IHasBeenSetItem<RangeUInt8?> _RangeUInt8N = HasBeenSetItem.Factory<RangeUInt8?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt8?> _RangeUInt8N = HasBeenSetItem.Factory<RangeUInt8?>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt8?> RangeUInt8N_Property => _RangeUInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8? RangeUInt8N
@@ -709,7 +709,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt8?> ITestObject_HasBeenSetGetter.RangeUInt8N_Property => this.RangeUInt8N_Property;
         #endregion
         #region RangeUInt8
-        protected readonly IHasBeenSetItem<RangeUInt8> _RangeUInt8 = HasBeenSetItem.Factory<RangeUInt8>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt8> _RangeUInt8 = HasBeenSetItem.Factory<RangeUInt8>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt8> RangeUInt8_Property => _RangeUInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt8 RangeUInt8
@@ -721,7 +721,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt8> ITestObject_HasBeenSetGetter.RangeUInt8_Property => this.RangeUInt8_Property;
         #endregion
         #region RangeUInt16N
-        protected readonly IHasBeenSetItem<RangeUInt16?> _RangeUInt16N = HasBeenSetItem.Factory<RangeUInt16?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt16?> _RangeUInt16N = HasBeenSetItem.Factory<RangeUInt16?>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt16?> RangeUInt16N_Property => _RangeUInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16? RangeUInt16N
@@ -733,7 +733,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt16?> ITestObject_HasBeenSetGetter.RangeUInt16N_Property => this.RangeUInt16N_Property;
         #endregion
         #region RangeUInt16
-        protected readonly IHasBeenSetItem<RangeUInt16> _RangeUInt16 = HasBeenSetItem.Factory<RangeUInt16>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt16> _RangeUInt16 = HasBeenSetItem.Factory<RangeUInt16>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt16> RangeUInt16_Property => _RangeUInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt16 RangeUInt16
@@ -745,7 +745,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt16> ITestObject_HasBeenSetGetter.RangeUInt16_Property => this.RangeUInt16_Property;
         #endregion
         #region RangeUInt32N
-        protected readonly IHasBeenSetItem<RangeUInt32?> _RangeUInt32N = HasBeenSetItem.Factory<RangeUInt32?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt32?> _RangeUInt32N = HasBeenSetItem.Factory<RangeUInt32?>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt32?> RangeUInt32N_Property => _RangeUInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32? RangeUInt32N
@@ -757,7 +757,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt32?> ITestObject_HasBeenSetGetter.RangeUInt32N_Property => this.RangeUInt32N_Property;
         #endregion
         #region RangeUInt32
-        protected readonly IHasBeenSetItem<RangeUInt32> _RangeUInt32 = HasBeenSetItem.Factory<RangeUInt32>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt32> _RangeUInt32 = HasBeenSetItem.Factory<RangeUInt32>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt32> RangeUInt32_Property => _RangeUInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt32 RangeUInt32
@@ -769,7 +769,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt32> ITestObject_HasBeenSetGetter.RangeUInt32_Property => this.RangeUInt32_Property;
         #endregion
         #region RangeUInt64N
-        protected readonly IHasBeenSetItem<RangeUInt64?> _RangeUInt64N = HasBeenSetItem.Factory<RangeUInt64?>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt64?> _RangeUInt64N = HasBeenSetItem.Factory<RangeUInt64?>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt64?> RangeUInt64N_Property => _RangeUInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64? RangeUInt64N
@@ -781,7 +781,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt64?> ITestObject_HasBeenSetGetter.RangeUInt64N_Property => this.RangeUInt64N_Property;
         #endregion
         #region RangeUInt64
-        protected readonly IHasBeenSetItem<RangeUInt64> _RangeUInt64 = HasBeenSetItem.Factory<RangeUInt64>(markAsSet: false);
+        protected IHasBeenSetItem<RangeUInt64> _RangeUInt64 = HasBeenSetItem.Factory<RangeUInt64>(markAsSet: false);
         public IHasBeenSetItem<RangeUInt64> RangeUInt64_Property => _RangeUInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public RangeUInt64 RangeUInt64
@@ -793,7 +793,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<RangeUInt64> ITestObject_HasBeenSetGetter.RangeUInt64_Property => this.RangeUInt64_Property;
         #endregion
         #region String
-        protected readonly IHasBeenSetItem<String> _String = HasBeenSetItem.Factory<String>(markAsSet: false);
+        protected IHasBeenSetItem<String> _String = HasBeenSetItem.Factory<String>(markAsSet: false);
         public IHasBeenSetItem<String> String_Property => _String;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public String String
@@ -805,7 +805,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<String> ITestObject_HasBeenSetGetter.String_Property => this.String_Property;
         #endregion
         #region FilePath
-        protected readonly IHasBeenSetItem<FilePath> _FilePath = HasBeenSetItem.Factory<FilePath>(markAsSet: false);
+        protected IHasBeenSetItem<FilePath> _FilePath = HasBeenSetItem.Factory<FilePath>(markAsSet: false);
         public IHasBeenSetItem<FilePath> FilePath_Property => _FilePath;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath FilePath
@@ -817,7 +817,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<FilePath> ITestObject_HasBeenSetGetter.FilePath_Property => this.FilePath_Property;
         #endregion
         #region FilePathNull
-        protected readonly IHasBeenSetItem<FilePath?> _FilePathNull = HasBeenSetItem.Factory<FilePath?>(markAsSet: false);
+        protected IHasBeenSetItem<FilePath?> _FilePathNull = HasBeenSetItem.Factory<FilePath?>(markAsSet: false);
         public IHasBeenSetItem<FilePath?> FilePathNull_Property => _FilePathNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FilePath? FilePathNull
@@ -829,7 +829,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<FilePath?> ITestObject_HasBeenSetGetter.FilePathNull_Property => this.FilePathNull_Property;
         #endregion
         #region DirectoryPath
-        protected readonly IHasBeenSetItem<DirectoryPath> _DirectoryPath = HasBeenSetItem.Factory<DirectoryPath>(markAsSet: false);
+        protected IHasBeenSetItem<DirectoryPath> _DirectoryPath = HasBeenSetItem.Factory<DirectoryPath>(markAsSet: false);
         public IHasBeenSetItem<DirectoryPath> DirectoryPath_Property => _DirectoryPath;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath DirectoryPath
@@ -841,7 +841,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<DirectoryPath> ITestObject_HasBeenSetGetter.DirectoryPath_Property => this.DirectoryPath_Property;
         #endregion
         #region DirectoryPathNull
-        protected readonly IHasBeenSetItem<DirectoryPath?> _DirectoryPathNull = HasBeenSetItem.Factory<DirectoryPath?>(markAsSet: false);
+        protected IHasBeenSetItem<DirectoryPath?> _DirectoryPathNull = HasBeenSetItem.Factory<DirectoryPath?>(markAsSet: false);
         public IHasBeenSetItem<DirectoryPath?> DirectoryPathNull_Property => _DirectoryPathNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public DirectoryPath? DirectoryPathNull
@@ -853,7 +853,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<DirectoryPath?> ITestObject_HasBeenSetGetter.DirectoryPathNull_Property => this.DirectoryPathNull_Property;
         #endregion
         #region UDoubleN
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
+        protected IHasBeenSetItem<UDouble?> _UDoubleN = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
         public IHasBeenSetItem<UDouble?> UDoubleN_Property => _UDoubleN;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble? UDoubleN
@@ -865,7 +865,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UDouble?> ITestObject_HasBeenSetGetter.UDoubleN_Property => this.UDoubleN_Property;
         #endregion
         #region UDoubleN_Ranged
-        protected readonly IHasBeenSetItem<UDouble?> _UDoubleN_Ranged = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
+        protected IHasBeenSetItem<UDouble?> _UDoubleN_Ranged = HasBeenSetItem.Factory<UDouble?>(markAsSet: false);
         public IHasBeenSetItem<UDouble?> UDoubleN_Ranged_Property => _UDoubleN_Ranged;
         public UDouble? UDoubleN_Ranged
         {
@@ -877,7 +877,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDoubleN_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UDouble
-        protected readonly IHasBeenSetItem<UDouble> _UDouble = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
+        protected IHasBeenSetItem<UDouble> _UDouble = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
         public IHasBeenSetItem<UDouble> UDouble_Property => _UDouble;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UDouble UDouble
@@ -889,7 +889,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UDouble> ITestObject_HasBeenSetGetter.UDouble_Property => this.UDouble_Property;
         #endregion
         #region UDouble_Ranged
-        protected readonly IHasBeenSetItem<UDouble> _UDouble_Ranged = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
+        protected IHasBeenSetItem<UDouble> _UDouble_Ranged = HasBeenSetItem.Factory<UDouble>(markAsSet: false);
         public IHasBeenSetItem<UDouble> UDouble_Ranged_Property => _UDouble_Ranged;
         public UDouble UDouble_Ranged
         {
@@ -901,7 +901,7 @@ namespace Loqui.Tests
         public static RangeUDouble UDouble_Ranged_Range = new RangeUDouble(3.5d, 6.4d);
         #endregion
         #region UInt16N
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt16?> _UInt16N = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
         public IHasBeenSetItem<UInt16?> UInt16N_Property => _UInt16N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16? UInt16N
@@ -913,7 +913,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt16?> ITestObject_HasBeenSetGetter.UInt16N_Property => this.UInt16N_Property;
         #endregion
         #region UInt16N_Ranged
-        protected readonly IHasBeenSetItem<UInt16?> _UInt16N_Ranged = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt16?> _UInt16N_Ranged = HasBeenSetItem.Factory<UInt16?>(markAsSet: false);
         public IHasBeenSetItem<UInt16?> UInt16N_Ranged_Property => _UInt16N_Ranged;
         public UInt16? UInt16N_Ranged
         {
@@ -925,7 +925,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16N_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt16
-        protected readonly IHasBeenSetItem<UInt16> _UInt16 = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
+        protected IHasBeenSetItem<UInt16> _UInt16 = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
         public IHasBeenSetItem<UInt16> UInt16_Property => _UInt16;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt16 UInt16
@@ -937,7 +937,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt16> ITestObject_HasBeenSetGetter.UInt16_Property => this.UInt16_Property;
         #endregion
         #region UInt16_Ranged
-        protected readonly IHasBeenSetItem<UInt16> _UInt16_Ranged = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
+        protected IHasBeenSetItem<UInt16> _UInt16_Ranged = HasBeenSetItem.Factory<UInt16>(markAsSet: false);
         public IHasBeenSetItem<UInt16> UInt16_Ranged_Property => _UInt16_Ranged;
         public UInt16 UInt16_Ranged
         {
@@ -949,7 +949,7 @@ namespace Loqui.Tests
         public static RangeUInt16 UInt16_Ranged_Range = new RangeUInt16(3, 6);
         #endregion
         #region UInt32N
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt32?> _UInt32N = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
         public IHasBeenSetItem<UInt32?> UInt32N_Property => _UInt32N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32? UInt32N
@@ -961,7 +961,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt32?> ITestObject_HasBeenSetGetter.UInt32N_Property => this.UInt32N_Property;
         #endregion
         #region UInt32N_Ranged
-        protected readonly IHasBeenSetItem<UInt32?> _UInt32N_Ranged = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt32?> _UInt32N_Ranged = HasBeenSetItem.Factory<UInt32?>(markAsSet: false);
         public IHasBeenSetItem<UInt32?> UInt32N_Ranged_Property => _UInt32N_Ranged;
         public UInt32? UInt32N_Ranged
         {
@@ -973,7 +973,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32N_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt32
-        protected readonly IHasBeenSetItem<UInt32> _UInt32 = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
+        protected IHasBeenSetItem<UInt32> _UInt32 = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
         public IHasBeenSetItem<UInt32> UInt32_Property => _UInt32;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt32 UInt32
@@ -985,7 +985,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt32> ITestObject_HasBeenSetGetter.UInt32_Property => this.UInt32_Property;
         #endregion
         #region UInt32_Ranged
-        protected readonly IHasBeenSetItem<UInt32> _UInt32_Ranged = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
+        protected IHasBeenSetItem<UInt32> _UInt32_Ranged = HasBeenSetItem.Factory<UInt32>(markAsSet: false);
         public IHasBeenSetItem<UInt32> UInt32_Ranged_Property => _UInt32_Ranged;
         public UInt32 UInt32_Ranged
         {
@@ -997,7 +997,7 @@ namespace Loqui.Tests
         public static RangeUInt32 UInt32_Ranged_Range = new RangeUInt32(3, 6);
         #endregion
         #region UInt64N
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt64?> _UInt64N = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
         public IHasBeenSetItem<UInt64?> UInt64N_Property => _UInt64N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64? UInt64N
@@ -1009,7 +1009,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt64?> ITestObject_HasBeenSetGetter.UInt64N_Property => this.UInt64N_Property;
         #endregion
         #region UInt64N_Ranged
-        protected readonly IHasBeenSetItem<UInt64?> _UInt64N_Ranged = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
+        protected IHasBeenSetItem<UInt64?> _UInt64N_Ranged = HasBeenSetItem.Factory<UInt64?>(markAsSet: false);
         public IHasBeenSetItem<UInt64?> UInt64N_Ranged_Property => _UInt64N_Ranged;
         public UInt64? UInt64N_Ranged
         {
@@ -1021,7 +1021,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64N_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt64
-        protected readonly IHasBeenSetItem<UInt64> _UInt64 = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
+        protected IHasBeenSetItem<UInt64> _UInt64 = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
         public IHasBeenSetItem<UInt64> UInt64_Property => _UInt64;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UInt64 UInt64
@@ -1033,7 +1033,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<UInt64> ITestObject_HasBeenSetGetter.UInt64_Property => this.UInt64_Property;
         #endregion
         #region UInt64_Ranged
-        protected readonly IHasBeenSetItem<UInt64> _UInt64_Ranged = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
+        protected IHasBeenSetItem<UInt64> _UInt64_Ranged = HasBeenSetItem.Factory<UInt64>(markAsSet: false);
         public IHasBeenSetItem<UInt64> UInt64_Ranged_Property => _UInt64_Ranged;
         public UInt64 UInt64_Ranged
         {
@@ -1045,7 +1045,7 @@ namespace Loqui.Tests
         public static RangeUInt64 UInt64_Ranged_Range = new RangeUInt64(3, 6);
         #endregion
         #region UInt8N
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
+        protected IHasBeenSetItem<Byte?> _UInt8N = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
         public IHasBeenSetItem<Byte?> UInt8N_Property => _UInt8N;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte? UInt8N
@@ -1057,7 +1057,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte?> ITestObject_HasBeenSetGetter.UInt8N_Property => this.UInt8N_Property;
         #endregion
         #region UInt8N_Ranged
-        protected readonly IHasBeenSetItem<Byte?> _UInt8N_Ranged = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
+        protected IHasBeenSetItem<Byte?> _UInt8N_Ranged = HasBeenSetItem.Factory<Byte?>(markAsSet: false);
         public IHasBeenSetItem<Byte?> UInt8N_Ranged_Property => _UInt8N_Ranged;
         public Byte? UInt8N_Ranged
         {
@@ -1069,7 +1069,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8N_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region UInt8
-        protected readonly IHasBeenSetItem<Byte> _UInt8 = HasBeenSetItem.Factory<Byte>(markAsSet: false);
+        protected IHasBeenSetItem<Byte> _UInt8 = HasBeenSetItem.Factory<Byte>(markAsSet: false);
         public IHasBeenSetItem<Byte> UInt8_Property => _UInt8;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Byte UInt8
@@ -1081,7 +1081,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Byte> ITestObject_HasBeenSetGetter.UInt8_Property => this.UInt8_Property;
         #endregion
         #region UInt8_Ranged
-        protected readonly IHasBeenSetItem<Byte> _UInt8_Ranged = HasBeenSetItem.Factory<Byte>(markAsSet: false);
+        protected IHasBeenSetItem<Byte> _UInt8_Ranged = HasBeenSetItem.Factory<Byte>(markAsSet: false);
         public IHasBeenSetItem<Byte> UInt8_Ranged_Property => _UInt8_Ranged;
         public Byte UInt8_Ranged
         {
@@ -1093,7 +1093,7 @@ namespace Loqui.Tests
         public static RangeUInt8 UInt8_Ranged_Range = new RangeUInt8(3, 6);
         #endregion
         #region Enum
-        protected readonly IHasBeenSetItem<TestEnum> _Enum = HasBeenSetItem.Factory<TestEnum>(markAsSet: false);
+        protected IHasBeenSetItem<TestEnum> _Enum = HasBeenSetItem.Factory<TestEnum>(markAsSet: false);
         public IHasBeenSetItem<TestEnum> Enum_Property => _Enum;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum Enum
@@ -1105,7 +1105,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<TestEnum> ITestObject_HasBeenSetGetter.Enum_Property => this.Enum_Property;
         #endregion
         #region EnumNull
-        protected readonly IHasBeenSetItem<TestEnum?> _EnumNull = HasBeenSetItem.Factory<TestEnum?>(markAsSet: false);
+        protected IHasBeenSetItem<TestEnum?> _EnumNull = HasBeenSetItem.Factory<TestEnum?>(markAsSet: false);
         public IHasBeenSetItem<TestEnum?> EnumNull_Property => _EnumNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TestEnum? EnumNull
@@ -1117,7 +1117,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<TestEnum?> ITestObject_HasBeenSetGetter.EnumNull_Property => this.EnumNull_Property;
         #endregion
         #region WildCard
-        protected readonly IHasBeenSetItem<Object> _WildCard = HasBeenSetItem.Factory<Object>(markAsSet: false);
+        protected IHasBeenSetItem<Object> _WildCard = HasBeenSetItem.Factory<Object>(markAsSet: false);
         public IHasBeenSetItem<Object> WildCard_Property => _WildCard;
         Object ITestObject_HasBeenSetGetter.WildCard => this.WildCard;
         public Object WildCard
@@ -1128,7 +1128,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCard_Property => this.WildCard_Property;
         #endregion
         #region WildCardLoqui
-        protected readonly IHasBeenSetItem<Object> _WildCardLoqui = HasBeenSetItem.Factory<Object>(markAsSet: false);
+        protected IHasBeenSetItem<Object> _WildCardLoqui = HasBeenSetItem.Factory<Object>(markAsSet: false);
         public IHasBeenSetItem<Object> WildCardLoqui_Property => _WildCardLoqui;
         Object ITestObject_HasBeenSetGetter.WildCardLoqui => this.WildCardLoqui;
         public Object WildCardLoqui
@@ -1139,7 +1139,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCardLoqui_Property => this.WildCardLoqui_Property;
         #endregion
         #region WildCardNull
-        protected readonly IHasBeenSetItem<Object> _WildCardNull = HasBeenSetItem.Factory<Object>(markAsSet: false);
+        protected IHasBeenSetItem<Object> _WildCardNull = HasBeenSetItem.Factory<Object>(markAsSet: false);
         public IHasBeenSetItem<Object> WildCardNull_Property => _WildCardNull;
         Object ITestObject_HasBeenSetGetter.WildCardNull => this.WildCardNull;
         public Object WildCardNull
@@ -1150,7 +1150,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSetGetter.WildCardNull_Property => this.WildCardNull_Property;
         #endregion
         #region Ref
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
+        protected IHasBeenSetItem<ObjectToRef> _Ref = HasBeenSetItem.Factory<ObjectToRef>(markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref
         {
@@ -1164,7 +1164,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Property => this._Ref;
         #endregion
         #region Ref_NotNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(markAsSet: false);
+        protected IHasBeenSetItem<ObjectToRef> _Ref_NotNull = HasBeenSetItem.FactoryNoNull<ObjectToRef>(markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_NotNull
         {
@@ -1179,7 +1179,7 @@ namespace Loqui.Tests
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
+        protected IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_Singleton
         {
@@ -1192,7 +1192,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSetGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
         #region RefGetter
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(markAsSet: false);
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter = HasBeenSetItem.Factory<IObjectToRefGetter>(markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter
         {
@@ -1206,7 +1206,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Property => this._RefGetter;
         #endregion
         #region RefGetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull = HasBeenSetItem.Factory<IObjectToRefGetter>(
             noNullFallback: () => new ObjectToRef(),
             markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1223,7 +1223,7 @@ namespace Loqui.Tests
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter_Singleton
         {
@@ -1236,7 +1236,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSetGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
         #region RefSetter
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(markAsSet: false);
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter = HasBeenSetItem.Factory<IObjectToRef>(markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter
         {
@@ -1250,7 +1250,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSetGetter.RefSetter_Property => this._RefSetter;
         #endregion
         #region RefSetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull = HasBeenSetItem.Factory<IObjectToRef>(
             noNullFallback: () => new ObjectToRef(),
             markAsSet: false);
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1267,7 +1267,7 @@ namespace Loqui.Tests
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter_Singleton
         {

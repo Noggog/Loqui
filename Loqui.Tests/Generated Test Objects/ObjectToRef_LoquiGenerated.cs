@@ -38,7 +38,7 @@ namespace Loqui.Tests
 
         #region KeyField
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        protected readonly INotifyingSetItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
+        protected INotifyingSetItem<Int32> _KeyField = NotifyingSetItem.Factory<Int32>(markAsSet: false);
         public INotifyingSetItem<Int32> KeyField_Property => _KeyField;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int32 KeyField
@@ -53,7 +53,7 @@ namespace Loqui.Tests
         #endregion
         #region SomeField
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        protected readonly INotifyingSetItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
+        protected INotifyingSetItem<Boolean> _SomeField = NotifyingSetItem.Factory<Boolean>(markAsSet: false);
         public INotifyingSetItem<Boolean> SomeField_Property => _SomeField;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean SomeField

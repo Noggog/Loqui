@@ -39,7 +39,7 @@ namespace Loqui.Tests
 
         #region NewField
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        protected readonly INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>();
+        protected INotifyingItem<Boolean> _NewField = NotifyingItem.Factory<Boolean>();
         public INotifyingItem<Boolean> NewField_Property => _NewField;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Boolean NewField

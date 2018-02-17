@@ -1647,7 +1647,7 @@ namespace Loqui.Tests
         #region Ref_Singleton
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingSetItem<ObjectToRef> _Ref_Singleton;
+        protected INotifyingSetItem<ObjectToRef> _Ref_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItemGetter<ObjectToRef> Ref_Singleton_Property => this._Ref_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1698,7 +1698,7 @@ namespace Loqui.Tests
         #region RefGetter_Singleton
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingSetItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected INotifyingSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItemGetter<IObjectToRefGetter> RefGetter_Singleton_Property => this._RefGetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1749,7 +1749,7 @@ namespace Loqui.Tests
         #region RefSetter_Singleton
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly INotifyingSetItem<IObjectToRef> _RefSetter_Singleton;
+        protected INotifyingSetItem<IObjectToRef> _RefSetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItemGetter<IObjectToRef> RefSetter_Singleton_Property => this._RefSetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

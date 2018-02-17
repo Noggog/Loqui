@@ -1470,7 +1470,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<Object> ITestObject_HasBeenSet_ReadOnly_RPCGetter.WildCardNull_Property => this.WildCardNull_Property;
         #endregion
         #region Ref
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref;
+        protected IHasBeenSetItem<ObjectToRef> _Ref;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref
         {
@@ -1484,7 +1484,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_ReadOnly_RPCGetter.Ref_Property => this._Ref;
         #endregion
         #region Ref_NotNull
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_NotNull;
+        protected IHasBeenSetItem<ObjectToRef> _Ref_NotNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_NotNull
         {
@@ -1499,7 +1499,7 @@ namespace Loqui.Tests
         #endregion
         #region Ref_Singleton
         private ObjectToRef _Ref_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
+        protected IHasBeenSetItem<ObjectToRef> _Ref_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectToRef Ref_Singleton
         {
@@ -1512,7 +1512,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<ObjectToRef> ITestObject_HasBeenSet_ReadOnly_RPCGetter.Ref_Singleton_Property => this._Ref_Singleton;
         #endregion
         #region RefGetter
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter;
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter
         {
@@ -1526,7 +1526,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_ReadOnly_RPCGetter.RefGetter_Property => this._RefGetter;
         #endregion
         #region RefGetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull;
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter_NotNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter_NotNull
         {
@@ -1541,7 +1541,7 @@ namespace Loqui.Tests
         #endregion
         #region RefGetter_Singleton
         private ObjectToRef _RefGetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
+        protected IHasBeenSetItem<IObjectToRefGetter> _RefGetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRefGetter RefGetter_Singleton
         {
@@ -1554,7 +1554,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRefGetter> ITestObject_HasBeenSet_ReadOnly_RPCGetter.RefGetter_Singleton_Property => this._RefGetter_Singleton;
         #endregion
         #region RefSetter
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter;
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter
         {
@@ -1568,7 +1568,7 @@ namespace Loqui.Tests
         IHasBeenSetItemGetter<IObjectToRef> ITestObject_HasBeenSet_ReadOnly_RPCGetter.RefSetter_Property => this._RefSetter;
         #endregion
         #region RefSetter_NotNull
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull;
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter_NotNull;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter_NotNull
         {
@@ -1583,7 +1583,7 @@ namespace Loqui.Tests
         #endregion
         #region RefSetter_Singleton
         private ObjectToRef _RefSetter_Singleton_Object = new ObjectToRef();
-        protected readonly IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
+        protected IHasBeenSetItem<IObjectToRef> _RefSetter_Singleton;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public IObjectToRef RefSetter_Singleton
         {
