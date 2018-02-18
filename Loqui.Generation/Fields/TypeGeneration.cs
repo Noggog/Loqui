@@ -18,7 +18,7 @@ namespace Loqui.Generation
         public virtual string ProtectedProperty => $"_{this.Name}";
         public virtual string PropertyOrName => $"{(this.Bare ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
-        public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name);
+        public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
         protected bool _derivative;
