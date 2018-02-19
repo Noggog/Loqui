@@ -67,6 +67,8 @@
     <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2FloatNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2FloatType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P3UInt16NullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P3UInt16Type.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\TypicalRangedIntType.cs" />
     <Compile Include="FileGeneration\ArgsWrapper.cs" />
     <Compile Include="ClassGeneration.cs" />

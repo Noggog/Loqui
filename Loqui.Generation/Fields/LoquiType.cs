@@ -256,7 +256,6 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public INotifyingSetItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");

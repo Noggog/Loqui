@@ -42,7 +42,6 @@ namespace Loqui.Tests
         #region RefBase
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingSetItem<RBase> _RefBase = new NotifyingSetItem<RBase>();
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItem<RBase> RefBase_Property => this._RefBase;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         RBase ITestGenericObjectGetter<T, RBase, R>.RefBase => this.RefBase;
@@ -56,7 +55,6 @@ namespace Loqui.Tests
         #region Ref
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly INotifyingSetItem<R> _Ref = new NotifyingSetItem<R>();
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public INotifyingSetItem<R> Ref_Property => this._Ref;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         R ITestGenericObjectGetter<T, RBase, R>.Ref => this.Ref;
