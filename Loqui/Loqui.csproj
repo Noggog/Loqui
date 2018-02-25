@@ -80,6 +80,7 @@
     <Compile Include="Translators\Xml\KeyedDictXmlTranslation.cs" />
     <Compile Include="Translators\Xml\DictXmlTranslation.cs" />
     <Compile Include="Translators\Xml\NullXmlTranslation.cs" />
+    <Compile Include="Translators\Xml\P3FloatXmlTranslation.cs" />
     <Compile Include="Translators\Xml\P2FloatXmlTranslation.cs" />
     <Compile Include="Translators\Xml\P3UInt16XmlTranslation.cs" />
     <Compile Include="Translators\Xml\P3DoubleXmlTranslation.cs" />

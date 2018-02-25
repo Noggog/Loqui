@@ -241,6 +241,8 @@
       <xs:element name="P3UInt16Null" type="NString" />
       <xs:element name="P2Float" type="NString" />
       <xs:element name="P2FloatNull" type="NString" />
+      <xs:element name="P3Float" type="NString" />
+      <xs:element name="P3FloatNull" type="NString" />
       <xs:element name="P3Double" type="NString" />
       <xs:element name="P3DoubleNull" type="NString" />
       <xs:element name="P4Double" type="NString" />

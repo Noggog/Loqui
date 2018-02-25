@@ -71,6 +71,8 @@ namespace Loqui.Generation
             AddTypeAssociation<P3IntNullType>("P3IntNull");
             AddTypeAssociation<P2FloatType>("P2Float");
             AddTypeAssociation<P2FloatNullType>("P2FloatNull");
+            AddTypeAssociation<P3FloatType>("P3Float");
+            AddTypeAssociation<P3FloatNullType>("P3FloatNull");
             AddTypeAssociation<P3DoubleType>("P3Double");
             AddTypeAssociation<P3DoubleNullType>("P3DoubleNull");
             AddTypeAssociation<BoolType>("Bool");

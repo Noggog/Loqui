@@ -2,11 +2,11 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>261bce48abc5d711ac6398b821ada4ab57b5f00b</Sha>
+         <Sha>f9e9ad707a6c7a06e42358f1abc1dc31a1c4e915</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-19-2018 14:41:00</CommitDate>
-         <Description>P3UInt16</Description>
-         <Author>Justin</Author>
+         <CommitDate>02-24-2018 21:23:19</CommitDate>
+         <Description>P3Float and equals accessors</Description>
+         <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
 </HarmonizeConfig>
