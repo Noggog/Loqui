@@ -105,20 +105,29 @@ namespace Loqui.Generation
             }
         }
 
-        public override string FunctionOverride(bool overrideIfAbstract = true)
+        public override async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
         {
-            if (this.HasBaseObject && (overrideIfAbstract || !this.BaseClass.Abstract))
+            if (this.HasBaseObject)
             {
-                return " override ";
+                foreach (var baseObj in this.BaseClassTrail())
+                {
+                    if (tester == null || await tester(baseObj))
+                    {
+                        return " override ";
+                    }
+                }
             }
             if (this.HasDerivativeClasses)
             {
-                return " virtual ";
+                foreach (var baseObj in this.DerivativeClasses)
+                {
+                    if (tester == null || await tester(baseObj))
+                    {
+                        return " virtual ";
+                    }
+                }
             }
-            else
-            {
-                return " ";
-            }
+            return " ";
         }
     }
 }

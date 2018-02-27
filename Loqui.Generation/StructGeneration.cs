@@ -121,7 +121,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected override void GenerateLoquiSetterInterface(FileGeneration fg)
+        protected override async Task GenerateLoquiSetterInterface(FileGeneration fg)
         {
         }
 
@@ -133,7 +133,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override void GenerateClear(FileGeneration fg, bool classFile)
+        protected override async Task GenerateClear(FileGeneration fg, bool classFile)
         {
         }
 
