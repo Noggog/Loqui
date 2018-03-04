@@ -623,6 +623,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="isLoqui" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to require object to be a Loqui generated type
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="DefinedBaseGeneric">

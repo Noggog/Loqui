@@ -276,7 +276,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
-            var maskStr = $"MaskItem<bool, {valueLoquiType.TargetObjectGeneration.GetMaskString("bool")}>";
+            var maskStr = $"MaskItem<bool, {valueLoquiType.GetMaskString("bool")}>";
             fg.AppendLine($"{retAccessor}.Specific = {accessor}.Values.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Values, ((l, r) =>");
             using (new BraceWrapper(fg))
             {

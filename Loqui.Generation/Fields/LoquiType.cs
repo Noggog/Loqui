@@ -158,7 +158,7 @@ namespace Loqui.Generation
 
         public virtual string GetMaskString(string str)
         {
-            return this.TargetObjectGeneration?.GetMaskString(str) ?? "object";
+            return this.TargetObjectGeneration?.GetMaskString(str) ?? $"IMask<{str}>";
         }
 
         public override string EqualsMaskAccessor(string accessor) => $"{accessor}.Overall";
@@ -167,22 +167,15 @@ namespace Loqui.Generation
         {
             if (this.GenericDef != null)
             {
-                if (this.TargetObjectGeneration == null)
+                switch (type)
                 {
-                    return "object";
-                }
-                else
-                {
-                    switch (type)
-                    {
-                        case MaskType.Error:
-                            return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
-                        case MaskType.Copy:
-                            return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
-                        case MaskType.Normal:
-                        default:
-                            throw new NotImplementedException();
-                    }
+                    case MaskType.Error:
+                        return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
+                    case MaskType.Copy:
+                        return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
+                    case MaskType.Normal:
+                    default:
+                        throw new NotImplementedException();
                 }
             }
             else if (this.GenericSpecification != null)
@@ -495,7 +488,7 @@ namespace Loqui.Generation
                     this.RefType = LoquiRefType.Generic;
                     this._generic = genericName;
                     this.GenericDef = this.ObjectGen.Generics[this._generic];
-                    this.GenericDef.Add(nameof(ILoquiObjectGetter));
+                    this.GenericDef.Loqui = true;
                     if (this.SingletonType == SingletonLevel.Singleton)
                     {
                         throw new ArgumentException("Cannot be a generic and singleton.");
@@ -763,12 +756,9 @@ namespace Loqui.Generation
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"var baseMask = errorMask();");
-                                gen.AppendLine($"if (baseMask.{this.Name}.Specific == null)");
-                                using (new BraceWrapper(gen))
-                                {
-                                    gen.AppendLine($"baseMask.{this.Name} = new MaskItem<Exception, {this.Mask(MaskType.Error)}>(null, new {this.Mask(MaskType.Error)}());");
-                                }
-                                gen.AppendLine($"return baseMask.{this.Name}.Specific;");
+                                gen.AppendLine($"var mask = new {this.Mask(MaskType.Error)}();");
+                                gen.AppendLine($"baseMask.SetNthMask((int){this.IndexEnumName}, mask);");
+                                gen.AppendLine($"return mask;");
                             }
                             gen.Append($") : null)");
                         });
@@ -863,7 +853,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
                     fg.AppendLine("break;");
                 }
             }
@@ -916,7 +906,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        return "object";
+                        return $"IMask<{type}>";
                     }
                 default:
                     throw new NotImplementedException();
@@ -932,15 +922,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                if (this.TargetObjectGeneration == null)
-                {
-                    fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
-                    fg.AppendLine($"{retAccessor}.Overall = {accessor.PropertyOrDirectAccess}.Equals({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => object.Equals(loqLhs, loqRhs));");
-                }
-                else
-                {
-                    fg.AppendLine($"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs));");
-                }
+                fg.AppendLine($"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs));");
             }
             else
             {

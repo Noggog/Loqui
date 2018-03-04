@@ -97,7 +97,7 @@ namespace Loqui.Generation
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {valueLoquiType.Mask(MaskType.Copy)}> {field.Name};");
                     break;
                 default:
                     break;

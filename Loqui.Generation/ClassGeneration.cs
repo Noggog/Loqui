@@ -57,7 +57,7 @@ namespace Loqui.Generation
             // Generate class header and interfaces
             using (new LineWrapper(fg))
             {
-                fg.Append($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {Name}{this.GenericTypes} : ");
+                fg.Append($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
 
                 var list = new List<string>();
                 if (HasBaseObject)
@@ -65,6 +65,7 @@ namespace Loqui.Generation
                     list.Add(BaseClassName);
                 }
                 list.Add(this.InterfaceStr);
+                list.Add($"ILoquiObject<{this.ObjectName}>");
                 list.AddRange(
                     this.Interfaces
                         .Union(this.gen.GenerationModules

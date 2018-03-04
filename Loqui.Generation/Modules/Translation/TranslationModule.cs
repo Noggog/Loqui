@@ -114,23 +114,26 @@ namespace Loqui.Generation
 
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Copy In"))
             {
-                using (var args = new FunctionWrapper(fg,
-                    $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
+                if (obj.CanAssume())
                 {
-                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI())
+                    using (var args = new FunctionWrapper(fg,
+                        $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
                     {
-                        if (Public)
+                        foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI())
                         {
-                            args.Add(API);
+                            if (Public)
+                            {
+                                args.Add(API);
+                            }
                         }
+                        args.Add("NotifyingFireParameters cmds = null");
                     }
-                    args.Add("NotifyingFireParameters cmds = null");
+                    using (new BraceWrapper(fg))
+                    {
+                        GenerateCopyInSnippet(obj, fg, usingErrorMask: false);
+                    }
+                    fg.AppendLine();
                 }
-                using (new BraceWrapper(fg))
-                {
-                    GenerateCopyInSnippet(obj, fg, usingErrorMask: false);
-                }
-                fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
                     $"public virtual void CopyIn_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
@@ -155,35 +158,38 @@ namespace Loqui.Generation
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
-                    using (var args = new FunctionWrapper(fg,
-                        $"public void CopyIn_{ModuleNickname}"))
+                    if (obj.CanAssume())
                     {
-                        foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI())
+                        using (var args = new FunctionWrapper(fg,
+                            $"public void CopyIn_{ModuleNickname}"))
                         {
-                            if (Public)
+                            foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI())
                             {
-                                args.Add(API);
-                            }
-                        }
-                        args.Add("NotifyingFireParameters cmds = null");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        minorAPI.Funnel.InConverter(fg, (accessor) =>
-                        {
-                            using (var args = new ArgsWrapper(fg,
-                                $"this.CopyIn_{ModuleNickname}"))
-                            using (new DepthWrapper(fg))
-                            {
-                                foreach (var item in this.MainAPI.WrapReaderAccessors(accessor))
+                                if (Public)
                                 {
-                                    args.Add(item);
+                                    args.Add(API);
                                 }
-                                args.Add($"cmds: cmds");
                             }
-                        });
+                            args.Add("NotifyingFireParameters cmds = null");
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            minorAPI.Funnel.InConverter(fg, (accessor) =>
+                            {
+                                using (var args = new ArgsWrapper(fg,
+                                    $"this.CopyIn_{ModuleNickname}"))
+                                using (new DepthWrapper(fg))
+                                {
+                                    foreach (var item in this.MainAPI.WrapReaderAccessors(accessor))
+                                    {
+                                        args.Add(item);
+                                    }
+                                    args.Add($"cmds: cmds");
+                                }
+                            });
+                        }
+                        fg.AppendLine();
                     }
-                    fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
                         $"public void CopyIn_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
@@ -258,29 +264,32 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Create"))
             {
-                fg.AppendLine("[DebuggerStepThrough]");
-                using (var args = new FunctionWrapper(fg,
-                    $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
+                if (obj.CanAssume())
                 {
-                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI())
+                    fg.AppendLine("[DebuggerStepThrough]");
+                    using (var args = new FunctionWrapper(fg,
+                        $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
                     {
-                        if (Public)
+                        foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI())
                         {
-                            args.Add(API);
+                            if (Public)
+                            {
+                                args.Add(API);
+                            }
                         }
                     }
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"return Create_{ModuleNickname}{obj.BaseMask_GenericClausesAssumed(MaskType.Error)}"))
+                    using (new BraceWrapper(fg))
                     {
-                        args.Add(this.MainAPI.ReaderPassArgs);
-                        args.Add("doMasks: false");
-                        args.Add("errorMask: out var errorMask");
+                        using (var args = new ArgsWrapper(fg,
+                            $"return Create_{ModuleNickname}{obj.BaseMask_GenericClausesAssumed(MaskType.Error)}"))
+                        {
+                            args.Add(this.MainAPI.ReaderPassArgs);
+                            args.Add("doMasks: false");
+                            args.Add("errorMask: out var errorMask");
+                        }
                     }
+                    fg.AppendLine();
                 }
-                fg.AppendLine();
 
                 fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
@@ -359,33 +368,36 @@ namespace Loqui.Generation
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
-                    using (var args = new FunctionWrapper(fg,
-                        $"public static {obj.ObjectName} Create_{ModuleNickname}"))
+                    if (obj.CanAssume())
                     {
-                        foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI())
+                        using (var args = new FunctionWrapper(fg,
+                            $"public static {obj.ObjectName} Create_{ModuleNickname}"))
                         {
-                            if (Public)
+                            foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI())
                             {
-                                args.Add(API);
-                            }
-                        }
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        minorAPI.Funnel.InConverter(fg, (accessor) =>
-                        {
-                            using (var args = new ArgsWrapper(fg,
-                                $"return Create_{ModuleNickname}"))
-                            using (new DepthWrapper(fg))
-                            {
-                                foreach (var item in this.MainAPI.WrapReaderAccessors(accessor))
+                                if (Public)
                                 {
-                                    args.Add(item);
+                                    args.Add(API);
                                 }
                             }
-                        });
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            minorAPI.Funnel.InConverter(fg, (accessor) =>
+                            {
+                                using (var args = new ArgsWrapper(fg,
+                                    $"return Create_{ModuleNickname}"))
+                                using (new DepthWrapper(fg))
+                                {
+                                    foreach (var item in this.MainAPI.WrapReaderAccessors(accessor))
+                                    {
+                                        args.Add(item);
+                                    }
+                                }
+                            });
+                        }
+                        fg.AppendLine();
                     }
-                    fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
                         $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
@@ -721,7 +733,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.OutConverter(fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"Write_{ModuleNickname}"))
+                                    $"Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}"))
                                 using (new DepthWrapper(fg))
                                 {
                                     foreach (var item in this.MainAPI.WrapWriterAccessors(accessor))

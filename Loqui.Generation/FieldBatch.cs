@@ -24,7 +24,10 @@ namespace Loqui.Generation
             this.Name = node.GetAttribute("name", throwException: true);
             foreach (var generic in node.Elements(XName.Get("Generic", LoquiGenerator.Namespace)))
             {
-                var gen = new GenericDefinition();
+                var gen = new GenericDefinition()
+                {
+                    Loqui = generic.GetAttribute<bool>("isLoqui", defaultVal: false)
+                };
                 var genName = generic.GetAttribute("name");
                 foreach (var where in generic.Elements(XName.Get("Where", LoquiGenerator.Namespace)))
                 {

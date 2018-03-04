@@ -7,10 +7,11 @@ namespace Loqui.Generation
     public class GenericDefinition
     {
         public bool MustBeClass;
+        public bool Loqui;
         public ObjectGeneration BaseObjectGeneration;
         private readonly HashSet<string> _whereSet = new HashSet<string>();
         private readonly List<string> _whereList = new List<string>();
-        public IEnumerable<string> Wheres => _whereList;
+        public IEnumerable<string> Wheres => GetWheres();
         public string Name;
 
         public void Add(string where)
@@ -29,6 +30,18 @@ namespace Loqui.Generation
             }
         }
 
+        private IEnumerable<string> GetWheres()
+        {
+            foreach (var item in _whereList)
+            {
+                yield return item;
+            }
+            if (Loqui)
+            {
+                yield return $"ILoquiObject<{Name}>";
+            }
+        }
+
         public GenericDefinition Copy()
         {
             var ret = new GenericDefinition()
@@ -36,6 +49,7 @@ namespace Loqui.Generation
                 MustBeClass = this.MustBeClass
             };
             ret.BaseObjectGeneration = this.BaseObjectGeneration;
+            ret.Loqui = this.Loqui;
             ret._whereSet.Add(this._whereSet);
             ret._whereList.AddRange(this._whereList);
             return ret;

@@ -270,7 +270,7 @@ namespace Loqui.Tests
 
         public override void CopyIn_XML<RBase_ErrMask>(
             XElement root,
-            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask, R_ErrMask> errorMask,
             NotifyingFireParameters cmds = null)
         {
             this.CopyIn_XML(
@@ -330,9 +330,9 @@ namespace Loqui.Tests
         }
 
         #region Base Class Trickdown Overrides
-        public override void Write_XML<RBase_ErrMask>(
+        public override void Write_XML<RBase_ErrMask, R_ErrMask>(
             XmlWriter writer,
-            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask, R_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
@@ -344,7 +344,7 @@ namespace Loqui.Tests
 
         public override void Write_XML<RBase_ErrMask>(
             string path,
-            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask, R_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
@@ -356,7 +356,7 @@ namespace Loqui.Tests
 
         public override void Write_XML<RBase_ErrMask>(
             Stream stream,
-            out TestGenericObject_ErrorMask<RBase_ErrMask> errorMask,
+            out TestGenericObject_ErrorMask<RBase_ErrMask, R_ErrMask> errorMask,
             string name = null)
         {
             Write_XML(
@@ -1135,7 +1135,7 @@ namespace Loqui.Tests.Internals
 
     }
 
-    public class TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask> : TestGenericObject_ErrorMask<RBase_ErrMask>, IErrorMask<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>>
+    public class TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask> : TestGenericObject_ErrorMask<RBase_ErrMask, R_ErrMask>, IErrorMask<TestGenericObject_SubClass_Defined_ErrorMask<RBase_ErrMask>>
         where RBase_ErrMask : ObjectToRef_ErrorMask, IErrorMask<RBase_ErrMask>, new()
     {
         #region IErrorMask
@@ -1216,7 +1216,7 @@ namespace Loqui.Tests.Internals
         #endregion
 
     }
-    public class TestGenericObject_SubClass_Defined_CopyMask<RBase_CopyMask> : TestGenericObject_CopyMask<RBase_CopyMask>
+    public class TestGenericObject_SubClass_Defined_CopyMask<RBase_CopyMask> : TestGenericObject_CopyMask<RBase_CopyMask, R_CopyMask>
         where RBase_CopyMask : ObjectToRef_CopyMask, new()
     {
     }

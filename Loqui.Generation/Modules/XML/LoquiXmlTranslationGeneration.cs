@@ -23,41 +23,22 @@ namespace Loqui.Generation
             string nameAccessor)
         {
             var loquiGen = typeGen as LoquiType;
-            if (loquiGen.TargetObjectGeneration != null)
+            using (var args = new ArgsWrapper(fg,
+                $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.Mask(MaskType.Error)}>.Instance.Write"))
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.Mask(MaskType.Error)}>.Instance.Write"))
+                args.Add($"writer: {writerAccessor}");
+                args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
+                args.Add($"name: {nameAccessor}");
+                if (typeGen.HasIndex)
                 {
-                    args.Add($"writer: {writerAccessor}");
-                    args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
-                    args.Add($"name: {nameAccessor}");
-                    if (typeGen.HasIndex)
-                    {
-                        args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                        args.Add($"errorMask: {maskAccessor}");
-                    }
-                    else
-                    {
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out {maskAccessor}");
-                    }
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
                 }
-            }
-            else
-            {
-                UnsafeXmlTranslationGeneration unsafeXml = new UnsafeXmlTranslationGeneration()
+                else
                 {
-                    ErrMaskString = $"MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>"
-                };
-                unsafeXml.GenerateWrite(
-                    fg: fg,
-                    objGen: objGen,
-                    typeGen: typeGen,
-                    writerAccessor: writerAccessor,
-                    itemAccessor: itemAccessor,
-                    doMaskAccessor: doMaskAccessor,
-                    maskAccessor: maskAccessor,
-                    nameAccessor: nameAccessor);
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
             }
         }
 
@@ -82,9 +63,8 @@ namespace Loqui.Generation
                 {
                     if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
                     using (var args = new ArgsWrapper(fg,
-                        $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Normal, MaskType.Error, MaskType.Copy)}"))
+                        $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Error, MaskType.Copy)}"))
                     {
-                        args.Add($"item: {itemAccessor.DirectAccess}");
                         args.Add((gen) =>
                         {
                             using (var subArgs = new FunctionWrapper(gen,
@@ -176,38 +156,21 @@ namespace Loqui.Generation
             }
 
             var loquiGen = typeGen as LoquiType;
-            if (loquiGen.TargetObjectGeneration != null)
+            using (var args = new ArgsWrapper(fg,
+                $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.Mask(MaskType.Error)}>.Instance.Parse",
+                suffixLine: suffix))
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.Mask(MaskType.Error)}>.Instance.Parse",
-                    suffixLine: suffix))
+                args.Add($"root: {nodeAccessor}");
+                if (typeGen.HasIndex)
                 {
-                    args.Add($"root: {nodeAccessor}");
-                    if (typeGen.HasIndex)
-                    {
-                        args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                        args.Add($"errorMask: {maskAccessor}");
-                    }
-                    else
-                    {
-                        args.Add($"doMasks: {doMaskAccessor}");
-                        args.Add($"errorMask: out {maskAccessor}");
-                    }
+                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    args.Add($"errorMask: {maskAccessor}");
                 }
-            }
-            else
-            {
-                UnsafeXmlTranslationGeneration unsafeXml = new UnsafeXmlTranslationGeneration()
+                else
                 {
-                    ErrMaskString = $"MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>"
-                };
-                unsafeXml.GenerateCopyInRet(
-                    fg: fg,
-                    typeGen: typeGen,
-                    nodeAccessor: nodeAccessor,
-                    retAccessor: itemAccessor,
-                    doMaskAccessor: doMaskAccessor,
-                    maskAccessor: maskAccessor);
+                    args.Add($"doMasks: {doMaskAccessor}");
+                    args.Add($"errorMask: out {maskAccessor}");
+                }
             }
         }
 

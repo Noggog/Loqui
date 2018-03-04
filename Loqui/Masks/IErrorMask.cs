@@ -15,7 +15,7 @@ namespace Loqui
         bool IsInError();
     }
 
-    public interface IErrorMask<M>
+    public interface IErrorMask<M> : IErrorMask
         where M : IErrorMask<M>
     {
         M Combine(M rhs);

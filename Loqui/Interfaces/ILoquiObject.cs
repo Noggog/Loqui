@@ -12,11 +12,21 @@ namespace Loqui
         ILoquiRegistration Registration { get; }
     }
 
+    public interface ILoquiObject<T> : ILoquiObjectGetter, IEqualsMask<T>
+    {
+    }
+
     public interface ILoquiObjectGetter : ILoquiObject
     {
         object GetNthObject(ushort index);
         bool GetNthObjectHasBeenSet(ushort index);
         void ToString(FileGeneration fg, string name);
+        IMask<bool> GetHasBeenSetMask();
+    }
+
+    public interface IEqualsMask<T>
+    {
+        IMask<bool> GetEqualsMask(T rhs);
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
@@ -26,7 +36,7 @@ namespace Loqui
         void SetNthObject(ushort index, object o, NotifyingFireParameters cmds);
     }
 
-    public interface ILoquiClass<L, G>
+    public interface ILoquiClass<L, G> : IEqualsMask<G>
         where L : class, G
         where G : class
     {
