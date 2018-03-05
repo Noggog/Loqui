@@ -393,7 +393,7 @@ namespace Loqui.Generation
 
                     GenerateGetEqualsMaskInterfaceImplementor(fg);
 
-                    awaitGenerateToStringCode(fg);
+                    await GenerateToStringCode(fg);
 
                     GenerateGetHasBeenSetMask(fg);
 
