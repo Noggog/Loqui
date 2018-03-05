@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>f9e9ad707a6c7a06e42358f1abc1dc31a1c4e915</Sha>
+         <Sha>4a37b068d3ec2e62e19750bb89530b2c76fbdc85</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-24-2018 21:23:19</CommitDate>
-         <Description>P3Float and equals accessors</Description>
+         <CommitDate>03-04-2018 23:05:14</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/Laptop' into Dev</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

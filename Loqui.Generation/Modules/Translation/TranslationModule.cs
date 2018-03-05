@@ -101,13 +101,13 @@ namespace Loqui.Generation
             {
                 GenerateCreate(obj, fg);
             }
-            GenerateCopyIn(obj, fg);
-            GenerateWrite(obj, fg);
+            await GenerateCopyIn(obj, fg);
+            await GenerateWrite(obj, fg);
         }
 
         protected abstract void GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, bool usingErrorMask);
 
-        private void GenerateCopyIn(ObjectGeneration obj, FileGeneration fg)
+        private async Task GenerateCopyIn(ObjectGeneration obj, FileGeneration fg)
         {
             if (obj is StructGeneration) return;
             if (this.MainAPI == null) return;
@@ -117,7 +117,7 @@ namespace Loqui.Generation
                 if (obj.CanAssume())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
+                        $"public{await obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI())
                         {
@@ -535,7 +535,7 @@ namespace Loqui.Generation
 
         protected abstract void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg);
 
-        private void GenerateWrite(ObjectGeneration obj, FileGeneration fg)
+        private async Task GenerateWrite(ObjectGeneration obj, FileGeneration fg)
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Write"))
             {
@@ -633,7 +633,7 @@ namespace Loqui.Generation
                     if (obj.HasLoquiGenerics)
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                            $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
                         {
                             foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI())
                             {
@@ -658,7 +658,7 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
+                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                         wheres: obj.BaseClass == null ? obj.GenericTypes_ErrorMaskWheres : null))
                     {
                         foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI())
@@ -692,7 +692,7 @@ namespace Loqui.Generation
                         if (obj.HasLoquiGenerics)
                         {
                             using (var args = new FunctionWrapper(fg,
-                                $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                                $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
                             {
                                 foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI())
                                 {
@@ -717,7 +717,7 @@ namespace Loqui.Generation
                         }
 
                         using (var args = new FunctionWrapper(fg,
-                            $"public{obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
+                            $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
                             wheres: obj.BaseClass == null ? obj.GenericTypes_ErrorMaskWheres : null))
                         {
                             foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI())
@@ -787,7 +787,7 @@ namespace Loqui.Generation
                 }
 
                 using (var args = new FunctionWrapper(fg,
-                    $"protected{obj.FunctionOverride()}object Write_{ModuleNickname}_Internal{obj.BaseMask_GenericClause(MaskType.Error)}",
+                    $"protected{await obj.FunctionOverride()}object Write_{ModuleNickname}_Internal{obj.BaseMask_GenericClause(MaskType.Error)}",
                     wheres: obj.BaseClass == null ? obj.GenericTypes_ErrorMaskWheres : null))
                 {
                     foreach (var item in this.MainAPI.WriterAPI.MajorAPI)

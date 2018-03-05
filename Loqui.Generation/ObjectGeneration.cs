@@ -33,7 +33,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
-        public ObjectGeneration BaseClass;
+        public ClassGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
         public bool HasNewGenerics => this.HasBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
@@ -387,13 +387,13 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    GenerateLoquiGetterInterface(fg);
+                    await GenerateLoquiGetterInterface(fg);
 
-                    GenerateLoquiSetterInterface(fg);
+                    await GenerateLoquiSetterInterface(fg);
 
                     GenerateGetEqualsMaskInterfaceImplementor(fg);
 
-                    GenerateToStringCode(fg);
+                    awaitGenerateToStringCode(fg);
 
                     GenerateGetHasBeenSetMask(fg);
 
@@ -407,9 +407,10 @@ namespace Loqui.Generation
 
                     GenerateCopyFieldsFrom(fg);
 
-                    GenerateSetNthObject(fg);
+                    await GenerateSetNthObject(fg);
 
-                    GenerateClear(fg, true);
+
+                    await GenerateClear(fg, true);
 
                     GenerateGenericCreate(fg);
                 }
@@ -637,7 +638,7 @@ namespace Loqui.Generation
 
                     GenerateGetNthObject(fg);
 
-                    GenerateClear(fg, false);
+                    await GenerateClear(fg, false);
 
                     GenerateGetEqualsMask(fg);
 
@@ -1057,13 +1058,13 @@ namespace Loqui.Generation
 
         protected abstract void GenerateClassLine(FileGeneration fg);
 
-        public void GenerateLoquiGetterInterface(FileGeneration fg)
+        public async Task GenerateLoquiGetterInterface(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Loqui Getter Interface"))
             {
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride()}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GenericTypes}(index, this);");
+                fg.AppendLine($"protected{await this.FunctionOverride()}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GenericTypes}(index, this);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);");
@@ -1072,7 +1073,7 @@ namespace Loqui.Generation
 
                 using (new LineWrapper(fg))
                 {
-                    fg.Append($"protected{this.FunctionOverride()}bool GetNthObjectHasBeenSet(ushort index) => ");
+                    fg.Append($"protected{await this.FunctionOverride()}bool GetNthObjectHasBeenSet(ushort index) => ");
                     if (this is ClassGeneration)
                     {
                         fg.Append($"{this.ExtCommonName}.GetNthObjectHasBeenSet{this.GenericTypes}(index, this);");
@@ -1088,7 +1089,7 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
+                fg.AppendLine($"protected{await this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => {this.ExtCommonName}.UnsetNthObject{this.GenericTypes}(index, this, cmds);");
                 if (this.IsTopClass)
                 {
                     fg.AppendLine($"void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);");
@@ -1097,11 +1098,11 @@ namespace Loqui.Generation
             }
         }
 
-        protected virtual void GenerateLoquiSetterInterface(FileGeneration fg)
+        protected virtual async Task GenerateLoquiSetterInterface(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Loqui Interface"))
             {
-                fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObjectHasBeenSet(ushort index, bool on)");
+                fg.AppendLine($"protected{await this.FunctionOverride()}void SetNthObjectHasBeenSet(ushort index, bool on)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{this.ExtCommonName}.SetNthObjectHasBeenSet{this.GenericTypes}(index, on, this);");
@@ -1114,15 +1115,15 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateProtocolProperty(FileGeneration fg)
+        private async Task GenerateProtocolProperty(FileGeneration fg)
         {
             fg.AppendLine($"public static ProtocolKey Loqui_ProtocolKey_Static => new ProtocolKey({ProtoGen.Protocol.Namespace});");
 
-            fg.AppendLine($"public{this.FunctionOverride()}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
+            fg.AppendLine($"public{await this.FunctionOverride()}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
 
             fg.AppendLine($"public static ObjectKey Loqui_ObjectKey_Static => new ObjectKey(protocolKey: Loqui_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
 
-            fg.AppendLine($"public{this.FunctionOverride()}ObjectKey Loqui_ObjectKey => Loqui_ObjectKey_Static;");
+            fg.AppendLine($"public{await this.FunctionOverride()}ObjectKey Loqui_ObjectKey => Loqui_ObjectKey_Static;");
         }
 
         private void GenerateGetNthObject(FileGeneration fg)
@@ -1206,13 +1207,13 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected virtual void GenerateSetNthObject(FileGeneration fg)
+        protected virtual async Task GenerateSetNthObject(FileGeneration fg)
         {
             if (this.IsTopClass)
             {
                 fg.AppendLine("void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);");
             }
-            fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)");
+            fg.AppendLine($"protected{await this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
@@ -1906,7 +1907,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateToStringCode(FileGeneration fg)
+        private async Task GenerateToStringCode(FileGeneration fg)
         {
             if (GenerateToString)
             {
@@ -1932,7 +1933,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public{this.FunctionOverride()}void ToString"))
+                        $"public{await this.FunctionOverride()}void ToString"))
                     {
                         args.Add($"FileGeneration fg");
                         args.Add($"string name = null");
@@ -1984,9 +1985,9 @@ namespace Loqui.Generation
             }
         }
 
-        protected virtual void GenerateCopy_ToObject(FileGeneration fg)
+        protected virtual async Task GenerateCopy_ToObject(FileGeneration fg)
         {
-            fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride()}object Copy_ToObject(object def = null)");
+            fg.AppendLine($"{this.ProtectedKeyword}{await this.FunctionOverride()}object Copy_ToObject(object def = null)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var ret = new {this.ObjectName}();");
@@ -2096,7 +2097,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected virtual void GenerateClear(FileGeneration fg, bool classFile)
+        protected virtual async Task GenerateClear(FileGeneration fg, bool classFile)
         {
             if (classFile)
             {
@@ -2113,7 +2114,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"public{this.FunctionOverride()}void Clear(NotifyingUnsetParameters cmds = null)");
+                fg.AppendLine($"public{await this.FunctionOverride()}void Clear(NotifyingUnsetParameters cmds = null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("CallClearPartial_Internal(cmds);");
@@ -2689,12 +2690,12 @@ namespace Loqui.Generation
             }
         }
 
-        public virtual string FunctionOverride(bool overrideIfAbstract = true)
+        public virtual async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
         {
             return " ";
         }
 
-        public IEnumerable<ObjectGeneration> BaseClassTrail()
+        public IEnumerable<ClassGeneration> BaseClassTrail()
         {
             if (!this.HasBaseObject) yield break;
             yield return this.BaseClass;
