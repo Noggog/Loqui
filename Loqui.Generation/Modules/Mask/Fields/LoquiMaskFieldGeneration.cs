@@ -158,7 +158,7 @@ namespace Loqui.Generation
         public override string GetMaskString(TypeGeneration field, string valueStr)
         {
             var loqui = field as LoquiType;
-            return $"MaskItem<{valueStr}, {loqui.TargetObjectGeneration?.GetMaskString(valueStr)}>"?? "object";
+            return $"MaskItem<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}>";
         }
     }
 }
