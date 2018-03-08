@@ -155,7 +155,8 @@ namespace Loqui.Generation
                     {
                         try
                         {
-                            await TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load);
+                            await TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load)
+                                .TimeoutButContinue(4000, () => System.Console.WriteLine($"{obj.Name} loading taking a long time."));
                         }
                         catch (Exception ex)
                         {

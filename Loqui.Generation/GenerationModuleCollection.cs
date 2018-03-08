@@ -10,8 +10,14 @@ namespace Loqui.Generation
     public class GenerationModuleCollection : IGenerationModule
     {
         private List<IGenerationModule> subModules = new List<IGenerationModule>();
-
         public string RegionString => null;
+        public string Name => "Generation Submodules";
+        public int? TimeoutMS;
+
+        public GenerationModuleCollection(int? timeoutMS = 4000)
+        {
+            this.TimeoutMS = timeoutMS;
+        }
 
         public M Add<M>(M module)
             where M : IGenerationModule
@@ -28,7 +34,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInVoid(obj, fg);
+                            await subGen.GenerateInVoid(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS, 
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} generate in void taking a long time."));
                         }
                     }));
         }
@@ -37,7 +46,13 @@ namespace Loqui.Generation
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.MiscellaneousGenerationActions(obj)));
+                    (subGen) =>
+                    {
+                        return subGen.MiscellaneousGenerationActions(obj)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} misc actions taking a long time."));
+                    }));
         }
 
         public Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
@@ -48,7 +63,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInClass(obj, fg);
+                            await subGen.GenerateInClass(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen in class taking a long time."));
                         }
                     }));
         }
@@ -61,7 +79,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInCommonExt(obj, fg);
+                            await subGen.GenerateInCommonExt(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
                         }
                     }));
         }
@@ -74,7 +95,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInCtor(obj, fg);
+                            await subGen.GenerateInCtor(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen ctor taking a long time."));
                         }
                     }));
         }
@@ -87,7 +111,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInInterfaceGetter(obj, fg);
+                            await subGen.GenerateInInterfaceGetter(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen interface getter taking a long time."));
                         }
                     }));
         }
@@ -100,7 +127,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInRegistration(obj, fg);
+                            await subGen.GenerateInRegistration(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen in registration taking a long time."));
                         }
                     }));
         }
@@ -113,7 +143,10 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInStaticCtor(obj, fg);
+                            await subGen.GenerateInStaticCtor(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} static ctor taking a long time."));
                         }
                     }));
         }
@@ -137,28 +170,52 @@ namespace Loqui.Generation
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.Modify(gen)));
+                    (subGen) =>
+                    {
+                        return subGen.Modify(gen)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} modify taking a long time."));
+                    }));
         }
 
         public Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node)
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.PostFieldLoad(obj, field, node)));
+                    (subGen) =>
+                    {
+                        return subGen.PostFieldLoad(obj, field, node)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name}.{field.Name} post field load taking a long time."));
+                    }));
         }
 
         public Task PostLoad(ObjectGeneration obj)
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.PostLoad(obj)));
+                    (subGen) =>
+                    {
+                        return subGen.PostLoad(obj)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} post load taking a long time."));
+                    }));
         }
 
         public Task PreLoad(ObjectGeneration obj)
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.PreLoad(obj)));
+                    (subGen) =>
+                    {
+                        return subGen.PreLoad(obj)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} pre load taking a long time."));
+                    }));
         }
 
         public IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
@@ -170,14 +227,26 @@ namespace Loqui.Generation
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.Resolve(obj)));
+                    (subGen) =>
+                    {
+                        return subGen.Resolve(obj)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} resolve taking a long time."));
+                    }));
         }
 
         public Task FinalizeGeneration(ProtocolGeneration proto)
         {
             return Task.WhenAll(
                 this.subModules.Select(
-                    (subGen) => subGen.FinalizeGeneration(proto)));
+                    (subGen) =>
+                    {
+                        return subGen.FinalizeGeneration(proto)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} finalize taking a long time."));
+                    }));
         }
     }
 }
