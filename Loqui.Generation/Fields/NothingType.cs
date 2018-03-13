@@ -50,11 +50,11 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
         }
 
@@ -78,7 +78,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
         }
 

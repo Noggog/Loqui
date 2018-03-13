@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>5add6b2bf15cd7ef6a220130ffe0dc72b39555ba</Sha>
+         <Sha>bb99556a8490796beb48fab62e3ad75fcf99746e</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-26-2018 07:48:32</CommitDate>
-         <Description>NotifyingSetItem parameter name tweaks</Description>
+         <CommitDate>03-08-2018 16:40:45</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/master' into Laptop</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

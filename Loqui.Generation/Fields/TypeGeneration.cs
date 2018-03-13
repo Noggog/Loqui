@@ -158,11 +158,11 @@ namespace Loqui.Generation
             fg.AppendLine($"return typeof({this.TypeName});");
         }
 
-        public abstract void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor);
+        public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);
 
-        public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor);
+        public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
 
-        public abstract void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor);
+        public abstract void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor);
 
         public virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
         {

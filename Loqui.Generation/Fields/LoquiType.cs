@@ -958,30 +958,30 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
-            fg.AppendLine($"{accessor}?.ToString({fgAccessor}, \"{name}\");");
+            fg.AppendLine($"{accessor.DirectAccess}?.ToString({fgAccessor}, \"{name}\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
             if (!this.HasBeenSet) return;
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyOrDirectAccess}.HasBeenSet) return false;");
             if (this.TargetObjectGeneration != null)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}.Specific != null && ({accessor}.Item == null || !{accessor}.Item.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}.Specific != null && ({accessor.DirectAccess} == null || !{accessor.DirectAccess}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
             }
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             if (this.TargetObjectGeneration == null)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor.PropertyAccess}.HasBeenSet" : "true")}, null);");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({(this.Bare ? accessor : $"{accessor}.Item")}));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor.PropertyAccess}.HasBeenSet" : "true")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({accessor.DirectAccess}));");
             }
         }
 

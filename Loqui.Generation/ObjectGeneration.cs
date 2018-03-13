@@ -700,7 +700,7 @@ namespace Loqui.Generation
                         }
                         using (new BraceWrapper(fg, doIt: field.IntegrateField))
                         {
-                            field.GenerateToString(fg, field.Name, $"item.{field.Name}", "fg");
+                            field.GenerateToString(fg, field.Name, new Accessor(field, "item."), "fg");
                         }
                     }
                 }
@@ -723,7 +723,7 @@ namespace Loqui.Generation
                 foreach (var field in this.IterateFieldIndices())
                 {
                     if (field.Field.Bare) continue;
-                    field.Field.GenerateForHasBeenSetCheck(fg, $"item.{field.Field.Property}", $"checkMask.{field.Field.Name}");
+                    field.Field.GenerateForHasBeenSetCheck(fg, new Accessor(field.Field, "item."), $"checkMask.{field.Field.Name}");
                 }
                 fg.AppendLine("return true;");
             }
@@ -743,7 +743,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 foreach (var field in this.IterateFieldIndices())
                 {
-                    field.Field.GenerateForHasBeenSetMaskGetter(fg, $"item.{field.Field.PropertyOrName}", $"ret.{field.Field.Name}");
+                    field.Field.GenerateForHasBeenSetMaskGetter(fg, new Accessor(field.Field, "item."), $"ret.{field.Field.Name}");
                 }
                 fg.AppendLine("return ret;");
             }

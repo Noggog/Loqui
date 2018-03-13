@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("_ByteArray = NotifyingItem.Factory<Byte[]>("))
+            if (str.Contains("ions = new MaskItem<bool, IEnumerable<bool>>(.HasBeenSet, null);"))
             {
                 int wer = 23;
                 wer++;

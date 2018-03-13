@@ -423,22 +423,22 @@ namespace Loqui.Generation
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
             fg.AppendLine($"using (new DepthWrapper(fg))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor})");
+                fg.AppendLine($"foreach (var subItem in {accessor.DirectAccess})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
                     fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
                     using (new BraceWrapper(fg))
                     {
-                        this.KeyTypeGen.GenerateToString(fg, "Key", "subItem.Key", fgAccessor);
-                        this.ValueTypeGen.GenerateToString(fg, "Value", "subItem.Value", fgAccessor);
+                        this.KeyTypeGen.GenerateToString(fg, "Key", new Accessor("subItem.Key"), fgAccessor);
+                        this.ValueTypeGen.GenerateToString(fg, "Value", new Accessor("subItem.Value"), fgAccessor);
                     }
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
                 }
@@ -446,16 +446,16 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyAccess}.HasBeenSet) return false;");
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>({accessor}.HasBeenSet, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>>({accessor.PropertyAccess}.HasBeenSet, null);");
                 return;
             }
             LoquiType keyLoqui = this.KeyTypeGen as LoquiType;
