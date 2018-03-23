@@ -9,41 +9,54 @@ namespace Loqui.Generation
 {
     public class MethodAPI
     {
-        public string[] MajorAPI { get; private set; }
+        public APILine[] MajorAPI { get; private set; }
         public CustomMethodAPI[] CustomAPI { get; private set; }
-        public string[] OptionalAPI { get; private set; }
+        public APILine[] OptionalAPI { get; private set; }
 
         public MethodAPI(
-            string[] majorAPI,
+            APILine[] majorAPI,
             CustomMethodAPI[] customAPI,
-            string[] optionalAPI)
+            APILine[] optionalAPI)
         {
-            this.MajorAPI = majorAPI ?? new string[] { };
+            this.MajorAPI = majorAPI ?? new APILine[] { };
             this.CustomAPI = customAPI ?? new CustomMethodAPI[] { };
-            this.OptionalAPI = optionalAPI ?? new string[] { };
+            this.OptionalAPI = optionalAPI ?? new APILine[] { };
         }
 
         public MethodAPI(
-            params string[] api)
+            params APILine[] api)
         {
             this.MajorAPI = api;
             this.CustomAPI = new CustomMethodAPI[] { };
-            this.OptionalAPI = new string[] { };
+            this.OptionalAPI = new APILine[] { };
         }
         
-        public IEnumerable<(string API, bool Public)> IterateAPI()
+        public IEnumerable<(string API, bool Public)> IterateAPI(ObjectGeneration obj, params string[] customLines)
         {
             foreach (var item in this.MajorAPI)
             {
-                yield return (item, true);
+                if (item.TryResolve(obj, out var line))
+                {
+                    yield return (line, true);
+                }
             }
             foreach (var item in this.CustomAPI)
             {
-                yield return (item.API, item.Public);
+                if (item.API.TryResolve(obj, out var line))
+                {
+                    yield return (line, item.Public);
+                }
+            }
+            foreach (var item in customLines)
+            {
+                yield return (item, true);
             }
             foreach (var item in this.OptionalAPI)
             {
-                yield return (item, true);
+                if (item.TryResolve(obj, out var line))
+                {
+                    yield return (line, true);
+                }
             }
         }
     }

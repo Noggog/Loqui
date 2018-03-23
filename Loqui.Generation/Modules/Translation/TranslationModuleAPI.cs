@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,17 @@ namespace Loqui.Generation
     public class TranslationModuleAPI
     {
         public MethodAPI WriterAPI { get; private set; }
-        private string[] WriterMemberNames => WriterAPI.IterateAPI().Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] WriterPassArgs => WrapAccessors(WriterMemberNames, WriterMemberNames).ToArray();
-        public string[] WriterInternalMemberNames => WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] WriterInternalFallbackArgs => WrapAccessors(WriterInternalMemberNames, WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
-        public string[] WriterInternalPassArgs => WrapAccessors(WriterInternalMemberNames, WriterInternalMemberNames).ToArray();
+        public string[] WriterMemberNames(ObjectGeneration obj) => WriterAPI.IterateAPI(obj).Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
+        public string[] WriterPassArgs (ObjectGeneration obj) => WrapAccessors(WriterMemberNames(obj), WriterMemberNames(obj)).ToArray();
+        public string[] WriterInternalMemberNames (ObjectGeneration obj) => WriterAPI.CustomAPI.Where((a) => !a.Public).SelectWhere((r) => GetParameterName(r.API.Resolver(obj))).ToArray();
+        public string[] WriterInternalFallbackArgs (ObjectGeneration obj) => WrapAccessors(WriterInternalMemberNames(obj), WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
+        public string[] WriterInternalPassArgs(ObjectGeneration obj) => WrapAccessors(WriterInternalMemberNames(obj), WriterInternalMemberNames(obj)).ToArray();
         public MethodAPI ReaderAPI { get; private set; }
-        private string[] ReaderMemberNames => ReaderAPI.IterateAPI().Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] ReaderPassArgs => WrapAccessors(ReaderMemberNames, ReaderMemberNames).ToArray();
-        public string[] ReaderInternalMemberNames => ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] ReaderInternalFallbackArgs => WrapAccessors(ReaderInternalMemberNames, ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
-        public string[] ReaderInternalPassArgs => WrapAccessors(ReaderInternalMemberNames, ReaderInternalMemberNames).ToArray();
+        public string[] ReaderMemberNames (ObjectGeneration obj) => ReaderAPI.IterateAPI(obj).Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
+        public string[] ReaderPassArgs (ObjectGeneration obj) => WrapAccessors(ReaderMemberNames(obj), ReaderMemberNames(obj)).ToArray();
+        public string[] ReaderInternalMemberNames (ObjectGeneration obj) => ReaderAPI.CustomAPI.Where((a) => !a.Public).SelectWhere((r) => GetParameterName(r.API.Resolver(obj))).ToArray();
+        public string[] ReaderInternalFallbackArgs (ObjectGeneration obj) => WrapAccessors(ReaderInternalMemberNames(obj), ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
+        public string[] ReaderInternalPassArgs (ObjectGeneration obj) => WrapAccessors(ReaderInternalMemberNames(obj), ReaderInternalMemberNames(obj)).ToArray();
         public TranslationFunnel Funnel;
 
         public TranslationModuleAPI(MethodAPI api)
@@ -37,6 +38,12 @@ namespace Loqui.Generation
         {
             this.WriterAPI = writerAPI;
             this.ReaderAPI = readerAPI;
+        }
+
+        private TryGet<string> GetParameterName(TryGet<string> api)
+        {
+            if (api.Failed) return api;
+            return TryGet<string>.Succeed(GetParameterName(api.Value));
         }
 
         private string GetParameterName(string api)
@@ -60,17 +67,17 @@ namespace Loqui.Generation
             }
         }
 
-        public IEnumerable<string> WrapReaderAccessors(string[] accessors)
+        public IEnumerable<string> WrapReaderAccessors(ObjectGeneration obj, string[] accessors)
         {
             return WrapAccessors(
-                this.ReaderMemberNames,
+                this.ReaderMemberNames(obj),
                 accessors);
         }
 
-        public IEnumerable<string> WrapWriterAccessors(string[] accessors)
+        public IEnumerable<string> WrapWriterAccessors(ObjectGeneration obj, string[] accessors)
         {
             return WrapAccessors(
-                this.WriterMemberNames,
+                this.WriterMemberNames(obj),
                 accessors);
         }
     }
@@ -78,13 +85,13 @@ namespace Loqui.Generation
     public class TranslationFunnel
     {
         public TranslationModuleAPI FunneledTo { get; private set; }
-        public Action<FileGeneration, InternalTranslation> OutConverter { get; private set; }
-        public Action<FileGeneration, InternalTranslation> InConverter { get; private set; }
+        public Action<ObjectGeneration, FileGeneration, InternalTranslation> OutConverter { get; private set; }
+        public Action<ObjectGeneration, FileGeneration, InternalTranslation> InConverter { get; private set; }
 
         public TranslationFunnel(
             TranslationModuleAPI funnelTo,
-            Action<FileGeneration, InternalTranslation> outConverter,
-            Action<FileGeneration, InternalTranslation> inConverter)
+            Action<ObjectGeneration, FileGeneration, InternalTranslation> outConverter,
+            Action<ObjectGeneration, FileGeneration, InternalTranslation> inConverter)
         {
             this.FunneledTo = funnelTo;
             this.OutConverter = outConverter;

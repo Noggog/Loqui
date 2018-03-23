@@ -98,16 +98,16 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
-                    majorAPI: new string[] { "XmlWriter writer" },
+                    majorAPI: new APILine[] { "XmlWriter writer" },
                     customAPI: null,
-                    optionalAPI: new string[] { "string name = null" }),
+                    optionalAPI: new APILine[] { "string name = null" }),
                 readerAPI: new MethodAPI("XElement root"));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        majorAPI: new string[] { "string path" },
+                        majorAPI: new APILine[] { "string path" },
                         customAPI: null,
-                        optionalAPI: new string[] { "string name = null" }),
+                        optionalAPI: new APILine[] { "string name = null" }),
                     readerAPI: new MethodAPI("string path"))
                 {
                     Funnel = new TranslationFunnel(
@@ -118,9 +118,9 @@ namespace Loqui.Generation
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        majorAPI: new string[] { "Stream stream" },
+                        majorAPI: new APILine[] { "Stream stream" },
                         customAPI: null,
-                        optionalAPI: new string[] { "string name = null" }),
+                        optionalAPI: new APILine[] { "string name = null" }),
                     readerAPI: new MethodAPI("Stream stream"))
                 {
                     Funnel = new TranslationFunnel(
@@ -152,7 +152,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void ConvertFromStreamOut(FileGeneration fg, InternalTranslation internalToDo)
+        private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
             using (new BraceWrapper(fg))
@@ -163,13 +163,13 @@ namespace Loqui.Generation
             }
         }
 
-        private void ConvertFromStreamIn(FileGeneration fg, InternalTranslation internalToDo)
+        private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var root = XDocument.Load(stream).Root;");
             internalToDo("root");
         }
 
-        private void ConvertFromPathOut(FileGeneration fg, InternalTranslation internalToDo)
+        private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
             using (new BraceWrapper(fg))
@@ -180,7 +180,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void ConvertFromPathIn(FileGeneration fg, InternalTranslation internalToDo)
+        private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var root = XDocument.Load(path).Root;");
             internalToDo("root");
@@ -419,7 +419,7 @@ namespace Loqui.Generation
                 $"LoquiXmlTranslation<{obj.ObjectName}, {(usingErrorMask ? obj.Mask(MaskType.Error) : obj.Mask_GenericAssumed(MaskType.Error))}>.Instance.CopyIn"))
             using (new DepthWrapper(fg))
             {
-                foreach (var item in this.MainAPI.ReaderPassArgs)
+                foreach (var item in this.MainAPI.ReaderPassArgs(obj))
                 {
                     args.Add(item);
                 }
