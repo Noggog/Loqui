@@ -202,21 +202,21 @@ namespace Loqui.Generation
             fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
             fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
             fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor})");
+                fg.AppendLine($"foreach (var subItem in {accessor.DirectAccess})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
                     fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
                     using (new BraceWrapper(fg))
                     {
-                        this.SubTypeGeneration.GenerateToString(fg, "Item", "subItem", fgAccessor);
+                        this.SubTypeGeneration.GenerateToString(fg, "Item", new Accessor("subItem"), fgAccessor);
                     }
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
                 }
@@ -224,20 +224,20 @@ namespace Loqui.Generation
             fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor}.HasBeenSet, {accessor}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<bool>>({accessor}.HasBeenSet, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<bool>>({accessor.PropertyOrDirectAccess}.HasBeenSet, null);");
             }
         }
 

@@ -28,14 +28,17 @@ namespace Loqui.Generation
 
         public void Add(params string[] lines)
         {
-            args.Add(lines);
+            foreach (var line in lines)
+            {
+                args.Add(new string[] { line });
+            }
         }
 
         public void Add(Action<FileGeneration> generator)
         {
             var gen = new FileGeneration();
             generator(gen);
-            Add(gen.Strings.ToArray());
+            args.Add(gen.Strings.ToArray());
         }
 
         public void Dispose()

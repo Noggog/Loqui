@@ -299,21 +299,21 @@ namespace Loqui.Generation
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
             fg.AppendLine($"using (new DepthWrapper(fg))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor}.Values)");
+                fg.AppendLine($"foreach (var subItem in {accessor.PropertyOrDirectAccess}.Values)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
                     fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
                     using (new BraceWrapper(fg))
                     {
-                        this.ValueTypeGen.GenerateToString(fg, "Item", "subItem", fgAccessor);
+                        this.ValueTypeGen.GenerateToString(fg, "Item", new Accessor("subItem"), fgAccessor);
                     }
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
                 }
@@ -321,15 +321,15 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
+            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyOrDirectAccess}.HasBeenSet) return false;");
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor}.HasBeenSet, {accessor}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()

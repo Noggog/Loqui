@@ -78,7 +78,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => this._{ this.Name}.Item;");
+                        fg.AppendLine($"get => this._{this.Name}.Item;");
                         fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
                     }
                     if (!this.ReadOnly)
@@ -471,27 +471,27 @@ namespace Loqui.Generation
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor}}}\");");
+            fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor.DirectAccess}}}\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor}.HasBeenSet) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {accessor.PropertyAccess}.HasBeenSet) return false;");
             }
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{retAccessor} = {accessor}.HasBeenSet;");
+                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.HasBeenSet;");
             }
             else
             {

@@ -147,17 +147,17 @@ namespace Loqui.Generation
             subGenerator.GenerateForHash(fg, hashResultAccessor);
         }
 
-        public override void GenerateToString(FileGeneration fg, string name, string accessor, string fgAccessor)
+        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, string accessor, string checkMaskAccessor)
+        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
             subGenerator.GenerateForHasBeenSetCheck(fg, accessor, checkMaskAccessor);
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, string accessor, string retAccessor)
+        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             subGenerator.GenerateForHasBeenSetMaskGetter(fg, accessor, retAccessor);
         }

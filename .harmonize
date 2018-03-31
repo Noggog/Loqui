@@ -1,12 +1,3 @@
 <HarmonizeConfig Version="1">
-   <ParentRepos>
-      <RepoListing>
-         <Nickname>CSharpExt</Nickname>
-         <Sha>a2726c9294f384bee6f69e34b98ad5b6a48ad480</Sha>
-         <Path>../CSharpExt</Path>
-         <CommitDate>03-07-2018 18:25:44</CommitDate>
-         <Description>TaskExt.TimeoutButContinue</Description>
-         <Author>Justin Swanson</Author>
-      </RepoListing>
-   </ParentRepos>
+   <ParentRepos />
 </HarmonizeConfig>
