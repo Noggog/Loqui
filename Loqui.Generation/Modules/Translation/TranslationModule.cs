@@ -301,7 +301,7 @@ namespace Loqui.Generation
                         using (var args = new ArgsWrapper(fg,
                             $"return Create_{ModuleNickname}{obj.BaseMask_GenericClausesAssumed(MaskType.Error)}"))
                         {
-                            args.Add(this.MainAPI.ReaderPassArgs);
+                            args.Add(this.MainAPI.ReaderPassArgs(obj));
                             args.Add("doMasks: false");
                             args.Add("errorMask: out var errorMask");
                         }
@@ -394,7 +394,7 @@ namespace Loqui.Generation
                         using (var args = new FunctionWrapper(fg,
                             $"public static {obj.ObjectName} Create_{ModuleNickname}"))
                         {
-                            foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI())
+                            foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
                             {
                                 if (Public)
                                 {
@@ -404,13 +404,13 @@ namespace Loqui.Generation
                         }
                         using (new BraceWrapper(fg))
                         {
-                            minorAPI.Funnel.InConverter(fg, (accessor) =>
+                            minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
                                     $"return Create_{ModuleNickname}"))
                                 using (new DepthWrapper(fg))
                                 {
-                                    foreach (var item in this.MainAPI.WrapReaderAccessors(accessor))
+                                    foreach (var item in this.MainAPI.WrapReaderAccessors(obj, accessor))
                                     {
                                         args.Add(item);
                                     }
