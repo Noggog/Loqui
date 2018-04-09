@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public abstract class TranslationModule<G> : GenerationModule
+    public abstract class TranslationModule : GenerationModule
     {
         public LoquiGenerator Gen;
-        protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
         public abstract string ModuleNickname { get; }
         public override string RegionString => $"{ModuleNickname} Translation";
         public abstract string Namespace { get; }
@@ -17,46 +16,11 @@ namespace Loqui.Generation
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
         public bool ExportWithIGetter = true;
+        public bool ShouldGenerateCopyIn = true;
 
         public TranslationModule(LoquiGenerator gen)
         {
             this.Gen = gen;
-        }
-        
-        public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
-            where T : TypeGeneration
-        {
-            if (overrideExisting)
-            {
-                this._typeGenerations[typeof(T)] = transl;
-            }
-            else
-            {
-                this._typeGenerations.Add(typeof(T), transl);
-            }
-        }
-
-        public bool TryGetTypeGeneration(Type t, out G gen)
-        {
-            if (!this._typeGenerations.TryGetValue(t, out gen))
-            {
-                foreach (var kv in _typeGenerations.ToList())
-                {
-                    if (t.InheritsFrom(kv.Key))
-                    {
-                        _typeGenerations[t] = kv.Value;
-                        gen = kv.Value;
-                        return true;
-                    }
-                }
-                return false;
-            }
-            return true;
-        }
-
-        public G GetTypeGeneration(Type t)
-        {
-            return this._typeGenerations[t];
         }
 
         public override IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
@@ -97,11 +61,18 @@ namespace Loqui.Generation
 
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
+            if (this.MainAPI == null)
+            {
+                throw new ArgumentException("Main API need to be set.");
+            }
             if (!obj.Abstract)
             {
                 GenerateCreate(obj, fg);
             }
-            //await GenerateCopyIn(obj, fg);
+            if (ShouldGenerateCopyIn)
+            {
+                await GenerateCopyIn(obj, fg);
+            }
             await GenerateWrite(obj, fg);
         }
 
@@ -901,6 +872,52 @@ namespace Loqui.Generation
                     }
                 }
             }
+        }
+    }
+
+    public abstract class TranslationModule<G> : TranslationModule
+    {
+        protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
+
+        public TranslationModule(LoquiGenerator gen)
+            : base(gen)
+        {
+        }
+
+        public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
+            where T : TypeGeneration
+        {
+            if (overrideExisting)
+            {
+                this._typeGenerations[typeof(T)] = transl;
+            }
+            else
+            {
+                this._typeGenerations.Add(typeof(T), transl);
+            }
+        }
+
+        public bool TryGetTypeGeneration(Type t, out G gen)
+        {
+            if (!this._typeGenerations.TryGetValue(t, out gen))
+            {
+                foreach (var kv in _typeGenerations.ToList())
+                {
+                    if (t.InheritsFrom(kv.Key))
+                    {
+                        _typeGenerations[t] = kv.Value;
+                        gen = kv.Value;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public G GetTypeGeneration(Type t)
+        {
+            return this._typeGenerations[t];
         }
     }
 }
