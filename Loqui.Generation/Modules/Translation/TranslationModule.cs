@@ -278,39 +278,12 @@ namespace Loqui.Generation
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
-                        $"out {obj.Mask(MaskType.Error)} errorMask"))
+                        $"out {obj.Mask(MaskType.Error)} errorMask",
+                        $"bool doMasks = true"))
                     {
                         if (Public)
                         {
                             args.Add(API);
-                        }
-                    }
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"return Create_{ModuleNickname}"))
-                    {
-                        args.Add(this.MainAPI.ReaderPassArgs(obj));
-                        args.Add("doMasks: true");
-                        args.Add("errorMask: out errorMask");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine("[DebuggerStepThrough]");
-                using (var args = new FunctionWrapper(fg,
-                    $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                    wheres: obj.GenericTypes_ErrorMaskWheres))
-                {
-                    foreach (var item in this.MainAPI.ReaderAPI.IterateAPI(
-                        obj,
-                        "bool doMasks",
-                        $"out {obj.Mask(MaskType.Error)} errorMask"))
-                    {
-                        if (item.Public)
-                        {
-                            args.Add(item.API);
                         }
                     }
                 }
@@ -558,6 +531,7 @@ namespace Loqui.Generation
                         }
                     }
                     args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
+                    args.Add($"bool doMasks = true");
                     foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -569,7 +543,8 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"errorMask = ({obj.Mask(MaskType.Error)})this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
+                        $"errorMask = this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}",
+                        suffixLine: $" as {obj.Mask(MaskType.Error)}"))
                     {
                         foreach (var item in this.MainAPI.WriterPassArgs(obj))
                         {
@@ -579,7 +554,7 @@ namespace Loqui.Generation
                         {
                             args.Add(item);
                         }
-                        args.Add($"doMasks: true");
+                        args.Add($"doMasks: doMasks");
                     }
                 }
                 fg.AppendLine();
@@ -591,7 +566,8 @@ namespace Loqui.Generation
                         wheres: obj.GenericTypes_ErrorMaskWheres))
                     {
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(obj,
-                            $"out {obj.Mask(MaskType.Error)} errorMask"))
+                            $"out {obj.Mask(MaskType.Error)} errorMask",
+                            "bool doMasks = true"))
                         {
                             if (!item.Public) continue;
                             args.Add(item.API);
@@ -610,6 +586,7 @@ namespace Loqui.Generation
                                     args.Add(item);
                                 }
                                 args.Add($"errorMask: out errorMask");
+                                args.Add("doMasks: doMasks");
                             }
                         });
                     }
@@ -775,6 +752,7 @@ namespace Loqui.Generation
                                         }
                                     }
                                     args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
+                                    args.Add($"bool doMasks = true");
                                     foreach (var item in api.WriterAPI.OptionalAPI)
                                     {
                                         if (item.TryResolve(obj, out var line))
@@ -793,6 +771,7 @@ namespace Loqui.Generation
                                             args.Add(item);
                                         }
                                         args.Add($"errorMask: out {obj.Mask_GenericAssumed(MaskType.Error, onlyAssumeSubclass: true)} errMask");
+                                        args.Add("doMasks: doMasks");
                                     }
                                     fg.AppendLine("errorMask = errMask;");
                                 }
