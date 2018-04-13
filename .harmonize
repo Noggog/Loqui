@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>cb1f510373f227d57fab5c95051961ca6fa0ca2f</Sha>
+         <Sha>d4ea67912da528dcce91fadcbd12e3556d6fb835</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-06-2018 16:39:33</CommitDate>
-         <Description>Removed redundant UInt8Ext</Description>
+         <CommitDate>04-13-2018 16:41:15</CommitDate>
+         <Description>ByteExt.EqualsFast reimplemented.  Old implementation renamed CharBytesEqualsFast</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

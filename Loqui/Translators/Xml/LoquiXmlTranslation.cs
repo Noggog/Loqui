@@ -5,6 +5,7 @@ using Noggog.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -150,17 +151,25 @@ namespace Loqui.Xml
 
         public static WRITE_FUNC GetWriteFunc()
         {
-            var f = DelegateBuilder.BuildDelegate<Func<XmlWriter, T, string, bool, M>>(
-                typeof(T).GetMethods()
-                .Where((methodInfo) => methodInfo.Name.Equals("Write_XML"))
-                .Where((methodInfo) => methodInfo.IsStatic
-                    && methodInfo.IsPublic)
-                .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(M)))
-                .First());
-            return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+            var method = typeof(T).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where((methodInfo) => methodInfo.Name.Equals("Write_XML_Internal"))
+                .First();
+            if (!method.IsGenericMethod)
             {
-                errorMask = f(writer, item, name, doMasks);
-            };
+                var f = DelegateBuilder.BuildDelegate<Func<T, XmlWriter, bool, string, object>>(method);
+                return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+                {
+                    errorMask = (M)f(item, writer, doMasks, name);
+                };
+            }
+            else
+            {
+                var f = DelegateBuilder.BuildGenericDelegate<Func<T, XmlWriter, bool, string, object>>(typeof(T), new Type[] { typeof(M).GenericTypeArguments[0] }, method);
+                return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+                {
+                    errorMask = (M)f(item, writer, doMasks, name);
+                };
+            }
         }
 
         public TryGet<T> Parse(XElement root, bool doMasks, out MaskItem<Exception, M> errorMask)
@@ -302,7 +311,7 @@ namespace Loqui.Xml
             this.Write(
                 writer: writer,
                 name: name,
-                item: item,
+                item: item.Item,
                 fieldIndex: fieldIndex,
                 errorMask: errorMask);
         }
