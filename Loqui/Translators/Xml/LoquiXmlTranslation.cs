@@ -159,6 +159,10 @@ namespace Loqui.Xml
                 var f = DelegateBuilder.BuildDelegate<Func<T, XmlWriter, bool, string, object>>(method);
                 return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
                 {
+                    if (item == null)
+                    {
+                        throw new NullReferenceException("Cannot write XML for a null item.");
+                    }
                     errorMask = (M)f(item, writer, doMasks, name);
                 };
             }
@@ -167,6 +171,10 @@ namespace Loqui.Xml
                 var f = DelegateBuilder.BuildGenericDelegate<Func<T, XmlWriter, bool, string, object>>(typeof(T), new Type[] { typeof(M).GenericTypeArguments[0] }, method);
                 return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
                 {
+                    if (item == null)
+                    {
+                        throw new NullReferenceException("Cannot write XML for a null item.");
+                    }
                     errorMask = (M)f(item, writer, doMasks, name);
                 };
             }
@@ -268,15 +276,11 @@ namespace Loqui.Xml
             where Mask : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                item.Item,
-                errorMask != null,
-                out M subMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+                writer: writer,
+                name: name,
+                item: item.Item,
+                fieldIndex: fieldIndex,
+                errorMask: errorMask);
         }
 
         public void Write<Mask>(
