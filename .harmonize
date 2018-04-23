@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>d4ea67912da528dcce91fadcbd12e3556d6fb835</Sha>
+         <Sha>eb5eead7a38cc3a0213536175c821637ed3e66aa</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-13-2018 16:41:15</CommitDate>
-         <Description>ByteExt.EqualsFast reimplemented.  Old implementation renamed CharBytesEqualsFast</Description>
+         <CommitDate>04-23-2018 16:26:39</CommitDate>
+         <Description>EnumExt.IsFlagsEnum</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

@@ -87,5 +87,10 @@ namespace Loqui
             if (Errors.Length > 0) return true;
             return false;
         }
+
+        public object GetNthMask(int index)
+        {
+            return Errors[index];
+        }
     }
 }
