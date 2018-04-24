@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class P2IntType : PrimitiveType
+    public class P2Int16Type : PrimitiveType
     {
-        public override Type Type => typeof(P2Int);
+        public override Type Type => typeof(P2Int16);
 
         protected override string GenerateDefaultValue() => $"new {TypeName}({DefaultValue})";
     }

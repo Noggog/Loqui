@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("protected INotifyingItem<DateTime> _SunriseBegin = NotifyingItem.Factory<DateTime>();"))
+            if (str.Contains("if (importMask.GameSettings)"))
             {
                 int wer = 23;
                 wer++;

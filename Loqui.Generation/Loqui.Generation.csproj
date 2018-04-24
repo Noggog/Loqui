@@ -67,6 +67,8 @@
     <Compile Include="Fields\TypicalTypeGeneration\EnumNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2FloatNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P2FloatType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2Int16NullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2Int16Type.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3FloatNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3FloatType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3UInt16NullType.cs" />
@@ -103,8 +105,8 @@
     <Compile Include="Fields\TypicalTypeGeneration\Int8NullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\Int8Type.cs" />
     <Compile Include="Fields\UnsafeObjectType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\P2IntNullType.cs" />
-    <Compile Include="Fields\TypicalTypeGeneration\P2IntType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2Int32NullType.cs" />
+    <Compile Include="Fields\TypicalTypeGeneration\P2Int32Type.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleNullType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3DoubleType.cs" />
     <Compile Include="Fields\TypicalTypeGeneration\P3IntNullType.cs" />

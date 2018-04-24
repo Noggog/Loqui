@@ -138,12 +138,14 @@
       <xs:element name="Int16Null" type="RangedInt16" />
       <xs:element name="Int32Null" type="RangedInt32" />
       <xs:element name="Int64Null" type="RangedInt64" />
-      <xs:element name="P2Int" type="String" />
-      <xs:element name="P2IntNull" type="String" />
+      <xs:element name="P2Int32" type="String" />
+      <xs:element name="P2Int32Null" type="String" />
+      <xs:element name="P2Int16" type="String" />
+      <xs:element name="P2Int16Null" type="String" />
       <xs:element name="P2Float" type="String" />
       <xs:element name="P2FloatNull" type="String" />
-      <xs:element name="P3Int" type="String" />
-      <xs:element name="P3IntNull" type="String" />
+      <xs:element name="P3Int32" type="String" />
+      <xs:element name="P3Int32Null" type="String" />
       <xs:element name="P3UInt16" type="String" />
       <xs:element name="P3UInt16Null" type="String" />
       <xs:element name="P3Double" type="String" />
@@ -233,10 +235,12 @@
       <xs:element name="Int16Null" type="NRangedInt16" />
       <xs:element name="Int32Null" type="NRangedInt32" />
       <xs:element name="Int64Null" type="NRangedInt64" />
-      <xs:element name="P2Int" type="NString" />
-      <xs:element name="P2IntNull" type="NString" />
-      <xs:element name="P3Int" type="NString" />
-      <xs:element name="P3IntNull" type="NString" />
+      <xs:element name="P2Int32" type="NString" />
+      <xs:element name="P2Int32Null" type="NString" />
+      <xs:element name="P2Int16" type="NString" />
+      <xs:element name="P2Int16Null" type="NString" />
+      <xs:element name="P3Int32" type="NString" />
+      <xs:element name="P3Int32Null" type="NString" />
       <xs:element name="P3UInt16" type="NString" />
       <xs:element name="P3UInt16Null" type="NString" />
       <xs:element name="P2Float" type="NString" />
