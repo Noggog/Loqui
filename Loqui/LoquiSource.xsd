@@ -144,6 +144,8 @@
       <xs:element name="P2Int16Null" type="String" />
       <xs:element name="P2Float" type="String" />
       <xs:element name="P2FloatNull" type="String" />
+      <xs:element name="P3Float" type="String" />
+      <xs:element name="P3FloatNull" type="String" />
       <xs:element name="P3Int32" type="String" />
       <xs:element name="P3Int32Null" type="String" />
       <xs:element name="P3UInt16" type="String" />

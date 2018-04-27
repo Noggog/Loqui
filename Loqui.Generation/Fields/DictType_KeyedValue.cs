@@ -60,7 +60,7 @@ namespace Loqui.Generation
             if (this.ValueTypeGen.GenericDef == null)
             {
                 await this.ValueTypeGen.TargetObjectGeneration.LoadingCompleteTask.Task;
-                this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.AllFields.First((f) => f.Name.Equals(keyAccessorAttr.Value));
+                this.KeyTypeGen = this.ValueTypeGen.TargetObjectGeneration.IterateFields().First((f) => f.Name.Equals(keyAccessorAttr.Value));
                 if (this.KeyTypeGen == null)
                 {
                     throw new ArgumentException($"Dict had a key accessor attribute that didn't correspond to a field: {keyAccessorAttr.Value}");
