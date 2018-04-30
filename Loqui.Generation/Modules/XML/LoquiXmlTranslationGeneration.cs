@@ -28,7 +28,7 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.Mask(MaskType.Error)}>.Instance.Write"))
                 {
-                    args.Add($"writer: {writerAccessor}");
+                    args.Add($"node: {writerAccessor}");
                     args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
                     args.Add($"name: {nameAccessor}");
                     if (typeGen.HasIndex)

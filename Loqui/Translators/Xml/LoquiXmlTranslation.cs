@@ -23,7 +23,7 @@ namespace Loqui.Xml
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
         public delegate T CREATE_FUNC(XElement root, bool doMasks, out M errorMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
-        public delegate void WRITE_FUNC(XmlWriter writer, T item, string name, bool doMasks, out M errorMask);
+        public delegate void WRITE_FUNC(XElement node, T item, string name, bool doMasks, out M errorMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
@@ -156,26 +156,26 @@ namespace Loqui.Xml
                 .First();
             if (!method.IsGenericMethod)
             {
-                var f = DelegateBuilder.BuildDelegate<Func<T, XmlWriter, bool, string, object>>(method);
-                return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+                var f = DelegateBuilder.BuildDelegate<Func<T, XElement, bool, string, object>>(method);
+                return (XElement node, T item, string name, bool doMasks, out M errorMask) =>
                 {
                     if (item == null)
                     {
                         throw new NullReferenceException("Cannot write XML for a null item.");
                     }
-                    errorMask = (M)f(item, writer, doMasks, name);
+                    errorMask = (M)f(item, node, doMasks, name);
                 };
             }
             else
             {
-                var f = DelegateBuilder.BuildGenericDelegate<Func<T, XmlWriter, bool, string, object>>(typeof(T), new Type[] { typeof(M).GenericTypeArguments[0] }, method);
-                return (XmlWriter writer, T item, string name, bool doMasks, out M errorMask) =>
+                var f = DelegateBuilder.BuildGenericDelegate<Func<T, XElement, bool, string, object>>(typeof(T), new Type[] { typeof(M).GenericTypeArguments[0] }, method);
+                return (XElement node, T item, string name, bool doMasks, out M errorMask) =>
                 {
                     if (item == null)
                     {
                         throw new NullReferenceException("Cannot write XML for a null item.");
                     }
-                    errorMask = (M)f(item, writer, doMasks, name);
+                    errorMask = (M)f(item, node, doMasks, name);
                 };
             }
         }
@@ -248,16 +248,16 @@ namespace Loqui.Xml
             return ret;
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out M errorMask)
+        public void Write(XElement node, string name, T item, bool doMasks, out M errorMask)
         {
-            WRITE.Value(writer, item, name, doMasks, out errorMask);
+            WRITE.Value(node, item, name, doMasks, out errorMask);
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out MaskItem<Exception, M> errorMask)
+        public void Write(XElement node, string name, T item, bool doMasks, out MaskItem<Exception, M> errorMask)
         {
             try
             {
-                WRITE.Value(writer, item, name, doMasks, out var subMask);
+                WRITE.Value(node, item, name, doMasks, out var subMask);
                 errorMask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
             }
             catch (Exception ex)
@@ -268,7 +268,7 @@ namespace Loqui.Xml
         }
 
         public void Write<Mask>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
@@ -276,7 +276,7 @@ namespace Loqui.Xml
             where Mask : IErrorMask
         {
             this.Write(
-                writer: writer,
+                node: node,
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,
@@ -284,7 +284,7 @@ namespace Loqui.Xml
         }
 
         public void Write<Mask>(
-            XmlWriter writer,
+            XElement node,
             string name,
             T item,
             int fieldIndex,
@@ -292,11 +292,11 @@ namespace Loqui.Xml
             where Mask : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                item,
-                errorMask != null,
-                out M subMask);
+                node: node,
+                name: name,
+                item: item,
+                doMasks: errorMask != null,
+                errorMask: out M subMask);
             ErrorMask.HandleErrorMask(
                 errorMask,
                 fieldIndex,
@@ -304,7 +304,7 @@ namespace Loqui.Xml
         }
 
         public void Write<Mask>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
@@ -313,7 +313,7 @@ namespace Loqui.Xml
         {
             if (!item.HasBeenSet) return;
             this.Write(
-                writer: writer,
+                node: node,
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,

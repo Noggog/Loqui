@@ -17,10 +17,10 @@ namespace Loqui.Xml
             return item.ToHexString();
         }
 
-        protected override void WriteValue(XmlWriter writer, string name, byte[] item)
+        protected override void WriteValue(XElement node, string name, byte[] item)
         {
             if (item == null) return;
-            base.WriteValue(writer, name, item);
+            base.WriteValue(node, name, item);
         }
 
         protected override Byte[] ParseValue(XElement root)

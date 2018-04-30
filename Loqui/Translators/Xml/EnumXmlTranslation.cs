@@ -47,25 +47,23 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override void WriteValue(XmlWriter writer, E? item)
+        protected override void WriteValue(XElement node, E? item)
         {
             if (!IsFlagsEnum)
             {
-                base.WriteValue(writer, item);
+                base.WriteValue(node, item);
                 return;
             }
             if (!item.HasValue)
             {
-                writer.WriteAttributeString("null", "true");
+                node.SetAttributeValue("null", "true");
             }
             Enum e = item.Value as Enum;
             foreach (var eType in EnumExt<E>.Values)
             {
                 if (e.HasFlag(eType as Enum))
                 {
-                    using (new ElementWrapper(writer, eType.ToStringFast_Enum_Only()))
-                    {
-                    }
+                    node.Add(new XElement(eType.ToStringFast_Enum_Only()));
                 }
             }
         }

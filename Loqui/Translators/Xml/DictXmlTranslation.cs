@@ -111,7 +111,7 @@ namespace Loqui.Xml
                 maskObj = null;
                 return TryGet<KeyValuePair<K, V>>.Failure;
             }
-            
+
             if (keyElem.Elements().Count() != 1)
             {
                 maskObj = null;
@@ -150,7 +150,7 @@ namespace Loqui.Xml
         }
 
         public void Write(
-            XmlWriter writer,
+            XElement node,
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
             bool doMasks,
@@ -167,17 +167,17 @@ namespace Loqui.Xml
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
             }
             this.Write(
-                writer: writer,
+                node: node,
                 name: name,
                 items: items,
                 doMasks: doMasks,
                 maskObj: out maskObj,
-                keyTransl: (K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj),
-                valTransl: (V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(writer: writer, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                keyTransl: (XElement n, K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(node: n, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj),
+                valTransl: (XElement n, V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(node: n, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
         }
 
         public void Write(
-            XmlWriter writer,
+            XElement node,
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
             bool doMasks,
@@ -186,32 +186,31 @@ namespace Loqui.Xml
             XmlSubWriteDelegate<V, VMask> valTransl)
         {
             List<KeyValuePair<KMask, VMask>> maskList = null;
-            using (new ElementWrapper(writer, name))
+            var elem = new XElement(name);
+            node.Add(elem);
+            foreach (var item in items)
             {
-                foreach (var item in items)
-                {
-                    WriteSingleItem(
-                        writer,
-                        item,
-                        doMasks,
-                        out var keyErrMask,
-                        out var valErrMask,
-                        keyTransl,
-                        valTransl);
+                WriteSingleItem(
+                    node: elem,
+                    item: item,
+                    doMasks: doMasks,
+                    keymaskItem: out var keyErrMask,
+                    valmaskItem: out var valErrMask,
+                    keyTransl: keyTransl,
+                    valTransl: valTransl);
 
-                    if (!doMasks) continue;
-                    if (keyErrMask != null
-                        || valErrMask != null)
+                if (!doMasks) continue;
+                if (keyErrMask != null
+                    || valErrMask != null)
+                {
+                    if (maskList == null)
                     {
-                        if (maskList == null)
-                        {
-                            maskList = new List<KeyValuePair<KMask, VMask>>();
-                        }
-                        maskList.Add(
-                            new KeyValuePair<KMask, VMask>(
-                                keyErrMask,
-                                valErrMask));
+                        maskList = new List<KeyValuePair<KMask, VMask>>();
                     }
+                    maskList.Add(
+                        new KeyValuePair<KMask, VMask>(
+                            keyErrMask,
+                            valErrMask));
                 }
             }
             if (maskList != null)
@@ -225,7 +224,7 @@ namespace Loqui.Xml
         }
 
         public void WriteSingleItem(
-            XmlWriter writer,
+            XElement node,
             KeyValuePair<K, V> item,
             bool doMasks,
             out KMask keymaskItem,
@@ -233,21 +232,18 @@ namespace Loqui.Xml
             XmlSubWriteDelegate<K, KMask> keyTransl,
             XmlSubWriteDelegate<V, VMask> valTransl)
         {
-            using (new ElementWrapper(writer, "Item"))
-            {
-                using (new ElementWrapper(writer, "Key"))
-                {
-                    keyTransl(item.Key, doMasks, out keymaskItem);
-                }
-                using (new ElementWrapper(writer, "Value"))
-                {
-                    valTransl(item.Value, doMasks, out valmaskItem);
-                }
-            }
+            var itemElem = new XElement("Item");
+            node.Add(itemElem);
+            var keyElem = new XElement("Key");
+            itemElem.Add(keyElem);
+            keyTransl(keyElem, item.Key, doMasks: false, maskObj: out keymaskItem);
+            var valElem = new XElement("Value");
+            itemElem.Add(valElem);
+            valTransl(valElem, item.Value, doMasks: false, maskObj: out valmaskItem);
         }
 
         public void Write<Mask>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
             int fieldIndex,
@@ -257,13 +253,13 @@ namespace Loqui.Xml
             where Mask : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                items,
-                errorMask != null,
-                out var subMask,
-                keyTransl,
-                valTransl);
+                node: node,
+                name: name,
+                items: items,
+                doMasks: errorMask != null,
+                maskObj: out var subMask,
+                keyTransl: keyTransl,
+                valTransl: valTransl);
             ErrorMask.HandleErrorMask(
                 errorMask,
                 fieldIndex,
@@ -271,7 +267,7 @@ namespace Loqui.Xml
         }
 
         public void Write<Mask>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasItem<IEnumerable<KeyValuePair<K, V>>> item,
             int fieldIndex,
@@ -281,13 +277,13 @@ namespace Loqui.Xml
             where Mask : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                item.Item,
-                errorMask != null,
-                out var subMask,
-                keyTransl,
-                valTransl);
+                node: node,
+                name: name,
+                items: item.Item,
+                doMasks: errorMask != null,
+                maskObj: out var subMask,
+                keyTransl: keyTransl,
+                valTransl: valTransl);
             ErrorMask.HandleErrorMask(
                 errorMask,
                 fieldIndex,
