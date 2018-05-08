@@ -75,6 +75,30 @@ namespace Loqui
             coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
         }
 
+        public static void HandleErrorMaskAddition<M, O>(
+            M mask,
+            int index,
+            O errMaskObj)
+            where M : IErrorMask
+        {
+            if (errMaskObj == null) return;
+            var nthMask = mask.GetNthMask(index);
+            MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>> maskItem = nthMask as MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>;
+            ICollection<MaskItem<Exception, O>> coll = maskItem?.Specific as ICollection<MaskItem<Exception, O>>;
+            if (maskItem == null)
+            {
+                coll = new List<MaskItem<Exception, O>>();
+                maskItem = new MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>(null, coll);
+                mask.SetNthMask(index, maskItem);
+            }
+            else if (coll == null)
+            {
+                coll = new List<MaskItem<Exception, O>>();
+                maskItem.Specific = coll;
+            }
+            coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
+        }
+
         public static void HandleException<M>(
             Func<M> creator,
             int index,

@@ -24,7 +24,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"WildcardXmlTranslation.Instance.Write"))
             {
-                args.Add($"writer: {writerAccessor}");
+                args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)

@@ -17,6 +17,11 @@ namespace Loqui
             throw new NotImplementedException();
         }
 
+        public object GetNthMask(int index)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsInError()
         {
             throw new NotImplementedException();
