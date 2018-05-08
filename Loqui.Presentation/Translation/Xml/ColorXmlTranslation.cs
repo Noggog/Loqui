@@ -42,12 +42,12 @@ namespace Loqui.Xml
             return Color.FromRgb(r ?? 0, g ?? 0, b ?? 0);
         }
 
-        protected override void WriteValue(XmlWriter writer, Color? item)
+        protected override void WriteValue(XElement node, Color? item)
         {
             if (!item.HasValue) return;
-            writer.WriteAttributeString(R, item.Value.R.ToString());
-            writer.WriteAttributeString(G, item.Value.G.ToString());
-            writer.WriteAttributeString(B, item.Value.B.ToString());
+            node.SetAttributeValue(R, item.Value.R.ToString());
+            node.SetAttributeValue(G, item.Value.G.ToString());
+            node.SetAttributeValue(B, item.Value.B.ToString());
         }
     }
 }

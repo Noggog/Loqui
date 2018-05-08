@@ -31,7 +31,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Write"))
             {
-                args.Add($"writer: {writerAccessor}");
+                args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)
@@ -46,14 +46,14 @@ namespace Loqui.Generation
                 }
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: ({list.SubTypeGeneration.TypeName} subItem, bool listDoMasks, out {subMaskStr} listSubMask) =>");
+                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, bool listDoMasks, out {subMaskStr} listSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
                             fg: gen,
                             objGen: objGen,
                             typeGen: list.SubTypeGeneration,
-                            writerAccessor: "writer",
+                            writerAccessor: "subNode",
                             itemAccessor: new Accessor($"subItem"),
                             doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",

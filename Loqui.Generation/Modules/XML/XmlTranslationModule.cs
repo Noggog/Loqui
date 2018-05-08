@@ -104,7 +104,7 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
-                    majorAPI: new APILine[] { "XmlWriter writer" },
+                    majorAPI: new APILine[] { "XElement node" },
                     customAPI: null,
                     optionalAPI: new APILine[] { "string name = null" }),
                 readerAPI: new MethodAPI("XElement root"));
@@ -160,13 +160,9 @@ namespace Loqui.Generation
 
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("using (var writer = new XmlTextWriter(stream, Encoding.ASCII))");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                fg.AppendLine($"writer.Indentation = 3;");
-                internalToDo("writer", "name");
-            }
+            fg.AppendLine("XElement topNode = new XElement(\"topnode\");");
+            internalToDo("topNode", "name");
+            fg.AppendLine($"topNode.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
@@ -177,13 +173,9 @@ namespace Loqui.Generation
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("using (var writer = new XmlTextWriter(path, Encoding.ASCII))");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"writer.Formatting = Formatting.Indented;");
-                fg.AppendLine($"writer.Indentation = 3;");
-                internalToDo("writer", "name");
-            }
+            fg.AppendLine("XElement topNode = new XElement(\"topnode\");");
+            internalToDo("topNode", "name");
+            fg.AppendLine($"topNode.Elements().First().Save(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
@@ -459,41 +451,40 @@ namespace Loqui.Generation
 
         protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"using (new ElementWrapper(writer, name ?? \"{obj.FullName}\"))");
+
+            fg.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
+            fg.AppendLine("node.Add(elem);");
+            fg.AppendLine("if (name != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("if (name != null)");
-                using (new BraceWrapper(fg))
+                fg.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+            }
+
+            foreach (var field in obj.IterateFieldIndices())
+            {
+                if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
                 {
-                    fg.AppendLine($"writer.WriteAttributeString(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+                    throw new ArgumentException("Unsupported type generator: " + field.Field);
                 }
 
-                foreach (var field in obj.IterateFieldIndices())
+                if (!generator.ShouldGenerateWrite(field.Field)) continue;
+
+                if (field.Field.HasBeenSet)
                 {
-                    if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
-                    {
-                        throw new ArgumentException("Unsupported type generator: " + field.Field);
-                    }
-
-                    if (!generator.ShouldGenerateWrite(field.Field)) continue;
-
-                    if (field.Field.HasBeenSet)
-                    {
-                        fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
-                    }
-                    using (new BraceWrapper(fg, doIt: field.Field.HasBeenSet))
-                    {
-                        var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
-                        generator.GenerateWrite(
-                            fg: fg,
-                            objGen: obj,
-                            typeGen: field.Field,
-                            writerAccessor: "writer",
-                            itemAccessor: new Accessor(field.Field, "item."),
-                            doMaskAccessor: "errorMask != null",
-                            maskAccessor: $"errorMask",
-                            nameAccessor: $"nameof(item.{field.Field.Name})");
-                    }
+                    fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
+                }
+                using (new BraceWrapper(fg, doIt: field.Field.HasBeenSet))
+                {
+                    var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                    generator.GenerateWrite(
+                        fg: fg,
+                        objGen: obj,
+                        typeGen: field.Field,
+                        writerAccessor: "elem",
+                        itemAccessor: new Accessor(field.Field, "item."),
+                        doMaskAccessor: "errorMask != null",
+                        maskAccessor: $"errorMask",
+                        nameAccessor: $"nameof(item.{field.Field.Name})");
                 }
             }
         }

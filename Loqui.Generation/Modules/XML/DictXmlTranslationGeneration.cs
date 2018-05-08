@@ -92,7 +92,7 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}, {mask}>.Instance.Write"))
                     {
-                        args.Add($"writer: {writerAccessor}");
+                        args.Add($"node: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
                         args.Add($"items: {itemAccessor.DirectAccess}.Values");
                         if (typeGen.HasIndex)
@@ -107,14 +107,14 @@ namespace Loqui.Generation
                         }
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, bool dictDoMask, out {mask} dictSubMask) =>");
+                            gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName} subItem, bool dictDoMask, out {mask} dictSubMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 valTransl.GenerateWrite(
                                     fg: gen,
                                     objGen: objGen,
                                     typeGen: dictType.ValueTypeGen,
-                                    writerAccessor: "writer",
+                                    writerAccessor: "subNode",
                                     itemAccessor: new Accessor($"subItem"),
                                     doMaskAccessor: "dictDoMask",
                                     maskAccessor: $"dictSubMask",

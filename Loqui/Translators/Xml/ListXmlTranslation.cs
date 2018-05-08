@@ -19,9 +19,9 @@ namespace Loqui.Xml
 
         public override string ElementName => "List";
 
-        public override void WriteSingleItem<ErrMask>(XmlWriter writer, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj)
+        public override void WriteSingleItem<ErrMask>(XElement node, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj)
         {
-            transl(item, doMasks, out maskObj);
+            transl(node, item, doMasks, out maskObj);
         }
 
         public override TryGet<T> ParseSingleItem(XElement root, XmlSubParseDelegate<T, M> transl, bool doMasks, out M maskObj)

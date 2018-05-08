@@ -18,9 +18,9 @@ namespace Loqui.Xml
             this.Source = src;
         }
 
-        void IXmlTranslation<object, object>.Write(XmlWriter writer, string name, object item, bool doMasks, out object maskObj)
+        void IXmlTranslation<object, object>.Write(XElement node, string name, object item, bool doMasks, out object maskObj)
         {
-            Source.Write(writer, name, (T)item, doMasks, out var subMaskObj);
+            Source.Write(node, name, (T)item, doMasks, out var subMaskObj);
             maskObj = subMaskObj;
         }
 

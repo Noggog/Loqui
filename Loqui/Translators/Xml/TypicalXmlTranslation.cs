@@ -87,9 +87,9 @@ namespace Loqui.Xml
             return ret;
         }
 
-        protected virtual void WriteValue(XmlWriter writer, string name, T item)
+        protected virtual void WriteValue(XElement node, string name, T item)
         {
-            writer.WriteAttributeString(
+            node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
                 item != null ? GetItemStr(item) : string.Empty);
         }
@@ -99,15 +99,13 @@ namespace Loqui.Xml
             return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
         }
 
-        private Exception Write_Internal(XmlWriter writer, string name, T item, bool doMasks, bool nullable)
+        private Exception Write_Internal(XElement node, string name, T item, bool doMasks, bool nullable)
         {
             Exception errorMask;
             try
             {
-                using (new ElementWrapper(writer, name))
-                {
-                    WriteValue(writer, name, item);
-                }
+                var elem = new XElement(name);
+                WriteValue(elem, name, item);
                 errorMask = null;
             }
             catch (Exception ex)
@@ -119,13 +117,13 @@ namespace Loqui.Xml
             return errorMask;
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception errorMask)
+        public void Write(XElement node, string name, T item, bool doMasks, out Exception errorMask)
         {
-            errorMask = Write_Internal(writer, name, item, doMasks, nullable: false);
+            errorMask = Write_Internal(node, name, item, doMasks, nullable: false);
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             T item,
             int fieldIndex,
@@ -133,11 +131,11 @@ namespace Loqui.Xml
             where M : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                item,
-                errorMask != null,
-                out var subMask);
+                node: node,
+                name: name,
+                item: item,
+                doMasks: errorMask != null,
+                errorMask: out var subMask);
             ErrorMask.HandleException(
                 errorMask,
                 fieldIndex,
@@ -145,7 +143,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
@@ -153,11 +151,11 @@ namespace Loqui.Xml
             where M : IErrorMask
         {
             this.Write(
-                writer,
-                name,
-                item.Item,
-                errorMask != null,
-                out var subMask);
+                node: node,
+                name: name,
+                item: item.Item,
+                doMasks: errorMask != null,
+                errorMask: out var subMask);
             ErrorMask.HandleException(
                 errorMask,
                 fieldIndex,
@@ -165,7 +163,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
@@ -174,11 +172,11 @@ namespace Loqui.Xml
         {
             if (!item.HasBeenSet) return;
             this.Write(
-                writer,
-                name,
-                item.Item,
-                fieldIndex,
-                errorMask);
+                node: node,
+                name: name,
+                item: item.Item,
+                fieldIndex: fieldIndex,
+                errorMask: errorMask);
         }
     }
 }

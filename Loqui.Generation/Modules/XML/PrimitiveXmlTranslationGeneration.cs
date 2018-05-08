@@ -40,7 +40,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{this.TypeName}XmlTranslation.Instance.Write"))
             {
-                args.Add($"writer: {writerAccessor}");
+                args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {ItemWriteAccess(itemAccessor)}");
                 if (typeGen.HasIndex)

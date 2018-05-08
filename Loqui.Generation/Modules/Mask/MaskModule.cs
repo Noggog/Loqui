@@ -58,6 +58,18 @@ namespace Loqui.Generation
             }
         }
 
+        public void GenerateGetMaskForField(FileGeneration fg, TypeGeneration field)
+        {
+            if (field.IntegrateField)
+            {
+                fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"return {field.Name};");
+                }
+            }
+        }
+
         public void GenerateSetSetNthMaskForField(FileGeneration fg, TypeGeneration field)
         {
             if (field.IntegrateField)
@@ -284,6 +296,23 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "IErrorMask"))
                 {
+                    fg.AppendLine($"public{await obj.FunctionOverride()}object GetNthMask(int index)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
+                        fg.AppendLine("switch (enu)");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                GenerateGetMaskForField(fg, item);
+                            }
+
+                            GenerateStandardDefault(fg, obj, "GetNthMask", "index", ret: true);
+                        }
+                    }
+                    fg.AppendLine();
+
                     fg.AppendLine($"public{await obj.FunctionOverride()}void SetNthException(int index, Exception ex)");
                     using (new BraceWrapper(fg))
                     {

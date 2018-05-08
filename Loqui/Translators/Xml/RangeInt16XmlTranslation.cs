@@ -11,11 +11,11 @@ namespace Loqui.Xml
         public const string MIN = "Min";
         public const string MAX = "Max";
 
-        protected override void WriteValue(XmlWriter writer, RangeInt16? item)
+        protected override void WriteValue(XElement node, RangeInt16? item)
         {
             if (!item.HasValue) return;
-            writer.WriteAttributeString(MIN, item.Value.Min.ToString());
-            writer.WriteAttributeString(MAX, item.Value.Max.ToString());
+            node.SetAttributeValue(MIN, item.Value.Min.ToString());
+            node.SetAttributeValue(MAX, item.Value.Max.ToString());
         }
 
         protected override string GetItemStr(RangeInt16 item)

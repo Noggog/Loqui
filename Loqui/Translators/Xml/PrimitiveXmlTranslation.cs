@@ -112,9 +112,9 @@ namespace Loqui.Xml
             return ret;
         }
 
-        protected virtual void WriteValue(XmlWriter writer, T? item)
+        protected virtual void WriteValue(XElement node, T? item)
         {
-            writer.WriteAttributeString(
+            node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
                 item.HasValue ? GetItemStr(item.Value) : string.Empty);
         }
@@ -124,20 +124,19 @@ namespace Loqui.Xml
             return ParseNonNull(root, doMasks, out errorMask);
         }
 
-        public void Write(XmlWriter writer, string name, T? item, bool doMasks, out Exception errorMask)
+        public void Write(XElement node, string name, T? item, bool doMasks, out Exception errorMask)
         {
-            errorMask = Write_Internal(writer, name, item, doMasks, nullable: true);
+            errorMask = Write_Internal(node, name, item, doMasks, nullable: true);
         }
 
-        private Exception Write_Internal(XmlWriter writer, string name, T? item, bool doMasks, bool nullable)
+        private Exception Write_Internal(XElement node, string name, T? item, bool doMasks, bool nullable)
         {
             Exception errorMask;
             try
             {
-                using (new ElementWrapper(writer, name))
-                {
-                    WriteValue(writer, item);
-                }
+                var elem = new XElement(name);
+                node.Add(elem);
+                WriteValue(elem, item);
                 errorMask = null;
             }
             catch (Exception ex)
@@ -149,13 +148,13 @@ namespace Loqui.Xml
             return errorMask;
         }
 
-        public void Write(XmlWriter writer, string name, T item, bool doMasks, out Exception errorMask)
+        public void Write(XElement node, string name, T item, bool doMasks, out Exception errorMask)
         {
-            errorMask = Write_Internal(writer, name, (T?)item, doMasks, nullable: false);
+            errorMask = Write_Internal(node, name, (T?)item, doMasks, nullable: false);
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             T? item,
             int fieldIndex,
@@ -163,7 +162,7 @@ namespace Loqui.Xml
             where M : IErrorMask
         {
             this.Write(
-                writer,
+                node,
                 name,
                 item,
                 errorMask != null,
@@ -175,7 +174,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
@@ -183,7 +182,7 @@ namespace Loqui.Xml
             where M : IErrorMask
         {
             this.Write(
-                writer,
+                node,
                 name,
                 item.Item,
                 errorMask != null,
@@ -195,7 +194,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasItemGetter<T?> item,
             int fieldIndex,
@@ -203,7 +202,7 @@ namespace Loqui.Xml
             where M : IErrorMask
         {
             this.Write(
-                writer,
+                node,
                 name,
                 item.Item,
                 errorMask != null,
@@ -215,7 +214,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasBeenSetItemGetter<T?> item,
             int fieldIndex,
@@ -224,7 +223,7 @@ namespace Loqui.Xml
         {
             if (!item.HasBeenSet) return;
             this.Write(
-                writer,
+                node,
                 name,
                 item.Item,
                 fieldIndex,
@@ -232,7 +231,7 @@ namespace Loqui.Xml
         }
 
         public void Write<M>(
-            XmlWriter writer,
+            XElement node,
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
@@ -241,7 +240,7 @@ namespace Loqui.Xml
         {
             if (!item.HasBeenSet) return;
             this.Write(
-                writer,
+                node,
                 name,
                 item.Item,
                 fieldIndex,

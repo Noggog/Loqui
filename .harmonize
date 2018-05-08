@@ -1,3 +1,12 @@
 <HarmonizeConfig Version="1">
-   <ParentRepos />
+   <ParentRepos>
+      <RepoListing>
+         <Nickname>CSharpExt</Nickname>
+         <Sha>760d3dce4f1cd6df2ce68f63648b16c71afe85d2</Sha>
+         <Path>../CSharpExt</Path>
+         <CommitDate>05-08-2018 18:24:44</CommitDate>
+         <Description>Merge branch 'Laptop' into Desktop</Description>
+         <Author>Justin Swanson</Author>
+      </RepoListing>
+   </ParentRepos>
 </HarmonizeConfig>

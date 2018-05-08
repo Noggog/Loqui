@@ -20,12 +20,11 @@ namespace Loqui.Xml
             return TryGet<object>.Succeed(null);
         }
 
-        public void Write(XmlWriter writer, string name, object item, bool doMasks, out Exception maskObj)
+        public void Write(XElement node, string name, object item, bool doMasks, out Exception maskObj)
         {
             maskObj = null;
-            using (new ElementWrapper(writer, name))
-            {
-            }
+            node.Add(
+                new XElement(name));
         }
     }
 }

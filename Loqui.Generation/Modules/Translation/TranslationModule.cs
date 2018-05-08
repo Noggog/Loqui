@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public abstract class TranslationModule<G> : GenerationModule
+    public abstract class TranslationModule : GenerationModule
     {
         public LoquiGenerator Gen;
-        protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
         public abstract string ModuleNickname { get; }
         public override string RegionString => $"{ModuleNickname} Translation";
         public abstract string Namespace { get; }
@@ -17,46 +16,11 @@ namespace Loqui.Generation
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
         public bool ExportWithIGetter = true;
+        public bool ShouldGenerateCopyIn = true;
 
         public TranslationModule(LoquiGenerator gen)
         {
             this.Gen = gen;
-        }
-        
-        public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
-            where T : TypeGeneration
-        {
-            if (overrideExisting)
-            {
-                this._typeGenerations[typeof(T)] = transl;
-            }
-            else
-            {
-                this._typeGenerations.Add(typeof(T), transl);
-            }
-        }
-
-        public bool TryGetTypeGeneration(Type t, out G gen)
-        {
-            if (!this._typeGenerations.TryGetValue(t, out gen))
-            {
-                foreach (var kv in _typeGenerations.ToList())
-                {
-                    if (t.InheritsFrom(kv.Key))
-                    {
-                        _typeGenerations[t] = kv.Value;
-                        gen = kv.Value;
-                        return true;
-                    }
-                }
-                return false;
-            }
-            return true;
-        }
-
-        public G GetTypeGeneration(Type t)
-        {
-            return this._typeGenerations[t];
         }
 
         public override IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
@@ -97,11 +61,18 @@ namespace Loqui.Generation
 
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
+            if (this.MainAPI == null)
+            {
+                throw new ArgumentException("Main API need to be set.");
+            }
             if (!obj.Abstract)
             {
                 GenerateCreate(obj, fg);
             }
-            //await GenerateCopyIn(obj, fg);
+            if (ShouldGenerateCopyIn)
+            {
+                await GenerateCopyIn(obj, fg);
+            }
             await GenerateWrite(obj, fg);
         }
 
@@ -316,39 +287,12 @@ namespace Loqui.Generation
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
-                        $"out {obj.Mask(MaskType.Error)} errorMask"))
+                        $"out {obj.Mask(MaskType.Error)} errorMask",
+                        $"bool doMasks = true"))
                     {
                         if (Public)
                         {
                             args.Add(API);
-                        }
-                    }
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"return Create_{ModuleNickname}"))
-                    {
-                        args.Add(this.MainAPI.ReaderPassArgs(obj));
-                        args.Add("doMasks: true");
-                        args.Add("errorMask: out errorMask");
-                    }
-                }
-                fg.AppendLine();
-
-                fg.AppendLine("[DebuggerStepThrough]");
-                using (var args = new FunctionWrapper(fg,
-                    $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                    wheres: obj.GenericTypes_ErrorMaskWheres))
-                {
-                    foreach (var item in this.MainAPI.ReaderAPI.IterateAPI(
-                        obj,
-                        "bool doMasks",
-                        $"out {obj.Mask(MaskType.Error)} errorMask"))
-                    {
-                        if (item.Public)
-                        {
-                            args.Add(item.API);
                         }
                     }
                 }
@@ -599,6 +543,7 @@ namespace Loqui.Generation
                         }
                     }
                     args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
+                    args.Add($"bool doMasks = true");
                     foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -610,7 +555,8 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"errorMask = ({obj.Mask(MaskType.Error)})this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}"))
+                        $"errorMask = this.Write_{ModuleNickname}_Internal{ObjectGeneration.GenerateGenericClause(obj.GenericTypes_Nickname(MaskType.Error))}",
+                        suffixLine: $" as {obj.Mask(MaskType.Error)}"))
                     {
                         foreach (var item in this.MainAPI.WriterPassArgs(obj))
                         {
@@ -620,7 +566,7 @@ namespace Loqui.Generation
                         {
                             args.Add(item);
                         }
-                        args.Add($"doMasks: true");
+                        args.Add($"doMasks: doMasks");
                     }
                 }
                 fg.AppendLine();
@@ -632,7 +578,8 @@ namespace Loqui.Generation
                         wheres: obj.GenericTypes_ErrorMaskWheres))
                     {
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(obj,
-                            $"out {obj.Mask(MaskType.Error)} errorMask"))
+                            $"out {obj.Mask(MaskType.Error)} errorMask",
+                            "bool doMasks = true"))
                         {
                             if (!item.Public) continue;
                             args.Add(item.API);
@@ -651,6 +598,7 @@ namespace Loqui.Generation
                                     args.Add(item);
                                 }
                                 args.Add($"errorMask: out errorMask");
+                                args.Add("doMasks: doMasks");
                             }
                         });
                     }
@@ -816,6 +764,7 @@ namespace Loqui.Generation
                                         }
                                     }
                                     args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
+                                    args.Add($"bool doMasks = true");
                                     foreach (var item in api.WriterAPI.OptionalAPI)
                                     {
                                         if (item.TryResolve(obj, out var line))
@@ -834,6 +783,7 @@ namespace Loqui.Generation
                                             args.Add(item);
                                         }
                                         args.Add($"errorMask: out {obj.Mask_GenericAssumed(MaskType.Error, onlyAssumeSubclass: true)} errMask");
+                                        args.Add("doMasks: doMasks");
                                     }
                                     fg.AppendLine("errorMask = errMask;");
                                 }
@@ -913,6 +863,52 @@ namespace Loqui.Generation
                     }
                 }
             }
+        }
+    }
+
+    public abstract class TranslationModule<G> : TranslationModule
+    {
+        protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
+
+        public TranslationModule(LoquiGenerator gen)
+            : base(gen)
+        {
+        }
+
+        public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
+            where T : TypeGeneration
+        {
+            if (overrideExisting)
+            {
+                this._typeGenerations[typeof(T)] = transl;
+            }
+            else
+            {
+                this._typeGenerations.Add(typeof(T), transl);
+            }
+        }
+
+        public bool TryGetTypeGeneration(Type t, out G gen)
+        {
+            if (!this._typeGenerations.TryGetValue(t, out gen))
+            {
+                foreach (var kv in _typeGenerations.ToList())
+                {
+                    if (t.InheritsFrom(kv.Key))
+                    {
+                        _typeGenerations[t] = kv.Value;
+                        gen = kv.Value;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public G GetTypeGeneration(Type t)
+        {
+            return this._typeGenerations[t];
         }
     }
 }
