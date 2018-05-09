@@ -61,9 +61,8 @@ namespace Loqui.Generation
             {
                 if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
                 using (var args = new ArgsWrapper(fg,
-                    $"{loquiGen.TargetObjectGeneration.ExtCommonName}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Normal, MaskType.Error, MaskType.Copy)}"))
+                    $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Error, MaskType.Copy)}"))
                 {
-                    args.Add($"item: {itemAccessor.DirectAccess}");
                     args.Add((gen) =>
                     {
                         using (var subArgs = new FunctionWrapper(gen,

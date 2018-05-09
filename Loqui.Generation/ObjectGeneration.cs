@@ -1840,7 +1840,7 @@ namespace Loqui.Generation
                             {
                                 if (field.Bare)
                                 {
-                                    field.GenerateForEquals(fg, "rhs");
+                                    field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
                                 }
                                 else if (field.IntegrateField)
                                 {
@@ -1850,17 +1850,17 @@ namespace Loqui.Generation
                                         fg.AppendLine($"if ({field.HasBeenSetAccessor})");
                                         using (new BraceWrapper(fg))
                                         {
-                                            field.GenerateForEquals(fg, "rhs");
+                                            field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
                                         }
                                     }
                                     else
                                     {
-                                        field.GenerateForEquals(fg, "rhs");
+                                        field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
                                     }
                                 }
                                 else
                                 {
-                                    field.GenerateForEquals(fg, "rhs");
+                                    field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
                                 }
                             }
                         }

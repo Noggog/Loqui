@@ -38,7 +38,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
         }
 

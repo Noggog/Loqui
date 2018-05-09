@@ -446,10 +446,10 @@ namespace Loqui.Generation
             fg.AppendLine("break;");
         }
 
-        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"if ({this.Name} != {rhsAccessor}.{this.Name}) return false;");
+            fg.AppendLine($"if ({accessor.DirectAccess} != {rhsAccessor.DirectAccess}) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

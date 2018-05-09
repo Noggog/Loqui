@@ -26,9 +26,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForEquals(FileGeneration fg, string rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
-            fg.AppendLine($"if (!object.Equals({this.Name}, {rhsAccessor}.{this.Name})) return false;");
+            fg.AppendLine($"if (!object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
