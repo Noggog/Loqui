@@ -60,7 +60,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -172,7 +172,7 @@ namespace Loqui.Generation
         protected string GetNotifyingProperty()
         {
             string item;
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -222,7 +222,7 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             string item;
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -263,7 +263,7 @@ namespace Loqui.Generation
         {
             if (this.ReadOnly || !this.IntegrateField) return;
             fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -288,7 +288,7 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -331,7 +331,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.GetName(false, true)}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.GetName(false, true)}");
-                    if (this.Notifying)
+                    if (this.Notifying == NotifyingType.NotifyingItem)
                     {
                         args.Add($"cmds: {cmdsAccessor}");
                     }
@@ -343,7 +343,7 @@ namespace Loqui.Generation
                     $"{accessorPrefix}.{this.GetName(false, true)}.Set"))
                 {
                     args.Add($"value: {rhsAccessorPrefix}.{this.GetName(false, false)}");
-                    if (this.Notifying)
+                    if (this.Notifying == NotifyingType.NotifyingItem)
                     {
                         args.Add($"cmds: {cmdsAccessor}");
                     }
@@ -369,7 +369,7 @@ namespace Loqui.Generation
                     $"{accessorPrefix}.{this.ProtectedProperty}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}");
-                    if (this.Notifying)
+                    if (this.Notifying == NotifyingType.NotifyingItem)
                     {
                         args.Add($"{cmdsAccessor}");
                     }
@@ -381,7 +381,7 @@ namespace Loqui.Generation
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
             if (this.ReadOnly || !this.IntegrateField) return;
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -432,7 +432,7 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"{identifier}.{this.GetName(internalUse: false, property: true)}.Unset"))
                     {
-                        if (this.Notifying)
+                        if (this.Notifying == NotifyingType.NotifyingItem)
                         {
                             args.Add(cmdsAccessor);
                         }

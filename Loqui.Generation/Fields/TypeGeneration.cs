@@ -31,11 +31,11 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        public readonly NotifyingSetItem<bool> NotifyingProperty = new NotifyingSetItem<bool>();
-        public bool Notifying => NotifyingProperty.Item;
+        public readonly NotifyingSetItem<NotifyingType> NotifyingProperty = new NotifyingSetItem<NotifyingType>();
+        public NotifyingType Notifying => NotifyingProperty.Item;
         public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
         public bool HasBeenSet => HasBeenSetProperty.Item;
-        public bool Bare => !this.Notifying && !this.HasBeenSet;
+        public bool Bare => this.Notifying != NotifyingType.NotifyingItem && !this.HasBeenSet;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
         public virtual bool Namable => true;
@@ -71,7 +71,7 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
-            node.TransferAttribute<bool>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
+            node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
             if (requireName && Namable && Name == null)
             {

@@ -25,7 +25,7 @@ namespace Loqui.Generation
         public bool GenerateEquals { get; protected set; } = true;
         public bool GenerateToString { get; protected set; } = true;
         public bool GeneratePublicBasicCtor { get; protected set; } = true;
-        public abstract bool NotifyingDefault { get; }
+        public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public LoquiInterfaceType InterfaceTypeDefault;
         public bool ReadOnlyDefault;

@@ -212,7 +212,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -392,7 +392,7 @@ namespace Loqui.Generation
         protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
             string item;
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {
@@ -617,7 +617,7 @@ namespace Loqui.Generation
             {
                 args.Add($"{rhsAccessorPrefix}.{this.Property}");
                 args.Add($"{defaultFallbackAccessor}?.{this.Property}");
-                if (this.Notifying)
+                if (this.Notifying == NotifyingType.NotifyingItem)
                 {
                     args.Add($"cmds");
                 }
@@ -818,7 +818,7 @@ namespace Loqui.Generation
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {

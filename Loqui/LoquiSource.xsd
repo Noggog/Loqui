@@ -82,8 +82,8 @@
 
   <xs:simpleType name="NotifyingOption" final="restriction" >
     <xs:restriction base="xs:string">
-      <xs:enumeration value="False" />
-      <xs:enumeration value="True" />
+      <xs:enumeration value="None" />
+      <xs:enumeration value="NotifyingItem" />
     </xs:restriction>
   </xs:simpleType>
 

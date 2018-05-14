@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public SingletonLevel Singleton;
         public bool Readonly;
         public override bool Copy => base.Copy && this.Singleton != SingletonLevel.Singleton;
-        public override string ProtectedName => this.Notifying ? $"{this.ProtectedProperty}.Item" : $"_{this.Name}";
+        public override string ProtectedName => this.Notifying == NotifyingType.NotifyingItem ? $"{this.ProtectedProperty}.Item" : $"_{this.Name}";
 
         public abstract string GetNewForNonNullable();
 
@@ -53,7 +53,7 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {

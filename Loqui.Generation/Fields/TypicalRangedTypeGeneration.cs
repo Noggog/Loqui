@@ -37,7 +37,7 @@ namespace Loqui.Generation
                 base.GenerateForClass(fg);
                 return;
             }
-            if (this.Notifying)
+            if (this.Notifying == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {

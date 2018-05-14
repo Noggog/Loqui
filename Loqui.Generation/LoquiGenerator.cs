@@ -27,7 +27,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
         public bool ProtectedDefault;
         public bool DerivativeDefault;
-        public bool NotifyingDefault;
+        public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
         public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;
