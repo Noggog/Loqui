@@ -55,27 +55,30 @@ namespace Loqui.Generation
         protected override void GenerateClassLine(FileGeneration fg)
         {
             // Generate class header and interfaces
-            using (new LineWrapper(fg))
-            {
-                fg.Append($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
+            fg.AppendLine($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
 
-                var list = new List<string>();
-                if (HasBaseObject)
+            var list = new List<string>();
+            if (HasBaseObject)
+            {
+                list.Add(BaseClassName);
+            }
+            list.Add(this.InterfaceStr);
+            list.Add($"ILoquiObject<{this.ObjectName}>");
+            list.AddRange(
+                this.Interfaces
+                    .Union(this.gen.GenerationModules
+                        .SelectMany((tr) => tr.Interfaces(this)))
+                    .Union(this.gen.GenerationModules
+                        .SelectMany((tr) => tr.GetReaderInterfaces(this)))
+                    .Union(this.GenerationInterfaces
+                        .SelectMany((tr) => tr.Interfaces(this))));
+            list.Add($"IEquatable<{this.ObjectName}>");
+            using (new DepthWrapper(fg))
+            {
+                foreach (var item in list.IterateMarkLast())
                 {
-                    list.Add(BaseClassName);
+                    fg.AppendLine($"{item.Item}{(item.Last ? null : ",")}");
                 }
-                list.Add(this.InterfaceStr);
-                list.Add($"ILoquiObject<{this.ObjectName}>");
-                list.AddRange(
-                    this.Interfaces
-                        .Union(this.gen.GenerationModules
-                            .SelectMany((tr) => tr.Interfaces(this)))
-                        .Union(this.gen.GenerationModules
-                            .SelectMany((tr) => tr.GetReaderInterfaces(this)))
-                        .Union(this.GenerationInterfaces
-                            .SelectMany((tr) => tr.Interfaces(this))));
-                list.Add($"IEquatable<{this.ObjectName}>");
-                fg.Append(string.Join(", ", list));
             }
         }
 
