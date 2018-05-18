@@ -111,7 +111,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForCopy(
             FileGeneration fg,
-            string accessorPrefix,
+            Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,

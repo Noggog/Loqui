@@ -97,14 +97,14 @@ namespace Loqui.Generation
 
         public override void GenerateForCopy(
             FileGeneration fg,
-            string accessorPrefix,
+            Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
             string cmdsAccessor,
             bool protectedMembers)
         {
-            subGenerator.GenerateForCopy(fg, accessorPrefix, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
+            subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
         }
 
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)

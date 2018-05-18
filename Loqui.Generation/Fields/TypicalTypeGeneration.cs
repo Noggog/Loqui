@@ -311,7 +311,7 @@ namespace Loqui.Generation
 
         public override void GenerateForCopy(
             FileGeneration fg,
-            string accessorPrefix,
+            Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
@@ -321,13 +321,13 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.Bare)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
+                fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
                 return;
             }
             if (this.HasBeenSet)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessorPrefix}.{this.GetName(false, true)}.SetToWithDefault"))
+                    $"{accessor.PropertyAccess}.SetToWithDefault"))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.GetName(false, true)}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.GetName(false, true)}");
@@ -340,7 +340,7 @@ namespace Loqui.Generation
             else
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessorPrefix}.{this.GetName(false, true)}.Set"))
+                    $"{accessor.PropertyAccess}.Set"))
                 {
                     args.Add($"value: {rhsAccessorPrefix}.{this.GetName(false, false)}");
                     if (this.Notifying == NotifyingType.NotifyingItem)

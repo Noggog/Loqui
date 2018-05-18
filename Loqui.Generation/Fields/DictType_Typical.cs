@@ -177,7 +177,7 @@ namespace Loqui.Generation
 
         public override void GenerateForCopy(
             FileGeneration fg,
-            string accessorPrefix,
+            Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
@@ -187,7 +187,7 @@ namespace Loqui.Generation
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
+                    $"{accessor.PropertyAccess}.SetToWithDefault"))
                 {
                     args.Add($"rhs.{this.Name}");
                     args.Add($"def?.{this.Name}");
@@ -196,7 +196,7 @@ namespace Loqui.Generation
                 return;
             }
             using (var args = new ArgsWrapper(fg,
-                $"{accessorPrefix}.{this.Name}.SetToWithDefault"))
+                $"{accessor.PropertyAccess}.SetToWithDefault"))
             {
                 args.Add($"rhs.{this.Name}");
                 args.Add($"def?.{this.Name}");

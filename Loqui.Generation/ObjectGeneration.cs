@@ -987,7 +987,7 @@ namespace Loqui.Generation
                         {
                             item.Field.GenerateForCopy(
                                 fg,
-                                accessorPrefix,
+                                new Accessor(item.Field, $"{accessorPrefix}."),
                                 rhsAccessorPrefix,
                                 $"{copyMaskAccessor}?.{item.Field.Name}",
                                 defaultFallbackAccessor,
@@ -1000,7 +1000,7 @@ namespace Loqui.Generation
                     {
                         item.Field.GenerateForCopy(
                             fg,
-                            accessorPrefix,
+                            new Accessor(item.Field, $"{accessorPrefix}."),
                             rhsAccessorPrefix,
                             $"{copyMaskAccessor}.{item.Field.Name}",
                             defaultFallbackAccessor,

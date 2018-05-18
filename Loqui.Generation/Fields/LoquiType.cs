@@ -542,7 +542,7 @@ namespace Loqui.Generation
 
         public override void GenerateForCopy(
             FileGeneration fg,
-            string accessorPrefix,
+            Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
@@ -552,7 +552,7 @@ namespace Loqui.Generation
 
             if (_TargetObjectGeneration is StructGeneration)
             {
-                fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedMembers, false)} = new {this.TargetObjectGeneration.Name}({rhsAccessorPrefix}.{this.Name});");
+                fg.AppendLine($"{accessor.DirectAccess} = new {this.TargetObjectGeneration.Name}({rhsAccessorPrefix}.{this.Name});");
                 return;
             }
 
@@ -570,7 +570,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
                     using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix}.{this.Name};");
+                        fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name};");
                         fg.AppendLine("break;");
                     }
                     fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
@@ -588,13 +588,13 @@ namespace Loqui.Generation
                         fg.AppendLine($"if ({rhsAccessorPrefix}.{this.Name} == null)");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"{accessorPrefix}.{this.Name} = null;");
+                            fg.AppendLine($"{accessor.DirectAccess} = null;");
                         }
                         fg.AppendLine($"else");
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessorPrefix}.{this.Name} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
                                 args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.Specific");
@@ -613,7 +613,7 @@ namespace Loqui.Generation
             }
 
             using (var args = new ArgsWrapper(fg,
-                $"{accessorPrefix}.{this.Property}.SetToWithDefault"))
+                $"{accessor.PropertyAccess}.SetToWithDefault"))
             {
                 args.Add($"{rhsAccessorPrefix}.{this.Property}");
                 args.Add($"{defaultFallbackAccessor}?.{this.Property}");
