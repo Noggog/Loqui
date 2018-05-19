@@ -8,5 +8,6 @@ namespace Loqui.Generation
     {
         public override bool IsNullable() => this.TypeName.EndsWith("?");
         public override bool IsEnumerable => false;
+        public override bool IsClass => false;
     }
 }

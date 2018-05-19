@@ -410,8 +410,7 @@ namespace Loqui.Generation
                     GenerateCopyFieldsFrom(fg);
 
                     await GenerateSetNthObject(fg);
-
-
+                    
                     await GenerateClear(fg, true);
 
                     GenerateGenericCreate(fg);

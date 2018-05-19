@@ -27,7 +27,10 @@ namespace Loqui.Generation
             bool protectedAccess = false)
         {
             this.DirectAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedName : typeGen.Name)}";
-            this.PropertyAccess = typeGen.Bare ? null : $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
+            if (typeGen.HasProperty)
+            {
+                this.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
+            }
         }
     }
 }

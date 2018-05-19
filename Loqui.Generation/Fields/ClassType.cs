@@ -13,6 +13,7 @@ namespace Loqui.Generation
         public bool Readonly;
         public override bool Copy => base.Copy && this.Singleton != SingletonLevel.Singleton;
         public override string ProtectedName => this.Notifying == NotifyingType.NotifyingItem ? $"{this.ProtectedProperty}.Item" : $"_{this.Name}";
+        public override bool IsClass => true;
 
         public abstract string GetNewForNonNullable();
 

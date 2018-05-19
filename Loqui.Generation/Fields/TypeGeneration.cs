@@ -35,10 +35,13 @@ namespace Loqui.Generation
         public NotifyingType Notifying => NotifyingProperty.Item;
         public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
         public bool HasBeenSet => HasBeenSetProperty.Item;
-        public bool Bare => this.Notifying != NotifyingType.NotifyingItem && !this.HasBeenSet;
+        public bool Bare => this.Notifying == NotifyingType.None && !this.HasBeenSet;
+        public bool HasProperty => !this.Bare && this.Notifying != NotifyingType.ObjectCentralized;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
         public virtual bool Namable => true;
+        public abstract bool IsClass { get; }
+        public abstract bool HasDefault { get; }
 
         public TypeGeneration()
         {

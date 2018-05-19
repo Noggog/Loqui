@@ -12,6 +12,8 @@ namespace Loqui.Generation
         public string BatchName { get; private set; }
         public string ProtocolID { get; private set; }
         public override bool IsEnumerable => throw new ArgumentException();
+        public override bool IsClass => throw new ArgumentException();
+        public override bool HasDefault => throw new ArgumentException();
 
         #region Type Generation Abstract
         public override string TypeName => throw new NotImplementedException();

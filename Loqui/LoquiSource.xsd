@@ -84,6 +84,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
       <xs:enumeration value="NotifyingItem" />
+      <xs:enumeration value="ObjectCentralized" />
     </xs:restriction>
   </xs:simpleType>
 

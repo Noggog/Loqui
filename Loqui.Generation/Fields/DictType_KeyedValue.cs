@@ -14,6 +14,8 @@ namespace Loqui.Generation
         public string KeyAccessorString { get; protected set; }
         public DictMode Mode => DictMode.KeyedValue;
 
+        public override bool IsClass => true;
+        public override bool HasDefault => false;
         public override bool IsEnumerable => true;
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";

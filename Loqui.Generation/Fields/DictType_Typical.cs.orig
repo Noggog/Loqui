@@ -189,7 +189,11 @@ namespace Loqui.Generation
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {
                 using (var args = new ArgsWrapper(fg,
+<<<<<<< HEAD
                     $"{accessor.PropertyAccess}.SetToWithDefault"))
+=======
+                    $"{accessor.DirectAccess}.SetToWithDefault"))
+>>>>>>> sdfgsdgsd
                 {
                     args.Add($"rhs.{this.Name}");
                     args.Add($"def?.{this.Name}");

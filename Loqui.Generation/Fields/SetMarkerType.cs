@@ -12,16 +12,13 @@ namespace Loqui.Generation
         public enum ExpandSets { False, FalseAndInclude, True, TrueAndInclude }
 
         public override string TypeName => nameof(SetMarkerType);
-
-        public override string ProtectedName => throw new NotImplementedException();
-
-        public override bool CopyNeedsTryCatch => throw new NotImplementedException();
-
+        public override string ProtectedName => throw new ArgumentException();
+        public override bool CopyNeedsTryCatch => throw new ArgumentException();
         public List<TypeGeneration> SubFields = new List<TypeGeneration>();
-
         public override bool IntegrateField => false;
-
-        public override bool IsEnumerable => throw new NotImplementedException();
+        public override bool IsEnumerable => throw new ArgumentException();
+        public override bool IsClass => throw new ArgumentException();
+        public override bool HasDefault => throw new ArgumentException();
 
         public IEnumerable<(int Index, TypeGeneration Field)> IterateFields(
             bool nonIntegrated = false,

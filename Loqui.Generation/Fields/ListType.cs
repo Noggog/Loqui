@@ -10,6 +10,8 @@ namespace Loqui.Generation
         public override bool CopyNeedsTryCatch => true;
         public override string SetToName => $"IEnumerable<{this.ItemTypeName}>";
         public override bool IsEnumerable => true;
+        public override bool IsClass => true;
+        public override bool HasDefault => false;
         public int? MaxValue;
 
         public override async Task Load(XElement node, bool requireName = true)

@@ -32,6 +32,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;
         public MaskModule MaskModule = new MaskModule();
+        public ObjectCentralizationModule ObjectCentralizationModule = new ObjectCentralizationModule();
         public XmlTranslationModule XmlTranslation;
 
         public LoquiGenerator(DirectoryInfo commonGenerationFolder = null, bool typical = true)
@@ -42,6 +43,7 @@ namespace Loqui.Generation
                 this.XmlTranslation = new XmlTranslationModule(this);
                 this.Add(this.XmlTranslation);
                 this.Add(MaskModule);
+                this.Add(ObjectCentralizationModule);
             }
         }
 

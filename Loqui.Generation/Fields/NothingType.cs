@@ -10,16 +10,13 @@ namespace Loqui.Generation
     public class NothingType : TypeGeneration
     {
         public override bool IntegrateField => false;
-
         public override string TypeName => null;
-
         public override string ProtectedName => null;
-
         public override bool CopyNeedsTryCatch => false;
-
         public override bool IsEnumerable => false;
-
         public override bool Namable => false;
+        public override bool IsClass => throw new ArgumentException();
+        public override bool HasDefault => throw new ArgumentException();
 
         public override string GenerateACopy(string rhsAccessor)
         {

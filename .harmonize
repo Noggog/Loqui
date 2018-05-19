@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>bb944f58f776ed704d4fc4abbe2827840c9a3b0f</Sha>
+         <Sha>34c40b1dba440c279396ef99fb43961aab8997d8</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-12-2018 01:20:28</CommitDate>
-         <Description>More NotifyingSetItem subclasses, to omit the default value member when unnecessary</Description>
+         <CommitDate>05-17-2018 23:08:01</CommitDate>
+         <Description>BitVector32Ext masks.  Some FireList/FireDict work</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

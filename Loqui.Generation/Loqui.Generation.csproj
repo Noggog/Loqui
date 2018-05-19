@@ -137,6 +137,7 @@
     <Compile Include="LoquiGenerator.cs" />
     <Compile Include="Modules\Mask\Fields\UnsafeMaskFieldGeneration.cs" />
     <Compile Include="Modules\Mask\MaskType.cs" />
+    <Compile Include="Modules\ObjectCentralization\ObjectCentralizationModule.cs" />
     <Compile Include="Modules\Translation\APILine.cs" />
     <Compile Include="Modules\Translation\CustomMethodAPI.cs" />
     <Compile Include="Modules\Translation\MethodAPI.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Enums\LoquiInterfaceType.cs" />
     <Compile Include="FileGeneration\RegionWrapper.cs" />
     <Compile Include="StructGeneration.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">

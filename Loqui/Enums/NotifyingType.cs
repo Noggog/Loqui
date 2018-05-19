@@ -9,6 +9,7 @@ namespace Loqui
     public enum NotifyingType
     {
         None,
-        NotifyingItem
+        NotifyingItem,
+        ObjectCentralized
     }
 }

@@ -34,6 +34,8 @@ namespace Loqui.Generation
         public override string ProtectedName => subGenerator.ProtectedName;
         public override string TypeName => subGenerator.TypeName;
         public override bool IsEnumerable => true;
+        public override bool IsClass => true;
+        public override bool HasDefault => false;
 
         public override string SkipCheck(string copyMaskAccessor) => subGenerator.SkipCheck(copyMaskAccessor);
 

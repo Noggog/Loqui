@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\ILoquiRegistration.cs" />
     <Compile Include="Interfaces\IMask.cs" />
     <Compile Include="Interfaces\IPrintable.cs" />
+    <Compile Include="Interfaces\IPropertySupporter.cs" />
     <Compile Include="Masks\ErrorMask.cs" />
     <Compile Include="Masks\IErrorMask.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Interfaces\IProtocolRegistration.cs" />
     <Compile Include="Masks\MaskItem.cs" />
     <Compile Include="Net.cs" />
+    <Compile Include="Object Centralization\ObjectCentralizationSubscriptions.cs" />
+    <Compile Include="Object Centralization\PropertyForwarder.cs" />
     <Compile Include="ObjectKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolKey.cs" />

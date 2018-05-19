@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("if (importMask.GameSettings)"))
+            if (str.Contains("item._NPCFlags.Item = NPCFlagstryGet.Value;"))
             {
                 int wer = 23;
                 wer++;
