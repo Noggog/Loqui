@@ -88,11 +88,10 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var pType = typeGen as PrimitiveType;
-            var isProperty = itemAccessor.PropertyAccess != null;
-            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"{itemAccessor.DirectAccess} = ";
+            string prefix = typeGen.PrefersProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}tryGet = ";
             using (var args = new ArgsWrapper(fg,
                 $"{prefix}{this.TypeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}",
-                suffixLine: isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})"))
+                suffixLine: typeGen.PrefersProperty ? ")" : null))
             {
                 args.Add(nodeAccessor);
                 if (typeGen.HasIndex)
@@ -106,6 +105,7 @@ namespace Loqui.Generation
                     args.Add($"errorMask: out {maskAccessor}");
                 }
             }
+            TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
         }
 
         public override void GenerateCopyInRet(

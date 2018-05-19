@@ -170,6 +170,7 @@
     <Compile Include="Enums\LoquiInterfaceType.cs" />
     <Compile Include="FileGeneration\RegionWrapper.cs" />
     <Compile Include="StructGeneration.cs" />
+    <Compile Include="TranslationGenerationSnippets.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>

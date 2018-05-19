@@ -111,11 +111,10 @@ namespace Loqui.Generation
         {
             string prefix, suffix;
             var loquiGen = typeGen as LoquiType;
-            bool isProperty = itemAccessor?.PropertyAccess != null;
             if (!ret)
             {
-                suffix = isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})";
-                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"{itemAccessor.DirectAccess} = ";
+                suffix = typeGen.PrefersProperty ? ")" : null;
+                prefix = typeGen.PrefersProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}tryGet = ";
             }
             else
             {
@@ -138,6 +137,11 @@ namespace Loqui.Generation
                     args.Add($"doMasks: {doMaskAccessor}");
                     args.Add($"errorMask: out {maskAccessor}");
                 }
+            }
+
+            if (!ret)
+            {
+                TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
             }
         }
 

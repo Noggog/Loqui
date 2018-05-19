@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("item._NPCFlags.Item = NPCFlagstryGet.Value;"))
+            if (str.Contains("hasBeenSet: _hasBeenSetTracker,"))
             {
                 int wer = 23;
                 wer++;

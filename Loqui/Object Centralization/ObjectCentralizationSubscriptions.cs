@@ -16,7 +16,8 @@ namespace Loqui.Internal
 
         public void FireSubscriptions(
             int index,
-            BitArray hasBeenSet,
+            bool oldHasBeenSet,
+            bool newHasBeenSet,
             T oldVal,
             T newVal,
             NotifyingFireParameters cmds)

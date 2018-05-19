@@ -20,7 +20,7 @@ namespace Loqui.Generation
             {
                 if (this.Notifying == NotifyingType.ObjectCentralized)
                 {
-                    return $"_{this.Name}";
+                    return $"{this.Name}";
                 }
                 else if (this.Bare)
                 {
@@ -129,16 +129,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"protected readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
                 }
                 fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.Name}, {TypeName}> _{this.Name}Forwarder;");
-                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property}");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("get");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"if (_{this.Name}Forwarder == null) _{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.IndexEnumName});");
-                        fg.AppendLine($"return _{this.Name}Forwarder;");
-                    }
-                }
+                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public {this.TypeName} {this.Name}");
                 using (new BraceWrapper(fg))
@@ -155,24 +146,31 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
                     if (this.IsClass)
                     {
-                        fg.AppendLine($"if (object.Equals({this.Name}, item)) return;");
+                        fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
                     }
                     else
                     {
-                        fg.AppendLine($"if ({this.ProtectedName} == item) return;");
+                        fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
+                    }
+                    fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
                     }
                     fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var tmp = {this.Name};");
-                        fg.AppendLine($"{this.Name} = item;");
+                        fg.AppendLine($"_{this.Name} = item;");
                         using (var args = new ArgsWrapper(fg,
                             $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
                         {
-                            args.Add($"index: (int){this.IndexEnumName}");
-                            args.Add("hasBeenSet: _hasBeenSetTracker");
+                            args.Add($"index: (int){this.ObjectCentralizationEnumName}");
+                            args.Add("oldHasBeenSet: oldHasBeenSet");
+                            args.Add("newHasBeenSet: hasBeenSet");
                             args.Add($"oldVal: tmp");
                             args.Add($"newVal: item");
                             args.Add($"cmds: cmds");
@@ -181,9 +179,17 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"_hasBeenSetTracker[(int){this.IndexEnumName}] = hasBeenSet;");
-                        fg.AppendLine($"{this.Name} = item;");
+                        fg.AppendLine($"_{this.Name} = item;");
                     }
+                }
+                using (var args = new FunctionWrapper(fg,
+                    $"protected void Unset{this.Name}"))
+                {
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
+                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
                 }
                 if (!this.ReadOnly)
                 {
@@ -457,7 +463,7 @@ namespace Loqui.Generation
                     if (this.Notifying != NotifyingType.None)
                     {
                         args.Add($"{cmdsAccessor}");
-                    } 
+                    }
                 }
             }
             fg.AppendLine($"break;");
@@ -466,7 +472,7 @@ namespace Loqui.Generation
         public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
         {
             if (this.ReadOnly || !this.IntegrateField) return;
-            if (this.Notifying == NotifyingType.NotifyingItem)
+            if (this.Notifying != NotifyingType.None)
             {
                 if (this.HasBeenSet)
                 {
@@ -517,7 +523,7 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"{identifier}.{this.GetName(internalUse: false, property: true)}.Unset"))
                     {
-                        if (this.Notifying == NotifyingType.NotifyingItem)
+                        if (this.Notifying != NotifyingType.None)
                         {
                             args.Add(cmdsAccessor);
                         }

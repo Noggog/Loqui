@@ -321,16 +321,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"protected {TypeName} _{this.Name};");
                 }
                 fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.Name}, {TypeName}> _{this.Name}Forwarder;");
-                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property}");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("get");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"if (_{this.Name}Forwarder == null) _{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.IndexEnumName});");
-                        fg.AppendLine($"return _{this.Name}Forwarder;");
-                    }
-                }
+                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public {this.TypeName} {this.Name}");
                 using (new BraceWrapper(fg))
@@ -347,7 +338,13 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if (object.Equals({this.Name}, item)) return;");
+                    fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                    fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
+                    fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
+                    }
                     fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
                     using (new BraceWrapper(fg))
                     {
@@ -360,12 +357,13 @@ namespace Loqui.Generation
                                 fg.AppendLine("item = new {this._TargetObjectGeneration.Name}();");
                             }
                         }
-                        fg.AppendLine($"{this.Name} = item;");
+                        fg.AppendLine($"_{this.Name} = item;");
                         using (var args = new ArgsWrapper(fg,
                             $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
                         {
-                            args.Add($"index: (int){this.IndexEnumName}");
-                            args.Add("hasBeenSet: _hasBeenSetTracker");
+                            args.Add($"index: (int){this.ObjectCentralizationEnumName}");
+                            args.Add("oldHasBeenSet: oldHasBeenSet");
+                            args.Add("newHasBeenSet: hasBeenSet");
                             args.Add($"oldVal: tmp");
                             args.Add($"newVal: item");
                             args.Add($"cmds: cmds");
@@ -374,9 +372,17 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"_hasBeenSetTracker[(int){this.IndexEnumName}] = hasBeenSet;");
-                        fg.AppendLine($"{this.Name} = item;");
+                        fg.AppendLine($"_{this.Name} = item;");
                     }
+                }
+                using (var args = new FunctionWrapper(fg,
+                    $"protected void Unset{this.Name}"))
+                {
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
+                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
                 }
                 if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                 {

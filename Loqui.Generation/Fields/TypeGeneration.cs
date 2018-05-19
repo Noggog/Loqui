@@ -18,6 +18,7 @@ namespace Loqui.Generation
         public virtual string ProtectedProperty => $"_{this.Name}";
         public virtual string PropertyOrName => $"{(this.Bare ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
+        public string ObjectCentralizationEnumName => IndexEnumName;
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
@@ -36,7 +37,8 @@ namespace Loqui.Generation
         public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
         public bool HasBeenSet => HasBeenSetProperty.Item;
         public bool Bare => this.Notifying == NotifyingType.None && !this.HasBeenSet;
-        public bool HasProperty => !this.Bare && this.Notifying != NotifyingType.ObjectCentralized;
+        public bool HasProperty => !this.Bare;
+        public bool PrefersProperty => HasProperty && this.Notifying != NotifyingType.ObjectCentralized;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
         public virtual bool Namable => true;
