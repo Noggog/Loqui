@@ -51,7 +51,7 @@ namespace Loqui.Generation
         {
             var eType = typeGen as EnumType;
             var isProperty = itemAccessor.PropertyAccess != null;
-            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
+            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
                 $"{prefix}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
                 suffixLine: $"{(eType.Nullable ? string.Empty : $".Bubble((o) => o.Value)")}{(isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})")}"))

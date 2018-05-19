@@ -182,7 +182,7 @@ namespace Loqui.Generation
             if (!ret)
             {
                 suffix = isProperty ? ")" : null;
-                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"var {typeGen.Name}dict = ";
+                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}dict = ";
             }
             else
             {

@@ -115,7 +115,7 @@ namespace Loqui.Generation
             if (!ret)
             {
                 suffix = isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})";
-                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
+                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"{itemAccessor.DirectAccess} = ";
             }
             else
             {

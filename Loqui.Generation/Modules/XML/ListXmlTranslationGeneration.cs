@@ -127,7 +127,7 @@ namespace Loqui.Generation
             if (!ret)
             {
                 suffix = isProperty ? ")" : null;
-                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"var {typeGen.Name}list = ";
+                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}list = ";
             }
             else
             {

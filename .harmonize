@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>34c40b1dba440c279396ef99fb43961aab8997d8</Sha>
+         <Sha>21e8cdda843729e1591ccad34c529a6a8bbfe570</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-17-2018 23:08:01</CommitDate>
-         <Description>BitVector32Ext masks.  Some FireList/FireDict work</Description>
+         <CommitDate>05-18-2018 23:52:39</CommitDate>
+         <Description>DefaultValue and Unset moved to IHasItem.  SetCurrentAsDefault removed.   SetIfSucceededOrDefault</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
