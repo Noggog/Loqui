@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>760d3dce4f1cd6df2ce68f63648b16c71afe85d2</Sha>
+         <Sha>1a86ba8174f96687bad8be0b8bbc092d2f28b780</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-08-2018 18:24:44</CommitDate>
-         <Description>Merge branch 'Laptop' into Desktop</Description>
+         <CommitDate>05-21-2018 16:33:41</CommitDate>
+         <Description>IDisposableExt.Nothing</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

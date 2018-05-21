@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Noggog.Xml;
 using Loqui;
 using Noggog.Notifying;
+using Loqui.Internal;
 
 namespace Loqui.Xml
 {
@@ -18,7 +19,7 @@ namespace Loqui.Xml
         public static readonly KeyedDictXmlTranslation<K, V, Mask> Instance = new KeyedDictXmlTranslation<K, V, Mask>();
         public virtual string ElementName => "Dict";
 
-        public TryGet<IEnumerable<V>> Parse(XElement root, bool doMasks, out MaskItem<Exception, IEnumerable<Mask>> maskObj)
+        public bool Parse(XElement root, out IEnumerable<V> enumer, ErrorMaskBuilder errorMask)
         {
             var valTransl = XmlTranslator<V, Mask>.Translator;
             if (valTransl.Item.Failed)
@@ -27,74 +28,69 @@ namespace Loqui.Xml
             }
             return Parse(
                 root: root,
-                doMasks: doMasks,
-                maskObj: out maskObj,
-                valTransl: (XElement r, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Parse(root: r, doMasks: internalDoMasks, maskObj: out obj));
+                enumer: out enumer,
+                errorMask: errorMask,
+                valTransl: valTransl.Item.Value.Parse);
+        }
+
+        public bool Parse(
+            XmlSubParseDelegate<V> valTransl,
+            XElement root,
+            out IEnumerable<V> enumer,
+            ErrorMaskBuilder errorMask)
+        {
+            try
+            {
+                var ret = new List<V>();
+                int i = 0;
+                foreach (var listElem in root.Elements())
+                {
+                    using (errorMask.PushIndex(i++))
+                    {
+                        if (ParseSingleItem(listElem, valTransl, out var subItem, errorMask))
+                        {
+                            ret.Add(subItem);
+                        }
+                    }
+                }
+                enumer = ret;
+                return true;
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+                enumer = null;
+                return false;
+            }
         }
 
         public TryGet<IEnumerable<V>> Parse(
-            XmlSubParseDelegate<V, Mask> valTransl,
-            XElement root,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<Mask>> maskObj)
-        {
-            return TryGet<IEnumerable<V>>.Succeed(Parse_Internal(valTransl, root, doMasks, out maskObj));
-        }
-
-        public TryGet<IEnumerable<V>> Parse<M>(
-            XmlSubParseDelegate<V, Mask> valTransl,
+            XmlSubParseDelegate<V> valTransl,
             XElement root,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                valTransl: valTransl,
-                maskObj: out var ex);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
-        }
-
-        private IEnumerable<V> Parse_Internal(
-            XmlSubParseDelegate<V, Mask> valTranl,
-            XElement root,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<Mask>> maskObj)
-        {
-            List<Mask> maskList = null;
-            var ret = new List<V>();
-            foreach (var listElem in root.Elements())
+            using (errorMask.PushIndex(fieldIndex))
             {
-                var get = ParseSingleItem(listElem, valTranl, doMasks, out var subMaskObj);
-                if (get.Succeeded)
-                {
-                    ret.Add(get.Value);
-                }
-                if (doMasks && subMaskObj != null)
-                {
-                    if (maskList == null)
-                    {
-                        maskList = new List<Mask>();
-                    }
-                    maskList.Add(subMaskObj);
-                }
+                var ret = this.Parse(
+                    root: root,
+                    valTransl: valTransl,
+                    errorMask: errorMask,
+                    enumer: out var item);
+                return TryGet<IEnumerable<V>>.Create(
+                    ret,
+                    item);
             }
-            maskObj = maskList == null ? null : new MaskItem<Exception, IEnumerable<Mask>>(null, maskList);
-            return ret;
         }
 
-        public virtual TryGet<V> ParseSingleItem(
+        public virtual bool ParseSingleItem(
             XElement root,
-            XmlSubParseDelegate<V, Mask> valTransl,
-            bool doMasks,
-            out Mask maskObj)
+            XmlSubParseDelegate<V> valTransl,
+            out V item,
+            ErrorMaskBuilder errorMask)
         {
-            return valTransl(root, doMasks, out maskObj);
+            return valTransl(root, out item, errorMask);
         }
 
         public void Write(

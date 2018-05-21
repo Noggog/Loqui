@@ -23,10 +23,5 @@ namespace Loqui.Xml
         {
             transl(node, item, doMasks, out maskObj);
         }
-
-        public override TryGet<T> ParseSingleItem(XElement root, XmlSubParseDelegate<T, M> transl, bool doMasks, out M maskObj)
-        {
-            return transl(root, doMasks, out maskObj);
-        }
     }
 }

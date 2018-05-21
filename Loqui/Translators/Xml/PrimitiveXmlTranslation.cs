@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -24,16 +25,20 @@ namespace Loqui.Xml
 
         protected abstract T ParseNonNullString(string str);
 
-        public TryGet<T?> Parse(XElement root, bool doMasks, out Exception errorMask)
+        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask)
         {
-            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
+            if (this.Parse(root, nullable: false, item: out var nullItem, errorMask: errorMask))
+            {
+                item = nullItem.Value;
+                return true;
+            }
+            item = default(T);
+            return false;
         }
 
-        public TryGet<T> ParseNonNull(XElement root, bool doMasks, out Exception errorMask)
+        public bool Parse(XElement root, out T? item, ErrorMaskBuilder errorMask)
         {
-            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
-            if (parse.Failed) return parse.BubbleFailure<T>();
-            return TryGet<T>.Succeed(parse.Value.Value);
+            return this.Parse(root, nullable: true, item: out item, errorMask: errorMask);
         }
 
         protected virtual T? ParseValue(XElement root)
@@ -46,70 +51,24 @@ namespace Loqui.Xml
             return ParseNonNullString(val.Value);
         }
         
-        public TryGet<T?> Parse(XElement root, bool nullable, bool doMasks, out Exception errorMask)
+        public bool Parse(XElement root, bool nullable, out T? item, ErrorMaskBuilder errorMask)
         {
             try
             {
-                var parse = ParseValue(root);
-                if (!nullable && !parse.HasValue)
+                item = ParseValue(root);
+                if (!nullable && !item.HasValue)
                 {
                     throw new ArgumentException("Value was unexpectedly null.");
                 }
-                errorMask = null;
-                return TryGet<T?>.Succeed(parse);
+                return true;
             }
             catch (Exception ex)
+            when (errorMask != null)
             {
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<T?>.Failure;
-                }
-                throw;
+                errorMask.ReportException(ex);
+                item = null;
+                return false;
             }
-        }
-
-        public TryGet<T?> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
-        {
-            var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out Exception ex);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
-        }
-
-        public TryGet<T?> Parse<M>(XElement root, bool nullable, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
-        {
-            var ret = this.Parse(
-                root: root,
-                nullable: nullable,
-                doMasks: errorMask != null,
-                errorMask: out Exception ex);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
-        }
-
-        public TryGet<T> ParseNonNull<M>(XElement root, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
-        {
-            var ret = this.ParseNonNull(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out Exception ex);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
         }
 
         protected virtual void WriteValue(XElement node, T? item)
@@ -117,11 +76,6 @@ namespace Loqui.Xml
             node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
                 item.HasValue ? GetItemStr(item.Value) : string.Empty);
-        }
-
-        TryGet<T> IXmlTranslation<T, Exception>.Parse(XElement root, bool doMasks, out Exception errorMask)
-        {
-            return ParseNonNull(root, doMasks, out errorMask);
         }
 
         public void Write(XElement node, string name, T? item, bool doMasks, out Exception errorMask)

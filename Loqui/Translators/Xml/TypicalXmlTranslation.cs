@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -24,13 +25,6 @@ namespace Loqui.Xml
         }
 
         protected abstract T ParseNonNullString(string str);
-        
-        public TryGet<T> ParseNonNull(XElement root, bool doMasks, out Exception errorMask)
-        {
-            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
-            if (parse.Failed) return parse.BubbleFailure<T>();
-            return TryGet<T>.Succeed(parse.Value);
-        }
 
         protected virtual T ParseValue(XElement root)
         {
@@ -42,49 +36,54 @@ namespace Loqui.Xml
             return ParseNonNullString(val.Value);
         }
 
-        public TryGet<T> Parse(XElement root, bool nullable, bool doMasks, out Exception errorMask)
+        public bool Parse(
+            XElement root,
+            bool nullable,
+            out T item,
+            ErrorMaskBuilder errorMask)
         {
             try
             {
-                var parse = ParseValue(root);
-                if (!nullable && parse == null)
+                item = ParseValue(root);
+                if (!nullable && item == null)
                 {
                     throw new ArgumentException("Value was unexpectedly null.");
                 }
-                errorMask = null;
-                return TryGet<T>.Succeed(parse);
+                return true;
             }
             catch (Exception ex)
+            when (errorMask != null)
             {
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<T>.Failure;
-                }
-                throw;
+                errorMask.ReportException(ex);
+                item = default(T);
+                return false;
             }
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out Exception errorMask)
-        {
-            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
-        }
-
-        public TryGet<T> Parse<Mask>(
+        public TryGet<T> Parse(
             XElement root,
-            int fieldIndex,
-            Func<Mask> errorMask)
-            where Mask : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
             var ret = this.Parse(
                 root: root,
-                doMasks: errorMask != null,
-                errorMask: out var ex);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
+                item: out var item,
+                errorMask: errorMask,
+                nullable: false);
+            return TryGet<T>.Create(
+                successful: ret,
+                val: item);
+        }
+
+        public bool Parse(
+            XElement root,
+            out T item,
+            ErrorMaskBuilder errorMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask,
+                nullable: false);
         }
 
         protected virtual void WriteValue(XElement node, string name, T item)
@@ -92,11 +91,6 @@ namespace Loqui.Xml
             node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
                 item != null ? GetItemStr(item) : string.Empty);
-        }
-
-        TryGet<T> IXmlTranslation<T, Exception>.Parse(XElement root, bool doMasks, out Exception errorMask)
-        {
-            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
         }
 
         private Exception Write_Internal(XElement node, string name, T item, bool doMasks, bool nullable)

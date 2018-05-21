@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -25,28 +26,26 @@ namespace Loqui.Xml
             return TryGet<string>.Succeed(null);
         }
 
-        public TryGet<string> Parse(XElement root, bool doMasks, out Exception errorMask)
-        {
-            errorMask = null;
-            if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
-            {
-                return TryGet<string>.Succeed(val.Value);
-            }
-            return TryGet<string>.Succeed(null);
-        }
-
-        public TryGet<string> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
+        public TryGet<string> Parse(XElement root, ErrorMaskBuilder errorMask)
         {
             var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out Exception ex);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
+                root,
+                out var item,
+                errorMask);
+            return TryGet<string>.Create(
+                ret,
+                item);
+        }
+
+        public bool Parse(XElement root, out string item, ErrorMaskBuilder errorMask)
+        {
+            if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            {
+                item = val.Value;
+                return true;
+            }
+            item = null;
+            return false;
         }
 
         public void Write(XElement node, string name, string item, bool doMasks, out Exception errorMask)

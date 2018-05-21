@@ -1,4 +1,5 @@
-﻿using Loqui.Translators;
+﻿using Loqui.Internal;
+using Loqui.Translators;
 using Noggog;
 using System;
 using System.Xml;
@@ -24,11 +25,15 @@ namespace Loqui.Xml
             maskObj = subMaskObj;
         }
 
-        TryGet<object> IXmlTranslation<object, object>.Parse(XElement root, bool doMasks, out object maskObj)
+        bool IXmlTranslation<object, object>.Parse(XElement root, out object item, ErrorMaskBuilder errorMask)
         {
-            var ret = Source.Parse(root, doMasks, out var subMaskObj).Bubble<object>((i) => i);
-            maskObj = subMaskObj;
-            return ret;
+            if (Source.Parse(root, out T sourceItem, errorMask))
+            {
+                item = sourceItem;
+                return true;
+            }
+            item = null;
+            return false;
         }
     }
 }

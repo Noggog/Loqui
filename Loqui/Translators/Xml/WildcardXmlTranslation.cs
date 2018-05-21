@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -24,66 +25,36 @@ namespace Loqui.Xml
             return XmlTranslator.Instance.Validate(t);
         }
 
-        public TryGet<Object> Parse(XElement root, bool doMasks, out object errorMask)
+        public bool Parse(XElement root, out object item, ErrorMaskBuilder errorMask)
         {
             if (!root.TryGetAttribute(XmlConstants.TYPE_ATTRIBUTE, out var nameAttr))
             {
-                var ex = new ArgumentException($"Could not get name attribute for XML Translator.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(new ArgumentException($"Could not get name attribute for XML Translator."));
             }
 
             var itemNode = root.Element("Item");
             if (itemNode == null)
             {
-                var ex = new ArgumentException($"Could not get item node.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(new ArgumentException($"Could not get item node."));
             }
 
             if (!XmlTranslator.Instance.TranslateElementName(nameAttr.Value, out INotifyingItemGetter<Type> t))
             {
-                var ex = new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator."));
             }
             var xml = GetTranslator(t.Item);
-            return xml.Parse(itemNode, doMasks, out errorMask);
+            return xml.Parse(itemNode, out item, errorMask);
         }
 
-        public TryGet<Object> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
+        public bool Parse<M>(XElement root, int fieldIndex, out object item, ErrorMaskBuilder errorMask)
         {
-            var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out object subErrMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subErrMask);
-            return ret;
+            using (errorMask.PushIndex(fieldIndex))
+            {
+                return this.Parse(
+                    root: root,
+                    item: out item,
+                    errorMask: errorMask);
+            }
         }
 
         public void Write(XElement node, string name, object item, bool doMasks, out object maskObj)
