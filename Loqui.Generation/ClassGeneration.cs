@@ -95,13 +95,13 @@ namespace Loqui.Generation
                 fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var field in this.IterateFields())
-                    {
-                        field.GenerateForCtor(fg);
-                    }
                     foreach (var mod in this.gen.GenerationModules)
                     {
                         await mod.GenerateInCtor(this, fg);
+                    }
+                    foreach (var field in this.IterateFields())
+                    {
+                        field.GenerateForCtor(fg);
                     }
                     fg.AppendLine("CustomCtor();");
                 }

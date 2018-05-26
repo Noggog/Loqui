@@ -128,8 +128,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"protected readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
                 }
-                fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.Name}, {TypeName}> _{this.Name}Forwarder;");
-                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
+                fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}> _{this.Name}Forwarder;");
+                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public {this.TypeName} {this.Name}");
                 using (new BraceWrapper(fg))
@@ -149,11 +149,11 @@ namespace Loqui.Generation
                     fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
                     if (this.IsClass)
                     {
-                        fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
+                        fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
                     }
                     else
                     {
-                        fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
+                        fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
                     }
                     fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
                     using (new BraceWrapper(fg))

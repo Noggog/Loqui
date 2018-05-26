@@ -17,5 +17,6 @@ namespace Loqui
         void Unset(int index, NotifyingUnsetParameters cmds);
         void SetCurrentAsDefault(int index);
         void Unsubscribe(int index, object owner);
+        void Subscribe(int index, object owner, NotifyingSetItemInternalCallback<T> callback, NotifyingSubscribeParameters cmds);
     }
 }

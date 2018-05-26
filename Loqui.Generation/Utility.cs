@@ -10,7 +10,9 @@ namespace Loqui.Generation
     {
         public static string MemberNameSafety(string str)
         {
-            return str.Replace(".", string.Empty);
+            var ret = str.Replace(".", string.Empty);
+            ret = ret.Replace("[]", "Arr");
+            return ret;
         }
     }
 }

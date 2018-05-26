@@ -86,6 +86,85 @@ namespace Loqui.Generation
                     fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
             }
+            else if (this.Notifying == NotifyingType.ObjectCentralized)
+            {
+                fg.AppendLine($"protected {TypeName} _{this.Name};");
+                if (HasDefault)
+                {
+                    fg.AppendLine($"protected readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
+                }
+                fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}> _{this.Name}Forwarder;");
+                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                fg.AppendLine($"public {this.TypeName} {this.Name}");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"get => this._{this.Name};");
+                    fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.Set{this.Name}(value);");
+                }
+                using (var args = new FunctionWrapper(fg,
+                    $"protected void Set{this.Name}"))
+                {
+                    args.Add($"{this.TypeName} item");
+                    args.Add($"bool hasBeenSet = true");
+                    args.Add($"NotifyingFireParameters cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"item = item{InRangeCheckerString};");
+                    fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                    if (this.IsClass)
+                    {
+                        fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
+                    }
+                    fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
+                    }
+                    fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var tmp = {this.Name};");
+                        fg.AppendLine($"_{this.Name} = item;");
+                        using (var args = new ArgsWrapper(fg,
+                            $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
+                        {
+                            args.Add($"index: (int){this.ObjectCentralizationEnumName}");
+                            args.Add("oldHasBeenSet: oldHasBeenSet");
+                            args.Add("newHasBeenSet: hasBeenSet");
+                            args.Add($"oldVal: tmp");
+                            args.Add($"newVal: item");
+                            args.Add($"cmds: cmds");
+                        }
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"_{this.Name} = item;");
+                    }
+                }
+                using (var args = new FunctionWrapper(fg,
+                    $"protected void Unset{this.Name}"))
+                {
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
+                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
+                }
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                }
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+            }
             else
             {
                 if (this.HasBeenSet)

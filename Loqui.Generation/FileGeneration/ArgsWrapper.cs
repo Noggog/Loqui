@@ -34,6 +34,11 @@ namespace Loqui.Generation
             }
         }
 
+        public void AddPassArg(string str)
+        {
+            Add($"{str}: {str}");
+        }
+
         public void Add(Action<FileGeneration> generator)
         {
             var gen = new FileGeneration();

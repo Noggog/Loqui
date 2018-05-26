@@ -40,7 +40,8 @@ namespace Loqui.Generation
         {
             get
             {
-                if (this.SingletonType == SingletonLevel.Singleton)
+                if (this.SingletonType == SingletonLevel.Singleton
+                    && this.Notifying != NotifyingType.ObjectCentralized)
                 {
                     return SingletonObjectName;
                 }
@@ -198,15 +199,21 @@ namespace Loqui.Generation
         {
             base.GenerateForCtor(fg);
 
-            if (!this.Bare)
+            if (this.Bare) return;
+            if (this.Notifying == NotifyingType.ObjectCentralized)
             {
-                if ((!this.TrueReadOnly
-                    && this.RaisePropertyChanged)
-                    || (!this.Bare
-                        && this.SingletonType == SingletonLevel.Singleton))
+                if (this.SingletonType == SingletonLevel.Singleton)
                 {
-                    GenerateNotifyingConstruction(fg, $"_{this.Name}");
+                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = true;");
                 }
+                return;
+            } 
+
+            if ((!this.TrueReadOnly
+                && this.RaisePropertyChanged)
+                || this.SingletonType == SingletonLevel.Singleton)
+            {
+                GenerateNotifyingConstruction(fg, $"_{this.Name}");
             }
         }
 
@@ -320,8 +327,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"protected {TypeName} _{this.Name};");
                 }
-                fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.Name}, {TypeName}> _{this.Name}Forwarder;");
-                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.Name}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
+                fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}> _{this.Name}Forwarder;");
+                fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public {this.TypeName} {this.Name}");
                 using (new BraceWrapper(fg))
@@ -338,41 +345,57 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                    fg.AppendLine($"if (oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
-                    fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
-                    using (new BraceWrapper(fg))
+                    if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
-                    }
-                    fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"var tmp = {this.Name};");
-                        if (this.SingletonType == SingletonLevel.NotNull)
+                        using (var args = new ArgsWrapper(fg,
+                            $"this._{this.Name}.CopyFieldsFrom"))
                         {
-                            fg.AppendLine("if (item == null)");
-                            using (new BraceWrapper(fg))
+                            args.Add($"rhs: item");
+                            args.Add($"def: null");
+                            args.Add($"cmds: null");
+                            args.Add($"copyMask: null");
+                            args.Add($"doMasks: false");
+                            args.Add($"errorMask: out var errMask");
+                        }
+                    }
+                    else
+                    {
+                        fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                        fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
+                        fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
+                        }
+                        fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"var tmp = {this.Name};");
+                            if (this.SingletonType == SingletonLevel.NotNull)
                             {
-                                fg.AppendLine("item = new {this._TargetObjectGeneration.Name}();");
+                                fg.AppendLine("if (item == null)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"item = new {this._TargetObjectGeneration.Name}();");
+                                }
+                            }
+                            fg.AppendLine($"_{this.Name} = item;");
+                            using (var args = new ArgsWrapper(fg,
+                                $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
+                            {
+                                args.Add($"index: (int){this.ObjectCentralizationEnumName}");
+                                args.Add("oldHasBeenSet: oldHasBeenSet");
+                                args.Add("newHasBeenSet: hasBeenSet");
+                                args.Add($"oldVal: tmp");
+                                args.Add($"newVal: item");
+                                args.Add($"cmds: cmds");
                             }
                         }
-                        fg.AppendLine($"_{this.Name} = item;");
-                        using (var args = new ArgsWrapper(fg,
-                            $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
+                        fg.AppendLine("else");
+                        using (new BraceWrapper(fg))
                         {
-                            args.Add($"index: (int){this.ObjectCentralizationEnumName}");
-                            args.Add("oldHasBeenSet: oldHasBeenSet");
-                            args.Add("newHasBeenSet: hasBeenSet");
-                            args.Add($"oldVal: tmp");
-                            args.Add($"newVal: item");
-                            args.Add($"cmds: cmds");
+                            fg.AppendLine($"_{this.Name} = item;");
                         }
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"_{this.Name} = item;");
                     }
                 }
                 using (var args = new FunctionWrapper(fg,
@@ -387,10 +410,10 @@ namespace Loqui.Generation
                 if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                    fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
             }
             else
             {

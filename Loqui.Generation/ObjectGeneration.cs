@@ -33,6 +33,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
         public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
+        public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();
         public ClassGeneration BaseClass;
         public bool HasBaseObject => BaseClass != null;
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
@@ -511,7 +512,10 @@ namespace Loqui.Generation
                     fg.AppendLine($"public const string GUID = \"{this.GUID}\";");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public const ushort FieldCount = {this.IterateFields().Count()};");
+                    fg.AppendLine($"public const ushort AdditionalFieldCount = {this.IterateFields().Count()};");
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public const ushort FieldCount = {this.TotalFieldCount};");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly Type MaskType = typeof({this.GetMaskString("")});");
@@ -581,7 +585,8 @@ namespace Loqui.Generation
                         fg.AppendLine($"ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;");
                         fg.AppendLine($"ObjectKey ILoquiRegistration.ObjectKey => ObjectKey;");
                         fg.AppendLine($"string ILoquiRegistration.GUID => GUID;");
-                        fg.AppendLine($"int ILoquiRegistration.FieldCount => FieldCount;");
+                        fg.AppendLine($"ushort ILoquiRegistration.FieldCount => FieldCount;");
+                        fg.AppendLine($"ushort ILoquiRegistration.AdditionalFieldCount => AdditionalFieldCount;");
                         fg.AppendLine($"Type ILoquiRegistration.MaskType => MaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ClassType => ClassType;");

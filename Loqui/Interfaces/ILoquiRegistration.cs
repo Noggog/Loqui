@@ -15,7 +15,9 @@ namespace Loqui
 
         string GUID { get; }
 
-        int FieldCount { get; }
+        ushort AdditionalFieldCount { get; }
+
+        ushort FieldCount { get; }
 
         string GetNthName(ushort index);
 

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>21e8cdda843729e1591ccad34c529a6a8bbfe570</Sha>
+         <Sha>e1f369f56034dc402ce325e7d86c79033887cbd2</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-18-2018 23:52:39</CommitDate>
-         <Description>DefaultValue and Unset moved to IHasItem.  SetCurrentAsDefault removed.   SetIfSucceededOrDefault</Description>
+         <CommitDate>05-26-2018 17:14:51</CommitDate>
+         <Description>Removed markAsSet from NotifyingFireParameters.  Removed Bind from NotifyingItem interface, in favor of extension functions.  Ownerless subsccribs made into extension functions</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
