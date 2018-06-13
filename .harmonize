@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e1f369f56034dc402ce325e7d86c79033887cbd2</Sha>
+         <Sha>97e7840835e5fbec48bb5f71110c20ea80da58d6</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-26-2018 17:14:51</CommitDate>
-         <Description>Removed markAsSet from NotifyingFireParameters.  Removed Bind from NotifyingItem interface, in favor of extension functions.  Ownerless subsccribs made into extension functions</Description>
+         <CommitDate>06-12-2018 21:01:12</CommitDate>
+         <Description>SortingList and some interfaces and extensions</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
