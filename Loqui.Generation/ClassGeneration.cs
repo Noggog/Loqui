@@ -71,7 +71,9 @@ namespace Loqui.Generation
                     .Union(this.gen.GenerationModules
                         .SelectMany((tr) => tr.GetReaderInterfaces(this)))
                     .Union(this.GenerationInterfaces
-                        .SelectMany((tr) => tr.Interfaces(this))));
+                        .SelectMany((tr) => tr.Interfaces(this)))
+                    .Union(this.ProtoGen.Interfaces)
+                    .Union(this.gen.Interfaces).Distinct());
             list.Add($"IEquatable<{this.ObjectName}>");
             using (new DepthWrapper(fg))
             {

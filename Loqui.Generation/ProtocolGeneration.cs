@@ -28,6 +28,7 @@ namespace Loqui.Generation
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
         public bool RaisePropertyChangedDefault = true;
+        public List<string> Interfaces = new List<string>();
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
         List<FilePath> projectsToModify = new List<FilePath>();

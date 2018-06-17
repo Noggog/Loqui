@@ -25,6 +25,7 @@ namespace Loqui.Generation
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
+        public List<string> Interfaces = new List<string>();
         public bool ProtectedDefault;
         public bool DerivativeDefault;
         public NotifyingType NotifyingDefault;
@@ -163,9 +164,11 @@ namespace Loqui.Generation
             return protoGen;
         }
 
-        public void Add(GenerationModule transl)
+        public T Add<T>(T transl)
+            where T : GenerationModule
         {
             GenerationModules.Add(transl);
+            return transl;
         }
 
         public void Add(GenerationInterface interf)
