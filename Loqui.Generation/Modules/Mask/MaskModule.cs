@@ -436,7 +436,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (errorMask?.Empty ?? true) return null;");
-                        fg.AppendLine("throw new NotImplementedException();");
+                        fg.AppendLine($"return new {obj.Mask(MaskType.Error)}();");
                     }
                 }
             }
