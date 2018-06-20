@@ -9,6 +9,12 @@ namespace Loqui.Generation
 {
     public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
+        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        {
+            var eType = typeGen as EnumType;
+            return $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance";
+        }
+
         PrimitiveXmlTranslationGeneration<string> _subGen = new PrimitiveXmlTranslationGeneration<string>();
         public override void GenerateWrite(
             FileGeneration fg,
@@ -16,7 +22,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -31,13 +36,8 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
                 }
-                else
-                {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
-                }
+                args.Add($"errorMask: {maskAccessor}");
             }
         }
 
@@ -46,27 +46,27 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
             var isProperty = itemAccessor.PropertyAccess != null;
-            string prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"{itemAccessor.DirectAccess} = ";
+            string prefix = isProperty ? null : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
-                $"{prefix}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
-                suffixLine: $"{(eType.Nullable ? string.Empty : $".Bubble((o) => o.Value)")}{(isProperty ? ")" : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
+                $"{prefix}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(isProperty ? "Into" : null)}"))
             {
                 args.Add(nodeAccessor);
-                args.Add($"nullable: {eType.Nullable.ToString().ToLower()}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    if (isProperty)
+                    {
+                        args.Add($"item: {itemAccessor.PropertyAccess}");
+                    }
                     args.Add($"errorMask: {maskAccessor}");
                 }
                 else
                 {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
+                    throw new NotImplementedException();
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen, 
             string nodeAccessor,
             Accessor retAccessor,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
@@ -84,7 +84,7 @@ namespace Loqui.Generation
                 $"{retAccessor.DirectAccess}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor);
-                args.Add($"doMasks: {doMaskAccessor}");
+                args.Add($"index: {indexAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
             }
         }

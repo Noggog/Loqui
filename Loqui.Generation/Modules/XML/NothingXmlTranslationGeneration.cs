@@ -9,11 +9,27 @@ namespace Loqui.Generation
 {
     public class NothingXmlTranslationGeneration : XmlTranslationGeneration
     {
-        public override void GenerateCopyIn(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, Accessor itemAccessor, string doMaskAccessor, string maskAccessor)
+        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateCopyIn(
+            FileGeneration fg, 
+            TypeGeneration typeGen,
+            string nodeAccessor, 
+            Accessor itemAccessor,
+            string maskAccessor)
         {
         }
 
-        public override void GenerateCopyInRet(FileGeneration fg, TypeGeneration typeGen, string nodeAccessor, Accessor retAccessor, string doMaskAccessor, string maskAccessor)
+        public override void GenerateCopyInRet(
+            FileGeneration fg, 
+            TypeGeneration typeGen, 
+            string nodeAccessor, 
+            Accessor retAccessor,
+            string indexAccessor,
+            string maskAccessor)
         {
         }
 
@@ -28,7 +44,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor, 
             Accessor itemAccessor, 
-            string doMaskAccessor, 
             string maskAccessor, 
             string nameAccessor)
         {

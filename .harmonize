@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>1a86ba8174f96687bad8be0b8bbc092d2f28b780</Sha>
+         <Sha>c1dd7ef13ed9f4a2b5c24864677c426b21aaa717</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-21-2018 16:33:41</CommitDate>
-         <Description>IDisposableExt.Nothing</Description>
+         <CommitDate>06-19-2018 22:28:50</CommitDate>
+         <Description>Removed a vestigial Unset function from NotifyingSetItem</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

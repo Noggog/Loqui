@@ -11,7 +11,7 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public class NullXmlTranslation : IXmlTranslation<object, Exception>
+    public class NullXmlTranslation : IXmlTranslation<object>
     {
         public string ElementName => "Null";
 
@@ -21,9 +21,8 @@ namespace Loqui.Xml
             return true;
         }
 
-        public void Write(XElement node, string name, object item, bool doMasks, out Exception maskObj)
+        public void Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
         {
-            maskObj = null;
             node.Add(
                 new XElement(name));
         }

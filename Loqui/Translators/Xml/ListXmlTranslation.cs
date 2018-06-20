@@ -10,18 +10,19 @@ using System.Xml.Linq;
 using Noggog.Xml;
 using Loqui;
 using Noggog.Notifying;
+using Loqui.Internal;
 
 namespace Loqui.Xml
 {
-    public class ListXmlTranslation<T, M> : ContainerXmlTranslation<T, M>
+    public class ListXmlTranslation<T> : ContainerXmlTranslation<T>
     {
-        public static readonly ListXmlTranslation<T, M> Instance = new ListXmlTranslation<T, M>();
+        public static readonly ListXmlTranslation<T> Instance = new ListXmlTranslation<T>();
 
         public override string ElementName => "List";
 
-        public override void WriteSingleItem<ErrMask>(XElement node, XmlSubWriteDelegate<T, ErrMask> transl, T item, bool doMasks, out ErrMask maskObj)
+        public override void WriteSingleItem(XElement node, XmlSubWriteDelegate<T> transl, T item, ErrorMaskBuilder errorMask)
         {
-            transl(node, item, doMasks, out maskObj);
+            transl(node, item, errorMask);
         }
     }
 }

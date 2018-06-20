@@ -14,14 +14,14 @@ using Loqui.Internal;
 
 namespace Loqui.Xml
 {
-    public class KeyedDictXmlTranslation<K, V, Mask> : IXmlTranslation<IEnumerable<V>, MaskItem<Exception, IEnumerable<Mask>>>
+    public class KeyedDictXmlTranslation<K, V> : IXmlTranslation<IEnumerable<V>>
     {
-        public static readonly KeyedDictXmlTranslation<K, V, Mask> Instance = new KeyedDictXmlTranslation<K, V, Mask>();
+        public static readonly KeyedDictXmlTranslation<K, V> Instance = new KeyedDictXmlTranslation<K, V>();
         public virtual string ElementName => "Dict";
 
         public bool Parse(XElement root, out IEnumerable<V> enumer, ErrorMaskBuilder errorMask)
         {
-            var valTransl = XmlTranslator<V, Mask>.Translator;
+            var valTransl = XmlTranslator<V>.Translator;
             if (valTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
@@ -33,54 +33,101 @@ namespace Loqui.Xml
                 valTransl: valTransl.Item.Value.Parse);
         }
 
-        public bool Parse(
-            XmlSubParseDelegate<V> valTransl,
+        public void ParseInto(
             XElement root,
-            out IEnumerable<V> enumer,
+            INotifyingKeyedCollection<K, V> item,
+            int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
             try
             {
-                var ret = new List<V>();
-                int i = 0;
-                foreach (var listElem in root.Elements())
+                errorMask?.PushIndex(fieldIndex);
+                if (Parse(
+                    root: root,
+                    enumer: out var enumer,
+                    errorMask: errorMask))
                 {
-                    using (errorMask.PushIndex(i++))
-                    {
-                        if (ParseSingleItem(listElem, valTransl, out var subItem, errorMask))
-                        {
-                            ret.Add(subItem);
-                        }
-                    }
+                    item.SetTo(enumer);
                 }
-                enumer = ret;
-                return true;
+                else
+                {
+                    item.Unset();
+                }
             }
             catch (Exception ex)
             when (errorMask != null)
             {
                 errorMask.ReportException(ex);
-                enumer = null;
-                return false;
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
         }
 
-        public TryGet<IEnumerable<V>> Parse(
-            XmlSubParseDelegate<V> valTransl,
+        public bool Parse(
             XElement root,
-            int fieldIndex,
+            XmlSubParseDelegate<V> valTransl,
+            out IEnumerable<V> enumer,
             ErrorMaskBuilder errorMask)
         {
-            using (errorMask.PushIndex(fieldIndex))
+            var ret = new List<V>();
+            int i = 0;
+            foreach (var listElem in root.Elements())
             {
-                var ret = this.Parse(
+                try
+                {
+                    errorMask?.PushIndex(i++);
+                    if (ParseSingleItem(listElem, valTransl, out var subItem, errorMask))
+                    {
+                        ret.Add(subItem);
+                    }
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+                finally
+                {
+                    errorMask?.PopIndex();
+                }
+            }
+            enumer = ret;
+            return true;
+        }
+
+        public void ParseInto(
+            XElement root,
+            INotifyingKeyedCollection<K, V> item,
+            int fieldIndex,
+            XmlSubParseDelegate<V> valTransl,
+            ErrorMaskBuilder errorMask)
+        {
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                if (Parse(
                     root: root,
                     valTransl: valTransl,
-                    errorMask: errorMask,
-                    enumer: out var item);
-                return TryGet<IEnumerable<V>>.Create(
-                    ret,
-                    item);
+                    enumer: out var enumer,
+                    errorMask: errorMask))
+                {
+                    item.SetTo(enumer);
+                }
+                else
+                {
+                    item.Unset();
+                }
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
         }
 
@@ -97,10 +144,9 @@ namespace Loqui.Xml
             XElement node,
             string name,
             IEnumerable<V> items,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<Mask>> maskObj)
+            ErrorMaskBuilder errorMask)
         {
-            var valTransl = XmlTranslator<V, Mask>.Translator;
+            var valTransl = XmlTranslator<V>.Translator;
             if (valTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
@@ -109,103 +155,108 @@ namespace Loqui.Xml
                 node: node,
                 name: name,
                 items: items,
-                doMasks: doMasks,
-                maskObj: out maskObj,
-                valTransl: (XElement n, V item1, bool internalDoMasks, out Mask obj) => valTransl.Item.Value.Write(node: n, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                errorMask: errorMask,
+                valTransl: (XElement n, V item1, ErrorMaskBuilder errorMask2) => valTransl.Item.Value.Write(node: n, name: "Item", item: item1, errorMask: errorMask2));
         }
 
         public void Write(
             XElement node,
             string name,
             IEnumerable<V> items,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<Mask>> maskObj,
-            XmlSubWriteDelegate<V, Mask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<V> valTransl)
         {
-            List<Mask> maskList = null;
             var elem = new XElement(name);
             node.Add(elem);
+            int i = 0;
             foreach (var item in items)
             {
-                WriteSingleItem(
-                    node: node,
-                    item: item,
-                    doMasks: doMasks,
-                    valmaskItem: out var valErrMask,
-                    valTransl: valTransl);
-
-                if (!doMasks) continue;
-                if (valErrMask != null)
+                try
                 {
-                    if (maskList == null)
-                    {
-                        maskList = new List<Mask>();
-                    }
-                    maskList.Add(valErrMask);
+                    errorMask?.PushIndex(i++);
+                    WriteSingleItem(
+                        node: node,
+                        item: item,
+                        errorMask: errorMask,
+                        valTransl: valTransl);
                 }
-            }
-            if (maskList != null)
-            {
-                maskObj = new MaskItem<Exception, IEnumerable<Mask>>(null, maskList);
-            }
-            else
-            {
-                maskObj = null;
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+                finally
+                {
+                    errorMask?.PopIndex();
+                }
             }
         }
 
         public void WriteSingleItem(
             XElement node,
             V item,
-            bool doMasks,
-            out Mask valmaskItem,
-            XmlSubWriteDelegate<V, Mask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<V> valTransl)
         {
-            valTransl(node, item, doMasks, out valmaskItem);
+            valTransl(node, item, errorMask);
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IEnumerable<V> items,
             int fieldIndex,
-            Func<M> errorMask,
-            XmlSubWriteDelegate<V, Mask> valTransl)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<V> valTransl)
         {
-            this.Write(
-                node: node,
-                name: name,
-                items: items,
-                doMasks: errorMask != null,
-                maskObj: out var subMask,
-                valTransl: valTransl);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    items: items,
+                    errorMask: errorMask,
+                    valTransl: valTransl);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasItem<IEnumerable<V>> item,
             int fieldIndex,
-            Func<M> errorMask,
-            XmlSubWriteDelegate<V, Mask> valTransl)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<V> valTransl)
         {
-            this.Write(
-                node: node,
-                name: name,
-                items: item.Item,
-                doMasks: errorMask != null,
-                maskObj: out var subMask,
-                valTransl: valTransl);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    items: item.Item,
+                    errorMask: errorMask,
+                    valTransl: valTransl);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
     }
 }

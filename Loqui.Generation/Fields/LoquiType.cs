@@ -749,24 +749,11 @@ namespace Loqui.Generation
                     args.Add($"def: def?.{this.Name}");
                     if (this.RefType == LoquiRefType.Direct)
                     {
-                        args.Add($"doMasks: doMasks");
-                        args.Add((gen) =>
-                        {
-                            gen.AppendLine($"errorMask: (doMasks ? new Func<{this.Mask(MaskType.Error)}>(() =>");
-                            using (new BraceWrapper(gen))
-                            {
-                                gen.AppendLine($"var baseMask = errorMask();");
-                                gen.AppendLine($"var mask = new {this.Mask(MaskType.Error)}();");
-                                gen.AppendLine($"baseMask.SetNthMask((int){this.IndexEnumName}, mask);");
-                                gen.AppendLine($"return mask;");
-                            }
-                            gen.Append($") : null)");
-                        });
+                        args.Add($"errorMask: errorMask");
                         args.Add($"copyMask: copyMask?.{this.Name}.Specific");
                     }
                     else
                     {
-                        args.Add($"doErrorMask: false");
                         args.Add($"errorMask: null");
                         args.Add($"copyMask: null");
                     }

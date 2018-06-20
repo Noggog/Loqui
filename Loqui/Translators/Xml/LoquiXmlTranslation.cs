@@ -14,17 +14,16 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class LoquiXmlTranslation<T, M> : IXmlTranslation<T, M>
+    public class LoquiXmlTranslation<T> : IXmlTranslation<T>
         where T : ILoquiObject
-        where M : class, IErrorMask, new()
     {
-        public static readonly LoquiXmlTranslation<T, M> Instance = new LoquiXmlTranslation<T, M>();
+        public static readonly LoquiXmlTranslation<T> Instance = new LoquiXmlTranslation<T>();
         private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
         public delegate TryGet<T> CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
-        public delegate void WRITE_FUNC(XElement node, T item, string name, bool doMasks, out M errorMask);
+        public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
@@ -34,46 +33,40 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask)
         {
             var ret = new List<KeyValuePair<ushort, object>>();
-            try
+            foreach (var elem in root.Elements())
             {
-                foreach (var elem in root.Elements())
+                var i = registration.GetNameIndex(elem.Name.LocalName);
+                if (!i.HasValue)
                 {
-                    var i = registration.GetNameIndex(elem.Name.LocalName);
-                    if (!i.HasValue)
+                    errorMask?.ReportWarning($"Skipping field that did not exist anymore with name: {elem.Name.LocalName}");
+                    continue;
+                }
+
+                if (registration.IsProtected(i.Value) && skipProtected) continue;
+
+                try
+                {
+                    errorMask?.PushIndex(i.Value);
+                    var type = registration.GetNthType(i.Value);
+                    if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object> translator))
                     {
-                        errorMask?.ReportWarning($"Skipping field that did not exist anymore with name: {elem.Name.LocalName}");
-                        continue;
+                        XmlTranslator.Instance.TryGetTranslator(type, out translator);
+                        throw new ArgumentException($"No XML Translator found for {type}");
                     }
-
-                    if (registration.IsProtected(i.Value) && skipProtected) continue;
-
-                    using (errorMask.PushIndex(i.Value))
+                    if (translator.Parse(elem, out var obj, errorMask))
                     {
-                        try
-                        {
-                            var type = registration.GetNthType(i.Value);
-                            if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object, object> translator))
-                            {
-                                XmlTranslator.Instance.TryGetTranslator(type, out translator);
-                                throw new ArgumentException($"No XML Translator found for {type}");
-                            }
-                            if (translator.Parse(elem, out var obj, errorMask))
-                            {
-                                ret.Add(new KeyValuePair<ushort, object>(i.Value, obj));
-                            }
-                        }
-                        catch (Exception ex)
-                        when (errorMask != null)
-                        {
-                            errorMask.ReportException(ex);
-                        }
+                        ret.Add(new KeyValuePair<ushort, object>(i.Value, obj));
                     }
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+                finally
+                {
+                    errorMask?.PopIndex();
+                }
             }
             return ret;
         }
@@ -113,64 +106,37 @@ namespace Loqui.Xml
                 .First();
             if (!method.IsGenericMethod)
             {
-                var f = DelegateBuilder.BuildDelegate<Func<T, XElement, bool, string, object>>(method);
-                return (XElement node, T item, string name, bool doMasks, out M errorMask) =>
+                var f = DelegateBuilder.BuildDelegate<Action<T, XElement, string, ErrorMaskBuilder>>(method);
+                return (XElement node, T item, string name, ErrorMaskBuilder errorMask) =>
                 {
                     if (item == null)
                     {
                         throw new NullReferenceException("Cannot write XML for a null item.");
                     }
-                    errorMask = (M)f(item, node, doMasks, name);
+                    f(item, node, name, errorMask);
                 };
             }
             else
             {
-                var f = DelegateBuilder.BuildGenericDelegate<Func<T, XElement, bool, string, object>>(typeof(T), new Type[] { typeof(M).GenericTypeArguments[0] }, method);
-                return (XElement node, T item, string name, bool doMasks, out M errorMask) =>
-                {
-                    if (item == null)
-                    {
-                        throw new NullReferenceException("Cannot write XML for a null item.");
-                    }
-                    errorMask = (M)f(item, node, doMasks, name);
-                };
+                throw new NotImplementedException();
             }
         }
 
-        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask)
+        public void ParseInto(XElement root, int fieldIndex, IHasItem<T> item, ErrorMaskBuilder errorMask)
         {
             try
             {
-                var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-                if (typeStr != null
-                    && typeStr.Equals(Registration.FullName))
+                errorMask?.PushIndex(fieldIndex);
+                if (Parse(
+                    root,
+                    out var i,
+                    errorMask))
                 {
-                    var ret = CREATE.Value(
-                        root: root,
-                        errorMaskBuilder: errorMask);
-                    item = ret.Value;
-                    return ret.Succeeded;
+                    item.Item = i;
                 }
                 else
                 {
-                    var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
-                    if (register == null)
-                    {
-                        var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
-                        if (errorMask == null) throw ex;
-                        errorMask.ReportException(ex);
-                        item = default(T);
-                        return false;
-                    }
-                    var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                        root: root,
-                        item: out var itemObj,
-                        errMask: errorMask);
-                    if (ret)
-                    {
-                        item = (T)itemObj;
-                        return true;
-                    }
+                    item.Unset();
                 }
             }
             catch (Exception ex)
@@ -178,37 +144,65 @@ namespace Loqui.Xml
             {
                 errorMask.ReportException(ex);
             }
-            item = default(T);
-            return false;
-        }
-
-        public void Write(XElement node, string name, T item, bool doMasks, out M errorMask)
-        {
-            WRITE.Value(node, item, name, doMasks, out errorMask);
-        }
-
-        public void Write(XElement node, string name, T item, bool doMasks, out MaskItem<Exception, M> errorMask)
-        {
-            try
+            finally
             {
-                WRITE.Value(node, item, name, doMasks, out var subMask);
-                errorMask = subMask == null ? null : new MaskItem<Exception, M>(null, subMask);
-            }
-            catch (Exception ex)
-            when (doMasks)
-            {
-                errorMask = new MaskItem<Exception, M>(ex, default(M));
+                errorMask?.PopIndex();
             }
         }
 
-        public void Write<Mask>(
+        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask)
+        {
+            var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+            if (typeStr != null
+                && typeStr.Equals(Registration.FullName))
+            {
+                var ret = CREATE.Value(
+                    root: root,
+                    errorMaskBuilder: errorMask);
+                item = ret.Value;
+                return ret.Succeeded;
+            }
+            else
+            {
+                var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
+                if (register == null)
+                {
+                    var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                    if (errorMask == null) throw ex;
+                    errorMask.ReportException(ex);
+                    item = default(T);
+                    return false;
+                }
+                var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                    root: root,
+                    item: out var itemObj,
+                    errorMask: errorMask);
+                if (ret)
+                {
+                    item = (T)itemObj;
+                    return true;
+                }
+                else
+                {
+                    item = default(T);
+                    return false;
+                }
+            }
+        }
+
+        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask)
+        {
+            WRITE.Value(node, item, name, errorMask);
+        }
+
+        public void Write(
             XElement node,
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
-            Func<Mask> errorMask)
-            where Mask : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
+            errorMask?.PushIndex(fieldIndex);
             this.Write(
                 node: node,
                 name: name,
@@ -217,33 +211,38 @@ namespace Loqui.Xml
                 errorMask: errorMask);
         }
 
-        public void Write<Mask>(
+        public void Write(
             XElement node,
             string name,
             T item,
             int fieldIndex,
-            Func<Mask> errorMask)
-            where Mask : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item,
-                doMasks: errorMask != null,
-                errorMask: out M subMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<Mask>(
+        public void Write(
             XElement node,
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
-            Func<Mask> errorMask)
-            where Mask : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(

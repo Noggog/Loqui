@@ -8,13 +8,13 @@ using Loqui.Internal;
 
 namespace Loqui.Xml
 {
-    public delegate void XmlSubWriteDelegate<in T, M>(XElement node, T item, bool doMasks, out M maskObj);
-    public delegate bool XmlSubParseDelegate<T>(XElement root, out T item, ErrorMaskBuilder errMask);
+    public delegate void XmlSubWriteDelegate<in T>(XElement node, T item, ErrorMaskBuilder errorMask);
+    public delegate bool XmlSubParseDelegate<T>(XElement root, out T item, ErrorMaskBuilder errorMask);
 
-    public interface IXmlTranslation<T, M> : ITranslation<T, M>
+    public interface IXmlTranslation<T> : ITranslation<T>
     {
         string ElementName { get; }
-        void Write(XElement node, string name, T item, bool doMasks, out M maskObj);
-        bool Parse(XElement root, out T item, ErrorMaskBuilder errMask);
+        void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask);
+        bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask);
     }
 }

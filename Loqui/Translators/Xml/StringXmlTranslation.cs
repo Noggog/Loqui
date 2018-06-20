@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class StringXmlTranslation : IXmlTranslation<string, Exception>
+    public class StringXmlTranslation : IXmlTranslation<string>
     {
         public string ElementName => "String";
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
@@ -26,17 +26,6 @@ namespace Loqui.Xml
             return TryGet<string>.Succeed(null);
         }
 
-        public TryGet<string> Parse(XElement root, ErrorMaskBuilder errorMask)
-        {
-            var ret = this.Parse(
-                root,
-                out var item,
-                errorMask);
-            return TryGet<string>.Create(
-                ret,
-                item);
-        }
-
         public bool Parse(XElement root, out string item, ErrorMaskBuilder errorMask)
         {
             if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
@@ -48,72 +37,101 @@ namespace Loqui.Xml
             return false;
         }
 
-        public void Write(XElement node, string name, string item, bool doMasks, out Exception errorMask)
+        public void ParseInto(XElement root, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
         {
             try
             {
-                var elem = new XElement(name);
-                node.Add(elem);
-                if (item != null)
+                errorMask?.PushIndex(fieldIndex);
+                if (Parse(root, out var val, errorMask))
                 {
-                    elem.SetAttributeValue(XmlConstants.VALUE_ATTRIBUTE, item);
+                    item.Item = val;
                 }
-                errorMask = null;
+                else
+                {
+                    item.Unset();
+                }
             }
             catch (Exception ex)
-            when (doMasks)
+            when (errorMask != null)
             {
-                errorMask = ex;
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
         }
 
-        public void Write<M>(
+        public void Write(XElement node, string name, string item, ErrorMaskBuilder errorMask)
+        {
+            var elem = new XElement(name);
+            node.Add(elem);
+            if (item != null)
+            {
+                elem.SetAttributeValue(XmlConstants.VALUE_ATTRIBUTE, item);
+            }
+        }
+
+        public void Write(
             XElement node,
             string name,
             string item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item,
-                doMasks: errorMask != null,
-                errorMask: out var subMask);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasItemGetter<string> item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item.Item,
-                doMasks: errorMask != null,
-                errorMask: out var subMask);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item.Item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasBeenSetItemGetter<string> item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(

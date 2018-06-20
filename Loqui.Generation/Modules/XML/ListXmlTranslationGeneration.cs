@@ -11,15 +11,7 @@ namespace Loqui.Generation
     {
         public virtual string TranslatorName => $"ListXmlTranslation";
 
-        public override void GenerateWrite(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            string writerAccessor,
-            Accessor itemAccessor,
-            string doMaskAccessor,
-            string maskAccessor,
-            string nameAccessor)
+        public override string GetTranslatorInstance(TypeGeneration typeGen)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -28,8 +20,26 @@ namespace Loqui.Generation
             }
 
             var subMaskStr = subTransl.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration);
+            return $"{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance";
+        }
+
+        public override void GenerateWrite(
+            FileGeneration fg,
+            ObjectGeneration objGen,
+            TypeGeneration typeGen,
+            string writerAccessor,
+            Accessor itemAccessor,
+            string maskAccessor,
+            string nameAccessor)
+        {
+            var list = typeGen as ListType;
+            if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
+            {
+                throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
+            }
+            
             using (var args = new ArgsWrapper(fg,
-                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Write"))
+                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Write"))
             {
                 args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -41,12 +51,11 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
+                    throw new NotImplementedException();
                 }
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, bool listDoMasks, out {subMaskStr} listSubMask) =>");
+                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, ErrorMaskBuilder listSubMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
@@ -55,7 +64,6 @@ namespace Loqui.Generation
                             typeGen: list.SubTypeGeneration,
                             writerAccessor: "subNode",
                             itemAccessor: new Accessor($"subItem"),
-                            doMaskAccessor: doMaskAccessor,
                             maskAccessor: $"listSubMask",
                             nameAccessor: "\"Item\"");
                     }
@@ -76,7 +84,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor)
         {
             GenerateCopyInRet_Internal(
@@ -85,7 +92,7 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
                 ret: false,
-                doMaskAccessor: doMaskAccessor,
+                indexAccessor: $"(int){typeGen.IndexEnumName}",
                 maskAccessor: maskAccessor);
         }
 
@@ -94,7 +101,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
             GenerateCopyInRet_Internal(
@@ -103,7 +110,7 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                doMaskAccessor: doMaskAccessor,
+                indexAccessor: indexAccessor,
                 maskAccessor: maskAccessor);
         }
 
@@ -113,7 +120,7 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
             var list = typeGen as ListType;
@@ -121,26 +128,17 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
             }
-
-            string prefix, suffix;
-            bool isProperty = itemAccessor?.PropertyAccess != null;
-            if (!ret)
+           
+            if (ret)
             {
-                suffix = isProperty ? ")" : null;
-                prefix = isProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceeded)}(" : $"var {typeGen.Name}list = ";
+                throw new NotImplementedException();
             }
-            else
-            {
-                suffix = null;
-                prefix = itemAccessor.DirectAccess;
-            }
-
-            var subMaskStr = subTransl.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration);
+            
             using (var args = new ArgsWrapper(fg,
-                $"{prefix}{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance.Parse",
-                suffixLine: suffix))
+                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.ParseInto"))
             {
                 args.Add($"root: root");
+                args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
@@ -148,28 +146,10 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
+                    throw new NotImplementedException();
                 }
-                args.Add((gen) =>
-                {
-                    gen.AppendLine($"transl: (XElement r, bool listDoMasks, out {typeGen.ProtoGen.Gen.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration)} listSubMask) =>");
-                    using (new BraceWrapper(gen))
-                    {
-                        var xmlGen = XmlMod.GetTypeGeneration(list.SubTypeGeneration.GetType());
-                        xmlGen.GenerateCopyInRet(gen, list.SubTypeGeneration, "r", new Accessor("return "), "listDoMasks", "listSubMask");
-                    }
-                });
+                args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
                 ExtraCopyInArgs(typeGen, args);
-            }
-
-            if (!ret && !isProperty)
-            {
-                fg.AppendLine($"if ({typeGen.Name}list.Succeeded)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}list.Value);");
-                }
             }
         }
 

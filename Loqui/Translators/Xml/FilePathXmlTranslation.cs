@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Xml;
 using System;
 using System.Xml;
@@ -15,9 +16,10 @@ namespace Loqui.Xml
             return item.Path;
         }
 
-        protected override FilePath ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out FilePath value, ErrorMaskBuilder errorMask)
         {
-            return new FilePath(str);
+            value = new FilePath(str);
+            return true;
         }
     }
 }

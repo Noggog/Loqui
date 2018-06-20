@@ -8,29 +8,32 @@ namespace Loqui.Internal
 {
     public class ErrorMaskBuilder : IDisposable
     {
+        public const int OVERALL_INDEX = -2;
+
         Stack<int> _depthStack;
         private int? _CurrentIndex;
         public int? CurrentIndex
         {
-            get => _CurrentIndex ?? _depthStack.Peek();
+            get => _CurrentIndex ?? _depthStack?.Peek();
             set => _CurrentIndex = value;
         }
         public List<(int[], Exception)> Exceptions;
         public List<(int[], string)> Warnings;
+        public bool Empty => (Exceptions?.Count ?? 0) == 0 && (Warnings?.Count ?? 0) == 0;
 
-        internal IDisposable PushIndexInternal(int index)
+        internal IDisposable PushIndexInternal(int fieldIndex)
         {
-            if (!CurrentIndex.HasValue)
+            if (!_CurrentIndex.HasValue)
             {
-                CurrentIndex = index;
+                _CurrentIndex = fieldIndex;
                 return this;
             }
             if (_depthStack == null)
             {
                 _depthStack = new Stack<int>();
             }
-            _depthStack.Push(CurrentIndex.Value);
-            CurrentIndex = index;
+            _depthStack.Push(_CurrentIndex.Value);
+            _CurrentIndex = fieldIndex;
             return this;
         }
 
@@ -38,11 +41,35 @@ namespace Loqui.Internal
         {
             if (_CurrentIndex.HasValue)
             {
-                return _depthStack.And(_CurrentIndex.Value).ToArray();
+                int[] ret = new int[_depthStack.Count + 1];
+                _depthStack.CopyTo(ret, 0);
+                ret[_depthStack.Count] = _CurrentIndex.Value;
+                return ret;
             }
             else
             {
-                return _depthStack.ToArray();
+                int[] ret = new int[_depthStack.Count];
+                _depthStack.CopyTo(ret, 0);
+                return ret;
+            }
+        }
+
+        private int[] GetCurrentStack(int index)
+        {
+            if (_CurrentIndex.HasValue)
+            {
+                int[] ret = new int[_depthStack.Count + 2];
+                _depthStack.CopyTo(ret, 0);
+                ret[_depthStack.Count] = _CurrentIndex.Value;
+                ret[ret.Length - 1] = index;
+                return ret;
+            }
+            else
+            {
+                int[] ret = new int[_depthStack.Count + 1];
+                _depthStack.CopyTo(ret, 0);
+                ret[_depthStack.Count] = index;
+                return ret;
             }
         }
 
@@ -70,6 +97,11 @@ namespace Loqui.Internal
 
         public void Dispose()
         {
+            PopIndex();
+        }
+
+        public void PopIndex()
+        {
             if (_CurrentIndex.HasValue)
             {
                 _CurrentIndex = null;
@@ -83,10 +115,10 @@ namespace Loqui.Internal
 
     public static class ErrorMaskBuilderExt
     {
-        public static IDisposable PushIndex(this ErrorMaskBuilder errorMask, int index)
+        public static IDisposable PushIndex(this ErrorMaskBuilder errorMask, int fieldIndex)
         {
             if (errorMask == null) return Noggog.IDisposableExt.Nothing;
-            errorMask.PushIndexInternal(index);
+            errorMask.PushIndexInternal(fieldIndex);
             return errorMask;
         }
 

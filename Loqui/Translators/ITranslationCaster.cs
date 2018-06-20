@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Loqui.Translators
 {
-    public interface ITranslationCaster<T, M>
+    public interface ITranslationCaster<T>
     {
-        ITranslation<T, M> Source { get; }
+        ITranslation<T> Source { get; }
     }
 }

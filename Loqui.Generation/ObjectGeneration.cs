@@ -890,29 +890,44 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.Mask(MaskType.Error)} retErrorMask = null;");
-                fg.AppendLine($"Func<IErrorMask> maskGetter = !doMasks ? default(Func<IErrorMask>) : () =>");
-                using (new BraceWrapper(fg) { AppendSemicolon = true })
-                {
-                    fg.AppendLine($"if (retErrorMask == null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"retErrorMask = new {this.Mask(MaskType.Error)}();");
-                    }
-                    fg.AppendLine("return retErrorMask;");
-                }
+                fg.AppendLine($"var errorMaskBuilder = new ErrorMaskBuilder();");
                 using (var args = new ArgsWrapper(fg,
                     $"{this.ExtCommonName}.CopyFieldsFrom{GenerateGenericClause(Generics.Select((g) => g.Key), GenericTypes_Nickname(MaskType.Copy))}"))
                 {
                     args.Add("item: this");
                     args.Add("rhs: rhs");
                     args.Add("def: def");
-                    args.Add("doMasks: true");
-                    args.Add("errorMask: maskGetter");
+                    args.Add("errorMask: errorMaskBuilder");
                     args.Add("copyMask: copyMask");
                     args.Add("cmds: cmds");
                 }
-                fg.AppendLine("errorMask = retErrorMask;");
+                fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public void CopyFieldsFrom{this.GenericTypes_CopyMask}",
+                wheres: this.GenericTypes_CopyMaskWheres))
+            {
+                args.Add($"{this.Getter_InterfaceStr} rhs");
+                args.Add($"ErrorMaskBuilder errorMask");
+                args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
+                args.Add($"{this.Getter_InterfaceStr} def = null");
+                args.Add($"NotifyingFireParameters cmds = null");
+                args.Add($"bool doMasks = true");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{this.ExtCommonName}.CopyFieldsFrom{GenerateGenericClause(Generics.Select((g) => g.Key), GenericTypes_Nickname(MaskType.Copy))}"))
+                {
+                    args.Add("item: this");
+                    args.Add("rhs: rhs");
+                    args.Add("def: def");
+                    args.Add("errorMask: errorMask");
+                    args.Add("copyMask: copyMask");
+                    args.Add("cmds: cmds");
+                }
             }
             fg.AppendLine();
         }
@@ -928,8 +943,7 @@ namespace Loqui.Generation
                     args.Add($"{this.InterfaceStr} item");
                     args.Add($"{this.Getter_InterfaceStr} rhs");
                     args.Add($"{this.Getter_InterfaceStr} def");
-                    args.Add($"bool doMasks");
-                    args.Add($"Func<IErrorMask> errorMask");
+                    args.Add($"ErrorMaskBuilder errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                     args.Add($"NotifyingFireParameters cmds = null");
                 }
@@ -940,7 +954,6 @@ namespace Loqui.Generation
                         "item",
                         "rhs",
                         defaultFallbackAccessor: "def",
-                        doErrMaskAccessor: "doMasks",
                         errMaskAccessor: "errorMask",
                         copyMaskAccessor: "copyMask",
                         cmdsAccessor: "cmds");
@@ -954,7 +967,6 @@ namespace Loqui.Generation
             string accessorPrefix,
             string rhsAccessorPrefix,
             string defaultFallbackAccessor,
-            string doErrMaskAccessor,
             string errMaskAccessor,
             string copyMaskAccessor,
             string cmdsAccessor)
@@ -967,7 +979,6 @@ namespace Loqui.Generation
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
                     args.Add(defaultFallbackAccessor);
-                    args.Add(doErrMaskAccessor);
                     args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
                     args.Add(cmdsAccessor);
@@ -980,6 +991,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"if ({item.Field.SkipCheck(copyMaskAccessor)})");
                 using (new BraceWrapper(fg))
                 {
+                    fg.AppendLine($"errorMask.PushIndex((int){item.Field.IndexEnumName});");
                     if (item.Field.CopyNeedsTryCatch)
                     {
                         fg.AppendLine("try");
@@ -994,7 +1006,7 @@ namespace Loqui.Generation
                                 cmdsAccessor: cmdsAccessor,
                                 protectedMembers: false);
                         }
-                        GenerateExceptionCatcher(fg, item.Field, doErrMaskAccessor, errMaskAccessor, $"{item.Field.IndexEnumName}");
+                        GenerateExceptionCatcher(fg, item.Field, errMaskAccessor, $"{item.Field.IndexEnumName}");
                     }
                     else
                     {
@@ -1006,6 +1018,7 @@ namespace Loqui.Generation
                             defaultFallbackAccessor,
                             cmdsAccessor: cmdsAccessor,
                             protectedMembers: false);
+                        fg.AppendLine("errorMask.PopIndex();");
                     }
                 }
             }
@@ -2259,13 +2272,18 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string doErrMaskAccessor, string errorMaskAccessor, string enumAccessor)
+        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string errorMaskAccessor, string enumAccessor)
         {
             fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine($"when ({doErrMaskAccessor})");
+            fg.AppendLine($"when ({errorMaskAccessor} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{errorMaskAccessor}().SetNthException((int){enumAccessor}, ex);");
+                fg.AppendLine($"{errorMaskAccessor}.ReportException(ex);");
+            }
+            fg.AppendLine("finally");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("errorMask.PopIndex();");
             }
         }
         #endregion

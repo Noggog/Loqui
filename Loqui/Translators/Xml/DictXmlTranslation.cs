@@ -14,9 +14,11 @@ using Loqui.Internal;
 
 namespace Loqui.Xml
 {
-    public class DictXmlTranslation<K, V, KMask, VMask> : IXmlTranslation<IEnumerable<KeyValuePair<K, V>>, MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>>
+    public class DictXmlTranslation<K, V> : IXmlTranslation<IEnumerable<KeyValuePair<K, V>>>
     {
-        public static readonly DictXmlTranslation<K, V, KMask, VMask> Instance = new DictXmlTranslation<K, V, KMask, VMask>();
+        public const int KEY_ERR_INDEX = 0;
+        public const int VAL_ERR_INDEX = 1;
+        public static readonly DictXmlTranslation<K, V> Instance = new DictXmlTranslation<K, V>();
         public virtual string ElementName => "Dict";
 
         public bool Parse(
@@ -24,12 +26,12 @@ namespace Loqui.Xml
             out IEnumerable<KeyValuePair<K, V>> item,
             ErrorMaskBuilder errorMask)
         {
-            var keyTransl = XmlTranslator<K, KMask>.Translator;
+            var keyTransl = XmlTranslator<K>.Translator;
             if (keyTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Item.Reason}");
             }
-            var valTransl = XmlTranslator<V, VMask>.Translator;
+            var valTransl = XmlTranslator<V>.Translator;
             if (valTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
@@ -46,57 +48,27 @@ namespace Loqui.Xml
             XmlSubParseDelegate<K> keyTransl,
             XmlSubParseDelegate<V> valTransl,
             XElement root,
-            int fieldIndex,
             out IEnumerable<KeyValuePair<K, V>> item,
             ErrorMaskBuilder errorMask)
         {
-            using (errorMask.PushIndex(fieldIndex))
+            var ret = new List<KeyValuePair<K, V>>();
+            int i = 0;
+            foreach (var listElem in root.Elements())
             {
-                return this.Parse(
-                    root: root,
-                    keyTransl: keyTransl,
-                    valTransl: valTransl,
-                    item: out item,
-                    errorMask: errorMask);
-            }
-        }
-
-        private bool Parse(
-            XmlSubParseDelegate<K> keyTransl,
-            XmlSubParseDelegate<V> valTransl,
-            XElement root,
-            out IEnumerable<KeyValuePair<K, V>> item,
-            ErrorMaskBuilder errorMask)
-        {
-            try
-            {
-                var ret = new List<KeyValuePair<K, V>>();
-                int i = 0;
-                foreach (var listElem in root.Elements())
+                errorMask?.PushIndex(i++);
+                if (ParseSingleItem(
+                    listElem,
+                    keyTransl,
+                    valTransl,
+                    out var subItem,
+                    errorMask))
                 {
-                    using (errorMask.PushIndex(i++))
-                    {
-                        if (ParseSingleItem(
-                            listElem,
-                            keyTransl,
-                            valTransl,
-                            out var subItem,
-                            errorMask))
-                        {
-                            ret.Add(subItem);
-                        }
-                    }
+                    ret.Add(subItem);
                 }
-                item = ret;
-                return true;
+                errorMask?.PopIndex();
             }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            item = null;
-            return false;
+            item = ret;
+            return true;
         }
 
         private bool ParseKey(
@@ -125,7 +97,7 @@ namespace Loqui.Xml
 
             return keyTransl(
                 keyElem.Elements().First(),
-                out item, 
+                out item,
                 errorMask);
         }
 
@@ -168,45 +140,50 @@ namespace Loqui.Xml
         {
             bool gotKey = false;
             K key = default(K);
-            using (errorMask.PushIndex(0))
+
+            try
             {
-                try
-                {
-                    gotKey = ParseKey(
-                        root: root,
-                        keyTransl: keyTransl,
-                        item: out key,
-                        errorMask: errorMask);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
+                errorMask?.PushIndex(KEY_ERR_INDEX);
+                gotKey = ParseKey(
+                    root: root,
+                    keyTransl: keyTransl,
+                    item: out key,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
 
-            using (errorMask.PushIndex(1))
+            try
             {
-                try
-                {
-                    if (ParseValue(
+                errorMask?.PushIndex(VAL_ERR_INDEX);
+                if (ParseValue(
                         root: root,
                         valTransl: valTransl,
                         item: out var val,
                         errorMask: errorMask)
                         && gotKey)
-                    {
-                        item = new KeyValuePair<K, V>(
-                            key,
-                            val);
-                        return true;
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
                 {
-                    errorMask.ReportException(ex);
+                    item = new KeyValuePair<K, V>(
+                        key,
+                        val);
+                    return true;
                 }
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
 
             item = default(KeyValuePair<K, V>);
@@ -217,15 +194,14 @@ namespace Loqui.Xml
             XElement node,
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>> maskObj)
+            ErrorMaskBuilder errorMask)
         {
-            var keyTransl = XmlTranslator<K, KMask>.Translator;
+            var keyTransl = XmlTranslator<K>.Translator;
             if (keyTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Item.Reason}");
             }
-            var valTransl = XmlTranslator<V, VMask>.Translator;
+            var valTransl = XmlTranslator<V>.Translator;
             if (valTransl.Item.Failed)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
@@ -234,76 +210,61 @@ namespace Loqui.Xml
                 node: node,
                 name: name,
                 items: items,
-                doMasks: doMasks,
-                maskObj: out maskObj,
-                keyTransl: (XElement n, K item1, bool internalDoMasks, out KMask obj) => keyTransl.Item.Value.Write(node: n, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj),
-                valTransl: (XElement n, V item1, bool internalDoMasks, out VMask obj) => valTransl.Item.Value.Write(node: n, name: "Item", item: item1, doMasks: internalDoMasks, maskObj: out obj));
+                errorMask: errorMask,
+                keyTransl: (XElement n, K item1, ErrorMaskBuilder errorMask2) => keyTransl.Item.Value.Write(node: n, name: "Item", item: item1, errorMask: errorMask2),
+                valTransl: (XElement n, V item1, ErrorMaskBuilder errorMask2) => valTransl.Item.Value.Write(node: n, name: "Item", item: item1, errorMask: errorMask2));
         }
 
         public void Write(
             XElement node,
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
-            bool doMasks,
-            out MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>> maskObj,
-            XmlSubWriteDelegate<K, KMask> keyTransl,
-            XmlSubWriteDelegate<V, VMask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<K> keyTransl,
+            XmlSubWriteDelegate<V> valTransl)
         {
-            List<KeyValuePair<KMask, VMask>> maskList = null;
             var elem = new XElement(name);
             node.Add(elem);
+            int i = 0;
             foreach (var item in items)
             {
-                WriteSingleItem(
-                    node: elem,
-                    item: item,
-                    doMasks: doMasks,
-                    keymaskItem: out var keyErrMask,
-                    valmaskItem: out var valErrMask,
-                    keyTransl: keyTransl,
-                    valTransl: valTransl);
-
-                if (!doMasks) continue;
-                if (keyErrMask != null
-                    || valErrMask != null)
+                try
                 {
-                    if (maskList == null)
-                    {
-                        maskList = new List<KeyValuePair<KMask, VMask>>();
-                    }
-                    maskList.Add(
-                        new KeyValuePair<KMask, VMask>(
-                            keyErrMask,
-                            valErrMask));
+                    errorMask?.PushIndex(i++);
+                    WriteSingleItem(
+                        node: elem,
+                        item: item,
+                        errorMask: errorMask,
+                        keyTransl: keyTransl,
+                        valTransl: valTransl);
                 }
-            }
-            if (maskList != null)
-            {
-                maskObj = new MaskItem<Exception, IEnumerable<KeyValuePair<KMask, VMask>>>(null, maskList);
-            }
-            else
-            {
-                maskObj = null;
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+                finally
+                {
+                    errorMask?.PopIndex();
+                }
             }
         }
 
         public void WriteSingleItem(
             XElement node,
             KeyValuePair<K, V> item,
-            bool doMasks,
-            out KMask keymaskItem,
-            out VMask valmaskItem,
-            XmlSubWriteDelegate<K, KMask> keyTransl,
-            XmlSubWriteDelegate<V, VMask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<K> keyTransl,
+            XmlSubWriteDelegate<V> valTransl)
         {
             var itemElem = new XElement("Item");
             node.Add(itemElem);
             var keyElem = new XElement("Key");
             itemElem.Add(keyElem);
-            keyTransl(keyElem, item.Key, doMasks: false, maskObj: out keymaskItem);
+            keyTransl(keyElem, item.Key, errorMask);
             var valElem = new XElement("Value");
             itemElem.Add(valElem);
-            valTransl(valElem, item.Value, doMasks: false, maskObj: out valmaskItem);
+            valTransl(valElem, item.Value, errorMask);
         }
 
         public void Write<Mask>(
@@ -311,23 +272,31 @@ namespace Loqui.Xml
             string name,
             IEnumerable<KeyValuePair<K, V>> items,
             int fieldIndex,
-            Func<Mask> errorMask,
-            XmlSubWriteDelegate<K, KMask> keyTransl,
-            XmlSubWriteDelegate<V, VMask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<K> keyTransl,
+            XmlSubWriteDelegate<V> valTransl)
             where Mask : IErrorMask
         {
-            this.Write(
-                node: node,
-                name: name,
-                items: items,
-                doMasks: errorMask != null,
-                maskObj: out var subMask,
-                keyTransl: keyTransl,
-                valTransl: valTransl);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    items: items,
+                    errorMask: errorMask,
+                    keyTransl: keyTransl,
+                    valTransl: valTransl);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
         public void Write<Mask>(
@@ -335,23 +304,31 @@ namespace Loqui.Xml
             string name,
             IHasItem<IEnumerable<KeyValuePair<K, V>>> item,
             int fieldIndex,
-            Func<Mask> errorMask,
-            XmlSubWriteDelegate<K, KMask> keyTransl,
-            XmlSubWriteDelegate<V, VMask> valTransl)
+            ErrorMaskBuilder errorMask,
+            XmlSubWriteDelegate<K> keyTransl,
+            XmlSubWriteDelegate<V> valTransl)
             where Mask : IErrorMask
         {
-            this.Write(
-                node: node,
-                name: name,
-                items: item.Item,
-                doMasks: errorMask != null,
-                maskObj: out var subMask,
-                keyTransl: keyTransl,
-                valTransl: valTransl);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    items: item.Item,
+                    errorMask: errorMask,
+                    keyTransl: keyTransl,
+                    valTransl: valTransl);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
     }
 }

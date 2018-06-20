@@ -429,6 +429,16 @@ namespace Loqui.Generation
                         fg.AppendLine($"return lhs ?? rhs;");
                     }
                 }
+
+                using (new RegionWrapper(fg, "Factory"))
+                {
+                    fg.AppendLine($"public static {obj.Mask(MaskType.Error)} Factory(ErrorMaskBuilder errorMask)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (errorMask?.Empty ?? true) return null;");
+                        fg.AppendLine("throw new NotImplementedException();");
+                    }
+                }
             }
 
             fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");

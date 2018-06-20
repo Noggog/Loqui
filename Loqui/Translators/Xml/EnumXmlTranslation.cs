@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Xml;
 using System;
 using System.Globalization;
@@ -14,37 +15,46 @@ namespace Loqui.Xml
         public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();
         public readonly static bool IsFlagsEnum = EnumExt<E>.IsFlagsEnum();
 
-        protected override E ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out E value, ErrorMaskBuilder errorMask)
         {
             if (Enum.TryParse(str, out E enumType))
             {
-                return enumType;
+                value = enumType;
+                return true;
             }
             else if (int.TryParse(str, out var i)
                 && EnumExt.TryParse<E>(i, out enumType))
             {
-                return enumType;
+                value = enumType;
+                return true;
             }
-            throw new ArgumentException($"Could not convert to {NullableName}");
+            errorMask.ReportExceptionOrThrow(
+                new ArgumentException($"Could not convert to {NullableName}"));
+            value = default(E);
+            return false;
         }
 
-        protected override E? ParseValue(XElement root)
+        protected override bool ParseValue(XElement root, out E? value, ErrorMaskBuilder errorMask)
         {
             if (!IsFlagsEnum)
             {
-                return base.ParseValue(root);
+                return base.ParseValue(root, out value, errorMask);
             }
             if (root.TryGetAttribute<bool>("null", out var isNull))
             {
                 if (isNull)
                 {
-                    return null;
+                    value = null;
+                    return true;
                 }
             }
             foreach (var child in root.Elements())
             {
             }
-            throw new NotImplementedException();
+            errorMask.ReportExceptionOrThrow(
+                new NotImplementedException());
+            value = null;
+            return false;
         }
 
         protected override void WriteValue(XElement node, E? item)

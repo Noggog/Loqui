@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Xml;
 using System;
 using System.Xml;
@@ -24,12 +25,12 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override RangeDouble ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out RangeDouble value, ErrorMaskBuilder errorMask)
         {
             throw new NotImplementedException();
         }
 
-        protected override RangeDouble? ParseValue(XElement root)
+        protected override bool ParseValue(XElement root, out RangeDouble? value, ErrorMaskBuilder errorMask)
         {
             double? min, max;
             if (root.TryGetAttribute(MIN, out XAttribute val))
@@ -40,7 +41,10 @@ namespace Loqui.Xml
                 }
                 else
                 {
-                    throw new ArgumentException("Min value was malformed: " + val.Value);
+                    errorMask.ReportExceptionOrThrow(
+                        new ArgumentException("Min value was malformed: " + val.Value));
+                    value = null;
+                    return false;
                 }
             }
             else
@@ -55,15 +59,23 @@ namespace Loqui.Xml
                 }
                 else
                 {
-                    throw new ArgumentException("Min value was malformed: " + val.Value);
+                    errorMask.ReportExceptionOrThrow(
+                        new ArgumentException("Max value was malformed: " + val.Value));
+                    value = null;
+                    return false;
                 }
             }
             else
             {
                 max = null;
             }
-            if (!min.HasValue && !max.HasValue) return null;
-            return new RangeDouble(min, max);
+            if (!min.HasValue && !max.HasValue)
+            {
+                value = null;
+                return true;
+            }
+            value = new RangeDouble(min, max);
+            return true;
         }
     }
 }

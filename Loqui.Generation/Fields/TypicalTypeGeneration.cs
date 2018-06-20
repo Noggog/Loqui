@@ -20,14 +20,7 @@ namespace Loqui.Generation
             {
                 if (this.Bare)
                 {
-                    if (this.RaisePropertyChanged)
-                    {
-                        return $"_{this.Name}";
-                    }
-                    else
-                    {
-                        return $"{this.Name}";
-                    }
+                    return $"_{this.Name}";
                 }
                 else
                 {
@@ -163,7 +156,8 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"public {TypeName} {this.Name} {{ get; {(this.ReadOnly ? "protected " : string.Empty)}set; }}");
+                        fg.AppendLine($"private {TypeName} _{this.Name};");
+                        fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}; {(this.ReadOnly ? "protected " : string.Empty)}set => _{this.Name} = value; }}");
                     }
                 }
             }
