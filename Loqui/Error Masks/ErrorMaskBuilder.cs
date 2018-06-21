@@ -14,7 +14,16 @@ namespace Loqui.Internal
         private int? _CurrentIndex;
         public int? CurrentIndex
         {
-            get => _CurrentIndex ?? _depthStack?.Peek();
+            get
+            {
+                if (_CurrentIndex.HasValue)
+                {
+                    return _CurrentIndex.Value;
+                }
+                if (_depthStack == null) return null;
+                if (_depthStack.Count == 0) return null;
+                return _depthStack.Peek();
+            }
             set => _CurrentIndex = value;
         }
         public List<(int[], Exception)> Exceptions;
