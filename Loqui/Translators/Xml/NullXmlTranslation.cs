@@ -5,24 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Loqui.Internal;
 using Noggog;
 using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public class NullXmlTranslation : IXmlTranslation<object, Exception>
+    public class NullXmlTranslation : IXmlTranslation<object>
     {
         public string ElementName => "Null";
 
-        public TryGet<object> Parse(XElement root, bool doMasks, out Exception maskObj)
+        public bool Parse(XElement root, out object item, ErrorMaskBuilder errorMask)
         {
-            maskObj = null;
-            return TryGet<object>.Succeed(null);
+            item = null;
+            return true;
         }
 
-        public void Write(XElement node, string name, object item, bool doMasks, out Exception maskObj)
+        public void Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
         {
-            maskObj = null;
             node.Add(
                 new XElement(name));
         }

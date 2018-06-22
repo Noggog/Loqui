@@ -136,6 +136,7 @@
     <Compile Include="Interfaces\GenerationInterface.cs" />
     <Compile Include="LoquiGenerator.cs" />
     <Compile Include="Modules\Mask\Fields\UnsafeMaskFieldGeneration.cs" />
+    <Compile Include="Modules\Mask\MaskGenerationUtility.cs" />
     <Compile Include="Modules\Mask\MaskType.cs" />
     <Compile Include="Modules\ObjectCentralization\ObjectCentralizationModule.cs" />
     <Compile Include="Modules\Translation\APILine.cs" />

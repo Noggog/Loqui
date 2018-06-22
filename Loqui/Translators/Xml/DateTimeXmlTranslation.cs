@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using System;
 using System.Xml;
 
@@ -8,13 +9,15 @@ namespace Loqui.Xml
     {
         public readonly static DateTimeXmlTranslation Instance = new DateTimeXmlTranslation();
 
-        protected override DateTime ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out DateTime value, ErrorMaskBuilder errorMask)
         {
-            if (DateTime.TryParse(str, out var parsed))
+            if (DateTime.TryParse(str, out value))
             {
-                return parsed;
+                return true;
             }
-            throw new ArgumentException($"Could not convert to {NullableName}");
+            errorMask.ReportExceptionOrThrow(
+                new ArgumentException($"Could not convert to {NullableName}"));
+            return false;
         }
 
         protected override string GetItemStr(DateTime item)

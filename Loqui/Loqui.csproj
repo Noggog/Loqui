@@ -47,7 +47,8 @@
     <Compile Include="Enums\NotifyingType.cs" />
     <Compile Include="Enums\RefCopyType.cs" />
     <Compile Include="Enums\CopyOption.cs" />
-    <Compile Include="ErrorMaskPlaceholder.cs" />
+    <Compile Include="Error Masks\ErrorMaskBuilder.cs" />
+    <Compile Include="Error Masks\ErrorMaskPlaceholder.cs" />
     <Compile Include="Extensions\EnumerableExt.cs" />
     <Compile Include="Extensions\ExceptionExt.cs" />
     <Compile Include="Extensions\IHasBeenSetExt.cs" />
@@ -62,8 +63,8 @@
     <Compile Include="Interfaces\IMask.cs" />
     <Compile Include="Interfaces\IPrintable.cs" />
     <Compile Include="Interfaces\IPropertySupporter.cs" />
-    <Compile Include="Masks\ErrorMask.cs" />
-    <Compile Include="Masks\IErrorMask.cs" />
+    <Compile Include="Error Masks\ErrorMask.cs" />
+    <Compile Include="Error Masks\IErrorMask.cs" />
     <Compile Include="Interfaces\IClearable.cs" />
     <Compile Include="Interfaces\ICopyInAble.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />

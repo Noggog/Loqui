@@ -1,4 +1,5 @@
-﻿using Loqui.Translators;
+﻿using Loqui.Internal;
+using Loqui.Translators;
 using Noggog;
 using Noggog.Notifying;
 using Noggog.Utility;
@@ -15,7 +16,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class XmlTranslator : Translator<IXmlTranslation<object, object>>
+    public class XmlTranslator : Translator<IXmlTranslation<object>>
     {
         public readonly static XmlTranslator Instance = new XmlTranslator();
 
@@ -24,8 +25,8 @@ namespace Loqui.Xml
         private XmlTranslator()
             : base (
                   typeof(NullXmlTranslation),
-                  typeof(XmlTranslationCaster<,>),
-                  typeof(LoquiXmlTranslation<,>),
+                  typeof(XmlTranslationCaster<>),
+                  typeof(LoquiXmlTranslation<>),
                   typeof(EnumXmlTranslation<>))
         {
             elementNameTypeDict["Null"] = NullType;
@@ -53,7 +54,7 @@ namespace Loqui.Xml
             return ret && n != null;
         }
 
-        protected override NotifyingItem<GetResponse<IXmlTranslation<object, object>>> SetTranslator_Internal(IXmlTranslation<object, object> transl, Type t)
+        protected override NotifyingItem<GetResponse<IXmlTranslation<object>>> SetTranslator_Internal(IXmlTranslation<object> transl, Type t)
         {
             var resp = base.SetTranslator_Internal(transl, t);
             if (string.IsNullOrEmpty(transl.ElementName)) return resp;
@@ -62,11 +63,11 @@ namespace Loqui.Xml
         }
     }
 
-    public class XmlTranslator<T, M>
+    public class XmlTranslator<T>
     {
-        private static NotifyingItem<GetResponse<IXmlTranslation<T, M>>> _translator = new NotifyingItem<GetResponse<IXmlTranslation<T, M>>>();
-        public static INotifyingItemGetter<GetResponse<IXmlTranslation<T, M>>> Translator => _translator;
-        public delegate T CREATE_FUNC(XElement root, bool doMasks, out M errorMask);
+        private static NotifyingItem<GetResponse<IXmlTranslation<T>>> _translator = new NotifyingItem<GetResponse<IXmlTranslation<T>>>();
+        public static INotifyingItemGetter<GetResponse<IXmlTranslation<T>>> Translator => _translator;
+        public delegate T CREATE_FUNC(XElement root, ErrorMaskBuilder errorMask);
 
         static XmlTranslator()
         {
@@ -77,11 +78,11 @@ namespace Loqui.Xml
                 {
                     if (change.New.Failed)
                     {
-                        _translator.Item = change.New.BubbleFailure<IXmlTranslation<T, M>>();
+                        _translator.Item = change.New.BubbleFailure<IXmlTranslation<T>>();
                         return;
                     }
-                    var caster = change.New.Value as XmlTranslationCaster<T, M>;
-                    _translator.Item = GetResponse<IXmlTranslation<T, M>>.Succeed(caster.Source);
+                    var caster = change.New.Value as XmlTranslationCaster<T>;
+                    _translator.Item = GetResponse<IXmlTranslation<T>>.Succeed(caster.Source);
                 });
         }
     }

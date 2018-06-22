@@ -12,19 +12,24 @@ namespace Loqui.Generation
 {
     public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
     {
+        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        {
+            var loquiGen = typeGen as LoquiType;
+            return $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance";
+        }
+
         public override void GenerateWrite(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             using (var args = new ArgsWrapper(fg,
-                $"LoquiXmlTranslation<{loquiGen.TypeName}, {loquiGen.Mask(MaskType.Error)}>.Instance.Write"))
+                $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance.Write"))
             {
                 args.Add($"node: {writerAccessor}");
                 args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
@@ -32,13 +37,8 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
                 }
-                else
-                {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
-                }
+                args.Add($"errorMask: {maskAccessor}");
             }
         }
 
@@ -53,49 +53,50 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.SingletonType == SingletonLevel.Singleton)
             {
                 if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
-                using (var args = new ArgsWrapper(fg,
-                    $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Error, MaskType.Copy)}"))
-                {
-                    args.Add((gen) =>
+                MaskGenerationUtility.WrapErrorFieldIndexPush(
+                    fg,
+                    () =>
                     {
-                        using (var subArgs = new FunctionWrapper(gen,
-                            $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
+                        using (var args = new ArgsWrapper(fg,
+                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Copy)}"))
                         {
-                            subArgs.Add($"root: {nodeAccessor}");
-                            subArgs.Add($"doMasks: {doMaskAccessor}");
-                            subArgs.Add($"errorMask: out {loquiGen.Mask(MaskType.Error)} {typeGen.Name}createMask");
+                            args.Add((gen) =>
+                            {
+                                using (var subArgs = new FunctionWrapper(gen,
+                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
+                                {
+                                    subArgs.Add($"root: {nodeAccessor}");
+                                    subArgs.Add($"errorMask: errorMask");
+                                }
+                            });
+                            args.Add("def: null");
+                            args.Add("cmds: null");
+                            args.Add("copyMask: null");
+                            args.Add($"errorMask: errorMask");
                         }
-                    });
-                    args.Add("def: null");
-                    args.Add("cmds: null");
-                    args.Add("copyMask: null");
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {loquiGen.Mask(MaskType.Error)} {typeGen.Name}copyMask");
-                }
-                using (var args = new ArgsWrapper(fg,
-                    "ErrorMask.HandleErrorMask"))
-                {
-                    args.Add(maskAccessor);
-                    args.Add($"index: (int){typeGen.IndexEnumName}");
-                    args.Add($"errMaskObj: MaskItem<Exception, {loquiGen.Mask(MaskType.Error)}>.WrapValue({loquiGen.Mask(MaskType.Error)}.Combine({typeGen.Name}createMask, {typeGen.Name}copyMask))");
-                }
+                    },
+                    maskAccessor: "errorMask",
+                    indexAccessor: $"{typeGen.IndexEnumInt}");
             }
             else
             {
+                if (!typeGen.HasIndex)
+                {
+                    throw new NotImplementedException();
+                }
                 GenerateCopyInRet_Internal(
                     fg: fg,
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
                     itemAccessor: itemAccessor,
                     ret: false,
-                    doMaskAccessor: doMaskAccessor,
+                    indexAccessor: $"(int){typeGen.IndexEnumName}",
                     maskAccessor: maskAccessor);
             }
         }
@@ -106,43 +107,19 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
-            string prefix, suffix;
             var loquiGen = typeGen as LoquiType;
-            if (!ret)
-            {
-                suffix = typeGen.PrefersProperty ? ")" : null;
-                prefix = typeGen.PrefersProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}tryGet = ";
-            }
-            else
-            {
-                suffix = null;
-                prefix = itemAccessor.DirectAccess;
-            }
-
-            using (var args = new ArgsWrapper(fg,
-                $"{prefix}LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}, {loquiGen.Mask(MaskType.Error)}>.Instance.Parse",
-                suffixLine: suffix))
-            {
-                args.Add($"root: {nodeAccessor}");
-                if (typeGen.HasIndex)
-                {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
-                }
-                else
-                {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
-                }
-            }
-
-            if (!ret)
-            {
-                TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
-            }
+            TranslationGeneration.WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                callLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance.Parse",
+                maskAccessor: maskAccessor,
+                indexAccessor: indexAccessor,
+                itemAccessor: itemAccessor,
+                unsetCall: null,
+                extraargs: $"root: {nodeAccessor}");
         }
 
         public override void GenerateCopyInRet(
@@ -150,7 +127,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
             GenerateCopyInRet_Internal(
@@ -159,7 +136,7 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                doMaskAccessor: doMaskAccessor,
+                indexAccessor: indexAccessor,
                 maskAccessor: maskAccessor);
         }
 

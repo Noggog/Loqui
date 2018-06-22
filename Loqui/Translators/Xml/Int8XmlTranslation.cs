@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using System;
 
 namespace Loqui.Xml
@@ -6,14 +7,16 @@ namespace Loqui.Xml
     public class Int8XmlTranslation : PrimitiveXmlTranslation<sbyte>
     {
         public readonly static Int8XmlTranslation Instance = new Int8XmlTranslation();
-
-        protected override sbyte ParseNonNullString(string str)
+        
+        protected override bool ParseNonNullString(string str, out sbyte value, ErrorMaskBuilder errorMask)
         {
-            if (sbyte.TryParse(str, out sbyte parsed))
+            if (sbyte.TryParse(str, out value))
             {
-                return parsed;
+                return true;
             }
-            throw new ArgumentException($"Could not convert to {NullableName}");
+            errorMask.ReportExceptionOrThrow(
+                new ArgumentException($"Could not convert to {NullableName}"));
+            return false;
         }
     }
 }

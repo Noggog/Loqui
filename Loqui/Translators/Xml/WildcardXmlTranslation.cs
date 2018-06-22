@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -8,13 +9,13 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class WildcardXmlTranslation : IXmlTranslation<object, object>
+    public class WildcardXmlTranslation : IXmlTranslation<object>
     {
         public static readonly WildcardXmlTranslation Instance = new WildcardXmlTranslation();
 
         public string ElementName => null;
 
-        public IXmlTranslation<object, object> GetTranslator(Type t)
+        public IXmlTranslation<object> GetTranslator(Type t)
         {
             return XmlTranslator.Instance.GetTranslator(t).Item.Value;
         }
@@ -24,115 +25,94 @@ namespace Loqui.Xml
             return XmlTranslator.Instance.Validate(t);
         }
 
-        public TryGet<Object> Parse(XElement root, bool doMasks, out object errorMask)
+        public bool Parse(
+            XElement root,
+            out object item,
+            ErrorMaskBuilder errorMask)
         {
             if (!root.TryGetAttribute(XmlConstants.TYPE_ATTRIBUTE, out var nameAttr))
             {
-                var ex = new ArgumentException($"Could not get name attribute for XML Translator.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(
+                    new ArgumentException($"Could not get name attribute for XML Translator."));
             }
 
             var itemNode = root.Element("Item");
             if (itemNode == null)
             {
-                var ex = new ArgumentException($"Could not get item node.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(
+                    new ArgumentException($"Could not get item node."));
             }
 
             if (!XmlTranslator.Instance.TranslateElementName(nameAttr.Value, out INotifyingItemGetter<Type> t))
             {
-                var ex = new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator.");
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<Object>.Failure;
-                }
-                else
-                {
-                    throw ex;
-                }
+                errorMask.ReportExceptionOrThrow(
+                    new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator."));
             }
             var xml = GetTranslator(t.Item);
-            return xml.Parse(itemNode, doMasks, out errorMask);
+            return xml.Parse(itemNode, out item, errorMask);
         }
 
-        public TryGet<Object> Parse<M>(XElement root, int fieldIndex, Func<M> errorMask)
-            where M : IErrorMask
-        {
-            var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out object subErrMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subErrMask);
-            return ret;
-        }
-
-        public void Write(XElement node, string name, object item, bool doMasks, out object maskObj)
+        public void Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
         {
             var xml = GetTranslator(item?.GetType());
             var elem = new XElement(name);
             elem.SetAttributeValue(XmlConstants.TYPE_ATTRIBUTE, xml.ElementName);
             node.Add(elem);
-            xml.Write(elem, "Item", item, doMasks, out maskObj);
+            xml.Write(elem, "Item", item, errorMask);
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasItem<object> item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item.Item,
-                doMasks: errorMask != null,
-                maskObj: out var subMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item.Item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             object item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item,
-                doMasks: errorMask != null,
-                maskObj: out var subMask);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
         public void Write<M>(

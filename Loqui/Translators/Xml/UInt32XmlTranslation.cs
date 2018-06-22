@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using System;
 
 namespace Loqui.Xml
@@ -7,13 +8,15 @@ namespace Loqui.Xml
     {
         public readonly static UInt32XmlTranslation Instance = new UInt32XmlTranslation();
 
-        protected override uint ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out uint value, ErrorMaskBuilder errorMask)
         {
-            if (uint.TryParse(str, out uint parsed))
+            if (uint.TryParse(str, out value))
             {
-                return parsed;
+                return true;
             }
-            throw new ArgumentException($"Could not convert to {NullableName}");
+            errorMask.ReportExceptionOrThrow(
+                new ArgumentException($"Could not convert to {NullableName}"));
+            return false;
         }
     }
 }

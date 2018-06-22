@@ -27,13 +27,17 @@ namespace Loqui.Generation
             return itemAccessor.PropertyOrDirectAccess;
         }
 
+        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        {
+            return $"{this.TypeName}XmlTranslation.Instance";
+        }
+
         public override void GenerateWrite(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
             string writerAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor)
         {
@@ -46,20 +50,14 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
                 }
-                else
-                {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
-                }
+                args.Add($"errorMask: {maskAccessor}");
                 foreach (var arg in AdditionWriteParameters(
                     fg: fg,
                     objGen: objGen,
                     typeGen: typeGen,
                     writerAccessor: writerAccessor,
                     itemAccessor: itemAccessor,
-                    doMaskAccessor: doMaskAccessor,
                     maskAccessor: maskAccessor))
                 {
                     args.Add(arg);
@@ -73,7 +71,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor)
         {
             yield break;
@@ -84,25 +81,29 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor)
         {
             var pType = typeGen as PrimitiveType;
-            string prefix = typeGen.PrefersProperty ? $"{itemAccessor.PropertyAccess}.{nameof(HasBeenSetItemExt.SetIfSucceededOrDefault)}(" : $"var {typeGen.Name}tryGet = ";
             using (var args = new ArgsWrapper(fg,
-                $"{prefix}{this.TypeName}XmlTranslation.Instance.Parse{(this.Nullable ? null : "NonNull")}",
-                suffixLine: typeGen.PrefersProperty ? ")" : null))
+                $"{this.TypeName}XmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}"))
             {
                 args.Add(nodeAccessor);
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    if (isProperty)
+                    {
+                        args.Add($"item: {itemAccessor.PropertyAccess}");
+                    }
+                    else
+                    {
+                        args.Add($"item: out {itemAccessor.DirectAccess}");
+                    }
                     args.Add($"errorMask: {maskAccessor}");
                 }
                 else
                 {
-                    args.Add($"doMasks: {doMaskAccessor}");
-                    args.Add($"errorMask: out {maskAccessor}");
+                    throw new NotImplementedException();
                 }
             }
             TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
@@ -113,7 +114,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
@@ -125,8 +126,8 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
-                args.Add($"doMasks: {doMaskAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
+                args.Add($"index: {indexAccessor}");
+                args.Add($"errorMask: {maskAccessor}");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using System;
 
 namespace Loqui.Xml
@@ -12,13 +13,15 @@ namespace Loqui.Xml
             return $"{item.X}, {item.Y}";
         }
 
-        protected override P2Float ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out P2Float value, ErrorMaskBuilder errorMask)
         {
-            if (P2Float.TryParse(str, out P2Float parsed))
+            if (P2Float.TryParse(str, out value))
             {
-                return parsed;
+                return true;
             }
-            throw new ArgumentException($"Could not convert to {NullableName}");
+            errorMask.ReportExceptionOrThrow(
+                new ArgumentException($"Could not convert to {NullableName}"));
+            return false;
         }
     }
 }

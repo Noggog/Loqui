@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using Noggog.Notifying;
 using Noggog.Xml;
 using System;
@@ -11,10 +12,10 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public abstract class TypicalXmlTranslation<T> : IXmlTranslation<T, Exception>
+    public abstract class TypicalXmlTranslation<T> : IXmlTranslation<T>
         where T : class
     {
-        string IXmlTranslation<T, Exception>.ElementName => ElementName;
+        string IXmlTranslation<T>.ElementName => ElementName;
         public static readonly string RAW_ELEMENT_NAME = typeof(T).GetName().Replace("?", string.Empty);
         public virtual string ElementName => RAW_ELEMENT_NAME;
 
@@ -24,13 +25,6 @@ namespace Loqui.Xml
         }
 
         protected abstract T ParseNonNullString(string str);
-        
-        public TryGet<T> ParseNonNull(XElement root, bool doMasks, out Exception errorMask)
-        {
-            var parse = this.Parse(root, nullable: false, doMasks: doMasks, errorMask: out errorMask);
-            if (parse.Failed) return parse.BubbleFailure<T>();
-            return TryGet<T>.Succeed(parse.Value);
-        }
 
         protected virtual T ParseValue(XElement root)
         {
@@ -42,49 +36,84 @@ namespace Loqui.Xml
             return ParseNonNullString(val.Value);
         }
 
-        public TryGet<T> Parse(XElement root, bool nullable, bool doMasks, out Exception errorMask)
+        public void ParseInto(
+            XElement root,
+            int fieldIndex,
+            IHasItem<T> item,
+            ErrorMaskBuilder errorMask)
         {
             try
             {
-                var parse = ParseValue(root);
-                if (!nullable && parse == null)
+                errorMask?.PushIndex(fieldIndex);
+                if (Parse(root, out var val, errorMask))
                 {
-                    throw new ArgumentException("Value was unexpectedly null.");
+                    item.Item = val;
                 }
-                errorMask = null;
-                return TryGet<T>.Succeed(parse);
+                else
+                {
+                    item.Unset();
+                }
             }
             catch (Exception ex)
+            when (errorMask != null)
             {
-                if (doMasks)
-                {
-                    errorMask = ex;
-                    return TryGet<T>.Failure;
-                }
-                throw;
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
         }
 
-        public TryGet<T> Parse(XElement root, bool doMasks, out Exception errorMask)
+        public bool Parse(
+            XElement root,
+            bool nullable,
+            out T item,
+            ErrorMaskBuilder errorMask)
         {
-            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
+            item = ParseValue(root);
+            if (!nullable && item == null)
+            {
+                errorMask.ReportExceptionOrThrow(
+                    new ArgumentException("Value was unexpectedly null."));
+            }
+            return true;
         }
 
-        public TryGet<T> Parse<Mask>(
+        public bool Parse(
+            XElement root,
+            out T item,
+            ErrorMaskBuilder errorMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask,
+                nullable: false);
+        }
+
+        public bool Parse(
             XElement root,
             int fieldIndex,
-            Func<Mask> errorMask)
-            where Mask : IErrorMask
+            out T item,
+            ErrorMaskBuilder errorMask)
         {
-            var ret = this.Parse(
-                root: root,
-                doMasks: errorMask != null,
-                errorMask: out var ex);
-            ErrorMask.HandleErrorMask(
-                errorMask,
-                fieldIndex,
-                ex);
-            return ret;
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                return Parse(root, out item, errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
+            item = null;
+            return false;
         }
 
         protected virtual void WriteValue(XElement node, string name, T item)
@@ -94,81 +123,72 @@ namespace Loqui.Xml
                 item != null ? GetItemStr(item) : string.Empty);
         }
 
-        TryGet<T> IXmlTranslation<T, Exception>.Parse(XElement root, bool doMasks, out Exception errorMask)
+        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask)
         {
-            return Parse(root, nullable: true, doMasks: doMasks, errorMask: out errorMask);
+            var elem = new XElement(name);
+            WriteValue(elem, name, item);
         }
 
-        private Exception Write_Internal(XElement node, string name, T item, bool doMasks, bool nullable)
-        {
-            Exception errorMask;
-            try
-            {
-                var elem = new XElement(name);
-                WriteValue(elem, name, item);
-                errorMask = null;
-            }
-            catch (Exception ex)
-            when (doMasks)
-            {
-                errorMask = ex;
-            }
-
-            return errorMask;
-        }
-
-        public void Write(XElement node, string name, T item, bool doMasks, out Exception errorMask)
-        {
-            errorMask = Write_Internal(node, name, item, doMasks, nullable: false);
-        }
-
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             T item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item,
-                doMasks: errorMask != null,
-                errorMask: out var subMask);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
-            this.Write(
-                node: node,
-                name: name,
-                item: item.Item,
-                doMasks: errorMask != null,
-                errorMask: out var subMask);
-            ErrorMask.HandleException(
-                errorMask,
-                fieldIndex,
-                subMask);
+            try
+            {
+                errorMask?.PushIndex(fieldIndex);
+                this.Write(
+                    node: node,
+                    name: name,
+                    item: item.Item,
+                    errorMask: errorMask);
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
+            }
         }
 
-        public void Write<M>(
+        public void Write(
             XElement node,
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
+            ErrorMaskBuilder errorMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(

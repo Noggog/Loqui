@@ -1,4 +1,5 @@
-﻿using Noggog;
+﻿using Loqui.Internal;
+using Noggog;
 using System;
 using System.Windows.Media;
 using System.Xml;
@@ -13,12 +14,12 @@ namespace Loqui.Xml
         public const string B = "B";
         public readonly static ColorXmlTranslation Instance = new ColorXmlTranslation();
 
-        protected override Color ParseNonNullString(string str)
+        protected override bool ParseNonNullString(string str, out Color value, ErrorMaskBuilder errorMask)
         {
             throw new NotImplementedException();
         }
 
-        protected override Color? ParseValue(XElement root)
+        protected override bool ParseValue(XElement root, out Color? value, ErrorMaskBuilder errorMask)
         {
             byte? r = null, g = null, b = null;
             if (root.TryGetAttribute(R, out XAttribute rAtt))
@@ -37,9 +38,11 @@ namespace Loqui.Xml
                 && !g.HasValue
                 && !b.HasValue)
             {
-                return null;
+                value = null;
+                return true;
             }
-            return Color.FromRgb(r ?? 0, g ?? 0, b ?? 0);
+            value = Color.FromRgb(r ?? 0, g ?? 0, b ?? 0);
+            return true;
         }
 
         protected override void WriteValue(XElement node, Color? item)

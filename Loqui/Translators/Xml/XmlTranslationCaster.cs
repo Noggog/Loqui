@@ -1,4 +1,5 @@
-﻿using Loqui.Translators;
+﻿using Loqui.Internal;
+using Loqui.Translators;
 using Noggog;
 using System;
 using System.Xml;
@@ -6,29 +7,35 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class XmlTranslationCaster<T, M> : IXmlTranslation<Object, Object>, ITranslationCaster<T, M>
+    public class XmlTranslationCaster<T> : IXmlTranslation<Object>, ITranslationCaster<T>
     {
-        public IXmlTranslation<T, M> Source { get; }
-        ITranslation<T, M> ITranslationCaster<T, M>.Source => this.Source;
+        public IXmlTranslation<T> Source { get; }
+        ITranslation<T> ITranslationCaster<T>.Source => this.Source;
 
         public string ElementName => Source.ElementName;
 
-        public XmlTranslationCaster(IXmlTranslation<T, M> src)
+        public XmlTranslationCaster(IXmlTranslation<T> src)
         {
             this.Source = src;
         }
 
-        void IXmlTranslation<object, object>.Write(XElement node, string name, object item, bool doMasks, out object maskObj)
+        void IXmlTranslation<object>.Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
         {
-            Source.Write(node, name, (T)item, doMasks, out var subMaskObj);
-            maskObj = subMaskObj;
+            Source.Write(node, name, (T)item, errorMask);
         }
 
-        TryGet<object> IXmlTranslation<object, object>.Parse(XElement root, bool doMasks, out object maskObj)
+        bool IXmlTranslation<object>.Parse(
+            XElement root, 
+            out object item, 
+            ErrorMaskBuilder errorMask)
         {
-            var ret = Source.Parse(root, doMasks, out var subMaskObj).Bubble<object>((i) => i);
-            maskObj = subMaskObj;
-            return ret;
+            if (Source.Parse(root, out T sourceItem, errorMask))
+            {
+                item = sourceItem;
+                return true;
+            }
+            item = null;
+            return false;
         }
     }
 }

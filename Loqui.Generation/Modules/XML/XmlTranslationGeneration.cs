@@ -17,7 +17,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string writerAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor,
             string nameAccessor);
 
@@ -26,15 +25,16 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string doMaskAccessor,
             string maskAccessor);
+
+        public abstract string GetTranslatorInstance(TypeGeneration typeGen);
 
         public abstract void GenerateCopyInRet(
             FileGeneration fg,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
-            string doMaskAccessor,
+            string indexAccessor,
             string maskAccessor);
 
         public abstract XElement GenerateForXSD(

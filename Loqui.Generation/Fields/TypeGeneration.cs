@@ -19,6 +19,7 @@ namespace Loqui.Generation
         public virtual string PropertyOrName => $"{(this.Bare ? Name : Property)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public string ObjectCentralizationEnumName => IndexEnumName;
+        public string IndexEnumInt => $"(int){this.IndexEnumName}";
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
         public abstract string ProtectedName { get; }
         public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
