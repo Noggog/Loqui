@@ -174,6 +174,8 @@ namespace Loqui.Generation
                         return $"{GenericDef.Name}_{MaskModule.ErrMaskNickname}";
                     case MaskType.Copy:
                         return $"{GenericDef.Name}_{MaskModule.CopyMaskNickname}";
+                    case MaskType.Translation:
+                        return $"{GenericDef.Name}_{MaskModule.TranslationMaskNickname}";
                     case MaskType.Normal:
                     default:
                         throw new NotImplementedException();

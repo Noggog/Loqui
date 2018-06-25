@@ -104,6 +104,37 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            DictType dictType = field as DictType;
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    if (keyLoquiType == null && valueLoquiType == null)
+                    {
+                        fg.AppendLine($"public bool {field.Name};");
+                    }
+                    else if (keyLoquiType != null && valueLoquiType != null)
+                    {
+                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>> {field.Name};");
+                    }
+                    else
+                    {
+                        LoquiType loqui = keyLoquiType ?? valueLoquiType;
+                        fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}> {field.Name};");
+                    }
+                    break;
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"public MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}> {field.Name};");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
         {
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");

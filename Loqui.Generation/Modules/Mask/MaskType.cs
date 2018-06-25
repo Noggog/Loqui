@@ -10,6 +10,7 @@ namespace Loqui.Generation
     {
         Normal,
         Error,
-        Copy
+        Copy,
+        Translation,
     }
 }

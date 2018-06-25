@@ -28,6 +28,12 @@ namespace Loqui.Generation
             fg.AppendLine($"public bool {field.Name};");
         }
 
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"public bool {field.Name};");
+        }
+
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
         {
             if (!field.IntegrateField) return;

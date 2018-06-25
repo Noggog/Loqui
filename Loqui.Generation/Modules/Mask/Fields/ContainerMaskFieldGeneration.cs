@@ -48,6 +48,19 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is LoquiType loqui)
+            {
+                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}> {field.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public bool {field.Name};");
+            }
+        }
+
         public static string GetSubMaskString(TypeGeneration field, string maskStr)
         {
             ListType listType = field as ListType;

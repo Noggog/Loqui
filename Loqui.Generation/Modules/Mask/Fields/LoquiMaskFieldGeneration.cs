@@ -68,6 +68,19 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            LoquiType loqui = field as LoquiType;
+            if (loqui.RefType == LoquiRefType.Direct)
+            {
+                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}> {field.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public bool {field.Name};");
+            }
+        }
+
         public bool IsUnknownGeneric(LoquiType type)
         {
             return type.RefType != LoquiRefType.Direct

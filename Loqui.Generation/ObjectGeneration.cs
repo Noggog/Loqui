@@ -64,6 +64,7 @@ namespace Loqui.Generation
         public string GenericTypes => GenerateGenericClause(Generics.Select((g) => g.Key));
         public string[] GenericTypes_ErrorMaskWheres => GenericTypes_ErrorMaskWheresFunction();
         public string[] GenericTypes_CopyMaskWheres => GenericTypes_CopyMaskWheresFunction();
+        public string[] GenericTypes_TranslationMaskWheres => GenericTypes_TranslationMaskWheresFunction();
         public string[] GenericTypes_ErrorMask_CopyMask_Wheres => GenericTypes_ErrorMaskWheres.And(GenericTypes_CopyMaskWheres).ToArray();
         public string[] All_Wheres => this.GenerateWhereClauses().And(GenericTypes_ErrorMaskWheres).And(GenericTypes_CopyMaskWheres).ToArray();
         public string BaseGenericTypes => GenerateGenericClause(BaseGenerics.Select((g) => g.Value));
@@ -2480,6 +2481,8 @@ namespace Loqui.Generation
                     return $"{name}_{MaskModule.ErrMaskNickname}";
                 case MaskType.Copy:
                     return $"{name}_{MaskModule.CopyMaskNickname}";
+                case MaskType.Translation:
+                    return $"{name}_{MaskModule.TranslationMaskNickname}";
                 default:
                     throw new NotImplementedException();
             }
@@ -2536,6 +2539,8 @@ namespace Loqui.Generation
                     return $"{this.Name}_ErrorMask";
                 case MaskType.Copy:
                     return $"{this.Name}_CopyMask";
+                case MaskType.Translation:
+                    return $"{this.Name}_TranslationMask";
                 default:
                     throw new NotImplementedException();
             }
@@ -2549,6 +2554,8 @@ namespace Loqui.Generation
                     return $"{this.Mask_BasicName(MaskType.Error)}{Mask_GenericClause(MaskType.Error)}";
                 case MaskType.Copy:
                     return $"{this.Mask_BasicName(MaskType.Copy)}{Mask_GenericClause(MaskType.Copy)}";
+                case MaskType.Translation:
+                    return $"{this.Mask_BasicName(MaskType.Translation)}{Mask_GenericClause(MaskType.Translation)}";
                 case MaskType.Normal:
                 default:
                     throw new NotImplementedException();
@@ -2773,6 +2780,26 @@ namespace Loqui.Generation
                     else if (g.Value.Loqui)
                     {
                         return TryGet<string>.Succeed($"where {g.Key}_{MaskModule.CopyMaskNickname} : new()");
+                    }
+                    else
+                    {
+                        return TryGet<string>.Failure;
+                    }
+                }).ToArray();
+        }
+
+        private string[] GenericTypes_TranslationMaskWheresFunction()
+        {
+            return Generics
+                .SelectWhere((g) =>
+                {
+                    if (g.Value.BaseObjectGeneration != null)
+                    {
+                        return TryGet<string>.Succeed($"where {g.Key}_{MaskModule.TranslationMaskNickname} : {g.Value.BaseObjectGeneration.Mask(MaskType.Translation)}, new()");
+                    }
+                    else if (g.Value.Loqui)
+                    {
+                        return TryGet<string>.Succeed($"where {g.Key}_{MaskModule.TranslationMaskNickname} : new()");
                     }
                     else
                     {
