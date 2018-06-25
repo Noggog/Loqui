@@ -51,17 +51,16 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
-            var isProperty = itemAccessor.PropertyAccess != null;
-            string prefix = isProperty ? null : $"{itemAccessor.DirectAccess} = ";
+            string prefix = typeGen.PrefersProperty ? null : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
-                $"{prefix}WildcardXmlTranslation.Instance.Parse{(isProperty ? "Into" : null)}",
-                suffixLine: $".Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i){(isProperty ? null : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
+                $"{prefix}WildcardXmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}",
+                suffixLine: $".Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i){(typeGen.PrefersProperty ? null : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
             {
                 args.Add($"root: {nodeAccessor}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    if (isProperty)
+                    if (typeGen.PrefersProperty)
                     {
                         args.Add($"item: {itemAccessor.PropertyAccess}");
                     }
@@ -83,12 +82,11 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
-            bool isProperty = retAccessor?.PropertyAccess != null;
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor.DirectAccess}WildcardXmlTranslation.Instance.Parse{(isProperty ? "Into" : null)}"))
+                $"{retAccessor.DirectAccess}WildcardXmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}"))
             {
                 args.Add($"root: {nodeAccessor}");
-                if (isProperty)
+                if (typeGen.PrefersProperty)
                 {
                     args.Add($"item: {retAccessor.PropertyAccess}");
                 }

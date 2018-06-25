@@ -49,31 +49,19 @@ namespace Loqui.Generation
             string maskAccessor)
         {
             var eType = typeGen as EnumType;
-            string prefix = typeGen.PrefersProperty ? null : $"{itemAccessor.DirectAccess} = ";
-            using (var args = new ArgsWrapper(fg,
-                $"{prefix}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}"))
-            {
-                args.Add(nodeAccessor);
-                if (typeGen.HasIndex)
-                {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    if (isProperty)
-                    {
-                        args.Add($"item: {itemAccessor.PropertyAccess}");
-                    }
-                    args.Add($"errorMask: {maskAccessor}");
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-            TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
+            TranslationGeneration.WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                callLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
+                maskAccessor: maskAccessor,
+                itemAccessor: itemAccessor,
+                indexAccessor: typeGen.IndexEnumInt,
+                extraargs: $"root: {nodeAccessor}");
         }
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
-            TypeGeneration typeGen, 
+            TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
@@ -91,7 +79,7 @@ namespace Loqui.Generation
 
         public override XElement GenerateForXSD(
             ObjectGeneration obj,
-            XElement rootElement, 
+            XElement rootElement,
             XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride = null)

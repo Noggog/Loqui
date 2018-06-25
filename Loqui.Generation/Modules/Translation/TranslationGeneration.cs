@@ -35,7 +35,52 @@ namespace Loqui.Generation
                         unsetCall: unsetCall);
                 },
                 maskAccessor: maskAccessor,
-                indexAccessor: indexAccessor);
+                indexAccessor: indexAccessor,
+                doIt: indexAccessor != null);
+        }
+
+        public static void WrapParseCall(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string callLine,
+            string maskAccessor,
+            string indexAccessor,
+            Accessor itemAccessor,
+            params string[] extraargs)
+        {
+            MaskGenerationUtility.WrapErrorFieldIndexPush(fg,
+                () =>
+                {
+                    WrapParseCall(
+                        fg: fg,
+                        typeGen: typeGen,
+                        callLine: callLine,
+                        maskAccessor: maskAccessor,
+                        itemAccessor: itemAccessor,
+                        extraargs: extraargs,
+                        unsetCall: null);
+                },
+                maskAccessor: maskAccessor,
+                indexAccessor: indexAccessor,
+                doIt: indexAccessor != null);
+        }
+
+        public static void WrapParseCall(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string callLine,
+            string maskAccessor,
+            Accessor itemAccessor,
+            params string[] extraargs)
+        {
+            WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                callLine: callLine,
+                maskAccessor: maskAccessor,
+                itemAccessor: itemAccessor,
+                unsetCall: null,
+                extraargs: extraargs);
         }
 
         public static void WrapParseCall(
@@ -60,7 +105,7 @@ namespace Loqui.Generation
                 {
                     args.Add(extra);
                 }
-                args.Add($"item: out var {typeGen.Name}Parse");
+                args.Add($"item: out {typeGen.TypeName} {typeGen.Name}Parse");
                 args.Add($"errorMask: {maskAccessor}");
             }
             using (new BraceWrapper(fg))
@@ -76,9 +121,13 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    if (itemAccessor.PropertyAccess != null)
+                    if (typeGen.PrefersProperty)
                     {
                         fg.AppendLine($"{itemAccessor.PropertyAccess}.Unset();");
+                    }
+                    else if (typeGen.Notifying == NotifyingType.ObjectCentralized)
+                    {
+                        fg.AppendLine($"item.Unset{typeGen.Name}();");
                     }
                     else
                     {

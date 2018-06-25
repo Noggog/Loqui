@@ -223,7 +223,7 @@ namespace Loqui.Generation
                                     fg: fg,
                                     typeGen: field,
                                     nodeAccessor: "root",
-                                    itemAccessor: new Accessor(field, "item.", protectedAccess: true),
+                                    itemAccessor: new Accessor(field, "item."),
                                     maskAccessor: $"errorMask");
                             }
                             fg.AppendLine("break;");

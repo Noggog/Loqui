@@ -9,11 +9,17 @@ namespace Loqui.Generation
     public static class MaskGenerationUtility
     {
         public static void WrapErrorFieldIndexPush(
-            FileGeneration fg, 
-            Action toDo, 
+            FileGeneration fg,
+            Action toDo,
             string maskAccessor,
-            string indexAccessor)
+            string indexAccessor,
+            bool doIt = true)
         {
+            if (!doIt)
+            {
+                toDo();
+                return;
+            }
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {

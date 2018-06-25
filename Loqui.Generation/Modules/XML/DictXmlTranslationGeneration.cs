@@ -173,7 +173,6 @@ namespace Loqui.Generation
             var valSubMaskStr = valSubTransl.MaskModule.GetMaskModule(dictType.ValueTypeGen.GetType()).GetErrorMaskTypeStr(dictType.ValueTypeGen);
 
             string prefix;
-            bool isProperty = itemAccessor?.PropertyAccess != null;
             if (!ret)
             {
                 prefix = null;

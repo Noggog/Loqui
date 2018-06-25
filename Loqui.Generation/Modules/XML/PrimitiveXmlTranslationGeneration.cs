@@ -83,30 +83,14 @@ namespace Loqui.Generation
             Accessor itemAccessor,
             string maskAccessor)
         {
-            var pType = typeGen as PrimitiveType;
-            using (var args = new ArgsWrapper(fg,
-                $"{this.TypeName}XmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}"))
-            {
-                args.Add(nodeAccessor);
-                if (typeGen.HasIndex)
-                {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    if (isProperty)
-                    {
-                        args.Add($"item: {itemAccessor.PropertyAccess}");
-                    }
-                    else
-                    {
-                        args.Add($"item: out {itemAccessor.DirectAccess}");
-                    }
-                    args.Add($"errorMask: {maskAccessor}");
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-            TranslationGenerationSnippets.DirectTryGetSetting(fg, itemAccessor, typeGen);
+            TranslationGeneration.WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                callLine: $"{this.TypeName}XmlTranslation.Instance.Parse",
+                maskAccessor: maskAccessor,
+                itemAccessor: itemAccessor,
+                indexAccessor: typeGen.IndexEnumInt,
+                extraargs: $"root: {nodeAccessor}");
         }
 
         public override void GenerateCopyInRet(
