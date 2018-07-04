@@ -153,12 +153,40 @@ namespace Loqui
             {
                 return regis != null;
             }
-            if (!t.IsGenericType) return false;
-            Type genType = t.GetGenericTypeDefinition();
-            if (!GenericRegisters.TryGetValue(genType, out var genRegisterType) || genRegisterType == null) return false;
-            regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments());
-            TypeRegister[t] = regis;
+            if (t.IsGenericType)
+            {
+                Type genType = t.GetGenericTypeDefinition();
+                if (GenericRegisters.TryGetValue(genType, out var genRegisterType))
+                {
+                    if (genRegisterType == null) return false;
+                }
+                else
+                {
+                    genRegisterType = TryGetRegistration(t).GenericRegistrationType;
+                    GenericRegisters[t] = genRegisterType;
+                }
+                regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments());
+                TypeRegister[t] = regis;
+            }
+            else
+            {
+                regis = TryGetRegistration(t);
+                TypeRegister[t] = regis;
+            }
             return regis != null;
+        }
+
+        private static ILoquiRegistration TryGetRegistration(Type t)
+        {
+            if (t.GetInterface(nameof(ILoquiObject)) == null) return null;
+            var regisField = t.GetMembers().Where(
+                (m) => m.Name.Equals(nameof(ILoquiObject.Registration))
+                    && m.MemberType == MemberTypes.Property)
+                .Select((m) => m as PropertyInfo)
+                .Where((m) => m != null
+                    && m.GetGetMethod().IsStatic)
+                .First();
+            return regisField.GetValue(null) as ILoquiRegistration;
         }
 
         private static ILoquiRegistration GetGenericRegistration(Type genRegisterType, Type[] subTypes)
