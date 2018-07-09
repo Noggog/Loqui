@@ -111,7 +111,14 @@ namespace Loqui.Generation
             }
             else if (this.Notifying == NotifyingType.ObjectCentralized)
             {
-                fg.AppendLine($"protected {TypeName} _{this.Name};");
+                if (this.Singleton == SingletonLevel.None)
+                {
+                    fg.AppendLine($"protected {TypeName} _{this.Name};");
+                }
+                else
+                {
+                    fg.AppendLine($"protected {TypeName} _{this.Name} = {GetNewForNonNullable()};");
+                }
                 if (HasDefault)
                 {
                     fg.AppendLine($"protected readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
@@ -134,6 +141,14 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    if (this.Singleton == SingletonLevel.NotNull)
+                    {
+                        fg.AppendLine("if (item == null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"item = {GetNewForNonNullable()};");
+                        }
+                    }
                     fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
                     if (this.IsClass)
                     {
@@ -176,8 +191,12 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
-                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
+                    using (var args = new ArgsWrapper(fg,
+                        $"Set{this.Name}"))
+                    {
+                        args.Add($"item: {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")}");
+                        args.Add($"hasBeenSet: false");
+                    }
                 }
                 if (!this.ReadOnly)
                 {

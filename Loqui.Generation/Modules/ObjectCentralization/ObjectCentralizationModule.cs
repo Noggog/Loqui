@@ -60,6 +60,80 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"protected readonly BitArray _hasBeenSetTracker;");
             }
+            using (var args = new FunctionWrapper(fg,
+            $"protected{await obj.FunctionOverride(async (b) => GetContainedTypes(b).Any())}bool GetHasBeenSet"))
+            {
+                args.Add("int index");
+            }
+            using (new BraceWrapper(fg))
+            {
+                if (obj.Fields.Any())
+                {
+                    fg.AppendLine($"switch (({obj.FieldIndexName})index)");
+                    using (new BraceWrapper(fg))
+                    {
+                        int amount = 0;
+                        foreach (var field in obj.IterateFields())
+                        {
+                            if (field.HasBeenSet
+                                && field.Notifying == NotifyingType.ObjectCentralized)
+                            {
+                                amount++;
+                                fg.AppendLine($"case {field.IndexEnumName}:");
+                            }
+                        }
+                        if (amount > 0)
+                        {
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("return _hasBeenSetTracker[index];");
+                            }
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            if (field.HasBeenSet
+                                && field.Notifying != NotifyingType.ObjectCentralized)
+                            {
+                                amount++;
+                                fg.AppendLine($"case {field.IndexEnumName}:");
+                                using (new DepthWrapper(fg))
+                                {
+                                    fg.AppendLine($"return {field.Property}.HasBeenSet;");
+                                }
+                            }
+                        }
+                        amount = 0;
+                        foreach (var field in obj.IterateFields())
+                        {
+                            if (!field.HasBeenSet)
+                            {
+                                amount++;
+                                fg.AppendLine($"case {field.IndexEnumName}:");
+                            }
+                        }
+                        if (amount > 0)
+                        {
+                            using (new DepthWrapper(fg))
+                            {
+                                fg.AppendLine("return true;");
+                            }
+                        }
+                        fg.AppendLine("default:");
+                        using (new DepthWrapper(fg))
+                        {
+                            if (ParentHasImplementation(obj))
+                            {
+                                fg.AppendLine("return base.GetHasBeenSet(index);");
+                            }
+                            else
+                            {
+                                fg.AppendLine("throw new ArgumentException($\"Unknown field index: {index}\");");
+                            }
+                        }
+                    }
+                }
+            }
+            fg.AppendLine();
             foreach (var type in GetContainedTypes(obj))
             {
                 using (new RegionWrapper(fg, $"IPropertySupporter {type.Key}"))
@@ -181,7 +255,11 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("return _hasBeenSetTracker[index];");
+                using (var args = new ArgsWrapper(fg,
+                    "return this.GetHasBeenSet"))
+                {
+                    args.Add("index: index");
+                }
             }
             fg.AppendLine();
         }
@@ -318,8 +396,12 @@ namespace Loqui.Generation
                         fg.AppendLine($"case {field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine("_hasBeenSetTracker[index] = false;");
-                            fg.AppendLine($"{field.Name} = default({type});");
+                            using (var args = new ArgsWrapper(fg,
+                                $"Set{field.Name}"))
+                            {
+                                args.Add($"item: default({type})");
+                                args.Add($"hasBeenSet: false");
+                            }
                             fg.AppendLine("break;");
                         }
                     }
