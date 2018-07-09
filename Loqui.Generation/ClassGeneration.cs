@@ -15,8 +15,8 @@ namespace Loqui.Generation
         private bool _hasBeenSetDefault;
         public override bool HasBeenSetDefault => _hasBeenSetDefault;
         public string BaseClassStr { get; set; }
-        public List<ClassGeneration> DerivativeClasses = new List<ClassGeneration>();
-        public bool HasDerivativeClasses => DerivativeClasses.Count > 0;
+        private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
+        public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
         public override string NewOverride => HasBaseObject ? " new " : " ";
 
         public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
@@ -44,7 +44,7 @@ namespace Loqui.Generation
                 {
                     ClassGeneration baseClass = baseObj as ClassGeneration;
                     this.BaseClass = baseClass;
-                    baseClass.DerivativeClasses.Add(this);
+                    baseClass._derivativeClasses.Add(this);
                 }
             }
             this.WiredBaseClassTCS.Complete();
@@ -125,15 +125,27 @@ namespace Loqui.Generation
             }
             if (this.HasDerivativeClasses)
             {
-                foreach (var baseObj in this.DerivativeClasses)
+                foreach (var derivClass in this.GetDerivativeClasses())
                 {
-                    if (tester == null || await tester(baseObj))
+                    if (tester == null || await tester(derivClass))
                     {
                         return " virtual ";
                     }
                 }
             }
             return " ";
+        }
+
+        public IEnumerable<ClassGeneration> GetDerivativeClasses()
+        {
+            foreach (var item in _derivativeClasses)
+            {
+                yield return item;
+                foreach (var subItem in item.GetDerivativeClasses())
+                {
+                    yield return subItem;
+                }
+            }
         }
     }
 }
