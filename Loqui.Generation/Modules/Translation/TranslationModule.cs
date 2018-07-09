@@ -316,8 +316,7 @@ namespace Loqui.Generation
                     fg.AppendLine("return ret;");
                 }
                 fg.AppendLine();
-
-                fg.AppendLine("[DebuggerStepThrough]");
+                
                 using (var args = new FunctionWrapper(fg,
                     $"public static {obj.ObjectName} Create_{ModuleNickname}"))
                 {
