@@ -25,18 +25,18 @@ namespace Loqui.Xml
 
         protected abstract bool ParseNonNullString(string str, out T value, ErrorMaskBuilder errorMask);
 
-        public void ParseInto(XElement root, int fieldIndex, IHasItem<T> item, ErrorMaskBuilder errorMask)
+        public void ParseInto(XElement root, int fieldIndex, IHasItem<T> property, ErrorMaskBuilder errorMask)
         {
             try
             {
                 errorMask?.PushIndex(fieldIndex);
                 if (Parse(root, out T val, errorMask))
                 {
-                    item.Item = val;
+                    property.Item = val;
                 }
                 else
                 {
-                    item.Unset();
+                    property.Unset();
                 }
             }
             catch (Exception ex)

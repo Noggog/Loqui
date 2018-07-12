@@ -52,7 +52,7 @@ namespace Loqui.Generation
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
+                translatorLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
                 maskAccessor: maskAccessor,
                 itemAccessor: itemAccessor,
                 indexAccessor: typeGen.IndexEnumInt,

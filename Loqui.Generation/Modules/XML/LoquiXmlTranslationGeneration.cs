@@ -114,7 +114,7 @@ namespace Loqui.Generation
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance.Parse",
+                translatorLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
                 maskAccessor: maskAccessor,
                 indexAccessor: indexAccessor,
                 itemAccessor: itemAccessor,

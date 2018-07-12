@@ -93,47 +93,47 @@ namespace Loqui.Generation
                     }
                     break;
                 case DictMode.KeyedValue:
-                    using (var args = new ArgsWrapper(fg,
-                        $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
-                    {
-                        args.Add($"node: {writerAccessor}");
-                        args.Add($"name: {nameAccessor}");
-                        args.Add($"items: {itemAccessor.DirectAccess}.Values");
-                        if (typeGen.HasIndex)
+                    MaskGenerationUtility.WrapErrorFieldIndexPush(
+                        fg: fg,
+                        toDo: () =>
                         {
-                            args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                            args.Add($"errorMask: {maskAccessor}");
-                        }
-                        else
-                        {
-                            throw new NotImplementedException();
-                        }
-                        args.Add((gen) =>
-                        {
-                            gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName} subItem, ErrorMaskBuilder dictSubMask) =>");
-                            using (new BraceWrapper(gen))
+                            using (var args = new ArgsWrapper(
+                                fg,
+                                $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
                             {
-                                valTransl.GenerateWrite(
-                                    fg: gen,
-                                    objGen: objGen,
-                                    typeGen: dictType.ValueTypeGen,
-                                    writerAccessor: "subNode",
-                                    itemAccessor: new Accessor($"subItem"),
-                                    maskAccessor: $"dictSubMask",
-                                    nameAccessor: "\"Item\"");
+                                args.Add($"node: {writerAccessor}");
+                                args.Add($"name: {nameAccessor}");
+                                args.Add($"items: {itemAccessor.DirectAccess}.Values");
+                                args.Add("errorMask: errorMask");
+                                args.Add((gen) =>
+                                {
+                                    gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName} subItem, ErrorMaskBuilder dictSubMask) =>");
+                                    using (new BraceWrapper(gen))
+                                    {
+                                        valTransl.GenerateWrite(
+                                            fg: gen,
+                                            objGen: objGen,
+                                            typeGen: dictType.ValueTypeGen,
+                                            writerAccessor: "subNode",
+                                            itemAccessor: new Accessor($"subItem"),
+                                            maskAccessor: $"dictSubMask",
+                                            nameAccessor: "\"Item\"");
+                                    }
+                                });
                             }
-                        });
-                    }
+                        },
+                        maskAccessor: maskAccessor,
+                        indexAccessor: typeGen.IndexEnumInt);
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
-        
+
         public override void GenerateCopyIn(
-            FileGeneration fg, 
+            FileGeneration fg,
             TypeGeneration typeGen,
-            string nodeAccessor, 
+            string nodeAccessor,
             Accessor itemAccessor,
             string maskAccessor)
         {
@@ -220,10 +220,10 @@ namespace Loqui.Generation
                         {
                             var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
                             xmlGen.GenerateCopyInRet(
-                                fg: gen, 
-                                typeGen: keyTypeGen, 
+                                fg: gen,
+                                typeGen: keyTypeGen,
                                 nodeAccessor: "r",
-                                retAccessor: new Accessor("return "), 
+                                retAccessor: new Accessor("return "),
                                 indexAccessor: "dictIndex",
                                 maskAccessor: "dictErrMask");
                         }
@@ -259,7 +259,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
-            TypeGeneration typeGen, 
+            TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
@@ -278,7 +278,7 @@ namespace Loqui.Generation
         public override XElement GenerateForXSD(
             ObjectGeneration obj,
             XElement rootElement,
-            XElement choiceElement, 
+            XElement choiceElement,
             TypeGeneration typeGen,
             string nameOverride = null)
         {

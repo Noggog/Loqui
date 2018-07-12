@@ -86,7 +86,7 @@ namespace Loqui.Generation
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"{this.TypeName}XmlTranslation.Instance.Parse",
+                translatorLine: $"{this.TypeName}XmlTranslation.Instance",
                 maskAccessor: maskAccessor,
                 itemAccessor: itemAccessor,
                 indexAccessor: typeGen.IndexEnumInt,

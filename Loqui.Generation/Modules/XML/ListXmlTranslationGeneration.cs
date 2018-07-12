@@ -133,30 +133,32 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
-            
-            using (var args = new ArgsWrapper(fg,
-                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.ParseInto"))
-            {
-                args.Add($"root: root");
-                args.Add($"item: {itemAccessor.DirectAccess}");
-                if (typeGen.HasIndex)
-                {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-                args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
-                ExtraCopyInArgs(typeGen, args);
-            }
-        }
 
-        protected virtual void ExtraCopyInArgs(
-            TypeGeneration typeGen,
-            ArgsWrapper args)
-        {
+            MaskGenerationUtility.WrapErrorFieldIndexPush(
+                fg: fg,
+                toDo: () =>
+                {
+                    using (var args = new FunctionWrapper(
+                        fg,
+                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
+                    {
+                        args.Add("root: root");
+                        args.Add($"enumer: out var {typeGen.Name}Item");
+                        args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        args.Add("errorMask: errorMask)");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}Item);");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{itemAccessor.DirectAccess}.Unset();");
+                    }
+                },
+                maskAccessor: maskAccessor,
+                indexAccessor: typeGen.IndexEnumInt);
         }
 
         public override XElement GenerateForXSD(

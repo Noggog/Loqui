@@ -12,10 +12,19 @@ namespace Loqui.Generation
         public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField;
         public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.IntegrateField;
 
+        public static bool IsParseInto(
+            TypeGeneration typeGen,
+            Accessor itemAccessor)
+        {
+            return itemAccessor != null
+                && typeGen.PrefersProperty
+                && itemAccessor.PropertyAccess != null;
+        }
+
         public static void WrapParseCall(
             FileGeneration fg,
             TypeGeneration typeGen,
-            string callLine,
+            string translatorLine,
             string maskAccessor,
             string indexAccessor,
             Accessor itemAccessor,
@@ -25,59 +34,81 @@ namespace Loqui.Generation
             MaskGenerationUtility.WrapErrorFieldIndexPush(fg,
                 () =>
                 {
-                    WrapParseCall(
-                        fg: fg,
-                        typeGen: typeGen,
-                        callLine: callLine,
-                        maskAccessor: maskAccessor,
-                        itemAccessor: itemAccessor,
-                        extraargs: extraargs,
-                        unsetCall: unsetCall);
+                    ArgsWrapper args;
+                    bool parseInto = IsParseInto(typeGen, itemAccessor);
+                    args = new ArgsWrapper(fg,
+                       $"{(parseInto ? null : "if (")}{translatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
+                       suffixLine: (parseInto ? null : ")"))
+                    {
+                        SemiColon = parseInto,
+                    };
+                    using (args)
+                    {
+                        foreach (var extra in extraargs)
+                        {
+                            args.Add(extra);
+                        }
+                        if (parseInto)
+                        {
+                            args.Add($"property: {itemAccessor.PropertyAccess}");
+                            if (indexAccessor != null)
+                            {
+                                args.Add($"fieldIndex: {indexAccessor}");
+                            }
+                        }
+                        else
+                        {
+                            args.Add($"item: out {typeGen.TypeName} {typeGen.Name}Parse");
+                        }
+                        args.Add($"errorMask: {maskAccessor}");
+                    }
+                    if (!parseInto)
+                    {
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"{itemAccessor.DirectAccess} = {typeGen.Name}Parse;");
+                        }
+                        fg.AppendLine("else");
+                        using (new BraceWrapper(fg))
+                        {
+                            if (unsetCall != null)
+                            {
+                                unsetCall(fg);
+                            }
+                            else
+                            {
+                                if (typeGen.Notifying == NotifyingType.ObjectCentralized)
+                                {
+                                    fg.AppendLine($"item.Unset{typeGen.Name}();");
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"{itemAccessor.DirectAccess} = default({typeGen.TypeName});");
+                                }
+                            }
+                        }
+                    }
                 },
                 maskAccessor: maskAccessor,
                 indexAccessor: indexAccessor,
-                doIt: indexAccessor != null);
+                doIt: indexAccessor != null && !IsParseInto(typeGen, itemAccessor));
         }
 
         public static void WrapParseCall(
             FileGeneration fg,
             TypeGeneration typeGen,
-            string callLine,
+            string translatorLine,
             string maskAccessor,
             string indexAccessor,
-            Accessor itemAccessor,
-            params string[] extraargs)
-        {
-            MaskGenerationUtility.WrapErrorFieldIndexPush(fg,
-                () =>
-                {
-                    WrapParseCall(
-                        fg: fg,
-                        typeGen: typeGen,
-                        callLine: callLine,
-                        maskAccessor: maskAccessor,
-                        itemAccessor: itemAccessor,
-                        extraargs: extraargs,
-                        unsetCall: null);
-                },
-                maskAccessor: maskAccessor,
-                indexAccessor: indexAccessor,
-                doIt: indexAccessor != null);
-        }
-
-        public static void WrapParseCall(
-            FileGeneration fg,
-            TypeGeneration typeGen,
-            string callLine,
-            string maskAccessor,
             Accessor itemAccessor,
             params string[] extraargs)
         {
             WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: callLine,
+                translatorLine: translatorLine,
                 maskAccessor: maskAccessor,
+                indexAccessor: indexAccessor,
                 itemAccessor: itemAccessor,
                 unsetCall: null,
                 extraargs: extraargs);
@@ -86,55 +117,40 @@ namespace Loqui.Generation
         public static void WrapParseCall(
             FileGeneration fg,
             TypeGeneration typeGen,
-            string callLine,
+            string translatorLine,
+            string maskAccessor,
+            Accessor itemAccessor,
+            params string[] extraargs)
+        {
+            WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                translatorLine: translatorLine,
+                maskAccessor: maskAccessor,
+                indexAccessor: null,
+                itemAccessor: itemAccessor,
+                unsetCall: null,
+                extraargs: extraargs);
+        }
+
+        public static void WrapParseCall(
+            FileGeneration fg,
+            TypeGeneration typeGen,
+            string translatorLine,
             string maskAccessor,
             Accessor itemAccessor,
             Action<FileGeneration> unsetCall,
             params string[] extraargs)
         {
-            ArgsWrapper args;
-            args = new ArgsWrapper(fg,
-               $"if ({callLine}",
-               suffixLine: ")")
-            {
-                SemiColon = false,
-            };
-            using (args)
-            {
-                foreach (var extra in extraargs)
-                {
-                    args.Add(extra);
-                }
-                args.Add($"item: out {typeGen.TypeName} {typeGen.Name}Parse");
-                args.Add($"errorMask: {maskAccessor}");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{itemAccessor.DirectAccess} = {typeGen.Name}Parse;");
-            }
-            fg.AppendLine("else");
-            using (new BraceWrapper(fg))
-            {
-                if (unsetCall != null)
-                {
-                    unsetCall(fg);
-                }
-                else
-                {
-                    if (typeGen.PrefersProperty)
-                    {
-                        fg.AppendLine($"{itemAccessor.PropertyAccess}.Unset();");
-                    }
-                    else if (typeGen.Notifying == NotifyingType.ObjectCentralized)
-                    {
-                        fg.AppendLine($"item.Unset{typeGen.Name}();");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{itemAccessor.DirectAccess} = default({typeGen.TypeName});");
-                    }
-                }
-            }
+            WrapParseCall(
+                fg: fg,
+                typeGen: typeGen,
+                indexAccessor: null,
+                translatorLine: translatorLine,
+                maskAccessor: maskAccessor,
+                itemAccessor: itemAccessor,
+                unsetCall: unsetCall,
+                extraargs: extraargs);
         }
     }
 }
