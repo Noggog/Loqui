@@ -110,5 +110,10 @@ namespace Loqui
         {
             this._item.Unsubscribe(_index, owner);
         }
+
+        public override string ToString()
+        {
+            return $"{(this.HasBeenSet ? "Set" : "Unset")}: {Item?.ToString()}";
+        }
     }
 }
