@@ -11,6 +11,7 @@ namespace Loqui.Xml
     public class StringXmlTranslation : IXmlTranslation<string>
     {
         public string ElementName => "String";
+
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
         public TryGet<string> Parse(XElement root)
@@ -26,7 +27,10 @@ namespace Loqui.Xml
             return TryGet<string>.Succeed(null);
         }
 
-        public bool Parse(XElement root, out string item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root,
+            out string item,
+            ErrorMaskBuilder errorMask)
         {
             if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
             {
@@ -35,6 +39,18 @@ namespace Loqui.Xml
             }
             item = null;
             return false;
+        }
+
+        public bool Parse(
+            XElement root,
+            out string item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask);
         }
 
         public void ParseInto(XElement root, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
@@ -62,7 +78,11 @@ namespace Loqui.Xml
             }
         }
 
-        public void Write(XElement node, string name, string item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node, 
+            string name,
+            string item, 
+            ErrorMaskBuilder errorMask)
         {
             var elem = new XElement(name);
             node.Add(elem);
@@ -139,6 +159,23 @@ namespace Loqui.Xml
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,
+                errorMask: errorMask);
+        }
+
+        void IXmlTranslation<string>.Write(XElement node, string name, string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            this.Write(
+                node: node,
+                name: name,
+                item: item,
+                errorMask: errorMask);
+        }
+
+        bool IXmlTranslation<string>.Parse(XElement root, out string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
                 errorMask: errorMask);
         }
     }

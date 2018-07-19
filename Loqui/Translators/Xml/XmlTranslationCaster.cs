@@ -19,17 +19,23 @@ namespace Loqui.Xml
             this.Source = src;
         }
 
-        void IXmlTranslation<object>.Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
+        void IXmlTranslation<object>.Write(
+            XElement node, 
+            string name,
+            object item, 
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
-            Source.Write(node, name, (T)item, errorMask);
+            Source.Write(node, name, (T)item, errorMask, translationMask);
         }
 
         bool IXmlTranslation<object>.Parse(
             XElement root, 
             out object item, 
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
-            if (Source.Parse(root, out T sourceItem, errorMask))
+            if (Source.Parse(root, out T sourceItem, errorMask, translationMask))
             {
                 item = sourceItem;
                 return true;

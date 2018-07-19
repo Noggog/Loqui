@@ -75,9 +75,16 @@ namespace Loqui.Xml
             }
         }
 
-        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root,
+            out T item,
+            ErrorMaskBuilder errorMask)
         {
-            if (this.Parse(root, nullable: false, item: out var nullItem, errorMask: errorMask))
+            if (this.Parse(
+                root,
+                nullable: false,
+                item: out var nullItem,
+                errorMask: errorMask))
             {
                 item = nullItem.Value;
                 return true;
@@ -86,12 +93,35 @@ namespace Loqui.Xml
             return false;
         }
 
-        public bool Parse(XElement root, out T? item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root,
+            out T item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
-            return this.Parse(root, nullable: true, item: out item, errorMask: errorMask);
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask);
         }
 
-        public bool Parse(XElement root, int fieldIndex, out T item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root,
+            out T? item, 
+            ErrorMaskBuilder errorMask)
+        {
+            return this.Parse(
+                root, 
+                nullable: true, 
+                item: out item,
+                errorMask: errorMask);
+        }
+
+        public bool Parse(
+            XElement root, 
+            int fieldIndex,
+            out T item,
+            ErrorMaskBuilder errorMask)
         {
             try
             {
@@ -111,7 +141,11 @@ namespace Loqui.Xml
             return false;
         }
 
-        public bool Parse(XElement root, int fieldIndex, out T? item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root, 
+            int fieldIndex, 
+            out T? item, 
+            ErrorMaskBuilder errorMask)
         {
             try
             {
@@ -148,7 +182,11 @@ namespace Loqui.Xml
             return false;
         }
 
-        public bool Parse(XElement root, bool nullable, out T? item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root,
+            bool nullable, 
+            out T? item, 
+            ErrorMaskBuilder errorMask)
         {
             if (!ParseValue(root, out item, errorMask))
             {
@@ -168,12 +206,26 @@ namespace Loqui.Xml
                 item.HasValue ? GetItemStr(item.Value) : string.Empty);
         }
 
-        public void Write(XElement node, string name, T? item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node, 
+            string name,
+            T? item, 
+            ErrorMaskBuilder errorMask)
         {
-            Write_Internal(node, name, item, errorMask, nullable: true);
+            Write_Internal(
+                node,
+                name,
+                item,
+                errorMask, 
+                nullable: true);
         }
 
-        private void Write_Internal(XElement node, string name, T? item, ErrorMaskBuilder errorMask, bool nullable)
+        private void Write_Internal(
+            XElement node, 
+            string name, 
+            T? item, 
+            ErrorMaskBuilder errorMask, 
+            bool nullable)
         {
             var elem = new XElement(name);
             node.Add(elem);
@@ -181,7 +233,11 @@ namespace Loqui.Xml
             errorMask = null;
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node, 
+            string name,
+            T item, 
+            ErrorMaskBuilder errorMask)
         {
             Write_Internal(node, name, (T?)item, errorMask, nullable: false);
         }
@@ -297,6 +353,40 @@ namespace Loqui.Xml
                 item.Item,
                 fieldIndex,
                 errorMask);
+        }
+
+        void IXmlTranslation<T?>.Write(XElement node, string name, T? item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            this.Write(
+                node: node,
+                name: name,
+                item: item,
+                errorMask: errorMask);
+        }
+
+        bool IXmlTranslation<T?>.Parse(XElement root, out T? item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask);
+        }
+
+        void IXmlTranslation<T>.Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            this.Write(
+                node: node,
+                name: name,
+                item: item,
+                errorMask: errorMask);
+        }
+
+        bool IXmlTranslation<T>.Parse(XElement root, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
+                errorMask: errorMask);
         }
     }
 }

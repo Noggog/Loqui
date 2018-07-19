@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Loqui.Internal;
 
 namespace Loqui.Generation
 {
@@ -22,6 +23,22 @@ namespace Loqui.Generation
             _fieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
             _fieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
             _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
+        }
+
+        public static string MaskNickname(MaskType type)
+        {
+            switch (type)
+            {
+                case MaskType.Error:
+                    return ErrMaskNickname;
+                case MaskType.Copy:
+                    return CopyMaskNickname;
+                case MaskType.Translation:
+                    return TranslationMaskNickname;
+                case MaskType.Normal:
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public void AddTypeAssociation<T>(MaskModuleField gen)
@@ -98,7 +115,7 @@ namespace Loqui.Generation
             await GenerateNormalMask(obj, fg);
             await GenerateErrorMask(obj, fg);
             GenerateCopyMask(obj, fg);
-            GenerateTranslationMask(obj, fg);
+            await GenerateTranslationMask(obj, fg);
         }
 
         private void GenerateCopyMask(ObjectGeneration obj, FileGeneration fg)
@@ -106,7 +123,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypes_CopyMaskWheres);
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Copy));
             }
             using (new BraceWrapper(fg))
             {
@@ -125,7 +142,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}, IErrorMask<{obj.Mask(MaskType.Error)}>");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypes_ErrorMaskWheres);
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Error));
             }
             using (new BraceWrapper(fg))
             {
@@ -473,20 +490,53 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void GenerateTranslationMask(ObjectGeneration obj, FileGeneration fg)
+        private async Task GenerateTranslationMask(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public class {obj.Mask(MaskType.Translation)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Translation)}" : string.Empty)}");
+            fg.AppendLine($"public class {obj.Mask(MaskType.Translation)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation)}" : $"{nameof(ITranslationMask)}")}");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypes_TranslationMaskWheres);
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Translation));
             }
             using (new BraceWrapper(fg))
             {
                 using (new RegionWrapper(fg, "Members"))
                 {
+                    fg.AppendLine("private TranslationCrystal _crystal;");
+
                     foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForTranslationMask(fg, field);
+                    }
+                }
+
+                if (!obj.HasBaseObject)
+                {
+                    fg.AppendLine("public TranslationCrystal GetCrystal()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (_crystal != null) return _crystal;");
+                        fg.AppendLine("List<(bool On, TranslationCrystal SubCrystal)> ret = new List<(bool On, TranslationCrystal SubCrystal)>();");
+                        fg.AppendLine($"GetCrystal(ret);");
+                        fg.AppendLine($"_crystal = new TranslationCrystal()");
+                        using (new BraceWrapper(fg) { AppendSemicolon = true })
+                        {
+                            fg.AppendLine($"Crystal = ret.ToArray()");
+                        }
+                        fg.AppendLine("return _crystal;");
+                    }
+                    fg.AppendLine();
+                }
+
+                fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
+                using (new BraceWrapper(fg))
+                {
+                    if (obj.HasBaseObject)
+                    {
+                        fg.AppendLine("base.GetCrystal(ret);");
+                    }
+                    foreach (var field in obj.IterateFields())
+                    {
+                        fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
                     }
                 }
             }

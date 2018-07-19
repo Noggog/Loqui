@@ -21,16 +21,17 @@ namespace Loqui.Xml
         private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
-        public delegate TryGet<T> CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder);
+        public delegate TryGet<T> CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
-        public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask);
+        public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             ILoquiRegistration registration,
             XElement root,
             bool skipProtected,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             var ret = new List<KeyValuePair<ushort, object>>();
             foreach (var elem in root.Elements())
@@ -43,6 +44,7 @@ namespace Loqui.Xml
                 }
 
                 if (registration.IsProtected(i.Value) && skipProtected) continue;
+                if (!translationMask?.GetShouldTranslate(i.Value) ?? false) continue;
 
                 try
                 {
@@ -53,7 +55,11 @@ namespace Loqui.Xml
                         XmlTranslator.Instance.TryGetTranslator(type, out translator);
                         throw new ArgumentException($"No XML Translator found for {type}");
                     }
-                    if (translator.Parse(elem, out var obj, errorMask))
+                    if (translator.Parse(
+                        root: elem, 
+                        item: out var obj,
+                        errorMask: errorMask,
+                        translationMask: translationMask?.GetSubCrystal(i.Value)))
                     {
                         ret.Add(new KeyValuePair<ushort, object>(i.Value, obj));
                     }
@@ -76,6 +82,7 @@ namespace Loqui.Xml
             C item,
             bool skipProtected,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             NotifyingFireParameters cmds)
             where C : T, ILoquiObject
         {
@@ -83,7 +90,8 @@ namespace Loqui.Xml
                 item.Registration,
                 root,
                 skipProtected,
-                errorMask);
+                errorMask: errorMask,
+                translationMask: translationMask);
             var copyIn = LoquiRegistration.GetCopyInFunc<C>();
             copyIn(fields, item);
         }
@@ -106,14 +114,14 @@ namespace Loqui.Xml
                 .First();
             if (!method.IsGenericMethod)
             {
-                var f = DelegateBuilder.BuildDelegate<Action<T, XElement, string, ErrorMaskBuilder>>(method);
-                return (XElement node, T item, string name, ErrorMaskBuilder errorMask) =>
+                var f = DelegateBuilder.BuildDelegate<Action<T, XElement, string, ErrorMaskBuilder, TranslationCrystal>>(method);
+                return (XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask) =>
                 {
                     if (item == null)
                     {
                         throw new NullReferenceException("Cannot write XML for a null item.");
                     }
-                    f(item, node, name, errorMask);
+                    f(item, node, name, errorMask, translationMask);
                 };
             }
             else
@@ -122,7 +130,12 @@ namespace Loqui.Xml
             }
         }
 
-        public void ParseInto(XElement root, int fieldIndex, IHasItem<T> item, ErrorMaskBuilder errorMask)
+        public void ParseInto(
+            XElement root, 
+            int fieldIndex, 
+            IHasItem<T> item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             try
             {
@@ -130,7 +143,8 @@ namespace Loqui.Xml
                 if (Parse(
                     root,
                     out var i,
-                    errorMask))
+                    errorMask: errorMask,
+                    translationMask: translationMask))
                 {
                     item.Item = i;
                 }
@@ -150,7 +164,11 @@ namespace Loqui.Xml
             }
         }
 
-        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root, 
+            out T item, 
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
             if (typeStr != null
@@ -158,7 +176,8 @@ namespace Loqui.Xml
             {
                 var ret = CREATE.Value(
                     root: root,
-                    errorMaskBuilder: errorMask);
+                    errorMaskBuilder: errorMask,
+                    translationMask: translationMask);
                 item = ret.Value;
                 return ret.Succeeded;
             }
@@ -176,7 +195,8 @@ namespace Loqui.Xml
                 var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
                     root: root,
                     item: out var itemObj,
-                    errorMask: errorMask);
+                    errorMask: errorMask,
+                    translationMask: translationMask);
                 if (ret)
                 {
                     item = (T)itemObj;
@@ -190,9 +210,19 @@ namespace Loqui.Xml
             }
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node, 
+            string name,
+            T item,
+            ErrorMaskBuilder errorMask, 
+            TranslationCrystal translationMask)
         {
-            WRITE.Value(node, item, name, errorMask);
+            WRITE.Value(
+                node, 
+                item, 
+                name, 
+                errorMask,
+                translationMask);
         }
 
         public void Write(
@@ -200,7 +230,8 @@ namespace Loqui.Xml
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             errorMask?.PushIndex(fieldIndex);
             this.Write(
@@ -208,7 +239,8 @@ namespace Loqui.Xml
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,
-                errorMask: errorMask);
+                errorMask: errorMask,
+                translationMask: translationMask);
         }
 
         public void Write(
@@ -216,7 +248,8 @@ namespace Loqui.Xml
             string name,
             T item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             try
             {
@@ -224,7 +257,8 @@ namespace Loqui.Xml
                     node: node,
                     name: name,
                     item: item,
-                    errorMask: errorMask);
+                    errorMask: errorMask,
+                    translationMask: translationMask);
             }
             catch (Exception ex)
             when (errorMask != null)
@@ -242,7 +276,8 @@ namespace Loqui.Xml
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(
@@ -250,7 +285,8 @@ namespace Loqui.Xml
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,
-                errorMask: errorMask);
+                errorMask: errorMask,
+                translationMask: translationMask);
         }
     }
 }

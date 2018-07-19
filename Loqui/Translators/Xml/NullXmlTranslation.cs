@@ -15,13 +15,22 @@ namespace Loqui.Xml
     {
         public string ElementName => "Null";
 
-        public bool Parse(XElement root, out object item, ErrorMaskBuilder errorMask)
+        public bool Parse(
+            XElement root, 
+            out object item, 
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             item = null;
             return true;
         }
 
-        public void Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node,
+            string name,
+            object item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             node.Add(
                 new XElement(name));

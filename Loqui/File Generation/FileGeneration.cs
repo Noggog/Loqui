@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("hasBeenSet: _hasBeenSetTracker,"))
+            if (str.Contains("(MutagenWriter subWriter, MapMarker.Type subItem, ErrorMaskBuilder listErrorMask, bool listTranslMask) =>"))
             {
                 int wer = 23;
                 wer++;

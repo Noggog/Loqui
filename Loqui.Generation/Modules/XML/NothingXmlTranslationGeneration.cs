@@ -19,7 +19,8 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor, 
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
         }
 
@@ -29,7 +30,8 @@ namespace Loqui.Generation
             string nodeAccessor, 
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
         }
 
@@ -45,7 +47,8 @@ namespace Loqui.Generation
             string writerAccessor, 
             Accessor itemAccessor, 
             string maskAccessor, 
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
         }
 

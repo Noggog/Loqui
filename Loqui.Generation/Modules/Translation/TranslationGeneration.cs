@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class TranslationGeneration
+    public abstract class TranslationGeneration
     {
         public MaskModule MaskModule;
         public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField;
         public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.IntegrateField;
+        public virtual string GetTranslationIfAccessor(TypeGeneration typeGen, string translationAccessor)
+        {
+            return $"({translationAccessor}?.GetShouldTranslate({typeGen.IndexEnumInt}) ?? true)";
+        }
 
         public static bool IsParseInto(
             TypeGeneration typeGen,
@@ -27,6 +31,7 @@ namespace Loqui.Generation
             string translatorLine,
             string maskAccessor,
             string indexAccessor,
+            string translationMaskAccessor,
             Accessor itemAccessor,
             Action<FileGeneration> unsetCall,
             params string[] extraargs)
@@ -61,6 +66,10 @@ namespace Loqui.Generation
                             args.Add($"item: out {typeGen.TypeName} {typeGen.Name}Parse");
                         }
                         args.Add($"errorMask: {maskAccessor}");
+                        if (translationMaskAccessor != null)
+                        {
+                            args.Add($"translationMask: {translationMaskAccessor}");
+                        }
                     }
                     if (!parseInto)
                     {
@@ -100,6 +109,7 @@ namespace Loqui.Generation
             string translatorLine,
             string maskAccessor,
             string indexAccessor,
+            string translationMaskAccessor,
             Accessor itemAccessor,
             params string[] extraargs)
         {
@@ -110,6 +120,7 @@ namespace Loqui.Generation
                 maskAccessor: maskAccessor,
                 indexAccessor: indexAccessor,
                 itemAccessor: itemAccessor,
+                translationMaskAccessor: translationMaskAccessor,
                 unsetCall: null,
                 extraargs: extraargs);
         }
@@ -119,6 +130,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string translatorLine,
             string maskAccessor,
+            string translationMaskAccessor,
             Accessor itemAccessor,
             params string[] extraargs)
         {
@@ -128,6 +140,7 @@ namespace Loqui.Generation
                 translatorLine: translatorLine,
                 maskAccessor: maskAccessor,
                 indexAccessor: null,
+                translationMaskAccessor: translationMaskAccessor,
                 itemAccessor: itemAccessor,
                 unsetCall: null,
                 extraargs: extraargs);
@@ -138,6 +151,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string translatorLine,
             string maskAccessor,
+            string translationMaskAccessor,
             Accessor itemAccessor,
             Action<FileGeneration> unsetCall,
             params string[] extraargs)
@@ -149,6 +163,7 @@ namespace Loqui.Generation
                 translatorLine: translatorLine,
                 maskAccessor: maskAccessor,
                 itemAccessor: itemAccessor,
+                translationMaskAccessor: translationMaskAccessor,
                 unsetCall: unsetCall,
                 extraargs: extraargs);
         }

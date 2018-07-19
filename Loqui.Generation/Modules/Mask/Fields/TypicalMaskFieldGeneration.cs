@@ -68,8 +68,18 @@ namespace Loqui.Generation
             return "Exception";
         }
 
+        public override string GetTranslationMaskTypeStr(TypeGeneration field)
+        {
+            return "bool";
+        }
+
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
         {
+        }
+
+        public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+        {
+            return $"({field.Name}, null)";
         }
     }
 }

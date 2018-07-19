@@ -6,6 +6,7 @@ namespace Loqui.Generation
     {
         public MaskModule Module;
         public abstract string GetErrorMaskTypeStr(TypeGeneration field);
+        public abstract string GetTranslationMaskTypeStr(TypeGeneration field);
         public abstract void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr);
         public virtual void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)
         {
@@ -21,6 +22,7 @@ namespace Loqui.Generation
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field);
+        public abstract string GenerateForTranslationMaskCrystalization(TypeGeneration field);
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck);
         public virtual void GenerateForEqual(FileGeneration fg, TypeGeneration field, string rhsAccessor)
         {

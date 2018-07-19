@@ -20,6 +20,11 @@ namespace Loqui.Generation
             this.fg = fg;
         }
 
+        public void Add(string str)
+        {
+            this.Checks.Add(str);
+        }
+
         public void Dispose()
         {
             if (Checks.Count == 0) throw new ArgumentException();

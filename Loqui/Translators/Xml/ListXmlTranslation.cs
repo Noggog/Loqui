@@ -20,9 +20,18 @@ namespace Loqui.Xml
 
         public override string ElementName => "List";
 
-        public override void WriteSingleItem(XElement node, XmlSubWriteDelegate<T> transl, T item, ErrorMaskBuilder errorMask)
+        public override void WriteSingleItem(
+            XElement node,
+            XmlSubWriteDelegate<T> transl,
+            T item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translMask)
         {
-            transl(node, item, errorMask);
+            transl(
+                node, 
+                item, 
+                errorMask,
+                translMask);
         }
     }
 }

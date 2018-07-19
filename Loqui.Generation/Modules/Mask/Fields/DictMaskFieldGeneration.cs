@@ -58,6 +58,28 @@ namespace Loqui.Generation
             return itemStr;
         }
 
+        public static string GetSubTranslationMaskTring(IDictType dictType)
+        {
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+            string keyStr = $"{(keyLoquiType == null ? "bool" : $"MaskItem<bool, {keyLoquiType.Mask(MaskType.Translation)}>")}";
+            string valueStr = $"{(valueLoquiType == null ? "bool" : $"MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}>")}";
+
+            string itemStr;
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    itemStr = $"KeyValuePair<{keyStr}, {valueStr}>";
+                    break;
+                case DictMode.KeyedValue:
+                    itemStr = valueStr;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return itemStr;
+        }
+
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
             fg.AppendLine($"public {GetMaskString(field as IDictType, typeStr)} {field.Name};");
@@ -352,9 +374,27 @@ namespace Loqui.Generation
             return DictMaskFieldGeneration.GetErrorMaskString(field as IDictType);
         }
 
+        public override string GetTranslationMaskTypeStr(TypeGeneration field)
+        {
+            return $"MaskItem<bool, IEnumerable<{GetSubTranslationMaskTring(field as IDictType)}>>";
+        }
+
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
         {
             fg.AppendLine($"this.{field.Name}.Specific = null;");
+        }
+
+        public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+        {
+            var dictType = field as DictType;
+            if (dictType.ValueTypeGen is LoquiType loquiType)
+            {
+                return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+            }
+            else
+            {
+                return $"({field.Name}, null)";
+            }
         }
     }
 }
