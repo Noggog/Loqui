@@ -28,7 +28,8 @@ namespace Loqui.Xml
         public bool Parse(
             XElement root,
             out object item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             if (!root.TryGetAttribute(XmlConstants.TYPE_ATTRIBUTE, out var nameAttr))
             {
@@ -49,16 +50,21 @@ namespace Loqui.Xml
                     new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator."));
             }
             var xml = GetTranslator(t.Item);
-            return xml.Parse(itemNode, out item, errorMask);
+            return xml.Parse(itemNode, out item, errorMask, translationMask);
         }
 
-        public void Write(XElement node, string name, object item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node, 
+            string name, 
+            object item, 
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             var xml = GetTranslator(item?.GetType());
             var elem = new XElement(name);
             elem.SetAttributeValue(XmlConstants.TYPE_ATTRIBUTE, xml.ElementName);
             node.Add(elem);
-            xml.Write(elem, "Item", item, errorMask);
+            xml.Write(elem, "Item", item, errorMask, translationMask);
         }
 
         public void Write(
@@ -66,7 +72,8 @@ namespace Loqui.Xml
             string name,
             IHasItem<object> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             try
             {
@@ -75,7 +82,8 @@ namespace Loqui.Xml
                     node: node,
                     name: name,
                     item: item.Item,
-                    errorMask: errorMask);
+                    errorMask: errorMask,
+                    translationMask: translationMask);
             }
             catch (Exception ex)
             when (errorMask != null)
@@ -93,7 +101,8 @@ namespace Loqui.Xml
             string name,
             object item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             try
             {
@@ -102,7 +111,8 @@ namespace Loqui.Xml
                     node: node,
                     name: name,
                     item: item,
-                    errorMask: errorMask);
+                    errorMask: errorMask,
+                    translationMask: translationMask);
             }
             catch (Exception ex)
             when (errorMask != null)

@@ -9,7 +9,7 @@ namespace Loqui.Generation
     public class ArgsWrapper : IDisposable
     {
         FileGeneration fg;
-        List<string[]> args = new List<string[]>(); 
+        List<string[]> args = new List<string[]>();
         public bool SemiColon = true;
         string initialLine;
         string suffixLine;

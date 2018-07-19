@@ -49,7 +49,12 @@ namespace Loqui.Generation
         private string GetParameterName(string api)
         {
             var root = CSharpSyntaxTree.ParseText(api).GetRoot();
-            var ident = root.DescendantNodes().OfType<VariableDeclaratorSyntax>().First();
+            var idents = root.DescendantNodes().OfType<VariableDeclaratorSyntax>();
+            if (!idents.Any())
+            {
+                throw new ArgumentException("API given had no name");
+            }
+            var ident = idents.First();
             return ident.Identifier.Text;
         }
 

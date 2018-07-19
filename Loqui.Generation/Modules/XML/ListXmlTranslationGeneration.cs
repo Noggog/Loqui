@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loqui.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,8 @@ namespace Loqui.Generation
             string writerAccessor,
             Accessor itemAccessor,
             string maskAccessor,
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -47,15 +49,16 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
                 }
                 else
                 {
                     throw new NotImplementedException();
                 }
+                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"translationMask: {translationMaskAccessor}.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, ErrorMaskBuilder listSubMask) =>");
+                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
@@ -65,6 +68,7 @@ namespace Loqui.Generation
                             writerAccessor: "subNode",
                             itemAccessor: new Accessor($"subItem"),
                             maskAccessor: $"listSubMask",
+                            translationMaskAccessor: "listTranslMask",
                             nameAccessor: "\"Item\"");
                     }
                 });
@@ -84,7 +88,8 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -93,6 +98,7 @@ namespace Loqui.Generation
                 itemAccessor: itemAccessor,
                 ret: false,
                 indexAccessor: $"(int){typeGen.IndexEnumName}",
+                translationMaskAccessor: translationMaskAccessor,
                 maskAccessor: maskAccessor);
         }
 
@@ -102,7 +108,8 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -111,7 +118,8 @@ namespace Loqui.Generation
                 itemAccessor: retAccessor,
                 ret: true,
                 indexAccessor: indexAccessor,
-                maskAccessor: maskAccessor);
+                maskAccessor: maskAccessor,
+                translationMaskAccessor: translationMaskAccessor);
         }
 
         public void GenerateCopyInRet_Internal(
@@ -121,7 +129,8 @@ namespace Loqui.Generation
             Accessor itemAccessor,
             bool ret,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -133,30 +142,33 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
-            
-            using (var args = new ArgsWrapper(fg,
-                $"{TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.ParseInto"))
-            {
-                args.Add($"root: root");
-                args.Add($"item: {itemAccessor.DirectAccess}");
-                if (typeGen.HasIndex)
-                {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-                args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
-                ExtraCopyInArgs(typeGen, args);
-            }
-        }
 
-        protected virtual void ExtraCopyInArgs(
-            TypeGeneration typeGen,
-            ArgsWrapper args)
-        {
+            MaskGenerationUtility.WrapErrorFieldIndexPush(
+                fg: fg,
+                toDo: () =>
+                {
+                    using (var args = new FunctionWrapper(
+                        fg,
+                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
+                    {
+                        args.Add("root: root");
+                        args.Add($"enumer: out var {typeGen.Name}Item");
+                        args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        args.Add("errorMask: errorMask");
+                        args.Add($"translationMask: {translationMaskAccessor})");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}Item);");
+                    }
+                    fg.AppendLine("else");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{itemAccessor.DirectAccess}.Unset();");
+                    }
+                },
+                maskAccessor: maskAccessor,
+                indexAccessor: typeGen.IndexEnumInt);
         }
 
         public override XElement GenerateForXSD(

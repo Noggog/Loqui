@@ -23,7 +23,8 @@ namespace Loqui.Generation
             string writerAccessor,
             Accessor itemAccessor,
             string maskAccessor,
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"WildcardXmlTranslation.Instance.Write"))
@@ -40,6 +41,7 @@ namespace Loqui.Generation
                 {
                     throw new NotImplementedException();
                 }
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 
@@ -48,7 +50,8 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             string prefix = typeGen.PrefersProperty ? null : $"{itemAccessor.DirectAccess} = ";
@@ -70,6 +73,7 @@ namespace Loqui.Generation
                 {
                     throw new NotImplementedException();
                 }
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 
@@ -79,7 +83,8 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             using (var args = new ArgsWrapper(fg,
@@ -91,6 +96,7 @@ namespace Loqui.Generation
                     args.Add($"item: {retAccessor.PropertyAccess}");
                 }
                 args.Add($"errorMask: {maskAccessor}");
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 

@@ -48,6 +48,19 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is LoquiType loqui)
+            {
+                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}> {field.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public bool {field.Name};");
+            }
+        }
+
         public static string GetSubMaskString(TypeGeneration field, string maskStr)
         {
             ListType listType = field as ListType;
@@ -204,9 +217,38 @@ namespace Loqui.Generation
             return $"MaskItem<Exception, IEnumerable<{itemStr}>>";
         }
 
+        public override string GetTranslationMaskTypeStr(TypeGeneration field)
+        {
+            var contType = field as ContainerType;
+            LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
+            string itemStr;
+            if (loquiType == null)
+            {
+                itemStr = GetItemString(contType, "bool");
+            }
+            else
+            {
+                itemStr = $"MaskItem<bool, {loquiType.Mask(MaskType.Translation)}>";
+            }
+            return $"MaskItem<bool, IEnumerable<{itemStr}>>";
+        }
+
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
         {
             fg.AppendLine($"this.{field.Name}.Specific = null;");
+        }
+
+        public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+        {
+            var contType = field as ContainerType;
+            if (contType.SubTypeGeneration is LoquiType loquiType)
+            {
+                return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+            }
+            else
+            {
+                return $"({field.Name}, null)";
+            }
         }
     }
 }

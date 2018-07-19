@@ -49,6 +49,7 @@ namespace Loqui.Generation
             }
             foreach (var item in customLines)
             {
+                if (string.IsNullOrWhiteSpace(item)) continue;
                 yield return (item, true);
             }
             foreach (var item in this.OptionalAPI)

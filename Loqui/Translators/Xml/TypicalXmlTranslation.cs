@@ -123,7 +123,11 @@ namespace Loqui.Xml
                 item != null ? GetItemStr(item) : string.Empty);
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask)
+        public void Write(
+            XElement node,
+            string name,
+            T item,
+            ErrorMaskBuilder errorMask)
         {
             var elem = new XElement(name);
             WriteValue(elem, name, item);
@@ -196,6 +200,23 @@ namespace Loqui.Xml
                 name: name,
                 item: item.Item,
                 fieldIndex: fieldIndex,
+                errorMask: errorMask);
+        }
+
+        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            this.Write(
+                node: node,
+                item: item,
+                name: name,
+                errorMask: errorMask);
+        }
+
+        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        {
+            return this.Parse(
+                root: root,
+                item: out item,
                 errorMask: errorMask);
         }
     }

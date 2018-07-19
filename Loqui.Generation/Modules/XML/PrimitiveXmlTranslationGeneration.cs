@@ -39,7 +39,8 @@ namespace Loqui.Generation
             string writerAccessor,
             Accessor itemAccessor,
             string maskAccessor,
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{this.TypeName}XmlTranslation.Instance.Write"))
@@ -81,14 +82,16 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"{this.TypeName}XmlTranslation.Instance.Parse",
+                translatorLine: $"{this.TypeName}XmlTranslation.Instance",
                 maskAccessor: maskAccessor,
                 itemAccessor: itemAccessor,
+                translationMaskAccessor: null,
                 indexAccessor: typeGen.IndexEnumInt,
                 extraargs: $"root: {nodeAccessor}");
         }
@@ -99,7 +102,8 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{retAccessor.DirectAccess}{this.TypeName}XmlTranslation.Instance.Parse",
@@ -112,6 +116,7 @@ namespace Loqui.Generation
                 }
                 args.Add($"index: {indexAccessor}");
                 args.Add($"errorMask: {maskAccessor}");
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 

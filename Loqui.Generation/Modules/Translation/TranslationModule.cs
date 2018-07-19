@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loqui.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Loqui.Generation
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
         public bool ExportWithIGetter = true;
         public bool ShouldGenerateCopyIn = true;
+        public bool TranslationMaskParameter = true;
 
         public TranslationModule(LoquiGenerator gen)
         {
@@ -76,8 +78,6 @@ namespace Loqui.Generation
             await GenerateWrite(obj, fg);
         }
 
-        protected abstract void GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, bool usingErrorMask);
-
         private async Task GenerateCopyIn(ObjectGeneration obj, FileGeneration fg)
         {
             if (obj is StructGeneration) return;
@@ -101,14 +101,21 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        GenerateCopyInSnippet(obj, fg, usingErrorMask: false);
+                        using (var args = new ArgsWrapper(fg,
+                            $"CopyIn_{ModuleNickname}_Internal"))
+                        {
+                            args.Add(this.MainAPI.ReaderPassArgs(obj));
+                            args.Add($"errorMask: null");
+                            args.Add($"translationMask: null");
+                            args.Add($"cmds: cmds");
+                        }
                     }
                     fg.AppendLine();
                 }
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public virtual void CopyIn_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                    wheres: obj.GenericTypes_ErrorMaskWheres))
+                    $"public virtual void CopyIn_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                     {
@@ -118,6 +125,50 @@ namespace Loqui.Generation
                         }
                     }
                     args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.Add(GetTranslationMaskParameter(obj));
+                    }
+                    foreach (var item in this.MainAPI.ReaderAPI.OptionalAPI)
+                    {
+                        if (item.TryResolve(obj, out var line))
+                        {
+                            args.Add(line);
+                        }
+                    }
+                    args.Add("bool doMasks = true");
+                    args.Add("NotifyingFireParameters cmds = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
+                    using (var args = new ArgsWrapper(fg,
+                        $"CopyIn_{ModuleNickname}_Internal"))
+                    {
+                        args.Add(this.MainAPI.ReaderPassArgs(obj));
+                        args.Add($"errorMask: errorMaskBuilder");
+                        args.Add($"translationMask: translationMask?.GetCrystal()");
+                        args.Add($"cmds: cmds");
+                    }
+                    fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
+                }
+                fg.AppendLine();
+                
+                using (var args = new FunctionWrapper(fg,
+                    $"protected{await obj.FunctionOverride()}void CopyIn_{ModuleNickname}_Internal"))
+                {
+                    foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
+                    {
+                        if (item.TryResolve(obj, out var line))
+                        {
+                            args.Add(line);
+                        }
+                    }
+                    args.Add($"ErrorMaskBuilder errorMask");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.Add($"{nameof(TranslationCrystal)} translationMask");
+                    }
                     foreach (var item in this.MainAPI.ReaderAPI.OptionalAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -129,7 +180,22 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    GenerateCopyInSnippet(obj, fg, usingErrorMask: true);
+                    using (var args = new ArgsWrapper(fg,
+                        $"Loqui{ModuleNickname}Translation<{obj.ObjectName}>.Instance.CopyIn"))
+                    {
+                        foreach (var item in this.MainAPI.ReaderPassArgs(obj))
+                        {
+                            args.Add(item);
+                        }
+                        args.Add($"item: this");
+                        args.Add($"skipProtected: true");
+                        args.Add($"errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"translationMask: translationMask");
+                        }
+                        args.Add($"cmds: cmds");
+                    }
                 }
                 fg.AppendLine();
 
@@ -169,8 +235,8 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public void CopyIn_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                        wheres: obj.GenericTypes_ErrorMaskWheres))
+                        $"public void CopyIn_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var item in minorAPI.ReaderAPI.MajorAPI)
                         {
@@ -180,6 +246,10 @@ namespace Loqui.Generation
                             }
                         }
                         args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"{obj.Mask(MaskType.Translation)} translationMask");
+                        }
                         foreach (var item in minorAPI.ReaderAPI.OptionalAPI)
                         {
                             if (item.TryResolve(obj, out var line))
@@ -188,6 +258,7 @@ namespace Loqui.Generation
                             }
                         }
                         args.Add("NotifyingFireParameters cmds = null");
+                        args.Add("bool doMasks = true");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -202,7 +273,9 @@ namespace Loqui.Generation
                                     args.Add(item);
                                 }
                                 args.Add($"errorMask: out errorMask");
+                                args.Add($"translationMask: translationMask");
                                 args.Add($"cmds: cmds");
+                                args.Add($"doMasks: doMasks");
                             }
                         });
                     }
@@ -212,7 +285,7 @@ namespace Loqui.Generation
                 foreach (var baseClass in obj.BaseClassTrail())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public override void CopyIn_{ModuleNickname}{obj.BaseMask_GenericClause(MaskType.Error)}"))
+                        $"public override void CopyIn_{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                     {
                         foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                         {
@@ -222,6 +295,10 @@ namespace Loqui.Generation
                             }
                         }
                         args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"{GetTranslationMaskParameter(baseClass)}");
+                        }
                         foreach (var item in this.MainAPI.ReaderAPI.OptionalAPI)
                         {
                             if (item.TryResolve(obj, out var line))
@@ -229,18 +306,21 @@ namespace Loqui.Generation
                                 args.Add(line);
                             }
                         }
+                        args.Add("bool doMasks = true");
                         args.Add($"NotifyingFireParameters cmds = null");
                     }
                     using (new BraceWrapper(fg))
                     {
+                        fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                         using (var args = new ArgsWrapper(fg,
-                            $"this.CopyIn_{ModuleNickname}"))
+                            $"CopyIn_{ModuleNickname}_Internal"))
                         {
                             args.Add(this.MainAPI.ReaderPassArgs(obj));
-                            args.Add($"errorMask: out {obj.Mask_GenericAssumed(MaskType.Error, onlyAssumeSubclass: true)} errMask");
+                            args.Add($"errorMask: errorMaskBuilder");
+                            args.Add($"translationMask: translationMask?.GetCrystal()");
                             args.Add($"cmds: cmds");
                         }
-                        fg.AppendLine("errorMask = errMask;");
+                        fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                     }
                     fg.AppendLine();
                 }
@@ -248,6 +328,24 @@ namespace Loqui.Generation
         }
 
         protected abstract Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg);
+
+        public MaskType[] GetMaskTypes(params MaskType[] otherMasks)
+        {
+            if (this.TranslationMaskParameter)
+            {
+                return otherMasks.And(MaskType.Translation).ToArray();
+            }
+            else
+            {
+                return otherMasks;
+            }
+        }
+
+        public string GetTranslationMaskParameter(ObjectGeneration obj, bool nullIfOff = false)
+        {
+            if (nullIfOff && !this.TranslationMaskParameter) return null;
+            return $"{obj.Mask(MaskType.Translation)} translationMask = null";
+        }
 
         private async Task GenerateCreate(ObjectGeneration obj, FileGeneration fg)
         {
@@ -257,7 +355,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
+                        $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                        wheres: obj.GenericTypeMaskWheres(GetMaskTypes())))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
                         {
@@ -265,6 +364,10 @@ namespace Loqui.Generation
                             {
                                 args.Add(API);
                             }
+                        }
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add(GetTranslationMaskParameter(obj));
                         }
                     }
                     using (new BraceWrapper(fg))
@@ -278,6 +381,10 @@ namespace Loqui.Generation
                                 args.Add(customArgs);
                             }
                             args.Add("errorMask: null");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add($"translationMask: translationMask?.GetCrystal()");
+                            }
                         }
                     }
                     fg.AppendLine();
@@ -285,13 +392,14 @@ namespace Loqui.Generation
 
                 fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
-                    $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                    wheres: obj.GenericTypes_ErrorMaskWheres))
+                    $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
                         $"out {obj.Mask(MaskType.Error)} errorMask",
-                        $"bool doMasks = true"))
+                        $"bool doMasks = true",
+                        GetTranslationMaskParameter(obj, nullIfOff: true)))
                     {
                         if (Public)
                         {
@@ -311,6 +419,10 @@ namespace Loqui.Generation
                             args.Add(customArgs);
                         }
                         args.Add("errorMask: errorMaskBuilder");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add("translationMask: translationMask.GetCrystal()");
+                        }
                     }
                     fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                     fg.AppendLine("return ret;");
@@ -322,7 +434,9 @@ namespace Loqui.Generation
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI
                         (obj,
-                        "ErrorMaskBuilder errorMask"))
+                        "ErrorMaskBuilder errorMask".Single()
+                            .AndWhen($"{nameof(TranslationCrystal)} translationMask", () => this.TranslationMaskParameter)
+                            .ToArray()))
                     {
                         args.Add(API);
                     }
@@ -338,7 +452,8 @@ namespace Loqui.Generation
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public static {obj.ObjectName} Create_{ModuleNickname}"))
+                            $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                            wheres: obj.GenericTypeMaskWheres(GetMaskTypes())))
                         {
                             foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
                             {
@@ -347,6 +462,10 @@ namespace Loqui.Generation
                                     args.Add(API);
                                 }
                             }
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add(GetTranslationMaskParameter(obj));
+                            }
                         }
                         using (new BraceWrapper(fg))
                         {
@@ -354,11 +473,14 @@ namespace Loqui.Generation
                             {
                                 using (var args = new ArgsWrapper(fg,
                                     $"return Create_{ModuleNickname}"))
-                                using (new DepthWrapper(fg))
                                 {
                                     foreach (var item in this.MainAPI.WrapReaderAccessors(obj, accessor))
                                     {
                                         args.Add(item);
+                                    }
+                                    if (this.TranslationMaskParameter)
+                                    {
+                                        args.Add("translationMask: translationMask");
                                     }
                                 }
                             });
@@ -367,12 +489,13 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                        wheres: obj.GenericTypes_ErrorMaskWheres))
+                        $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                             obj,
-                            $"out {obj.Mask(MaskType.Error)} errorMask"))
+                            $"out {obj.Mask(MaskType.Error)} errorMask",
+                            GetTranslationMaskParameter(obj, nullIfOff: true)))
                         {
                             if (Public)
                             {
@@ -393,6 +516,10 @@ namespace Loqui.Generation
                                     args.Add(item);
                                 }
                                 args.Add($"errorMask: out errorMask");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add("translationMask: translationMask");
+                                }
                             }
                         });
                     }
@@ -412,8 +539,8 @@ namespace Loqui.Generation
         private void CommonWrite(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes_ErrMask}",
-                obj.GenerateWhereClauses().And(obj.GenericTypes_ErrorMaskWheres).ToArray()))
+                $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
+                obj.GenerateWhereClauses().And(obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))).ToArray()))
             {
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
@@ -439,6 +566,10 @@ namespace Loqui.Generation
                 }
                 args.Add($"bool doMasks");
                 args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
+                if (this.TranslationMaskParameter)
+                {
+                    args.Add($"{obj.Mask(MaskType.Translation)} translationMask");
+                }
                 foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                 {
                     if (item.TryResolve(obj, out var line))
@@ -451,7 +582,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"Write_{ModuleNickname}{obj.GenericTypes}"))
+                    $"Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
                 {
                     foreach (var item in this.MainAPI.WriterPassArgs(obj))
                     {
@@ -463,14 +594,18 @@ namespace Loqui.Generation
                         args.Add(item);
                     }
                     args.Add($"errorMask: errorMaskBuilder");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.Add("translationMask: translationMask?.GetCrystal()");
+                    }
                 }
                 fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GenericTypes}",
-                obj.GenerateWhereClauses().ToArray()))
+                $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
@@ -495,6 +630,10 @@ namespace Loqui.Generation
                     }
                 }
                 args.Add($"ErrorMaskBuilder errorMask");
+                if (this.TranslationMaskParameter)
+                {
+                    args.Add($"{nameof(TranslationCrystal)} translationMask");
+                }
                 foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                 {
                     if (item.TryResolve(obj, out var line))
@@ -516,8 +655,8 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Write"))
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public virtual void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                    wheres: obj.GenericTypes_ErrorMaskWheres))
+                    $"public virtual void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                     {
@@ -536,6 +675,10 @@ namespace Loqui.Generation
                     }
                     args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
                     args.Add($"bool doMasks = true");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.Add($"{obj.Mask(MaskType.Translation)} translationMask = null");
+                    }
                     foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -559,6 +702,10 @@ namespace Loqui.Generation
                             args.Add(item);
                         }
                         args.Add($"errorMask: errorMaskBuilder");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add("translationMask: translationMask?.GetCrystal()");
+                        }
                     }
                     fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                 }
@@ -567,12 +714,13 @@ namespace Loqui.Generation
                 foreach (var minorAPI in this.MinorAPIs)
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public virtual void Write_{ModuleNickname}{obj.Mask_GenericClause(MaskType.Error)}",
-                        wheres: obj.GenericTypes_ErrorMaskWheres))
+                        $"public virtual void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(obj,
-                            $"out {obj.Mask(MaskType.Error)} errorMask",
-                            "bool doMasks = true"))
+                            $"out {obj.Mask(MaskType.Error)} errorMask".Single()
+                                .AndWhen($"{obj.Mask(MaskType.Translation)} translationMask = null", () => this.TranslationMaskParameter)
+                                .And("bool doMasks = true").ToArray()))
                         {
                             if (!item.Public) continue;
                             args.Add(item.API);
@@ -592,38 +740,21 @@ namespace Loqui.Generation
                                 }
                                 args.Add($"errorMask: out errorMask");
                                 args.Add("doMasks: doMasks");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add("translationMask: translationMask");
+                                }
                             }
                         });
                     }
                     fg.AppendLine();
                 }
 
-                if (obj.Abstract)
-                {
-                    if (!obj.BaseClass?.Abstract ?? true)
-                    {
-                        foreach (var api in this.AllAPI)
-                        {
-                            using (var args = new ArgsWrapper(fg,
-                                $"public abstract void Write_{ModuleNickname}"))
-                            {
-                                foreach (var (API, Public) in api.WriterAPI.IterateAPI(obj))
-                                {
-                                    if (Public)
-                                    {
-                                        args.Add(API);
-                                    }
-                                }
-                            }
-                        }
-                        fg.AppendLine();
-                    }
-                }
-                else if (obj.IsTopClass
-                    || (!obj.Abstract && (obj.BaseClass?.Abstract ?? true)))
+                if (obj.IsTopClass)
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI(obj))
                         {
@@ -631,6 +762,10 @@ namespace Loqui.Generation
                             {
                                 args.Add(API);
                             }
+                        }
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"{obj.Mask(MaskType.Translation)} translationMask = null");
                         }
                     }
                     using (new BraceWrapper(fg))
@@ -647,6 +782,10 @@ namespace Loqui.Generation
                                 args.Add(item);
                             }
                             args.Add($"errorMask: null");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add("translationMask: translationMask.GetCrystal()");
+                            }
                         }
                     }
                     fg.AppendLine();
@@ -669,12 +808,20 @@ namespace Loqui.Generation
                             minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"Write_{ModuleNickname}"))
-                                using (new DepthWrapper(fg))
+                                    $"Write_{ModuleNickname}_Internal"))
                                 {
                                     foreach (var item in this.MainAPI.WrapWriterAccessors(obj, accessor))
                                     {
                                         args.Add(item);
+                                    }
+                                    foreach (var item in this.MainAPI.WriterInternalFallbackArgs(obj))
+                                    {
+                                        args.Add(item);
+                                    }
+                                    args.Add($"errorMask: null");
+                                    if (this.TranslationMaskParameter)
+                                    {
+                                        args.Add("translationMask: null");
                                     }
                                 }
                             });
@@ -688,44 +835,53 @@ namespace Loqui.Generation
                     {
                         foreach (var baseClass in obj.BaseClassTrail())
                         {
-                            foreach (var api in this.AllAPI)
+                            using (var args = new FunctionWrapper(fg,
+                                $"public override void Write_{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
-                                using (var args = new FunctionWrapper(fg,
-                                    $"public override void Write_{ModuleNickname}{obj.BaseMask_GenericClause(MaskType.Error)}"))
+                                foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                                 {
-                                    foreach (var item in api.WriterAPI.MajorAPI)
+                                    if (item.TryResolve(obj, out var line))
                                     {
-                                        if (item.TryResolve(obj, out var line))
-                                        {
-                                            args.Add(line);
-                                        }
-                                    }
-                                    args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
-                                    args.Add($"bool doMasks = true");
-                                    foreach (var item in api.WriterAPI.OptionalAPI)
-                                    {
-                                        if (item.TryResolve(obj, out var line))
-                                        {
-                                            args.Add(line);
-                                        }
+                                        args.Add(line);
                                     }
                                 }
-                                using (new BraceWrapper(fg))
+                                args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
+                                args.Add($"bool doMasks = true");
+                                if (this.TranslationMaskParameter)
                                 {
-                                    using (var args = new ArgsWrapper(fg,
-                                        $"Write_{this.ModuleNickname}"))
-                                    {
-                                        foreach (var item in api.WriterPassArgs(obj))
-                                        {
-                                            args.Add(item);
-                                        }
-                                        args.Add($"errorMask: out {obj.Mask_GenericAssumed(MaskType.Error, onlyAssumeSubclass: true)} errMask");
-                                        args.Add("doMasks: doMasks");
-                                    }
-                                    fg.AppendLine("errorMask = errMask;");
+                                    args.Add($"{baseClass.Mask(MaskType.Translation)} translationMask = null");
                                 }
-                                fg.AppendLine();
+                                foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
+                                {
+                                    if (item.TryResolve(obj, out var line))
+                                    {
+                                        args.Add(line);
+                                    }
+                                }
                             }
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
+                                using (var args = new ArgsWrapper(fg,
+                                    $"this.Write_{ModuleNickname}_Internal"))
+                                {
+                                    foreach (var item in this.MainAPI.WriterPassArgs(obj))
+                                    {
+                                        args.Add(item);
+                                    }
+                                    args.Add($"errorMask: errorMaskBuilder");
+                                    if (this.TranslationMaskParameter)
+                                    {
+                                        args.Add("translationMask: translationMask?.GetCrystal()");
+                                    }
+                                    foreach (var item in this.MainAPI.WriterInternalFallbackArgs(obj))
+                                    {
+                                        args.Add(item);
+                                    }
+                                }
+                                fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
+                            }
+                            fg.AppendLine();
                         }
                     }
                 }
@@ -735,14 +891,16 @@ namespace Loqui.Generation
                 {
                     foreach (var item in this.MainAPI.WriterAPI.IterateAPI(
                         obj,
-                        $"ErrorMaskBuilder errorMask"))
+                        $"ErrorMaskBuilder errorMask".AndWhenSingle(
+                            $"{nameof(TranslationCrystal)} translationMask",
+                            when: () => this.TranslationMaskParameter).ToArray()))
                     {
                         args.Add(item.API);
                     }
                 }
                 using (new BraceWrapper(fg))
                 {
-                    string funcName = $"Write_{ModuleNickname}{(obj.HasNewGenerics ? obj.GenericTypes_SubTypeAssumedErrMask : obj.GenericTypes)}";
+                    string funcName = $"Write_{ModuleNickname}{(obj.HasNewGenerics ? obj.GenericTypes_SubTypeAssumedErrMask : obj.GetGenericTypes(MaskType.Normal))}";
                     using (var args = new ArgsWrapper(fg,
                         $"{obj.ExtCommonName}.{funcName}"))
                     {
@@ -756,6 +914,10 @@ namespace Loqui.Generation
                             args.Add(item);
                         }
                         args.Add("errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"translationMask: translationMask");
+                        }
                     }
                 }
 
@@ -783,7 +945,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        string funcName = $"Write_{ModuleNickname}{obj.GenericTypes_ErrMask}";
+                        string funcName = $"Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal, MaskType.Error)}";
                         using (var args = new ArgsWrapper(fg,
                             $"{obj.ExtCommonName}.{funcName}"))
                         {

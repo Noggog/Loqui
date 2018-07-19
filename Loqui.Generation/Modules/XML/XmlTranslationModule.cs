@@ -8,12 +8,13 @@ using System.Xml.Linq;
 using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using Loqui.Internal;
 
 namespace Loqui.Generation
 {
     public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
     {
-        public override string ModuleNickname => "XML";
+        public override string ModuleNickname => "Xml";
         public override string Namespace => "Loqui.Generation";
         public readonly static XNamespace XSDNamespace = "http://www.w3.org/2001/XMLSchema";
         public bool ShouldGenerateXSD = true;
@@ -200,6 +201,7 @@ namespace Loqui.Generation
                 args.Add("XElement root");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");
+                args.Add($"{nameof(TranslationCrystal)} translationMask");
             }
             using (new BraceWrapper(fg))
             {
@@ -224,6 +226,7 @@ namespace Loqui.Generation
                                     typeGen: field,
                                     nodeAccessor: "root",
                                     itemAccessor: new Accessor(field, "item."),
+                                    translationMaskAccessor: "translationMask",
                                     maskAccessor: $"errorMask");
                             }
                             fg.AppendLine("break;");
@@ -236,12 +239,16 @@ namespace Loqui.Generation
                         if (obj.HasBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.BaseMask_GenericClause(MaskType.Error)}"))
+                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
                                 args.Add("root: root");
                                 args.Add("name: name");
                                 args.Add("errorMask: errorMask");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add($"translationMask: translationMask");
+                                }
                             }
                         }
                         fg.AppendLine("break;");
@@ -372,41 +379,9 @@ namespace Loqui.Generation
             }
         }
 
-        protected override void GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, bool usingErrorMask)
-        {
-            if (usingErrorMask)
-            {
-                fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
-            }
-            using (var args = new ArgsWrapper(fg,
-                $"LoquiXmlTranslation<{obj.ObjectName}>.Instance.CopyIn"))
-            using (new DepthWrapper(fg))
-            {
-                foreach (var item in this.MainAPI.ReaderPassArgs(obj))
-                {
-                    args.Add(item);
-                }
-                args.Add($"item: this");
-                args.Add($"skipProtected: true");
-                if (usingErrorMask)
-                {
-                    args.Add($"errorMask: errorMaskBuilder");
-                }
-                else
-                {
-                    args.Add($"errorMask: null");
-                }
-                args.Add($"cmds: cmds");
-            }
-            if (usingErrorMask)
-            {
-                fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
-            }
-        }
-
         protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"var ret = new {obj.Name}{obj.GenericTypes}();");
+            fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
@@ -420,6 +395,10 @@ namespace Loqui.Generation
                         args.Add("root: elem");
                         args.Add("name: elem.Name.LocalName");
                         args.Add("errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add("translationMask: translationMask");
+                        }
                     }
                 }
             }
@@ -452,11 +431,26 @@ namespace Loqui.Generation
 
                 if (!generator.ShouldGenerateWrite(field.Field)) continue;
 
+                List<string> conditions = new List<string>();
                 if (field.Field.HasBeenSet)
                 {
-                    fg.AppendLine($"if (item.{field.Field.HasBeenSetAccessor})");
+                    conditions.Add($"item.{field.Field.HasBeenSetAccessor}");
                 }
-                using (new BraceWrapper(fg, doIt: field.Field.HasBeenSet))
+                if (this.TranslationMaskParameter)
+                {
+                    conditions.Add(generator.GetTranslationIfAccessor(field.Field, "translationMask"));
+                }
+                if (conditions.Count > 0)
+                {
+                    using (var args = new IfWrapper(fg, ANDs: true))
+                    {
+                        foreach (var item in conditions)
+                        {
+                            args.Add(item);
+                        }
+                    }
+                }
+                using (new BraceWrapper(fg, doIt: conditions.Count > 0))
                 {
                     var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
                     generator.GenerateWrite(
@@ -466,6 +460,7 @@ namespace Loqui.Generation
                         writerAccessor: "elem",
                         itemAccessor: new Accessor(field.Field, "item."),
                         maskAccessor: $"errorMask",
+                        translationMaskAccessor: "translationMask",
                         nameAccessor: $"nameof(item.{field.Field.Name})");
                 }
             }

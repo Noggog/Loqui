@@ -25,7 +25,8 @@ namespace Loqui.Generation
             string writerAccessor,
             Accessor itemAccessor,
             string maskAccessor,
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             using (var args = new ArgsWrapper(fg,
@@ -39,6 +40,7 @@ namespace Loqui.Generation
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
                 args.Add($"errorMask: {maskAccessor}");
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 
@@ -53,7 +55,8 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.SingletonType == SingletonLevel.Singleton)
@@ -69,16 +72,17 @@ namespace Loqui.Generation
                             args.Add((gen) =>
                             {
                                 using (var subArgs = new FunctionWrapper(gen,
-                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_XML"))
+                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
                                 {
                                     subArgs.Add($"root: {nodeAccessor}");
-                                    subArgs.Add($"errorMask: errorMask");
+                                    subArgs.Add($"errorMask: {maskAccessor}");
+                                    subArgs.Add($"translationMask: {translationMaskAccessor}");
                                 }
                             });
                             args.Add("def: null");
                             args.Add("cmds: null");
                             args.Add("copyMask: null");
-                            args.Add($"errorMask: errorMask");
+                            args.Add($"errorMask: {maskAccessor}");
                         }
                     },
                     maskAccessor: "errorMask",
@@ -96,6 +100,7 @@ namespace Loqui.Generation
                     nodeAccessor: nodeAccessor,
                     itemAccessor: itemAccessor,
                     ret: false,
+                    translationMaskAccessor: translationMaskAccessor,
                     indexAccessor: $"(int){typeGen.IndexEnumName}",
                     maskAccessor: maskAccessor);
             }
@@ -108,18 +113,23 @@ namespace Loqui.Generation
             Accessor itemAccessor,
             bool ret,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance.Parse",
+                translatorLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
                 maskAccessor: maskAccessor,
                 indexAccessor: indexAccessor,
                 itemAccessor: itemAccessor,
+                translationMaskAccessor: $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                 unsetCall: null,
-                extraargs: $"root: {nodeAccessor}");
+                extraargs: new string[]
+                {
+                    $"root: {nodeAccessor}",
+                });
         }
 
         public override void GenerateCopyInRet(
@@ -128,7 +138,8 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -137,7 +148,8 @@ namespace Loqui.Generation
                 itemAccessor: retAccessor,
                 ret: true,
                 indexAccessor: indexAccessor,
-                maskAccessor: maskAccessor);
+                maskAccessor: maskAccessor,
+                translationMaskAccessor: translationMaskAccessor);
         }
 
         public override XElement GenerateForXSD(

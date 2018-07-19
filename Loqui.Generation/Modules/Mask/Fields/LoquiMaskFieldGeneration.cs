@@ -11,6 +11,12 @@ namespace Loqui.Generation
             return $"MaskItem<Exception, {loqui.Mask(MaskType.Error)}>";
         }
 
+        public override string GetTranslationMaskTypeStr(TypeGeneration field)
+        {
+            LoquiType loqui = field as LoquiType;
+            return $"MaskItem<bool, {loqui.Mask(MaskType.Translation)}>";
+        }
+
         public static string GetObjectErrorMask(LoquiType loqui, string accessor)
         {
             return $"new MaskItem<Exception, {loqui.Mask(MaskType.Error)}>(null, {accessor})";
@@ -65,6 +71,19 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
                 }
+            }
+        }
+
+        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+        {
+            LoquiType loqui = field as LoquiType;
+            if (loqui.RefType == LoquiRefType.Direct)
+            {
+                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}> {field.Name};");
+            }
+            else
+            {
+                fg.AppendLine($"public bool {field.Name};");
             }
         }
 
@@ -159,6 +178,11 @@ namespace Loqui.Generation
         {
             var loqui = field as LoquiType;
             return $"MaskItem<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}>";
+        }
+
+        public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+        {
+            return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
         }
     }
 }

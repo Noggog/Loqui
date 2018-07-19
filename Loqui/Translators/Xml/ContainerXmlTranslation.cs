@@ -21,7 +21,8 @@ namespace Loqui.Xml
             XElement root,
             int fieldIndex,
             INotifyingList<T> item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             try
             {
@@ -29,7 +30,8 @@ namespace Loqui.Xml
                 if (Parse(
                     root,
                     out var enumer,
-                    errorMask))
+                    errorMask,
+                    translationMask))
                 {
                     item.SetTo(enumer);
                 }
@@ -52,7 +54,8 @@ namespace Loqui.Xml
         public bool Parse(
             XElement root,
             out IEnumerable<T> enumer,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             var transl = XmlTranslator<T>.Translator;
             if (transl.Item.Failed)
@@ -66,7 +69,8 @@ namespace Loqui.Xml
                 root,
                 out enumer,
                 errorMask: errorMask,
-                transl: transl.Item.Value.Parse);
+                transl: transl.Item.Value.Parse,
+                translationMask: translationMask);
         }
 
         public void ParseInto(
@@ -74,6 +78,7 @@ namespace Loqui.Xml
             int fieldIndex,
             INotifyingList<T> item,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             XmlSubParseDelegate<T> transl)
         {
             try
@@ -83,6 +88,7 @@ namespace Loqui.Xml
                     root,
                     out var enumer,
                     errorMask,
+                    translationMask,
                     transl))
                 {
                     item.SetTo(enumer);
@@ -107,16 +113,18 @@ namespace Loqui.Xml
             XElement root,
             out IEnumerable<T> enumer,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             XmlSubParseDelegate<T> transl)
         {
             var ret = new List<T>();
             int i = 0;
+            var subCrystal = translationMask.GetSubCrystal(0);
             foreach (var listElem in root.Elements())
             {
                 try
                 {
                     errorMask?.PushIndex(i++);
-                    if (transl(listElem, out var subItem, errorMask))
+                    if (transl(listElem, out var subItem, errorMask, subCrystal))
                     {
                         ret.Add(subItem);
                     }
@@ -140,7 +148,8 @@ namespace Loqui.Xml
             XElement node,
             string name,
             IEnumerable<T> item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
         {
             var transl = XmlTranslator<T>.Translator;
             if (transl.Item.Failed)
@@ -153,7 +162,14 @@ namespace Loqui.Xml
                 name: name,
                 item: item,
                 errorMask: errorMask,
-                transl: (XElement n, T item1, ErrorMaskBuilder errorMask2) => transl.Item.Value.Write(node: n, name: "Item", item: item1, errorMask: errorMask2));
+                translationMask: translationMask,
+                transl: (XElement n, T item1, ErrorMaskBuilder errorMask2, TranslationCrystal transCrystal2) => 
+                    transl.Item.Value.Write(
+                        node: n, 
+                        name: "Item", 
+                        item: item1,
+                        errorMask: errorMask2,
+                        translationMask: transCrystal2));
         }
 
         public void Write(
@@ -161,17 +177,19 @@ namespace Loqui.Xml
             string name,
             IEnumerable<T> item,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             XmlSubWriteDelegate<T> transl)
         {
             var elem = new XElement(name);
             node.Add(elem);
             int i = 0;
+            var subCrystal = translationMask.GetSubCrystal(0);
             foreach (var listObj in item)
             {
                 try
                 {
                     errorMask?.PushIndex(i++);
-                    WriteSingleItem(elem, transl, listObj, errorMask);
+                    WriteSingleItem(elem, transl, listObj, errorMask, subCrystal);
                 }
                 catch (Exception ex)
                 when (errorMask != null)
@@ -185,7 +203,12 @@ namespace Loqui.Xml
             }
         }
 
-        public abstract void WriteSingleItem(XElement node, XmlSubWriteDelegate<T> transl, T item, ErrorMaskBuilder errorMask);
+        public abstract void WriteSingleItem(
+            XElement node,
+            XmlSubWriteDelegate<T> transl,
+            T item, 
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask);
 
         public void Write(
             XElement node,
@@ -193,17 +216,19 @@ namespace Loqui.Xml
             IEnumerable<T> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             XmlSubWriteDelegate<T> transl)
         {
             try
             {
                 errorMask?.PushIndex(fieldIndex);
                 this.Write(
-                node: node,
-                name: name,
-                item: item,
-                errorMask: errorMask,
-                transl: transl);
+                    node: node,
+                    name: name,
+                    item: item,
+                    errorMask: errorMask,
+                    translationMask: translationMask,
+                    transl: transl);
             }
             catch (Exception ex)
             when (errorMask != null)
@@ -222,6 +247,7 @@ namespace Loqui.Xml
             IHasItem<IEnumerable<T>> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask,
             XmlSubWriteDelegate<T> transl)
         {
             try
@@ -232,6 +258,7 @@ namespace Loqui.Xml
                     name,
                     item.Item,
                     errorMask,
+                    translationMask,
                     transl);
             }
             catch (Exception ex)

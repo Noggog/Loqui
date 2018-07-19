@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Loqui.Internal;
 
 namespace Loqui.Generation
 {
@@ -9,6 +10,7 @@ namespace Loqui.Generation
     {
         public const string ErrMaskNickname = "ErrMask";
         public const string CopyMaskNickname = "CopyMask";
+        public const string TranslationMaskNickname = "TranslMask";
         private Dictionary<Type, MaskModuleField> _fieldMapping = new Dictionary<Type, MaskModuleField>();
         public static readonly TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
 
@@ -21,6 +23,22 @@ namespace Loqui.Generation
             _fieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
             _fieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
             _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
+        }
+
+        public static string MaskNickname(MaskType type)
+        {
+            switch (type)
+            {
+                case MaskType.Error:
+                    return ErrMaskNickname;
+                case MaskType.Copy:
+                    return CopyMaskNickname;
+                case MaskType.Translation:
+                    return TranslationMaskNickname;
+                case MaskType.Normal:
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public void AddTypeAssociation<T>(MaskModuleField gen)
@@ -94,176 +112,37 @@ namespace Loqui.Generation
                 item.Module = this;
             }
 
-            fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>, IEquatable<{obj.Name}_Mask<T>>");
+            await GenerateNormalMask(obj, fg);
+            await GenerateErrorMask(obj, fg);
+            GenerateCopyMask(obj, fg);
+            await GenerateTranslationMask(obj, fg);
+        }
+
+        private void GenerateCopyMask(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Copy));
+            }
             using (new BraceWrapper(fg))
             {
-                using (new RegionWrapper(fg, "Ctors"))
-                {
-                    fg.AppendLine($"public {obj.Name}_Mask()");
-                    using (new BraceWrapper(fg))
-                    {
-                    }
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public {obj.Name}_Mask(T initialValue)");
-                    using (new BraceWrapper(fg))
-                    {
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, "initialValue");
-                        }
-                    }
-                }
-
                 using (new RegionWrapper(fg, "Members"))
                 {
                     foreach (var field in obj.IterateFields())
                     {
-                        GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
-                    }
-                }
-
-                using (new RegionWrapper(fg, "Equals"))
-                {
-                    fg.AppendLine("public override bool Equals(object obj)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"if (!(obj is {obj.Name}_Mask<T> rhs)) return false;");
-                        fg.AppendLine($"return Equals(rhs);");
-                    }
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public bool Equals({obj.Name}_Mask<T> rhs)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine("if (rhs == null) return false;");
-                        if (obj.HasBaseObject)
-                        {
-                            fg.AppendLine($"if (!base.Equals(rhs)) return false;");
-                        }
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForEqual(fg, field, $"rhs.{field.Name}");
-                        }
-                        fg.AppendLine("return true;");
-                    }
-
-                    fg.AppendLine("public override int GetHashCode()");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine("int ret = 0;");
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForHashCode(fg, field, $"rhs.{field.Name}");
-                        }
-                        if (obj.HasBaseObject)
-                        {
-                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
-                        }
-                        fg.AppendLine("return ret;");
-                    }
-                    fg.AppendLine();
-                }
-
-                using (new RegionWrapper(fg, "All Equal"))
-                {
-                    fg.AppendLine($"public{await obj.FunctionOverride()}bool AllEqual(Func<T, bool> eval)");
-                    using (new BraceWrapper(fg))
-                    {
-                        if (obj.HasBaseObject)
-                        {
-                            fg.AppendLine($"if (!base.AllEqual(eval)) return false;");
-                        }
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field, new Accessor(field, "this."), nullCheck: true);
-                        }
-                        fg.AppendLine("return true;");
-                    }
-                }
-
-                using (new RegionWrapper(fg, "Translate"))
-                {
-                    fg.AppendLine($"public{obj.NewOverride}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
-                        fg.AppendLine($"this.Translate_InternalFill(ret, eval);");
-                        fg.AppendLine("return ret;");
-                    }
-                    fg.AppendLine();
-
-                    fg.AppendLine($"protected void Translate_InternalFill<R>({obj.Name}_Mask<R> obj, Func<T, R> eval)");
-                    using (new BraceWrapper(fg))
-                    {
-                        if (obj.HasBaseObject)
-                        {
-                            fg.AppendLine($"base.Translate_InternalFill(obj, eval);");
-                        }
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"obj.{field.Name}", $"this.{field.Name}");
-                        }
-                    }
-                }
-
-                using (new RegionWrapper(fg, "Clear Enumerables"))
-                {
-                    fg.AppendLine($"public{await obj.FunctionOverride()}void ClearEnumerables()");
-                    using (new BraceWrapper(fg))
-                    {
-                        if (obj.HasBaseObject)
-                        {
-                            fg.AppendLine($"base.ClearEnumerables();");
-                        }
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForClearEnumerable(fg, field);
-                        }
-                    }
-                }
-
-                using (new RegionWrapper(fg, "To String"))
-                {
-                    fg.AppendLine($"public override string ToString()");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return ToString(printMask: null);");
-                    }
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public string ToString({obj.GetMaskString("bool")} printMask = null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
-                        fg.AppendLine($"ToString(fg, printMask);");
-                        fg.AppendLine("return fg.ToString();");
-                    }
-                    fg.AppendLine();
-
-                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg, {obj.GetMaskString("bool")} printMask = null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString("T")})}} =>\");");
-                        fg.AppendLine($"fg.AppendLine(\"[\");");
-                        fg.AppendLine($"using (new DepthWrapper(fg))");
-                        using (new BraceWrapper(fg))
-                        {
-                            foreach (var item in obj.IterateFields())
-                            {
-                                this.GenerateForErrorMaskToStringForField(fg, obj, item);
-                            }
-                        }
-                        fg.AppendLine($"fg.AppendLine(\"]\");");
+                        GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
                     }
                 }
             }
-            fg.AppendLine();
+        }
 
+        private async Task GenerateErrorMask(ObjectGeneration obj, FileGeneration fg)
+        {
             fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}, IErrorMask<{obj.Mask(MaskType.Error)}>");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypes_ErrorMaskWheres);
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Error));
             }
             using (new BraceWrapper(fg))
             {
@@ -440,19 +319,224 @@ namespace Loqui.Generation
                     }
                 }
             }
+        }
 
-            fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
+        private async Task GenerateNormalMask(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"public class {obj.Name}_Mask<T> : {(obj.HasBaseObject ? $"{obj.BaseClass.GetMaskString("T")}, " : string.Empty)}IMask<T>, IEquatable<{obj.Name}_Mask<T>>");
+            using (new BraceWrapper(fg))
+            {
+                using (new RegionWrapper(fg, "Ctors"))
+                {
+                    fg.AppendLine($"public {obj.Name}_Mask()");
+                    using (new BraceWrapper(fg))
+                    {
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public {obj.Name}_Mask(T initialValue)");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, "initialValue");
+                        }
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Members"))
+                {
+                    foreach (var field in obj.IterateFields())
+                    {
+                        GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Equals"))
+                {
+                    fg.AppendLine("public override bool Equals(object obj)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (!(obj is {obj.Name}_Mask<T> rhs)) return false;");
+                        fg.AppendLine($"return Equals(rhs);");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public bool Equals({obj.Name}_Mask<T> rhs)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (rhs == null) return false;");
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"if (!base.Equals(rhs)) return false;");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForEqual(fg, field, $"rhs.{field.Name}");
+                        }
+                        fg.AppendLine("return true;");
+                    }
+
+                    fg.AppendLine("public override int GetHashCode()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("int ret = 0;");
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForHashCode(fg, field, $"rhs.{field.Name}");
+                        }
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                        }
+                        fg.AppendLine("return ret;");
+                    }
+                    fg.AppendLine();
+                }
+
+                using (new RegionWrapper(fg, "All Equal"))
+                {
+                    fg.AppendLine($"public{await obj.FunctionOverride()}bool AllEqual(Func<T, bool> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"if (!base.AllEqual(eval)) return false;");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field, new Accessor(field, "this."), nullCheck: true);
+                        }
+                        fg.AppendLine("return true;");
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Translate"))
+                {
+                    fg.AppendLine($"public{obj.NewOverride}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
+                        fg.AppendLine($"this.Translate_InternalFill(ret, eval);");
+                        fg.AppendLine("return ret;");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"protected void Translate_InternalFill<R>({obj.Name}_Mask<R> obj, Func<T, R> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"base.Translate_InternalFill(obj, eval);");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForTranslate(fg, field, $"obj.{field.Name}", $"this.{field.Name}");
+                        }
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Clear Enumerables"))
+                {
+                    fg.AppendLine($"public{await obj.FunctionOverride()}void ClearEnumerables()");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasBaseObject)
+                        {
+                            fg.AppendLine($"base.ClearEnumerables();");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForClearEnumerable(fg, field);
+                        }
+                    }
+                }
+
+                using (new RegionWrapper(fg, "To String"))
+                {
+                    fg.AppendLine($"public override string ToString()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"return ToString(printMask: null);");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public string ToString({obj.GetMaskString("bool")} printMask = null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
+                        fg.AppendLine($"ToString(fg, printMask);");
+                        fg.AppendLine("return fg.ToString();");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg, {obj.GetMaskString("bool")} printMask = null)");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString("T")})}} =>\");");
+                        fg.AppendLine($"fg.AppendLine(\"[\");");
+                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var item in obj.IterateFields())
+                            {
+                                this.GenerateForErrorMaskToStringForField(fg, obj, item);
+                            }
+                        }
+                        fg.AppendLine($"fg.AppendLine(\"]\");");
+                    }
+                }
+            }
+            fg.AppendLine();
+        }
+
+        private async Task GenerateTranslationMask(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"public class {obj.Mask(MaskType.Translation)} : {(obj.HasBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation)}" : $"{nameof(ITranslationMask)}")}");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypes_CopyMaskWheres);
+                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Translation));
             }
             using (new BraceWrapper(fg))
             {
                 using (new RegionWrapper(fg, "Members"))
                 {
+                    fg.AppendLine("private TranslationCrystal _crystal;");
+
                     foreach (var field in obj.IterateFields())
                     {
-                        GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
+                        GetMaskModule(field.GetType()).GenerateForTranslationMask(fg, field);
+                    }
+                }
+
+                if (!obj.HasBaseObject)
+                {
+                    fg.AppendLine("public TranslationCrystal GetCrystal()");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine("if (_crystal != null) return _crystal;");
+                        fg.AppendLine("List<(bool On, TranslationCrystal SubCrystal)> ret = new List<(bool On, TranslationCrystal SubCrystal)>();");
+                        fg.AppendLine($"GetCrystal(ret);");
+                        fg.AppendLine($"_crystal = new TranslationCrystal()");
+                        using (new BraceWrapper(fg) { AppendSemicolon = true })
+                        {
+                            fg.AppendLine($"Crystal = ret.ToArray()");
+                        }
+                        fg.AppendLine("return _crystal;");
+                    }
+                    fg.AppendLine();
+                }
+
+                fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
+                using (new BraceWrapper(fg))
+                {
+                    if (obj.HasBaseObject)
+                    {
+                        fg.AppendLine("base.GetCrystal(ret);");
+                    }
+                    foreach (var field in obj.IterateFields())
+                    {
+                        fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
                     }
                 }
             }

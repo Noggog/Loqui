@@ -83,7 +83,7 @@ namespace Loqui.Generation
             // Generate class header and interfaces
             using (new LineWrapper(fg))
             {
-                fg.Append($"public partial struct {Name}{this.GenericTypes} : ");
+                fg.Append($"public partial struct {Name}{this.GetGenericTypes(MaskType.Normal)} : ");
 
                 List<string> list = new List<string>
                 {

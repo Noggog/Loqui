@@ -23,7 +23,8 @@ namespace Loqui.Generation
             string writerAccessor,
             Accessor itemAccessor,
             string maskAccessor,
-            string nameAccessor)
+            string nameAccessor,
+            string translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
 
@@ -46,15 +47,17 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
             TranslationGeneration.WrapParseCall(
                 fg: fg,
                 typeGen: typeGen,
-                callLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse",
+                translatorLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
                 maskAccessor: maskAccessor,
                 itemAccessor: itemAccessor,
+                translationMaskAccessor: null,
                 indexAccessor: typeGen.IndexEnumInt,
                 extraargs: $"root: {nodeAccessor}");
         }
@@ -65,7 +68,8 @@ namespace Loqui.Generation
             string nodeAccessor,
             Accessor retAccessor,
             string indexAccessor,
-            string maskAccessor)
+            string maskAccessor,
+            string translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
@@ -74,6 +78,7 @@ namespace Loqui.Generation
                 args.Add(nodeAccessor);
                 args.Add($"index: {indexAccessor}");
                 args.Add($"errorMask: out {maskAccessor}");
+                args.Add($"translationMask: {translationMaskAccessor}");
             }
         }
 
