@@ -55,7 +55,7 @@ namespace Loqui.Generation
                     throw new NotImplementedException();
                 }
                 args.Add($"errorMask: {maskAccessor}");
-                args.Add($"translationMask: {translationMaskAccessor}.GetSubCrystal({typeGen.IndexEnumInt})");
+                args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
                     gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");

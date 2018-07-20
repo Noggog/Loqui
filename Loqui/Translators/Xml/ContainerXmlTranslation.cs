@@ -118,7 +118,7 @@ namespace Loqui.Xml
         {
             var ret = new List<T>();
             int i = 0;
-            var subCrystal = translationMask.GetSubCrystal(0);
+            var subCrystal = translationMask?.GetSubCrystal(0);
             foreach (var listElem in root.Elements())
             {
                 try
@@ -183,7 +183,7 @@ namespace Loqui.Xml
             var elem = new XElement(name);
             node.Add(elem);
             int i = 0;
-            var subCrystal = translationMask.GetSubCrystal(0);
+            var subCrystal = translationMask?.GetSubCrystal(0);
             foreach (var listObj in item)
             {
                 try

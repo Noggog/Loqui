@@ -53,7 +53,7 @@ namespace Loqui.Xml
                     if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object> translator))
                     {
                         XmlTranslator.Instance.TryGetTranslator(type, out translator);
-                        throw new ArgumentException($"No XML Translator found for {type}");
+                        throw new ArgumentException($"No Xml Translator found for {type}");
                     }
                     if (translator.Parse(
                         root: elem, 
@@ -100,7 +100,7 @@ namespace Loqui.Xml
         {
             return DelegateBuilder.BuildDelegate<CREATE_FUNC>(
                 typeof(T).GetMethods()
-                .Where((methodInfo) => methodInfo.Name.Equals("Create_XML"))
+                .Where((methodInfo) => methodInfo.Name.Equals("Create_Xml"))
                 .Where((methodInfo) => methodInfo.IsStatic
                     && methodInfo.IsPublic)
                 .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(TryGet<T>)))
@@ -110,18 +110,18 @@ namespace Loqui.Xml
         public static WRITE_FUNC GetWriteFunc()
         {
             var method = typeof(T).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where((methodInfo) => methodInfo.Name.Equals("Write_XML_Internal"))
+                .Where((methodInfo) => methodInfo.Name.Equals("Write_Xml_Internal"))
                 .First();
             if (!method.IsGenericMethod)
             {
-                var f = DelegateBuilder.BuildDelegate<Action<T, XElement, string, ErrorMaskBuilder, TranslationCrystal>>(method);
+                var f = DelegateBuilder.BuildDelegate<Action<T, XElement, ErrorMaskBuilder, TranslationCrystal, string>>(method);
                 return (XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask) =>
                 {
                     if (item == null)
                     {
-                        throw new NullReferenceException("Cannot write XML for a null item.");
+                        throw new NullReferenceException("Cannot write Xml for a null item.");
                     }
-                    f(item, node, name, errorMask, translationMask);
+                    f(item, node, errorMask, translationMask, name);
                 };
             }
             else
