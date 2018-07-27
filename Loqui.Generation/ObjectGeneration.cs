@@ -982,7 +982,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"if ({item.Field.SkipCheck(copyMaskAccessor)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"errorMask.PushIndex((int){item.Field.IndexEnumName});");
+                    fg.AppendLine($"errorMask?.PushIndex((int){item.Field.IndexEnumName});");
                     if (item.Field.CopyNeedsTryCatch)
                     {
                         fg.AppendLine("try");
@@ -1009,7 +1009,7 @@ namespace Loqui.Generation
                             defaultFallbackAccessor,
                             cmdsAccessor: cmdsAccessor,
                             protectedMembers: false);
-                        fg.AppendLine("errorMask.PopIndex();");
+                        fg.AppendLine("errorMask?.PopIndex();");
                     }
                 }
             }
@@ -2274,7 +2274,7 @@ namespace Loqui.Generation
             fg.AppendLine("finally");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("errorMask.PopIndex();");
+                fg.AppendLine("errorMask?.PopIndex();");
             }
         }
         #endregion
