@@ -139,7 +139,7 @@ namespace Loqui.Generation
 
             var elem = new XElement(XmlTranslationModule.XSDNamespace + "element");
             elem.Add(new XAttribute("name", nameOverride ?? typeGen.Name));
-            elem.Add(new XAttribute("type", $"ValueType"));
+            elem.Add(new XAttribute("type", this.Nullable ? "NullableValueType" : "ValueType"));
             choiceElement.Add(elem);
             return elem;
         }
