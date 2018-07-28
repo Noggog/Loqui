@@ -178,10 +178,13 @@ namespace Loqui.Generation
             {
                 importElem.Add(new XAttribute("namespace", this.XmlMod.ObjectNamespace(targetObject)));
             }
-            rootElement.AddFirst(importElem);
+            if (!rootElement.Elements().Any((e) => e.ContentEqual(importElem)))
+            {
+                rootElement.AddFirst(importElem);
+            }
             var elem = new XElement(
                 XmlTranslationModule.XSDNamespace + "element",
-                new XAttribute("name", loqui.TargetObjectGeneration.Name));
+                new XAttribute("name", loqui.Name));
             if (diffNamespace)
             {
                 elem.Add(
@@ -193,7 +196,7 @@ namespace Loqui.Generation
                     new XAttribute("type", $"{loqui.TargetObjectGeneration.Name}Type"));
             }
             choiceElement.Add(elem);
-            return null;
+            return elem;
         }
 
         public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)

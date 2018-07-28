@@ -21,7 +21,7 @@ namespace Loqui.Xml
         private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
-        public delegate TryGet<T> CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
+        public delegate T CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
         public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
@@ -103,7 +103,8 @@ namespace Loqui.Xml
                 .Where((methodInfo) => methodInfo.Name.Equals("Create_Xml"))
                 .Where((methodInfo) => methodInfo.IsStatic
                     && methodInfo.IsPublic)
-                .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(TryGet<T>)))
+                .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(T)))
+                .Where((methodInfo) => methodInfo.GetParameters().Count() == 3)
                 .First());
         }
 
@@ -171,15 +172,14 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-            if (typeStr != null
-                && typeStr.Equals(Registration.FullName))
+            if (typeStr == null
+                || typeStr.Equals(Registration.FullName))
             {
-                var ret = CREATE.Value(
+                item = CREATE.Value(
                     root: root,
                     errorMaskBuilder: errorMask,
                     translationMask: translationMask);
-                item = ret.Value;
-                return ret.Succeeded;
+                return true;
             }
             else
             {

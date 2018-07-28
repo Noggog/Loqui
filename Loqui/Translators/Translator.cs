@@ -32,7 +32,7 @@ namespace Loqui.Translators
             this.loquiTranslation = loquiTranslation;
             this.enumTranslation = enumTranslation;
 
-            var nullCasterType = genericCaster.MakeGenericType(typeof(Object), typeof(Exception));
+            var nullCasterType = genericCaster.MakeGenericType(typeof(Object));
             var nullTranslation = Activator.CreateInstance(nullTranslator);
             this.NullTranslationItem = new NotifyingItem<GetResponse<ObjTransl>>(
                 defaultVal: GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation })));

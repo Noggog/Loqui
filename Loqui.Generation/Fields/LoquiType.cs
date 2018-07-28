@@ -45,6 +45,11 @@ namespace Loqui.Generation
                 {
                     return SingletonObjectName;
                 }
+                else if (this.SingletonType == SingletonLevel.None
+                    && !this.RaisePropertyChanged)
+                {
+                    return base.Name;
+                }
                 else
                 {
                     return base.ProtectedName;
