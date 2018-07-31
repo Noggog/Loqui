@@ -2290,7 +2290,6 @@ namespace Loqui.Generation
                     {
                         await translGen.GenerateInVoid(this, fg);
                     }
-                    fg.AppendLine();
                 }
             }
 
