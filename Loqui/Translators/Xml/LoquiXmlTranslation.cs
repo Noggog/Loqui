@@ -253,6 +253,7 @@ namespace Loqui.Xml
         {
             try
             {
+                errorMask?.PushIndex(fieldIndex);
                 this.Write(
                     node: node,
                     name: name,
