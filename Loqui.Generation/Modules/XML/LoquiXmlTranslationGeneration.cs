@@ -40,7 +40,17 @@ namespace Loqui.Generation
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
                 args.Add($"errorMask: {maskAccessor}");
-                args.Add($"translationMask: {translationMaskAccessor}");
+                if (this.XmlMod.TranslationMaskParameter)
+                {
+                    if (typeGen.HasIndex)
+                    {
+                        args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
+                    }
+                    else
+                    {
+                        args.Add($"translationMask: {translationMaskAccessor}");
+                    }
+                }
             }
         }
 
