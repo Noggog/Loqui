@@ -55,7 +55,7 @@ namespace Loqui.Generation
                         }
                         if (parseInto)
                         {
-                            args.Add($"property: {itemAccessor.PropertyAccess}");
+                            args.Add($"item: {itemAccessor.PropertyAccess}");
                             if (indexAccessor != null)
                             {
                                 args.Add($"fieldIndex: {indexAccessor}");

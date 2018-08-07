@@ -443,10 +443,10 @@ namespace Loqui.Generation
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"get => this.{this.ProtectedName};");
+                        fg.AppendLine($"get => this.{this.ProtectedProperty}.Item;");
                         if (this.SingletonType != SingletonLevel.Singleton)
                         {
-                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.{this.ProtectedName} = value;");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.{this.ProtectedProperty}.Item = value;");
                         }
                     }
                     if (this.ReadOnly)

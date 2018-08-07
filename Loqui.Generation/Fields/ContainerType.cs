@@ -69,10 +69,7 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
 
-            if (this.Notifying == NotifyingType.ObjectCentralized)
-            {
-                this.NotifyingProperty.Set(NotifyingType.NotifyingItem);
-            }
+            this.NotifyingProperty.Set(NotifyingType.NotifyingItem);
         }
 
         public override IEnumerable<string> GetRequiredNamespaces()
