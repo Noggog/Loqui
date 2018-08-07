@@ -50,7 +50,7 @@ namespace Loqui.Generation
                         if (parseInto)
                         {
                             args.Add($"property: {param.ItemAccessor.PropertyAccess}");
-                            if (param.IndexAccessor != null)
+                            if (param.IndexAccessor != null && !param.SkipErrorMask)
                             {
                                 args.Add($"fieldIndex: {param.IndexAccessor}");
                             }
@@ -59,7 +59,10 @@ namespace Loqui.Generation
                         {
                             args.Add($"item: out {param.TypeGen.TypeName} {param.TypeGen.Name}Parse");
                         }
-                        args.Add($"errorMask: {param.MaskAccessor}");
+                        if (!param.SkipErrorMask)
+                        {
+                            args.Add($"errorMask: {param.MaskAccessor}");
+                        }
                         if (param.TranslationMaskAccessor != null)
                         {
                             args.Add($"translationMask: {param.TranslationMaskAccessor}");
