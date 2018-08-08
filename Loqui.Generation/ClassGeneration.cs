@@ -17,7 +17,7 @@ namespace Loqui.Generation
         public string BaseClassStr { get; set; }
         private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
-        public override string NewOverride => HasBaseObject ? " new " : " ";
+        public override string NewOverride => HasLoquiBaseObject ? " new " : " ";
 
         public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
             : base(gen, protoGen, sourceFile)
@@ -58,9 +58,17 @@ namespace Loqui.Generation
             fg.AppendLine($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
 
             var list = new List<string>();
-            if (HasBaseObject)
+            if (HasLoquiBaseObject && this.HasNonLoquiBaseObject)
+            {
+                throw new ArgumentException("Cannot define both a loqui and non-loqui base class");
+            }
+            if (HasLoquiBaseObject)
             {
                 list.Add(BaseClassName);
+            }
+            else if (HasNonLoquiBaseObject)
+            {
+                list.Add(NonLoquiBaseClass);
             }
             list.Add(this.InterfaceStr);
             list.Add($"ILoquiObject<{this.ObjectName}>");
@@ -113,7 +121,7 @@ namespace Loqui.Generation
 
         public override async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
         {
-            if (this.HasBaseObject)
+            if (this.HasLoquiBaseObject)
             {
                 foreach (var baseObj in this.BaseClassTrail())
                 {

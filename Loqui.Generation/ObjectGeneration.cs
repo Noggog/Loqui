@@ -32,12 +32,14 @@ namespace Loqui.Generation
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
-        public int StartingIndex => this.HasBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
+        public int StartingIndex => this.HasLoquiBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
         public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();
         public ClassGeneration BaseClass;
-        public bool HasBaseObject => BaseClass != null;
+        public bool HasLoquiBaseObject => BaseClass != null;
+        public string NonLoquiBaseClass;
+        public bool HasNonLoquiBaseObject => !string.IsNullOrWhiteSpace(this.NonLoquiBaseClass);
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
-        public bool HasNewGenerics => this.HasBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
+        public bool HasNewGenerics => this.HasLoquiBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
         public bool IsTopClass => BaseClass == null;
         public bool ExportWithIGetter = true;
         public HashSet<string> Interfaces = new HashSet<string>();
@@ -76,7 +78,7 @@ namespace Loqui.Generation
         public HashSet<string> RequiredNamespaces = new HashSet<string>();
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
         public List<TypeGeneration> Fields = new List<TypeGeneration>();
-        public IEnumerable<TypeGeneration> AllFields => this.HasBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
+        public IEnumerable<TypeGeneration> AllFields => this.HasLoquiBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
@@ -194,7 +196,7 @@ namespace Loqui.Generation
                     async (obj) =>
                     {
                         await obj.WiredBaseClassTask;
-                        if (!obj.HasBaseObject) return;
+                        if (!obj.HasLoquiBaseObject) return;
                         if (!object.ReferenceEquals(obj.BaseClass, this)) return;
                         directlyInheritingObjs.Add(obj);
                     }));
@@ -293,7 +295,7 @@ namespace Loqui.Generation
             {
                 if (field.KeyField) return true;
             }
-            if (this.HasBaseObject)
+            if (this.HasLoquiBaseObject)
             {
                 return this.BaseClass.HasKeyField();
             }
@@ -418,7 +420,7 @@ namespace Loqui.Generation
         protected virtual async Task GenerateSetterInterface(FileGeneration fg)
         {
             // Interface
-            fg.AppendLine($"public partial interface {this.InterfaceStr} : {this.Getter_InterfaceStr}{(this.HasBaseObject ? ", " + this.BaseClass.InterfaceStr_Generic(this.BaseGenericTypes) : string.Empty)}, ILoquiClass<{this.InterfaceStr}, {this.Getter_InterfaceStr}>, ILoquiClass<{this.ObjectName}, {this.Getter_InterfaceStr}>");
+            fg.AppendLine($"public partial interface {this.InterfaceStr} : {this.Getter_InterfaceStr}{(this.HasLoquiBaseObject ? ", " + this.BaseClass.InterfaceStr_Generic(this.BaseGenericTypes) : string.Empty)}, ILoquiClass<{this.InterfaceStr}, {this.Getter_InterfaceStr}>, ILoquiClass<{this.ObjectName}, {this.Getter_InterfaceStr}>");
             WriteWhereClauses(fg, this.Generics);
             using (new BraceWrapper(fg))
             {
@@ -433,7 +435,7 @@ namespace Loqui.Generation
         protected virtual async Task GenerateGetterInterface(FileGeneration fg)
         {
             // Getter 
-            fg.AppendLine($"public partial interface {this.Getter_InterfaceStr} : {(this.HasBaseObject ? this.BaseClass.Getter_InterfaceStr_Generic(this.BaseGenericTypes) : nameof(ILoquiObject))}");
+            fg.AppendLine($"public partial interface {this.Getter_InterfaceStr} : {(this.HasLoquiBaseObject ? this.BaseClass.Getter_InterfaceStr_Generic(this.BaseGenericTypes) : nameof(ILoquiObject))}");
             WriteWhereClauses(fg, this.Generics);
 
             using (new BraceWrapper(fg))
@@ -764,7 +766,7 @@ namespace Loqui.Generation
 
         private void GenerateFieldIndexConverters(FileGeneration fg, ObjectGeneration obj)
         {
-            if (!obj.HasBaseObject) return;
+            if (!obj.HasLoquiBaseObject) return;
             var baseObj = obj.BaseClass;
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.FieldIndexName}? ConvertFieldIndex"))
@@ -962,7 +964,7 @@ namespace Loqui.Generation
             string copyMaskAccessor,
             string cmdsAccessor)
         {
-            if (this.HasBaseObject)
+            if (this.HasLoquiBaseObject)
             {
                 using (var args = new ArgsWrapper(fg,
                     $"{this.BaseClass.ExtCommonName}.CopyFieldsFrom{this.GetBaseGenericTypes(MaskType.Error, MaskType.Copy)}"))
@@ -1705,7 +1707,7 @@ namespace Loqui.Generation
                             $"ret.{field.Name}");
                     }
                 }
-                if (this.HasBaseObject)
+                if (this.HasLoquiBaseObject)
                 {
                     fg.AppendLine($"{this.BaseClass.ExtCommonName}.FillEqualsMask(item, rhs, ret);");
                 }
@@ -1718,7 +1720,7 @@ namespace Loqui.Generation
             fg.AppendLine("default:");
             using (new DepthWrapper(fg))
             {
-                if (this.HasBaseObject)
+                if (this.HasLoquiBaseObject)
                 {
                     fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.RegistrationName}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
                     if (!ret)
@@ -1744,7 +1746,7 @@ namespace Loqui.Generation
             fg.AppendLine("default:");
             using (new DepthWrapper(fg))
             {
-                if (this.HasBaseObject)
+                if (this.HasLoquiBaseObject)
                 {
                     if (common)
                     {
@@ -1834,7 +1836,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return false;");
-                        if (this.HasBaseObject)
+                        if (this.HasLoquiBaseObject)
                         {
                             fg.AppendLine($"if (!base.Equals(rhs)) return false;");
                         }
@@ -1901,7 +1903,7 @@ namespace Loqui.Generation
                                 }
                             }
                         }
-                        if (this.HasBaseObject)
+                        if (this.HasLoquiBaseObject)
                         {
                             fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
                         }
@@ -2107,7 +2109,7 @@ namespace Loqui.Generation
         {
             if (classFile)
             {
-                if (!HasBaseObject)
+                if (!HasLoquiBaseObject)
                 {
                     fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters cmds);");
                     fg.AppendLine();
@@ -2177,7 +2179,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"if (!EnumExt.TryParse(pair.Key, out {this.FieldIndexName} enu))");
                 using (new BraceWrapper(fg))
                 {
-                    if (this.HasBaseObject)
+                    if (this.HasLoquiBaseObject)
                     {
                         fg.AppendLine($"CopyInInternal_{this.BaseClass.Name}(obj, pair);");
                     }
@@ -2360,7 +2362,7 @@ namespace Loqui.Generation
                 this.Interfaces.Add(nameof(INotifyPropertyChanged));
             }
 
-            if (this.HasBaseObject)
+            if (this.HasLoquiBaseObject)
             {
                 AddBaseClassNamespaces(this);
 
@@ -2402,7 +2404,7 @@ namespace Loqui.Generation
 
         private void AddBaseClassNamespaces(ObjectGeneration obj)
         {
-            if (!obj.HasBaseObject) return;
+            if (!obj.HasLoquiBaseObject) return;
             this.RequiredNamespaces.Add(obj.BaseClass.Namespace);
             this.RequiredNamespaces.Add(obj.BaseClass.InternalNamespace);
             AddBaseClassNamespaces(obj.BaseClass);
@@ -2620,7 +2622,7 @@ namespace Loqui.Generation
         
         public string GetBaseMask_GenericTypes(MaskType type)
         {
-            if (!this.HasBaseObject)
+            if (!this.HasLoquiBaseObject)
             {
                 return GetGenericTypes(type);
             }
@@ -2647,7 +2649,7 @@ namespace Loqui.Generation
             SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True,
             bool includeBaseClass = false)
         {
-            if (includeBaseClass && this.HasBaseObject)
+            if (includeBaseClass && this.HasLoquiBaseObject)
             {
                 foreach (var item in this.BaseClass.IterateFieldIndices(
                     nonIntegrated: nonIntegrated,
@@ -2711,7 +2713,7 @@ namespace Loqui.Generation
 
         public IEnumerable<ClassGeneration> BaseClassTrail()
         {
-            if (!this.HasBaseObject) yield break;
+            if (!this.HasLoquiBaseObject) yield break;
             yield return this.BaseClass;
             foreach (var ret in this.BaseClass.BaseClassTrail())
             {

@@ -236,7 +236,7 @@ namespace Loqui.Generation
                     fg.AppendLine("default:");
                     using (new DepthWrapper(fg))
                     {
-                        if (obj.HasBaseObject)
+                        if (obj.HasLoquiBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
                                 $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
@@ -276,7 +276,7 @@ namespace Loqui.Generation
                 new XAttribute("xmlns", itemNamespace),
                 new XAttribute(XNamespace.Xmlns + "xs", XSDNamespace.NamespaceName));
 
-            if (obj.HasBaseObject)
+            if (obj.HasLoquiBaseObject)
             {
                 FilePath xsdPath = this.ObjectXSDLocation(obj.BaseClass);
                 var relativePath = xsdPath.GetRelativePathTo(obj.TargetDir);
@@ -296,7 +296,7 @@ namespace Loqui.Generation
             var choiceElement = new XElement(XSDNamespace + "choice",
                 new XAttribute("minOccurs", 0),
                 new XAttribute("maxOccurs", "unbounded"));
-            if (obj.HasBaseObject)
+            if (obj.HasLoquiBaseObject)
             {
                 typeElement.Add(
                     new XElement(
