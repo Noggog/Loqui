@@ -86,7 +86,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                if (typeGen.Notifying == NotifyingType.ObjectCentralized)
+                                if (typeGen.NotifyingType == NotifyingType.NotifyingItem)
                                 {
                                     fg.AppendLine($"item.Unset{typeGen.Name}();");
                                 }

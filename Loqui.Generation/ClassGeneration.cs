@@ -14,6 +14,8 @@ namespace Loqui.Generation
         public override NotifyingType NotifyingDefault => _notifyingDefault;
         private bool _hasBeenSetDefault;
         public override bool HasBeenSetDefault => _hasBeenSetDefault;
+        private bool _objectCentralizedDefault;
+        public override bool ObjectCentralizedDefault => _objectCentralizedDefault;
         public string BaseClassStr { get; set; }
         private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
@@ -30,6 +32,7 @@ namespace Loqui.Generation
             _abstract = Node.GetAttribute<bool>("abstract", false);
             _notifyingDefault = Node.GetAttribute<NotifyingType>("notifyingDefault", this.ProtoGen.NotifyingDefault);
             _hasBeenSetDefault = Node.GetAttribute<bool>("hasBeenSetDefault", this.ProtoGen.HasBeenSetDefault);
+            _objectCentralizedDefault = Node.GetAttribute<bool>("objectCentralizedDefault", this.ProtoGen.ObjectCentralizedDefault);
 
             this.Interfaces.Add($"ILoquiObjectSetter");
 

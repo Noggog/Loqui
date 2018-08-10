@@ -27,7 +27,9 @@ namespace Loqui.Generation
         public bool GeneratePublicBasicCtor { get; protected set; } = true;
         public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
+        public abstract bool ObjectCentralizedDefault { get; }
         public LoquiInterfaceType InterfaceTypeDefault;
+        public bool ObjectCentralized;
         public bool ReadOnlyDefault;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;

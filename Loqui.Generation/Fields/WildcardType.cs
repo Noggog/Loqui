@@ -8,7 +8,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.Notifying == NotifyingType.NotifyingItem)
+            if (this.NotifyingType == NotifyingType.NotifyingItem)
             {
                 if (this.HasBeenSet)
                 {

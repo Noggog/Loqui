@@ -18,7 +18,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"if ({typeGen.Name}tryGet.Succeeded)");
                 using (new BraceWrapper(fg))
                 {
-                    if (typeGen.Notifying == NotifyingType.ObjectCentralized)
+                    if (typeGen.NotifyingType == NotifyingType.NotifyingItem)
                     {
                         using (var args = new ArgsWrapper(fg,
                             $"item.Set{typeGen.Name}"))
@@ -34,7 +34,7 @@ namespace Loqui.Generation
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    if (typeGen.Notifying == NotifyingType.ObjectCentralized)
+                    if (typeGen.Notifying && typeGen.ObjectCentralized)
                     {
                         using (var args = new ArgsWrapper(fg,
                             $"item.Unset{typeGen.Name}"))

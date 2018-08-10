@@ -70,11 +70,6 @@ namespace Loqui.Generation
                 await subGenerator.Load(node, requireName);
                 subDictGenerator = dictType;
             }
-
-            if (this.Notifying == NotifyingType.ObjectCentralized)
-            {
-                this.NotifyingProperty.Set(NotifyingType.NotifyingItem);
-            }
         }
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)

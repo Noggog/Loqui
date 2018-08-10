@@ -24,12 +24,17 @@ namespace Loqui.Generation
 
             foreach (var field in obj.IterateFields())
             {
-                if (field is ContainerType) continue;
-                if (field is DictType) continue;
-                if (field.Notifying != NotifyingType.ObjectCentralized) continue;
+                if (!ShouldBeCentralized(field)) continue;
                 containedTypes.TryCreateValue(field.TypeName).Add(field);
             }
             return containedTypes;
+        }
+
+        public static bool ShouldBeCentralized(TypeGeneration field)
+        {
+            if (field is ContainerType) return false;
+            if (field is DictType) return false;
+            return field.ObjectCentralized && field.Notifying;
         }
 
         public override IEnumerable<string> Interfaces(ObjectGeneration obj)
@@ -76,7 +81,7 @@ namespace Loqui.Generation
                         foreach (var field in obj.IterateFields())
                         {
                             if (field.HasBeenSet
-                                && field.Notifying == NotifyingType.ObjectCentralized)
+                                && ShouldBeCentralized(field))
                             {
                                 amount++;
                                 fg.AppendLine($"case {field.IndexEnumName}:");
@@ -92,7 +97,7 @@ namespace Loqui.Generation
                         foreach (var field in obj.IterateFields())
                         {
                             if (field.HasBeenSet
-                                && field.Notifying != NotifyingType.ObjectCentralized)
+                                && !ShouldBeCentralized(field))
                             {
                                 amount++;
                                 fg.AppendLine($"case {field.IndexEnumName}:");
@@ -146,7 +151,7 @@ namespace Loqui.Generation
         private static bool HasImplementation(ObjectGeneration obj, string type)
         {
             return obj.IterateFields().Any(
-                    (f) => f.Notifying == NotifyingType.ObjectCentralized
+                    (f) => f.ObjectCentralized
                             && f.TypeName.Equals(type));
         }
 

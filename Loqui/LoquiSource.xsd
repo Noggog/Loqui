@@ -744,6 +744,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="objectCentralized" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether the field should be a true property class, or abstract the mechanics internally.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="hasBeenSet" type="HasBeenSetOption" >
       <xs:annotation>
         <xs:documentation>

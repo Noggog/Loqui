@@ -34,12 +34,15 @@ namespace Loqui.Generation
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
         public readonly NotifyingSetItem<NotifyingType> NotifyingProperty = new NotifyingSetItem<NotifyingType>();
-        public NotifyingType Notifying => NotifyingProperty.Item;
+        public NotifyingType NotifyingType => NotifyingProperty.Item;
+        public bool Notifying => NotifyingType != NotifyingType.None;
         public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
         public bool HasBeenSet => HasBeenSetProperty.Item;
-        public bool Bare => this.Notifying == NotifyingType.None && !this.HasBeenSet;
+        public readonly NotifyingSetItem<bool> ObjectCentralizedProperty = new NotifyingSetItem<bool>();
+        public bool ObjectCentralized => ObjectCentralizedProperty.Item;
+        public bool Bare => this.NotifyingType == NotifyingType.None && !this.HasBeenSet;
         public bool HasProperty => !this.Bare;
-        public bool PrefersProperty => HasProperty && this.Notifying != NotifyingType.ObjectCentralized;
+        public bool PrefersProperty => HasProperty && !this.ObjectCentralized;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
         public virtual bool Namable => true;
@@ -57,6 +60,7 @@ namespace Loqui.Generation
             this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
             this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
+            this.ObjectCentralizedProperty.SetIfNotSet(this.ObjectGen.ObjectCentralizedDefault, markAsSet: false);
             this._derivative = this.ObjectGen.DerivativeDefault;
             this.ReadOnly = this.ObjectGen.ReadOnlyDefault;
         }
@@ -78,6 +82,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
+            node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.Item = i);
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
             if (requireName && Namable && Name == null)
             {
