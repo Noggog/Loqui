@@ -56,6 +56,34 @@ namespace Loqui
         }
 
         public static MaskItem<bool, M> LoquiEqualsHelper<T, M>(
+            bool lhsHas,
+            bool rhsHas,
+            T lhs,
+            T rhs,
+            Func<T, T, M> maskGetter)
+            where M : IMask<bool>
+        {
+            var ret = new MaskItem<bool, M>();
+            if (lhsHas == rhsHas)
+            {
+                if (lhsHas)
+                {
+                    ret.Specific = maskGetter(lhs, rhs);
+                    ret.Overall = ret.Specific.AllEqual((b) => b);
+                }
+                else
+                {
+                    ret.Overall = true;
+                }
+            }
+            else
+            {
+                ret.Overall = false;
+            }
+            return ret;
+        }
+
+        public static MaskItem<bool, M> LoquiEqualsHelper<T, M>(
             this T lhs,
             T rhs,
             Func<T, T, M> maskGetter)

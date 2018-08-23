@@ -22,9 +22,16 @@ namespace Loqui.Generation
             this._typeName = typeName ?? typeof(T).GetName().Replace("?", string.Empty);
         }
 
-        protected virtual string ItemWriteAccess(Accessor itemAccessor)
+        protected virtual string ItemWriteAccess(TypeGeneration typeGen, Accessor itemAccessor)
         {
-            return itemAccessor.PropertyOrDirectAccess;
+            if (typeGen.PrefersProperty)
+            {
+                return itemAccessor.PropertyOrDirectAccess;
+            }
+            else
+            {
+                return itemAccessor.DirectAccess;
+            }
         }
 
         public override string GetTranslatorInstance(TypeGeneration typeGen)
@@ -47,7 +54,7 @@ namespace Loqui.Generation
             {
                 args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {ItemWriteAccess(itemAccessor)}");
+                args.Add($"item: {ItemWriteAccess(typeGen, itemAccessor)}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");

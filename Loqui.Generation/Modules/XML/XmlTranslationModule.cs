@@ -434,7 +434,7 @@ namespace Loqui.Generation
                 List<string> conditions = new List<string>();
                 if (field.Field.HasBeenSet)
                 {
-                    conditions.Add($"item.{field.Field.HasBeenSetAccessor}");
+                    conditions.Add($"{field.Field.HasBeenSetAccessor(new Accessor(field.Field, "item."))}");
                 }
                 if (this.TranslationMaskParameter)
                 {

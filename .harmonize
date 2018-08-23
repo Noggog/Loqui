@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>aaad0279927c27f8041cd8f1e177908d30e8f0d2</Sha>
+         <Sha>b57a157905255bae58a0c7e235e038f9b5b4c719</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-05-2018 22:31:18</CommitDate>
-         <Description>bool flip fix</Description>
+         <CommitDate>08-18-2018 01:13:10</CommitDate>
+         <Description>Nuget updates</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

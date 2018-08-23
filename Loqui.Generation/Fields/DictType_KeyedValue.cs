@@ -97,20 +97,20 @@ namespace Loqui.Generation
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(internalUse: false)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{this.HasBeenSetAccessor(identifier)} = {onIdentifier};");
             }
             fg.AppendLine("break;");
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset({cmdsAccessor});");
             }
             fg.AppendLine("break;");
         }
@@ -124,6 +124,18 @@ namespace Loqui.Generation
             else
             {
                 return this.Name;
+            }
+        }
+
+        public override string HasBeenSetAccessor(Accessor accessor = null)
+        {
+            if (accessor == null)
+            {
+                return $"{this.Property}.HasBeenSet";
+            }
+            else
+            {
+                return $"{accessor.PropertyAccess}.HasBeenSet";
             }
         }
 
@@ -190,6 +202,9 @@ namespace Loqui.Generation
                             {
                                 loqui.GenerateTypicalMakeCopy(
                                     gen,
+                                    retAccessor: $"return ",
+                                    rhsAccessor: new Accessor("r"),
+                                    defAccessor: new Accessor("d"),
                                     copyMaskAccessor: copyMaskAccessor);
                             }
                             gen.AppendLine($"default:");
@@ -224,14 +239,14 @@ namespace Loqui.Generation
             fg.AppendLine($"break;");
         }
 
-        public override void GenerateGetNth(FileGeneration fg, string identifier)
+        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
-            fg.AppendLine($"return {identifier}.{this.Name};");
+            fg.AppendLine($"return {identifier.DirectAccess};");
         }
 
-        public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
         public override string GenerateACopy(string rhsAccessor)
@@ -252,10 +267,10 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"if (item.{this.HasBeenSetAccessor} == rhs.{this.HasBeenSetAccessor})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if (item.{this.HasBeenSetAccessor})");
+                    fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)})");
                     using (new BraceWrapper(fg))
                     {
                         this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");

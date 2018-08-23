@@ -33,7 +33,7 @@ namespace Loqui.Generation
                 $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance.Write"))
             {
                 args.Add($"node: {writerAccessor}");
-                args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
+                args.Add($"item: {itemAccessor.DirectAccess}");
                 args.Add($"name: {nameAccessor}");
                 if (typeGen.HasIndex)
                 {

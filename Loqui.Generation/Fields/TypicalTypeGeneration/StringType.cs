@@ -17,7 +17,14 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => object.Equals(l, r));");
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                {
+                    fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)} && object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
+                }
+                else
+                {
+                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => object.Equals(l, r));");
+                }
             }
             else
             {

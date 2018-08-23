@@ -33,7 +33,7 @@ namespace Loqui.Generation
             {
                 args.Add($"node: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor.PropertyOrDirectAccess}");
+                args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");

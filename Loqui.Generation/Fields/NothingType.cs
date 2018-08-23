@@ -23,7 +23,14 @@ namespace Loqui.Generation
             return null;
         }
 
-        public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
+        public override async Task Load(XElement node, bool requireName = true)
+        {
+            await base.Load(node, requireName);
+            this.NotifyingProperty.Set(NotifyingType.None);
+            this.HasBeenSetProperty.Set(false);
+        }
+
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
         }
 
@@ -63,7 +70,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateGetNth(FileGeneration fg, string identifier)
+        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
         }
 
@@ -71,7 +78,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
         }
 
@@ -79,7 +86,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
         {
         }
 

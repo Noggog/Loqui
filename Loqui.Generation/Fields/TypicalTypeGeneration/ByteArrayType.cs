@@ -29,7 +29,14 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l.EqualsFast(r));");
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                {
+                    fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)} && {accessor.DirectAccess}.EqualsFast({rhsAccessor.DirectAccess});");
+                }
+                else
+                {
+                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l.EqualsFast(r));");
+                }
             }
             else
             {

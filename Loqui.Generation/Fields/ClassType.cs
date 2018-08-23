@@ -209,6 +209,91 @@ namespace Loqui.Generation
                     }
                 }
             }
+            else if (this.NotifyingType == NotifyingType.ReactiveUI)
+            {
+                if (this.HasBeenSet)
+                {
+                    if (!this.TrueReadOnly)
+                    {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
+                        using (new BraceWrapper(fg))
+                        {
+                            if (this.ObjectCentralized)
+                            {
+                                fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                                fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                            }
+                        }
+                        fg.AppendLine($"bool {this.ObjectGen.Getter_InterfaceStr}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                        fg.AppendLine($"protected {base.TypeName} _{this.Name};");
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => this._{ this.Name};");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set(value);");
+                        }
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    }
+
+                    using (var args = new FunctionWrapper(fg,
+                        $"public void {this.Name}_Set"))
+                    {
+                        args.Add($"{this.TypeName} value");
+                        args.Add($"bool markSet = true");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                    }
+
+                    using (var args = new FunctionWrapper(fg,
+                        $"public void {this.Name}_Unset"))
+                    {
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")}, false);");
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"private {base.TypeName} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"public {base.TypeName} {this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => {this.ProtectedName};");
+                        if (this.Singleton == SingletonLevel.None)
+                        {
+                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
+                        }
+                        else
+                        {
+                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"this.{this.ProtectedName} = value;");
+                                fg.AppendLine("if (value == null)");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fg.AppendLine($"this.{this.ProtectedName} = {this.GetNewForNonNullable()};");
+                                }
+                                if (this.RaisePropertyChanged)
+                                {
+                                    fg.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             else
             {
                 if (this.HasBeenSet)

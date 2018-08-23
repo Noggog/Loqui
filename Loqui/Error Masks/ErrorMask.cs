@@ -1,4 +1,5 @@
-﻿using System;
+using Loqui.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,34 +100,24 @@ namespace Loqui
             coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
         }
 
-        public static void HandleException<M>(
-            Func<M> creator,
-            int index,
-            Exception ex)
-            where M : IErrorMask
-        {
-            if (ex == null) return;
-            if (creator == null)
-            {
-                throw ex;
-            }
-            var mask = creator();
-            mask.SetNthException(index, ex);
-        }
-
-        public static void WrapForOverallException<M>(
-            Func<M> errorMask,
+        public static void WrapAction(
+            ErrorMaskBuilder errorMask,
+            int fieldIndex,
             Action a)
-            where M : IErrorMask
         {
             try
             {
+                errorMask?.PushIndex(fieldIndex);
                 a();
             }
             catch (Exception ex)
             when (errorMask != null)
             {
-                errorMask().Overall = ex;
+                errorMask.ReportException(ex);
+            }
+            finally
+            {
+                errorMask?.PopIndex();
             }
         }
 

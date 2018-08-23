@@ -36,6 +36,7 @@ namespace Loqui.Generation
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
+        public override bool HasProperty => true;
 
         public override string SkipCheck(string copyMaskAccessor) => subGenerator.SkipCheck(copyMaskAccessor);
 
@@ -72,12 +73,12 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
             subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
         {
             subGenerator.GenerateUnsetNth(fg, identifier, cmdsAccessor);
         }
@@ -114,12 +115,17 @@ namespace Loqui.Generation
             subGenerator.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, internalUse);
         }
 
-        public override void GenerateGetNth(FileGeneration fg, string identifier)
+        public override string HasBeenSetAccessor(Accessor accessor = null)
+        {
+            return subGenerator.HasBeenSetAccessor(accessor);
+        }
+
+        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
             subGenerator.GenerateGetNth(fg, identifier);
         }
 
-        public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
             subGenerator.GenerateClear(fg, accessorPrefix, cmdAccessor);
         }

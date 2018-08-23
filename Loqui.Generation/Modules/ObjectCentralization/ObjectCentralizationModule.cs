@@ -18,23 +18,25 @@ namespace Loqui.Generation
             yield return "System.Collections.Specialized";
         }
 
-        public static Dictionary<string, List<TypeGeneration>> GetContainedTypes(ObjectGeneration obj)
+        public static Dictionary<string, List<TypeGeneration>> GetContainedTypes(ObjectGeneration obj, bool forNotification)
         {
             Dictionary<string, List<TypeGeneration>> containedTypes = new Dictionary<string, List<TypeGeneration>>();
 
             foreach (var field in obj.IterateFields())
             {
-                if (!ShouldBeCentralized(field)) continue;
+                if (!ShouldBeCentralized(field, forNotification: forNotification)) continue;
                 containedTypes.TryCreateValue(field.TypeName).Add(field);
             }
             return containedTypes;
         }
 
-        public static bool ShouldBeCentralized(TypeGeneration field)
+        public static bool ShouldBeCentralized(TypeGeneration field, bool forNotification)
         {
             if (field is ContainerType) return false;
             if (field is DictType) return false;
-            return field.ObjectCentralized && field.Notifying;
+            if (!field.ObjectCentralized) return false;
+            if (forNotification && field.NotifyingType != NotifyingType.NotifyingItem) return false;
+            return true;
         }
 
         public override IEnumerable<string> Interfaces(ObjectGeneration obj)
@@ -43,7 +45,7 @@ namespace Loqui.Generation
             {
                 yield return ret;
             }
-            foreach (var type in GetContainedTypes(obj))
+            foreach (var type in GetContainedTypes(obj, forNotification: true))
             {
                 yield return $"IPropertySupporter<{type.Key}>";
             }
@@ -51,7 +53,7 @@ namespace Loqui.Generation
 
         public override async Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
         {
-            if (!GetContainedTypes(obj).Any()) return;
+            if (!GetContainedTypes(obj, forNotification: false).Any()) return;
             if (!ParentHasImplementation(obj))
             {
                 fg.AppendLine($"_hasBeenSetTracker = new BitArray(((ILoquiObject)this).Registration.FieldCount);");
@@ -60,13 +62,13 @@ namespace Loqui.Generation
 
         public async override Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
-            if (!GetContainedTypes(obj).Any()) return;
+            if (!GetContainedTypes(obj, forNotification: false).Any()) return;
             if (!ParentHasImplementation(obj))
             {
                 fg.AppendLine($"protected readonly BitArray _hasBeenSetTracker;");
             }
             using (var args = new FunctionWrapper(fg,
-            $"protected{await obj.FunctionOverride(async (b) => GetContainedTypes(b).Any())}bool GetHasBeenSet"))
+            $"protected{await obj.FunctionOverride(async (b) => GetContainedTypes(b, forNotification: false).Any())}bool GetHasBeenSet"))
             {
                 args.Add("int index");
             }
@@ -81,7 +83,7 @@ namespace Loqui.Generation
                         foreach (var field in obj.IterateFields())
                         {
                             if (field.HasBeenSet
-                                && ShouldBeCentralized(field))
+                                && ShouldBeCentralized(field, forNotification: false))
                             {
                                 amount++;
                                 fg.AppendLine($"case {field.IndexEnumName}:");
@@ -97,7 +99,7 @@ namespace Loqui.Generation
                         foreach (var field in obj.IterateFields())
                         {
                             if (field.HasBeenSet
-                                && !ShouldBeCentralized(field))
+                                && !ShouldBeCentralized(field, forNotification: false))
                             {
                                 amount++;
                                 fg.AppendLine($"case {field.IndexEnumName}:");
@@ -139,7 +141,7 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-            foreach (var type in GetContainedTypes(obj))
+            foreach (var type in GetContainedTypes(obj, forNotification: true))
             {
                 using (new RegionWrapper(fg, $"IPropertySupporter {type.Key}"))
                 {
@@ -163,7 +165,7 @@ namespace Loqui.Generation
 
         private static bool ParentHasImplementation(ObjectGeneration obj)
         {
-            return obj.BaseClassTrail().Any((b) => GetContainedTypes(b).Any());
+            return obj.BaseClassTrail().Any((b) => GetContainedTypes(b, forNotification: false).Any());
         }
 
         private static async Task GenerateForType(

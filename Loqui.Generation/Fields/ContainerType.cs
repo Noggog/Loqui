@@ -12,6 +12,7 @@ namespace Loqui.Generation
         public TypeGeneration SingleTypeGen;
         protected bool isLoquiSingle;
         protected LoquiType LoquiTypeSingleton => SingleTypeGen as LoquiType;
+        public override bool HasProperty => true;
 
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
@@ -82,20 +83,20 @@ namespace Loqui.Generation
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({exception});");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier)
+        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(internalUse: false)}.HasBeenSet = {onIdentifier};");
+                fg.AppendLine($"{identifier.PropertyAccess}.HasBeenSet = {onIdentifier};");
             }
             fg.AppendLine("break;");
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset({cmdsAccessor});");
             }
             fg.AppendLine("break;");
         }
@@ -130,10 +131,10 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"if (item.{this.HasBeenSetAccessor} == rhs.{this.HasBeenSetAccessor})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if (item.{this.HasBeenSetAccessor})");
+                    fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)})");
                     using (new BraceWrapper(fg))
                     {
                         this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");

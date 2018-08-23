@@ -1159,7 +1159,7 @@ namespace Loqui.Generation
                         }
                         using (new DepthWrapper(fg, doIt: field.IntegrateField))
                         {
-                            field.GenerateGetNth(fg, "obj");
+                            field.GenerateGetNth(fg, new Accessor(field, "obj."));
                         }
                     }
 
@@ -1353,7 +1353,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"case {field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            field.GenerateSetNthHasBeenSet(fg, "obj", "on");
+                            field.GenerateSetNthHasBeenSet(fg, new Accessor(field, "obj."), "on");
                         }
                     }
 
@@ -1408,7 +1408,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                field.GenerateUnsetNth(fg, "obj", "cmds");
+                                field.GenerateUnsetNth(fg, new Accessor(field, "obj."), "cmds");
                             }
                         }
                     }
@@ -1854,8 +1854,8 @@ namespace Loqui.Generation
                                 {
                                     if (field.HasBeenSet)
                                     {
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor} != rhs.{field.HasBeenSetAccessor}) return false;");
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor})");
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()} != {field.HasBeenSetAccessor(new Accessor(field, "rhs."))}) return false;");
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()})");
                                         using (new BraceWrapper(fg))
                                         {
                                             field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
@@ -1892,7 +1892,7 @@ namespace Loqui.Generation
                                 {
                                     if (field.HasBeenSet)
                                     {
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor})");
+                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()})");
                                     }
                                     using (new BraceWrapper(fg, doIt: field.HasBeenSet))
                                     {
@@ -2146,7 +2146,7 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFields())
                     {
                         if (field.ReadOnly) continue;
-                        field.GenerateClear(fg, "item", "cmds");
+                        field.GenerateClear(fg, new Accessor(field, "item."), "cmds");
                     }
                 }
             }

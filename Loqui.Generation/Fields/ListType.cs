@@ -73,14 +73,26 @@ namespace Loqui.Generation
             }
         }
 
+        public override string HasBeenSetAccessor(Accessor accessor = null)
+        {
+            if (accessor == null)
+            {
+                return $"{this.Property}.HasBeenSet";
+            }
+            else
+            {
+                return $"{accessor.PropertyAccess}.HasBeenSet";
+            }
+        }
+
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
             fg.AppendLine($"INotifyingListGetter<{ItemTypeName}> {this.Name} {{ get; }}");
         }
 
-        public override void GenerateGetNth(FileGeneration fg, string identifier)
+        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
-            fg.AppendLine($"return {identifier}.{this.Name};");
+            fg.AppendLine($"return {identifier.DirectAccess};");
         }
 
         private void GenerateHasBeenSetCopy()
@@ -115,8 +127,8 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
                 {
-                    args.Add($"rhs: rhs.{this.Name}");
-                    args.Add($"def: def?.{this.Name}");
+                    args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
+                    args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
                     args.Add($"cmds: cmds");
                     args.Add((gen) =>
                     {
@@ -137,6 +149,9 @@ namespace Loqui.Generation
                                 {
                                     loqui.GenerateTypicalMakeCopy(
                                         gen,
+                                        retAccessor: $"return ",
+                                        rhsAccessor: new Accessor("r"),
+                                        defAccessor: new Accessor("d"),
                                         copyMaskAccessor: copyMaskAccessor);
                                 }
                                 gen.AppendLine($"default:");
@@ -199,9 +214,9 @@ namespace Loqui.Generation
             fg.AppendLine($"{cmdAccessor});");
         }
 
-        public override void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.Unset({cmdAccessor}.ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset({cmdAccessor}.ToUnsetParams());");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

@@ -22,7 +22,6 @@ namespace Loqui.Generation
         public string IndexEnumInt => $"(int){this.IndexEnumName}";
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
         public abstract string ProtectedName { get; }
-        public string HasBeenSetAccessor => $"{this.Property}.HasBeenSet";
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public virtual bool IntegrateField { get; set; } = true;
@@ -41,7 +40,7 @@ namespace Loqui.Generation
         public readonly NotifyingSetItem<bool> ObjectCentralizedProperty = new NotifyingSetItem<bool>();
         public bool ObjectCentralized => ObjectCentralizedProperty.Item;
         public bool Bare => this.NotifyingType == NotifyingType.None && !this.HasBeenSet;
-        public bool HasProperty => !this.Bare;
+        public virtual bool HasProperty => !this.Bare && this.NotifyingType != NotifyingType.ReactiveUI;
         public bool PrefersProperty => HasProperty && !this.ObjectCentralized;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
@@ -133,13 +132,13 @@ namespace Loqui.Generation
 
         public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse);
 
-        public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, string identifier, string onIdentifier);
+        public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier);
 
-        public abstract void GenerateUnsetNth(FileGeneration fg, string identifier, string cmdsAccessor);
+        public abstract void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor);
 
-        public abstract void GenerateGetNth(FileGeneration fg, string identifier);
+        public abstract void GenerateGetNth(FileGeneration fg, Accessor identifier);
 
-        public abstract void GenerateClear(FileGeneration fg, string accessorPrefix, string cmdAccessor);
+        public abstract void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor);
 
         public abstract void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor);
 
@@ -180,7 +179,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"return obj.{this.HasBeenSetAccessor};");
+                fg.AppendLine($"return obj.{this.HasBeenSetAccessor()};");
             }
             else
             {
@@ -225,6 +224,32 @@ namespace Loqui.Generation
         public virtual async Task Resolve()
         {
             this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
+        }
+
+        public virtual string HasBeenSetAccessor(Accessor accessor = null)
+        {
+            if (accessor == null)
+            {
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                {
+                    return $"{this.Name}_IsSet";
+                }
+                else
+                {
+                    return $"{this.Property}.HasBeenSet";
+                }
+            }
+            else
+            {
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                {
+                    return  $"{accessor.DirectAccess}_IsSet";
+                }
+                else
+                {
+                    return $"{accessor.PropertyAccess}.HasBeenSet";
+                }
+            }
         }
     }
 }
