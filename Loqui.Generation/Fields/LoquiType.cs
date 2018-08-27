@@ -850,9 +850,9 @@ namespace Loqui.Generation
             })
             {
                 args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
-                args.Add($"rhsHasBeenSet: {rhsAccessorPrefix}.{this.HasBeenSetAccessor(new Accessor(this.Name))}");
+                args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
                 args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name}");
-                args.Add($"defHasBeenSet: {defaultFallbackAccessor}?.{this.HasBeenSetAccessor(new Accessor(this.Name))} ?? false");
+                args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}?."))} ?? false");
                 args.Add($"outRhsItem: out var rhs{this.Name}Item");
                 args.Add($"outDefItem: out var def{this.Name}Item");
             }
@@ -947,7 +947,7 @@ namespace Loqui.Generation
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"item.{this.HasBeenSetAccessor(new Accessor(this.Name))} = false;");
+                fg.AppendLine($"{this.HasBeenSetAccessor(new Accessor(this, $"item."))} = false;");
                 fg.AppendLine($"{accessor.DirectAccess} = default({this.TypeName});");
             }
         }

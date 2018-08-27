@@ -536,9 +536,9 @@ namespace Loqui.Generation
                     })
                     {
                         args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add($"rhsHasBeenSet: {rhsAccessorPrefix}.{this.HasBeenSetAccessor(new Accessor(this.Name))}");
+                        args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
                         args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name} ?? default({this.TypeName})");
-                        args.Add($"defHasBeenSet: {defaultFallbackAccessor}?.{this.HasBeenSetAccessor(new Accessor(this.Name))} ?? false");
+                        args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}?."))} ?? false");
                         args.Add($"outRhsItem: out var rhs{this.Name}Item");
                         args.Add($"outDefItem: out var def{this.Name}Item");
                     }
