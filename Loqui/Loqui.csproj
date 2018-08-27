@@ -68,6 +68,7 @@
     <Compile Include="Interfaces\IClearable.cs" />
     <Compile Include="Interfaces\ICopyInAble.cs" />
     <Compile Include="Interfaces\IProtocolRegistration.cs" />
+    <Compile Include="LoquiNotifyingObject.cs" />
     <Compile Include="Masks\MaskItem.cs" />
     <Compile Include="Net.cs" />
     <Compile Include="Object Centralization\ObjectCentralizationSubscriptions.cs" />
