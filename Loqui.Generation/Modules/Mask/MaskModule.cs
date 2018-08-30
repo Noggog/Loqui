@@ -501,7 +501,10 @@ namespace Loqui.Generation
             {
                 using (new RegionWrapper(fg, "Members"))
                 {
-                    fg.AppendLine("private TranslationCrystal _crystal;");
+                    if (!obj.HasLoquiBaseObject)
+                    {
+                        fg.AppendLine("private TranslationCrystal _crystal;");
+                    }
 
                     foreach (var field in obj.IterateFields())
                     {
@@ -527,16 +530,19 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
-                using (new BraceWrapper(fg))
+                if (obj.IterateFields().Any())
                 {
-                    if (obj.HasLoquiBaseObject)
+                    fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
+                    using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("base.GetCrystal(ret);");
-                    }
-                    foreach (var field in obj.IterateFields())
-                    {
-                        fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine("base.GetCrystal(ret);");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
+                        }
                     }
                 }
             }
