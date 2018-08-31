@@ -564,7 +564,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                if (obj.IterateFields().Any())
+                if (!obj.HasLoquiBaseObject || obj.IterateFields().Any())
                 {
                     fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
                     using (new BraceWrapper(fg))
