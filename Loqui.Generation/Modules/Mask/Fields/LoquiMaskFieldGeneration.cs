@@ -184,5 +184,10 @@ namespace Loqui.Generation
         {
             return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
         }
+
+        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        {
+            fg.AppendLine($"{accessor.DirectAccess} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
+        }
     }
 }

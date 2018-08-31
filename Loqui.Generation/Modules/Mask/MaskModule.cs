@@ -512,6 +512,40 @@ namespace Loqui.Generation
                     }
                 }
 
+                using (new RegionWrapper(fg, "Ctors"))
+                {
+                    fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Translation)}()");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine(": base()");
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Translation)}(bool defaultOn)");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine(": base(defaultOn)");
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForTranslationMaskSet(fg, field, new Accessor(field, "this."), "defaultOn");
+                        }
+
+                    }
+                    fg.AppendLine();
+                }
+
                 if (!obj.HasLoquiBaseObject)
                 {
                     fg.AppendLine("public TranslationCrystal GetCrystal()");
