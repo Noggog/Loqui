@@ -227,7 +227,7 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask, 
             bool nullable)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name ?? RAW_NULLABLE_NAME);
             node.Add(elem);
             WriteValue(elem, item);
             errorMask = null;

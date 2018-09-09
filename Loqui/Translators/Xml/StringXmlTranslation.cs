@@ -84,7 +84,7 @@ namespace Loqui.Xml
             string item, 
             ErrorMaskBuilder errorMask)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name ?? "String");
             node.Add(elem);
             if (item != null)
             {
