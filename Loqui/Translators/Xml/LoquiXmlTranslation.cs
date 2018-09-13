@@ -110,8 +110,18 @@ namespace Loqui.Xml
 
         public static WRITE_FUNC GetWriteFunc()
         {
-            var method = typeof(T).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where((methodInfo) => methodInfo.Name.Equals("Write_Xml_Internal"))
+            var method = typeof(T).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                .Where((methodInfo) => methodInfo.Name.Equals("Write_Xml"))
+                .Where(methodInfo =>
+                {
+                    var param = methodInfo.GetParameters();
+                    if (param.Length != 4) return false;
+                    if (!param[0].ParameterType.Equals(typeof(XElement))) return false;
+                    if (!param[1].ParameterType.Equals(typeof(ErrorMaskBuilder))) return false;
+                    if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
+                    if (!param[3].ParameterType.Equals(typeof(string))) return false;
+                    return true;
+                })
                 .First();
             if (!method.IsGenericMethod)
             {
