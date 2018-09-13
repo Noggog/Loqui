@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>f6dab3e45cb14de9d08f7f7bd385821710bfb5c1</Sha>
+         <Sha>fdbf25c283d41718c25c3a61e564ac45194692d4</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-28-2018 23:29:53</CommitDate>
-         <Description>Rx downgrade to support DynamicData</Description>
+         <CommitDate>09-12-2018 20:22:22</CommitDate>
+         <Description>FolderCleaner that monitors files and deletes any that were untouched/stale.  Directory/File enumeration refactoring</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

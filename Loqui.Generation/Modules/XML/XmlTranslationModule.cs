@@ -177,7 +177,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine("XElement topNode = new XElement(\"topnode\");");
             internalToDo("topNode", "name");
-            fg.AppendLine($"topNode.Elements().First().Save(path);");
+            fg.AppendLine("topNode.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
