@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>aaad0279927c27f8041cd8f1e177908d30e8f0d2</Sha>
+         <Sha>fdbf25c283d41718c25c3a61e564ac45194692d4</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-05-2018 22:31:18</CommitDate>
-         <Description>bool flip fix</Description>
+         <CommitDate>09-12-2018 20:22:22</CommitDate>
+         <Description>FolderCleaner that monitors files and deletes any that were untouched/stale.  Directory/File enumeration refactoring</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
