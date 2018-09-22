@@ -109,6 +109,7 @@ namespace Loqui.Generation
             this.InterfaceTypeDefault = this.ProtoGen.InterfaceTypeDefault;
             this.ReadOnlyDefault = this.ProtoGen.ProtectedDefault;
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
+            this.GenerateToString = this.ProtoGen.ToStringDefault;
             this.RaisePropertyChangedDefault = this.ProtoGen.RaisePropertyChangedDefault;
             this.Disabled = DisabledLevel.Enabled;
 
@@ -402,7 +403,7 @@ namespace Loqui.Generation
                     GenerateCopyFieldsFrom(fg);
 
                     await GenerateSetNthObject(fg);
-                    
+
                     await GenerateClear(fg, true);
 
                     GenerateGenericCreate(fg);
@@ -930,7 +931,7 @@ namespace Loqui.Generation
         protected virtual void GenerateCopyFieldsFromExtension(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Copy Fields From"))
-            { 
+            {
                 using (var args = new FunctionWrapper(fg,
                     $"public static void CopyFieldsFrom{GenerateGenericClause(Generics.Select((g) => g.Key), GenericTypes_Nickname(MaskType.Copy))}",
                     wheres: this.GenerateWhereClauses().And(this.GenericTypeMaskWheres(MaskType.Copy)).ToArray()))
@@ -1919,9 +1920,9 @@ namespace Loqui.Generation
 
         private async Task GenerateToStringCode(FileGeneration fg)
         {
-            if (GenerateToString)
+            using (new RegionWrapper(fg, "To String"))
             {
-                using (new RegionWrapper(fg, "To String"))
+                if (GenerateToString)
                 {
                     fg.AppendLine($"public override string ToString()");
                     using (new BraceWrapper(fg))
@@ -1929,31 +1930,31 @@ namespace Loqui.Generation
                         fg.AppendLine($"return {this.ExtCommonName}.ToString(this, printMask: null);");
                     }
                     fg.AppendLine();
-
-                    using (var args = new FunctionWrapper(fg,
-                        $"public string ToString"))
-                    {
-                        args.Add($"string name = null");
-                        args.Add($"{this.GetMaskString("bool")} printMask = null");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return {this.ExtCommonName}.ToString(this, name: name, printMask: printMask);");
-                    }
-                    fg.AppendLine();
-
-                    using (var args = new FunctionWrapper(fg,
-                        $"public{await this.FunctionOverride()}void ToString"))
-                    {
-                        args.Add($"FileGeneration fg");
-                        args.Add($"string name = null");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"{this.ExtCommonName}.ToString(this, fg, name: name, printMask: null);");
-                    }
-                    fg.AppendLine();
                 }
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public string ToString"))
+                {
+                    args.Add($"string name = null");
+                    args.Add($"{this.GetMaskString("bool")} printMask = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"return {this.ExtCommonName}.ToString(this, name: name, printMask: printMask);");
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public{await this.FunctionOverride()}void ToString"))
+                {
+                    args.Add($"FileGeneration fg");
+                    args.Add($"string name = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{this.ExtCommonName}.ToString(this, fg, name: name, printMask: null);");
+                }
+                fg.AppendLine();
             }
         }
 
@@ -2621,7 +2622,7 @@ namespace Loqui.Generation
                 }
             }));
         }
-        
+
         public string GetBaseMask_GenericTypes(MaskType type)
         {
             if (!this.HasLoquiBaseObject)

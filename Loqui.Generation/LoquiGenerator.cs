@@ -30,6 +30,7 @@ namespace Loqui.Generation
         public bool DerivativeDefault;
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
+        public bool ToStringDefault = true;
         public bool ObjectCentralizedDefault = true;
         public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;
