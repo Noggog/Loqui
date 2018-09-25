@@ -2709,9 +2709,24 @@ namespace Loqui.Generation
             }
         }
 
-        public virtual async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
+        public virtual async Task<OverrideType> GetFunctionOverrideType(Func<ClassGeneration, Task<bool>> tester = null)
         {
-            return " ";
+            return OverrideType.None;
+        }
+
+        public async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
+        {
+            switch (await GetFunctionOverrideType(tester))
+            {
+                case OverrideType.None:
+                    return " ";
+                case OverrideType.HasBase:
+                    return " override ";
+                case OverrideType.OnlyHasDerivative:
+                    return " virtual ";
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public IEnumerable<ClassGeneration> BaseClassTrail()

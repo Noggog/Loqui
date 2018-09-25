@@ -122,7 +122,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester = null)
+        public override async Task<OverrideType> GetFunctionOverrideType(Func<ClassGeneration, Task<bool>> tester = null)
         {
             if (this.HasLoquiBaseObject)
             {
@@ -130,7 +130,7 @@ namespace Loqui.Generation
                 {
                     if (tester == null || await tester(baseObj))
                     {
-                        return " override ";
+                        return OverrideType.HasBase;
                     }
                 }
             }
@@ -140,11 +140,11 @@ namespace Loqui.Generation
                 {
                     if (tester == null || await tester(derivClass))
                     {
-                        return " virtual ";
+                        return OverrideType.OnlyHasDerivative;
                     }
                 }
             }
-            return " ";
+            return OverrideType.None;
         }
 
         public IEnumerable<ClassGeneration> GetDerivativeClasses()
