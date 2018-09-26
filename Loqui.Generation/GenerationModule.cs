@@ -9,10 +9,10 @@ namespace Loqui.Generation
     {
         string RegionString { get; }
         string Name { get; }
-        IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj);
-        IEnumerable<string> Interfaces(ObjectGeneration obj);
-        IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj);
-        IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj);
+        Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
+        Task<IEnumerable<string>> Interfaces(ObjectGeneration obj);
+        Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj);
+        Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
         Task PostLoad(ObjectGeneration obj);
         Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
@@ -36,22 +36,22 @@ namespace Loqui.Generation
         public string Name => RegionString ?? this.GetType().Name;
         public int? TimeoutMS = 4000;
 
-        public virtual IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
+        public virtual Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
             return SubModules.RequiredUsingStatements(obj);
         }
 
-        public virtual IEnumerable<string> Interfaces(ObjectGeneration obj)
+        public virtual Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
             return SubModules.Interfaces(obj);
         }
 
-        public virtual IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
+        public virtual Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
         {
             return SubModules.GetWriterInterfaces(obj);
         }
 
-        public virtual IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
+        public virtual Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
         {
             return SubModules.GetReaderInterfaces(obj);
         }

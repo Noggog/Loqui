@@ -8,14 +8,14 @@ namespace Loqui.Generation
 {
     public class ObjectCentralizationModule : GenerationModule
     {
-        public override IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
-            foreach (var e in base.RequiredUsingStatements(obj))
-            {
-                yield return e;
-            }
-            yield return "Loqui.Internal";
-            yield return "System.Collections.Specialized";
+            return (await base.RequiredUsingStatements(obj))
+                .Concat(new string[]
+                {
+                    "Loqui.Internal",
+                    "System.Collections.Specialized"
+                });
         }
 
         public static Dictionary<string, List<TypeGeneration>> GetContainedTypes(ObjectGeneration obj)
@@ -37,16 +37,11 @@ namespace Loqui.Generation
             return field.ObjectCentralized && field.Notifying;
         }
 
-        public override IEnumerable<string> Interfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
-            foreach (var ret in base.Interfaces(obj))
-            {
-                yield return ret;
-            }
-            foreach (var type in GetContainedTypes(obj))
-            {
-                yield return $"IPropertySupporter<{type.Key}>";
-            }
+            return (await base.Interfaces(obj))
+                .Concat(GetContainedTypes(obj)
+                    .Select(type => $"IPropertySupporter<{type.Key}>"));
         }
 
         public override async Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)

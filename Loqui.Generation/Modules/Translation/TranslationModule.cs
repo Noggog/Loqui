@@ -25,24 +25,24 @@ namespace Loqui.Generation
             this.Gen = gen;
         }
 
-        public override IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
         {
-            yield break;
+            return Enumerable.Empty<string>();
         }
 
-        public override IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
         {
-            yield break;
+            return Enumerable.Empty<string>();
         }
 
-        public override IEnumerable<string> Interfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
-            yield break;
+            return Enumerable.Empty<string>();
         }
 
-        public override IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
+        public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
-            yield return "System.Diagnostics";
+            return "System.Diagnostics".Single();
         }
 
         public override async Task Modify(LoquiGenerator gen)

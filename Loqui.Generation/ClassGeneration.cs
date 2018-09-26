@@ -55,7 +55,7 @@ namespace Loqui.Generation
             await base.Load();
         }
 
-        protected override void GenerateClassLine(FileGeneration fg)
+        protected override async Task GenerateClassLine(FileGeneration fg)
         {
             // Generate class header and interfaces
             fg.AppendLine($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
@@ -75,20 +75,25 @@ namespace Loqui.Generation
             }
             list.Add(this.InterfaceStr);
             list.Add($"ILoquiObject<{this.ObjectName}>");
+            list.AddRange(this.Interfaces);
             list.AddRange(
-                this.Interfaces
-                    .Union(this.gen.GenerationModules
-                        .SelectMany((tr) => tr.Interfaces(this)))
-                    .Union(this.gen.GenerationModules
-                        .SelectMany((tr) => tr.GetReaderInterfaces(this)))
-                    .Union(this.GenerationInterfaces
-                        .SelectMany((tr) => tr.Interfaces(this)))
-                    .Union(this.ProtoGen.Interfaces)
-                    .Union(this.gen.Interfaces).Distinct());
+                (await Task.WhenAll(this.gen.GenerationModules
+                        .Select((tr) => tr.Interfaces(this))))
+                .SelectMany(i => i));
+            list.AddRange(
+                (await Task.WhenAll(this.gen.GenerationModules
+                        .Select((tr) => tr.GetReaderInterfaces(this))))
+                .SelectMany(i => i));
+            list.AddRange(
+                (await Task.WhenAll(this.gen.GenerationModules
+                        .Select((tr) => tr.Interfaces(this))))
+                .SelectMany(i => i));
+            list.AddRange(this.ProtoGen.Interfaces);
+            list.AddRange(this.gen.Interfaces);
             list.Add($"IEquatable<{this.ObjectName}>");
             using (new DepthWrapper(fg))
             {
-                foreach (var item in list.IterateMarkLast())
+                foreach (var item in list.Distinct().IterateMarkLast())
                 {
                     fg.AppendLine($"{item.Item}{(item.Last ? null : ",")}");
                 }

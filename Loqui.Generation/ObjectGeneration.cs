@@ -260,7 +260,7 @@ namespace Loqui.Generation
             fg.AppendLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
             fg.AppendLine("*/");
 
-            AddNamespaces(fg);
+            await AddNamespaces(fg);
 
             using (new NamespaceWrapper(fg, this.Namespace))
             {
@@ -362,7 +362,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Class"))
             {
-                GenerateClassLine(fg);
+                await GenerateClassLine(fg);
 
                 WriteWhereClauses(fg, this.Generics);
 
@@ -1067,7 +1067,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected abstract void GenerateClassLine(FileGeneration fg);
+        protected abstract Task GenerateClassLine(FileGeneration fg);
 
         public async Task GenerateLoquiGetterInterface(FileGeneration fg)
         {
@@ -1807,11 +1807,14 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void AddNamespaces(FileGeneration fg)
+        private async Task AddNamespaces(FileGeneration fg)
         {
             RequiredNamespaces.Add(
-                this.gen.GenerationModules.SelectMany((tr) => tr.RequiredUsingStatements(this))
-                .Union(this.GenerationInterfaces.SelectMany((i) => i.RequiredUsingStatements())));
+                (await Task.WhenAll(this.gen.GenerationModules.Select((tr) => tr.RequiredUsingStatements(this))))
+                    .SelectMany(i => i));
+            RequiredNamespaces.Add(
+                (await Task.WhenAll(this.GenerationInterfaces.Select((tr) => tr.RequiredUsingStatements())))
+                    .SelectMany(i => i));
             foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
             {
                 fg.AppendLine($"using {nameSpace};");
