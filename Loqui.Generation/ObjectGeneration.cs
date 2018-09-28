@@ -2643,11 +2643,13 @@ namespace Loqui.Generation
 
         public IEnumerable<TypeGeneration> IterateFields(
             bool nonIntegrated = false,
-            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True)
+            SetMarkerType.ExpandSets expandSets = SetMarkerType.ExpandSets.True,
+            bool includeBaseClass = false)
         {
             return IterateFieldIndices(
                 nonIntegrated: nonIntegrated,
-                expandSets: expandSets).Select((f) => f.Field);
+                expandSets: expandSets,
+                includeBaseClass: includeBaseClass).Select((f) => f.Field);
         }
 
         public IEnumerable<(int PublicIndex, int InternalIndex, TypeGeneration Field)> IterateFieldIndices(
