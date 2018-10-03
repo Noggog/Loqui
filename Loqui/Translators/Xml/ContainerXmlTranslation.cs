@@ -10,6 +10,8 @@ using System.Xml.Linq;
 using Noggog.Notifying;
 using Noggog.Xml;
 using Loqui.Internal;
+using CSharpExt.Rx;
+using DynamicData;
 
 namespace Loqui.Xml
 {
@@ -20,7 +22,7 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement root,
             int fieldIndex,
-            INotifyingList<T> item,
+            ISourceSetList<T> item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
@@ -76,7 +78,7 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement root,
             int fieldIndex,
-            INotifyingList<T> item,
+            ISourceSetList<T> item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
             XmlSubParseDelegate<T> transl)

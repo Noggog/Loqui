@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3939116a9b4bd9a95a5150dea3ea25d69615b2df</Sha>
+         <Sha>94ac2323022139085fc993b4d1dacdd3ff4134bf</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-27-2018 08:14:09</CommitDate>
-         <Description>INotifyingItem.Unset with cmds</Description>
+         <CommitDate>10-30-2018 19:44:40</CommitDate>
+         <Description>CSharpExt.Rx work with DynamicData interfacing</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

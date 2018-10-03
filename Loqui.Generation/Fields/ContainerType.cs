@@ -96,7 +96,7 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
             }
             fg.AppendLine("break;");
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -14,6 +15,12 @@ namespace Loqui.Generation
         public override bool HasDefault => false;
         public int? MaxValue;
 
+        public override IEnumerable<string> GetRequiredNamespaces()
+        {
+            yield return "DynamicData";
+            yield return "CSharpExt.Rx";
+        }
+
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
@@ -25,14 +32,14 @@ namespace Loqui.Generation
             if (MaxValue.HasValue)
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingListBounded<{ItemTypeName}>(max: {MaxValue});");
+                fg.AppendLine($"private readonly SourceSetList<{ItemTypeName}> _{this.Name} = new SourceBoundedSetList<{ItemTypeName}>(max: {MaxValue});");
             }
             else
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly INotifyingList<{ItemTypeName}> _{this.Name} = new NotifyingList<{ItemTypeName}>();");
+                fg.AppendLine($"private readonly SourceSetList<{ItemTypeName}> _{this.Name} = new SourceSetList<{ItemTypeName}>();");
             }
-            fg.AppendLine($"public INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"public {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} => _{this.Name};");
             if (this.ReadOnly)
             {
                 fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable => _{this.Name};");
@@ -43,7 +50,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"get => _{this.Name};");
+                    fg.AppendLine($"get => _{this.Name}.Items;");
                     fg.AppendLine($"set => _{this.Name}.SetTo(value);");
                 }
             }
@@ -58,10 +65,10 @@ namespace Loqui.Generation
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"INotifyingListGetter<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"IObservableSetList<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
 
@@ -69,7 +76,7 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"new INotifyingList{(this.ReadOnly ? "Getter" : string.Empty)}<{ItemTypeName}> {this.Name} {{ get; }}");
+                fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} {{ get; }}");
             }
         }
 
@@ -87,7 +94,7 @@ namespace Loqui.Generation
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
-            fg.AppendLine($"INotifyingListGetter<{ItemTypeName}> {this.Name} {{ get; }}");
+            fg.AppendLine($"IObservableSetList<{ItemTypeName}> {this.Name} {{ get; }}");
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
@@ -129,7 +136,6 @@ namespace Loqui.Generation
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
-                    args.Add($"cmds: cmds");
                     args.Add((gen) =>
                     {
                         gen.AppendLine("converter: (r, d) =>");
@@ -171,14 +177,13 @@ namespace Loqui.Generation
                 {
                     args.Add($"rhs.{this.Name}");
                     args.Add($"def?.{this.Name}");
-                    args.Add($"cmds");
                 }
             }
         }
 
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo({rhsAccessorPrefix}, {cmdsAccessor});");
+            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo({rhsAccessorPrefix});");
             fg.AppendLine($"break;");
         }
 
@@ -216,7 +221,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset({cmdAccessor}.ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

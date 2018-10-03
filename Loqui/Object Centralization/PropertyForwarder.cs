@@ -37,7 +37,6 @@ namespace Loqui
         T INotifyingSetItemGetter<T>.Item => this.Item;
         T INotifyingItemGetter<T>.Item => this.Item;
         T IHasItemGetter<T>.Item => this.Item;
-        bool IHasBeenSet.HasBeenSet => this.HasBeenSet;
 
         [DebuggerStepThrough]
         public void Set(T item, bool hasBeenSet, NotifyingFireParameters cmds)
