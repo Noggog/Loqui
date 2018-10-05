@@ -28,6 +28,8 @@ namespace Loqui.Generation
                         }
                     case LoquiRefType.Generic:
                         return _generic;
+                    case LoquiRefType.Interface:
+                        return this.InterfaceName;
                     default:
                         throw new NotImplementedException();
                 }
@@ -130,11 +132,13 @@ namespace Loqui.Generation
         public string SingletonObjectName => $"_{this.Name}_Object";
         public override Type Type => throw new NotImplementedException();
         public string RefName;
+        public string InterfaceName;
         public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
 
         public enum LoquiRefType
         {
             Direct,
+            Interface,
             Generic
         }
 
@@ -584,21 +588,37 @@ namespace Loqui.Generation
             this.SingletonType = node.GetAttribute(Constants.SINGLETON, SingletonLevel.None);
 
             XElement refNode = GetRefNode(node);
-            var genericNode = node.Element(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace));
+
+            int refTypeCount = 0;
+
+            var genericName = node.Element(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace))?.Value;
+            if (!string.IsNullOrWhiteSpace(genericName))
+            {
+                refTypeCount++;
+            }
 
             if (this.RefName == null)
             {
                 this.RefName = refNode?.GetAttribute(Constants.REF_NAME);
             }
-
-            if (this.RefName != null
-                && genericNode != null
-                && !string.IsNullOrWhiteSpace(genericNode.Value))
+            if (!string.IsNullOrWhiteSpace(this.RefName))
             {
-                throw new ArgumentException("Cannot both be generic and have specific object specified.");
+                refTypeCount++;
             }
 
-            var genericName = genericNode?.Value;
+            if (this.InterfaceName == null)
+            {
+                this.InterfaceName = refNode?.GetAttribute(Constants.INTERFACE_TYPE);
+            }
+            if (!string.IsNullOrWhiteSpace(this.InterfaceName))
+            {
+                refTypeCount++;
+            }
+
+            if (refTypeCount > 1)
+            {
+                throw new ArgumentException("Cannot specify multiple reference systems.  Either pick direct, interface, or generic.");
+            }
 
             if (!ParseRefNode(refNode))
             {
@@ -613,6 +633,10 @@ namespace Loqui.Generation
                         throw new ArgumentException("Cannot be a generic and singleton.");
                     }
                 }
+                else if (!string.IsNullOrWhiteSpace(InterfaceName))
+                {
+                    this.RefType = LoquiRefType.Interface;
+                }
                 else
                 {
                     throw new ArgumentException("Ref type needs a target.");
@@ -626,7 +650,7 @@ namespace Loqui.Generation
         {
             if (string.IsNullOrWhiteSpace(this.RefName)) return false;
 
-            this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
+            this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.API_INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
 
             this.RefType = LoquiRefType.Direct;
             if (!ObjectNamedKey.TryFactory(this.RefName, this.ProtoGen.Protocol, out var namedKey)

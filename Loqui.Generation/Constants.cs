@@ -30,7 +30,8 @@ namespace Loqui.Generation
         public const string DIRECT = "Direct";
         public const string GENERIC = "Generic";
         public const string REF_NAME = "refName";
-        public const string INTERFACE_TYPE = "interfaceType";
+        public const string INTERFACE_TYPE = "interfaceName";
+        public const string API_INTERFACE_TYPE = "apiInterfaceType";
         public const string KEYED_VALUE = "KeyedValue";
         public const string KEY_ACCESSOR = "keyAccessor";
         public const string KEY_TYPE = "keyType";
