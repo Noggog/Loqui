@@ -31,7 +31,18 @@ namespace Loqui.Generation
             return this.API?.TryResolve(obj, out var line) ?? true;
         }
 
-        public static CustomMethodAPI Private(
+        public static CustomMethodAPI FactoryPublic(
+            APILine api)
+        {
+            return new CustomMethodAPI()
+            {
+                Public = true,
+                API = api,
+                DefaultFallback = null
+            };
+        }
+
+        public static CustomMethodAPI FactoryPrivate(
             APILine api,
             string defaultFallback)
         {
