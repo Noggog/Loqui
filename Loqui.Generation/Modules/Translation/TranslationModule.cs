@@ -845,6 +845,14 @@ namespace Loqui.Generation
                                         args.Add(line);
                                     }
                                 }
+                                foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
+                                {
+                                    if (!item.Public) continue;
+                                    if (item.API.TryResolve(obj, out var line))
+                                    {
+                                        args.Add(line);
+                                    }
+                                }
                                 args.Add($"out {baseClass.Mask(MaskType.Error)} errorMask");
                                 args.Add($"bool doMasks = true");
                                 if (this.TranslationMaskParameter)
