@@ -38,7 +38,8 @@ namespace Loqui.Generation
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
         {
             ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui)
+            if (listType.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Copy))
             {
                 fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}> {field.Name};");
             }
@@ -51,7 +52,8 @@ namespace Loqui.Generation
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui)
+            if (listType.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Translation))
             {
                 fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}> {field.Name};");
             }
@@ -241,7 +243,8 @@ namespace Loqui.Generation
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
         {
             var contType = field as ContainerType;
-            if (contType.SubTypeGeneration is LoquiType loquiType)
+            if (contType.SubTypeGeneration is LoquiType loquiType
+                && loquiType.SupportsMask(MaskType.Translation))
             {
                 return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
             }
