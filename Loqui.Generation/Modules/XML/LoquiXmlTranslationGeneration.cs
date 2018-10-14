@@ -128,17 +128,19 @@ namespace Loqui.Generation
         {
             var loquiGen = typeGen as LoquiType;
             TranslationGeneration.WrapParseCall(
-                fg: fg,
-                typeGen: typeGen,
-                translatorLine: $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
-                maskAccessor: maskAccessor,
-                indexAccessor: indexAccessor,
-                itemAccessor: itemAccessor,
-                translationMaskAccessor: $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
-                unsetCall: null,
-                extraargs: new string[]
+                new TranslationWrapParseArgs()
                 {
-                    $"root: {nodeAccessor}",
+                    FG = fg,
+                    TypeGen = typeGen,
+                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
+                    MaskAccessor = maskAccessor,
+                    IndexAccessor = indexAccessor,
+                    ItemAccessor = itemAccessor,
+                    TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
+                    ExtraArgs = new string[]
+                    {
+                        $"root: {nodeAccessor}"
+                    }
                 });
         }
 

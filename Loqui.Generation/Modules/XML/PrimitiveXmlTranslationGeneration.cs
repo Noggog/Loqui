@@ -86,14 +86,20 @@ namespace Loqui.Generation
             string translationMaskAccessor)
         {
             TranslationGeneration.WrapParseCall(
-                fg: fg,
-                typeGen: typeGen,
-                translatorLine: $"{this.TypeName}XmlTranslation.Instance",
-                maskAccessor: maskAccessor,
-                itemAccessor: itemAccessor,
-                translationMaskAccessor: null,
-                indexAccessor: typeGen.IndexEnumInt,
-                extraargs: $"root: {nodeAccessor}");
+                new TranslationWrapParseArgs()
+                {
+                    FG = fg,
+                    TypeGen = typeGen,
+                    TranslatorLine = $"{this.TypeName}XmlTranslation.Instance",
+                    MaskAccessor = maskAccessor,
+                    ItemAccessor = itemAccessor,
+                    TranslationMaskAccessor = null,
+                    IndexAccessor = typeGen.IndexEnumInt,
+                    ExtraArgs = new string[]
+                    {
+                        $"root: {nodeAccessor}"
+                    }
+                });
         }
 
         public override void GenerateCopyInRet(
