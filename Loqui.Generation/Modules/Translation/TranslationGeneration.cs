@@ -83,7 +83,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                if (param.TypeGen.Notifying == NotifyingType.NotifyingItem)
+                                if (param.TypeGen.NotifyingType == NotifyingType.NotifyingItem)
                                 {
                                     param.FG.AppendLine($"item.Unset{param.TypeGen.Name}();");
                                 }
