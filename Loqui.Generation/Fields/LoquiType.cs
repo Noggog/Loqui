@@ -135,6 +135,7 @@ namespace Loqui.Generation
         public override Type Type => throw new NotImplementedException();
         public string RefName;
         public string InterfaceName;
+        public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
 
         public enum LoquiRefType
