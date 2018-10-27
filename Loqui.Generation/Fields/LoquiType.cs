@@ -1184,6 +1184,7 @@ namespace Loqui.Generation
             switch (RefType)
             {
                 case LoquiRefType.Direct:
+                case LoquiRefType.Interface:
                     break;
                 case LoquiRefType.Generic:
                 default:
@@ -1192,6 +1193,7 @@ namespace Loqui.Generation
             LoquiType ret = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
             ret._TargetObjectGeneration = target;
             ret.RefName = target.Name;
+            ret.RefType = this.RefType;
             ret.Name = this.Name;
             ret.SetObjectGeneration(this.ObjectGen, setDefaults: true);
             foreach (var custom in this.CustomData)
