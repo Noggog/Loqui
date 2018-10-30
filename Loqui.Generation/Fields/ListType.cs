@@ -90,7 +90,8 @@ namespace Loqui.Generation
 
         public override string SkipCheck(string copyMaskAccessor)
         {
-            if (this.SubTypeGeneration is LoquiType)
+            if (this.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Copy))
             {
                 return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
             }
@@ -123,8 +124,9 @@ namespace Loqui.Generation
                         gen.AppendLine("converter: (r, d) =>");
                         using (new BraceWrapper(gen))
                         {
-
-                            gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            var supportsCopy = loqui.SupportsMask(MaskType.Copy);
+                            var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
+                            gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
                             using (new BraceWrapper(gen))
                             {
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
@@ -142,7 +144,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"default:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
                                 }
                             }
                         }

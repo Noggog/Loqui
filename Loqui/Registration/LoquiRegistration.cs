@@ -10,6 +10,7 @@ namespace Loqui
 {
     public static class LoquiRegistration
     {
+        public delegate object UntypedCopyFunction(object item, object copy, object def);
         static Dictionary<ObjectKey, ILoquiRegistration> Registers = new Dictionary<ObjectKey, ILoquiRegistration>();
         static Dictionary<string, ILoquiRegistration> NameRegisters = new Dictionary<string, ILoquiRegistration>();
         static Dictionary<Type, ILoquiRegistration> TypeRegister = new Dictionary<Type, ILoquiRegistration>();
@@ -17,6 +18,7 @@ namespace Loqui
         static Dictionary<Type, object> CreateFuncRegister = new Dictionary<Type, object>();
         static Dictionary<Type, object> CopyInFuncRegister = new Dictionary<Type, object>();
         static Dictionary<Type, object> CopyFuncRegister = new Dictionary<Type, object>();
+        static Dictionary<Type, UntypedCopyFunction> UntypedCopyFuncRegister = new Dictionary<Type, UntypedCopyFunction>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
 
         static LoquiRegistration()
@@ -302,20 +304,17 @@ namespace Loqui
         public static Func<T, object, object, T> GetCopyFunc<T>()
         {
             var t = typeof(T);
+            return GetCopyFunc<T>(t);
+        }
+
+        public static Func<T, object, object, T> GetCopyFunc<T>(Type t)
+        {
             if (CopyFuncRegister.TryGetValue(t, out var copyFunc))
             {
                 return copyFunc as Func<T, object, object, T>;
             }
-            var register = GetRegister(t);
-            var methodInfo = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where((m) => m.IsGenericMethod)
-                .Where((m) => m.Name.Equals(Constants.COPY_FUNC_NAME))
-                .First();
-            methodInfo = methodInfo.MakeGenericMethod(
-                new Type[]
-                {
-                    t,
-                });
+
+            var untypedCopyFunc = GetCopyFunc(t);
 
             //var methodParams = methodInfo.GetParameters();
             //var item = Expression.Parameter(t, "item");
@@ -337,10 +336,37 @@ namespace Loqui
             //    delegateType: Expression.GetDelegateType(tArgs.ToArray()),
             //    body: Expression.Call(methodInfo, item, copyCast, defaultsCast),
             //    parameters: new ParameterExpression[] { item, copyMask, defaults }).Compile();
+
             var f = new Func<T, object, object, T>(
                 (item, copy, def) =>
                 {
-                    return (T)methodInfo.Invoke(
+                    return (T)untypedCopyFunc(item, copy, def);
+                });
+            CopyFuncRegister[t] = f;
+            return f;
+        }
+
+        public static UntypedCopyFunction GetCopyFunc(Type t)
+        {
+            if (UntypedCopyFuncRegister.TryGetValue(t, out var copyFunc))
+            {
+                return copyFunc;
+            }
+            var register = GetRegister(t);
+            var methodInfo = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where((m) => m.IsGenericMethod)
+                .Where((m) => m.Name.Equals(Constants.COPY_FUNC_NAME))
+                .First();
+            methodInfo = methodInfo.MakeGenericMethod(
+                new Type[]
+                {
+                    t,
+                });
+
+            var f = new UntypedCopyFunction(
+                (item, copy, def) =>
+                {
+                    return methodInfo.Invoke(
                         null,
                         new object[]
                         {
@@ -349,7 +375,7 @@ namespace Loqui
                             def
                         });
                 });
-            CopyFuncRegister[t] = f;
+            UntypedCopyFuncRegister[t] = f;
             return f;
         }
     }
