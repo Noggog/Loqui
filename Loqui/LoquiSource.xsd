@@ -1120,17 +1120,24 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <xs:attribute name="refName" use="required">
+    <xs:attribute name="refName">
       <xs:annotation>
         <xs:documentation>
           Name of the Loqui object to reference.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="interfaceType" type="LoquiInterfaceType">
+    <xs:attribute name="apiIterfaceType" type="LoquiInterfaceType">
       <xs:annotation>
         <xs:documentation>
-          What type of reference interface to use.  Direct reference to Loqui object type, or one of the interfaces.
+          What type of reference interface to use in exposed API members.  Direct reference to Loqui object type, or one of the interfaces.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interfaceName" >
+      <xs:annotation>
+        <xs:documentation>
+          Interface to reference.  Can not be used with refName, as this is an alternate way to reference.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

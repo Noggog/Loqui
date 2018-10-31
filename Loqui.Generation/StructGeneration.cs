@@ -79,7 +79,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected override void GenerateClassLine(FileGeneration fg)
+        protected override async Task GenerateClassLine(FileGeneration fg)
         {
             // Generate class header and interfaces
             using (new LineWrapper(fg))
@@ -90,16 +90,18 @@ namespace Loqui.Generation
                 {
                     this.Getter_InterfaceStr
                 };
-                list.AddRange(
-                    this.Interfaces
-                        .Union(this.gen.GenerationModules
-                            .SelectMany((tr) => tr.Interfaces(this)))
-                        .Union(this.gen.GenerationModules
-                            .SelectMany((tr) => tr.GetWriterInterfaces(this)))
-                        .Union(this.GenerationInterfaces
-                            .SelectMany((tr) => tr.Interfaces(this))));
+                list.AddRange(this.Interfaces);
+                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
+                            .Select((tr) => tr.Interfaces(this))))
+                            .SelectMany(i => i));
+                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
+                            .Select((tr) => tr.GetWriterInterfaces(this))))
+                            .SelectMany(i => i));
+                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
+                            .Select((tr) => tr.Interfaces(this))))
+                            .SelectMany(i => i));
                 list.Add($"IEquatable<{this.ObjectName}>");
-                fg.Append(string.Join(", ", list));
+                fg.Append(string.Join(", ", list.Distinct()));
             }
         }
 

@@ -151,19 +151,22 @@ namespace Loqui.Generation
                     }));
         }
 
-        public IEnumerable<string> GetReaderInterfaces(ObjectGeneration obj)
+        public async Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
         {
-            return this.subModules.SelectMany((subGen) => subGen.GetReaderInterfaces(obj));
+            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.GetReaderInterfaces(obj))))
+                .SelectMany(i => i);
         }
 
-        public IEnumerable<string> GetWriterInterfaces(ObjectGeneration obj)
+        public async Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
         {
-            return this.subModules.SelectMany((subGen) => subGen.GetWriterInterfaces(obj));
+            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.GetWriterInterfaces(obj))))
+                .SelectMany(i => i);
         }
 
-        public IEnumerable<string> Interfaces(ObjectGeneration obj)
+        public async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
-            return this.subModules.SelectMany((subGen) => subGen.Interfaces(obj));
+            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.Interfaces(obj))))
+                .SelectMany(i => i);
         }
 
         public Task Modify(LoquiGenerator gen)
@@ -218,9 +221,10 @@ namespace Loqui.Generation
                     }));
         }
 
-        public IEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
+        public async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
-            return this.subModules.SelectMany((subGen) => subGen.RequiredUsingStatements(obj));
+            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.RequiredUsingStatements(obj))))
+                .SelectMany(i => i);
         }
 
         public Task Resolve(ObjectGeneration obj)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
@@ -10,8 +11,8 @@ namespace Loqui.Generation
     {
         public abstract string RegionString { get; }
         public abstract string KeyString { get; }
-        public abstract IEnumerable<string> RequiredUsingStatements();
-        public abstract IEnumerable<string> Interfaces(ObjectGeneration obj);
+        public abstract Task<IEnumerable<string>> RequiredUsingStatements();
+        public abstract Task<IEnumerable<string>> Interfaces(ObjectGeneration obj);
         public abstract void Modify(ObjectGeneration obj);
         public abstract void GenerateInClass(ObjectGeneration obj, FileGeneration fg);
         public abstract void Generate(ObjectGeneration obj, FileGeneration fg);

@@ -52,14 +52,20 @@ namespace Loqui.Generation
         {
             var eType = typeGen as EnumType;
             TranslationGeneration.WrapParseCall(
-                fg: fg,
-                typeGen: typeGen,
-                translatorLine: $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
-                maskAccessor: maskAccessor,
-                itemAccessor: itemAccessor,
-                translationMaskAccessor: null,
-                indexAccessor: typeGen.IndexEnumInt,
-                extraargs: $"root: {nodeAccessor}");
+                new TranslationWrapParseArgs()
+                {
+                    FG = fg,
+                    TypeGen = typeGen,
+                    TranslatorLine = $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
+                    MaskAccessor = maskAccessor,
+                    ItemAccessor = itemAccessor,
+                    TranslationMaskAccessor = null,
+                    IndexAccessor = typeGen.IndexEnumInt,
+                    ExtraArgs = new string[]
+                    {
+                        $"root: {nodeAccessor}"
+                    }
+                });
         }
 
         public override void GenerateCopyInRet(
