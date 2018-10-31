@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>94ac2323022139085fc993b4d1dacdd3ff4134bf</Sha>
+         <Sha>89b092afab3ba9041194470091e64e7513eba882</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>10-30-2018 19:44:40</CommitDate>
-         <Description>CSharpExt.Rx work with DynamicData interfacing</Description>
+         <CommitDate>10-30-2018 21:27:04</CommitDate>
+         <Description>Some SourceSetList/Cache systems, and some Has interface refactoring</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

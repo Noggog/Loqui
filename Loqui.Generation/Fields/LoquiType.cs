@@ -1004,7 +1004,7 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args2 = new ArgsWrapper(fg,
-                        $"return {retAccessor}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                     {
                         args2.Add($"{rhsAccessor.DirectAccess}");
                         if (this.RefType == LoquiRefType.Direct)

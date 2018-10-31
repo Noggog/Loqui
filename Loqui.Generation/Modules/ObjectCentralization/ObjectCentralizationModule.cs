@@ -42,7 +42,7 @@ namespace Loqui.Generation
         public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
             return (await base.Interfaces(obj))
-                .Concat(GetContainedTypes(obj)
+                .Concat(GetContainedTypes(obj, forNotification: true)
                     .Select(type => $"IPropertySupporter<{type.Key}>"));
         }
 
