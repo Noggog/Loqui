@@ -11,6 +11,7 @@ using Noggog.Xml;
 using Loqui;
 using Noggog.Notifying;
 using Loqui.Internal;
+using CSharpExt.Rx;
 
 namespace Loqui.Xml
 {
@@ -40,7 +41,7 @@ namespace Loqui.Xml
 
         public void ParseInto(
             XElement root,
-            INotifyingKeyedCollection<K, V> item,
+            ISourceSetCache<V, K> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
@@ -112,7 +113,7 @@ namespace Loqui.Xml
 
         public void ParseInto(
             XElement root,
-            INotifyingKeyedCollection<K, V> item,
+            ISourceSetCache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
             ErrorMaskBuilder errorMask,

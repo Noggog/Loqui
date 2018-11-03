@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -23,11 +24,16 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
+        public override string TypeName => $"SourceSetCache<{TypeTuple}>";
 
-        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
+        public string TypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
 
         public string GetterTypeName => this.ValueTypeGen.TypeName;
+
+        public override IEnumerable<string> GetRequiredNamespaces()
+        {
+            yield return "CSharpExt.Rx";
+        }
 
         public override async Task Load(XElement node, bool requireName = true)
         {
@@ -110,7 +116,7 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
             }
             fg.AppendLine("break;");
         }
@@ -141,17 +147,17 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly INotifyingKeyedCollection<{TypeTuple}> _{this.Name} = new NotifyingKeyedCollection<{TypeTuple}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public INotifyingKeyedCollection<{TypeTuple}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"private readonly SourceSetCache<{TypeTuple}> _{this.Name} = new SourceSetCache<{TypeTuple}>((item) => item.{this.KeyAccessorString});");
+            fg.AppendLine($"public ISourceSetCache<{TypeTuple}> {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingKeyedCollection{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
             }
         }
 
@@ -159,13 +165,13 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"new INotifyingKeyedCollection{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.Name} {{ get; }}");
             }
         }
 
         public override void GenerateForGetterInterface(FileGeneration fg)
         {
-            fg.AppendLine($"INotifyingKeyedCollectionGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
+            fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
         public override void GenerateForCopy(
@@ -183,7 +189,6 @@ namespace Loqui.Generation
             {
                 args.Add($"rhs.{this.Name}");
                 args.Add($"def?.{this.Name}");
-                args.Add($"cmds");
                 args.Add((gen) =>
                 {
                     gen.AppendLine("(r, d) =>");
@@ -220,23 +225,21 @@ namespace Loqui.Generation
 
         private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.GetName(protectedUse)}.SetTo(");
-            using (new DepthWrapper(fg))
+            using (var args = new ArgsWrapper(fg,
+                $"{accessorPrefix}.{this.GetName(protectedUse)}.SetTo"))
             {
-                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}.{this.GetName(false)}).Select((i) => i.Copy()),");
-                fg.AppendLine($"{cmdAccessor});");
+                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}.{this.GetName(false)}).Select((i) => i.Copy())");
             }
         }
 
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
-            using (new DepthWrapper(fg))
+            using (var args = new ArgsWrapper(fg,
+                $"{accessorPrefix}.{this.Name}.SetTo"))
             {
-                fg.AppendLine($"((IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}),");
-                fg.AppendLine($"{cmdsAccessor});");
+                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}");
             }
-            fg.AppendLine($"break;");
+            fg.AppendLine("break;");
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
@@ -246,7 +249,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
         {
-            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset({cmdAccessor}.ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
         }
 
         public override string GenerateACopy(string rhsAccessor)
@@ -294,7 +297,7 @@ namespace Loqui.Generation
             fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
             var maskStr = $"MaskItem<bool, {valueLoquiType.GetMaskString("bool")}>";
-            fg.AppendLine($"{retAccessor}.Specific = {accessor}.Values.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Values, ((l, r) =>");
+            fg.AppendLine($"{retAccessor}.Specific = {accessor}.Items.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Items, ((l, r) =>");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{maskStr} itemRet;");
@@ -323,7 +326,7 @@ namespace Loqui.Generation
             fg.AppendLine($"using (new DepthWrapper(fg))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor.PropertyOrDirectAccess}.Values)");
+                fg.AppendLine($"foreach (var subItem in {accessor.PropertyOrDirectAccess})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
@@ -346,7 +349,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()
