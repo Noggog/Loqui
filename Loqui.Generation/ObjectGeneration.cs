@@ -171,7 +171,7 @@ namespace Loqui.Generation
 
             foreach (var interfNode in Node.Elements(XName.Get(Constants.INTERFACE, LoquiGenerator.Namespace)))
             {
-                Interfaces.Add(interfNode.Value);
+                Interfaces.Add(interfNode.Value.Split(',').Select(s => s.Trim()));
             }
 
             var fieldsNode = Node.Element(XName.Get(Constants.FIELDS, LoquiGenerator.Namespace));
