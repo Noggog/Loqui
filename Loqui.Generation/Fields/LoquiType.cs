@@ -474,7 +474,19 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"bool {this.ObjectGen.Getter_InterfaceStr}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                        fg.AppendLine($"private {this.TypeName} _{this.Name};");
+                        switch (this.SingletonType)
+                        {
+                            case SingletonLevel.None:
+                                fg.AppendLine($"private {this.TypeName} _{this.Name};");
+                                break;
+                            case SingletonLevel.NotNull:
+                                fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.TypeName}();");
+                                break;
+                            case SingletonLevel.Singleton:
+                                throw new NotImplementedException();
+                            default:
+                                break;
+                        }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
                         using (new BraceWrapper(fg))
@@ -491,6 +503,10 @@ namespace Loqui.Generation
                         }
                         using (new BraceWrapper(fg))
                         {
+                            if (this.SingletonType == SingletonLevel.NotNull)
+                            {
+                                fg.AppendLine($"if (value == null) value = new {this.TypeName}();");
+                            }
                             fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                         }
 
