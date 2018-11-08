@@ -20,11 +20,11 @@ namespace Loqui.Generation
         public string InternalNamespace => $"{Namespace}.Internals";
         public string FullName => $"{Namespace}.{Name}";
         public abstract bool Abstract { get; }
-        public DisabledLevel Disabled { get; protected set; }
-        public bool GenerateClass { get; protected set; } = true;
-        public bool GenerateEquals { get; protected set; } = true;
-        public bool GenerateToString { get; protected set; } = true;
-        public bool GeneratePublicBasicCtor { get; protected set; } = true;
+        public DisabledLevel Disabled { get; set; }
+        public bool GenerateClass { get; set; } = true;
+        public bool GenerateEquals { get; set; } = true;
+        public bool GenerateToString { get; set; } = true;
+        public bool GeneratePublicBasicCtor { get; set; } = true;
         public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public abstract bool ObjectCentralizedDefault { get; }
