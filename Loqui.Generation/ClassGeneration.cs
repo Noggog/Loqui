@@ -110,7 +110,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Ctor"))
             {
-                fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "protected")} {this.Name}()");
+                fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}()");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var mod in this.gen.GenerationModules)

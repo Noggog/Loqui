@@ -44,7 +44,7 @@ namespace Loqui.Generation
         public const string GENERATE_CLASS = "generateClass";
         public const string GENERATE_EQUALS = "generateEquals";
         public const string GENERATE_TO_STRING = "generateToString";
-        public const string PUBLIC_CTOR = "publicCtor";
+        public const string CTOR_PERMISSION = "ctorPermission";
         public const string VERSION = "version";
         public const string INTERFACE_TYPE_DEFAULT = "interfaceTypeDefault";
         public const string PROTECTED_DEFAULT = "protectedDefault";

@@ -23,7 +23,7 @@ namespace Loqui.Generation
 
         protected override async Task GenerateCtor(FileGeneration fg)
         {
-            if (this.GeneratePublicBasicCtor)
+            if (this.BasicCtorPermission == PermissionLevel.@public)
             {
                 fg.AppendLine($"public {this.Name}(");
                 List<string> lines = new List<string>();
@@ -65,7 +65,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine($"{(this.GeneratePublicBasicCtor ? "public" : "private")} {this.Name}({this.Getter_InterfaceStr} rhs)");
+            fg.AppendLine($"{this.BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}({this.Getter_InterfaceStr} rhs)");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in this.IterateFields())

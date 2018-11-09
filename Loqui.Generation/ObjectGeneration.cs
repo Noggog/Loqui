@@ -24,7 +24,7 @@ namespace Loqui.Generation
         public bool GenerateClass { get; set; } = true;
         public bool GenerateEquals { get; set; } = true;
         public bool GenerateToString { get; set; } = true;
-        public bool GeneratePublicBasicCtor { get; set; } = true;
+        public PermissionLevel BasicCtorPermission { get; set; } = PermissionLevel.@public;
         public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public abstract bool ObjectCentralizedDefault { get; }
@@ -128,7 +128,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<bool>(Constants.GENERATE_CLASS, (i) => GenerateClass = i);
             Node.TransferAttribute<bool>(Constants.GENERATE_EQUALS, (i) => GenerateEquals = i);
             Node.TransferAttribute<bool>(Constants.GENERATE_TO_STRING, (i) => GenerateToString = i);
-            Node.TransferAttribute<bool>(Constants.PUBLIC_CTOR, (i) => GeneratePublicBasicCtor = i);
+            Node.TransferAttribute<PermissionLevel>(Constants.CTOR_PERMISSION, (i) => BasicCtorPermission = i);
             Node.TransferAttribute<ushort>(Constants.VERSION, (i) => Version = i);
             Node.TransferAttribute<bool>(Constants.IGETTER_EXPORT, (i) => this.ExportWithIGetter = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE_DEFAULT, (i) => this.InterfaceTypeDefault = i);
