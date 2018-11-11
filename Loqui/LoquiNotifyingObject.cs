@@ -81,7 +81,7 @@ namespace Loqui
             string name)
         {
             var oldHasBeenSet = hasBeenSet[index];
-            if (oldHasBeenSet = newHasBeenSet) return;
+            if (oldHasBeenSet == newHasBeenSet) return;
             hasBeenSet[index] = newHasBeenSet;
             this.RaisePropertyChanged(name);
         }
