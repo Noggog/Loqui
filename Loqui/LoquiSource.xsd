@@ -498,13 +498,6 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="notifyingDefault" type="NotifyingOption" >
-      <xs:annotation>
-        <xs:documentation>
-          Sets the default value of the "Notifying" property on all of this objects contained fields.
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
     <xs:attribute name="hasBeenSetDefault" type="HasBeenSetOption" >
       <xs:annotation>
         <xs:documentation>
