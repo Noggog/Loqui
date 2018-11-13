@@ -400,7 +400,7 @@ namespace Loqui.Generation
 
                     GenerateCopy(fg);
 
-                    GenerateCopyFieldsFrom(fg);
+                    await GenerateCopyFieldsFrom(fg);
 
                     await GenerateSetNthObject(fg);
 
@@ -822,32 +822,29 @@ namespace Loqui.Generation
             fg.AppendLine($"return {this.ObjectName}.Copy(item, def: null);");
         }
 
-        protected virtual void GenerateCopyFieldsFrom(FileGeneration fg)
+        protected virtual async Task GenerateCopyFieldsFrom(FileGeneration fg)
         {
-            if (this.IsTopClass)
+            using (var args = new FunctionWrapper(fg,
+                $"public{await this.FunctionOverride()}void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
+                this.GenericTypeMaskWheres(MaskType.Copy)))
             {
-                using (var args = new FunctionWrapper(fg,
-                    $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
-                    this.GenericTypeMaskWheres(MaskType.Copy)))
-                {
-                    args.Add($"{this.Getter_InterfaceStr} rhs");
-                    args.Add($"NotifyingFireParameters cmds = null");
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"this.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
-                    {
-                        args.Add("rhs: rhs");
-                        args.Add("def: null");
-                        args.Add("doMasks: false");
-                        args.Add("errorMask: out var errMask");
-                        args.Add("copyMask: null");
-                        args.Add("cmds: cmds");
-                    }
-                }
-                fg.AppendLine();
+                args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).Getter_InterfaceStr} rhs");
+                args.Add($"NotifyingFireParameters cmds = null");
             }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"this.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
+                {
+                    args.Add($"rhs: ({this.Getter_InterfaceStr})rhs");
+                    args.Add("def: null");
+                    args.Add("doMasks: false");
+                    args.Add($"errorMask: out var errMask");
+                    args.Add("copyMask: null");
+                    args.Add("cmds: cmds");
+                }
+            }
+            fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",

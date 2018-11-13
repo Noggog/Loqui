@@ -174,7 +174,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected override void GenerateCopyFieldsFrom(FileGeneration fg)
+        protected override async Task GenerateCopyFieldsFrom(FileGeneration fg)
         {
         }
 
