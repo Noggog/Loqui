@@ -164,10 +164,10 @@ namespace Loqui.Generation
             return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
 
-        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
         {
             LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"this.{field.Name} = new MaskItem<T, {loqui.GenerateMaskString("T")}>({valueStr}, {(loqui.TargetObjectGeneration == null ? "null" : $"new {loqui.TargetObjectGeneration.GetMaskString("T")}({valueStr})")});");
+            fg.AppendLine($"this.{field.Name} = new MaskItem<{typeStr}, {loqui.GenerateMaskString(typeStr)}>({valueStr}, {(loqui.TargetObjectGeneration == null ? "null" : $"new {loqui.TargetObjectGeneration.GetMaskString(typeStr)}({valueStr})")});");
         }
 
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
@@ -183,6 +183,27 @@ namespace Loqui.Generation
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
         {
             return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+        }
+
+        public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
+        {
+            LoquiType loqui = field as LoquiType;
+            if (loqui.RefType == LoquiRefType.Direct)
+            {
+                if (loqui.SingletonType == SingletonLevel.Singleton)
+                {
+                    if (loqui.InterfaceType == LoquiInterfaceType.IGetter) return;
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.Copy)}>({basicValueStr}, default);");
+                }
+                else
+                {
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}>({deepCopyStr}, default);");
+                }
+            }
+            else
+            {
+                fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
+            }
         }
     }
 }

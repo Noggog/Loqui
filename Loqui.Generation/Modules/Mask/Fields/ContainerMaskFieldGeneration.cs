@@ -49,6 +49,20 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Copy))
+            {
+                fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}>({deepCopyStr}, default);");
+            }
+            else
+            {
+                fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
+            }
+        }
+
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             ListType listType = field as ListType;
@@ -198,9 +212,9 @@ namespace Loqui.Generation
             return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
 
-        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, "T")}({valueStr}, null);");
+            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, typeStr)}({valueStr}, null);");
         }
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)

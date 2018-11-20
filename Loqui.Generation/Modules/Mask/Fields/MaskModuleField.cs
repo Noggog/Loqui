@@ -21,6 +21,7 @@ namespace Loqui.Generation
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
+        public abstract void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr);
         public abstract void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field);
         public abstract string GenerateForTranslationMaskCrystalization(TypeGeneration field);
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck);
@@ -38,7 +39,7 @@ namespace Loqui.Generation
         public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
         public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
-        public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr);
+        public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr);
         public virtual string GetMaskString(TypeGeneration field, string valueStr) => valueStr;
     }
 }

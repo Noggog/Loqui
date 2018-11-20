@@ -364,9 +364,9 @@ namespace Loqui.Generation
             return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
         }
 
-        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, "T")}({valueStr}, null);");
+            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, typeStr)}({valueStr}, null);");
         }
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)
@@ -394,6 +394,37 @@ namespace Loqui.Generation
             else
             {
                 return $"({field.Name}, null)";
+            }
+        }
+
+        public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
+        {
+            DictType dictType = field as DictType;
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    if (keyLoquiType == null && valueLoquiType == null)
+                    {
+                        fg.AppendLine($"this.{field.Name} = {basicValueStr};");
+                    }
+                    else if (keyLoquiType != null && valueLoquiType != null)
+                    {
+                        fg.AppendLine($"this.{field.Name} = new MaskItem<bool, KeyValuePair<({nameof(RefCopyType)} Type, {keyLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)} Mask), ({nameof(RefCopyType)} Type, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Copy)} Mask)>>({basicValueStr}, default);");
+                    }
+                    else
+                    {
+                        LoquiType loqui = keyLoquiType ?? valueLoquiType;
+                        fg.AppendLine($"this.{field.Name} = new MaskItem<bool, ({nameof(RefCopyType)} Type, {loqui.TargetObjectGeneration.Mask(MaskType.Copy)} Mask)>({basicValueStr}, default);");
+                    }
+                    break;
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {valueLoquiType.Mask(MaskType.Copy)}>({deepCopyStr}, default);");
+                    break;
+                default:
+                    break;
             }
         }
     }

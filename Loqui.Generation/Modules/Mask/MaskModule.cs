@@ -127,6 +127,22 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Copy)}()");
+                using (new BraceWrapper(fg))
+                {
+                }
+                fg.AppendLine();
+
+                fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Copy)}(bool defaultOn, CopyOption deepCopyOption = CopyOption.Reference)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var field in obj.IterateFields())
+                    {
+                        GetMaskModule(field.GetType()).GenerateForCopyMaskCtor(fg, field, basicValueStr: "defaultOn", deepCopyStr: "deepCopyOption");
+                    }
+                }
+                fg.AppendLine();
+
                 using (new RegionWrapper(fg, "Members"))
                 {
                     foreach (var field in obj.IterateFields())
@@ -135,6 +151,7 @@ namespace Loqui.Generation
                     }
                 }
             }
+            fg.AppendLine();
         }
 
         private async Task GenerateErrorMask(ObjectGeneration obj, FileGeneration fg)
@@ -339,7 +356,7 @@ namespace Loqui.Generation
                     {
                         foreach (var field in obj.IterateFields())
                         {
-                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, "initialValue");
+                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: "initialValue");
                         }
                     }
                 }

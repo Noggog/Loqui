@@ -28,6 +28,12 @@ namespace Loqui.Generation
             fg.AppendLine($"public bool {field.Name};");
         }
 
+        public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"this.{field.Name} = {basicValueStr};");
+        }
+
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             if (!field.IntegrateField) return;
@@ -57,7 +63,7 @@ namespace Loqui.Generation
              return $"{maskAccessor}?.{field.Name} ?? true";
         }
 
-        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string valueStr)
+        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
         {
             if (!field.IntegrateField) return;
             fg.AppendLine($"this.{field.Name} = {valueStr};");
