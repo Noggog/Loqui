@@ -1004,8 +1004,12 @@ namespace Loqui.Generation
             fg.AppendLine("else");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.HasBeenSetAccessor(new Accessor(this, $"item."))} = false;");
-                fg.AppendLine($"{accessor.DirectAccess} = default({this.TypeName});");
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessor.DirectAccess}_Set"))
+                {
+                    args.Add($"item: default({this.TypeName})");
+                    args.Add($"hasBeenSet: false");
+                }
             }
         }
 
