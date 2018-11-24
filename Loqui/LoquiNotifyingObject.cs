@@ -13,12 +13,12 @@ namespace Loqui
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void RaiseAndSetIfChanged<T>(
+        protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
             [CallerMemberName] string propertyName = null)
@@ -29,7 +29,7 @@ namespace Loqui
             this.RaisePropertyChanged(propertyName);
         }
 
-        public void RaiseAndSetIfChanged<T>(
+        protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
             ref bool hasBeenSet,
@@ -48,7 +48,7 @@ namespace Loqui
             }
         }
 
-        public void RaiseAndSetIfChanged<T>(
+        protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
             BitArray hasBeenSet,
@@ -74,7 +74,7 @@ namespace Loqui
             }
         }
 
-        public void RaiseAndSetIfChanged(
+        protected void RaiseAndSetIfChanged(
             BitArray hasBeenSet,
             bool newHasBeenSet,
             int index,
