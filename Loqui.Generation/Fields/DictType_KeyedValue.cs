@@ -333,7 +333,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
                     using (new BraceWrapper(fg))
                     {
-                        this.ValueTypeGen.GenerateToString(fg, "Item", new Accessor("subItem"), fgAccessor);
+                        this.ValueTypeGen.GenerateToString(fg, "Item", new Accessor("subItem.Value"), fgAccessor);
                     }
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
                 }
@@ -349,7 +349,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()

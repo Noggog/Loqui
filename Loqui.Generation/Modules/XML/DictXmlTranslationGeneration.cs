@@ -103,7 +103,7 @@ namespace Loqui.Generation
                             {
                                 args.Add($"node: {writerAccessor}");
                                 args.Add($"name: {nameAccessor}");
-                                args.Add($"items: {itemAccessor.DirectAccess}");
+                                args.Add($"items: {itemAccessor.DirectAccess}.Items");
                                 args.Add($"translationMask: {translationMaskAccessor}");
                                 args.Add("errorMask: errorMask");
                                 args.Add((gen) =>

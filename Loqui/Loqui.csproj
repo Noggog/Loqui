@@ -144,11 +144,12 @@
       <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
       <Name>CSharpExt</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj">
+      <Project>{6c3ece8b-4127-4356-b379-8068b08efb37}</Project>
+      <Name>DynamicData</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DynamicData">
-      <Version>6.6.1.2507</Version>
-    </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>
     </PackageReference>
