@@ -99,28 +99,7 @@ namespace Loqui
             }
             coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
         }
-
-        public static void WrapAction(
-            ErrorMaskBuilder errorMask,
-            int fieldIndex,
-            Action a)
-        {
-            try
-            {
-                errorMask?.PushIndex(fieldIndex);
-                a();
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
-            }
-        }
-
+        
         public bool IsInError()
         {
             if (Overall != null) return true;

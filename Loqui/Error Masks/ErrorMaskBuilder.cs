@@ -139,5 +139,29 @@ namespace Loqui.Internal
             }
             errorMask.ReportException(ex);
         }
+
+        public static void WrapAction(this ErrorMaskBuilder errorMask, int fieldIndex, Action a)
+        {
+            if (errorMask == null)
+            {
+                a();
+            }
+            else
+            {
+                try
+                {
+                    errorMask?.PushIndex(fieldIndex);
+                    a();
+                }
+                catch (Exception ex)
+                {
+                    errorMask.ReportException(ex);
+                }
+                finally
+                {
+                    errorMask?.PopIndex();
+                }
+            }
+        }
     }
 }

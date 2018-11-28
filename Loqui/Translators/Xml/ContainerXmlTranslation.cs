@@ -26,30 +26,28 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                if (Parse(
-                    root,
-                    out var enumer,
-                    errorMask,
-                    translationMask))
+                try
                 {
-                    item.SetTo(enumer);
+                    if (Parse(
+                        root,
+                        out var enumer,
+                        errorMask,
+                        translationMask))
+                    {
+                        item.SetTo(enumer);
+                    }
+                    else
+                    {
+                        item.Unset();
+                    }
                 }
-                else
+                catch (Exception ex)
+                when (errorMask != null)
                 {
-                    item.Unset();
+                    errorMask.ReportException(ex);
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
             }
         }
 
@@ -83,31 +81,29 @@ namespace Loqui.Xml
             TranslationCrystal translationMask,
             XmlSubParseDelegate<T> transl)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                if (Parse(
-                    root,
-                    out var enumer,
-                    errorMask,
-                    translationMask,
-                    transl))
+                try
                 {
-                    item.SetTo(enumer);
+                    if (Parse(
+                        root,
+                        out var enumer,
+                        errorMask,
+                        translationMask,
+                        transl))
+                    {
+                        item.SetTo(enumer);
+                    }
+                    else
+                    {
+                        item.Unset();
+                    }
                 }
-                else
+                catch (Exception ex)
+                when (errorMask != null)
                 {
-                    item.Unset();
+                    errorMask.ReportException(ex);
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
             }
         }
 
@@ -123,22 +119,20 @@ namespace Loqui.Xml
             var subCrystal = translationMask?.GetSubCrystal(0);
             foreach (var listElem in root.Elements())
             {
-                try
+                using (errorMask?.PushIndex(i++))
                 {
-                    errorMask?.PushIndex(i++);
-                    if (transl(listElem, out var subItem, errorMask, subCrystal))
+                    try
                     {
-                        ret.Add(subItem);
+                        if (transl(listElem, out var subItem, errorMask, subCrystal))
+                        {
+                            ret.Add(subItem);
+                        }
                     }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-                finally
-                {
-                    errorMask?.PopIndex();
+                    catch (Exception ex)
+                    when (errorMask != null)
+                    {
+                        errorMask.ReportException(ex);
+                    }
                 }
             }
 
@@ -188,19 +182,17 @@ namespace Loqui.Xml
             var subCrystal = translationMask?.GetSubCrystal(0);
             foreach (var listObj in item)
             {
-                try
+                using (errorMask?.PushIndex(i++))
                 {
-                    errorMask?.PushIndex(i++);
-                    WriteSingleItem(elem, transl, listObj, errorMask, subCrystal);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-                finally
-                {
-                    errorMask?.PopIndex();
+                    try
+                    {
+                        WriteSingleItem(elem, transl, listObj, errorMask, subCrystal);
+                    }
+                    catch (Exception ex)
+                    when (errorMask != null)
+                    {
+                        errorMask.ReportException(ex);
+                    }
                 }
             }
         }
@@ -221,25 +213,23 @@ namespace Loqui.Xml
             TranslationCrystal translationMask,
             XmlSubWriteDelegate<T> transl)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node: node,
-                    name: name,
-                    item: item,
-                    errorMask: errorMask,
-                    translationMask: translationMask,
-                    transl: transl);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node: node,
+                        name: name,
+                        item: item,
+                        errorMask: errorMask,
+                        translationMask: translationMask,
+                        transl: transl);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -252,25 +242,23 @@ namespace Loqui.Xml
             TranslationCrystal translationMask,
             XmlSubWriteDelegate<T> transl)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node,
-                    name,
-                    item.Item,
-                    errorMask,
-                    translationMask,
-                    transl);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node,
+                        name,
+                        item.Item,
+                        errorMask,
+                        translationMask,
+                        transl);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
     }

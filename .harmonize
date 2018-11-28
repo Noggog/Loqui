@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>90dcb42a4b372bc7304e3c2681bf7b7308d068ef</Sha>
+         <Sha>1309238eb5070bb4d6019b98ab66acebb407bf24</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>11-12-2018 18:41:39</CommitDate>
-         <Description>Nuget updates</Description>
+         <CommitDate>11-16-2018 16:39:09</CommitDate>
+         <Description>7.3 C#</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

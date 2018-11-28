@@ -75,24 +75,22 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node: node,
-                    name: name,
-                    item: item.Item,
-                    errorMask: errorMask,
-                    translationMask: translationMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node: node,
+                        name: name,
+                        item: item.Item,
+                        errorMask: errorMask,
+                        translationMask: translationMask);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -104,42 +102,23 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node: node,
-                    name: name,
-                    item: item,
-                    errorMask: errorMask,
-                    translationMask: translationMask);
+                try
+                {
+                    this.Write(
+                        node: node,
+                        name: name,
+                        item: item,
+                        errorMask: errorMask,
+                        translationMask: translationMask);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
-            }
-        }
-
-        public void Write<M>(
-            XElement node,
-            string name,
-            IHasBeenSetItemGetter<object> item,
-            int fieldIndex,
-            Func<M> errorMask)
-            where M : IErrorMask
-        {
-            if (!item.HasBeenSet) return;
-            this.Write(
-                node: node,
-                name: name,
-                item: item,
-                fieldIndex: fieldIndex,
-                errorMask: errorMask);
         }
     }
 }
