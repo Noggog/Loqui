@@ -119,7 +119,7 @@ namespace Loqui.Generation
                                             itemAccessor: new Accessor($"subItem"),
                                             maskAccessor: $"dictSubMask",
                                             translationMaskAccessor: "dictTranslMask",
-                                            nameAccessor: "\"Item\"");
+                                            nameAccessor: "null");
                                     }
                                 });
                             }

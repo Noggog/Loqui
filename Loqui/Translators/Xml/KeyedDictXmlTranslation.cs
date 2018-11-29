@@ -176,7 +176,7 @@ namespace Loqui.Xml
                 valTransl: (XElement n, V item1, ErrorMaskBuilder errorMask2, TranslationCrystal translationMask2) 
                     => valTransl.Item.Value.Write(
                         node: n, 
-                        name: "Item",
+                        name: null,
                         item: item1, 
                         errorMask: errorMask2, 
                         translationMask: translationMask2));
@@ -200,7 +200,7 @@ namespace Loqui.Xml
                     try
                     {
                         WriteSingleItem(
-                            node: node,
+                            node: elem,
                             item: item,
                             errorMask: errorMask,
                             translationMask: translationMask,

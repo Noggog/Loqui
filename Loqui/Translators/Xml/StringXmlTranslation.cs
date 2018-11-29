@@ -81,7 +81,7 @@ namespace Loqui.Xml
             string name,
             string item)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name ?? "String");
             node.Add(elem);
             if (item != null)
             {
