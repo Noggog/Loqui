@@ -257,7 +257,8 @@ namespace Loqui.Generation
         public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
         {
             ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui)
+            if (listType.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Translation))
             {
                 fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {loqui.Mask(MaskType.Translation)}>({onAccessor}, null);");
             }

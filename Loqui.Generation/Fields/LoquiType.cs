@@ -209,6 +209,7 @@ namespace Loqui.Generation
                     case MaskType.Error:
                         return nameof(IErrorMask);
                     case MaskType.Translation:
+                        return nameof(ITranslationMask);
                     case MaskType.Copy:
                     case MaskType.Normal:
                     default:
