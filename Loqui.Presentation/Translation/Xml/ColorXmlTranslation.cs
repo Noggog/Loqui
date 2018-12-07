@@ -1,7 +1,7 @@
 ﻿using Loqui.Internal;
 using Noggog;
 using System;
-using System.Windows.Media;
+using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -41,7 +41,7 @@ namespace Loqui.Xml
                 value = null;
                 return true;
             }
-            value = Color.FromRgb(r ?? 0, g ?? 0, b ?? 0);
+            value = Color.FromArgb(red: r ?? 0, green: g ?? 0, blue: b ?? 0);
             return true;
         }
 

@@ -12,7 +12,6 @@ namespace Loqui.Generation
 {
     public class ProtocolGeneration
     {
-        private const string CSPROJ_NAMESPACE = "http://schemas.microsoft.com/developer/msbuild/2003";
         public ProtocolKey Protocol;
         public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
         public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
@@ -305,8 +304,9 @@ namespace Loqui.Generation
                 doc = XDocument.Load(stream);
             }
             bool modified = false;
-            var projNode = doc.Element(XName.Get("Project", CSPROJ_NAMESPACE));
-            List<XElement> includeNodes = projNode.Elements(XName.Get("ItemGroup", CSPROJ_NAMESPACE)).ToList();
+            var nameSpace = doc.Root.Name.Namespace.NamespaceName;
+            var projNode = doc.Element(XName.Get("Project", nameSpace));
+            List<XElement> includeNodes = projNode.Elements(XName.Get("ItemGroup", nameSpace)).ToList();
             List<XElement> compileGroupNodes = includeNodes
                 .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("Compile")))
                 .ToList();
@@ -314,16 +314,16 @@ namespace Loqui.Generation
                 .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("None")))
                 .ToList();
             var compileNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", CSPROJ_NAMESPACE)))
+                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", nameSpace)))
                 .ToList();
             var noneNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("None", CSPROJ_NAMESPACE)))
+                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("None", nameSpace)))
                 .ToList();
 
             XElement compileIncludeNode;
             if (compileGroupNodes.Count == 0)
             {
-                compileIncludeNode = new XElement("ItemGroup", CSPROJ_NAMESPACE);
+                compileIncludeNode = new XElement("ItemGroup", nameSpace);
                 projNode.Add(compileIncludeNode);
                 compileGroupNodes.Add(compileIncludeNode);
             }
@@ -336,7 +336,7 @@ namespace Loqui.Generation
             {
                 if (noneGroupNodes.Count == 0)
                 {
-                    var ret = new XElement("ItemGroup", CSPROJ_NAMESPACE);
+                    var ret = new XElement("ItemGroup", nameSpace);
                     projNode.Add(ret);
                     noneGroupNodes.Add(ret);
                     return ret;
@@ -386,7 +386,7 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
-                    var compileElem = new XElement(XName.Get(nodeName, CSPROJ_NAMESPACE),
+                    var compileElem = new XElement(XName.Get(nodeName, nameSpace),
                         new XAttribute("Include", filePath));
                     nodes.Add(compileElem);
                     includeNode.Add(compileElem);
@@ -395,7 +395,7 @@ namespace Loqui.Generation
             }
 
             // Add dependent files underneath
-            var depName = XName.Get("DependentUpon", CSPROJ_NAMESPACE);
+            var depName = XName.Get("DependentUpon", nameSpace);
             foreach (var subMode in includeNodes.SelectMany((n) => n.Elements()))
             {
                 XAttribute includeAttr = subMode.Attribute("Include");
@@ -430,7 +430,7 @@ namespace Loqui.Generation
             {
                 var defFile = new FilePath($"{DefFileLocation.FullName}/{this.ProtocolDefinitionName}.cs");
                 var relativePath = defFile.GetRelativePathTo(projFile);
-                var compileElem = new XElement(XName.Get("Compile", CSPROJ_NAMESPACE),
+                var compileElem = new XElement(XName.Get("Compile", nameSpace),
                     new XAttribute("Include", relativePath));
                 compileNodes.Add(compileElem);
                 compileIncludeNode.Add(compileElem);

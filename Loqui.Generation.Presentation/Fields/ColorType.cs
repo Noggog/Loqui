@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace Loqui.Generation
 {
@@ -13,7 +13,7 @@ namespace Loqui.Generation
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
-            yield return "System.Windows.Media";
+            yield return "System.Drawing";
         }
     }
 }
