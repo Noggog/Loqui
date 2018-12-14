@@ -181,14 +181,25 @@ namespace Loqui
         private static ILoquiRegistration TryGetRegistration(Type t)
         {
             if (t.GetInterface(nameof(ILoquiObject)) == null) return null;
-            var regisField = t.GetMembers().Where(
-                (m) => m.Name.Equals(nameof(ILoquiObject.Registration))
-                    && m.MemberType == MemberTypes.Property)
-                .Select((m) => m as PropertyInfo)
-                .Where((m) => m != null
-                    && m.GetGetMethod().IsStatic)
-                .First();
-            return regisField.GetValue(null) as ILoquiRegistration;
+
+            PropertyInfo getRegistrationProperty(Type type)
+            {
+                return type.GetMembers(BindingFlags.Public | BindingFlags.Static)
+                    .Where((m) => m.Name.Equals(nameof(ILoquiObject.Registration))
+                        && m.MemberType == MemberTypes.Property)
+                    .Select((m) => m as PropertyInfo)
+                    .Where((m) => m != null)
+                    .FirstOrDefault();
+            }
+            var regisField = getRegistrationProperty(t);
+            if (regisField != null)
+            {
+                return regisField.GetValue(null) as ILoquiRegistration;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private static ILoquiRegistration GetGenericRegistration(Type genRegisterType, Type[] subTypes)
