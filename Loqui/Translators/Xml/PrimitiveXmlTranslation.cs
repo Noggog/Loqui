@@ -27,51 +27,47 @@ namespace Loqui.Xml
 
         public void ParseInto(XElement root, int fieldIndex, IHasItem<T> item, ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                if (Parse(root, out T val, errorMask))
+                try
                 {
-                    item.Item = val;
+                    if (Parse(root, out T val, errorMask))
+                    {
+                        item.Item = val;
+                    }
+                    else
+                    {
+                        item.Unset();
+                    }
                 }
-                else
+                catch (Exception ex)
+                when (errorMask != null)
                 {
-                    item.Unset();
+                    errorMask.ReportException(ex);
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
             }
         }
 
         public void ParseInto(XElement root, int fieldIndex, IHasItem<T?> item, ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                if (Parse(root, out T? val, errorMask))
+                try
                 {
-                    item.Item = val;
+                    if (Parse(root, out T? val, errorMask))
+                    {
+                        item.Item = val;
+                    }
+                    else
+                    {
+                        item.Unset();
+                    }
                 }
-                else
+                catch (Exception ex)
+                when (errorMask != null)
                 {
-                    item.Unset();
+                    errorMask.ReportException(ex);
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
             }
         }
 
@@ -123,19 +119,17 @@ namespace Loqui.Xml
             out T item,
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                return Parse(root, out item, errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    return Parse(root, out item, errorMask);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
             item = default(T);
             return false;
@@ -147,19 +141,17 @@ namespace Loqui.Xml
             out T? item, 
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                return Parse(root, out item, errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    return Parse(root, out item, errorMask);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
             item = null;
             return false;
@@ -207,39 +199,47 @@ namespace Loqui.Xml
         }
 
         public void Write(
-            XElement node, 
+            XElement node,
             string name,
-            T? item, 
+            T? item)
+        {
+            Write_Internal(
+                node,
+                name,
+                item,
+                nullable: true);
+        }
+
+        public void Write(
+            XElement node,
+            string name,
+            T? item,
             ErrorMaskBuilder errorMask)
         {
             Write_Internal(
                 node,
                 name,
                 item,
-                errorMask, 
                 nullable: true);
         }
 
         private void Write_Internal(
             XElement node, 
             string name, 
-            T? item, 
-            ErrorMaskBuilder errorMask, 
+            T? item,
             bool nullable)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name ?? RAW_NULLABLE_NAME);
             node.Add(elem);
             WriteValue(elem, item);
-            errorMask = null;
         }
 
         public void Write(
             XElement node, 
             string name,
-            T item, 
-            ErrorMaskBuilder errorMask)
+            T item)
         {
-            Write_Internal(node, name, (T?)item, errorMask, nullable: false);
+            Write_Internal(node, name, (T?)item, nullable: false);
         }
 
         public void Write(
@@ -249,23 +249,20 @@ namespace Loqui.Xml
             int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node,
-                    name,
-                    item,
-                    errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node,
+                        name,
+                        item);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -276,23 +273,20 @@ namespace Loqui.Xml
             int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node,
-                    name,
-                    item.Item,
-                    errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node,
+                        name,
+                        item.Item);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -303,23 +297,20 @@ namespace Loqui.Xml
             int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node,
-                    name,
-                    item.Item,
-                    errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node,
+                        name,
+                        item.Item);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -360,8 +351,7 @@ namespace Loqui.Xml
             this.Write(
                 node: node,
                 name: name,
-                item: item,
-                errorMask: errorMask);
+                item: item);
         }
 
         bool IXmlTranslation<T?>.Parse(XElement root, out T? item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
@@ -377,8 +367,7 @@ namespace Loqui.Xml
             this.Write(
                 node: node,
                 name: name,
-                item: item,
-                errorMask: errorMask);
+                item: item);
         }
 
         bool IXmlTranslation<T>.Parse(XElement root, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)

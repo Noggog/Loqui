@@ -69,7 +69,7 @@ namespace Loqui.Generation
                             itemAccessor: new Accessor($"subItem"),
                             maskAccessor: $"listSubMask",
                             translationMaskAccessor: "listTranslMask",
-                            nameAccessor: "\"Item\"");
+                            nameAccessor: "null");
                     }
                 });
                 ExtraWriteArgs(itemAccessor, typeGen, args);

@@ -205,5 +205,10 @@ namespace Loqui.Generation
                 fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
             }
         }
+
+        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        {
+            fg.AppendLine($"{accessor.DirectAccess} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
+        }
     }
 }

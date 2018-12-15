@@ -55,36 +55,33 @@ namespace Loqui.Xml
 
         public void ParseInto(XElement root, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                if (Parse(root, out var val, errorMask))
+                try
                 {
-                    item.Item = val;
+                    if (Parse(root, out var val, errorMask))
+                    {
+                        item.Item = val;
+                    }
+                    else
+                    {
+                        item.Unset();
+                    }
                 }
-                else
+                catch (Exception ex)
+                when (errorMask != null)
                 {
-                    item.Unset();
+                    errorMask.ReportException(ex);
                 }
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
             }
         }
 
         public void Write(
-            XElement node, 
+            XElement node,
             string name,
-            string item, 
-            ErrorMaskBuilder errorMask)
+            string item)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name ?? "String");
             node.Add(elem);
             if (item != null)
             {
@@ -96,27 +93,25 @@ namespace Loqui.Xml
             XElement node,
             string name,
             string item,
+            ErrorMaskBuilder errorMask)
+        {
+            this.Write(node, name, item);
+        }
+
+        public void Write(
+            XElement node,
+            string name,
+            string item,
             int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
-            try
+            errorMask.WrapAction(fieldIndex, () =>
             {
-                errorMask?.PushIndex(fieldIndex);
                 this.Write(
                     node: node,
                     name: name,
-                    item: item,
-                    errorMask: errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
-            }
+                    item: item);
+            });
         }
 
         public void Write(
@@ -126,23 +121,20 @@ namespace Loqui.Xml
             int fieldIndex,
             ErrorMaskBuilder errorMask)
         {
-            try
+            using (errorMask?.PushIndex(fieldIndex))
             {
-                errorMask?.PushIndex(fieldIndex);
-                this.Write(
-                    node: node,
-                    name: name,
-                    item: item.Item,
-                    errorMask: errorMask);
-            }
-            catch (Exception ex)
-            when (errorMask != null)
-            {
-                errorMask.ReportException(ex);
-            }
-            finally
-            {
-                errorMask?.PopIndex();
+                try
+                {
+                    this.Write(
+                        node: node,
+                        name: name,
+                        item: item.Item);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
             }
         }
 
@@ -167,8 +159,7 @@ namespace Loqui.Xml
             this.Write(
                 node: node,
                 name: name,
-                item: item,
-                errorMask: errorMask);
+                item: item);
         }
 
         bool IXmlTranslation<string>.Parse(XElement root, out string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)

@@ -9,7 +9,7 @@
   <xs:complexType name="ProtocolType" >
     <xs:attribute name="Namespace" type="xs:string" use="required" >
       <xs:annotation>
-        <xs:documentation>
+        <xs:documentation> 
           The unique namespace of the protocol
         </xs:documentation>
       </xs:annotation>

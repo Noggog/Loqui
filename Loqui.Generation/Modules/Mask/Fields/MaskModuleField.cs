@@ -24,6 +24,7 @@ namespace Loqui.Generation
         public abstract void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr);
         public abstract void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field);
         public abstract string GenerateForTranslationMaskCrystalization(TypeGeneration field);
+        public abstract void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor);
         public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck);
         public virtual void GenerateForEqual(FileGeneration fg, TypeGeneration field, string rhsAccessor)
         {

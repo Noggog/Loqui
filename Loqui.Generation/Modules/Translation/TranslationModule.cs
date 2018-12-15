@@ -153,7 +153,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                 }
                 fg.AppendLine();
-                
+
                 using (var args = new FunctionWrapper(fg,
                     $"protected{await obj.FunctionOverride()}void CopyIn_{ModuleNickname}_Internal"))
                 {
@@ -428,7 +428,7 @@ namespace Loqui.Generation
                     fg.AppendLine("return ret;");
                 }
                 fg.AppendLine();
-                
+
                 using (var args = new FunctionWrapper(fg,
                     $"public static {obj.ObjectName} Create_{ModuleNickname}"))
                 {
@@ -691,7 +691,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"this.Write_{ModuleNickname}_Internal"))
+                        $"this.Write_{ModuleNickname}"))
                     {
                         foreach (var item in this.MainAPI.WriterPassArgs(obj))
                         {
@@ -748,6 +748,41 @@ namespace Loqui.Generation
                         });
                     }
                     fg.AppendLine();
+
+                    using (var args = new FunctionWrapper(fg,
+                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                    {
+                        foreach (var item in minorAPI.WriterAPI.IterateAPI(obj,
+                            $"ErrorMaskBuilder errorMask".AndWhenSingle(
+                                $"{nameof(TranslationCrystal)} translationMask",
+                                when: () => this.TranslationMaskParameter).ToArray()))
+                        {
+                            args.Add(item.API);
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
+                        {
+                            using (var args = new ArgsWrapper(fg,
+                                $"Write_{ModuleNickname}"))
+                            { 
+                                foreach (var item in this.MainAPI.WrapWriterAccessors(obj, accessor))
+                                {
+                                    args.Add(item);
+                                }
+                                foreach (var item in this.MainAPI.WriterInternalFallbackArgs(obj))
+                                {
+                                    args.Add(item);
+                                }
+                                args.Add("errorMask: errorMask");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add($"translationMask: translationMask");
+                                }
+                            }
+                        });
+                    }
                 }
 
                 if (obj.IsTopClass)
@@ -771,7 +806,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"this.Write_{ModuleNickname}_Internal"))
+                            $"this.Write_{ModuleNickname}"))
                         {
                             foreach (var item in this.MainAPI.WriterPassArgs(obj))
                             {
@@ -808,7 +843,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"Write_{ModuleNickname}_Internal"))
+                                    $"Write_{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WrapWriterAccessors(obj, accessor))
                                     {
@@ -871,7 +906,7 @@ namespace Loqui.Generation
                             {
                                 fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                                 using (var args = new ArgsWrapper(fg,
-                                    $"this.Write_{ModuleNickname}_Internal"))
+                                    $"this.Write_{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WriterPassArgs(obj))
                                     {
@@ -895,7 +930,7 @@ namespace Loqui.Generation
                 }
 
                 using (var args = new FunctionWrapper(fg,
-                    $"protected{await obj.FunctionOverride()}void Write_{ModuleNickname}_Internal"))
+                    $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
                 {
                     foreach (var item in this.MainAPI.WriterAPI.IterateAPI(
                         obj,
@@ -933,7 +968,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine();
                     using (var args = new FunctionWrapper(fg,
-                        $"protected void Write_{ModuleNickname}_Internal"))
+                        $"protected void Write_{ModuleNickname}"))
                     {
                         foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                         {

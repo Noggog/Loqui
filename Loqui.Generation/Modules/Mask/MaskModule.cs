@@ -518,12 +518,49 @@ namespace Loqui.Generation
             {
                 using (new RegionWrapper(fg, "Members"))
                 {
-                    fg.AppendLine("private TranslationCrystal _crystal;");
+                    if (!obj.HasLoquiBaseObject)
+                    {
+                        fg.AppendLine("private TranslationCrystal _crystal;");
+                    }
 
                     foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForTranslationMask(fg, field);
                     }
+                }
+
+                using (new RegionWrapper(fg, "Ctors"))
+                {
+                    fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Translation)}()");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine(": base()");
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Translation)}(bool defaultOn)");
+                    using (new DepthWrapper(fg))
+                    {
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine(": base(defaultOn)");
+                        }
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForTranslationMaskSet(fg, field, new Accessor(field, "this."), "defaultOn");
+                        }
+
+                    }
+                    fg.AppendLine();
                 }
 
                 if (!obj.HasLoquiBaseObject)
@@ -544,16 +581,19 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
-                using (new BraceWrapper(fg))
+                if (!obj.HasLoquiBaseObject || obj.IterateFields().Any())
                 {
-                    if (obj.HasLoquiBaseObject)
+                    fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
+                    using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("base.GetCrystal(ret);");
-                    }
-                    foreach (var field in obj.IterateFields())
-                    {
-                        fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine("base.GetCrystal(ret);");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            fg.AppendLine($"ret.Add({GetMaskModule(field.GetType()).GenerateForTranslationMaskCrystalization(field)});");
+                        }
                     }
                 }
             }

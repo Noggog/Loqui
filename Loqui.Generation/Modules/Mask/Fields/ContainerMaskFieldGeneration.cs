@@ -267,5 +267,19 @@ namespace Loqui.Generation
                 return $"({field.Name}, null)";
             }
         }
+
+        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        {
+            ListType listType = field as ListType;
+            if (listType.SubTypeGeneration is LoquiType loqui
+                && loqui.SupportsMask(MaskType.Translation))
+            {
+                fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {loqui.Mask(MaskType.Translation)}>({onAccessor}, null);");
+            }
+            else
+            {
+                fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
+            }
+        }
     }
 }

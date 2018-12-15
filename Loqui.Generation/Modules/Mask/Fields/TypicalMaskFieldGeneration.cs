@@ -87,5 +87,10 @@ namespace Loqui.Generation
         {
             return $"({field.Name}, null)";
         }
+
+        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        {
+            fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
+        }
     }
 }

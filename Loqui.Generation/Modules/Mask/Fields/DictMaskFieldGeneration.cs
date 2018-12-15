@@ -58,7 +58,7 @@ namespace Loqui.Generation
             return itemStr;
         }
 
-        public static string GetSubTranslationMaskTring(IDictType dictType)
+        public static string GetSubTranslationMaskString(IDictType dictType)
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
@@ -376,7 +376,7 @@ namespace Loqui.Generation
 
         public override string GetTranslationMaskTypeStr(TypeGeneration field)
         {
-            return $"MaskItem<bool, IEnumerable<{GetSubTranslationMaskTring(field as IDictType)}>>";
+            return $"MaskItem<bool, IEnumerable<{GetSubTranslationMaskString(field as IDictType)}>>";
         }
 
         public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
@@ -422,6 +422,37 @@ namespace Loqui.Generation
                     break;
                 case DictMode.KeyedValue:
                     fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {valueLoquiType.Mask(MaskType.Copy)}>({deepCopyStr}, default);");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        {
+            DictType dictType = field as DictType;
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    if (keyLoquiType == null && valueLoquiType == null)
+                    {
+                        fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
+                    }
+                    else if (keyLoquiType != null && valueLoquiType != null)
+                    {
+                        fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>>({onAccessor}, null);");
+                    }
+                    else
+                    {
+                        LoquiType loqui = keyLoquiType ?? valueLoquiType;
+                        fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}>({onAccessor}, null);");
+                    }
+                    break;
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}>({onAccessor}, null);");
                     break;
                 default:
                     break;

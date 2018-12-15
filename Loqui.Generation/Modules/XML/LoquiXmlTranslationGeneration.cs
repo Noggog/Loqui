@@ -29,8 +29,17 @@ namespace Loqui.Generation
             string translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
+            string callString;
+            if (loquiGen.RefType == LoquiType.LoquiRefType.Interface)
+            {
+                callString = $"LoquiXmlTranslation.Instance.Write<{loquiGen.TypeName}>";
+            }
+            else
+            {
+                callString = $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance.Write";
+            }
             using (var args = new ArgsWrapper(fg,
-                $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance.Write"))
+                callString))
             {
                 args.Add($"node: {writerAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
