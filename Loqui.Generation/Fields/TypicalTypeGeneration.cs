@@ -46,7 +46,8 @@ namespace Loqui.Generation
 
             if (!this.Bare
                 && !this.TrueReadOnly
-                && this.RaisePropertyChanged)
+                && this.RaisePropertyChanged
+                && this.NotifyingType != NotifyingType.ReactiveUI)
             {
                 GenerateNotifyingConstruction(fg, $"_{this.Name}");
             }
