@@ -292,7 +292,35 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nameOverride = null)
         {
-            return null;
+            if (!(typeGen is DictType dict))
+            {
+                throw new ArgumentException();
+            }
+            if (dict.Mode == DictMode.KeyValue)
+            {
+                throw new NotImplementedException();
+            }
+            var elem = new XElement(XmlTranslationModule.XSDNamespace + "element",
+                new XAttribute("name", nameOverride ?? typeGen.Name),
+                new XAttribute("type", $"{typeGen.Name}Type"));
+            choiceElement.Add(elem);
+
+            var subChoice = new XElement(XmlTranslationModule.XSDNamespace + "choice",
+                new XAttribute("minOccurs", 0),
+                new XAttribute("maxOccurs", "unbounded"));
+            rootElement.Add(
+                new XElement(XmlTranslationModule.XSDNamespace + "complexType",
+                    new XAttribute("name", $"{typeGen.Name}Type"),
+                    subChoice));
+            
+            var xmlGen = XmlMod.GetTypeGeneration(dict.ValueTypeGen.GetType());
+            var subElem = xmlGen.GenerateForXSD(
+                obj,
+                rootElement,
+                subChoice,
+                dict.ValueTypeGen,
+                nameOverride: "Item");
+            return elem;
         }
 
         public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)

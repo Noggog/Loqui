@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>aa1d8ce60b7f314c72d7d256e332cd0d2033e5ea</Sha>
+         <Sha>0a719ed6ed147414b27009917a7049b9073d5664</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-15-2018 15:07:28</CommitDate>
-         <Description>Merge remote-tracking branch 'origin/master'</Description>
+         <CommitDate>12-29-2018 01:15:28</CommitDate>
+         <Description>Fix for SourceSetCache.TryGetValue</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>2dd77c48003f4d53e7da680b2346280b2f52483e</Sha>
+         <Sha>0dd142a535e76fee9884a530bdacbd7a02077828</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>11-25-2018 14:51:01</CommitDate>
-         <Description>IList and IReadOnlyDictionary implementation</Description>
+         <CommitDate>12-28-2018 00:52:40</CommitDate>
+         <Description>TryCreateValue</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
