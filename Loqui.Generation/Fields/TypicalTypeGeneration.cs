@@ -29,6 +29,8 @@ namespace Loqui.Generation
                 }
             }
         }
+        public event Action<FileGeneration> PreSetEvent;
+        public event Action<FileGeneration> PostSetEvent;
 
         public override bool CopyNeedsTryCatch => !this.Bare;
 
@@ -50,6 +52,43 @@ namespace Loqui.Generation
                 && this.NotifyingType != NotifyingType.ReactiveUI)
             {
                 GenerateNotifyingConstruction(fg, $"_{this.Name}");
+            }
+        }
+
+        private void WrapSetCode(FileGeneration fg, Action<FileGeneration> toDo)
+        {
+            PreSetEvent?.Invoke(fg);
+            toDo(fg);
+            PostSetEvent?.Invoke(fg);
+        }
+
+        private void WrapSetAccessor(
+            FileGeneration fg,
+            string linePrefix,
+            Action<FileGeneration> toDo)
+        {
+            FileGeneration subFg = new FileGeneration();
+            WrapSetCode(subFg, toDo);
+            if (subFg.Strings.Count > 0
+                && string.IsNullOrWhiteSpace(subFg.Strings[subFg.Strings.Count - 1]))
+            {
+                subFg.Strings.RemoveAt(subFg.Strings.Count - 1);
+            }
+            if (subFg.Strings.Count > 1)
+            {
+                fg.AppendLine(linePrefix);
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLines(subFg.Strings);
+                }
+            }
+            else if (subFg.Strings.Count > 0)
+            {
+                fg.AppendLine($"{linePrefix} => {subFg.Strings[0]}");
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -128,8 +167,12 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{this.Name};");
-                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.Set{this.Name}(value);");
+                        WrapSetAccessor(fg,
+                            linePrefix: $"{(ReadOnly ? "protected " : string.Empty)}set",
+                            toDo: subFg => subFg.AppendLine($"this.Set{this.Name}(value);"));
                     }
+                    fg.AppendLine();
+
                     using (var args = new FunctionWrapper(fg,
                         $"protected void Set{this.Name}"))
                     {
@@ -139,49 +182,57 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                        if (this.IsClass)
-                        {
-                            fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
-                        }
-                        fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
-                        }
-                        fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"var tmp = {this.Name};");
-                            fg.AppendLine($"_{this.Name} = item;");
-                            using (var args = new ArgsWrapper(fg,
-                                $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
+                        WrapSetCode(fg,
+                            toDo: (subFg) =>
                             {
-                                args.Add($"index: (int){this.ObjectCentralizationEnumName}");
-                                args.Add("oldHasBeenSet: oldHasBeenSet");
-                                args.Add("newHasBeenSet: hasBeenSet");
-                                args.Add($"oldVal: tmp");
-                                args.Add($"newVal: item");
-                                args.Add($"cmds: cmds");
-                            }
-                        }
-                        fg.AppendLine("else");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"_{this.Name} = item;");
-                        }
+                                subFg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                                if (this.IsClass)
+                                {
+                                    subFg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
+                                }
+                                else
+                                {
+                                    subFg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
+                                }
+                                subFg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
+                                using (new BraceWrapper(subFg))
+                                {
+                                    subFg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
+                                }
+                                subFg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
+                                using (new BraceWrapper(subFg))
+                                {
+                                    subFg.AppendLine($"var tmp = {this.Name};");
+                                    subFg.AppendLine($"_{this.Name} = item;");
+                                    using (var args = new ArgsWrapper(subFg,
+                                        $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
+                                    {
+                                        args.Add($"index: (int){this.ObjectCentralizationEnumName}");
+                                        args.Add("oldHasBeenSet: oldHasBeenSet");
+                                        args.Add("newHasBeenSet: hasBeenSet");
+                                        args.Add($"oldVal: tmp");
+                                        args.Add($"newVal: item");
+                                        args.Add($"cmds: cmds");
+                                    }
+                                }
+                                subFg.AppendLine("else");
+                                using (new BraceWrapper(subFg))
+                                {
+                                    subFg.AppendLine($"_{this.Name} = item;");
+                                }
+                            });
                     }
                     if (!this.ReadOnly)
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
+                        WrapSetAccessor(fg,
+                            linePrefix: $"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property}",
+                            toDo: (subGen) => subGen.AppendLine($"this.{this.Property};"));
                     }
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
+                    WrapSetAccessor(fg,
+                        linePrefix: $"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property}",
+                        toDo: (subGen) => subGen.AppendLine($"this.{this.Property};"));
                 }
             }
             else if (this.NotifyingType == NotifyingType.ReactiveUI)
@@ -200,7 +251,9 @@ namespace Loqui.Generation
                             if (this.ObjectCentralized)
                             {
                                 fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                                fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                                WrapSetAccessor(fg,
+                                    linePrefix: $"{(ReadOnly ? "protected " : string.Empty)}set",
+                                    toDo: (subFg) => subFg.AppendLine($"this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));"));
                             }
                         }
                         fg.AppendLine($"bool {this.ObjectGen.Getter_InterfaceStr}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
@@ -232,7 +285,11 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                        WrapSetCode(fg,
+                            subGen =>
+                            {
+                                subGen.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                            });
                     }
 
                     using (var args = new FunctionWrapper(fg,
@@ -255,7 +312,9 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{this.Name};");
-                        fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this.RaiseAndSetIfChanged(ref this._{this.Name}, value, nameof({this.Name}));");
+                        WrapSetAccessor(fg,
+                            linePrefix: $"{(this.ReadOnly ? "protected " : string.Empty)}set",
+                            toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIfChanged(ref this._{this.Name}, value, nameof({this.Name}));"));
                     }
                 }
             }
@@ -283,7 +342,9 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name}.Item;");
-                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
+                            WrapSetAccessor(fg,
+                                linePrefix: $"{(ReadOnly ? "protected " : string.Empty)}set",
+                                toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set(value);"));
                         }
                         fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
                     }
@@ -306,7 +367,13 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name};");
-                            fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set {{ this._{this.Name} = value; OnPropertyChanged(nameof({this.Name})); }}");
+                            WrapSetAccessor(fg,
+                                linePrefix: $"{(this.ReadOnly ? "protected " : string.Empty)}set",
+                                toDo: subGen =>
+                                {
+                                    subGen.AppendLine($"this._{this.Name} = value;");
+                                    subGen.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
+                                });
                         }
                     }
                     else
