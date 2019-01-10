@@ -20,7 +20,7 @@ namespace Loqui.Xml
         public abstract string ElementName { get; }
 
         public void ParseInto(
-            XElement root,
+            XElement node,
             int fieldIndex,
             ISourceSetList<T> item,
             ErrorMaskBuilder errorMask,
@@ -31,7 +31,7 @@ namespace Loqui.Xml
                 try
                 {
                     if (Parse(
-                        root,
+                        node,
                         out var enumer,
                         errorMask,
                         translationMask))
@@ -52,7 +52,7 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             out IEnumerable<T> enumer,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
@@ -66,7 +66,7 @@ namespace Loqui.Xml
                 return false;
             }
             return Parse(
-                root,
+                node,
                 out enumer,
                 errorMask: errorMask,
                 transl: transl.Item.Value.Parse,
@@ -74,7 +74,7 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement root,
+            XElement node,
             int fieldIndex,
             ISourceSetList<T> item,
             ErrorMaskBuilder errorMask,
@@ -86,7 +86,7 @@ namespace Loqui.Xml
                 try
                 {
                     if (Parse(
-                        root,
+                        node,
                         out var enumer,
                         errorMask,
                         translationMask,
@@ -108,7 +108,7 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             out IEnumerable<T> enumer,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
@@ -117,7 +117,7 @@ namespace Loqui.Xml
             var ret = new List<T>();
             int i = 0;
             var subCrystal = translationMask?.GetSubCrystal(0);
-            foreach (var listElem in root.Elements())
+            foreach (var listElem in node.Elements())
             {
                 using (errorMask?.PushIndex(i++))
                 {

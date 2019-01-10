@@ -21,20 +21,20 @@ namespace Loqui.Xml
         private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
         public string ElementName => _elementName;
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
-        public delegate T CREATE_FUNC(XElement root, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
+        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
         public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             ILoquiRegistration registration,
-            XElement root,
+            XElement node,
             bool skipProtected,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
             var ret = new List<KeyValuePair<ushort, object>>();
-            foreach (var elem in root.Elements())
+            foreach (var elem in node.Elements())
             {
                 var i = registration.GetNameIndex(elem.Name.LocalName);
                 if (!i.HasValue)
@@ -57,7 +57,7 @@ namespace Loqui.Xml
                             throw new ArgumentException($"No Xml Translator found for {type}");
                         }
                         if (translator.Parse(
-                            root: elem,
+                            node: elem,
                             item: out var obj,
                             errorMask: errorMask,
                             translationMask: translationMask?.GetSubCrystal(i.Value)))
@@ -76,7 +76,7 @@ namespace Loqui.Xml
         }
 
         public void CopyIn<C>(
-            XElement root,
+            XElement node,
             C item,
             bool skipProtected,
             ErrorMaskBuilder errorMask,
@@ -86,7 +86,7 @@ namespace Loqui.Xml
         {
             var fields = EnumerateObjects(
                 item.Registration,
-                root,
+                node,
                 skipProtected,
                 errorMask: errorMask,
                 translationMask: translationMask);
@@ -140,7 +140,7 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement root, 
+            XElement node, 
             int fieldIndex, 
             IHasItem<T> item,
             ErrorMaskBuilder errorMask,
@@ -151,7 +151,7 @@ namespace Loqui.Xml
                 try
                 {
                     if (Parse(
-                        root,
+                        node,
                         out var i,
                         errorMask: errorMask,
                         translationMask: translationMask))
@@ -172,34 +172,34 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root, 
+            XElement node, 
             out T item, 
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
-            var typeStr = root.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
+            var typeStr = node.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
             if (typeStr == null
                 || typeStr.Equals(Registration.FullName))
             {
                 item = CREATE.Value(
-                    root: root,
+                    node: node,
                     errorMaskBuilder: errorMask,
                     translationMask: translationMask);
                 return true;
             }
             else
             {
-                var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? root.Name.LocalName);
+                var register = LoquiRegistration.GetRegisterByFullName(typeStr ?? node.Name.LocalName);
                 if (register == null)
                 {
-                    var ex = new ArgumentException($"Unknown Loqui type: {root.Name.LocalName}");
+                    var ex = new ArgumentException($"Unknown Loqui type: {node.Name.LocalName}");
                     if (errorMask == null) throw ex;
                     errorMask.ReportException(ex);
                     item = default(T);
                     return false;
                 }
                 var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
-                    root: root,
+                    node: node,
                     item: out var itemObj,
                     errorMask: errorMask,
                     translationMask: translationMask);

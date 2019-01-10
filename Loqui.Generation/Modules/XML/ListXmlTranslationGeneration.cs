@@ -151,7 +151,7 @@ namespace Loqui.Generation
                         fg,
                         $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
                     {
-                        args.Add("root: root");
+                        args.Add("node: node");
                         args.Add($"enumer: out var {typeGen.Name}Item");
                         args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
                         args.Add("errorMask: errorMask");

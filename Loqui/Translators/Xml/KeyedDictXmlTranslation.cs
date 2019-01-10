@@ -21,7 +21,7 @@ namespace Loqui.Xml
         public virtual string ElementName => "Dict";
 
         public bool Parse(
-            XElement root, 
+            XElement node, 
             out IEnumerable<V> enumer,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
@@ -32,7 +32,7 @@ namespace Loqui.Xml
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
             }
             return Parse(
-                root: root,
+                node: node,
                 enumer: out enumer,
                 errorMask: errorMask,
                 translationMask: translationMask,
@@ -40,7 +40,7 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement root,
+            XElement node,
             ISourceSetCache<V, K> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
@@ -51,7 +51,7 @@ namespace Loqui.Xml
                 try
                 {
                     if (Parse(
-                        root: root,
+                        node: node,
                         enumer: out var enumer,
                         errorMask: errorMask,
                         translationMask: translationMask))
@@ -72,7 +72,7 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             XmlSubParseDelegate<V> valTransl,
             out IEnumerable<V> enumer,
             ErrorMaskBuilder errorMask,
@@ -80,7 +80,7 @@ namespace Loqui.Xml
         {
             var ret = new List<V>();
             int i = 0;
-            foreach (var listElem in root.Elements())
+            foreach (var listElem in node.Elements())
             {
                 using (errorMask?.PushIndex(i++))
                 {
@@ -108,7 +108,7 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement root,
+            XElement node,
             ISourceSetCache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
@@ -120,7 +120,7 @@ namespace Loqui.Xml
                 try
                 {
                     if (Parse(
-                        root: root,
+                        node: node,
                         valTransl: valTransl,
                         enumer: out var enumer,
                         errorMask: errorMask,
@@ -142,14 +142,14 @@ namespace Loqui.Xml
         }
 
         public virtual bool ParseSingleItem(
-            XElement root,
+            XElement node,
             XmlSubParseDelegate<V> valTransl,
             out V item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
             return valTransl(
-                root, 
+                node, 
                 out item, 
                 errorMask,
                 translationMask);

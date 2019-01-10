@@ -14,13 +14,13 @@ namespace Loqui.Xml
 
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
-        public TryGet<string> Parse(XElement root)
+        public TryGet<string> Parse(XElement node)
         {
-            if (!root.Name.LocalName.Equals(ElementName))
+            if (!node.Name.LocalName.Equals(ElementName))
             {
-                throw new ArgumentException($"Skipping field Version that did not match proper type. Type: {root.Name.LocalName}, expected: {ElementName}.");
+                throw new ArgumentException($"Skipping field Version that did not match proper type. Type: {node.Name.LocalName}, expected: {ElementName}.");
             }
-            if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
             {
                 return TryGet<string>.Succeed(val.Value);
             }
@@ -28,11 +28,11 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             out string item,
             ErrorMaskBuilder errorMask)
         {
-            if (root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
             {
                 item = val.Value;
                 return true;
@@ -42,24 +42,24 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             out string item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
             return this.Parse(
-                root: root,
+                node: node,
                 item: out item,
                 errorMask: errorMask);
         }
 
-        public void ParseInto(XElement root, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
+        public void ParseInto(XElement node, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
                 try
                 {
-                    if (Parse(root, out var val, errorMask))
+                    if (Parse(node, out var val, errorMask))
                     {
                         item.Item = val;
                     }
@@ -162,10 +162,10 @@ namespace Loqui.Xml
                 item: item);
         }
 
-        bool IXmlTranslation<string>.Parse(XElement root, out string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        bool IXmlTranslation<string>.Parse(XElement node, out string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
         {
             return this.Parse(
-                root: root,
+                node: node,
                 item: out item,
                 errorMask: errorMask);
         }

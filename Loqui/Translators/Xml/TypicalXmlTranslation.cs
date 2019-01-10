@@ -26,9 +26,9 @@ namespace Loqui.Xml
 
         protected abstract T ParseNonNullString(string str);
 
-        protected virtual T ParseValue(XElement root)
+        protected virtual T ParseValue(XElement node)
         {
-            if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
+            if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
                 || string.IsNullOrEmpty(val.Value))
             {
                 return null;
@@ -37,7 +37,7 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement root,
+            XElement node,
             int fieldIndex,
             IHasItem<T> item,
             ErrorMaskBuilder errorMask)
@@ -46,7 +46,7 @@ namespace Loqui.Xml
             {
                 try
                 {
-                    if (Parse(root, out var val, errorMask))
+                    if (Parse(node, out var val, errorMask))
                     {
                         item.Item = val;
                     }
@@ -64,12 +64,12 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             bool nullable,
             out T item,
             ErrorMaskBuilder errorMask)
         {
-            item = ParseValue(root);
+            item = ParseValue(node);
             if (!nullable && item == null)
             {
                 errorMask.ReportExceptionOrThrow(
@@ -79,19 +79,19 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             out T item,
             ErrorMaskBuilder errorMask)
         {
             return this.Parse(
-                root: root,
+                node: node,
                 item: out item,
                 errorMask: errorMask,
                 nullable: false);
         }
 
         public bool Parse(
-            XElement root,
+            XElement node,
             int fieldIndex,
             out T item,
             ErrorMaskBuilder errorMask)
@@ -100,7 +100,7 @@ namespace Loqui.Xml
             {
                 try
                 {
-                    return Parse(root, out item, errorMask);
+                    return Parse(node, out item, errorMask);
                 }
                 catch (Exception ex)
                 when (errorMask != null)
@@ -200,10 +200,10 @@ namespace Loqui.Xml
                 name: name);
         }
 
-        public bool Parse(XElement root, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        public bool Parse(XElement node, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
         {
             return this.Parse(
-                root: root,
+                node: node,
                 item: out item,
                 errorMask: errorMask);
         }

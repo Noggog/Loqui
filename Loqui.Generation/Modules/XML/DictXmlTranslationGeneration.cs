@@ -202,7 +202,7 @@ namespace Loqui.Generation
 
             using (var args = new ArgsWrapper(fg, funcStr))
             {
-                args.Add($"root: root");
+                args.Add($"node: node");
                 if (!ret)
                 {
                     args.Add($"item: {itemAccessor.DirectAccess}");

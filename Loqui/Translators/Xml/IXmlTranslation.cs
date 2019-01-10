@@ -14,7 +14,7 @@ namespace Loqui.Xml
         ErrorMaskBuilder errorMask, 
         TranslationCrystal translationMask);
     public delegate bool XmlSubParseDelegate<T>(
-        XElement root,
+        XElement node,
         out T item, 
         ErrorMaskBuilder errorMask,
         TranslationCrystal translationMask);
@@ -29,7 +29,7 @@ namespace Loqui.Xml
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask);
         bool Parse(
-            XElement root, 
+            XElement node, 
             out T item, 
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask);

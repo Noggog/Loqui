@@ -7,25 +7,60 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public class APILine
+    public class APILine : IEquatable<APILine>, IAPIItem
     {
-        public Func<ObjectGeneration, TryGet<string>> Resolver;
+        public string NicknameKey { get; }
+        public Func<ObjectGeneration, APIResult> Resolver { get; }
+        public Func<ObjectGeneration, bool> When { get; }
 
-        public APILine(Func<ObjectGeneration, TryGet<string>> resolver)
+        public APILine(
+            string nicknameKey,
+            Func<ObjectGeneration, string> resolver,
+            Func<ObjectGeneration, bool> when = null)
         {
-            this.Resolver = resolver;
+            this.NicknameKey = nicknameKey;
+            this.Resolver = (obj) => new APIResult(this, resolver(obj));
+            this.When = when ?? ((obj) => true);
         }
 
-        public bool TryResolve(ObjectGeneration obj, out string line)
+        public APILine(
+            string nicknameKey,
+            string resolutionString,
+            Func<ObjectGeneration, bool> when = null)
         {
-            var ret = Resolver(obj);
-            line = ret.Value;
-            return ret.Succeeded;
+            this.NicknameKey = nicknameKey;
+            this.Resolver = (obj) => new APIResult(this, resolutionString);
+            this.When = when ?? ((obj) => true);
         }
 
-        public static implicit operator APILine(string str)
+        public bool TryResolve(ObjectGeneration obj, out APIResult line)
         {
-            return new APILine((o) => TryGet<string>.Succeed(str));
+            var get = this.When(obj);
+            if (!get)
+            {
+                line = default;
+                return false;
+            }
+            line = Resolver(obj);
+            return true;
+        }
+
+        public APIResult Resolve(ObjectGeneration obj) => this.Resolver(obj);
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is APILine rhs)) return false;
+            return obj.Equals(rhs);
+        }
+
+        public bool Equals(APILine other)
+        {
+            return string.Equals(this.NicknameKey, other.NicknameKey);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashHelper.GetHashCode(this.NicknameKey);
         }
     }
 }

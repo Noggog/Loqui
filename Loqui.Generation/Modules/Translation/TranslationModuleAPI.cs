@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Noggog;
+﻿using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +7,34 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public delegate void InternalTranslation(params string[] accessors);
+    public delegate void InternalTranslation(params IAPIItem[] accessors);
     public class TranslationModuleAPI
     {
         public MethodAPI WriterAPI { get; private set; }
-        public string[] WriterMemberNames(ObjectGeneration obj) => WriterAPI.IterateAPI(obj).Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] WriterPassArgs (ObjectGeneration obj) => WrapAccessors(WriterMemberNames(obj), WriterMemberNames(obj)).ToArray();
-        public string[] WriterInternalMemberNames (ObjectGeneration obj) => WriterAPI.CustomAPI.Where((a) => !a.Public).SelectWhere((r) => GetParameterName(r.API.Resolver(obj))).ToArray();
-        public string[] WriterInternalFallbackArgs (ObjectGeneration obj) => WrapAccessors(WriterInternalMemberNames(obj), WriterAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
-        public string[] WriterInternalPassArgs(ObjectGeneration obj) => WrapAccessors(WriterInternalMemberNames(obj), WriterInternalMemberNames(obj)).ToArray();
         public MethodAPI ReaderAPI { get; private set; }
-        public string[] ReaderMemberNames (ObjectGeneration obj) => ReaderAPI.IterateAPI(obj).Where((a) => a.Public).Select((r) => GetParameterName(r.API)).ToArray();
-        public string[] ReaderPassArgs (ObjectGeneration obj) => WrapAccessors(ReaderMemberNames(obj), ReaderMemberNames(obj)).ToArray();
-        public string[] ReaderInternalMemberNames (ObjectGeneration obj) => ReaderAPI.CustomAPI.Where((a) => !a.Public).SelectWhere((r) => GetParameterName(r.API.Resolver(obj))).ToArray();
-        public string[] ReaderInternalFallbackArgs (ObjectGeneration obj) => WrapAccessors(ReaderInternalMemberNames(obj), ReaderAPI.CustomAPI.Where((a) => !a.Public).Select((r) => r.DefaultFallback).ToArray()).ToArray();
-        public string[] ReaderInternalPassArgs (ObjectGeneration obj) => WrapAccessors(ReaderInternalMemberNames(obj), ReaderInternalMemberNames(obj)).ToArray();
+        public enum Direction { Reader, Writer }
+        private MethodAPI Get(Direction dir) => dir == Direction.Reader ? this.ReaderAPI : this.WriterAPI;
+        public IEnumerable<APIResult> PublicMembers(ObjectGeneration obj, Direction dir) => Get(dir).IterateAPI(obj).Where((a) => a.Public).Select((r) => r.API);
+        public string[] PassArgs(ObjectGeneration obj, Direction dir) =>
+            ZipAccessors(
+                PublicMembers(obj, dir), 
+                PublicMembers(obj, dir))
+            .Select(api => 
+                CombineResults(
+                    api.lhs.GetParameterName(obj).Result,
+                    api.rhs.GetParameterName(obj).Result))
+            .ToArray();
+        public IEnumerable<CustomMethodAPI> InternalMembers(ObjectGeneration obj, Direction dir) => Get(dir).CustomAPI.Where((a) => !a.Public).Where(o => o.API.When(obj));
+        public IEnumerable<string> InternalFallbackArgs(ObjectGeneration obj, Direction dir) =>
+            InternalMembers(obj, dir).Select(custom =>
+                CombineResults(
+                    custom.API.GetParameterName(obj),
+                    custom.DefaultFallback));
+        public IEnumerable<string> InternalPassArgs(ObjectGeneration obj, Direction dir) =>
+            InternalMembers(obj, dir).Select(custom =>
+                CombineResults(
+                    custom.API.GetParameterName(obj),
+                    custom.API.GetParameterName(obj)));
         public TranslationFunnel Funnel;
 
         public TranslationModuleAPI(MethodAPI api)
@@ -40,27 +51,49 @@ namespace Loqui.Generation
             this.ReaderAPI = readerAPI;
         }
 
-        private TryGet<string> GetParameterName(TryGet<string> api)
+        private IEnumerable<(T lhs, T rhs)> ZipAccessors<T>(
+            IEnumerable<T> lhs,
+            IEnumerable<T> rhs)
+            where T : IAPIItem
         {
-            if (api.Failed) return api;
-            return TryGet<string>.Succeed(GetParameterName(api.Value));
+            if (lhs.Count() != rhs.Count())
+            {
+                throw new ArgumentException("Zip inputs did not have the same number of elements");
+            }
+            Dictionary<string, T> cache = new Dictionary<string, T>();
+            foreach (var item in lhs)
+            {
+                cache.Add(item.NicknameKey, item);
+            }
+
+            foreach (var rhsItem in rhs.OrderBy(l => l.NicknameKey))
+            {
+                if (!cache.TryGetValue(rhsItem.NicknameKey, out var lhsItem))
+                {
+                    throw new ArgumentException();
+                }
+                yield return (lhsItem, rhsItem);
+                cache.Remove(rhsItem.NicknameKey);
+            }
         }
 
-        private string GetParameterName(string api)
+        private string CombineResults(
+            APIResult lhs,
+            APIResult rhs)
         {
-            var root = CSharpSyntaxTree.ParseText(api).GetRoot();
-            var idents = root.DescendantNodes().OfType<VariableDeclaratorSyntax>();
-            if (!idents.Any())
-            {
-                throw new ArgumentException("API given had no name");
-            }
-            var ident = idents.First();
-            return ident.Identifier.Text;
+            return CombineResults(lhs.Result, rhs.Result);
+        }
+
+        private string CombineResults(
+            string lhs,
+            string rhs)
+        {
+            return $"{lhs}: {rhs}";
         }
 
         private IEnumerable<string> WrapAccessors(
-            string[] memberNames,
-            string[] accessors)
+            APILine[] memberNames,
+            APILine[] accessors)
         {
             if (memberNames.Length != accessors.Length)
             {
@@ -72,19 +105,29 @@ namespace Loqui.Generation
             }
         }
 
-        public IEnumerable<string> WrapReaderAccessors(ObjectGeneration obj, string[] accessors)
-        {
-            return WrapAccessors(
-                this.ReaderMemberNames(obj),
-                accessors);
-        }
+        public IEnumerable<string> WrapAccessors(ObjectGeneration obj, Direction dir, IAPIItem[] accessors) =>
+            ZipAccessors(
+                Get(dir).IterateAPI(obj).Where((a) => a.Public).Select(a => a.API),
+                accessors.Select(api => api.Resolve(obj)))
+            .Select(api =>
+                CombineResults(
+                    api.lhs.GetParameterName(obj),
+                    api.rhs.GetParameterName(obj)));
 
-        public IEnumerable<string> WrapWriterAccessors(ObjectGeneration obj, string[] accessors)
-        {
-            return WrapAccessors(
-                this.WriterMemberNames(obj),
-                accessors);
-        }
+        public IEnumerable<string> WrapFinalAccessors(ObjectGeneration obj, Direction dir, IAPIItem[] accessors) =>
+            ZipAccessors(
+                Get(dir).IterateAPI(obj).Select(a => a.API),
+                accessors
+                    .Select(api => api.GetParameterName(obj))
+                    .And(
+                        this.Get(dir).CustomAPI
+                        .Where(a => !a.Public)
+                        .Where(a => a.API.When(obj))
+                        .Select(a => a.DefaultFallback)))
+            .Select(api =>
+                CombineResults(
+                    api.lhs.GetParameterName(obj),
+                    api.rhs));
     }
 
     public class TranslationFunnel

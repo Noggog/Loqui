@@ -23,6 +23,9 @@ namespace Loqui.Generation
         public FilePath CommonXSDLocation(ProtocolGeneration proto) => new FilePath(Path.Combine(proto.GenerationFolder.FullName, "Common.xsd"));
         public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}";
         public string ObjectType(ObjectGeneration obj) => $"{obj.Name}Type";
+        public readonly static APILine PathLine = new APILine("Path", "string path");
+        public readonly static APILine NameLine = new APILine("Name", "string name = null");
+        public readonly static APILine XElementLine = new APILine("XElement", "XElement node");
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)
@@ -105,30 +108,31 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
-                    majorAPI: new APILine[] { "XElement node" },
+                    majorAPI: new APILine[] { XElementLine },
                     customAPI: null,
-                    optionalAPI: new APILine[] { "string name = null" }),
-                readerAPI: new MethodAPI("XElement root"));
+                    optionalAPI: new APILine[] { NameLine }),
+                readerAPI: new MethodAPI(XElementLine));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        majorAPI: new APILine[] { "string path" },
+                        majorAPI: new APILine[] { PathLine },
                         customAPI: null,
-                        optionalAPI: new APILine[] { "string name = null" }),
-                    readerAPI: new MethodAPI("string path"))
+                        optionalAPI: new APILine[] { NameLine }),
+                    readerAPI: new MethodAPI(PathLine))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
                         ConvertFromPathOut,
                         ConvertFromPathIn)
                 });
+            var stream = new APILine("Stream", "Stream stream");
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
-                        majorAPI: new APILine[] { "Stream stream" },
+                        majorAPI: new APILine[] { stream },
                         customAPI: null,
-                        optionalAPI: new APILine[] { "string name = null" }),
-                    readerAPI: new MethodAPI("Stream stream"))
+                        optionalAPI: new APILine[] { NameLine }),
+                    readerAPI: new MethodAPI(stream))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -161,28 +165,28 @@ namespace Loqui.Generation
 
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("XElement topNode = new XElement(\"topnode\");");
-            internalToDo("topNode", "name");
-            fg.AppendLine($"topNode.Elements().First().Save(stream);");
+            fg.AppendLine("XElement node = new XElement(\"topnode\");");
+            internalToDo(XElementLine, NameLine);
+            fg.AppendLine($"node.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var root = XDocument.Load(stream).Root;");
-            internalToDo("root");
+            fg.AppendLine($"var node = XDocument.Load(stream).Root;");
+            internalToDo(XElementLine);
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("XElement topNode = new XElement(\"topnode\");");
-            internalToDo("topNode", "name");
-            fg.AppendLine("topNode.Elements().First().SaveIfChanged(path);");
+            fg.AppendLine("XElement node = new XElement(\"topnode\");");
+            internalToDo(XElementLine, NameLine);
+            fg.AppendLine("node.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var root = XDocument.Load(path).Root;");
-            internalToDo("root");
+            fg.AppendLine($"var node = XDocument.Load(path).Root;");
+            internalToDo(XElementLine);
         }
 
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
@@ -197,7 +201,7 @@ namespace Loqui.Generation
                 $"protected static void Fill_{ModuleNickname}_Internal"))
             {
                 args.Add($"{obj.ObjectName} item");
-                args.Add("XElement root");
+                args.Add("XElement node");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -223,7 +227,7 @@ namespace Loqui.Generation
                                 generator.GenerateCopyIn(
                                     fg: fg,
                                     typeGen: field,
-                                    nodeAccessor: "root",
+                                    nodeAccessor: "node",
                                     itemAccessor: new Accessor(field, "item."),
                                     translationMaskAccessor: "translationMask",
                                     maskAccessor: $"errorMask");
@@ -241,7 +245,7 @@ namespace Loqui.Generation
                                 $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
-                                args.Add("root: root");
+                                args.Add("node: node");
                                 args.Add("name: name");
                                 args.Add("errorMask: errorMask");
                                 if (this.TranslationMaskParameter)
@@ -384,14 +388,14 @@ namespace Loqui.Generation
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("foreach (var elem in root.Elements())");
+                fg.AppendLine("foreach (var elem in node.Elements())");
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
                         $"Fill_{ModuleNickname}_Internal"))
                     {
                         args.Add("item: ret");
-                        args.Add("root: elem");
+                        args.Add("node: elem");
                         args.Add("name: elem.Name.LocalName");
                         args.Add("errorMask: errorMask");
                         if (this.TranslationMaskParameter)

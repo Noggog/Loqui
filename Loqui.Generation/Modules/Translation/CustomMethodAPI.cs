@@ -10,7 +10,7 @@ namespace Loqui.Generation
     {
         public bool Public { get; private set; }
         public APILine API { get; private set; }
-        public string DefaultFallback { get; private set; }
+        public APIResult DefaultFallback { get; private set; }
 
         public CustomMethodAPI(
             bool isPublic,
@@ -19,7 +19,7 @@ namespace Loqui.Generation
         {
             this.Public = isPublic;
             this.API = api;
-            this.DefaultFallback = defaultFallback;
+            this.DefaultFallback = new APIResult(api, defaultFallback);
         }
 
         public CustomMethodAPI()
@@ -50,7 +50,7 @@ namespace Loqui.Generation
             {
                 Public = false,
                 API = api,
-                DefaultFallback = defaultFallback
+                DefaultFallback = new APIResult(api, defaultFallback)
             };
         }
     }

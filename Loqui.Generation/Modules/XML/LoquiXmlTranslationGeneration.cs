@@ -93,7 +93,7 @@ namespace Loqui.Generation
                                 using (var subArgs = new FunctionWrapper(gen,
                                     $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
                                 {
-                                    subArgs.Add($"root: {nodeAccessor}");
+                                    subArgs.Add($"node: {nodeAccessor}");
                                     subArgs.Add($"errorMask: {maskAccessor}");
                                     subArgs.Add($"translationMask: {translationMaskAccessor}");
                                 }
@@ -148,7 +148,7 @@ namespace Loqui.Generation
                     TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                     ExtraArgs = new string[]
                     {
-                        $"root: {nodeAccessor}"
+                        $"node: {nodeAccessor}"
                     }
                 });
         }

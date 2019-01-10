@@ -63,7 +63,7 @@ namespace Loqui.Generation
                     IndexAccessor = typeGen.IndexEnumInt,
                     ExtraArgs = new string[]
                     {
-                        $"root: {nodeAccessor}"
+                        $"node: {nodeAccessor}"
                     }
                 });
         }

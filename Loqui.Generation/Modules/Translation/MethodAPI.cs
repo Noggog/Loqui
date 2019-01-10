@@ -31,7 +31,7 @@ namespace Loqui.Generation
             this.OptionalAPI = new APILine[] { };
         }
         
-        public IEnumerable<(string API, bool Public)> IterateAPI(ObjectGeneration obj, params string[] customLines)
+        public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, params APILine[] customLines)
         {
             foreach (var item in this.MajorAPI)
             {
@@ -49,8 +49,8 @@ namespace Loqui.Generation
             }
             foreach (var item in customLines)
             {
-                if (string.IsNullOrWhiteSpace(item)) continue;
-                yield return (item, true);
+                if (!item.When(obj)) continue;
+                yield return (item.Resolver(obj), true);
             }
             foreach (var item in this.OptionalAPI)
             {

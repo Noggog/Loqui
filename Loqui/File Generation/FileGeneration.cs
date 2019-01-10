@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("(MutagenWriter subWriter, MapMarker.Type subItem, ErrorMaskBuilder listErrorMask, bool listTranslMask) =>"))
+            if (str.Contains("topnode"))
             {
                 int wer = 23;
                 wer++;
