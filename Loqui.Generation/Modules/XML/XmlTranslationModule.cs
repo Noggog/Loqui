@@ -165,27 +165,27 @@ namespace Loqui.Generation
 
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("XElement node = new XElement(\"topnode\");");
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
             internalToDo(XElementLine, NameLine);
-            fg.AppendLine($"node.Elements().First().Save(stream);");
+            fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var node = XDocument.Load(stream).Root;");
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
             internalToDo(XElementLine);
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine("XElement node = new XElement(\"topnode\");");
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
             internalToDo(XElementLine, NameLine);
-            fg.AppendLine("node.Elements().First().SaveIfChanged(path);");
+            fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var node = XDocument.Load(path).Root;");
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
             internalToDo(XElementLine);
         }
 
@@ -201,7 +201,7 @@ namespace Loqui.Generation
                 $"protected static void Fill_{ModuleNickname}_Internal"))
             {
                 args.Add($"{obj.ObjectName} item");
-                args.Add("XElement node");
+                args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -228,7 +228,7 @@ namespace Loqui.Generation
                                     fg: fg,
                                     objGen: obj,
                                     typeGen: field,
-                                    nodeAccessor: "node",
+                                    nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
                                     itemAccessor: new Accessor(field, "item."),
                                     translationMaskAccessor: "translationMask",
                                     maskAccessor: $"errorMask");
@@ -246,7 +246,7 @@ namespace Loqui.Generation
                                 $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
-                                args.Add("node: node");
+                                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                                 args.Add("name: name");
                                 args.Add("errorMask: errorMask");
                                 if (this.TranslationMaskParameter)
@@ -389,14 +389,14 @@ namespace Loqui.Generation
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine("foreach (var elem in node.Elements())");
+                fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
                         $"Fill_{ModuleNickname}_Internal"))
                     {
                         args.Add("item: ret");
-                        args.Add("node: elem");
+                        args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                         args.Add("name: elem.Name.LocalName");
                         args.Add("errorMask: errorMask");
                         if (this.TranslationMaskParameter)
@@ -419,7 +419,7 @@ namespace Loqui.Generation
         {
 
             fg.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
-            fg.AppendLine("node.Add(elem);");
+            fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Add(elem);");
             fg.AppendLine("if (name != null)");
             using (new BraceWrapper(fg))
             {

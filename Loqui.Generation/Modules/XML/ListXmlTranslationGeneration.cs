@@ -43,7 +43,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Write"))
             {
-                args.Add($"node: {writerAccessor}");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)
@@ -156,7 +156,7 @@ namespace Loqui.Generation
                         fg,
                         $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
                     {
-                        args.Add("node: node");
+                        args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");
                         args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
                         args.Add("errorMask: errorMask");

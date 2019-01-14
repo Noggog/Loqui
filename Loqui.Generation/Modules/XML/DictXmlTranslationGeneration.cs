@@ -101,7 +101,7 @@ namespace Loqui.Generation
                                 fg,
                                 $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
                             {
-                                args.Add($"node: {writerAccessor}");
+                                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                                 args.Add($"name: {nameAccessor}");
                                 args.Add($"items: {itemAccessor.DirectAccess}.Items");
                                 args.Add($"translationMask: {translationMaskAccessor}");
@@ -205,7 +205,7 @@ namespace Loqui.Generation
 
             using (var args = new ArgsWrapper(fg, funcStr))
             {
-                args.Add($"node: node");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                 if (!ret)
                 {
                     args.Add($"item: {itemAccessor.DirectAccess}");

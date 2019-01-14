@@ -41,7 +41,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 callString))
             {
-                args.Add($"node: {writerAccessor}");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 args.Add($"name: {nameAccessor}");
                 if (typeGen.HasIndex)
@@ -94,7 +94,7 @@ namespace Loqui.Generation
                                 using (var subArgs = new FunctionWrapper(gen,
                                     $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
                                 {
-                                    subArgs.Add($"node: {nodeAccessor}");
+                                    subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
                                     subArgs.Add($"errorMask: {maskAccessor}");
                                     subArgs.Add($"translationMask: {translationMaskAccessor}");
                                 }
@@ -149,7 +149,7 @@ namespace Loqui.Generation
                     TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                     ExtraArgs = new string[]
                     {
-                        $"node: {nodeAccessor}"
+                        $"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}"
                     }
                 });
         }

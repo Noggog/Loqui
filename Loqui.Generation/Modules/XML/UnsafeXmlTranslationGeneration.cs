@@ -29,7 +29,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"WildcardXmlTranslation.Instance.Write"))
             {
-                args.Add($"node: {writerAccessor}");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 if (typeGen.HasIndex)

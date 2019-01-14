@@ -52,7 +52,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{this.TypeName}XmlTranslation.Instance.Write"))
             {
-                args.Add($"node: {writerAccessor}");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 args.Add($"item: {ItemWriteAccess(typeGen, itemAccessor)}");
                 if (typeGen.HasIndex)
@@ -105,7 +105,7 @@ namespace Loqui.Generation
                     IndexAccessor = typeGen.IndexEnumInt,
                     ExtraArgs = new string[]
                     {
-                        $"node: {nodeAccessor}"
+                        $"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}"
                     }
                 });
         }
