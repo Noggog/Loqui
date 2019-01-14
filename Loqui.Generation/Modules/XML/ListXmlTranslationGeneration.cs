@@ -85,6 +85,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
@@ -93,6 +94,7 @@ namespace Loqui.Generation
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
+                objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
@@ -104,6 +106,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
@@ -113,6 +116,7 @@ namespace Loqui.Generation
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
+                objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
@@ -124,6 +128,7 @@ namespace Loqui.Generation
 
         public void GenerateCopyInRet_Internal(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,

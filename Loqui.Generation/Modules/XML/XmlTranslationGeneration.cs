@@ -23,6 +23,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateCopyIn(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
@@ -33,6 +34,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateCopyInRet(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,

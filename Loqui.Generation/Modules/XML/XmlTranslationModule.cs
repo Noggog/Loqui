@@ -226,6 +226,7 @@ namespace Loqui.Generation
                             {
                                 generator.GenerateCopyIn(
                                     fg: fg,
+                                    objGen: obj,
                                     typeGen: field,
                                     nodeAccessor: "node",
                                     itemAccessor: new Accessor(field, "item."),

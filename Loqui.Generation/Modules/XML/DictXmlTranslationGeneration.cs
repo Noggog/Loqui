@@ -134,6 +134,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyIn(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
@@ -142,6 +143,7 @@ namespace Loqui.Generation
         {
             GenerateCopyIn_Internal(
                 fg: fg,
+                objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
@@ -153,6 +155,7 @@ namespace Loqui.Generation
 
         private void GenerateCopyIn_Internal(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor itemAccessor,
@@ -227,6 +230,7 @@ namespace Loqui.Generation
                             var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
                             xmlGen.GenerateCopyInRet(
                                 fg: gen,
+                                objGen: objGen,
                                 typeGen: keyTypeGen,
                                 nodeAccessor: "r",
                                 retAccessor: new Accessor("return "),
@@ -247,6 +251,7 @@ namespace Loqui.Generation
                             {
                                 xmlGen.GenerateCopyInRet(
                                     fg: gen,
+                                    objGen: objGen,
                                     typeGen: dictType.ValueTypeGen,
                                     nodeAccessor: "r",
                                     retAccessor: new Accessor("return "),
@@ -267,6 +272,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             string nodeAccessor,
             Accessor retAccessor,
@@ -276,6 +282,7 @@ namespace Loqui.Generation
         {
             this.GenerateCopyIn_Internal(
                 fg: fg,
+                objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
                 ret: true,
