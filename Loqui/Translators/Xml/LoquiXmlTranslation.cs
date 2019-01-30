@@ -140,8 +140,8 @@ namespace Loqui.Xml
         }
 
         public void ParseInto(
-            XElement node, 
-            int fieldIndex, 
+            XElement node,
+            int fieldIndex,
             IHasItem<T> item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
@@ -172,8 +172,8 @@ namespace Loqui.Xml
         }
 
         public bool Parse(
-            XElement node, 
-            out T item, 
+            XElement node,
+            out T item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
@@ -217,16 +217,16 @@ namespace Loqui.Xml
         }
 
         public void Write(
-            XElement node, 
+            XElement node,
             string name,
             T item,
-            ErrorMaskBuilder errorMask, 
+            ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
             WRITE.Value(
-                node, 
-                item, 
-                name, 
+                node,
+                item,
+                name,
                 errorMask,
                 translationMask);
         }
@@ -299,12 +299,19 @@ namespace Loqui.Xml
         public static readonly LoquiXmlTranslation Instance = new LoquiXmlTranslation();
 
         public delegate void WRITE_FUNC<T>(
-            XElement node, 
+            XElement node,
             T item,
-            string name, 
+            string name,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask);
         private static Dictionary<Type, object> writeDict = new Dictionary<Type, object>();
+
+        public delegate T CREATE_FUNC<T>(
+            XElement node,
+            ErrorMaskBuilder errorMaskBuilder,
+            TranslationCrystal translationMask);
+        private static Dictionary<Type, object> createDict = new Dictionary<Type, object>();
+        private static Dictionary<(Type Base, Type Actual), object> subCreateDict = new Dictionary<(Type Base, Type Actual), object>();
 
         public static WRITE_FUNC<T> GetWriteFunc<T>(Type t)
             where T : ILoquiObjectGetter
@@ -345,7 +352,7 @@ namespace Loqui.Xml
                 throw new NotImplementedException();
             }
         }
-        
+
         public void Write<T>(
             XElement node,
             string name,
@@ -425,6 +432,84 @@ namespace Loqui.Xml
                 fieldIndex: fieldIndex,
                 errorMask: errorMask,
                 translationMask: translationMask);
+        }
+
+        private static CREATE_FUNC<T> GetCreateFunc<T>(Type t)
+            where T : ILoquiObjectGetter
+        {
+            if (createDict.TryGetValue(t, out var createFunc))
+            {
+                return (CREATE_FUNC<T>)createFunc;
+            }
+            var method = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where((methodInfo) => methodInfo.Name.Equals("Create_Xml"))
+                .Where((methodInfo) => methodInfo.ReturnType.Equals(t))
+                .Where(methodInfo =>
+                {
+                    var param = methodInfo.GetParameters();
+                    if (param.Length != 3) return false;
+                    if (!param[0].ParameterType.Equals(typeof(XElement))) return false;
+                    if (!param[1].ParameterType.Equals(typeof(ErrorMaskBuilder))) return false;
+                    if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
+                    return true;
+                })
+                .First();
+            if (!method.IsGenericMethod)
+            {
+                var f = DelegateBuilder.BuildDelegate<Func<XElement, ErrorMaskBuilder, TranslationCrystal, T>>(method);
+                CREATE_FUNC<T> ret = (XElement node, ErrorMaskBuilder errorMask, TranslationCrystal translationMask) =>
+                {
+                    return f(node, errorMask, translationMask);
+                };
+                writeDict[t] = ret;
+                return ret;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool TryCreate<T>(
+            XElement node,
+            out T item,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
+            where T : ILoquiObjectGetter
+        {
+            try
+            {
+                if (!LoquiRegistration.TryGetRegisterByFullName(node.Name.LocalName, out var registration))
+                {
+                    errorMask.ReportWarning($"Unknown {typeof(T).Name} subclass: {node.Name.LocalName}");
+                }
+                if (subCreateDict.TryGetValue((typeof(T), registration.ClassType), out var createFuncGeneric))
+                {
+                    CREATE_FUNC<T> createFunc = createFuncGeneric as CREATE_FUNC<T>;
+                    if (createFunc == null)
+                    {
+                        item = default;
+                        return false;
+                    }
+
+                    item = createFunc(node, errorMask, translationMask);
+                    return true;
+                }
+                else
+                {
+                    var createFunc = GetCreateFunc<T>(registration.ClassType);
+                    item = createFunc(node, errorMask, translationMask);
+                    subCreateDict[(typeof(T), registration.ClassType)] = createFunc;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            when (errorMask != null)
+            {
+                errorMask.ReportException(ex);
+                item = default;
+                return false;
+            }
         }
     }
 }

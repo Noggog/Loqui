@@ -26,6 +26,7 @@ namespace Loqui.Generation
         public readonly static APILine PathLine = new APILine("Path", "string path");
         public readonly static APILine NameLine = new APILine("Name", "string name = null");
         public readonly static APILine XElementLine = new APILine("XElement", "XElement node");
+        public override bool GenerateAbstractCreates => true;
 
         public XmlTranslationModule(LoquiGenerator gen)
             : base(gen)
@@ -385,32 +386,54 @@ namespace Loqui.Generation
 
         protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
-            fg.AppendLine("try");
-            using (new BraceWrapper(fg))
+            if (obj.Abstract)
             {
-                fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                fg.AppendLine($"{obj.Name}{obj.GetGenericTypes(MaskType.Normal)} ret;");
+            }
+            else
+            {
+                fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
+            }
+            if (obj.Abstract)
+            {
+                fg.AppendLine("if (!LoquiXmlTranslation.Instance.TryCreate(node, out ret, errorMask, translationMask))");
                 using (new BraceWrapper(fg))
                 {
-                    using (var args = new ArgsWrapper(fg,
-                        $"Fill_{ModuleNickname}_Internal"))
+                    fg.AppendLine($"throw new ArgumentException($\"Unknown {obj.Name} subclass: {{node.Name.LocalName}}\");");
+                }
+            }
+            else
+            {
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                    using (new BraceWrapper(fg))
                     {
-                        args.Add("item: ret");
-                        args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
-                        args.Add("name: elem.Name.LocalName");
-                        args.Add("errorMask: errorMask");
-                        if (this.TranslationMaskParameter)
+                        using (var args = new ArgsWrapper(fg,
+                            $"Fill_{ModuleNickname}_Internal"))
                         {
-                            args.Add("translationMask: translationMask");
+                            args.Add("item: ret");
+                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                            args.Add("name: elem.Name.LocalName");
+                            args.Add("errorMask: errorMask");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add("translationMask: translationMask");
+                            }
                         }
                     }
                 }
-            }
-            fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine("when (errorMask != null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("errorMask.ReportException(ex);");
+                fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (errorMask != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("errorMask.ReportException(ex);");
+                    if (obj.Abstract)
+                    {
+                        fg.AppendLine("return null;");
+                    }
+                }
             }
             fg.AppendLine("return ret;");
         }

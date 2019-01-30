@@ -13,6 +13,7 @@ namespace Loqui.Generation
         public abstract string ModuleNickname { get; }
         public override string RegionString => $"{ModuleNickname} Translation";
         public abstract string Namespace { get; }
+        public abstract bool GenerateAbstractCreates { get; }
         public IEnumerable<TranslationModuleAPI> AllAPI => MainAPI.And(MinorAPIs);
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
@@ -72,7 +73,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Main API need to be set.");
             }
-            if (!obj.Abstract)
+            if (!obj.Abstract || this.GenerateAbstractCreates)
             {
                 await GenerateCreate(obj, fg);
             }
