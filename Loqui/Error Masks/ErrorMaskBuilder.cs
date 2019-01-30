@@ -46,7 +46,7 @@ namespace Loqui.Internal
             return this;
         }
 
-        private int[] GetCurrentStack()
+        internal int[] GetCurrentStack()
         {
             if (_CurrentIndex.HasValue)
             {
@@ -93,17 +93,6 @@ namespace Loqui.Internal
                 ex));
         }
 
-        public void ReportWarning(string str)
-        {
-            if (this.Warnings == null)
-            {
-                this.Warnings = new List<(int[], string)>();
-            }
-            this.Warnings.Add((
-                GetCurrentStack(),
-                str));
-        }
-
         public void Dispose()
         {
             PopIndex();
@@ -138,6 +127,18 @@ namespace Loqui.Internal
                 throw ex;
             }
             errorMask.ReportException(ex);
+        }
+
+        public static void ReportWarning(this ErrorMaskBuilder errorMask, string str)
+        {
+            if (errorMask == null) return;
+            if (errorMask.Warnings == null)
+            {
+                errorMask.Warnings = new List<(int[], string)>();
+            }
+            errorMask.Warnings.Add((
+                errorMask.GetCurrentStack(),
+                str));
         }
 
         public static void WrapAction(this ErrorMaskBuilder errorMask, int fieldIndex, Action a)
