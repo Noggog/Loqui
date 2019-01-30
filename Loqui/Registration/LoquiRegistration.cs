@@ -25,7 +25,7 @@ namespace Loqui
         {
             if (!LoquiRegistrationSettings.AutomaticRegistration) return;
             foreach (var interf in TypeExt.GetInheritingFromInterface<IProtocolRegistration>(
-                loadAssemblies: false))
+                loadAssemblies: true))
             {
                 IProtocolRegistration regis = Activator.CreateInstance(interf) as IProtocolRegistration;
                 regis.Register();
