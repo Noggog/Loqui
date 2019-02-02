@@ -196,6 +196,78 @@ namespace Loqui.Generation
             GenerateCreate_InternalFunctions(obj, fg);
         }
 
+        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        {
+            await base.GenerateInCommonExt(obj, fg);
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                obj.GenericTypeMaskWheres(MaskType.Normal)))
+            {
+                args.Add($"{obj.Getter_InterfaceStr} item");
+                args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                args.Add($"ErrorMaskBuilder errorMask");
+                args.Add($"{nameof(TranslationCrystal)} translationMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                if (obj.HasLoquiBaseObject)
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{obj.BaseClass.ExtCommonName}.WriteToNode_{ModuleNickname}"))
+                    {
+                        args.Add($"item: item");
+                        args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                        args.Add($"errorMask: errorMask");
+                        args.Add($"translationMask: translationMask");
+                    }
+                }
+                foreach (var field in obj.IterateFieldIndices())
+                {
+                    if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
+                    {
+                        throw new ArgumentException("Unsupported type generator: " + field.Field);
+                    }
+
+                    if (!generator.ShouldGenerateWrite(field.Field)) continue;
+
+                    List<string> conditions = new List<string>();
+                    if (field.Field.HasBeenSet)
+                    {
+                        conditions.Add($"{field.Field.HasBeenSetAccessor(new Accessor(field.Field, "item."))}");
+                    }
+                    if (this.TranslationMaskParameter)
+                    {
+                        conditions.Add(generator.GetTranslationIfAccessor(field.Field, "translationMask"));
+                    }
+                    if (conditions.Count > 0)
+                    {
+                        using (var args = new IfWrapper(fg, ANDs: true))
+                        {
+                            foreach (var item in conditions)
+                            {
+                                args.Add(item);
+                            }
+                        }
+                    }
+                    using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                    {
+                        var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
+                        generator.GenerateWrite(
+                            fg: fg,
+                            objGen: obj,
+                            typeGen: field.Field,
+                            writerAccessor: $"{XmlTranslationModule.XElementLine.GetParameterName(obj)}",
+                            itemAccessor: new Accessor(field.Field, "item."),
+                            maskAccessor: $"errorMask",
+                            translationMaskAccessor: "translationMask",
+                            nameAccessor: $"nameof(item.{field.Field.Name})");
+                    }
+                }
+            }
+            fg.AppendLine();
+        }
+
         private void GenerateCreate_InternalFunctions(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
@@ -440,7 +512,6 @@ namespace Loqui.Generation
 
         protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-
             fg.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Add(elem);");
             fg.AppendLine("if (name != null)");
@@ -448,48 +519,13 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
             }
-
-            foreach (var field in obj.IterateFieldIndices())
+            using (var args = new ArgsWrapper(fg,
+                $"WriteToNode_{ModuleNickname}"))
             {
-                if (!this.TryGetTypeGeneration(field.Field.GetType(), out var generator))
-                {
-                    throw new ArgumentException("Unsupported type generator: " + field.Field);
-                }
-
-                if (!generator.ShouldGenerateWrite(field.Field)) continue;
-
-                List<string> conditions = new List<string>();
-                if (field.Field.HasBeenSet)
-                {
-                    conditions.Add($"{field.Field.HasBeenSetAccessor(new Accessor(field.Field, "item."))}");
-                }
-                if (this.TranslationMaskParameter)
-                {
-                    conditions.Add(generator.GetTranslationIfAccessor(field.Field, "translationMask"));
-                }
-                if (conditions.Count > 0)
-                {
-                    using (var args = new IfWrapper(fg, ANDs: true))
-                    {
-                        foreach (var item in conditions)
-                        {
-                            args.Add(item);
-                        }
-                    }
-                }
-                using (new BraceWrapper(fg, doIt: conditions.Count > 0))
-                {
-                    var maskType = this.Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
-                    generator.GenerateWrite(
-                        fg: fg,
-                        objGen: obj,
-                        typeGen: field.Field,
-                        writerAccessor: "elem",
-                        itemAccessor: new Accessor(field.Field, "item."),
-                        maskAccessor: $"errorMask",
-                        translationMaskAccessor: "translationMask",
-                        nameAccessor: $"nameof(item.{field.Field.Name})");
-                }
+                args.Add($"item: item");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                args.Add($"errorMask: errorMask");
+                args.Add($"translationMask: translationMask");
             }
         }
     }

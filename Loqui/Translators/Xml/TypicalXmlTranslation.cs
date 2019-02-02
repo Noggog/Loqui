@@ -125,6 +125,7 @@ namespace Loqui.Xml
             T item)
         {
             var elem = new XElement(name);
+            node.Add(elem);
             WriteValue(elem, name, item);
         }
 

@@ -10,12 +10,12 @@ using System.Xml.Linq;
 namespace Loqui.Xml
 {
     public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
-        where E : struct, IComparable, IConvertible
+        where E : struct, Enum
     {
         public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();
         public readonly static bool IsFlagsEnum = EnumExt<E>.IsFlagsEnum();
 
-        protected override bool ParseNonNullString(string str, out E value, ErrorMaskBuilder errorMask)
+        private bool TryParseToEnum(string str, out E value)
         {
             if (Enum.TryParse(str, out E enumType))
             {
@@ -28,9 +28,16 @@ namespace Loqui.Xml
                 value = enumType;
                 return true;
             }
+            value = default;
+            return false;
+        }
+
+        protected override bool ParseNonNullString(string str, out E value, ErrorMaskBuilder errorMask)
+        {
+            if (TryParseToEnum(str, out value)) return true;
             errorMask.ReportExceptionOrThrow(
                 new ArgumentException($"Could not convert to {NullableName}"));
-            value = default(E);
+            value = default;
             return false;
         }
 
@@ -40,21 +47,26 @@ namespace Loqui.Xml
             {
                 return base.ParseValue(root, out value, errorMask);
             }
-            if (root.TryGetAttribute<bool>("null", out var isNull))
+            if (root.TryGetAttribute<bool>("null", out var isNull)
+                && isNull)
             {
-                if (isNull)
+                value = null;
+                return true;
+            }
+            value = default(E);
+            foreach (var item in root.Elements())
+            {
+                if (TryParseToEnum(item.Name.LocalName, out E subEnum))
                 {
-                    value = null;
-                    return true;
+                    value = value.Value.Or(subEnum);
+                }
+                else
+                {
+                    errorMask.ReportExceptionOrThrow(
+                        new ArgumentException($"Could not convert to {NullableName}"));
                 }
             }
-            foreach (var child in root.Elements())
-            {
-            }
-            errorMask.ReportExceptionOrThrow(
-                new NotImplementedException());
-            value = null;
-            return false;
+            return true;
         }
 
         protected override void WriteValue(XElement node, E? item)

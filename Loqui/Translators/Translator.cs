@@ -48,11 +48,10 @@ namespace Loqui.Translators
                     continue;
                 }
                 Type transItemType = kv.Key.GetGenericArguments()[0];
-                Type maskItemType = kv.Key.GetGenericArguments()[1];
                 try
                 {
                     SetTranslator(
-                        GetCaster(kv.Value, transItemType, maskItemType),
+                        GetCaster(kv.Value, transItemType),
                         transItemType);
                 }
                 catch (Exception ex)
@@ -90,12 +89,11 @@ namespace Loqui.Translators
                 var regis = LoquiRegistration.GetRegister(t);
                 var loquiTypes = new Type[]
                 {
-                    regis.ClassType,
-                    regis.ErrorMaskType
+                    regis.ClassType
                 };
 
                 var xmlConverterGenType = loquiTranslation.MakeGenericType(loquiTypes);
-                var xmlCaster = GetCaster(xmlConverterGenType, regis.ClassType, LoquiRegistration.GetRegister(t).ErrorMaskType);
+                var xmlCaster = GetCaster(xmlConverterGenType, regis.ClassType);
                 item = new NotifyingItem<GetResponse<ObjTransl>>(
                     GetResponse<ObjTransl>.Succeed(xmlCaster));
                 typeDict[t] = item;
@@ -107,7 +105,7 @@ namespace Loqui.Translators
                 || (Nullable.GetUnderlyingType(t)?.IsEnum ?? false))
             {
                 var implType = enumTranslation.MakeGenericType(Nullable.GetUnderlyingType(t) ?? t);
-                var caster = GetCaster(implType, t, typeof(Exception));
+                var caster = GetCaster(implType, t);
                 not = SetTranslator(caster, t);
                 return true;
             }
@@ -120,7 +118,7 @@ namespace Loqui.Translators
                 if (t.InheritsFrom(def))
                 {
                     var implType = genType.MakeGenericType(t);
-                    var caster = GetCaster(implType, t, typeof(Exception));
+                    var caster = GetCaster(implType, t);
                     not = SetTranslator(caster, t);
                     return true;
                 }
@@ -129,10 +127,10 @@ namespace Loqui.Translators
             return false;
         }
 
-        public ObjTransl GetCaster(Type xmlType, Type targetType, Type maskType)
+        public ObjTransl GetCaster(Type xmlType, Type targetType)
         {
             object xmlTransl = Activator.CreateInstance(xmlType);
-            var xmlConverterGenType = genericCaster.MakeGenericType(targetType, maskType);
+            var xmlConverterGenType = genericCaster.MakeGenericType(targetType);
             return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as ObjTransl;
         }
 

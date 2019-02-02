@@ -102,7 +102,15 @@ namespace Loqui.Xml
                 .Where((methodInfo) => methodInfo.IsStatic
                     && methodInfo.IsPublic)
                 .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(T)))
-                .Where((methodInfo) => methodInfo.GetParameters().Count() == 3)
+                .Where(methodInfo =>
+                {
+                    var param = methodInfo.GetParameters();
+                    if (param.Length != 3) return false;
+                    if (!param[0].ParameterType.Equals(typeof(XElement))) return false;
+                    if (!param[1].ParameterType.Equals(typeof(ErrorMaskBuilder))) return false;
+                    if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
+                    return true;
+                })
                 .First());
         }
 
