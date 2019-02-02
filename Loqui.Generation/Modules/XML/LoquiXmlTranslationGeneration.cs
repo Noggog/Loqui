@@ -207,7 +207,7 @@ namespace Loqui.Generation
             }
             var elem = new XElement(
                 XmlTranslationModule.XSDNamespace + "element",
-                new XAttribute("name", loqui.Name));
+                new XAttribute("name", nameOverride ?? loqui.Name));
             if (diffNamespace)
             {
                 elem.Add(

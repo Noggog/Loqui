@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>aa1d8ce60b7f314c72d7d256e332cd0d2033e5ea</Sha>
+         <Sha>53d5abc81d3f30af50184b6b6bc24f0eac57b896</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-15-2018 15:07:28</CommitDate>
-         <Description>Merge remote-tracking branch 'origin/master'</Description>
+         <CommitDate>01-15-2019 22:25:11</CommitDate>
+         <Description>ObservableExt.WithPrevious</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>2dd77c48003f4d53e7da680b2346280b2f52483e</Sha>
+         <Sha>d5c2631f1106016c638f568e4503e94ab95ff2ff</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>11-25-2018 14:51:01</CommitDate>
-         <Description>IList and IReadOnlyDictionary implementation</Description>
+         <CommitDate>01-17-2019 20:23:22</CommitDate>
+         <Description>CollectionCount convenience selector</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
