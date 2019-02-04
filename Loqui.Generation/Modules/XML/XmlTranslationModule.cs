@@ -193,7 +193,75 @@ namespace Loqui.Generation
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             await base.GenerateInClass(obj, fg);
-            GenerateCreate_InternalFunctions(obj, fg);
+
+            if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
+            {
+                using (var args = new FunctionWrapper(fg,
+                    $"protected static void FillPrivateElement_{ModuleNickname}"))
+                {
+                    args.Add($"{obj.ObjectName} item");
+                    args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                    args.Add("string name");
+                    args.Add($"ErrorMaskBuilder errorMask");
+                    args.Add($"{nameof(TranslationCrystal)} translationMask");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("switch (name)");
+                    using (new BraceWrapper(fg))
+                    {
+                        foreach (var field in obj.IterateFields())
+                        {
+                            if (field.Derivative) continue;
+                            if (!field.ReadOnly) continue;
+                            if (!this.TryGetTypeGeneration(field.GetType(), out var generator))
+                            {
+                                throw new ArgumentException("Unsupported type generator: " + field);
+                            }
+
+                            fg.AppendLine($"case \"{field.Name}\":");
+                            using (new DepthWrapper(fg))
+                            {
+                                if (generator.ShouldGenerateCopyIn(field))
+                                {
+                                    generator.GenerateCopyIn(
+                                        fg: fg,
+                                        objGen: obj,
+                                        typeGen: field,
+                                        nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
+                                        itemAccessor: new Accessor(field, "item."),
+                                        translationMaskAccessor: "translationMask",
+                                        maskAccessor: $"errorMask");
+                                }
+                                fg.AppendLine("break;");
+                            }
+                        }
+
+                        fg.AppendLine("default:");
+                        using (new DepthWrapper(fg))
+                        {
+                            if (obj.HasLoquiBaseObject)
+                            {
+                                using (var args = new ArgsWrapper(fg,
+                                    $"{obj.BaseClassName}.FillPrivateElement_" +
+                                    $"{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
+                                {
+                                    args.Add("item: item");
+                                    args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                                    args.Add("name: name");
+                                    args.Add("errorMask: errorMask");
+                                    if (this.TranslationMaskParameter)
+                                    {
+                                        args.Add($"translationMask: translationMask");
+                                    }
+                                }
+                            }
+                            fg.AppendLine("break;");
+                        }
+                    }
+                }
+                fg.AppendLine();
+            }
         }
 
         public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
@@ -204,7 +272,7 @@ namespace Loqui.Generation
                 $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
-                args.Add($"{obj.Getter_InterfaceStr} item");
+                args.Add($"this {obj.Getter_InterfaceStr} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -266,14 +334,52 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-        }
 
-        private void GenerateCreate_InternalFunctions(ObjectGeneration obj, FileGeneration fg)
-        {
             using (var args = new FunctionWrapper(fg,
-                $"protected static void Fill_{ModuleNickname}_Internal"))
+                $"public static void FillPublic_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
-                args.Add($"{obj.ObjectName} item");
+                args.Add($"this {obj.ObjectName} item");
+                args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                args.Add($"ErrorMaskBuilder errorMask");
+                args.Add($"{nameof(TranslationCrystal)} translationMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
+                        {
+                            args.Add("item: item");
+                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                            args.Add("name: elem.Name.LocalName");
+                            args.Add("errorMask: errorMask");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add("translationMask: translationMask");
+                            }
+                        }
+                    }
+                }
+                fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (errorMask != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("errorMask.ReportException(ex);");
+                }
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+            $"public static void FillPublicElement_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+            obj.GenericTypeMaskWheres(MaskType.Normal)))
+            {
+                args.Add($"this {obj.ObjectName} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");
@@ -287,6 +393,7 @@ namespace Loqui.Generation
                     foreach (var field in obj.IterateFields())
                     {
                         if (field.Derivative) continue;
+                        if (field.ReadOnly) continue;
                         if (!this.TryGetTypeGeneration(field.GetType(), out var generator))
                         {
                             throw new ArgumentException("Unsupported type generator: " + field);
@@ -316,7 +423,7 @@ namespace Loqui.Generation
                         if (obj.HasLoquiBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClassName}.Fill_{ModuleNickname}_Internal{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
+                                $"{obj.BaseClass.ExtCommonName}.FillPublicElement_{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -482,8 +589,23 @@ namespace Loqui.Generation
                     fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
                     using (new BraceWrapper(fg))
                     {
+                        if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
+                        {
+                            using (var args = new ArgsWrapper(fg,
+                                $"FillPrivateElement_{ModuleNickname}"))
+                            {
+                                args.Add("item: ret");
+                                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                                args.Add("name: elem.Name.LocalName");
+                                args.Add("errorMask: errorMask");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add("translationMask: translationMask");
+                                }
+                            }
+                        }
                         using (var args = new ArgsWrapper(fg,
-                            $"Fill_{ModuleNickname}_Internal"))
+                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
                         {
                             args.Add("item: ret");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");

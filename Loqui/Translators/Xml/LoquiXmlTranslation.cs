@@ -94,7 +94,7 @@ namespace Loqui.Xml
             copyIn(fields, item);
         }
 
-        public static CREATE_FUNC GetCreateFunc()
+        private static CREATE_FUNC GetCreateFunc()
         {
             return DelegateBuilder.BuildDelegate<CREATE_FUNC>(
                 typeof(T).GetMethods()
@@ -114,7 +114,7 @@ namespace Loqui.Xml
                 .First());
         }
 
-        public static WRITE_FUNC GetWriteFunc()
+        private static WRITE_FUNC GetWriteFunc()
         {
             var method = typeof(T).GetMethods(BindingFlags.Instance | BindingFlags.Public)
                 .Where((methodInfo) => methodInfo.Name.Equals("Write_Xml"))
@@ -490,6 +490,8 @@ namespace Loqui.Xml
                 if (!LoquiRegistration.TryGetRegisterByFullName(node.Name.LocalName, out var registration))
                 {
                     errorMask.ReportWarning($"Unknown {typeof(T).Name} subclass: {node.Name.LocalName}");
+                    item = default;
+                    return false;
                 }
                 if (subCreateDict.TryGetValue((typeof(T), registration.ClassType), out var createFuncGeneric))
                 {
