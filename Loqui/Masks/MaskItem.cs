@@ -81,5 +81,23 @@ namespace Loqui
             if (item == null) return null;
             return new MaskItem<Exception, R>(item.Overall, item.Specific);
         }
+
+        public static MaskItem<bool, M> Factory<M>(M mask, bool includeOnlyFailures)
+            where M : IMask<bool>
+        {
+            var allEqual = mask.AllEqual(b => b);
+            if (!allEqual || !includeOnlyFailures)
+            {
+                return new MaskItem<bool, M>()
+                {
+                    Overall = allEqual,
+                    Specific = mask
+                };
+            }
+            else
+            {
+                return default;
+            }
+        }
     }
 }

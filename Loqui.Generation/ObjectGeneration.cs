@@ -1692,6 +1692,7 @@ namespace Loqui.Generation
                 args.Add($"{this.Getter_InterfaceStr} item");
                 args.Add($"{this.Getter_InterfaceStr} rhs");
                 args.Add($"{this.GetMaskString("bool")} ret");
+                args.Add($"bool includeOnlyFailures = false");
             }
             using (new BraceWrapper(fg))
             {

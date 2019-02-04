@@ -160,14 +160,14 @@ namespace Loqui.Generation
             {
                 var maskGen = this.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(SubTypeGeneration.GetType());
                 var maskStr = maskGen.GetMaskString(SubTypeGeneration, "bool");
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, {maskStr}>({rhsAccessor}, (l, r) =>");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{maskStr} itemRet;");
                     LoquiTypeSingleton.GenerateForEqualsMask(fg, new Accessor("l"), new Accessor("r"), "itemRet");
                     fg.AppendLine("return itemRet;");
                 }
-                fg.AppendLine($"), out {retAccessor}.Overall);");
+                fg.AppendLine($", out {retAccessor}.Overall);");
                 fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => {SubTypeGeneration.EqualsMaskAccessor("b")});");
             }
             else

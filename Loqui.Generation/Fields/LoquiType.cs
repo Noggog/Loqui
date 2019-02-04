@@ -144,7 +144,7 @@ namespace Loqui.Generation
             Interface,
             Generic
         }
-        
+
 
         public override string SkipCheck(string copyMaskAccessor)
         {
@@ -1237,15 +1237,17 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
                 if (this.TargetObjectGeneration == null)
                 {
-                    fg.AppendLine($"{retAccessor}.Overall = object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
+                    fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
+                    using (new BraceWrapper(fg) { AppendSemicolon = true })
+                    {
+                        fg.AppendLine($"Overall = object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})");
+                    }
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor}.Specific = {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess});");
-                    fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Specific.AllEqual((b) => b);");
+                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}), includeOnlyFailures);");
                 }
             }
         }
