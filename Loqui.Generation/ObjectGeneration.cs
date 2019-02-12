@@ -1677,11 +1677,19 @@ namespace Loqui.Generation
             {
                 args.Add($"this {this.Getter_InterfaceStr} item");
                 args.Add($"{this.Getter_InterfaceStr} rhs");
+                args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
             }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
-                fg.AppendLine($"FillEqualsMask(item, rhs, ret);");
+                using (var args = new ArgsWrapper(fg,
+                    "FillEqualsMask"))
+                {
+                    args.Add("item: item");
+                    args.Add("rhs: rhs");
+                    args.Add("ret: ret");
+                    args.Add("include: include");
+                }
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
@@ -1692,7 +1700,7 @@ namespace Loqui.Generation
                 args.Add($"{this.Getter_InterfaceStr} item");
                 args.Add($"{this.Getter_InterfaceStr} rhs");
                 args.Add($"{this.GetMaskString("bool")} ret");
-                args.Add($"bool includeOnlyFailures = false");
+                args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
             }
             using (new BraceWrapper(fg))
             {

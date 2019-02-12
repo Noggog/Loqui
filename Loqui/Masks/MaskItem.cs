@@ -1,27 +1,31 @@
-﻿using System;
+﻿using CSharpExt.Rx;
+using DynamicData;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Loqui
 {
-    public class MaskItem<T, V> : IEquatable<MaskItem<T, V>>
+    public class MaskItem<TOverall, TSpecific> : IEquatable<MaskItem<TOverall, TSpecific>>
     {
-        public T Overall;
-        public V Specific;
+        public TOverall Overall;
+        public TSpecific Specific;
 
         public MaskItem()
         {
         }
-        
+
         [DebuggerStepThrough]
         public MaskItem(
-            T overall,
-            V specific)
+            TOverall overall,
+            TSpecific specific)
         {
             this.Overall = overall;
             this.Specific = specific;
         }
 
-        public bool Equals(MaskItem<T, V> other)
+        public bool Equals(MaskItem<TOverall, TSpecific> other)
         {
             return object.Equals(this.Overall, other.Overall)
                 && object.Equals(this.Specific, other.Specific);
@@ -29,8 +33,8 @@ namespace Loqui
 
         public override bool Equals(object obj)
         {
-            if (!(obj is MaskItem<T, V>)) return false;
-            return Equals((MaskItem<T, V>)obj);
+            if (!(obj is MaskItem<TOverall, TSpecific>)) return false;
+            return Equals((MaskItem<TOverall, TSpecific>)obj);
         }
 
         public override int GetHashCode()
@@ -39,16 +43,50 @@ namespace Loqui
                 .CombineHashCode(this.Specific);
         }
 
-        public static MaskItem<T, V> WrapValue(V val)
+        public static MaskItem<TOverall, TSpecific> WrapValue(TSpecific val)
         {
             if (val == null) return null;
-            return new MaskItem<T, V>(default(T), val);
+            return new MaskItem<TOverall, TSpecific>(default(TOverall), val);
+        }
+    }
+
+    public class MaskItemIndexed<TOverall, TSpecific> : MaskItem<TOverall, TSpecific>, IEquatable<MaskItemIndexed<TOverall, TSpecific>>
+    {
+        public int Index;
+
+        public MaskItemIndexed(int index)
+            : base()
+        {
+            this.Index = index;
+        }
+
+        [DebuggerStepThrough]
+        public MaskItemIndexed(
+            int index,
+            TOverall overall,
+            TSpecific specific)
+            : base(overall, specific)
+        {
+            this.Index = index;
+        }
+
+        public bool Equals(MaskItemIndexed<TOverall, TSpecific> other)
+        {
+            if (!base.Equals(other)) return false;
+            return this.Index == other.Index;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashHelper.CombineHashCode(
+                base.GetHashCode(),
+                this.Index.GetHashCode());
         }
     }
 
     public static class MaskItemExt
     {
-        public static void ToString<T, V>(this MaskItem<T, V> maskItem, FileGeneration fg)
+        public static void ToString<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, FileGeneration fg)
         {
             if (maskItem == null) return;
             if (maskItem.Overall != null)
@@ -75,28 +113,40 @@ namespace Loqui
             }
         }
 
-        public static MaskItem<Exception, R> Bubble<T, R>(this MaskItem<Exception, T> item)
-            where T : R
+        public static MaskItem<Exception, TRet> Bubble<TSource, TRet>(this MaskItem<Exception, TSource> item)
+            where TSource : TRet
         {
             if (item == null) return null;
-            return new MaskItem<Exception, R>(item.Overall, item.Specific);
+            return new MaskItem<Exception, TRet>(item.Overall, item.Specific);
         }
 
-        public static MaskItem<bool, M> Factory<M>(M mask, bool includeOnlyFailures)
+        public static MaskItem<bool, M> Factory<M>(M mask, EqualsMaskHelper.Include include)
             where M : IMask<bool>
         {
-            var allEqual = mask.AllEqual(b => b);
-            if (!allEqual || !includeOnlyFailures)
+            var allEq = mask.AllEqual(b => b);
+            if (allEq)
             {
-                return new MaskItem<bool, M>()
+                switch (include)
                 {
-                    Overall = allEqual,
-                    Specific = mask
-                };
+                    case EqualsMaskHelper.Include.All:
+                        return new MaskItem<bool, M>()
+                        {
+                            Overall = false,
+                            Specific = mask,
+                        };
+                    case EqualsMaskHelper.Include.OnlyFailures:
+                        return null;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
             else
             {
-                return default;
+                return new MaskItem<bool, M>()
+                {
+                    Overall = allEq,
+                    Specific = mask
+                };
             }
         }
     }

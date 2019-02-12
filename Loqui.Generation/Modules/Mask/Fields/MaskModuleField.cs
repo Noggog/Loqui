@@ -25,7 +25,7 @@ namespace Loqui.Generation
         public abstract void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field);
         public abstract string GenerateForTranslationMaskCrystalization(TypeGeneration field);
         public abstract void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor);
-        public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck);
+        public abstract void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed);
         public virtual void GenerateForEqual(FileGeneration fg, TypeGeneration field, string rhsAccessor)
         {
             if (!field.IntegrateField) return;
@@ -36,11 +36,21 @@ namespace Loqui.Generation
             if (!field.IntegrateField) return;
             fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
         }
-        public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor);
+        public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed);
         public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
         public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
         public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr);
-        public virtual string GetMaskString(TypeGeneration field, string valueStr) => valueStr;
+        public virtual string GetMaskString(TypeGeneration field, string valueStr, bool indexed)
+        {
+            if (indexed)
+            {
+                return $"(int Index, {valueStr} Value)";
+            }
+            else
+            {
+                return valueStr;
+            }
+        }
     }
 }

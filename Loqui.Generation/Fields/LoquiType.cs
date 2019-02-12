@@ -1228,11 +1228,26 @@ namespace Loqui.Generation
             {
                 if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
-                    fg.AppendLine($"{retAccessor} = IHasBeenSetExt.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({this.HasBeenSetAccessor(accessor)}, {this.HasBeenSetAccessor(rhsAccessor)}, {accessor.DirectAccess}, {rhsAccessor.DirectAccess}, (loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs));");
+                    using (var args = new ArgsWrapper(fg,
+                        $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
+                    {
+                        args.Add(this.HasBeenSetAccessor(accessor));
+                        args.Add(this.HasBeenSetAccessor(rhsAccessor));
+                        args.Add(accessor.DirectAccess);
+                        args.Add(rhsAccessor.DirectAccess);
+                        args.Add("(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
+                        args.Add("include");
+                    }
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(IHasBeenSetExt.LoquiEqualsHelper)}({rhsAccessor.PropertyOrDirectAccess}, (loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs));");
+                    using (var args = new ArgsWrapper(fg,
+                        $"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(EqualsMaskHelper.EqualsHelper)}"))
+                    {
+                        args.Add(rhsAccessor.PropertyOrDirectAccess);
+                        args.Add("(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
+                        args.Add("include");
+                    }
                 }
             }
             else
@@ -1247,7 +1262,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}), includeOnlyFailures);");
+                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}), include);");
                 }
             }
         }

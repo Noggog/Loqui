@@ -100,7 +100,7 @@ namespace Loqui.Generation
             fg.AppendLine($"{accessor}?.ToString(fg);");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             LoquiType loqui = field as LoquiType;
 
@@ -122,14 +122,14 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
         {
             LoquiType loqui = field as LoquiType;
 
             fg.AppendLine($"if ({rhsAccessor} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<R, {loqui.GenerateMaskString("R")}>();");
+                fg.AppendLine($"{retAccessor} = new MaskItem{(indexed ? "Indexed" : null)}<R, {loqui.GenerateMaskString("R")}>({(indexed ? $"{rhsAccessor}.Index" : null)});");
                 fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
                 if (!IsUnknownGeneric(loqui))
                 {
@@ -174,10 +174,10 @@ namespace Loqui.Generation
         {
         }
 
-        public override string GetMaskString(TypeGeneration field, string valueStr)
+        public override string GetMaskString(TypeGeneration field, string valueStr, bool indexed)
         {
             var loqui = field as LoquiType;
-            return $"MaskItem<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}>";
+            return $"MaskItem{(indexed ? "Indexed" : null)}<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}>";
         }
 
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)

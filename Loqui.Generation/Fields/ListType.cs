@@ -257,11 +257,11 @@ namespace Loqui.Generation
         {
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.GetHasBeenSetMask())));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<bool>>({accessor.PropertyOrDirectAccess}.HasBeenSet, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({accessor.PropertyOrDirectAccess}.HasBeenSet, null);");
             }
         }
 

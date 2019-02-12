@@ -218,7 +218,7 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             DictType dictType = field as DictType;
 
@@ -277,7 +277,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
         {
             DictType dictType = field as DictType;
 
@@ -300,7 +300,7 @@ namespace Loqui.Generation
                                 if (dictType.KeyTypeGen is LoquiType loquiKey)
                                 {
                                     fg.AppendLine($"MaskItem<R, {loquiKey.GenerateMaskString("R")}> keyVal = default(MaskItem<R, {loquiKey.GenerateMaskString("R")}>);");
-                                    this.Module.GetMaskModule(loquiKey.GetType()).GenerateForTranslate(fg, loquiKey, "keyVal", "item.Key");
+                                    this.Module.GetMaskModule(loquiKey.GetType()).GenerateForTranslate(fg, loquiKey, "keyVal", "item.Key", indexed);
                                 }
                                 else
                                 {
@@ -309,7 +309,7 @@ namespace Loqui.Generation
                                 if (dictType.ValueTypeGen is LoquiType loquiVal)
                                 {
                                     fg.AppendLine($"MaskItem<R, {loquiVal.GenerateMaskString("R")}> valVal = default(MaskItem<R, {loquiVal.GenerateMaskString("R")}>);");
-                                    this.Module.GetMaskModule(loquiVal.GetType()).GenerateForTranslate(fg, loquiVal, "valVal", "item.Value");
+                                    this.Module.GetMaskModule(loquiVal.GetType()).GenerateForTranslate(fg, loquiVal, "valVal", "item.Value", indexed);
                                 }
                                 else
                                 {
@@ -321,7 +321,7 @@ namespace Loqui.Generation
                                 var loquiType = dictType.ValueTypeGen as LoquiType;
                                 fg.AppendLine($"MaskItem<R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItem<R, {loquiType.GenerateMaskString("R")}>);");
                                 var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
-                                fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item");
+                                fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item", false);
                                 fg.AppendLine($"l.Add(mask);");
                                 break;
                             default:

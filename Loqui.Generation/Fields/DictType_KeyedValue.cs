@@ -297,14 +297,14 @@ namespace Loqui.Generation
             fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
             LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
             var maskStr = $"MaskItem<bool, {valueLoquiType.GetMaskString("bool")}>";
-            fg.AppendLine($"{retAccessor}.Specific = {accessor}.Items.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Items, ((l, r) =>");
+            fg.AppendLine($"{retAccessor}.Specific = {accessor}.Items.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Items, (l, r) =>");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{maskStr} itemRet;");
                 valueLoquiType.GenerateForEqualsMask(fg, new Accessor("l"), new Accessor("r"), "itemRet");
                 fg.AppendLine("return itemRet;");
             }
-            fg.AppendLine($"), out {retAccessor}.Overall);");
+            fg.AppendLine($", out {retAccessor}.Overall);");
             fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Overall);");
         }
 

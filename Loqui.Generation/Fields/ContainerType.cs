@@ -125,55 +125,13 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            if (!this.HasBeenSet)
+            string maskGetter = isLoquiSingle ? "(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)" : "(l, r) => object.Equals(l, r)";
+            using (var args = new ArgsWrapper(fg,
+                $"ret.{this.Name} = item.{this.Name}.CollectionEqualsHelper"))
             {
-                this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
-            }
-            else
-            {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)})");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)})");
-                    using (new BraceWrapper(fg))
-                    {
-                        this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
-                    }
-                    fg.AppendLine($"else");
-                    using (new BraceWrapper(fg))
-                    {
-                        this.GenerateForEqualsMask(fg, $"ret.{this.Name}", true);
-                    }
-                }
-                fg.AppendLine($"else");
-                using (new BraceWrapper(fg))
-                {
-                    this.GenerateForEqualsMask(fg, $"ret.{this.Name}", false);
-                }
-            }
-        }
-
-        public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
-        {
-            fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}();");
-            if (isLoquiSingle)
-            {
-                var maskGen = this.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(SubTypeGeneration.GetType());
-                var maskStr = maskGen.GetMaskString(SubTypeGeneration, "bool");
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, {maskStr}>({rhsAccessor}, (l, r) =>");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{maskStr} itemRet;");
-                    LoquiTypeSingleton.GenerateForEqualsMask(fg, new Accessor("l"), new Accessor("r"), "itemRet");
-                    fg.AppendLine("return itemRet;");
-                }
-                fg.AppendLine($", out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => {SubTypeGeneration.EqualsMaskAccessor("b")});");
-            }
-            else
-            {
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<{this.SubTypeGeneration.TypeName}, bool>({rhsAccessor}, ((l, r) => object.Equals(l, r)), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b);");
+                args.Add($"rhs.{this.Name}");
+                args.Add(maskGetter);
+                args.Add($"include");
             }
         }
 

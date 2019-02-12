@@ -7,7 +7,7 @@ namespace Loqui.Generation
         public static string GetItemString(ContainerType listType, string valueStr)
         {
             var maskType = listType.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(listType.SubTypeGeneration.GetType());
-            return maskType.GetMaskString(listType.SubTypeGeneration, valueStr);
+            return maskType.GetMaskString(listType.SubTypeGeneration, valueStr, indexed: true);
         }
 
         public static string GetListString(ContainerType listType, string valueStr)
@@ -82,11 +82,11 @@ namespace Loqui.Generation
             ListType listType = field as ListType;
             if (listType.SubTypeGeneration is LoquiType loqui)
             {
-                return $"MaskItem<{maskStr}, {loqui.GetMaskString(maskStr)}>";
+                return $"MaskItemIndexed<{maskStr}, {loqui.GetMaskString(maskStr)}>";
             }
             else
             {
-                return maskStr;
+                return $"(int Index, {maskStr} Item)";
             }
         }
 
@@ -141,7 +141,7 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck)
+        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             ListType listType = field as ListType;
 
@@ -159,13 +159,13 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                        subMask.GenerateForAllEqual(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false);
+                        subMask.GenerateForAllEqual(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
                     }
                 }
             }
         }
 
-        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor)
+        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
         {
             ListType listType = field as ListType;
 
@@ -179,12 +179,16 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"List<{GetSubMaskString(listType, "R")}> l = new List<{GetSubMaskString(listType, "R")}>();");
                     fg.AppendLine($"{retAccessor}.Specific = l;");
-                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific.WithIndex())");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{GetSubMaskString(listType, "R")} mask = default({GetSubMaskString(listType, "R")});");
+                        fg.AppendLine($"{GetSubMaskString(listType, "R")} mask = default;");
+                        fg.AppendLine("mask.Index = item.Index;");
                         var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                        fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration, "mask", "item");
+                        fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
+                            retAccessor: "mask",
+                            rhsAccessor: "item.Item",
+                            indexed: true);
                         fg.AppendLine($"l.Add(mask);");
                     }
                 }
