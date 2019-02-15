@@ -1262,7 +1262,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}), include);");
+                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}, include), include);");
                 }
             }
         }

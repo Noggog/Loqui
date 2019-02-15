@@ -84,6 +84,40 @@ namespace Loqui
         }
     }
 
+    public class MaskItemIndexed<TKey, TOverall, TSpecific> : MaskItem<TOverall, TSpecific>, IEquatable<MaskItemIndexed<TKey, TOverall, TSpecific>>
+    {
+        public TKey Index;
+
+        public MaskItemIndexed(TKey index)
+            : base()
+        {
+            this.Index = index;
+        }
+
+        [DebuggerStepThrough]
+        public MaskItemIndexed(
+            TKey index,
+            TOverall overall,
+            TSpecific specific)
+            : base(overall, specific)
+        {
+            this.Index = index;
+        }
+
+        public bool Equals(MaskItemIndexed<TKey, TOverall, TSpecific> other)
+        {
+            if (!base.Equals(other)) return false;
+            return object.Equals(this.Index, other.Index);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashHelper.CombineHashCode(
+                base.GetHashCode(),
+                HashHelper.GetHashCode(this.Index));
+        }
+    }
+
     public static class MaskItemExt
     {
         public static void ToString<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, FileGeneration fg)

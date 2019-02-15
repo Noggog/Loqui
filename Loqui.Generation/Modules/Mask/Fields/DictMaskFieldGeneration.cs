@@ -13,17 +13,17 @@ namespace Loqui.Generation
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
-            string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.GetMaskString(typeStr)}>")}";
-            string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
 
             string itemStr;
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
+                    string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.GetMaskString(typeStr)}>")}";
+                    string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
                     itemStr = $"KeyValuePair<{keyStr}, {valueStr}>";
                     break;
                 case DictMode.KeyedValue:
-                    itemStr = valueStr;
+                    itemStr = $"{(valueLoquiType == null ? $"({dictType.KeyTypeGen.TypeName} Key, {typeStr} Value)" : $"MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, {typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
                     break;
                 default:
                     throw new NotImplementedException();
@@ -319,10 +319,11 @@ namespace Loqui.Generation
                                 break;
                             case DictMode.KeyedValue:
                                 var loquiType = dictType.ValueTypeGen as LoquiType;
-                                fg.AppendLine($"MaskItem<R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItem<R, {loquiType.GenerateMaskString("R")}>);");
-                                var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
-                                fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item", false);
-                                fg.AppendLine($"l.Add(mask);");
+                                fg.AppendLine($"MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, R, {loquiType.GenerateMaskString("R")}>);");
+                                fg.AppendLine("throw new NotImplementedException();");
+                                //var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
+                                //fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item", true);
+                                //fg.AppendLine($"l.Add(mask);");
                                 break;
                             default:
                                 break;

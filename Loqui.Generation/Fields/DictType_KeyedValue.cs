@@ -294,18 +294,14 @@ namespace Loqui.Generation
 
         public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
-            LoquiType valueLoquiType = this.ValueTypeGen as LoquiType;
-            var maskStr = $"MaskItem<bool, {valueLoquiType.GetMaskString("bool")}>";
-            fg.AppendLine($"{retAccessor}.Specific = {accessor}.Items.SelectAgainst<{valueLoquiType.TypeName}, {maskStr}>({rhsAccessor}.Items, (l, r) =>");
-            using (new BraceWrapper(fg))
+            using (var args = new ArgsWrapper(fg,
+                $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
-                fg.AppendLine($"{maskStr} itemRet;");
-                valueLoquiType.GenerateForEqualsMask(fg, new Accessor("l"), new Accessor("r"), "itemRet");
-                fg.AppendLine("return itemRet;");
+                args.Add($"lhs: {accessor}");
+                args.Add($"rhs: {rhsAccessor}");
+                args.Add($"maskGetter: (k, l, r) => l.GetEqualsMask(r)");
+                args.Add("include: include");
             }
-            fg.AppendLine($", out {retAccessor}.Overall);");
-            fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Overall);");
         }
 
         public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
@@ -349,7 +345,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItem<bool, {loqui.GetMaskString("bool")}>(true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()
