@@ -125,7 +125,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            string maskGetter = isLoquiSingle ? "(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)" : "(l, r) => object.Equals(l, r)";
+            string maskGetter = isLoquiSingle ? "(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs, include)" : $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
             using (var args = new ArgsWrapper(fg,
                 $"ret.{this.Name} = item.{this.Name}.CollectionEqualsHelper"))
             {

@@ -18,9 +18,9 @@ namespace Loqui.Xml
         where T : ILoquiObject
     {
         public static readonly LoquiXmlTranslation<T> Instance = new LoquiXmlTranslation<T>();
-        private static readonly string _elementName = LoquiRegistration.GetRegister(typeof(T)).FullName;
-        public string ElementName => _elementName;
-        private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T));
+        private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T)).FullName);
+        public string ElementName => _elementName.Value;
+        private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
         public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
         public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask);
@@ -111,7 +111,7 @@ namespace Loqui.Xml
                     if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
                     return true;
                 })
-                .First());
+                .FirstOrDefault());
         }
 
         private static WRITE_FUNC GetWriteFunc()
@@ -186,8 +186,10 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var typeStr = node.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
-            if (typeStr == null
-                || typeStr.Equals(Registration.FullName))
+            string comparisonString = typeStr ?? node.Name.LocalName;
+            if (Registration != null
+                && (comparisonString.Equals(Registration.FullName)
+                    || !LoquiRegistration.TryGetRegisterByFullName(comparisonString, out var regis)))
             {
                 item = CREATE.Value(
                     node: node,

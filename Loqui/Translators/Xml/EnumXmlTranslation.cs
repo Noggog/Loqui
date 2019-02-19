@@ -14,6 +14,7 @@ namespace Loqui.Xml
     {
         public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();
         public readonly static bool IsFlagsEnum = EnumExt<E>.IsFlagsEnum();
+        public readonly static string UnknownString = "Unknown";
 
         private bool TryParseToEnum(string str, out E value)
         {
@@ -60,6 +61,13 @@ namespace Loqui.Xml
                 {
                     value = value.Value.Or(subEnum);
                 }
+                else if (item.Name.LocalName.StartsWith(UnknownString)
+                    && int.TryParse(item.Name.LocalName.Substring(UnknownString.Length), out var num))
+                {
+                    int i = Convert.ToInt32(value.Value);
+                    i += 1 << num;
+                    value = (E)(object)i;
+                }
                 else
                 {
                     errorMask.ReportExceptionOrThrow(
@@ -80,14 +88,30 @@ namespace Loqui.Xml
             {
                 node.SetAttributeValue("null", "true");
             }
+            // Write normal values
             Enum e = item.Value as Enum;
+            int intVal = Convert.ToInt32(e);
             foreach (var eType in EnumExt<E>.Values)
             {
-                if (e.HasFlag(eType as Enum))
+                if (e.HasFlag(eType))
                 {
                     node.Add(new XElement(eType.ToStringFast_Enum_Only()));
+                    int intRhs = Convert.ToInt32(eType);
+                    intVal -= intRhs;
                 }
             }
+            // Write unexpected values
+            if (intVal == 0) return;
+            for (int i = 0; i < 32; i++)
+            {
+                var masked = intVal & 1;
+                if (masked == 1)
+                {
+                    node.Add(new XElement(UnknownString + i));
+                }
+                intVal = intVal >> 1;
+            }
+
         }
 
         protected override string GetItemStr(E item)

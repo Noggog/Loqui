@@ -732,7 +732,7 @@ namespace Loqui.Generation
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"if ({accessor.DirectAccess} != {rhsAccessor.DirectAccess}) return false;");
+            fg.AppendLine($"if ({GenerateEqualsSnippet(accessor, rhsAccessor, negate: true)}) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

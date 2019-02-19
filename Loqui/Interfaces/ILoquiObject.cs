@@ -26,7 +26,7 @@ namespace Loqui
 
     public interface IEqualsMask<T>
     {
-        IMask<bool> GetEqualsMask(T rhs);
+        IMask<bool> GetEqualsMask(T rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable

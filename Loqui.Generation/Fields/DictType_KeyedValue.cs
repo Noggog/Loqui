@@ -299,7 +299,7 @@ namespace Loqui.Generation
             {
                 args.Add($"lhs: {accessor}");
                 args.Add($"rhs: {rhsAccessor}");
-                args.Add($"maskGetter: (k, l, r) => l.GetEqualsMask(r)");
+                args.Add($"maskGetter: (k, l, r) => l.GetEqualsMask(r, include)");
                 args.Add("include: include");
             }
         }

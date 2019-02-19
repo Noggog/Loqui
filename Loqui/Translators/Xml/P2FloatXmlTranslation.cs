@@ -10,7 +10,7 @@ namespace Loqui.Xml
 
         protected override string GetItemStr(P2Float item)
         {
-            return $"{item.X}, {item.Y}";
+            return $"{item.X.ToString("G9")}, {item.Y.ToString("G9")}";
         }
 
         protected override bool ParseNonNullString(string str, out P2Float value, ErrorMaskBuilder errorMask)

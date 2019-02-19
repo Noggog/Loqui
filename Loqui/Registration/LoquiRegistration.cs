@@ -143,9 +143,10 @@ namespace Loqui
             return TypeRegister.ContainsKey(t);
         }
 
-        public static ILoquiRegistration GetRegister(Type t)
+        public static ILoquiRegistration GetRegister(Type t, bool returnNull = false)
         {
             if (TryGetRegister(t, out var regis)) return regis;
+            if (returnNull) return null;
             throw new ArgumentException("Type was not a Loqui type: " + t);
         }
 

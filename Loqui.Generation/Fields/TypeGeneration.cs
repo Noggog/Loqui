@@ -89,6 +89,11 @@ namespace Loqui.Generation
             }
         }
 
+        public virtual string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
+        {
+            return $"{(negate ? "!" : null)}object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+        }
+
         public abstract bool IsNullable();
 
         public void FinalizeField()

@@ -207,7 +207,7 @@ namespace Loqui.Xml
         public void Write(
             XElement node,
             string name,
-            IEnumerable<T> item,
+            IHasBeenSetItemGetter<IEnumerable<T>> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
@@ -217,42 +217,14 @@ namespace Loqui.Xml
             {
                 try
                 {
+                    if (!item.HasBeenSet) return;
                     this.Write(
                         node: node,
                         name: name,
-                        item: item,
+                        item: item.Item,
                         errorMask: errorMask,
                         translationMask: translationMask,
                         transl: transl);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasItem<IEnumerable<T>> item,
-            int fieldIndex,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask,
-            XmlSubWriteDelegate<T> transl)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node,
-                        name,
-                        item.Item,
-                        errorMask,
-                        translationMask,
-                        transl);
                 }
                 catch (Exception ex)
                 when (errorMask != null)

@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("topnode"))
+            if (str.Contains("ret.RegionPoints = item.RegionPoints.CollectionEqualsHelper("))
             {
                 int wer = 23;
                 wer++;

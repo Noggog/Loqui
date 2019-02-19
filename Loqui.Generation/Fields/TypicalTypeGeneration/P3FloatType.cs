@@ -12,5 +12,10 @@ namespace Loqui.Generation
         public override Type Type => typeof(P3Float);
 
         protected override string GenerateDefaultValue() => $"new {TypeName}({DefaultValue})";
+
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
+        {
+            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.Equals({rhsAccessor.DirectAccess})";
+        }
     }
 }

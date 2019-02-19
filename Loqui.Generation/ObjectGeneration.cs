@@ -1666,8 +1666,8 @@ namespace Loqui.Generation
 
         private void GenerateGetEqualsMaskInterfaceImplementor(FileGeneration fg)
         {
-            fg.AppendLine($"IMask<bool> IEqualsMask<{this.ObjectName}>.GetEqualsMask({this.ObjectName} rhs) => {ExtCommonName}.GetEqualsMask(this, rhs);");
-            fg.AppendLine($"IMask<bool> IEqualsMask<{this.Getter_InterfaceStr}>.GetEqualsMask({this.Getter_InterfaceStr} rhs) => {ExtCommonName}.GetEqualsMask(this, rhs);");
+            fg.AppendLine($"IMask<bool> IEqualsMask<{this.ObjectName}>.GetEqualsMask({this.ObjectName} rhs, EqualsMaskHelper.Include include) => {ExtCommonName}.GetEqualsMask(this, rhs, include);");
+            fg.AppendLine($"IMask<bool> IEqualsMask<{this.Getter_InterfaceStr}>.GetEqualsMask({this.Getter_InterfaceStr} rhs, EqualsMaskHelper.Include include) => {ExtCommonName}.GetEqualsMask(this, rhs, include);");
         }
 
         private void GenerateGetEqualsMask(FileGeneration fg)

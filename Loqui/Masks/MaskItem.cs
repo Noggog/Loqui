@@ -165,7 +165,7 @@ namespace Loqui
                     case EqualsMaskHelper.Include.All:
                         return new MaskItem<bool, M>()
                         {
-                            Overall = false,
+                            Overall = true,
                             Specific = mask,
                         };
                     case EqualsMaskHelper.Include.OnlyFailures:
