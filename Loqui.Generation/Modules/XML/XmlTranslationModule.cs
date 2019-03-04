@@ -190,10 +190,8 @@ namespace Loqui.Generation
             internalToDo(XElementLine);
         }
 
-        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
         {
-            await base.GenerateInClass(obj, fg);
-
             if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
             {
                 using (var args = new FunctionWrapper(fg,
@@ -262,6 +260,12 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
             }
+        }
+
+        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        {
+            await base.GenerateInClass(obj, fg);
+            FillPrivateElement(obj, fg);
         }
 
         public virtual void GenerateWriteToNode(ObjectGeneration obj, FileGeneration fg)
@@ -334,55 +338,11 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        protected virtual void FillPublicElement(ObjectGeneration obj, FileGeneration fg)
         {
-            await base.GenerateInCommonExt(obj, fg);
-
-            this.GenerateWriteToNode(obj, fg);
-
             using (var args = new FunctionWrapper(fg,
-                $"public static void FillPublic_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                $"public static void FillPublicElement_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(MaskType.Normal)))
-            {
-                args.Add($"this {obj.ObjectName} item");
-                args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
-                args.Add($"ErrorMaskBuilder errorMask");
-                args.Add($"{nameof(TranslationCrystal)} translationMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("try");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
-                    using (new BraceWrapper(fg))
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
-                        {
-                            args.Add("item: item");
-                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
-                            args.Add("name: elem.Name.LocalName");
-                            args.Add("errorMask: errorMask");
-                            if (this.TranslationMaskParameter)
-                            {
-                                args.Add("translationMask: translationMask");
-                            }
-                        }
-                    }
-                }
-                fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (errorMask != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("errorMask.ReportException(ex);");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-            $"public static void FillPublicElement_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
-            obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
                 args.Add($"this {obj.ObjectName} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -445,6 +405,55 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
+        }
+
+        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        {
+            await base.GenerateInCommonExt(obj, fg);
+
+            this.GenerateWriteToNode(obj, fg);
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static void FillPublic_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                obj.GenericTypeMaskWheres(MaskType.Normal)))
+            {
+                args.Add($"this {obj.ObjectName} item");
+                args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                args.Add($"ErrorMaskBuilder errorMask");
+                args.Add($"{nameof(TranslationCrystal)} translationMask");
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("try");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
+                        {
+                            args.Add("item: item");
+                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                            args.Add("name: elem.Name.LocalName");
+                            args.Add("errorMask: errorMask");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add("translationMask: translationMask");
+                            }
+                        }
+                    }
+                }
+                fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (errorMask != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("errorMask.ReportException(ex);");
+                }
+            }
+            fg.AppendLine();
+
+            FillPublicElement(obj, fg);
         }
 
         public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
