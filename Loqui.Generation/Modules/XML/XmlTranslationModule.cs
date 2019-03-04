@@ -264,15 +264,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        public virtual void GenerateWriteToNode(ObjectGeneration obj, FileGeneration fg)
         {
-            await base.GenerateInCommonExt(obj, fg);
-
             using (var args = new FunctionWrapper(fg,
                 $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
-                args.Add($"this {obj.Getter_InterfaceStr} item");
+                args.Add($"this {(this.ExportWithIGetter ? obj.Getter_InterfaceStr : obj.ObjectName)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -334,6 +332,13 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
+        }
+
+        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        {
+            await base.GenerateInCommonExt(obj, fg);
+
+            this.GenerateWriteToNode(obj, fg);
 
             using (var args = new FunctionWrapper(fg,
                 $"public static void FillPublic_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",

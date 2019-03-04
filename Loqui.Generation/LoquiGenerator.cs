@@ -48,8 +48,8 @@ namespace Loqui.Generation
                 this.Add(this.XmlTranslation);
                 this.Add(MaskModule);
                 this.Add(ObjectCentralizationModule);
+                this.Add(new ReactiveModule());
             }
-            this.Add(new ReactiveModule());
         }
 
         public void AddTypicalTypeAssociations()
