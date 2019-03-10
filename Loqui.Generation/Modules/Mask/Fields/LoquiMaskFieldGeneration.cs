@@ -117,7 +117,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"throw new {nameof(NotImplementedException)}();");
+                    fg.AppendLine($"if (!{accessor.DirectAccess}.Specific.AllEqual(eval)) return false;");
                 }
             }
         }
