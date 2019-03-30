@@ -25,6 +25,7 @@ namespace Loqui.Generation
         public string ObjectType(ObjectGeneration obj) => $"{obj.Name}Type";
         public readonly static APILine PathLine = new APILine("Path", "string path");
         public readonly static APILine NameLine = new APILine("Name", "string name = null");
+        public readonly static APILine MissingLine = new APILine("Missing", "MissingCreate missing = MissingCreate.New");
         public readonly static APILine XElementLine = new APILine("XElement", "XElement node");
         public override bool GenerateAbstractCreates => true;
 
@@ -112,14 +113,20 @@ namespace Loqui.Generation
                     majorAPI: new APILine[] { XElementLine },
                     customAPI: null,
                     optionalAPI: new APILine[] { NameLine }),
-                readerAPI: new MethodAPI(XElementLine));
+                readerAPI: new MethodAPI(
+                    majorAPI: new APILine[] { XElementLine },
+                    customAPI: null,
+                    optionalAPI: new APILine[] { MissingLine }));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
                         majorAPI: new APILine[] { PathLine },
                         customAPI: null,
                         optionalAPI: new APILine[] { NameLine }),
-                    readerAPI: new MethodAPI(PathLine))
+                    readerAPI: new MethodAPI(
+                        majorAPI: new APILine[] { PathLine },
+                        customAPI: null,
+                        optionalAPI: new APILine[] { MissingLine }))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -133,7 +140,10 @@ namespace Loqui.Generation
                         majorAPI: new APILine[] { stream },
                         customAPI: null,
                         optionalAPI: new APILine[] { NameLine }),
-                    readerAPI: new MethodAPI(stream))
+                    readerAPI: new MethodAPI(
+                        majorAPI: new APILine[] { stream },
+                        customAPI: null,
+                        optionalAPI: new APILine[] { MissingLine }))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -174,7 +184,7 @@ namespace Loqui.Generation
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
-            internalToDo(XElementLine);
+            internalToDo(XElementLine, MissingLine);
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
@@ -186,8 +196,8 @@ namespace Loqui.Generation
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
-            internalToDo(XElementLine);
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = System.IO.File.Exists(path) ? XDocument.Load(path).Root : null;");
+            internalToDo(XElementLine, MissingLine);
         }
 
         protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
@@ -579,6 +589,22 @@ namespace Loqui.Generation
 
         protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
+            fg.AppendLine($"switch ({MissingLine.GetParameterName(obj)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.New)}:");
+                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.Null)}:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return {MissingLine.GetParameterName(obj)} == {nameof(MissingCreate)}.{nameof(MissingCreate.New)} ? new {obj.Name}() : null;");
+                    fg.AppendLine("break;");
+                }
+                fg.AppendLine($"default:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine("break;");
+                }
+            }
             if (obj.Abstract)
             {
                 fg.AppendLine($"{obj.Name}{obj.GetGenericTypes(MaskType.Normal)} ret;");
