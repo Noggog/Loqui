@@ -364,7 +364,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                        $"public static {obj.ObjectName} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes())))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
@@ -439,7 +439,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public static {obj.ObjectName} Create_{ModuleNickname}"))
+                    $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
                         new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
