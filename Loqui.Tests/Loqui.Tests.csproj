@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,188 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Generated Test Objects\ObjectToRef.cs">
-      <DependentUpon>ObjectToRef.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Derivative_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Derivative.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Derivative_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Derivative_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet.cs">
-      <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_Derivative_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet_Derivative.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_Derivative_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet_Derivative_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet_ReadOnly_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_Derivative_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_Derivative.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_Derivative_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_Derivative_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_ReadOnly_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_ReadOnly_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_PrivateCtor_LoquiGenerated.cs">
-      <DependentUpon>TestObject_PrivateCtor.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="LoquiRegistration_Tests.cs" />
-    <Compile Include="ObjectToRef_CustomMade.cs" />
-    <Compile Include="Generated Test Objects\ObjectToRef_LoquiGenerated.cs">
-      <DependentUpon>ObjectToRef.xml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolDefinition_LoquiTests.cs" />
-    <Compile Include="TestEnum.cs" />
-    <Compile Include="Generated Test Objects\TestGenericObject_LoquiGenerated.cs">
-      <DependentUpon>TestGenericObject.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestGenericObject_SubClass_Defined_LoquiGenerated.cs">
-      <DependentUpon>TestGenericObject_SubClass_Defined.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestGenericObject_SubClass_LoquiGenerated.cs">
-      <DependentUpon>TestGenericObject_SubClass.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly_LoquiGenerated.cs">
-      <DependentUpon>TestObject_HasBeenSet_ReadOnly.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_LoquiGenerated.cs">
-      <DependentUpon>TestObject.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_ReadOnly_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_ReadOnly.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_SubClass_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_SubClass.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_ReadOnly_LoquiGenerated.cs">
-      <DependentUpon>TestObject_ReadOnly.xml</DependentUpon>
-    </Compile>
-    <Compile Include="XML\BoolNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\BoolXmlTranslation_Test.cs" />
-    <Compile Include="XML\ByteNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\ByteArrayXmlTranslation_Tests.cs" />
-    <Compile Include="XML\ByteXmlTranslation_Test.cs" />
-    <Compile Include="XML\CharNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\CharXmlTranslation_Test.cs" />
-    <Compile Include="XML\DoubleNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\DateTimeXmlTranslation_Test.cs" />
-    <Compile Include="XML\DoubleXmlTranslation_Test.cs" />
-    <Compile Include="XML\EnumNullableXmlTranslation_Tests.cs" />
-    <Compile Include="XML\EnumXmlTranslation_Tests.cs" />
-    <Compile Include="XML\FloatNullableXmlTranslation.cs" />
-    <Compile Include="XML\FloatXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int16NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int16XmlTranslation_Test.cs" />
-    <Compile Include="XML\Int32NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int32XmlTranslation_Test.cs" />
-    <Compile Include="XML\Int64NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int64XmlTranslation_Test.cs" />
-    <Compile Include="XML\DateTimeNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int8NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\KeyedDictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\NullXmlTranslation_Test.cs" />
-    <Compile Include="XML\Int8XmlTranslation_Test.cs" />
-    <Compile Include="XML\DictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\LoquiXmlTranslation_Direct_Test.cs" />
-    <Compile Include="XML\ObjectToRefXmlTranslation_Test.cs" />
-    <Compile Include="XML\P3DoubleNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\P3DoubleXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt64NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt64NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt32NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt16NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt32XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt64XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt8NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt8NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt16NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt64XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt16XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeUInt8XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt8XmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt16XmlTranslation_Test.cs" />
-    <Compile Include="XML\RefValDictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\RefKeyDictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\RefDictXmlTranslation_Tests.cs" />
-    <Compile Include="XML\RefListXmlTranslation_Tests.cs" />
-    <Compile Include="XML\ListXmlTranslation_Tests.cs" />
-    <Compile Include="XML\P2IntNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\P2IntXmlTranslation_Test.cs" />
-    <Compile Include="XML\P3IntNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\P3IntXmlTranslation_Test.cs" />
-    <Compile Include="XML\PercentNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\PercentXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeDoubleNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeDoubleXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt32NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\RangeInt32XmlTranslation_Test.cs" />
-    <Compile Include="XML\StringXmlTranslation_Test.cs" />
-    <Compile Include="XML\TypicalXmlTranslation_Test.cs" />
-    <Compile Include="XML\UDoubleNullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\UDoubleXmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt16NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt16XmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt32NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt32XmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt64NullableXmlTranslation_Test.cs" />
-    <Compile Include="XML\UInt64XmlTranslation_Test.cs" />
-    <Compile Include="XML\WildcardLoquiXmlTranslation_Test.cs" />
-    <Compile Include="XML\WildcardNullXmlTranslation_Test.cs" />
-    <Compile Include="XML\WildcardBoolXmlTranslation_Test.cs" />
-    <Compile Include="XML\XmlUtility.cs" />
-    <Compile Include="Generated Test Objects\TestObject_Abstract_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Abstract.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestGenericSpecification_LoquiGenerated.cs">
-      <DependentUpon>TestGenericSpecification.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet_Derivative.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet_Derivative_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet_ReadOnly.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet_ReadOnly_RPC.xml</DependentUpon>
-    </Compile>
-    <Compile Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_RPC_LoquiGenerated.cs">
-      <DependentUpon>TestObject_Notifying_HasBeenSet_RPC.xml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj">
       <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
       <Name>CSharpExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj">
+      <Project>{edbe1edf-07c6-42e3-8c77-cab14d4b92b7}</Project>
+      <Name>DynamicData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Loqui\Loqui.csproj">
       <Project>{6bdb8c9c-0fdb-431e-9eb2-a09c9c4a3e26}</Project>
@@ -232,114 +62,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Generated Test Objects\ObjectToRef.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestGenericObject_SubClass.xml" />
-    <Content Include="Generated Test Objects\TestGenericObject_SubClass_Defined.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestGenericObject.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestGenericSpecification.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Abstract.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_Derivative_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_ReadOnly_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_HasBeenSet_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TypicalFields.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Derivative_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet_Derivative_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_Derivative_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_ReadOnly_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_RPC.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_PrivateCtor.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet_Derivative.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_Derivative.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet_ReadOnly.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_ReadOnly.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_ReadOnly.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_HasBeenSet.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Notifying_SubClass.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Generated Test Objects\TestObject_Derivative.xml">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ValueTuple">
-      <Version>4.4.0</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
     <PackageReference Include="xunit">
-      <Version>2.3.0-beta4-build3742</Version>
+      <Version>2.4.1</Version>
     </PackageReference>
     <PackageReference Include="xunit.runner.visualstudio">
-      <Version>2.3.0-beta4-build3742</Version>
+      <Version>2.4.1</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="XML\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.3.0-beta3-build3705\build\xunit.core.targets')" />

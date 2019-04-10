@@ -21,6 +21,17 @@ namespace Loqui.Tests.Generator
             var proto = gen.AddProtocol(
                 new ProtocolGeneration(
                     gen,
+                    new ProtocolKey("LoquiTestsGenerated"),
+                    new DirectoryInfo("../../../Loqui.Tests.Generated"))
+                {
+                    DefaultNamespace = "Loqui.Tests.Generated",
+                });
+            proto.AddProjectToModify(
+                new FileInfo(Path.Combine(proto.GenerationFolder.FullName, "Loqui.Tests.Generated.csproj")));
+
+            proto = gen.AddProtocol(
+                new ProtocolGeneration(
+                    gen,
                     new ProtocolKey("LoquiTests"),
                     new DirectoryInfo("../../../Loqui.Tests"))
                 {

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>92f6a2bc50c46344e063eee0115c8d0812c7c58b</Sha>
+         <Sha>ebd995b652e860c774479dccfa6ddd031a40e033</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-26-2019 18:28:19</CommitDate>
-         <Description>More file class improvements</Description>
+         <CommitDate>03-20-2019 22:31:31</CommitDate>
+         <Description>FileComparison.FoldersAreEqual</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
