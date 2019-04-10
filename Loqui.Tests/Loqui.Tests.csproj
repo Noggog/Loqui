@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectNamedKey_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolDefinition_LoquiTests.cs" />
   </ItemGroup>
@@ -55,6 +56,10 @@
     <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj">
       <Project>{edbe1edf-07c6-42e3-8c77-cab14d4b92b7}</Project>
       <Name>DynamicData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loqui.Generation\Loqui.Generation.csproj">
+      <Project>{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}</Project>
+      <Name>Loqui.Generation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Loqui\Loqui.csproj">
       <Project>{6bdb8c9c-0fdb-431e-9eb2-a09c9c4a3e26}</Project>

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>ebd995b652e860c774479dccfa6ddd031a40e033</Sha>
+         <Sha>608f3675bd544010f751749a5592bcff79288582</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>03-20-2019 22:31:31</CommitDate>
-         <Description>FileComparison.FoldersAreEqual</Description>
+         <CommitDate>04-10-2019 17:31:00</CommitDate>
+         <Description>ListExt.For LINQ /w start end indices</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

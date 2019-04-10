@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Loqui.Generation
 {
@@ -46,11 +47,11 @@ namespace Loqui.Generation
                 return false;
             }
             var split = str.Split('.');
-            if (split.Length == 2)
+            if (split.Length >= 2)
             {
                 objKey = new ObjectNamedKey(
-                    new ProtocolKey(split[0]),
-                    split[1]);
+                    new ProtocolKey(string.Join(".", split.For(0, split.Length - 1))),
+                    string.Join(".", split[split.Length - 1]));
                 return true;
             }
             else if (split.Length == 1)
