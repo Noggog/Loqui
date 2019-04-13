@@ -177,27 +177,27 @@ namespace Loqui.Generation
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(XElementLine, NameLine);
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
-            internalToDo(XElementLine, MissingLine);
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(XElementLine, NameLine);
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = System.IO.File.Exists(path) ? XDocument.Load(path).Root : null;");
-            internalToDo(XElementLine, MissingLine);
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
         }
 
         protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
