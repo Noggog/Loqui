@@ -9,26 +9,24 @@ namespace Loqui.Generation
 {
     public class MethodAPI
     {
-        public APILine[] MajorAPI { get; private set; }
-        public CustomMethodAPI[] CustomAPI { get; private set; }
-        public APILine[] OptionalAPI { get; private set; }
+        public List<APILine> MajorAPI { get; private set; } = new List<APILine>();
+        public List<CustomMethodAPI> CustomAPI { get; private set; } = new List<CustomMethodAPI>();
+        public List<APILine> OptionalAPI { get; private set; } = new List<APILine>();
 
         public MethodAPI(
             APILine[] majorAPI,
             CustomMethodAPI[] customAPI,
             APILine[] optionalAPI)
         {
-            this.MajorAPI = majorAPI ?? new APILine[] { };
-            this.CustomAPI = customAPI ?? new CustomMethodAPI[] { };
-            this.OptionalAPI = optionalAPI ?? new APILine[] { };
+            this.MajorAPI.AddRange(majorAPI ?? EnumerableExt<APILine>.Empty);
+            this.CustomAPI.AddRange(customAPI ?? EnumerableExt<CustomMethodAPI>.Empty);
+            this.OptionalAPI.AddRange(optionalAPI ?? EnumerableExt<APILine>.Empty);
         }
 
         public MethodAPI(
             params APILine[] api)
         {
-            this.MajorAPI = api;
-            this.CustomAPI = new CustomMethodAPI[] { };
-            this.OptionalAPI = new APILine[] { };
+            this.MajorAPI.AddRange(api);
         }
         
         public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, params APILine[] customLines)
