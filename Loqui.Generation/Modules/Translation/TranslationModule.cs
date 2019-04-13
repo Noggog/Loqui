@@ -227,7 +227,6 @@ namespace Loqui.Generation
                             {
                                 using (var args = new ArgsWrapper(fg,
                                     $"this.CopyIn_{ModuleNickname}"))
-                                using (new DepthWrapper(fg))
                                 {
                                     foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
                                     {
