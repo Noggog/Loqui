@@ -20,11 +20,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
 
@@ -38,7 +38,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
             }
         }
 
@@ -46,10 +46,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
             TranslationGeneration.WrapParseCall(
@@ -58,7 +58,7 @@ namespace Loqui.Generation
                     FG = fg,
                     TypeGen = typeGen,
                     TranslatorLine = $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
-                    MaskAccessor = maskAccessor,
+                    MaskAccessor = errorMaskAccessor,
                     ItemAccessor = itemAccessor,
                     TranslationMaskAccessor = null,
                     IndexAccessor = typeGen.IndexEnumInt,
@@ -73,19 +73,19 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var eType = typeGen as EnumType;
             using (var args = new ArgsWrapper(fg,
                 $"{retAccessor.DirectAccess}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
             {
-                args.Add(nodeAccessor);
+                args.Add(nodeAccessor.DirectAccess);
                 args.Add($"index: {indexAccessor}");
-                args.Add($"errorMask: out {maskAccessor}");
+                args.Add($"errorMask: out {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}");
             }
         }

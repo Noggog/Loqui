@@ -239,7 +239,7 @@ namespace Loqui.Generation
                                         nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
                                         itemAccessor: new Accessor(field, "item."),
                                         translationMaskAccessor: "translationMask",
-                                        maskAccessor: $"errorMask");
+                                        errorMaskAccessor: $"errorMask");
                                 }
                                 fg.AppendLine("break;");
                             }
@@ -339,7 +339,7 @@ namespace Loqui.Generation
                             typeGen: field.Field,
                             writerAccessor: $"{XmlTranslationModule.XElementLine.GetParameterName(obj)}",
                             itemAccessor: new Accessor(field.Field, "item."),
-                            maskAccessor: $"errorMask",
+                            errorMaskAccessor: $"errorMask",
                             translationMaskAccessor: "translationMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
                     }
@@ -386,7 +386,7 @@ namespace Loqui.Generation
                                     nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
                                     itemAccessor: new Accessor(field, "item."),
                                     translationMaskAccessor: "translationMask",
-                                    maskAccessor: $"errorMask");
+                                    errorMaskAccessor: $"errorMask");
                             }
                             fg.AppendLine("break;");
                         }

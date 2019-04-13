@@ -20,11 +20,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"WildcardXmlTranslation.Instance.Write"))
@@ -35,7 +35,7 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
+                    args.Add($"errorMask: {errorMaskAccessor}");
                 }
                 else
                 {
@@ -49,10 +49,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             string prefix = typeGen.PrefersProperty ? null : $"{itemAccessor.DirectAccess} = ";
@@ -68,7 +68,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"item: {itemAccessor.PropertyAccess}");
                     }
-                    args.Add($"errorMask: {maskAccessor}");
+                    args.Add($"errorMask: {errorMaskAccessor}");
                 }
                 else
                 {
@@ -81,12 +81,12 @@ namespace Loqui.Generation
         public override void GenerateCopyInRet(
             FileGeneration fg,
             ObjectGeneration objGen,
-            TypeGeneration typeGen, 
-            string nodeAccessor,
+            TypeGeneration typeGen,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             UnsafeType unsafeType = typeGen as UnsafeType;
             using (var args = new ArgsWrapper(fg,
@@ -97,7 +97,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"item: {retAccessor.PropertyAccess}");
                 }
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}");
             }
         }

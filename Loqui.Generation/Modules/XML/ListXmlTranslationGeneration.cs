@@ -28,11 +28,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -54,7 +54,7 @@ namespace Loqui.Generation
                 {
                     throw new NotImplementedException();
                 }
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
@@ -67,7 +67,7 @@ namespace Loqui.Generation
                             typeGen: list.SubTypeGeneration,
                             writerAccessor: "subNode",
                             itemAccessor: new Accessor($"subItem"),
-                            maskAccessor: $"listSubMask",
+                            errorMaskAccessor: $"listSubMask",
                             translationMaskAccessor: "listTranslMask",
                             nameAccessor: "null");
                     }
@@ -87,10 +87,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -101,18 +101,18 @@ namespace Loqui.Generation
                 ret: false,
                 indexAccessor: $"(int){typeGen.IndexEnumName}",
                 translationMaskAccessor: translationMaskAccessor,
-                maskAccessor: maskAccessor);
+                errorMaskAccessor: errorMaskAccessor);
         }
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -122,7 +122,7 @@ namespace Loqui.Generation
                 itemAccessor: retAccessor,
                 ret: true,
                 indexAccessor: indexAccessor,
-                maskAccessor: maskAccessor,
+                errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
         }
 
@@ -130,12 +130,12 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -172,7 +172,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"{itemAccessor.DirectAccess}.Unset();");
                     }
                 },
-                maskAccessor: maskAccessor,
+                errorMaskAccessor: errorMaskAccessor,
                 indexAccessor: typeGen.IndexEnumInt);
         }
 

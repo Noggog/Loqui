@@ -360,9 +360,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor)
+        public override string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor)
         {
-            return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
+            return $"{boolMaskAccessor}?.{field.Name}?.Overall ?? true";
         }
 
         public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
