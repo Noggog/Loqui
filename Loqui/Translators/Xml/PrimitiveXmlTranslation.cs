@@ -20,7 +20,7 @@ namespace Loqui.Xml
 
         protected virtual string GetItemStr(T item)
         {
-            return item.ToStringSafe();
+            return item.ToString();
         }
 
         protected abstract bool ParseNonNullString(string str, out T value, ErrorMaskBuilder errorMask);
