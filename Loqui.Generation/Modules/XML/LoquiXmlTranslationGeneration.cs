@@ -1,4 +1,4 @@
-﻿using Loqui.Xml;
+using Loqui.Xml;
 using Noggog;
 using System;
 using System.Collections.Generic;
@@ -95,6 +95,11 @@ namespace Loqui.Generation
                                     $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
                                 {
                                     subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
+                                    foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
+                                    {
+                                        if (!item.API.TryGetPassthrough(loquiGen.TargetObjectGeneration, out var passthrough)) continue;
+                                        subArgs.Add(passthrough);
+                                    }
                                     subArgs.Add($"errorMask: {errorMaskAccessor}");
                                     subArgs.Add($"translationMask: {translationMaskAccessor}");
                                 }

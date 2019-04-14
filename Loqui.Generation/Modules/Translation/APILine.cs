@@ -45,6 +45,31 @@ namespace Loqui.Generation
             return true;
         }
 
+        public bool TryGetParameterName(ObjectGeneration obj, out APIResult result)
+        {
+            var get = this.When(obj);
+            if (!get)
+            {
+                result = default;
+                return false;
+            }
+            result = this.GetParameterName(obj);
+            return true;
+        }
+
+        public bool TryGetPassthrough(ObjectGeneration obj, out string result)
+        {
+            var get = this.When(obj);
+            if (!get)
+            {
+                result = default;
+                return false;
+            }
+            var name = this.GetParameterName(obj);
+            result = $"{name}: {name}";
+            return true;
+        }
+
         public APIResult Resolve(ObjectGeneration obj) => this.Resolver(obj);
 
         public override bool Equals(object obj)

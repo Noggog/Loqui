@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -429,6 +429,11 @@ namespace Loqui.Generation
             {
                 args.Add($"this {obj.ObjectName} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                {
+                    if (!item.API.TryResolve(obj, out var line)) continue;
+                    args.Add(line.Result);
+                }
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
             }
@@ -450,6 +455,11 @@ namespace Loqui.Generation
                             if (this.TranslationMaskParameter)
                             {
                                 args.Add("translationMask: translationMask");
+                            }
+                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                            {
+                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                args.Add(passthrough);
                             }
                         }
                     }
@@ -653,6 +663,11 @@ namespace Loqui.Generation
                                 args.Add("item: ret");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                                 args.Add("name: elem.Name.LocalName");
+                                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                                {
+                                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                    args.Add(passthrough);
+                                }
                                 args.Add("errorMask: errorMask");
                                 if (this.TranslationMaskParameter)
                                 {
@@ -666,6 +681,11 @@ namespace Loqui.Generation
                             args.Add("item: ret");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                             args.Add("name: elem.Name.LocalName");
+                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                            {
+                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                args.Add(passthrough);
+                            }
                             args.Add("errorMask: errorMask");
                             if (this.TranslationMaskParameter)
                             {
@@ -703,6 +723,11 @@ namespace Loqui.Generation
             {
                 args.Add($"item: item");
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                {
+                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                    args.Add(passthrough);
+                }
                 args.Add($"errorMask: errorMask");
                 args.Add($"translationMask: translationMask");
             }
