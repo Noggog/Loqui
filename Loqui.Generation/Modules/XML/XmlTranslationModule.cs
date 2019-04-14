@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -596,7 +596,14 @@ namespace Loqui.Generation
                 fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.Null)}:");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return {MissingLine.GetParameterName(obj)} == {nameof(MissingCreate)}.{nameof(MissingCreate.New)} ? new {obj.Name}() : null;");
+                    if (obj.Abstract)
+                    {
+                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return null;");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return {MissingLine.GetParameterName(obj)} == {nameof(MissingCreate)}.{nameof(MissingCreate.New)} ? new {obj.ObjectName}() : null;");
+                    }
                     fg.AppendLine("break;");
                 }
                 fg.AppendLine($"default:");
