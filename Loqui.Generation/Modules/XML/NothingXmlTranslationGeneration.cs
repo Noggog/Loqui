@@ -31,7 +31,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor, 
             Accessor retAccessor,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {

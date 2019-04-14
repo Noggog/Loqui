@@ -99,7 +99,6 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
                 ret: false,
-                indexAccessor: $"(int){typeGen.IndexEnumName}",
                 translationMaskAccessor: translationMaskAccessor,
                 errorMaskAccessor: errorMaskAccessor);
         }
@@ -110,7 +109,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -121,7 +119,6 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                indexAccessor: indexAccessor,
                 errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
         }
@@ -133,7 +130,6 @@ namespace Loqui.Generation
             Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {

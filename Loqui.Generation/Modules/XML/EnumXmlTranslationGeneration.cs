@@ -75,7 +75,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -84,7 +83,6 @@ namespace Loqui.Generation
                 $"{retAccessor.DirectAccess}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
             {
                 args.Add(nodeAccessor.DirectAccess);
-                args.Add($"index: {indexAccessor}");
                 args.Add($"errorMask: out {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}");
             }

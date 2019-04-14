@@ -148,7 +148,6 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
                 ret: false,
-                indexAccessor: $"(int){typeGen.IndexEnumName}",
                 translationMaskAccessor: translationMaskAccessor,
                 errorMaskAccessor: errorMaskAccessor);
         }
@@ -160,7 +159,6 @@ namespace Loqui.Generation
             Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -224,7 +222,7 @@ namespace Loqui.Generation
                 {
                     args.Add((gen) =>
                     {
-                        gen.AppendLine($"keyTransl: (XElement r, int dictIndex, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
+                        gen.AppendLine($"keyTransl: (XElement r, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
                         using (new BraceWrapper(gen))
                         {
                             var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
@@ -234,7 +232,6 @@ namespace Loqui.Generation
                                 typeGen: keyTypeGen,
                                 nodeAccessor: "r",
                                 retAccessor: new Accessor("return "),
-                                indexAccessor: "dictIndex",
                                 translationMaskAccessor: "dictTranslMask",
                                 errorMaskAccessor: "dictErrMask");
                         }
@@ -246,7 +243,7 @@ namespace Loqui.Generation
                         args.Add((gen) =>
                         {
                             var xmlGen = XmlMod.GetTypeGeneration(dictType.ValueTypeGen.GetType());
-                            gen.AppendLine($"valTransl: (XElement r, int dictIndex, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
+                            gen.AppendLine($"valTransl: (XElement r, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 xmlGen.GenerateCopyInRet(
@@ -256,7 +253,6 @@ namespace Loqui.Generation
                                     nodeAccessor: "r",
                                     retAccessor: new Accessor("return "),
                                     translationMaskAccessor: "dictTranslMask",
-                                    indexAccessor: "dictIndex",
                                     errorMaskAccessor: "dictErrMask");
                             }
                         });
@@ -276,7 +272,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -287,7 +282,6 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 ret: true,
                 itemAccessor: retAccessor,
-                indexAccessor: indexAccessor,
                 translationMaskAccessor: translationMaskAccessor,
                 errorMaskAccessor: errorMaskAccessor);
         }

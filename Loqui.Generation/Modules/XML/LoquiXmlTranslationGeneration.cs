@@ -160,7 +160,6 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
-            Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -170,7 +169,7 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                indexAccessor: indexAccessor,
+                indexAccessor: null,
                 errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
         }
