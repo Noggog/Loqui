@@ -1,4 +1,4 @@
-using Noggog;
+﻿using Noggog;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -587,6 +587,14 @@ namespace Loqui.Generation
             }
         }
 
+        protected virtual async Task PreCreateLoop(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
+        protected virtual async Task PostCreateLoop(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
         protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
             fg.AppendLine($"switch ({MissingLine.GetParameterName(obj)})");
@@ -633,6 +641,7 @@ namespace Loqui.Generation
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
                 {
+                    await PreCreateLoop(obj, fg);
                     fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
                     using (new BraceWrapper(fg))
                     {
@@ -664,6 +673,7 @@ namespace Loqui.Generation
                             }
                         }
                     }
+                    await PostCreateLoop(obj, fg);
                 }
                 fg.AppendLine("catch (Exception ex)");
                 fg.AppendLine("when (errorMask != null)");
