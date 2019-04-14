@@ -1,4 +1,4 @@
-﻿using Loqui.Internal;
+using Loqui.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,6 +109,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
+            Accessor outItemAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {

@@ -111,6 +111,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor retAccessor,
+            Accessor outItemAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {
@@ -123,6 +124,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
+                args.Add($"item: out {outItemAccessor}");
                 args.Add($"errorMask: {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}");
                 foreach (var writeParam in this.AdditionalCopyInRetParams)
