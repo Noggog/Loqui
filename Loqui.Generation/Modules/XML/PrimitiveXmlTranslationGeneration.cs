@@ -16,17 +16,6 @@ namespace Loqui.Generation
         public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
         public bool CanBeNotNullable = true;
 
-        public delegate TryGet<string> ParamTest(
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor accessor,
-            Accessor itemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor);
-        public List<ParamTest> AdditionalWriteParams = new List<ParamTest>();
-        public List<ParamTest> AdditionalCopyInParams = new List<ParamTest>();
-        public List<ParamTest> AdditionalCopyInRetParams = new List<ParamTest>();
-
         public PrimitiveXmlTranslationGeneration(string typeName = null, bool? nullable = null)
         {
             this.nullable = nullable;
@@ -75,11 +64,7 @@ namespace Loqui.Generation
                 {
                     var get = writeParam(
                         objGen: objGen,
-                        typeGen: typeGen,
-                        accessor: writerAccessor,
-                        itemAccessor: itemAccessor,
-                        errorMaskAccessor: errorMaskAccessor,
-                        translationMaskAccessor: translationMaskAccessor);
+                        typeGen: typeGen);
                     if (get.Failed) continue;
                     args.Add(get.Value);
                 }
@@ -101,11 +86,7 @@ namespace Loqui.Generation
             {
                 var get = writeParam(
                     objGen: objGen,
-                    typeGen: typeGen,
-                    accessor: nodeAccessor,
-                    itemAccessor: itemAccessor,
-                    errorMaskAccessor: errorMaskAccessor,
-                    translationMaskAccessor: translationMaskAccessor);
+                    typeGen: typeGen);
                 if (get.Failed) continue;
                 extraArgs.Add(get.Value);
             }
@@ -148,11 +129,7 @@ namespace Loqui.Generation
                 {
                     var get = writeParam(
                         objGen: objGen,
-                        typeGen: typeGen,
-                        accessor: nodeAccessor,
-                        itemAccessor: retAccessor,
-                        errorMaskAccessor: errorMaskAccessor,
-                        translationMaskAccessor: translationMaskAccessor);
+                        typeGen: typeGen);
                     if (get.Failed) continue;
                     args.Add(get.Value);
                 }

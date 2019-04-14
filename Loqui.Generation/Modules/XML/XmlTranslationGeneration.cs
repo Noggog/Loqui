@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,13 @@ namespace Loqui.Generation
     public abstract class XmlTranslationGeneration : TranslationGeneration
     {
         public XmlTranslationModule XmlMod;
+
+        public delegate TryGet<string> ParamTest(
+            ObjectGeneration objGen,
+            TypeGeneration typeGen);
+        public List<ParamTest> AdditionalWriteParams = new List<ParamTest>();
+        public List<ParamTest> AdditionalCopyInParams = new List<ParamTest>();
+        public List<ParamTest> AdditionalCopyInRetParams = new List<ParamTest>();
 
         public abstract void GenerateWrite(
             FileGeneration fg,
