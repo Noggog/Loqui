@@ -155,7 +155,29 @@ namespace Loqui.Generation
                     {
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");
-                        args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        if (subTransl.AdditionalCopyInParams.Any((p) => p(objGen, typeGen).Succeeded))
+                        {
+                            args.Add((gen) =>
+                            {
+                                gen.AppendLine($"transl: (XElement subNode, out {list.SubTypeGeneration.TypeName} listSubItem, ErrorMaskBuilder listErrMask, TranslationCrystal listTranslMask) =>");
+                                using (new BraceWrapper(gen))
+                                {
+                                    subTransl.GenerateCopyInRet(
+                                        fg: gen,
+                                        objGen: objGen,
+                                        typeGen: list.SubTypeGeneration,
+                                        nodeAccessor: "subNode",
+                                        outItemAccessor: "listSubItem",
+                                        translationMaskAccessor: "listTranslMask",
+                                        retAccessor: "return ",
+                                        errorMaskAccessor: "listErrMask");
+                                }
+                            });
+                        }
+                        else
+                        {
+                            args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        }
                         args.Add("errorMask: errorMask");
                         args.Add($"translationMask: {translationMaskAccessor})");
                     }
