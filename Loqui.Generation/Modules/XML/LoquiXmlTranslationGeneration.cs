@@ -97,7 +97,7 @@ namespace Loqui.Generation
                                     subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
                                     foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
                                     {
-                                        if (!item.API.TryGetPassthrough(loquiGen.TargetObjectGeneration, out var passthrough)) continue;
+                                        if (!item.TryGetPassthrough(objGen, loquiGen.TargetObjectGeneration, out var passthrough)) continue;
                                         subArgs.Add(passthrough);
                                     }
                                     subArgs.Add($"errorMask: {errorMaskAccessor}");
