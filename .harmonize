@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>608f3675bd544010f751749a5592bcff79288582</Sha>
+         <Sha>178146d2072691ed3dae17ee96441c7d8220d42f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-10-2019 17:31:00</CommitDate>
-         <Description>ListExt.For LINQ /w start end indices</Description>
+         <CommitDate>04-16-2019 18:25:14</CommitDate>
+         <Description>ReactiveUI update</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>f51df5a451e2499b5bdd952bf54b1802429d8a4a</Sha>
+         <Sha>777d9f0ab67693df8f9746170de6b1df09e16e38</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>02-05-2019 14:30:31</CommitDate>
-         <Description>Removed uap target framework to avoid some errors</Description>
+         <CommitDate>03-26-2019 21:04:17</CommitDate>
+         <Description>Merge remote-tracking branch 'source/master'</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
