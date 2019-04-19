@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>761ed93b288d06867c3e20d2f7d48b5b3533ed73</Sha>
+         <Sha>08b372ed57ac1fd18f8ce1bb5c7ede16aa5bdeea</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-19-2019 15:12:00</CommitDate>
-         <Description>Removed StringExt.EqualsIgnoreCase</Description>
+         <CommitDate>04-19-2019 18:00:18</CommitDate>
+         <Description>SpanExt</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

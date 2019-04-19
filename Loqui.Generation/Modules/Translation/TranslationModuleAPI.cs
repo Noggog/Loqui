@@ -37,18 +37,23 @@ namespace Loqui.Generation
                     custom.API.GetParameterName(obj)));
         public TranslationFunnel Funnel;
 
-        public TranslationModuleAPI(MethodAPI api)
+        public Func<ObjectGeneration, bool> When { get; set; }
+
+        public TranslationModuleAPI(MethodAPI api, Func<ObjectGeneration, bool> when = null)
         {
             this.WriterAPI = api;
             this.ReaderAPI = api;
+            this.When = when;
         }
 
         public TranslationModuleAPI(
             MethodAPI writerAPI,
-            MethodAPI readerAPI)
+            MethodAPI readerAPI,
+            Func<ObjectGeneration, bool> when = null)
         {
             this.WriterAPI = writerAPI;
             this.ReaderAPI = readerAPI;
+            this.When = when;
         }
 
         private IEnumerable<(T lhs, T rhs)> ZipAccessors<T>(
