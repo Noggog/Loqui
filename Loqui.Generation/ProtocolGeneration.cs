@@ -260,7 +260,7 @@ namespace Loqui.Generation
         public async Task LoadInitialObjects()
         {
             await this.LoadInitialObjects(this.sourceFolders.SelectMany((dir) => dir.EnumerateFileInfos())
-                .Where((f) => ".XML".EqualsIgnoreCase(f.Extension))
+                .Where((f) => ".XML".Equals(f.Extension, StringComparison.CurrentCultureIgnoreCase))
                 .Select(
                 (f) =>
                 {
