@@ -356,6 +356,8 @@ namespace Loqui.Generation
                 resolver: obj => $"{obj.Mask(MaskType.Translation)} translationMask = null");
         }
 
+        protected virtual bool GenerateMainCreate(ObjectGeneration obj) => true;
+
         private async Task GenerateCreate(ObjectGeneration obj, FileGeneration fg)
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Create"))
@@ -438,21 +440,24 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                using (var args = new FunctionWrapper(fg,
-                    $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
+                if (GenerateMainCreate(obj))
                 {
-                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
-                        new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
-                        new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
+                    using (var args = new FunctionWrapper(fg,
+                        $"public{obj.NewOverride}static {obj.ObjectName} Create_{ModuleNickname}"))
                     {
-                        args.Add(API.Result);
+                        foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
+                            new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
+                            new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
+                        {
+                            args.Add(API.Result);
+                        }
                     }
+                    using (new BraceWrapper(fg))
+                    {
+                        await GenerateCreateSnippet(obj, fg);
+                    }
+                    fg.AppendLine();
                 }
-                using (new BraceWrapper(fg))
-                {
-                    await GenerateCreateSnippet(obj, fg);
-                }
-                fg.AppendLine();
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
