@@ -1075,7 +1075,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"protected{await this.FunctionOverride()}object GetNthObject(ushort index) => {this.ExtCommonName}.GetNthObject{this.GetGenericTypes(MaskType.Normal)}(index, this);");
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"object ILoquiObjectGetter.GetNthObject(ushort index) => this.GetNthObject(index);");
+                    fg.AppendLine($"object {nameof(ILoquiReflectionGetter)}.GetNthObject(ushort index) => this.GetNthObject(index);");
                 }
                 fg.AppendLine();
 
@@ -1093,14 +1093,14 @@ namespace Loqui.Generation
                 }
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"bool ILoquiObjectGetter.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);");
+                    fg.AppendLine($"bool {nameof(ILoquiReflectionGetter)}.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);");
                 }
                 fg.AppendLine();
 
                 fg.AppendLine($"protected{await this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => {this.ExtCommonName}.UnsetNthObject{this.GetGenericTypes(MaskType.Normal)}(index, this, cmds);");
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"void ILoquiObjectSetter.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);");
+                    fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);");
                 }
                 fg.AppendLine();
             }
@@ -1117,7 +1117,7 @@ namespace Loqui.Generation
                 }
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"void ILoquiObjectSetter.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);");
+                    fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);");
                 }
                 fg.AppendLine();
             }
@@ -1219,7 +1219,7 @@ namespace Loqui.Generation
         {
             if (this.IsTopClass)
             {
-                fg.AppendLine("void ILoquiObjectSetter.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);");
+                fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);");
             }
             fg.AppendLine($"protected{await this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)");
             using (new BraceWrapper(fg))
@@ -2356,7 +2356,6 @@ namespace Loqui.Generation
                 {
                     var loquiElem = gen.Wheres.FirstOrDefault((i) =>
                         i.Equals(nameof(ILoquiObjectGetter))
-                        || i.Equals(nameof(ILoquiObjectSetter))
                         || i.Equals(nameof(ILoquiObject)));
                     gen.Loqui = loquiElem != null;
                 }

@@ -34,7 +34,7 @@ namespace Loqui.Generation
             _hasBeenSetDefault = Node.GetAttribute<bool>("hasBeenSetDefault", this.ProtoGen.HasBeenSetDefault);
             _objectCentralizedDefault = Node.GetAttribute<bool>("objectCentralizedDefault", this.ProtoGen.ObjectCentralizedDefault);
 
-            this.Interfaces.Add($"ILoquiObjectSetter");
+            this.Interfaces.Add($"{nameof(ILoquiReflectionSetter)}");
 
             if (ObjectNamedKey.TryFactory(this.BaseClassStr, this.ProtoGen.Protocol, out var baseClassObjKey))
             {
