@@ -33,7 +33,11 @@ namespace Loqui
         IMask<bool> GetEqualsMask(T rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
     }
 
-    public interface ILoquiReflectionSetter : ILoquiReflectionGetter, ILoquiObjectGetter, IClearable
+    public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
+    {
+    }
+
+    public interface ILoquiReflectionSetter : ILoquiReflectionGetter, ILoquiObjectSetter
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds);

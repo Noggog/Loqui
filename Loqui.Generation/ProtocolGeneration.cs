@@ -24,6 +24,7 @@ namespace Loqui.Generation
         public bool ProtectedDefault;
         public bool DerivativeDefault;
         public bool ToStringDefault;
+        public bool NthReflectionDefault;
         public string DefaultNamespace;
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
@@ -48,6 +49,7 @@ namespace Loqui.Generation
             this.GenerationFolder = defSearchableFolder;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
             this.ProtectedDefault = gen.ProtectedDefault;
+            this.NthReflectionDefault = gen.NthReflectionDefault;
             this.ToStringDefault = gen.ToStringDefault;
             this.DerivativeDefault = gen.DerivativeDefault;
             this.RaisePropertyChangedDefault = gen.RaisePropertyChangedDefault;
