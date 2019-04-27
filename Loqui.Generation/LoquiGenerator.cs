@@ -32,6 +32,7 @@ namespace Loqui.Generation
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
         public bool ToStringDefault = true;
+        public bool NthReflectionDefault = false;
         public bool ObjectCentralizedDefault = true;
         public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;

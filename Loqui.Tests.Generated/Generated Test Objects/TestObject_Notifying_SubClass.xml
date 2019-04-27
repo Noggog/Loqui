@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
+  <Object name="TestObject_Notifying_SubClass" notifyingDefault="True" hasBeenSetDefault="False" baseClass="TestObject_Notifying" GUID="3c0cceee-3747-449d-ae3e-617f5c366ef7" ID="4">
+    <Fields>
+      <Bool name="NewField" />
+    </Fields>
+  </Object>
+</Loqui>

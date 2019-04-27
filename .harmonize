@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e4c7b895e4a8bf616e9a99a76e8e5fb6fe5fe7d7</Sha>
+         <Sha>9ed3419e94e453d0d878db0e3980efb69a3a167f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-20-2019 16:08:36</CommitDate>
-         <Description>Nuget Updates</Description>
+         <CommitDate>04-27-2019 17:44:38</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/master'</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>777d9f0ab67693df8f9746170de6b1df09e16e38</Sha>
+         <Sha>cf7da29e7a13829f638210d1ce6c58c30de4dd86</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>03-26-2019 21:04:17</CommitDate>
-         <Description>Merge remote-tracking branch 'source/master'</Description>
+         <CommitDate>04-20-2019 16:23:13</CommitDate>
+         <Description>Nuget updates</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

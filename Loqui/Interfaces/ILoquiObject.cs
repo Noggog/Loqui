@@ -16,10 +16,14 @@ namespace Loqui
     {
     }
 
-    public interface ILoquiObjectGetter : ILoquiObject
+    public interface ILoquiReflectionGetter : ILoquiObject
     {
         object GetNthObject(ushort index);
         bool GetNthObjectHasBeenSet(ushort index);
+    }
+
+    public interface ILoquiObjectGetter : ILoquiObject
+    {
         void ToString(FileGeneration fg, string name);
         IMask<bool> GetHasBeenSetMask();
     }
@@ -30,6 +34,10 @@ namespace Loqui
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
+    {
+    }
+
+    public interface ILoquiReflectionSetter : ILoquiReflectionGetter, ILoquiObjectSetter
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds);
@@ -44,23 +52,23 @@ namespace Loqui
 
     public static class ILoquiObjectExt
     {
-        public static string PrintPretty(ILoquiObjectGetter obj)
+        public static string PrintPretty(ILoquiReflectionGetter obj)
         {
             return PrintPretty(obj, new DepthPrinter());
         }
 
-        public static string PrintPretty(ILoquiObjectGetter obj, DepthPrinter depthPrinter)
+        public static string PrintPretty(ILoquiReflectionGetter obj, DepthPrinter depthPrinter)
         {
             depthPrinter.AddLine(obj.Registration.Name + "=>");
             return PrintPrettyInternal(obj, depthPrinter);
         }
 
-        private static string PrintLoquiName(ILoquiObjectGetter obj, ushort i)
+        private static string PrintLoquiName(ILoquiReflectionGetter obj, ushort i)
         {
             return $"{obj.Registration.GetNthName(i)}({obj.Registration.GetNthType(i).Name}) => ";
         }
 
-        private static string PrintPrettyInternal(this ILoquiObjectGetter loqui, DepthPrinter depthPrinter)
+        private static string PrintPrettyInternal(this ILoquiReflectionGetter loqui, DepthPrinter depthPrinter)
         {
             depthPrinter.AddLine("[");
             using (depthPrinter.IncrementDepth())
@@ -83,7 +91,7 @@ namespace Loqui
                                     {
                                         if (loqui.Registration.GetNthIsLoqui(i))
                                         {
-                                            if (listItem is ILoquiObjectGetter subLoqui)
+                                            if (listItem is ILoquiReflectionGetter subLoqui)
                                             {
                                                 depthPrinter.AddLine(PrintLoquiName(loqui, i));
                                                 PrintPrettyInternal(subLoqui, depthPrinter);
@@ -102,7 +110,7 @@ namespace Loqui
 
                     if (loqui.Registration.GetNthIsLoqui(i))
                     {
-                        if (obj is ILoquiObjectGetter subLoqui)
+                        if (obj is ILoquiReflectionGetter subLoqui)
                         {
                             depthPrinter.AddLine(PrintLoquiName(loqui, i));
                             PrintPrettyInternal(subLoqui, depthPrinter);
@@ -122,9 +130,9 @@ namespace Loqui
         }
 
         public static void CopyFieldsIn(
-            ILoquiObjectSetter obj,
-            ILoquiObjectGetter rhs,
-            ILoquiObjectGetter def,
+            ILoquiReflectionSetter obj,
+            ILoquiReflectionGetter rhs,
+            ILoquiReflectionGetter def,
             bool skipProtected,
             NotifyingFireParameters cmds = null)
         {
@@ -151,9 +159,9 @@ namespace Loqui
         }
 
         public static void CopyFieldsIn(
-            ILoquiObjectSetter obj,
+            ILoquiReflectionSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
-            ILoquiObjectGetter def,
+            ILoquiReflectionGetter def,
             bool skipProtected,
             NotifyingFireParameters cmds = null)
         {
@@ -182,9 +190,9 @@ namespace Loqui
         }
 
         public static void CopyFieldsIn(
-            ILoquiObjectSetter obj,
+            ILoquiReflectionSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
-            ILoquiObjectGetter def,
+            ILoquiReflectionGetter def,
             Func<IErrorMask> errorMaskGetter,
             bool skipProtected,
             NotifyingFireParameters cmds = null)

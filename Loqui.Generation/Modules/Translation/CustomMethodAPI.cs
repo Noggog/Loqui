@@ -53,5 +53,25 @@ namespace Loqui.Generation
                 DefaultFallback = new APIResult(api, defaultFallback)
             };
         }
+
+        public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, out string result)
+        {
+            var get = this.API.When(obj);
+            if (!get)
+            {
+                result = default;
+                return false;
+            }
+            var name = this.API.GetParameterName(obj);
+            if (this.API.When(baseGen))
+            {
+                result = $"{name}: {name}";
+            }
+            else
+            {
+                result = $"{name}: {this.DefaultFallback}";
+            }
+            return true;
+        }
     }
 }

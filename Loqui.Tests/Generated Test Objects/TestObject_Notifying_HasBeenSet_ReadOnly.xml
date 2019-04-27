@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol Namespace="LoquiTests" />
-  <Object name="TestObject_Notifying_HasBeenSet_ReadOnly" notifyingDefault="True" hasBeenSetDefault="True" protectedDefault="true" GUID="f4aecbbb-ca7a-41f4-a072-2e2490ae0e08" ID="29">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Loqui>

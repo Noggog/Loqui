@@ -124,7 +124,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected override async Task GenerateLoquiSetterInterface(FileGeneration fg)
+        protected override async Task GenerateLoquiReflectionSetterInterface(FileGeneration fg)
         {
         }
 

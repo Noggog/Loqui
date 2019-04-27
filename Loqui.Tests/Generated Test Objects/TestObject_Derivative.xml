@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Protocol Namespace="LoquiTests" />
-  <Object name="TestObject_Derivative" notifyingDefault="False" hasBeenSetDefault="False" derivativeDefault="true" GUID="ec188280-ea8c-4490-b011-0940de80033f" ID="12">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Loqui>

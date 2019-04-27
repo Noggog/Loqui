@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
+  <Object name="TestGenericObject_SubClass" notifyingDefault="True" hasBeenSetDefault="True" baseClass="TestGenericObject" GUID="dfe7e700-e6c2-4772-9965-80cd875e7a21" ID="6">
+    <BaseGeneric name="T">
+      <Where>ILoquiObject</Where>
+    </BaseGeneric>
+    <BaseGeneric name="R">
+      <Where>ILoquiObject</Where>
+    </BaseGeneric>
+    <Generic name="S" >
+      <Where>ObjectToRef</Where>
+    </Generic>
+  </Object>
+</Loqui>

@@ -1076,7 +1076,7 @@ namespace Loqui.Generation
             }
             else
             {
-                throw new NotImplementedException();
+                fg.AppendLine("throw new NotImplementedException();");
             }
         }
 

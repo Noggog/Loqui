@@ -232,14 +232,32 @@ namespace Loqui.Generation
                             {
                                 if (generator.ShouldGenerateCopyIn(field))
                                 {
-                                    generator.GenerateCopyIn(
-                                        fg: fg,
-                                        objGen: obj,
-                                        typeGen: field,
-                                        nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
-                                        itemAccessor: new Accessor(field, "item."),
-                                        translationMaskAccessor: "translationMask",
-                                        errorMaskAccessor: $"errorMask");
+                                    List<string> conditions = new List<string>();
+                                    if (this.TranslationMaskParameter)
+                                    {
+                                        conditions.Add(generator.GetTranslationIfAccessor(field, "translationMask"));
+                                    }
+                                    if (conditions.Count > 0)
+                                    {
+                                        using (var args = new IfWrapper(fg, ANDs: true))
+                                        {
+                                            foreach (var item in conditions)
+                                            {
+                                                args.Add(item);
+                                            }
+                                        }
+                                    }
+                                    using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                                    {
+                                        generator.GenerateCopyIn(
+                                            fg: fg,
+                                            objGen: obj,
+                                            typeGen: field,
+                                            nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
+                                            itemAccessor: new Accessor(field, "item."),
+                                            translationMaskAccessor: "translationMask",
+                                            errorMaskAccessor: $"errorMask");
+                                    }
                                 }
                                 fg.AppendLine("break;");
                             }
@@ -379,14 +397,32 @@ namespace Loqui.Generation
                         {
                             if (generator.ShouldGenerateCopyIn(field))
                             {
-                                generator.GenerateCopyIn(
-                                    fg: fg,
-                                    objGen: obj,
-                                    typeGen: field,
-                                    nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
-                                    itemAccessor: new Accessor(field, "item."),
-                                    translationMaskAccessor: "translationMask",
-                                    errorMaskAccessor: $"errorMask");
+                                List<string> conditions = new List<string>();
+                                if (this.TranslationMaskParameter)
+                                {
+                                    conditions.Add(generator.GetTranslationIfAccessor(field, "translationMask"));
+                                }
+                                if (conditions.Count > 0)
+                                {
+                                    using (var args = new IfWrapper(fg, ANDs: true))
+                                    {
+                                        foreach (var item in conditions)
+                                        {
+                                            args.Add(item);
+                                        }
+                                    }
+                                }
+                                using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                                {
+                                    generator.GenerateCopyIn(
+                                        fg: fg,
+                                        objGen: obj,
+                                        typeGen: field,
+                                        nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
+                                        itemAccessor: new Accessor(field, "item."),
+                                        translationMaskAccessor: "translationMask",
+                                        errorMaskAccessor: $"errorMask");
+                                }
                             }
                             fg.AppendLine("break;");
                         }
