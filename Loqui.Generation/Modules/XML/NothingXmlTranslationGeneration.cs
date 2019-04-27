@@ -18,22 +18,22 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor, 
+            Accessor nodeAccessor, 
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
         }
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
             ObjectGeneration objGen,
-            TypeGeneration typeGen, 
-            string nodeAccessor, 
+            TypeGeneration typeGen,
+            Accessor nodeAccessor, 
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
         }
 
@@ -46,11 +46,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor, 
-            Accessor itemAccessor, 
-            string maskAccessor, 
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor writerAccessor, 
+            Accessor itemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
         }
 

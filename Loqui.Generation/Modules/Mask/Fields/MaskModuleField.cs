@@ -39,7 +39,7 @@ namespace Loqui.Generation
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed);
         public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
-        public abstract string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor);
+        public abstract string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor);
         public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr);
         public virtual string GetMaskString(TypeGeneration field, string valueStr, bool indexed)
         {

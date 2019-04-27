@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -25,6 +25,7 @@ namespace Loqui.Generation
         public string ObjectType(ObjectGeneration obj) => $"{obj.Name}Type";
         public readonly static APILine PathLine = new APILine("Path", "string path");
         public readonly static APILine NameLine = new APILine("Name", "string name = null");
+        public readonly static APILine MissingLine = new APILine("Missing", "MissingCreate missing = MissingCreate.New");
         public readonly static APILine XElementLine = new APILine("XElement", "XElement node");
         public override bool GenerateAbstractCreates => true;
 
@@ -112,14 +113,20 @@ namespace Loqui.Generation
                     majorAPI: new APILine[] { XElementLine },
                     customAPI: null,
                     optionalAPI: new APILine[] { NameLine }),
-                readerAPI: new MethodAPI(XElementLine));
+                readerAPI: new MethodAPI(
+                    majorAPI: new APILine[] { XElementLine },
+                    customAPI: null,
+                    optionalAPI: new APILine[] { MissingLine }));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
                         majorAPI: new APILine[] { PathLine },
                         customAPI: null,
                         optionalAPI: new APILine[] { NameLine }),
-                    readerAPI: new MethodAPI(PathLine))
+                    readerAPI: new MethodAPI(
+                        majorAPI: new APILine[] { PathLine },
+                        customAPI: null,
+                        optionalAPI: new APILine[] { MissingLine }))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -133,7 +140,10 @@ namespace Loqui.Generation
                         majorAPI: new APILine[] { stream },
                         customAPI: null,
                         optionalAPI: new APILine[] { NameLine }),
-                    readerAPI: new MethodAPI(stream))
+                    readerAPI: new MethodAPI(
+                        majorAPI: new APILine[] { stream },
+                        customAPI: null,
+                        optionalAPI: new APILine[] { MissingLine }))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -167,27 +177,27 @@ namespace Loqui.Generation
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(XElementLine, NameLine);
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
-            internalToDo(XElementLine);
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(XElementLine, NameLine);
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
-            internalToDo(XElementLine);
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = System.IO.File.Exists(path) ? XDocument.Load(path).Root : null;");
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
         }
 
         protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
@@ -347,7 +357,7 @@ namespace Loqui.Generation
                             typeGen: field.Field,
                             writerAccessor: $"{XmlTranslationModule.XElementLine.GetParameterName(obj)}",
                             itemAccessor: new Accessor(field.Field, "item."),
-                            maskAccessor: $"errorMask",
+                            errorMaskAccessor: $"errorMask",
                             translationMaskAccessor: "translationMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
                     }
@@ -455,6 +465,11 @@ namespace Loqui.Generation
             {
                 args.Add($"this {obj.ObjectName} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
+                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                {
+                    if (!item.API.TryResolve(obj, out var line)) continue;
+                    args.Add(line.Result);
+                }
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
             }
@@ -476,6 +491,11 @@ namespace Loqui.Generation
                             if (this.TranslationMaskParameter)
                             {
                                 args.Add("translationMask: translationMask");
+                            }
+                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                            {
+                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                args.Add(passthrough);
                             }
                         }
                     }
@@ -613,8 +633,39 @@ namespace Loqui.Generation
             }
         }
 
+        protected virtual async Task PreCreateLoop(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
+        protected virtual async Task PostCreateLoop(ObjectGeneration obj, FileGeneration fg)
+        {
+        }
+
         protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
         {
+            fg.AppendLine($"switch ({MissingLine.GetParameterName(obj)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.New)}:");
+                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.Null)}:");
+                using (new DepthWrapper(fg))
+                {
+                    if (obj.Abstract)
+                    {
+                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return null;");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return {MissingLine.GetParameterName(obj)} == {nameof(MissingCreate)}.{nameof(MissingCreate.New)} ? new {obj.ObjectName}() : null;");
+                    }
+                    fg.AppendLine("break;");
+                }
+                fg.AppendLine($"default:");
+                using (new DepthWrapper(fg))
+                {
+                    fg.AppendLine("break;");
+                }
+            }
             if (obj.Abstract)
             {
                 fg.AppendLine($"{obj.Name}{obj.GetGenericTypes(MaskType.Normal)} ret;");
@@ -636,6 +687,7 @@ namespace Loqui.Generation
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
                 {
+                    await PreCreateLoop(obj, fg);
                     fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
                     using (new BraceWrapper(fg))
                     {
@@ -647,6 +699,11 @@ namespace Loqui.Generation
                                 args.Add("item: ret");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                                 args.Add("name: elem.Name.LocalName");
+                                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                                {
+                                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                    args.Add(passthrough);
+                                }
                                 args.Add("errorMask: errorMask");
                                 if (this.TranslationMaskParameter)
                                 {
@@ -660,6 +717,11 @@ namespace Loqui.Generation
                             args.Add("item: ret");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                             args.Add("name: elem.Name.LocalName");
+                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                            {
+                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                args.Add(passthrough);
+                            }
                             args.Add("errorMask: errorMask");
                             if (this.TranslationMaskParameter)
                             {
@@ -667,6 +729,7 @@ namespace Loqui.Generation
                             }
                         }
                     }
+                    await PostCreateLoop(obj, fg);
                 }
                 fg.AppendLine("catch (Exception ex)");
                 fg.AppendLine("when (errorMask != null)");
@@ -696,6 +759,11 @@ namespace Loqui.Generation
             {
                 args.Add($"item: item");
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                {
+                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                    args.Add(passthrough);
+                }
                 args.Add($"errorMask: errorMask");
                 args.Add($"translationMask: translationMask");
             }

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>178146d2072691ed3dae17ee96441c7d8220d42f</Sha>
+         <Sha>b1fbc716290f506af6a067c8a03469d29f007b38</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-16-2019 18:25:14</CommitDate>
-         <Description>ReactiveUI update</Description>
+         <CommitDate>04-27-2019 16:26:38</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/master'</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

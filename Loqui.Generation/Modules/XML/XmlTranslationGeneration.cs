@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,24 +12,31 @@ namespace Loqui.Generation
     {
         public XmlTranslationModule XmlMod;
 
+        public delegate TryGet<string> ParamTest(
+            ObjectGeneration objGen,
+            TypeGeneration typeGen);
+        public List<ParamTest> AdditionalWriteParams = new List<ParamTest>();
+        public List<ParamTest> AdditionalCopyInParams = new List<ParamTest>();
+        public List<ParamTest> AdditionalCopyInRetParams = new List<ParamTest>();
+
         public abstract void GenerateWrite(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor);
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor);
 
         public abstract void GenerateCopyIn(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor);
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor);
 
         public abstract string GetTranslatorInstance(TypeGeneration typeGen);
 
@@ -36,11 +44,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor);
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor);
 
         public abstract XElement GenerateForXSD(
             ObjectGeneration objGen,

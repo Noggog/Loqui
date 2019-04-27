@@ -1,4 +1,4 @@
-﻿using Loqui.Internal;
+using Loqui.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +28,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -54,7 +54,7 @@ namespace Loqui.Generation
                 {
                     throw new NotImplementedException();
                 }
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
@@ -67,7 +67,7 @@ namespace Loqui.Generation
                             typeGen: list.SubTypeGeneration,
                             writerAccessor: "subNode",
                             itemAccessor: new Accessor($"subItem"),
-                            maskAccessor: $"listSubMask",
+                            errorMaskAccessor: $"listSubMask",
                             translationMaskAccessor: "listTranslMask",
                             nameAccessor: "null");
                     }
@@ -87,10 +87,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -99,20 +99,19 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
                 ret: false,
-                indexAccessor: $"(int){typeGen.IndexEnumName}",
                 translationMaskAccessor: translationMaskAccessor,
-                maskAccessor: maskAccessor);
+                errorMaskAccessor: errorMaskAccessor);
         }
 
         public override void GenerateCopyInRet(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -121,8 +120,7 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                indexAccessor: indexAccessor,
-                maskAccessor: maskAccessor,
+                errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
         }
 
@@ -130,12 +128,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -158,7 +155,29 @@ namespace Loqui.Generation
                     {
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");
-                        args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        if (subTransl.AdditionalCopyInParams.Any((p) => p(objGen, typeGen).Succeeded))
+                        {
+                            args.Add((gen) =>
+                            {
+                                gen.AppendLine($"transl: (XElement subNode, out {list.SubTypeGeneration.TypeName} listSubItem, ErrorMaskBuilder listErrMask, TranslationCrystal listTranslMask) =>");
+                                using (new BraceWrapper(gen))
+                                {
+                                    subTransl.GenerateCopyInRet(
+                                        fg: gen,
+                                        objGen: objGen,
+                                        typeGen: list.SubTypeGeneration,
+                                        nodeAccessor: "subNode",
+                                        outItemAccessor: "listSubItem",
+                                        translationMaskAccessor: "listTranslMask",
+                                        retAccessor: "return ",
+                                        errorMaskAccessor: "listErrMask");
+                                }
+                            });
+                        }
+                        else
+                        {
+                            args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                        }
                         args.Add("errorMask: errorMask");
                         args.Add($"translationMask: {translationMaskAccessor})");
                     }
@@ -172,7 +191,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"{itemAccessor.DirectAccess}.Unset();");
                     }
                 },
-                maskAccessor: maskAccessor,
+                errorMaskAccessor: errorMaskAccessor,
                 indexAccessor: typeGen.IndexEnumInt);
         }
 

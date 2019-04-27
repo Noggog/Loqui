@@ -22,11 +22,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             var dictType = typeGen as DictType;
             if (!XmlMod.TryGetTypeGeneration(dictType.ValueTypeGen.GetType(), out var valTransl))
@@ -51,7 +51,7 @@ namespace Loqui.Generation
                         if (typeGen.HasIndex)
                         {
                             args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                            args.Add($"errorMask: {maskAccessor}");
+                            args.Add($"errorMask: {errorMaskAccessor}");
                         }
                         else
                         {
@@ -68,8 +68,8 @@ namespace Loqui.Generation
                                     objGen: objGen,
                                     typeGen: dictType.KeyTypeGen,
                                     writerAccessor: "writer",
-                                    itemAccessor: new Accessor($"subItem"),
-                                    maskAccessor: $"dictSubMask",
+                                    itemAccessor: $"subItem",
+                                    errorMaskAccessor: $"dictSubMask",
                                     translationMaskAccessor: "dictSubTranslMask",
                                     nameAccessor: "\"Item\"");
                             }
@@ -84,8 +84,8 @@ namespace Loqui.Generation
                                     objGen: objGen,
                                     typeGen: dictType.ValueTypeGen,
                                     writerAccessor: "writer",
-                                    itemAccessor: new Accessor($"subItem"),
-                                    maskAccessor: $"dictSubMask",
+                                    itemAccessor: $"subItem",
+                                    errorMaskAccessor: $"dictSubMask",
                                     translationMaskAccessor: "dictSubTranslMask",
                                     nameAccessor: "\"Item\"");
                             }
@@ -117,14 +117,14 @@ namespace Loqui.Generation
                                             typeGen: dictType.ValueTypeGen,
                                             writerAccessor: "subNode",
                                             itemAccessor: new Accessor($"subItem"),
-                                            maskAccessor: $"dictSubMask",
+                                            errorMaskAccessor: $"dictSubMask",
                                             translationMaskAccessor: "dictTranslMask",
                                             nameAccessor: "null");
                                     }
                                 });
                             }
                         },
-                        maskAccessor: maskAccessor,
+                        errorMaskAccessor: errorMaskAccessor,
                         indexAccessor: typeGen.IndexEnumInt);
                     break;
                 default:
@@ -136,10 +136,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyIn_Internal(
                 fg: fg,
@@ -148,21 +148,19 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: itemAccessor,
                 ret: false,
-                indexAccessor: $"(int){typeGen.IndexEnumName}",
                 translationMaskAccessor: translationMaskAccessor,
-                maskAccessor: maskAccessor);
+                errorMaskAccessor: errorMaskAccessor);
         }
 
         private void GenerateCopyIn_Internal(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var dictType = typeGen as IDictType;
             TypeGeneration keyTypeGen = dictType.KeyTypeGen;
@@ -213,7 +211,7 @@ namespace Loqui.Generation
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
-                    args.Add($"errorMask: {maskAccessor}");
+                    args.Add($"errorMask: {errorMaskAccessor}");
                 }
                 else
                 {
@@ -222,44 +220,44 @@ namespace Loqui.Generation
                 args.Add($"translationMask: {translationMaskAccessor}");
                 if (dictType.Mode != DictMode.KeyedValue)
                 {
-                    args.Add((gen) =>
-                    {
-                        gen.AppendLine($"keyTransl: (XElement r, int dictIndex, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
-                        using (new BraceWrapper(gen))
-                        {
-                            var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
-                            xmlGen.GenerateCopyInRet(
-                                fg: gen,
-                                objGen: objGen,
-                                typeGen: keyTypeGen,
-                                nodeAccessor: "r",
-                                retAccessor: new Accessor("return "),
-                                indexAccessor: "dictIndex",
-                                translationMaskAccessor: "dictTranslMask",
-                                maskAccessor: "dictErrMask");
-                        }
-                    });
+                    throw new NotImplementedException();
+                    //args.Add((gen) =>
+                    //{
+                    //    gen.AppendLine($"keyTransl: (XElement r, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
+                    //    using (new BraceWrapper(gen))
+                    //    {
+                    //        var xmlGen = XmlMod.GetTypeGeneration(keyTypeGen.GetType());
+                    //        xmlGen.GenerateCopyInRet(
+                    //            fg: gen,
+                    //            objGen: objGen,
+                    //            typeGen: keyTypeGen,
+                    //            nodeAccessor: "r",
+                    //            retAccessor: new Accessor("return "),
+                    //            translationMaskAccessor: "dictTranslMask",
+                    //            errorMaskAccessor: "dictErrMask");
+                    //    }
+                    //});
                 }
                 switch (dictType.Mode)
                 {
                     case DictMode.KeyValue:
-                        args.Add((gen) =>
-                        {
-                            var xmlGen = XmlMod.GetTypeGeneration(dictType.ValueTypeGen.GetType());
-                            gen.AppendLine($"valTransl: (XElement r, int dictIndex, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
-                            using (new BraceWrapper(gen))
-                            {
-                                xmlGen.GenerateCopyInRet(
-                                    fg: gen,
-                                    objGen: objGen,
-                                    typeGen: dictType.ValueTypeGen,
-                                    nodeAccessor: "r",
-                                    retAccessor: new Accessor("return "),
-                                    translationMaskAccessor: "dictTranslMask",
-                                    indexAccessor: "dictIndex",
-                                    maskAccessor: "dictErrMask");
-                            }
-                        });
+                        throw new NotImplementedException();
+                        //args.Add((gen) =>
+                        //{
+                        //    var xmlGen = XmlMod.GetTypeGeneration(dictType.ValueTypeGen.GetType());
+                        //    gen.AppendLine($"valTransl: (XElement r, ErrorMaskBuilder dictErrMask, {valSubMaskStr} dictTranslMask) =>");
+                        //    using (new BraceWrapper(gen))
+                        //    {
+                        //        xmlGen.GenerateCopyInRet(
+                        //            fg: gen,
+                        //            objGen: objGen,
+                        //            typeGen: dictType.ValueTypeGen,
+                        //            nodeAccessor: "r",
+                        //            retAccessor: new Accessor("return "),
+                        //            translationMaskAccessor: "dictTranslMask",
+                        //            errorMaskAccessor: "dictErrMask");
+                        //    }
+                        //});
                         break;
                     case DictMode.KeyedValue:
                         args.Add($"valTransl: {valSubTransl.GetTranslatorInstance(dictType.ValueTypeGen)}.Parse");
@@ -274,11 +272,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             this.GenerateCopyIn_Internal(
                 fg: fg,
@@ -287,9 +285,8 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 ret: true,
                 itemAccessor: retAccessor,
-                indexAccessor: indexAccessor,
                 translationMaskAccessor: translationMaskAccessor,
-                maskAccessor: maskAccessor);
+                errorMaskAccessor: errorMaskAccessor);
         }
 
         public override XElement GenerateForXSD(

@@ -11,8 +11,8 @@ namespace Loqui.Generation
         public static void WrapErrorFieldIndexPush(
             FileGeneration fg,
             Action toDo,
-            string maskAccessor,
-            string indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor indexAccessor,
             bool doIt = true)
         {
             if (!doIt)
@@ -23,19 +23,19 @@ namespace Loqui.Generation
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{maskAccessor}?.PushIndex({indexAccessor});");
+                fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
                 toDo();
             }
             fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine($"when ({maskAccessor} != null)");
+            fg.AppendLine($"when ({errorMaskAccessor} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{maskAccessor}.ReportException(ex);");
+                fg.AppendLine($"{errorMaskAccessor}.ReportException(ex);");
             }
             fg.AppendLine("finally");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{maskAccessor}?.PopIndex();");
+                fg.AppendLine($"{errorMaskAccessor}?.PopIndex();");
             }
         }
     }

@@ -95,7 +95,7 @@ namespace Loqui.Generation
                         }
                     }
                 },
-                maskAccessor: param.MaskAccessor,
+                errorMaskAccessor: param.MaskAccessor,
                 indexAccessor: param.IndexAccessor,
                 doIt: !param.SkipErrorMask
                     && param.IndexAccessor != null 
@@ -107,10 +107,10 @@ namespace Loqui.Generation
             public FileGeneration FG;
             public TypeGeneration TypeGen;
             public string TranslatorLine;
-            public string MaskAccessor;
-            public string TranslationMaskAccessor;
+            public Accessor MaskAccessor;
+            public Accessor TranslationMaskAccessor;
             public Accessor ItemAccessor;
-            public string IndexAccessor;
+            public Accessor IndexAccessor;
             public Action<FileGeneration> UnsetCall;
             public IEnumerable<string> ExtraArgs;
             public bool SkipErrorMask;

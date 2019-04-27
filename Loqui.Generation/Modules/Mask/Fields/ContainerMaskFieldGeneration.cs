@@ -211,9 +211,9 @@ namespace Loqui.Generation
             fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<{itemStr}>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{itemStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
         }
 
-        public override string GenerateBoolMaskCheck(TypeGeneration field, string maskAccessor)
+        public override string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor)
         {
-            return $"{maskAccessor}?.{field.Name}?.Overall ?? true";
+            return $"{boolMaskAccessor}?.{field.Name}?.Overall ?? true";
         }
 
         public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)

@@ -1,4 +1,4 @@
-﻿using Loqui.Xml;
+using Loqui.Xml;
 using Noggog;
 using System;
 using System.Collections.Generic;
@@ -22,11 +22,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             string callString;
@@ -48,7 +48,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
                 if (this.XmlMod.TranslationMaskParameter)
                 {
                     if (typeGen.HasIndex)
@@ -73,10 +73,10 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.SingletonType == SingletonLevel.Singleton)
@@ -95,17 +95,22 @@ namespace Loqui.Generation
                                     $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
                                 {
                                     subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
-                                    subArgs.Add($"errorMask: {maskAccessor}");
+                                    foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
+                                    {
+                                        if (!item.TryGetPassthrough(objGen, loquiGen.TargetObjectGeneration, out var passthrough)) continue;
+                                        subArgs.Add(passthrough);
+                                    }
+                                    subArgs.Add($"errorMask: {errorMaskAccessor}");
                                     subArgs.Add($"translationMask: {translationMaskAccessor}");
                                 }
                             });
                             args.Add("def: null");
                             args.Add("cmds: null");
                             args.Add("copyMask: null");
-                            args.Add($"errorMask: {maskAccessor}");
+                            args.Add($"errorMask: {errorMaskAccessor}");
                         }
                     },
-                    maskAccessor: "errorMask",
+                    errorMaskAccessor: "errorMask",
                     indexAccessor: $"{typeGen.IndexEnumInt}");
             }
             else
@@ -122,19 +127,19 @@ namespace Loqui.Generation
                     ret: false,
                     translationMaskAccessor: translationMaskAccessor,
                     indexAccessor: $"(int){typeGen.IndexEnumName}",
-                    maskAccessor: maskAccessor);
+                    errorMaskAccessor: errorMaskAccessor);
             }
         }
 
         public void GenerateCopyInRet_Internal(
             FileGeneration fg,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
             bool ret,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor indexAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
             TranslationGeneration.WrapParseCall(
@@ -143,7 +148,7 @@ namespace Loqui.Generation
                     FG = fg,
                     TypeGen = typeGen,
                     TranslatorLine = $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
-                    MaskAccessor = maskAccessor,
+                    MaskAccessor = errorMaskAccessor,
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,
                     TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
@@ -158,11 +163,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
@@ -170,8 +175,8 @@ namespace Loqui.Generation
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
                 ret: true,
-                indexAccessor: indexAccessor,
-                maskAccessor: maskAccessor,
+                indexAccessor: null,
+                errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
         }
 

@@ -19,7 +19,6 @@ namespace System
 {
     public static class IAPIItemExt
     {
-
         public static APIResult GetParameterName(this IAPIItem api, ObjectGeneration obj)
         {
             var root = CSharpSyntaxTree.ParseText(api.Resolve(obj).Result).GetRoot();

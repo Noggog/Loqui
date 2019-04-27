@@ -43,11 +43,11 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string writerAccessor,
+            Accessor writerAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string nameAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor nameAccessor,
+            Accessor translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{this.TypeName}XmlTranslation.Instance.Write"))
@@ -59,54 +59,49 @@ namespace Loqui.Generation
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
-                args.Add($"errorMask: {maskAccessor}");
-                foreach (var arg in AdditionWriteParameters(
-                    fg: fg,
-                    objGen: objGen,
-                    typeGen: typeGen,
-                    writerAccessor: writerAccessor,
-                    itemAccessor: itemAccessor,
-                    maskAccessor: maskAccessor))
+                args.Add($"errorMask: {errorMaskAccessor}");
+                foreach (var writeParam in this.AdditionalWriteParams)
                 {
-                    args.Add(arg);
+                    var get = writeParam(
+                        objGen: objGen,
+                        typeGen: typeGen);
+                    if (get.Failed) continue;
+                    args.Add(get.Value);
                 }
             }
-        }
-
-        protected virtual IEnumerable<string> AdditionWriteParameters(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            string writerAccessor,
-            Accessor itemAccessor,
-            string maskAccessor)
-        {
-            yield break;
         }
 
         public override void GenerateCopyIn(
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor itemAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
+            List<string> extraArgs = new List<string>();
+            extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}");
+            foreach (var writeParam in this.AdditionalCopyInParams)
+            {
+                var get = writeParam(
+                    objGen: objGen,
+                    typeGen: typeGen);
+                if (get.Failed) continue;
+                extraArgs.Add(get.Value);
+            }
+
             TranslationGeneration.WrapParseCall(
                 new TranslationWrapParseArgs()
                 {
                     FG = fg,
                     TypeGen = typeGen,
                     TranslatorLine = $"{this.TypeName}XmlTranslation.Instance",
-                    MaskAccessor = maskAccessor,
+                    MaskAccessor = errorMaskAccessor,
                     ItemAccessor = itemAccessor,
                     TranslationMaskAccessor = null,
-                    IndexAccessor = typeGen.IndexEnumInt,
-                    ExtraArgs = new string[]
-                    {
-                        $"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}"
-                    }
+                    IndexAccessor = new Accessor(typeGen.IndexEnumInt),
+                    ExtraArgs = extraArgs.ToArray()
                 });
         }
 
@@ -114,24 +109,32 @@ namespace Loqui.Generation
             FileGeneration fg,
             ObjectGeneration objGen,
             TypeGeneration typeGen,
-            string nodeAccessor,
+            Accessor nodeAccessor,
             Accessor retAccessor,
-            string indexAccessor,
-            string maskAccessor,
-            string translationMaskAccessor)
+            Accessor outItemAccessor,
+            Accessor errorMaskAccessor,
+            Accessor translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{retAccessor.DirectAccess}{this.TypeName}XmlTranslation.Instance.Parse",
                 (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
             {
-                args.Add(nodeAccessor);
+                args.Add(nodeAccessor.DirectAccess);
                 if (CanBeNotNullable)
                 {
                     args.Add($"nullable: {Nullable.ToString().ToLower()}");
                 }
-                args.Add($"index: {indexAccessor}");
-                args.Add($"errorMask: {maskAccessor}");
+                args.Add($"item: out {outItemAccessor}");
+                args.Add($"errorMask: {errorMaskAccessor}");
                 args.Add($"translationMask: {translationMaskAccessor}");
+                foreach (var writeParam in this.AdditionalCopyInRetParams)
+                {
+                    var get = writeParam(
+                        objGen: objGen,
+                        typeGen: typeGen);
+                    if (get.Failed) continue;
+                    args.Add(get.Value);
+                }
             }
         }
 

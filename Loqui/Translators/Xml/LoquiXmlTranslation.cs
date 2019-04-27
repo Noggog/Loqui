@@ -21,7 +21,7 @@ namespace Loqui.Xml
         private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T)).FullName);
         public string ElementName => _elementName.Value;
         private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
-        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask);
+        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask, MissingCreate missing);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
         public delegate void WRITE_FUNC(XElement node, T item, string name, ErrorMaskBuilder errorMask, TranslationCrystal translationMask);
         private static readonly Lazy<WRITE_FUNC> WRITE = new Lazy<WRITE_FUNC>(GetWriteFunc);
@@ -79,11 +79,23 @@ namespace Loqui.Xml
             XElement node,
             C item,
             bool skipProtected,
+            MissingCreate missing,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
             NotifyingFireParameters cmds)
             where C : T, ILoquiObject
         {
+            if (node == null)
+            {
+                switch (missing)
+                {
+                    case MissingCreate.Null:
+                    case MissingCreate.New:
+                        return;
+                    default:
+                        break;
+                }
+            }
             var fields = EnumerateObjects(
                 item.Registration,
                 node,
@@ -105,10 +117,11 @@ namespace Loqui.Xml
                 .Where(methodInfo =>
                 {
                     var param = methodInfo.GetParameters();
-                    if (param.Length != 3) return false;
+                    if (param.Length != 4) return false;
                     if (!param[0].ParameterType.Equals(typeof(XElement))) return false;
                     if (!param[1].ParameterType.Equals(typeof(ErrorMaskBuilder))) return false;
                     if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
+                    if (!param[3].ParameterType.Equals(typeof(MissingCreate))) return false;
                     return true;
                 })
                 .FirstOrDefault());
@@ -194,7 +207,8 @@ namespace Loqui.Xml
                 item = CREATE.Value(
                     node: node,
                     errorMaskBuilder: errorMask,
-                    translationMask: translationMask);
+                    translationMask: translationMask,
+                    missing: MissingCreate.Exception);
                 return true;
             }
             else

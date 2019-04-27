@@ -32,5 +32,15 @@ namespace Loqui.Generation
                 this.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
             }
         }
+
+        public override string ToString()
+        {
+            return this.DirectAccess;
+        }
+
+        public static implicit operator Accessor(string str)
+        {
+            return new Accessor(str);
+        }
     }
 }
