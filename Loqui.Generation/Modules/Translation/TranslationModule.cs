@@ -20,6 +20,7 @@ namespace Loqui.Generation
         public bool ExportWithIGetter = true;
         public bool ShouldGenerateCopyIn = true;
         public bool TranslationMaskParameter = true;
+        public bool DoErrorMasks = true;
 
         public const string ErrorMaskKey = "ErrorMask";
         public const string ErrorMaskBuilderKey = "ErrorMaskBuilder";

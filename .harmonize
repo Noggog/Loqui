@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>9ed3419e94e453d0d878db0e3980efb69a3a167f</Sha>
+         <Sha>b3188c55b583de3956796c00c1093dce3e696f34</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-27-2019 17:44:38</CommitDate>
-         <Description>Merge remote-tracking branch 'origin/master'</Description>
+         <CommitDate>04-27-2019 16:26:14</CommitDate>
+         <Description>IBinaryReadStream get accessors</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
