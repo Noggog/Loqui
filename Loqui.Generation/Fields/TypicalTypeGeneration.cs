@@ -668,7 +668,7 @@ namespace Loqui.Generation
                     $"{accessorPrefix}.{this.ProtectedProperty}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}");
-                    if (this.NotifyingType != NotifyingType.None)
+                    if (this.NotifyingType == NotifyingType.NotifyingItem)
                     {
                         args.Add($"{cmdsAccessor}");
                     }

@@ -235,7 +235,8 @@ namespace Loqui.Generation
         {
             if (accessor == null)
             {
-                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                if (this.NotifyingType == NotifyingType.ReactiveUI
+                    && !this.HasProperty)
                 {
                     return $"{this.Name}_IsSet";
                 }
@@ -246,7 +247,8 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.NotifyingType == NotifyingType.ReactiveUI)
+                if (this.NotifyingType == NotifyingType.ReactiveUI
+                    && !this.HasProperty)
                 {
                     return  $"{accessor.DirectAccess}_IsSet";
                 }
