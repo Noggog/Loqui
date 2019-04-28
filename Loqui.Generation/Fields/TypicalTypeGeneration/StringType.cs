@@ -5,6 +5,7 @@ namespace Loqui.Generation
     public class StringType : PrimitiveType
     {
         public override Type Type => typeof(string);
+        public override bool IsReference => true;
 
         protected override string GenerateDefaultValue() => $"\"{this.DefaultValue}\"";
 

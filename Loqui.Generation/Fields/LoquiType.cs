@@ -508,7 +508,7 @@ namespace Loqui.Generation
                             {
                                 fg.AppendLine($"if (value == null) value = new {this.TypeName}();");
                             }
-                            fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                            fg.AppendLine($"this.RaiseAndSetIfReferenceChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                         }
 
                         using (var args = new FunctionWrapper(fg,

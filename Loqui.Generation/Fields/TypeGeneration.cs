@@ -46,6 +46,8 @@ namespace Loqui.Generation
         public XElement Node;
         public virtual bool Namable => true;
         public abstract bool IsClass { get; }
+        public virtual bool IsReference => IsClass;
+        public virtual bool ReferenceChanged => IsReference;
         public abstract bool HasDefault { get; }
 
         public TypeGeneration()

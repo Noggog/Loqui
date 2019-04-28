@@ -288,7 +288,7 @@ namespace Loqui.Generation
                         WrapSetCode(fg,
                             subGen =>
                             {
-                                subGen.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                                subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                             });
                     }
 
@@ -314,7 +314,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => this._{this.Name};");
                         WrapSetAccessor(fg,
                             linePrefix: $"{(this.ReadOnly ? "protected " : string.Empty)}set",
-                            toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIfChanged(ref this._{this.Name}, value, nameof({this.Name}));"));
+                            toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref this._{this.Name}, value, nameof({this.Name}));"));
                     }
                 }
             }
