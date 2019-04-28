@@ -105,7 +105,6 @@ namespace Loqui.Generation
                                 }
                             });
                             args.Add("def: null");
-                            args.Add("cmds: null");
                             args.Add("copyMask: null");
                             args.Add($"errorMask: {errorMaskAccessor}");
                         }

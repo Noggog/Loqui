@@ -838,7 +838,6 @@ namespace Loqui.Generation
                 this.GenericTypeMaskWheres(MaskType.Copy)))
             {
                 args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).Getter_InterfaceStr} rhs");
-                args.Add($"NotifyingFireParameters cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -850,7 +849,6 @@ namespace Loqui.Generation
                     args.Add("doMasks: false");
                     args.Add($"errorMask: out var errMask");
                     args.Add("copyMask: null");
-                    args.Add("cmds: cmds");
                 }
             }
             fg.AppendLine();
@@ -862,7 +860,6 @@ namespace Loqui.Generation
                 args.Add($"{this.Getter_InterfaceStr} rhs");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                 args.Add($"{this.Getter_InterfaceStr} def = null");
-                args.Add($"NotifyingFireParameters cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -874,7 +871,6 @@ namespace Loqui.Generation
                     args.Add("doMasks: false");
                     args.Add("errorMask: out var errMask");
                     args.Add("copyMask: copyMask");
-                    args.Add("cmds: cmds");
                 }
             }
             fg.AppendLine();
@@ -887,7 +883,6 @@ namespace Loqui.Generation
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                 args.Add($"{this.Getter_InterfaceStr} def = null");
-                args.Add($"NotifyingFireParameters cmds = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -901,7 +896,6 @@ namespace Loqui.Generation
                     args.Add("def: def");
                     args.Add("errorMask: errorMaskBuilder");
                     args.Add("copyMask: copyMask");
-                    args.Add("cmds: cmds");
                 }
                 fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
@@ -915,7 +909,6 @@ namespace Loqui.Generation
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                 args.Add($"{this.Getter_InterfaceStr} def = null");
-                args.Add($"NotifyingFireParameters cmds = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -928,7 +921,6 @@ namespace Loqui.Generation
                     args.Add("def: def");
                     args.Add("errorMask: errorMask");
                     args.Add("copyMask: copyMask");
-                    args.Add("cmds: cmds");
                 }
             }
             fg.AppendLine();
@@ -947,7 +939,6 @@ namespace Loqui.Generation
                     args.Add($"{this.Getter_InterfaceStr} def");
                     args.Add($"ErrorMaskBuilder errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
-                    args.Add($"NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -957,8 +948,7 @@ namespace Loqui.Generation
                         "rhs",
                         defaultFallbackAccessor: "def",
                         errMaskAccessor: "errorMask",
-                        copyMaskAccessor: "copyMask",
-                        cmdsAccessor: "cmds");
+                        copyMaskAccessor: "copyMask");
                 }
                 fg.AppendLine();
             }
@@ -970,8 +960,7 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string defaultFallbackAccessor,
             string errMaskAccessor,
-            string copyMaskAccessor,
-            string cmdsAccessor)
+            string copyMaskAccessor)
         {
             if (this.HasLoquiBaseObject)
             {
@@ -983,7 +972,6 @@ namespace Loqui.Generation
                     args.Add(defaultFallbackAccessor);
                     args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
-                    args.Add(cmdsAccessor);
                 }
             }
 
@@ -1005,7 +993,6 @@ namespace Loqui.Generation
                                 rhsAccessorPrefix,
                                 $"{copyMaskAccessor}?.{item.Field.Name}",
                                 defaultFallbackAccessor,
-                                cmdsAccessor: cmdsAccessor,
                                 protectedMembers: false);
                         }
                         GenerateExceptionCatcher(fg, item.Field, errMaskAccessor, $"{item.Field.IndexEnumName}");
@@ -1018,7 +1005,6 @@ namespace Loqui.Generation
                             rhsAccessorPrefix,
                             $"{copyMaskAccessor}.{item.Field.Name}",
                             defaultFallbackAccessor,
-                            cmdsAccessor: cmdsAccessor,
                             protectedMembers: false);
                         fg.AppendLine("errorMask?.PopIndex();");
                     }
@@ -1106,10 +1092,10 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                fg.AppendLine($"protected{await this.FunctionOverride()}void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => {this.ExtCommonName}.UnsetNthObject{this.GetGenericTypes(MaskType.Normal)}(index, this, cmds);");
+                fg.AppendLine($"protected{await this.FunctionOverride()}void UnsetNthObject(ushort index) => {this.ExtCommonName}.UnsetNthObject{this.GetGenericTypes(MaskType.Normal)}(index, this);");
                 if (this.IsTopClass)
                 {
-                    fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.UnsetNthObject(ushort index, NotifyingUnsetParameters cmds) => this.UnsetNthObject(index, cmds);");
+                    fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.UnsetNthObject(ushort index) => this.UnsetNthObject(index);");
                 }
                 fg.AppendLine();
             }
@@ -1228,9 +1214,9 @@ namespace Loqui.Generation
         {
             if (this.IsTopClass && this.GenerateNthReflections)
             {
-                fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.SetNthObject(ushort index, object obj, NotifyingFireParameters cmds) => this.SetNthObject(index, obj, cmds);");
+                fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.SetNthObject(ushort index, object obj) => this.SetNthObject(index, obj);");
             }
-            fg.AppendLine($"protected{await this.FunctionOverride()}void SetNthObject(ushort index, object obj, NotifyingFireParameters cmds = null)");
+            fg.AppendLine($"protected{await this.FunctionOverride()}void SetNthObject(ushort index, object obj)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
@@ -1263,12 +1249,11 @@ namespace Loqui.Generation
                                 fg,
                                 accessorPrefix: $"this",
                                 rhsAccessorPrefix: $"({field.SetToName})obj",
-                                cmdsAccessor: "cmds",
                                 internalUse: false);
                         }
                     }
 
-                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", false, false, "obj", "cmds");
+                    GenerateStandardIndexDefault(fg, "SetNthObject", "index", false, false, "obj");
                 }
             }
             fg.AppendLine();
@@ -1283,7 +1268,6 @@ namespace Loqui.Generation
                 args.Add($"ushort index");
                 args.Add($"bool on");
                 args.Add($"{this.InterfaceStr} obj");
-                args.Add($"{nameof(NotifyingFireParameters)} cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1378,7 +1362,6 @@ namespace Loqui.Generation
             {
                 args.Add("ushort index");
                 args.Add($"{this.InterfaceStr} obj");
-                args.Add($"{nameof(NotifyingUnsetParameters)} cmds = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1415,7 +1398,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                field.GenerateUnsetNth(fg, new Accessor(field, "obj."), "cmds");
+                                field.GenerateUnsetNth(fg, new Accessor(field, "obj."));
                             }
                         }
                     }
@@ -2020,7 +2003,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"var ret = new {this.ObjectName}();");
-                fg.AppendLine($"ret.CopyFieldsFrom_Generic(this, def: def, cmds: null);");
+                fg.AppendLine($"ret.CopyFieldsFrom_Generic(this, def: def);");
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
@@ -2132,22 +2115,22 @@ namespace Loqui.Generation
             {
                 if (!HasLoquiBaseObject)
                 {
-                    fg.AppendLine("partial void ClearPartial(NotifyingUnsetParameters cmds);");
+                    fg.AppendLine("partial void ClearPartial();");
                     fg.AppendLine();
 
-                    fg.AppendLine("protected void CallClearPartial_Internal(NotifyingUnsetParameters cmds)");
+                    fg.AppendLine("protected void CallClearPartial_Internal()");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"ClearPartial(cmds);");
+                        fg.AppendLine($"ClearPartial();");
                     }
                     fg.AppendLine();
                 }
 
-                fg.AppendLine($"public{await this.FunctionOverride()}void Clear(NotifyingUnsetParameters cmds = null)");
+                fg.AppendLine($"public{await this.FunctionOverride()}void Clear()");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("CallClearPartial_Internal(cmds);");
-                    fg.AppendLine($"{this.ExtCommonName}.Clear(this, cmds);");
+                    fg.AppendLine("CallClearPartial_Internal();");
+                    fg.AppendLine($"{this.ExtCommonName}.Clear(this);");
                 }
                 fg.AppendLine();
             }
@@ -2158,21 +2141,20 @@ namespace Loqui.Generation
                     GenerateWhereClauses().ToArray()))
                 {
                     args.Add($"{this.InterfaceStr} item");
-                    args.Add($"NotifyingUnsetParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.IterateFields())
                     {
                         if (field.ReadOnly) continue;
-                        field.GenerateClear(fg, new Accessor(field, "item."), "cmds");
+                        field.GenerateClear(fg, new Accessor(field, "item."));
                     }
                 }
             }
             fg.AppendLine();
         }
 
-        private void GenerateClear(FileGeneration fg, string accessor, string cmdAccessor)
+        private void GenerateClear(FileGeneration fg, string accessor)
         {
         }
 
@@ -2225,7 +2207,6 @@ namespace Loqui.Generation
                                 fg,
                                 accessorPrefix: $"obj",
                                 rhsAccessorPrefix: $"({field.SetToName})pair.Value",
-                                cmdsAccessor: "null",
                                 internalUse: true);
                         }
                     }
@@ -2242,7 +2223,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public static void {Loqui.Internal.Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false, cmds: null);");
+                    fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false);");
                 }
                 fg.AppendLine();
             }

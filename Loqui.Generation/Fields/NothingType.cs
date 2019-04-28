@@ -30,7 +30,7 @@ namespace Loqui.Generation
             this.HasBeenSetProperty.Set(false);
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
         }
 
@@ -38,7 +38,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers)
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, bool protectedMembers)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
         }
 
@@ -86,7 +86,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
         }
 

@@ -112,7 +112,7 @@ namespace Loqui.Generation
             fg.AppendLine("break;");
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.ReadOnly)
             {
@@ -180,7 +180,6 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
             var loqui = this.ValueTypeGen as LoquiType;
@@ -223,7 +222,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
+        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool protectedUse)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{accessorPrefix}.{this.GetName(protectedUse)}.SetTo"))
@@ -232,7 +231,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             using (var args = new ArgsWrapper(fg,
                 $"{accessorPrefix}.{this.Name}.SetTo"))
@@ -247,7 +246,7 @@ namespace Loqui.Generation
             fg.AppendLine($"return {identifier.DirectAccess};");
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
             fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
         }

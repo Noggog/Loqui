@@ -9,7 +9,6 @@ namespace Loqui
     public enum NotifyingType
     {
         None,
-        NotifyingItem,
         ReactiveUI
     }
 }

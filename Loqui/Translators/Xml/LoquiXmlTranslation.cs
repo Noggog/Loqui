@@ -81,8 +81,7 @@ namespace Loqui.Xml
             bool skipProtected,
             MissingCreate missing,
             ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask,
-            NotifyingFireParameters cmds)
+            TranslationCrystal translationMask)
             where C : T, ILoquiObject
         {
             if (node == null)

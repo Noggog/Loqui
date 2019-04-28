@@ -116,11 +116,11 @@ namespace Loqui.Generation
             fg.AppendLine("break;");
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset({cmdsAccessor});");
+                fg.AppendLine($"{identifier}.{this.GetName(false)}.Unset();");
             }
             fg.AppendLine("break;");
         }
@@ -195,7 +195,6 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
@@ -205,7 +204,6 @@ namespace Loqui.Generation
                 {
                     args.Add($"rhs.{this.Name}");
                     args.Add($"def?.{this.Name}");
-                    args.Add($"cmds");
                 }
                 return;
             }
@@ -214,7 +212,6 @@ namespace Loqui.Generation
             {
                 args.Add($"rhs.{this.Name}");
                 args.Add($"def?.{this.Name}");
-                args.Add($"cmds");
                 args.Add((gen) =>
                 {
                     gen.AppendLine("(k, v, d) =>");
@@ -277,7 +274,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor)
+        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix)
         {
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
@@ -292,11 +289,10 @@ namespace Loqui.Generation
                         fg.AppendLine($"i.Value{(this.ValueIsLoqui ? ".CopyFieldsFrom()" : string.Empty)})),");
                     }
                 }
-                fg.AppendLine($"{cmdAccessor});");
             }
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo(");
             using (new DepthWrapper(fg))
@@ -311,7 +307,6 @@ namespace Loqui.Generation
                         fg.AppendLine($"i.Value{(this.ValueIsLoqui ? ".Copy()" : string.Empty)})),");
                     }
                 }
-                fg.AppendLine($"{cmdsAccessor});");
             }
             fg.AppendLine($"break;");
         }
@@ -321,9 +316,9 @@ namespace Loqui.Generation
             fg.AppendLine($"return {identifier.DirectAccess};");
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            fg.AppendLine($"{accessorPrefix.DirectAccess}.Unset({cmdAccessor}.ToUnsetParams());");
+            fg.AppendLine($"{accessorPrefix.DirectAccess}.Unset();");
         }
 
         public override string GenerateACopy(string rhsAccessor)

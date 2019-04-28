@@ -103,7 +103,6 @@ namespace Loqui.Generation
                                 args.Add(API.Result);
                             }
                         }
-                        args.Add("NotifyingFireParameters cmds = null");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -113,7 +112,6 @@ namespace Loqui.Generation
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             args.Add($"errorMask: null");
                             args.Add($"translationMask: null");
-                            args.Add($"cmds: cmds");
                         }
                     }
                     fg.AppendLine();
@@ -143,7 +141,6 @@ namespace Loqui.Generation
                         }
                     }
                     args.Add("bool doMasks = true");
-                    args.Add("NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -154,7 +151,6 @@ namespace Loqui.Generation
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         args.Add($"errorMask: errorMaskBuilder");
                         args.Add($"translationMask: translationMask?.GetCrystal()");
-                        args.Add($"cmds: cmds");
                     }
                     fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                 }
@@ -182,7 +178,6 @@ namespace Loqui.Generation
                             args.Add(line.Result);
                         }
                     }
-                    args.Add("NotifyingFireParameters cmds = null");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -200,7 +195,6 @@ namespace Loqui.Generation
                         {
                             args.Add($"translationMask: translationMask");
                         }
-                        args.Add($"cmds: cmds");
                     }
                 }
                 fg.AppendLine();
@@ -220,7 +214,6 @@ namespace Loqui.Generation
                                     args.Add(API.Result);
                                 }
                             }
-                            args.Add("NotifyingFireParameters cmds = null");
                         }
                         using (new BraceWrapper(fg))
                         {
@@ -233,7 +226,6 @@ namespace Loqui.Generation
                                     {
                                         args.Add(item);
                                     }
-                                    args.Add($"cmds: cmds");
                                 }
                             });
                         }
@@ -263,7 +255,6 @@ namespace Loqui.Generation
                                 args.Add(line.Result);
                             }
                         }
-                        args.Add("NotifyingFireParameters cmds = null");
                         args.Add("bool doMasks = true");
                     }
                     using (new BraceWrapper(fg))
@@ -280,7 +271,6 @@ namespace Loqui.Generation
                                 }
                                 args.Add($"errorMask: out errorMask");
                                 args.Add($"translationMask: translationMask");
-                                args.Add($"cmds: cmds");
                                 args.Add($"doMasks: doMasks");
                             }
                         });
@@ -314,7 +304,6 @@ namespace Loqui.Generation
                                 }
                             }
                             args.Add("bool doMasks = true");
-                            args.Add($"NotifyingFireParameters cmds = null");
                         }
                         using (new BraceWrapper(fg))
                         {
@@ -325,7 +314,6 @@ namespace Loqui.Generation
                                 args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                                 args.Add($"errorMask: errorMaskBuilder");
                                 args.Add($"translationMask: translationMask?.GetCrystal()");
-                                args.Add($"cmds: cmds");
                             }
                             fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                         }

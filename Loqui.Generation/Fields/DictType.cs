@@ -78,9 +78,9 @@ namespace Loqui.Generation
             subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
-            subGenerator.GenerateUnsetNth(fg, identifier, cmdsAccessor);
+            subGenerator.GenerateUnsetNth(fg, identifier);
         }
 
         public override void GenerateForClass(FileGeneration fg)
@@ -104,15 +104,14 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
-            subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, cmdsAccessor, protectedMembers);
+            subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, protectedMembers);
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
-            subGenerator.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, internalUse);
+            subGenerator.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, internalUse);
         }
 
         public override string HasBeenSetAccessor(Accessor accessor = null)
@@ -125,9 +124,9 @@ namespace Loqui.Generation
             subGenerator.GenerateGetNth(fg, identifier);
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            subGenerator.GenerateClear(fg, accessorPrefix, cmdAccessor);
+            subGenerator.GenerateClear(fg, accessorPrefix);
         }
 
         public override string GenerateACopy(string rhsAccessor)

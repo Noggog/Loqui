@@ -40,8 +40,8 @@ namespace Loqui
     public interface ILoquiReflectionSetter : ILoquiReflectionGetter, ILoquiObjectSetter
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
-        void UnsetNthObject(ushort index, NotifyingUnsetParameters cmds);
-        void SetNthObject(ushort index, object o, NotifyingFireParameters cmds);
+        void UnsetNthObject(ushort index);
+        void SetNthObject(ushort index, object o);
     }
 
     public interface ILoquiClass<L, G> : IEqualsMask<G>
@@ -133,8 +133,7 @@ namespace Loqui
             ILoquiReflectionSetter obj,
             ILoquiReflectionGetter rhs,
             ILoquiReflectionGetter def,
-            bool skipProtected,
-            NotifyingFireParameters cmds = null)
+            bool skipProtected)
         {
             for (ushort i = 0; i < obj.Registration.FieldCount; i++)
             {
@@ -142,17 +141,17 @@ namespace Loqui
                 if (obj.Registration.IsNthDerivative(i)) continue;
                 if (rhs.GetNthObjectHasBeenSet(i))
                 {
-                    obj.SetNthObject(i, rhs.GetNthObject(i), cmds);
+                    obj.SetNthObject(i, rhs.GetNthObject(i));
                 }
                 else
                 {
                     if (def != null && def.GetNthObjectHasBeenSet(i))
                     {
-                        obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                        obj.SetNthObject(i, def.GetNthObject(i));
                     }
                     else
                     {
-                        obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                        obj.UnsetNthObject(i);
                     }
                 }
             }
@@ -162,8 +161,7 @@ namespace Loqui
             ILoquiReflectionSetter obj,
             IEnumerable<KeyValuePair<ushort, object>> fields,
             ILoquiReflectionGetter def,
-            bool skipProtected,
-            NotifyingFireParameters cmds = null)
+            bool skipProtected)
         {
             if (fields == null || !fields.Any()) return;
             HashSet<ushort> readFields = new HashSet<ushort>();
@@ -171,7 +169,7 @@ namespace Loqui
             {
                 readFields.Add(field.Key);
                 if (skipProtected && obj.Registration.IsProtected(field.Key)) continue;
-                obj.SetNthObject(field.Key, field.Value, cmds);
+                obj.SetNthObject(field.Key, field.Value);
             }
 
             for (ushort i = 0; i < obj.Registration.FieldCount; i++)
@@ -180,11 +178,11 @@ namespace Loqui
                 if (readFields.Contains(i)) continue;
                 if (def != null && def.GetNthObjectHasBeenSet(i))
                 {
-                    obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                    obj.SetNthObject(i, def.GetNthObject(i));
                 }
                 else
                 {
-                    obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                    obj.UnsetNthObject(i);
                 }
             }
         }
@@ -194,8 +192,7 @@ namespace Loqui
             IEnumerable<KeyValuePair<ushort, object>> fields,
             ILoquiReflectionGetter def,
             Func<IErrorMask> errorMaskGetter,
-            bool skipProtected,
-            NotifyingFireParameters cmds = null)
+            bool skipProtected)
         {
             if (!fields.Any()) return;
             try
@@ -207,7 +204,7 @@ namespace Loqui
                     if (skipProtected && obj.Registration.IsProtected(field.Key)) continue;
                     try
                     {
-                        obj.SetNthObject(field.Key, field.Value, cmds);
+                        obj.SetNthObject(field.Key, field.Value);
                     }
                     catch (Exception ex)
                     {
@@ -223,11 +220,11 @@ namespace Loqui
                     {
                         if (def != null && def.GetNthObjectHasBeenSet(i))
                         {
-                            obj.SetNthObject(i, def.GetNthObject(i), cmds);
+                            obj.SetNthObject(i, def.GetNthObject(i));
                         }
                         else
                         {
-                            obj.UnsetNthObject(i, cmds.ToUnsetParams());
+                            obj.UnsetNthObject(i);
                         }
                     }
                     catch (Exception ex)

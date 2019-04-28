@@ -126,7 +126,6 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
             if (this.isLoquiSingle)
@@ -183,13 +182,13 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo({rhsAccessorPrefix});");
             fg.AppendLine($"break;");
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdAccessor, bool protectedUse)
+        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool protectedUse)
         {
             fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}.Select((s) =>");
             using (new BraceWrapper(fg)
@@ -218,10 +217,9 @@ namespace Loqui.Generation
                     }
                 }
             }
-            fg.AppendLine($"{cmdAccessor});");
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
             fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
         }

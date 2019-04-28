@@ -248,206 +248,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
-            {
-                if (this.ObjectCentralized)
-                {
-                    if (base.HasDefault)
-                    {
-                        throw new NotImplementedException();
-                    }
-                    if (this.SingletonType == SingletonLevel.Singleton)
-                    {
-                        fg.AppendLine($"protected readonly {TypeName} _{this.Name} = new {this.ObjectTypeName}();");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"protected {TypeName} _{this.Name};");
-                    }
-                    fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}> _{this.Name}Forwarder;");
-                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this._{this.Name};");
-                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.Set{this.Name}(value);");
-                    }
-                    using (var args = new FunctionWrapper(fg,
-                        $"protected void Set{this.Name}"))
-                    {
-                        args.Add($"{this.TypeName} item");
-                        args.Add($"bool hasBeenSet = true");
-                        args.Add($"NotifyingFireParameters cmds = null");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        if (this.SingletonType == SingletonLevel.Singleton)
-                        {
-                            using (var args = new ArgsWrapper(fg,
-                                $"this._{this.Name}.CopyFieldsFrom"))
-                            {
-                                args.Add($"rhs: item");
-                                args.Add($"def: null");
-                                args.Add($"cmds: null");
-                                args.Add($"copyMask: null");
-                                args.Add($"doMasks: false");
-                                args.Add($"errorMask: out var errMask");
-                            }
-                        }
-                        else
-                        {
-                            fg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                            fg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
-                            fg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
-                            }
-                            fg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"var tmp = {this.Name};");
-                                if (this.SingletonType == SingletonLevel.NotNull)
-                                {
-                                    fg.AppendLine("if (item == null)");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        fg.AppendLine($"item = new {this._TargetObjectGeneration.Name}();");
-                                    }
-                                }
-                                fg.AppendLine($"_{this.Name} = item;");
-                                using (var args = new ArgsWrapper(fg,
-                                    $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
-                                {
-                                    args.Add($"index: (int){this.ObjectCentralizationEnumName}");
-                                    args.Add("oldHasBeenSet: oldHasBeenSet");
-                                    args.Add("newHasBeenSet: hasBeenSet");
-                                    args.Add($"oldVal: tmp");
-                                    args.Add($"newVal: item");
-                                    args.Add($"cmds: cmds");
-                                }
-                            }
-                            fg.AppendLine("else");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"_{this.Name} = item;");
-                            }
-                        }
-                    }
-                    using (var args = new FunctionWrapper(fg,
-                        $"protected void Unset{this.Name}"))
-                    {
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
-                        fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
-                    }
-                    if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
-                    {
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                }
-                else
-                {
-                    if (this.HasBeenSet)
-                    {
-                        switch (this.SingletonType)
-                        {
-                            case SingletonLevel.None:
-                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItem<{TypeName}>();");
-                                break;
-                            case SingletonLevel.NotNull:
-                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                fg.AppendLine($"private readonly INotifyingSetItem<{TypeName}> {this.ProtectedProperty} = new NotifyingSetItemConvertWrapper<{TypeName}>(");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine($"defaultVal: new {this._TargetObjectGeneration.Name}(),");
-                                    fg.AppendLine("incomingConverter: (change) =>");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        fg.AppendLine("if (change.New == null)");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(new {this._TargetObjectGeneration.Name}());");
-                                        }
-                                        fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(change.New);");
-                                    }
-                                }
-                                fg.AppendLine(");");
-                                break;
-                            case SingletonLevel.Singleton:
-                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
-                                fg.AppendLine(GetNotifyingProperty() + ";");
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-                        fg.AppendLine($"public INotifyingSetItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
-                        if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    else
-                    {
-                        switch (this.SingletonType)
-                        {
-                            case SingletonLevel.None:
-                                fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItem<{TypeName}>();");
-                                break;
-                            case SingletonLevel.NotNull:
-                                fg.AppendLine($"private readonly INotifyingItem<{TypeName}> {this.ProtectedProperty} = new NotifyingItemConvertWrapper<{TypeName}>(");
-                                using (new DepthWrapper(fg))
-                                {
-                                    fg.AppendLine($"defaultVal: new {this._TargetObjectGeneration.Name}(),");
-                                    fg.AppendLine("incomingConverter: (change) =>");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        fg.AppendLine("if (change.New == null)");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(new {this._TargetObjectGeneration.Name}());");
-                                        }
-                                        fg.AppendLine($"return TryGet<{this.TypeName}>.Succeed(change.New);");
-                                    }
-                                }
-                                fg.AppendLine(");");
-                                break;
-                            case SingletonLevel.Singleton:
-                                fg.AppendLine($"private {this.ObjectTypeName} {this.SingletonObjectName} = new {this.ObjectTypeName}();");
-                                fg.AppendLine(GetNotifyingProperty() + ";");
-                                break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public INotifyingItem{((ReadOnly || this.SingletonType == SingletonLevel.Singleton) ? "Getter" : string.Empty)}<{TypeName}> {this.Property} => this._{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"public {TypeName} {this.Name} {{ get => _{this.Name}.Item; {(this.ReadOnly ? string.Empty : $"set => _{this.Name}.Item = value; ")}}}");
-                        if (!this.ReadOnly && this.SingletonType != SingletonLevel.Singleton)
-                        {
-                            fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                        }
-                        fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                }
-            }
-            else if (this.NotifyingType == NotifyingType.ReactiveUI)
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
                 {
@@ -650,27 +451,13 @@ namespace Loqui.Generation
         protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
         {
             string item;
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
+            if (this.HasBeenSet)
             {
-                if (this.HasBeenSet)
-                {
-                    item = $"NotifyingSetItem";
-                }
-                else
-                {
-                    item = $"NotifyingItem";
-                }
+                item = $"HasBeenSetItem";
             }
             else
             {
-                if (this.HasBeenSet)
-                {
-                    item = $"HasBeenSetItem";
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+                throw new ArgumentException();
             }
             using (var args = new ArgsWrapper(fg,
                 $"{prepend} = {item}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
@@ -824,7 +611,6 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
 
@@ -1071,7 +857,6 @@ namespace Loqui.Generation
                         args.Add($"errorMask: null");
                         args.Add($"copyMask: null");
                     }
-                    args.Add($"cmds: cmds");
                 }
             }
             else
@@ -1080,11 +865,11 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (this.SingletonType != SingletonLevel.Singleton)
             {
-                base.GenerateUnsetNth(fg, identifier, cmdsAccessor);
+                base.GenerateUnsetNth(fg, identifier);
                 return;
             }
             if (this.InterfaceType == LoquiInterfaceType.IGetter)
@@ -1093,7 +878,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{this.TargetObjectGeneration.ExtCommonName}.Clear({identifier.DirectAccess}, cmds.ToUnsetParams());");
+                fg.AppendLine($"{this.TargetObjectGeneration.ExtCommonName}.Clear({identifier.DirectAccess});");
                 fg.AppendLine("break;");
             }
         }
@@ -1123,16 +908,6 @@ namespace Loqui.Generation
                         return;
                     }
                     break;
-                case NotifyingType.NotifyingItem:
-                    if (this.HasBeenSet)
-                    {
-                        fg.AppendLine($"INotifyingSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                    }
-                    break;
                 case NotifyingType.ReactiveUI:
                     if (this.HasBeenSet)
                     {
@@ -1145,7 +920,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             if (this.SingletonType == SingletonLevel.Singleton)
             {
@@ -1161,7 +936,7 @@ namespace Loqui.Generation
             }
             else
             {
-                base.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, cmdsAccessor, internalUse);
+                base.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, internalUse);
             }
         }
 
@@ -1182,11 +957,11 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
             if (this.SingletonType != SingletonLevel.Singleton)
             {
-                base.GenerateClear(fg, accessorPrefix, cmdAccessor);
+                base.GenerateClear(fg, accessorPrefix);
             }
         }
 

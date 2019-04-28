@@ -94,148 +94,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
-            {
-                if (!this.ObjectCentralized)
-                {
-                    if (this.HasBeenSet)
-                    {
-                        if (this.RaisePropertyChanged)
-                        {
-                            fg.AppendLine($"protected readonly INotifyingSetItem<{TypeName}> _{this.Name};");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            GenerateNotifyingCtor(fg);
-                        }
-                        fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"get => this._{this.Name}.Item;");
-                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
-                        }
-                        if (!this.ReadOnly)
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"INotifyingSetItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"INotifyingSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                    else
-                    {
-                        if (this.RaisePropertyChanged)
-                        {
-                            fg.AppendLine($"protected INotifyingItem<{TypeName}> _{this.Name};");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            GenerateNotifyingCtor(fg);
-                        }
-                        fg.AppendLine($"public {(ReadOnly ? "INotifyingItemGetter" : "INotifyingItem")}<{TypeName}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"get => this._{ this.Name}.Item;");
-                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value);");
-                        }
-                        if (!this.ReadOnly)
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"INotifyingItem<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property} => this.{this.Property};");
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"INotifyingItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.Property};");
-                    }
-                }
-                else
-                {
-                    fg.AppendLine($"protected {TypeName} _{this.Name};");
-                    if (HasDefault)
-                    {
-                        fg.AppendLine($"protected readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
-                    }
-                    fg.AppendLine($"protected PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}> _{this.Name}Forwarder;");
-                    fg.AppendLine($"public {(ReadOnly ? "INotifyingSetItemGetter" : "INotifyingSetItem")}<{TypeName}> {this.Property} => _{this.Name}Forwarder ?? (_{this.Name}Forwarder = new PropertyForwarder<{this.ObjectGen.ObjectName}, {TypeName}>(this, (int){this.ObjectCentralizationEnumName}));");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this._{this.Name};");
-                        WrapSetAccessor(fg,
-                            linePrefix: $"{(ReadOnly ? "protected " : string.Empty)}set",
-                            toDo: subFg => subFg.AppendLine($"this.Set{this.Name}(value);"));
-                    }
-                    fg.AppendLine();
-
-                    using (var args = new FunctionWrapper(fg,
-                        $"protected void Set{this.Name}"))
-                    {
-                        args.Add($"{this.TypeName} item");
-                        args.Add($"bool hasBeenSet = true");
-                        args.Add($"NotifyingFireParameters cmds = null");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        WrapSetCode(fg,
-                            toDo: (subFg) =>
-                            {
-                                subFg.AppendLine($"var oldHasBeenSet = _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                                if (this.IsClass)
-                                {
-                                    subFg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && object.Equals({this.Name}, item)) return;");
-                                }
-                                else
-                                {
-                                    subFg.AppendLine($"if ((cmds?.ForceFire ?? true) && oldHasBeenSet == hasBeenSet && {this.ProtectedName} == item) return;");
-                                }
-                                subFg.AppendLine("if (oldHasBeenSet != hasBeenSet)");
-                                using (new BraceWrapper(subFg))
-                                {
-                                    subFg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = hasBeenSet;");
-                                }
-                                subFg.AppendLine($"if (_{Utility.MemberNameSafety(this.TypeName)}_subscriptions != null)");
-                                using (new BraceWrapper(subFg))
-                                {
-                                    subFg.AppendLine($"var tmp = {this.Name};");
-                                    subFg.AppendLine($"_{this.Name} = item;");
-                                    using (var args = new ArgsWrapper(subFg,
-                                        $"_{Utility.MemberNameSafety(this.TypeName)}_subscriptions.FireSubscriptions"))
-                                    {
-                                        args.Add($"index: (int){this.ObjectCentralizationEnumName}");
-                                        args.Add("oldHasBeenSet: oldHasBeenSet");
-                                        args.Add("newHasBeenSet: hasBeenSet");
-                                        args.Add($"oldVal: tmp");
-                                        args.Add($"newVal: item");
-                                        args.Add($"cmds: cmds");
-                                    }
-                                }
-                                subFg.AppendLine("else");
-                                using (new BraceWrapper(subFg))
-                                {
-                                    subFg.AppendLine($"_{this.Name} = item;");
-                                }
-                            });
-                    }
-                    if (!this.ReadOnly)
-                    {
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        WrapSetAccessor(fg,
-                            linePrefix: $"INotifying{(this.HasBeenSet ? "Set" : null)}Item<{this.TypeName}> {this.ObjectGen.InterfaceStr}.{this.Property}",
-                            toDo: (subGen) => subGen.AppendLine($"this.{this.Property};"));
-                    }
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    WrapSetAccessor(fg,
-                        linePrefix: $"INotifying{(this.HasBeenSet ? "Set" : null)}ItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property}",
-                        toDo: (subGen) => subGen.AppendLine($"this.{this.Property};"));
-                }
-            }
-            else if (this.NotifyingType == NotifyingType.ReactiveUI)
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
                 {
@@ -399,27 +258,13 @@ namespace Loqui.Generation
         protected string GetNotifyingProperty()
         {
             string item;
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
+            if (this.HasBeenSet)
             {
-                if (this.HasBeenSet)
-                {
-                    item = "NotifyingSetItem";
-                }
-                else
-                {
-                    item = "NotifyingItem";
-                }
+                item = "HasBeenSetItem";
             }
             else
             {
-                if (this.HasBeenSet)
-                {
-                    item = "HasBeenSetItem";
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                throw new NotImplementedException();
             }
             return $"protected I{item}<{TypeName}> _{this.Name}";
         }
@@ -449,27 +294,13 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             string item;
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
+            if (this.HasBeenSet)
             {
-                if (this.HasBeenSet)
-                {
-                    item = "NotifyingSetItem";
-                }
-                else
-                {
-                    item = "NotifyingItem";
-                }
+                item = "HasBeenSetItem";
             }
             else
             {
-                if (this.HasBeenSet)
-                {
-                    item = "HasBeenSetItem";
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                throw new NotImplementedException();
             }
             using (var args = new ArgsWrapper(fg,
                 $"{prepend} = {item}.Factory<{TypeName}>"))
@@ -491,18 +322,7 @@ namespace Loqui.Generation
             if (this.ReadOnly || !this.IntegrateField) return;
             fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
             
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
-            {
-                if (this.HasBeenSet)
-                {
-                    fg.AppendLine($"new INotifyingSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
-                }
-                else
-                {
-                    fg.AppendLine($"new INotifyingItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
-                }
-            }
-            else if (this.NotifyingType == NotifyingType.ReactiveUI)
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
                 {
@@ -525,18 +345,7 @@ namespace Loqui.Generation
         {
             if (!this.IntegrateField) return;
             fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
-            if (this.NotifyingType == NotifyingType.NotifyingItem)
-            {
-                if (this.HasBeenSet)
-                {
-                    fg.AppendLine($"INotifyingSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                }
-                else
-                {
-                    fg.AppendLine($"INotifyingItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                }
-            }
-            else if (this.NotifyingType == NotifyingType.ReactiveUI)
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
                 {
@@ -559,7 +368,6 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers)
         {
             if (!this.IntegrateField) return;
@@ -572,11 +380,6 @@ namespace Loqui.Generation
                     {
                         args.Add($"rhs: {rhsAccessorPrefix}.{this.GetName(false, true)}");
                         args.Add($"def: {defaultFallbackAccessor}?.{this.GetName(false, true)}");
-                        if (this.NotifyingType == NotifyingType.NotifyingItem
-                            && !this.ObjectCentralized)
-                        {
-                            args.Add($"cmds: {cmdsAccessor}");
-                        }
                     }
                 }
                 else
@@ -585,10 +388,6 @@ namespace Loqui.Generation
                         $"{accessor.PropertyAccess}.Set"))
                     {
                         args.Add($"value: {rhsAccessorPrefix}.{this.GetName(false, false)}");
-                        if (this.NotifyingType != NotifyingType.None)
-                        {
-                            args.Add($"cmds: {cmdsAccessor}");
-                        }
                     }
                 }
             }
@@ -639,7 +438,7 @@ namespace Loqui.Generation
             return rhsAccessor;
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             if (!this.IntegrateField) return;
             if (this.Bare)
@@ -648,19 +447,7 @@ namespace Loqui.Generation
             }
             else if (this.ObjectCentralized && this.Notifying)
             {
-                if (this.NotifyingType == NotifyingType.NotifyingItem)
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessorPrefix}.Set{this.Name}"))
-                    {
-                        args.Add($"{rhsAccessorPrefix}");
-                        args.Add($"cmds: {cmdsAccessor}");
-                    }
-                }
-                else
-                {
-                    fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix};");
-                }
+                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix};");
             }
             else if (this.HasProperty)
             {
@@ -668,10 +455,6 @@ namespace Loqui.Generation
                     $"{accessorPrefix}.{this.ProtectedProperty}.Set"))
                 {
                     args.Add($"{rhsAccessorPrefix}");
-                    if (this.NotifyingType == NotifyingType.NotifyingItem)
-                    {
-                        args.Add($"{cmdsAccessor}");
-                    }
                 }
             }
             else
@@ -681,7 +464,7 @@ namespace Loqui.Generation
             fg.AppendLine($"break;");
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor identifier, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor identifier)
         {
             if (this.ReadOnly || !this.IntegrateField) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
@@ -698,7 +481,7 @@ namespace Loqui.Generation
             }
             if (!this.Bare)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset({cmdAccessor}.ToUnsetParams());");
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
             }
             else
             {
@@ -706,9 +489,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
-            GenerateClear(fg, identifier, cmdsAccessor);
+            GenerateClear(fg, identifier);
             fg.AppendLine("break;");
         }
 

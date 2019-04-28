@@ -35,7 +35,7 @@ namespace Loqui.Generation
             if (field is ContainerType) return false;
             if (field is DictType) return false;
             if (!field.ObjectCentralized) return false;
-            if (forNotification && field.NotifyingType != NotifyingType.NotifyingItem) return false;
+            if (forNotification) return false;
             return true;
         }
 
@@ -297,7 +297,6 @@ namespace Loqui.Generation
                 args.Add("int index");
                 args.Add($"{type} item");
                 args.Add($"bool hasBeenSet");
-                args.Add($"NotifyingFireParameters cmds");
             }
             using (new BraceWrapper(fg))
             {
@@ -307,7 +306,6 @@ namespace Loqui.Generation
                     args.AddPassArg("index");
                     args.AddPassArg("item");
                     args.AddPassArg("hasBeenSet");
-                    args.AddPassArg("cmds");
                 }
             }
             fg.AppendLine();
@@ -318,7 +316,6 @@ namespace Loqui.Generation
                 args.Add("int index");
                 args.Add($"{type} item");
                 args.Add($"bool hasBeenSet");
-                args.Add($"NotifyingFireParameters cmds");
             }
             using (new BraceWrapper(fg))
             {
@@ -330,7 +327,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"case {field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            fg.AppendLine($"Set{field.Name}(item, hasBeenSet, cmds);");
+                            fg.AppendLine($"Set{field.Name}(item, hasBeenSet);");
                             fg.AppendLine($"break;");
                         }
                     }
@@ -345,7 +342,6 @@ namespace Loqui.Generation
                                 args.AddPassArg("index");
                                 args.AddPassArg("item");
                                 args.AddPassArg("hasBeenSet");
-                                args.AddPassArg("cmds");
                             }
                             fg.AppendLine("break;");
                         }
@@ -369,7 +365,6 @@ namespace Loqui.Generation
                 $"void IPropertySupporter<{type}>.Unset"))
             {
                 args.Add("int index");
-                args.Add("NotifyingUnsetParameters cmds");
             }
             using (new BraceWrapper(fg))
             {
@@ -377,7 +372,6 @@ namespace Loqui.Generation
                     $"Unset{Utility.MemberNameSafety(type)}"))
                 {
                     args.AddPassArg("index");
-                    args.AddPassArg("cmds");
                 }
             }
             fg.AppendLine();
@@ -386,7 +380,6 @@ namespace Loqui.Generation
                 $"protected{await obj.FunctionOverride(async (b) => HasImplementation(b, type))}void Unset{Utility.MemberNameSafety(type)}"))
             {
                 args.Add("int index");
-                args.Add("NotifyingUnsetParameters cmds");
             }
             using (new BraceWrapper(fg))
             {
@@ -416,7 +409,6 @@ namespace Loqui.Generation
                                 $"base.Unset{Utility.MemberNameSafety(type)}"))
                             {
                                 args.AddPassArg("index");
-                                args.AddPassArg("cmds");
                             }
                             fg.AppendLine("break;");
                         }
@@ -463,7 +455,6 @@ namespace Loqui.Generation
                 args.Add("int index");
                 args.Add("object owner");
                 args.Add($"NotifyingSetItemInternalCallback<{type}> callback");
-                args.Add("NotifyingSubscribeParameters cmds");
             }
             using (new BraceWrapper(fg))
             {
@@ -479,7 +470,6 @@ namespace Loqui.Generation
                     args.Add("owner: owner");
                     args.Add("prop: this");
                     args.Add("callback: callback");
-                    args.Add("cmds: cmds");
                 }
             }
             fg.AppendLine();

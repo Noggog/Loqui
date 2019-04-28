@@ -54,7 +54,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor)
+        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
             throw new NotImplementedException();
         }
@@ -64,7 +64,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, string cmdsAccessor, bool protectedMembers)
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, bool protectedMembers)
         {
             throw new NotImplementedException();
         }
@@ -124,7 +124,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             throw new NotImplementedException();
         }
@@ -139,7 +139,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             throw new NotImplementedException();
         }

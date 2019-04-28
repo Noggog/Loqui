@@ -132,20 +132,19 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            string cmdsAccessor,
             bool protectedMembers);
 
         public abstract string GenerateACopy(string rhsAccessor);
 
-        public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, string cmdsAccessor, bool internalUse);
+        public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse);
 
         public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier);
 
-        public abstract void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor);
+        public abstract void GenerateUnsetNth(FileGeneration fg, Accessor identifier);
 
         public abstract void GenerateGetNth(FileGeneration fg, Accessor identifier);
 
-        public abstract void GenerateClear(FileGeneration fg, Accessor accessorPrefix, string cmdAccessor);
+        public abstract void GenerateClear(FileGeneration fg, Accessor accessorPrefix);
 
         public abstract void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor);
 

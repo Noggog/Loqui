@@ -18,18 +18,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"if ({typeGen.Name}tryGet.Succeeded)");
                 using (new BraceWrapper(fg))
                 {
-                    if (typeGen.NotifyingType == NotifyingType.NotifyingItem)
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"item.Set{typeGen.Name}"))
-                        {
-                            args.Add($"item: {typeGen.Name}tryGet.Value");
-                        }
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{retAccessor.DirectAccess} = {typeGen.Name}tryGet.Value;");
-                    }
+                    fg.AppendLine($"{retAccessor.DirectAccess} = {typeGen.Name}tryGet.Value;");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))

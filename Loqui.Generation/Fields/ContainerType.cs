@@ -70,7 +70,7 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
 
-            this.NotifyingProperty.Set(NotifyingType.NotifyingItem);
+            this.NotifyingProperty.Set(NotifyingType.ReactiveUI);
         }
 
         public override IEnumerable<string> GetRequiredNamespaces()
@@ -92,7 +92,7 @@ namespace Loqui.Generation
             fg.AppendLine("break;");
         }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier, string cmdsAccessor)
+        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.ReadOnly)
             {
