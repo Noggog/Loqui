@@ -7,9 +7,9 @@ namespace Loqui.Generation
     {
         public override Type Type => typeof(Percent);
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            fg.AppendLine($"if (!{accessor.DirectAccess}.Equals({rhsAccessor.DirectAccess})) return false;");
+            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.Equals({rhsAccessor.DirectAccess})";
         }
     }
 }

@@ -742,16 +742,16 @@ namespace Loqui.Generation
             {
                 if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
-                    fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)} && {accessor.DirectAccess} == {rhsAccessor.DirectAccess};");
+                    fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)} && {GenerateEqualsSnippet(accessor.DirectAccess, rhsAccessor.DirectAccess)};");
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l == r);");
+                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => {GenerateEqualsSnippet("l", "r")});");
                 }
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = {accessor.DirectAccess} == {rhsAccessor.DirectAccess};");
+                fg.AppendLine($"{retAccessor} = {GenerateEqualsSnippet(accessor.DirectAccess, rhsAccessor.DirectAccess)};");
             }
         }
 

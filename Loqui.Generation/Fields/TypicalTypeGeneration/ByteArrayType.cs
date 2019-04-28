@@ -18,30 +18,9 @@ namespace Loqui.Generation
             base.GenerateForClass(fg);
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            if (!this.IntegrateField) return;
-            fg.AppendLine($"if (!{accessor.DirectAccess}.EqualsFast({rhsAccessor.DirectAccess})) return false;");
-        }
-        
-        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
-        {
-            if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
-            {
-                if (this.NotifyingType == NotifyingType.ReactiveUI)
-                {
-                    fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)} && {accessor.DirectAccess}.EqualsFast({rhsAccessor.DirectAccess});");
-                }
-                else
-                {
-                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => l.EqualsFast(r));");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{retAccessor} = {accessor.DirectAccess}.EqualsFast({rhsAccessor.DirectAccess});");
-            }
+            return $"{(negate ? "!" : null)}ByteExt.EqualsFast({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
         }
 
         public override string GetNewForNonNullable()

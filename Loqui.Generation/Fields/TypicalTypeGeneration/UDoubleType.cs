@@ -7,6 +7,11 @@ namespace Loqui.Generation
     {
         public override Type Type => typeof(UDouble);
 
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
+        {
+            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.EqualsWithin({rhsAccessor.DirectAccess})";
+        }
+
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
             fg.AppendLine($"if (!{accessor.DirectAccess}.EqualsWithin({rhsAccessor.DirectAccess})) return false;");

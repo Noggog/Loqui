@@ -140,6 +140,11 @@ namespace Loqui.Generation
             await subGenerator.Resolve();
         }
 
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
+        {
+            return subGenerator.GenerateEqualsSnippet(accessor, rhsAccessor, negate);
+        }
+
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
             subGenerator.GenerateForEquals(fg, accessor, rhsAccessor);
