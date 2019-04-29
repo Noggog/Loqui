@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>b3188c55b583de3956796c00c1093dce3e696f34</Sha>
+         <Sha>3a85f5f76645f38b6ec647d8c8308a7b59be9c67</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-27-2019 16:26:14</CommitDate>
-         <Description>IBinaryReadStream get accessors</Description>
+         <CommitDate>04-29-2019 18:40:22</CommitDate>
+         <Description>Readded XmlExt.SaveIfChanged</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
