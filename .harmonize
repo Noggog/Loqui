@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3a85f5f76645f38b6ec647d8c8308a7b59be9c67</Sha>
+         <Sha>2a7d7f5ccc16c3b16339108c91cfe43c5f268bca</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>04-29-2019 18:40:22</CommitDate>
-         <Description>Readded XmlExt.SaveIfChanged</Description>
+         <CommitDate>05-02-2019 00:08:53</CommitDate>
+         <Description>TryGet parameter name tweak</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

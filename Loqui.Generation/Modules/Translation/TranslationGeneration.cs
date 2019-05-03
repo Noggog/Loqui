@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
@@ -15,6 +16,7 @@ namespace Loqui.Generation
         {
             return $"({translationAccessor}?.GetShouldTranslate({typeGen.IndexEnumInt}) ?? true)";
         }
+        public virtual bool IsAsync(TypeGeneration gen, bool read) => false;
 
         public static bool IsParseInto(
             TypeGeneration typeGen,
@@ -32,12 +34,37 @@ namespace Loqui.Generation
                 {
                     ArgsWrapper args;
                     bool parseInto = IsParseInto(param.TypeGen, param.ItemAccessor);
-                    args = new ArgsWrapper(param.FG,
-                       $"{(parseInto ? null : "if (")}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
-                       suffixLine: (parseInto ? null : ")"))
+                    if (param.AsyncMode == AsyncMode.Off)
                     {
-                        SemiColon = parseInto,
-                    };
+                        args = new ArgsWrapper(param.FG,
+                           $"{(parseInto ? null : "if (")}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
+                           suffixLine: (parseInto ? null : ")"))
+                        {
+                            SemiColon = parseInto,
+                        };
+                    }
+                    else if (param.AsyncMode == AsyncMode.Async)
+                    {
+                        if (parseInto)
+                        {
+                            args = new ArgsWrapper(param.FG,
+                                $"{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.ParseInto",
+                                suffixLine: Loqui.Generation.Utility.ConfigAwait())
+                            {
+                                SemiColon = true
+                            };
+                        }
+                        else
+                        {
+                            args = new ArgsWrapper(param.FG,
+                               $"var {param.TypeGen.Name}Parse = {Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse",
+                               suffixLine: Loqui.Generation.Utility.ConfigAwait());
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                     using (args)
                     {
                         if (param.ExtraArgs != null)
@@ -55,7 +82,7 @@ namespace Loqui.Generation
                                 args.Add($"fieldIndex: {param.IndexAccessor}");
                             }
                         }
-                        else
+                        else if (param.AsyncMode == AsyncMode.Off)
                         {
                             args.Add($"item: out {param.TypeGen.TypeName} {param.TypeGen.Name}Parse");
                         }
@@ -70,9 +97,20 @@ namespace Loqui.Generation
                     }
                     if (!parseInto)
                     {
-                        using (new BraceWrapper(param.FG))
+                        if (param.AsyncMode == AsyncMode.Off)
                         {
-                            param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.TypeGen.Name}Parse;");
+                            using (new BraceWrapper(param.FG))
+                            {
+                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.TypeGen.Name}Parse;");
+                            }
+                        }
+                        else
+                        {
+                            param.FG.AppendLine($"if ({param.TypeGen.Name}Parse.Succeeded)");
+                            using (new BraceWrapper(param.FG))
+                            {
+                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.TypeGen.Name}Parse.Value;");
+                            }
                         }
                         param.FG.AppendLine("else");
                         using (new BraceWrapper(param.FG))
@@ -91,10 +129,14 @@ namespace Loqui.Generation
                 errorMaskAccessor: param.MaskAccessor,
                 indexAccessor: param.IndexAccessor,
                 doIt: !param.SkipErrorMask
-                    && param.IndexAccessor != null 
+                    && param.IndexAccessor != null
                     && !IsParseInto(param.TypeGen, param.ItemAccessor));
         }
-        
+
+        public virtual void Load(ObjectGeneration obj, TypeGeneration field, XElement node)
+        {
+        }
+
         public class TranslationWrapParseArgs
         {
             public FileGeneration FG;
@@ -104,6 +146,7 @@ namespace Loqui.Generation
             public Accessor TranslationMaskAccessor;
             public Accessor ItemAccessor;
             public Accessor IndexAccessor;
+            public AsyncMode AsyncMode;
             public Action<FileGeneration> UnsetCall;
             public IEnumerable<string> ExtraArgs;
             public bool SkipErrorMask;
