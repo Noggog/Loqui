@@ -54,7 +54,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
-                        fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name}.Set(value{InRangeCheckerString});");
+                        fg.AppendLine($"{SetPermission}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                     }
                     fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
@@ -73,7 +73,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => _{this.Name};");
-                    fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set");
+                    fg.AppendLine($"{SetPermissionStr}set");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"this._{ this.Name} = value{InRangeCheckerString};");

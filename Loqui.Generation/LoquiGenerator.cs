@@ -27,7 +27,7 @@ namespace Loqui.Generation
         public List<string> Namespaces = new List<string>();
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
         public List<string> Interfaces = new List<string>();
-        public bool ProtectedDefault;
+        public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;

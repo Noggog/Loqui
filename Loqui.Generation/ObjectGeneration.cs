@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using Noggog.Notifying;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Loqui.Generation
         public abstract bool ObjectCentralizedDefault { get; }
         public LoquiInterfaceType InterfaceTypeDefault;
         public bool ObjectCentralized;
-        public bool ReadOnlyDefault;
+        public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
@@ -106,7 +106,7 @@ namespace Loqui.Generation
             this.TargetDir = sourceFile.Directory;
             this.SourceXMLFile = sourceFile;
             this.InterfaceTypeDefault = this.ProtoGen.InterfaceTypeDefault;
-            this.ReadOnlyDefault = this.ProtoGen.ProtectedDefault;
+            this.SetPermissionDefault = this.ProtoGen.SetPermissionDefault;
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
             this.GenerateNthReflections = this.ProtoGen.NthReflectionDefault;
             this.GenerateToString = this.ProtoGen.ToStringDefault;
@@ -132,7 +132,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<ushort>(Constants.VERSION, (i) => Version = i);
             Node.TransferAttribute<bool>(Constants.IGETTER_EXPORT, (i) => this.ExportWithIGetter = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE_DEFAULT, (i) => this.InterfaceTypeDefault = i);
-            Node.TransferAttribute<bool>(Constants.PROTECTED_SET_DEFAULT, (i) => this.ReadOnlyDefault = i);
+            Node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION_DEFAULT, (i) => this.SetPermissionDefault = i);
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => this.DerivativeDefault = i);
             Node.TransferAttribute<bool>(Constants.RAISEPROPERTYCHANGED_DEFAULT, (i) => this.RaisePropertyChangedDefault = i);
             Node.TransferAttribute<DisabledLevel>(Constants.DISABLE, (i) => this.Disabled = i);

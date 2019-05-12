@@ -42,7 +42,7 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => this._{ this.Name};");
-                    fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
+                    fg.AppendLine($"{SetPermissionStr}set => this._{ this.Name} = WildcardLink.Validate(value);");
                 }
                 fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
             }

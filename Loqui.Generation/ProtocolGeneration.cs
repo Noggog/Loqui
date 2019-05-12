@@ -21,7 +21,7 @@ namespace Loqui.Generation
         public DirectoryInfo GenerationFolder { get; private set; }
         public DirectoryInfo DefFileLocation => this.GenerationFolder;
         public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
-        public bool ProtectedDefault;
+        public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
         public bool ToStringDefault;
         public bool NthReflectionDefault;
@@ -48,7 +48,7 @@ namespace Loqui.Generation
             this.ObjectCentralizedDefault = gen.ObjectCentralizedDefault;
             this.GenerationFolder = defSearchableFolder;
             this.InterfaceTypeDefault = gen.InterfaceTypeDefault;
-            this.ProtectedDefault = gen.ProtectedDefault;
+            this.SetPermissionDefault = gen.SetPermissionDefault;
             this.NthReflectionDefault = gen.NthReflectionDefault;
             this.ToStringDefault = gen.ToStringDefault;
             this.DerivativeDefault = gen.DerivativeDefault;

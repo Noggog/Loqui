@@ -27,6 +27,7 @@ namespace Loqui.Generation
         public virtual bool IntegrateField { get; set; } = true;
         public bool RaisePropertyChanged;
         public bool ReadOnly;
+        public PermissionLevel SetPermission = PermissionLevel.@public;
         private bool _copy;
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
@@ -50,7 +51,7 @@ namespace Loqui.Generation
         public virtual bool ReferenceChanged => IsReference;
         public abstract bool HasDefault { get; }
         public bool InternalInterface { get; set; }
-
+        public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
         public TypeGeneration()
         {
         }
@@ -64,7 +65,6 @@ namespace Loqui.Generation
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
             this.ObjectCentralizedProperty.SetIfNotSet(this.ObjectGen.ObjectCentralizedDefault, markAsSet: false);
             this._derivative = this.ObjectGen.DerivativeDefault;
-            this.ReadOnly = this.ObjectGen.ReadOnlyDefault;
         }
 
         public virtual async Task Load(XElement node, bool requireName = true)
@@ -79,7 +79,12 @@ namespace Loqui.Generation
             Name = node.GetAttribute<string>(Constants.NAME);
             node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
             node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
-            this.ReadOnly = node.GetAttribute<bool>(Constants.PROTECTED_SET, this.ObjectGen.ReadOnlyDefault || Derivative);
+            if (this._derivative)
+            {
+                this.SetPermission = PermissionLevel.@protected;
+            }
+            node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => this.SetPermission = i);
+            this.ReadOnly = this.SetPermission != PermissionLevel.@public || Derivative;
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);

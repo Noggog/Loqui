@@ -519,10 +519,10 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="protectedSetDefault" type="xs:boolean" >
+    <xs:attribute name="setPermissionDefault" type="PermissionLevel" >
       <xs:annotation>
         <xs:documentation>
-          Sets the default value of the protectedSet property on all of this objects contained fields.
+          Sets the default value of the setPermission property on all of this objects contained fields.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -724,18 +724,22 @@
         <xs:documentation>
           Marks the field as read-only from the public.  It can only be set from inside the class.
 
-          This field is different from being marked protectedSet because it will NOT be exported.  It only exists in the class definition, never on-disk.
+          This field is different from being marked protected Set because it will NOT be exported.  It only exists in the class definition, never on-disk.
 
-          If a field is marked derivative, it is implicitly marked protectedSet as well.
+          If a field is marked derivative, it is implicitly marked protected Set as well.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="protectedSet" type="xs:boolean" >
+    <xs:attribute name="setPermission" type="PermissionLevel" >
       <xs:annotation>
         <xs:documentation>
-          Marks the field as read-only from the public.  It can only be set from inside the class.
+          Determines the permissions for setting the field.
+            Public:  Anyone can set
+            Private:  Only the actual class can set
+            Protected:  Any inheriting classes can set
+            Internal:  An internal interface will be generated which can set
 
-          This field is different from being marked derivative because it WILL be exported.  It exists in the class definition, AND on-disk.
+          Setting fields not not public via this method is different from being marked derivative because it WILL be exported.  It exists in the class definition, AND on-disk.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
