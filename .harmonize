@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>2a7d7f5ccc16c3b16339108c91cfe43c5f268bca</Sha>
+         <Sha>8fa46655f51f0016e3ad3ca608bbf849ea8ea3a0</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-02-2019 00:08:53</CommitDate>
-         <Description>TryGet parameter name tweak</Description>
+         <CommitDate>05-09-2019 22:13:28</CommitDate>
+         <Description>ObservableExt.Unit and NotNull.  Made some parameters optional on keybinds</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

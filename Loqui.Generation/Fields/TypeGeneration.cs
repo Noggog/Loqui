@@ -78,7 +78,7 @@ namespace Loqui.Generation
             Name = node.GetAttribute<string>(Constants.NAME);
             node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
             node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
-            this.ReadOnly = node.GetAttribute<bool>(Constants.PROTECTED, this.ObjectGen.ReadOnlyDefault || Derivative);
+            this.ReadOnly = node.GetAttribute<bool>(Constants.PROTECTED_SET, this.ObjectGen.ReadOnlyDefault || Derivative);
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
