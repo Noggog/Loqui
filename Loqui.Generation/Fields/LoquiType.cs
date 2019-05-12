@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -82,7 +82,7 @@ namespace Loqui.Generation
                 switch (RefType)
                 {
                     case LoquiRefType.Direct:
-                        return this._TargetObjectGeneration.Getter_InterfaceStr_NoGenerics + GenericTypes;
+                        return this._TargetObjectGeneration.Interface(GenericTypes, getter: true);
                     case LoquiRefType.Generic:
                         return _generic;
                     default:
@@ -98,7 +98,7 @@ namespace Loqui.Generation
                 switch (RefType)
                 {
                     case LoquiRefType.Direct:
-                        return this._TargetObjectGeneration.Setter_InterfaceStr_NoGenerics + GenericTypes;
+                        return this._TargetObjectGeneration.Interface(GenericTypes);
                     case LoquiRefType.Generic:
                         return _generic;
                     default:
@@ -260,7 +260,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
                         fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))} => true;");
-                        fg.AppendLine($"bool {this.ObjectGen.Getter_InterfaceStr}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                     }
@@ -275,7 +275,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                             }
                         }
-                        fg.AppendLine($"bool {this.ObjectGen.Getter_InterfaceStr}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         switch (this.SingletonType)
                         {
                             case SingletonLevel.None:
@@ -322,7 +322,7 @@ namespace Loqui.Generation
                         }
                     }
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.ProtectedName};");
                 }
                 else
                 {
@@ -401,9 +401,9 @@ namespace Loqui.Generation
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => {this.ProtectedProperty};");
                     }
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.ProtectedName};");
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(true, true)};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.GetName(true, true)};");
                 }
                 else
                 {

@@ -641,7 +641,7 @@ namespace Loqui.Generation
                 }
                 if (obj.ExportWithIGetter && this.ExportWithIGetter)
                 {
-                    args.Add($"{obj.Getter_InterfaceStr} item");
+                    args.Add($"{obj.Interface(getter: true)} item");
                 }
                 else
                 {
@@ -706,7 +706,7 @@ namespace Loqui.Generation
                 }
                 if (obj.ExportWithIGetter && this.ExportWithIGetter)
                 {
-                    args.Add($"{obj.Getter_InterfaceStr} item");
+                    args.Add($"{obj.Interface(getter: true)} item");
                 }
                 else
                 {

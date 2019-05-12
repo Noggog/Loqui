@@ -25,7 +25,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                     fg.AppendLine($"public {this.TypeName} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -33,7 +33,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"set => this._{this.Name}.Item = WildcardLink.Validate(value);");
                     }
                 }
-                fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Property} => this.{this.GetName(false, true)};");
+                fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.GetName(false, true)};");
             }
             else
             {
@@ -44,7 +44,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"get => this._{ this.Name};");
                     fg.AppendLine($"{(this.ReadOnly ? "protected " : string.Empty)}set => this._{ this.Name} = WildcardLink.Validate(value);");
                 }
-                fg.AppendLine($"{this.TypeName} {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => this.{this.Name};");
+                fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
             }
         }
 

@@ -65,7 +65,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine($"{this.BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}({this.Getter_InterfaceStr} rhs)");
+            fg.AppendLine($"{this.BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}({this.Interface(getter: true)} rhs)");
             using (new BraceWrapper(fg))
             {
                 foreach (var field in this.IterateFields())
@@ -88,7 +88,7 @@ namespace Loqui.Generation
 
                 List<string> list = new List<string>
                 {
-                    this.Getter_InterfaceStr
+                    this.Interface(getter: true)
                 };
                 list.AddRange(this.Interfaces);
                 list.AddRange((await Task.WhenAll(this.gen.GenerationModules
@@ -142,7 +142,7 @@ namespace Loqui.Generation
 
         public override void GenerateCopy(FileGeneration fg)
         {
-            fg.AppendLine($"public static {this.ObjectName} Copy({this.Getter_InterfaceStr} item)");
+            fg.AppendLine($"public static {this.ObjectName} Copy({this.Interface(getter: true)} item)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"return new {this.ObjectName}(");

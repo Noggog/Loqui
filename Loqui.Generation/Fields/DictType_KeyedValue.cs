@@ -155,9 +155,9 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 

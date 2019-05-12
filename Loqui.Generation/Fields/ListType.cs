@@ -65,10 +65,10 @@ namespace Loqui.Generation
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{this.ItemTypeName}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{this.ItemTypeName}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"IObservableSetList<{this.ItemTypeName}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"IObservableSetList<{this.ItemTypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 

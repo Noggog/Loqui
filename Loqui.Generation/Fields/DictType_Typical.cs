@@ -158,9 +158,9 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.InterfaceStr}.{this.Name} => {member};");
+                    fg.AppendLine($"INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.ObjectGen.Getter_InterfaceStr}.{this.Name} => {member};");
+                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 

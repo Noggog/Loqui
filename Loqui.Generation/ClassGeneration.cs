@@ -80,7 +80,7 @@ namespace Loqui.Generation
             {
                 list.Add(NonLoquiBaseClass);
             }
-            list.Add(this.InterfaceStr);
+            list.Add(this.Interface(getter: false));
             list.Add($"ILoquiObject<{this.ObjectName}>");
             list.AddRange(this.Interfaces);
             list.AddRange(
