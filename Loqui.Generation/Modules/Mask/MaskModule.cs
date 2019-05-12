@@ -430,7 +430,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Translate"))
                 {
-                    fg.AppendLine($"public{obj.NewOverride}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    fg.AppendLine($"public{obj.NewOverride()}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");

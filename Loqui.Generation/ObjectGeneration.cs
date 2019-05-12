@@ -49,7 +49,7 @@ namespace Loqui.Generation
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
         public string EmptyGenerics => (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
         public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
-        public virtual string NewOverride => " ";
+        public virtual string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null) => " ";
         public virtual string ProtectedKeyword => "protected";
         public ushort? ID;
         public Guid GUID;
@@ -1067,7 +1067,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
-            fg.AppendLine($"public{NewOverride}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
+            fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
             fg.AppendLine();
         }
 
@@ -2012,7 +2012,7 @@ namespace Loqui.Generation
         private void GenerateGetHasBeenSetMask(FileGeneration fg)
         {
             fg.AppendLine($"IMask<bool> ILoquiObjectGetter.GetHasBeenSetMask() => this.GetHasBeenSetMask();");
-            fg.AppendLine($"public{this.NewOverride}{this.GetMaskString("bool")} GetHasBeenSetMask()");
+            fg.AppendLine($"public{this.NewOverride()}{this.GetMaskString("bool")} GetHasBeenSetMask()");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"return {this.ExtCommonName}.GetHasBeenSetMask(this);");
@@ -2212,7 +2212,7 @@ namespace Loqui.Generation
         {
             if (!this.Abstract)
             {
-                fg.AppendLine($"public{this.NewOverride}static {this.ObjectName} {Loqui.Internal.Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
+                fg.AppendLine($"public{this.NewOverride()}static {this.ObjectName} {Loqui.Internal.Constants.CREATE_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"var ret = new {this.ObjectName}();");
@@ -2226,7 +2226,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
             }
 
-            fg.AppendLine($"protected{this.NewOverride}static void CopyInInternal_{this.Name}({this.ObjectName} obj, KeyValuePair<ushort, object> pair)");
+            fg.AppendLine($"protected{this.NewOverride()}static void CopyInInternal_{this.Name}({this.ObjectName} obj, KeyValuePair<ushort, object> pair)");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"if (!EnumExt.TryParse(pair.Key, out {this.FieldIndexName} enu))");
@@ -2790,6 +2790,16 @@ namespace Loqui.Generation
             {
                 yield return ret;
             }
+        }
+
+        public bool TestTrueAndNotBaseClass(Func<ObjectGeneration, bool> test)
+        {
+            return test(this) && !this.BaseClassTrail().Any(b => test(b));
+        }
+
+        public bool TestTrueForAnyInClassChain(Func<ObjectGeneration, bool> test)
+        {
+            return test(this) || this.BaseClassTrail().Any(b => test(b));
         }
 
         public override string ToString()

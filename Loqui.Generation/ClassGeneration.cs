@@ -19,11 +19,21 @@ namespace Loqui.Generation
         public string BaseClassStr { get; set; }
         private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
-        public override string NewOverride => HasLoquiBaseObject ? " new " : " ";
 
         public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
             : base(gen, protoGen, sourceFile)
         {
+        }
+
+        public override string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null)
+        {
+            if (!HasLoquiBaseObject) return " ";
+            if (baseObjFilter == null) return " new ";
+            foreach (var baseClass in this.BaseClassTrail())
+            {
+                if (baseObjFilter(baseClass)) return " new ";
+            }
+            return " ";
         }
 
         public override async Task Load()

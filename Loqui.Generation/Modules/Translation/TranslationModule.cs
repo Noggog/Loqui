@@ -480,7 +480,7 @@ namespace Loqui.Generation
                 if (GenerateMainCreate(obj))
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.NewOverride}static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}"))
+                        $"public{obj.NewOverride()}static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
                             new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
