@@ -788,6 +788,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="internalInterface" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Puts the field on the internal interface, rather than the public one.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="NField" >

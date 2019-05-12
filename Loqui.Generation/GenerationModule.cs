@@ -22,7 +22,7 @@ namespace Loqui.Generation
         Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg);
-        Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg);
+        Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg, bool internalInterface);
         Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg);
         Task MiscellaneousGenerationActions(ObjectGeneration obj);
         Task Resolve(ObjectGeneration obj);
@@ -110,9 +110,9 @@ namespace Loqui.Generation
                 .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in void taking a long time."));
         }
 
-        public virtual Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
+        public virtual Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg, bool internalInterface)
         {
-            return SubModules.GenerateInInterfaceGetter(obj, fg)
+            return SubModules.GenerateInInterfaceGetter(obj, fg, internalInterface)
                 .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in interface getter taking a long time."));
         }
 

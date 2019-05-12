@@ -49,6 +49,7 @@ namespace Loqui.Generation
         public virtual bool IsReference => IsClass;
         public virtual bool ReferenceChanged => IsReference;
         public abstract bool HasDefault { get; }
+        public bool InternalInterface { get; set; }
 
         public TypeGeneration()
         {
@@ -85,6 +86,7 @@ namespace Loqui.Generation
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
             node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.Item = i);
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
+            node.TransferAttribute<bool>(Constants.INTERNAL_INTERFACE, i => this.InternalInterface = i);
             if (requireName && Namable && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");

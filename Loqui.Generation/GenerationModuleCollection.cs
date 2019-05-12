@@ -103,7 +103,7 @@ namespace Loqui.Generation
                     }));
         }
 
-        public Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg)
+        public Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg, bool internalInterface)
         {
             return Task.WhenAll(
                 this.subModules.Select(
@@ -111,7 +111,7 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInInterfaceGetter(obj, fg)
+                            await subGen.GenerateInInterfaceGetter(obj, fg, internalInterface)
                                 .TimeoutButContinue(
                                     TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen interface getter taking a long time."));

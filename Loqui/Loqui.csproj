@@ -16,12 +16,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Object Centralization\**" />
+    <EmbeddedResource Remove="Object Centralization\**" />
+    <None Remove="Object Centralization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj" />
     <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Object Centralization\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

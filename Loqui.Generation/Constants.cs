@@ -57,5 +57,6 @@ namespace Loqui.Generation
         public const string INTERFACE = "Interface";
         public const string FIELDS = "Fields";
         public const string IGETTER_EXPORT = "IGetterExport";
+        public const string INTERNAL_INTERFACE = "internalInterface";
     }
 }
