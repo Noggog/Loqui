@@ -44,7 +44,7 @@ namespace Loqui
         void SetNthObject(ushort index, object o);
     }
 
-    public interface ILoquiClass<L, G> : IEqualsMask<G>
+    public interface ILoquiClass<L, G> : ILoquiObjectSetter, IEqualsMask<G>
         where L : class, G
         where G : class
     {
