@@ -1,4 +1,4 @@
-﻿using Loqui.Internal;
+using Loqui.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +19,11 @@ namespace Loqui.Generation
         public IEnumerable<TranslationModuleAPI> AllAPI => MainAPI.And(MinorAPIs);
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
-        public bool ExportWithIGetter = true;
         public bool ShouldGenerateCopyIn = true;
         public bool TranslationMaskParameter = true;
         public bool DoErrorMasks = true;
+        public string TranslationClassName(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}Translation";
+        public string TranslationClass(ObjectGeneration obj) => $"{TranslationClassName(obj)}{obj.GetGenericTypes(MaskType.Normal)}";
 
         public const string ErrorMaskKey = "ErrorMask";
         public const string ErrorMaskBuilderKey = "ErrorMaskBuilder";
@@ -30,6 +31,8 @@ namespace Loqui.Generation
         public const string TranslationMaskKey = "TranslationMask";
 
         protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
+
+        public List<Func<ObjectGeneration, FileGeneration, Task>> ExtraTranslationTasks = new List<Func<ObjectGeneration, FileGeneration, Task>>();
 
         public TranslationModule(LoquiGenerator gen)
         {
@@ -72,13 +75,34 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
+            fg.AppendLine($"public partial class {TranslationClass(obj)}{(obj.HasLoquiBaseObject ? $" : {TranslationClass(obj.BaseClass)}" : null)}");
+            obj.WriteWhereClauses(fg, obj.Generics);
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationClass(obj)} Instance = new {TranslationClass(obj)}();");
+                fg.AppendLine();
+
+                await GenerateInTranslationClass(obj, fg);
+            }
+        }
+
+        public virtual async Task GenerateInTranslationClass(ObjectGeneration obj, FileGeneration fg)
+        {
+            using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
+            {
+                CommonWrite(obj, fg);
+                foreach (var extra in ExtraTranslationTasks)
+                {
+                    await extra(obj, fg);
+                }
+            }
         }
 
         public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
         }
 
-        private string ErrorLabel(ObjectGeneration obj) => this.AsyncCreate(obj) ? "_Error" : null;
+        private async Task<string> ErrorLabel(ObjectGeneration obj) => await this.AsyncImport(obj) ? "_Error" : null;
 
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
@@ -349,15 +373,15 @@ namespace Loqui.Generation
             }
         }
 
-        public APILine GetTranslationMaskParameter()
+        public APILine GetTranslationMaskParameter(bool nullable = true)
         {
             return new APILine(
                 nicknameKey: TranslationMaskKey,
                 when: (obj) => this.TranslationMaskParameter,
-                resolver: obj => $"{obj.Mask(MaskType.Translation)} translationMask = null");
+                resolver: obj => $"{obj.Mask(MaskType.Translation)} translationMask{(nullable ? " = null" : null)}");
         }
 
-        public virtual bool AsyncCreate(ObjectGeneration obj)
+        public virtual async Task<bool> AsyncImport(ObjectGeneration obj)
         {
             foreach (var field in obj.Fields)
             {
@@ -367,36 +391,53 @@ namespace Loqui.Generation
             return false;
         }
 
-        public string ObjectReturn(ObjectGeneration obj, bool mask)
+        public async Task<string> ObjectReturn(ObjectGeneration obj, bool maskReturn, bool hasReturn = true)
         {
-            if (this.AsyncCreate(obj))
+            if (await this.AsyncImport(obj))
             {
-                if (mask)
+                if (maskReturn)
                 {
-                    return Utility.TaskWrap($"({obj.ObjectName} Object, {obj.Mask(MaskType.Error)} ErrorMask)");
+                    if (hasReturn)
+                    {
+                        return Utility.TaskWrap($"({obj.ObjectName} Object, {obj.Mask(MaskType.Error)} ErrorMask)");
+                    }
+                    else
+                    {
+                        return Utility.TaskWrap($"{obj.Mask(MaskType.Error)}");
+                    }
                 }
-                else
+                else if (hasReturn)
                 {
                     return Utility.TaskWrap(obj.ObjectName);
                 }
+                else
+                {
+                    return "async Task";
+                }
+            }
+            else if (hasReturn)
+            {
+                return obj.ObjectName;
             }
             else
             {
-                return obj.ObjectName;
+                return "void";
             }
         }
 
         protected virtual bool GenerateMainCreate(ObjectGeneration obj) => true;
-
+        
         private async Task GenerateCreate(ObjectGeneration obj, FileGeneration fg)
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Create"))
             {
+                var asyncImport = await this.AsyncImport(obj);
+                var errorLabel = await ErrorLabel(obj);
                 if (obj.CanAssume())
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes())))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
@@ -414,7 +455,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"return {Utility.Await(this.AsyncCreate(obj))}Create_{ModuleNickname}"))
+                            $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -433,12 +474,12 @@ namespace Loqui.Generation
 
                 fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
-                    $"public static {this.ObjectReturn(obj, mask: true)} Create_{ModuleNickname}{ErrorLabel(obj)}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    $"public static {await this.ObjectReturn(obj, maskReturn: true)} Create_{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
-                        new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !this.AsyncCreate(o)),
+                        new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
                         new APILine(DoMaskKey, $"bool doMasks = true"),
                         GetTranslationMaskParameter()))
                     {
@@ -452,7 +493,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"var ret = {Utility.Await(this.AsyncCreate(obj))}Create_{ModuleNickname}"))
+                        $"var ret = {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
                     {
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -465,7 +506,7 @@ namespace Loqui.Generation
                             args.Add("translationMask: translationMask.GetCrystal()");
                         }
                     }
-                    if (this.AsyncCreate(obj))
+                    if (asyncImport)
                     {
                         fg.AppendLine($"return (ret, {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder));");
                     }
@@ -480,7 +521,7 @@ namespace Loqui.Generation
                 if (GenerateMainCreate(obj))
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.NewOverride()}static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}"))
+                        $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
                             new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
@@ -502,7 +543,7 @@ namespace Loqui.Generation
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                            $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
                             wheres: obj.GenericTypeMaskWheres(GetMaskTypes())))
                         {
                             foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
@@ -522,7 +563,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"return {Utility.Await(this.AsyncCreate(obj))}Create_{ModuleNickname}"))
+                                    $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
                                     {
@@ -539,12 +580,12 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {this.ObjectReturn(obj, mask: true)} Create_{ModuleNickname}{ErrorLabel(obj)}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: true)} Create_{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                             obj,
-                            new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !this.AsyncCreate(o)),
+                            new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
                             GetTranslationMaskParameter()))
                         {
                             if (Public)
@@ -558,14 +599,14 @@ namespace Loqui.Generation
                         minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"return {Utility.Await(this.AsyncCreate(obj))}Create_{ModuleNickname}{this.ErrorLabel(obj)}"))
+                                $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}{errorLabel}"))
                             using (new DepthWrapper(fg))
                             {
                                 foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
                                 {
                                     args.Add(item);
                                 }
-                                if (!this.AsyncCreate(obj))
+                                if (!asyncImport)
                                 {
                                     args.Add($"errorMask: out errorMask");
                                 }
@@ -579,7 +620,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {this.ObjectReturn(obj, mask: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
@@ -598,7 +639,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"return {Utility.Await(this.AsyncCreate(obj))}Create_{ModuleNickname}"))
+                                $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
                             using (new DepthWrapper(fg))
                             {
                                 foreach (var item in this.MainAPI.WrapFinalAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
@@ -618,19 +659,11 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
-        {
-            using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
-            {
-                CommonWrite(obj, fg);
-            }
-        }
-
         private void CommonWrite(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
-                obj.GenerateWhereClauses().And(obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))).ToArray()))
+                $"public void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error)).ToArray()))
             {
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
@@ -639,14 +672,7 @@ namespace Loqui.Generation
                         args.Add(line.Result);
                     }
                 }
-                if (obj.ExportWithIGetter && this.ExportWithIGetter)
-                {
-                    args.Add($"{obj.Interface(getter: true)} item");
-                }
-                else
-                {
-                    args.Add($"{obj.ObjectName} item");
-                }
+                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
                 foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
                 {
                     if (item.API.TryResolve(obj, out var line))
@@ -672,7 +698,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
+                    $"Write_{ModuleNickname}"))
                 {
                     foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
                     {
@@ -694,8 +720,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
-                obj.GenericTypeMaskWheres(MaskType.Normal)))
+                $"public void Write_{ModuleNickname}"))
             {
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
@@ -704,14 +729,7 @@ namespace Loqui.Generation
                         args.Add(line.Result);
                     }
                 }
-                if (obj.ExportWithIGetter && this.ExportWithIGetter)
-                {
-                    args.Add($"{obj.Interface(getter: true)} item");
-                }
-                else
-                {
-                    args.Add($"{obj.ObjectName} item");
-                }
+                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
                 foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
                 {
                     if (item.API.TryResolve(obj, out var line))
@@ -781,8 +799,9 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"this.Write_{ModuleNickname}"))
+                        $"{TranslationClass(obj)}.Instance.Write_{ModuleNickname}"))
                     {
+                        args.Add("item: this");
                         foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
                         {
                             args.Add(item);
@@ -856,7 +875,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"Write_{ModuleNickname}"))
+                                $"this.Write_{ModuleNickname}"))
                             {
                                 foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Writer, accessor))
                                 {
@@ -935,7 +954,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"Write_{ModuleNickname}"))
+                                    $"this.Write_{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Writer, accessor))
                                     {
@@ -998,8 +1017,9 @@ namespace Loqui.Generation
                             {
                                 fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                                 using (var args = new ArgsWrapper(fg,
-                                    $"this.Write_{ModuleNickname}"))
+                                    $"{TranslationClass(obj)}.Instance.Write_{ModuleNickname}"))
                                 {
+                                    args.Add("item: this");
                                     foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
                                     {
                                         args.Add(item);
@@ -1034,9 +1054,9 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    string funcName = $"Write_{ModuleNickname}{(obj.HasNewGenerics ? obj.GenericTypes_SubTypeAssumedErrMask : obj.GetGenericTypes(MaskType.Normal))}";
+                    string funcName = $"Write_{ModuleNickname}";
                     using (var args = new ArgsWrapper(fg,
-                        $"{obj.ExtCommonName}.{funcName}"))
+                        $"{TranslationClass(obj)}.Instance.{funcName}"))
                     {
                         args.Add("item: this");
                         foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))

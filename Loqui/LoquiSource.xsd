@@ -421,10 +421,10 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="IGetterExport" type="xs:boolean">
+    <xs:attribute name="forceInternalInterface" type="xs:boolean">
       <xs:annotation>
         <xs:documentation>
-          Whether to use the getter interface for export functions
+          Whether to generate the internal interface, even if no fields make use of it
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -591,10 +591,10 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="IGetterExport" type="xs:boolean">
+    <xs:attribute name="forceInternalInterface" type="xs:boolean">
       <xs:annotation>
         <xs:documentation>
-          Whether to use the getter interface for export functions
+          Whether to generate the internal interface, even if no fields make use of it
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

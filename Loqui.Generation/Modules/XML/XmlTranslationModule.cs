@@ -290,6 +290,13 @@ namespace Loqui.Generation
             }
         }
 
+        public override async Task GenerateInTranslationClass(ObjectGeneration obj, FileGeneration fg)
+        {
+            this.GenerateWriteToNode(obj, fg);
+
+            await base.GenerateInTranslationClass(obj, fg);
+        }
+
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             await base.GenerateInClass(obj, fg);
@@ -302,7 +309,7 @@ namespace Loqui.Generation
                 $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(MaskType.Normal)))
             {
-                args.Add($"this {(this.ExportWithIGetter ? obj.Interface(getter: true) : obj.ObjectName)} item");
+                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -312,7 +319,7 @@ namespace Loqui.Generation
                 if (obj.HasLoquiBaseObject)
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{obj.BaseClass.ExtCommonName}.WriteToNode_{ModuleNickname}"))
+                        $"{TranslationClass(obj.BaseClass)}.WriteToNode_{ModuleNickname}"))
                     {
                         args.Add($"item: item");
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -456,8 +463,6 @@ namespace Loqui.Generation
         public override async Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
         {
             await base.GenerateInCommonExt(obj, fg);
-
-            this.GenerateWriteToNode(obj, fg);
 
             using (var args = new FunctionWrapper(fg,
                 $"public static void FillPublic_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
@@ -686,13 +691,13 @@ namespace Loqui.Generation
             {
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
+            {
+                await PreCreateLoop(obj, fg);
+                fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                using (new BraceWrapper(fg))
                 {
-                    await PreCreateLoop(obj, fg);
-                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
-                    using (new BraceWrapper(fg))
+                    if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                     {
-                        if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
-                        {
                             using (var args = new ArgsWrapper(fg,
                                 $"FillPrivateElement_{ModuleNickname}"))
                             {
@@ -700,24 +705,6 @@ namespace Loqui.Generation
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                                 args.Add("name: elem.Name.LocalName");
                                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
-                                {
-                                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
-                                    args.Add(passthrough);
-                                }
-                                args.Add("errorMask: errorMask");
-                                if (this.TranslationMaskParameter)
-                                {
-                                    args.Add("translationMask: translationMask");
-                                }
-                            }
-                        }
-                        using (var args = new ArgsWrapper(fg,
-                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
-                        {
-                            args.Add("item: ret");
-                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
-                            args.Add("name: elem.Name.LocalName");
-                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                             {
                                 if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
                                 args.Add(passthrough);
@@ -727,12 +714,30 @@ namespace Loqui.Generation
                             {
                                 args.Add("translationMask: translationMask");
                             }
+                            }
+                        }
+                        using (var args = new ArgsWrapper(fg,
+                            $"{obj.ExtCommonName}.FillPublicElement_{ModuleNickname}"))
+                        {
+                            args.Add("item: ret");
+                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                            args.Add("name: elem.Name.LocalName");
+                            foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                        {
+                            if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                            args.Add(passthrough);
+                        }
+                        args.Add("errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add("translationMask: translationMask");
                         }
                     }
-                    await PostCreateLoop(obj, fg);
                 }
-                fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (errorMask != null)");
+                await PostCreateLoop(obj, fg);
+            }
+            fg.AppendLine("catch (Exception ex)");
+            fg.AppendLine("when (errorMask != null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("errorMask.ReportException(ex);");
