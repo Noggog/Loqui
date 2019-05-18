@@ -161,17 +161,19 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (!this.ReadOnly)
+            if (getter)
             {
-                fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.Name} {{ get; }}");
             }
-        }
-
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.Name} {{ get; }}");
+            else
+            {
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                }
+            }
         }
 
         public override void GenerateForCopy(

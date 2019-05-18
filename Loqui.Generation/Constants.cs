@@ -13,7 +13,9 @@ namespace Loqui.Generation
         public const string DERIVATIVE = "derivative";
         public const string HIDDEN_FIELD = "hidden";
         public const string SET_PERMISSION = "setPermission";
+        public const string GET_PERMISSION = "getPermission";
         public const string SET_PERMISSION_DEFAULT = "setPermissionDefault";
+        public const string GET_PERMISSION_DEFAULT = "getPermissionDefault";
         public const string COPY = "copy";
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
         public const string RAISE_PROPERTY_CHANGED = "raisePropertyChanged";
@@ -57,6 +59,8 @@ namespace Loqui.Generation
         public const string INTERFACE = "Interface";
         public const string FIELDS = "Fields";
         public const string IGETTER_EXPORT = "IGetterExport";
-        public const string INTERNAL_INTERFACE = "internalInterface";
+        public const string INTERNAL_SET_INTERFACE = "internalSetInterface";
+        public const string INTERNAL_GET_INTERFACE = "internalGetInterface";
+        public const string ENUM_NAME = "enumName";
     }
 }

@@ -192,7 +192,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "IErrorMask"))
                 {
-                    fg.AppendLine($"public{await obj.FunctionOverride()}object GetNthMask(int index)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}object GetNthMask(int index)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
@@ -209,7 +209,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{await obj.FunctionOverride()}void SetNthException(int index, Exception ex)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}void SetNthException(int index, Exception ex)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
@@ -226,7 +226,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{await obj.FunctionOverride()}void SetNthMask(int index, object obj)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}void SetNthMask(int index, object obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{obj.FieldIndexName} enu = ({obj.FieldIndexName})index;");
@@ -243,7 +243,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{await obj.FunctionOverride()}bool IsInError()");
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool IsInError()");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (Overall != null) return true;");
@@ -266,7 +266,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{await obj.FunctionOverride()}void ToString({nameof(FileGeneration)} fg)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}void ToString({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"fg.AppendLine(\"{obj.Mask_BasicName(MaskType.Error)} =>\");");
@@ -291,7 +291,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"fg.AppendLine(\"]\");");
                     }
 
-                    fg.AppendLine($"protected{await obj.FunctionOverride()}void ToString_FillInternal({nameof(FileGeneration)} fg)");
+                    fg.AppendLine($"protected{obj.FunctionOverride()}void ToString_FillInternal({nameof(FileGeneration)} fg)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -413,7 +413,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "All Equal"))
                 {
-                    fg.AppendLine($"public{await obj.FunctionOverride()}bool AllEqual(Func<T, bool> eval)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool AllEqual(Func<T, bool> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -455,7 +455,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Clear Enumerables"))
                 {
-                    fg.AppendLine($"public{await obj.FunctionOverride()}void ClearEnumerables()");
+                    fg.AppendLine($"public{obj.FunctionOverride()}void ClearEnumerables()");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -583,7 +583,7 @@ namespace Loqui.Generation
 
                 if (!obj.HasLoquiBaseObject || obj.IterateFields().Any())
                 {
-                    fg.AppendLine($"protected{await obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
+                    fg.AppendLine($"protected{obj.FunctionOverride()}void GetCrystal(List<(bool On, TranslationCrystal SubCrystal)> ret)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)

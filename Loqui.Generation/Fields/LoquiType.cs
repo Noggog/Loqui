@@ -893,33 +893,6 @@ namespace Loqui.Generation
             fg.AppendLine($"throw new ArgumentException(\"Cannot mark set status of a singleton: {this.Name}\");");
         }
 
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
-            switch (this.NotifyingType)
-            {
-                case NotifyingType.None:
-                    if (this.HasBeenSet)
-                    {
-                        fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    break;
-                case NotifyingType.ReactiveUI:
-                    if (this.HasBeenSet)
-                    {
-                        fg.AppendLine($"bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; }}");
-                    }
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            fg.AppendLine();
-        }
-
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
         {
             if (this.SingletonType == SingletonLevel.Singleton)
@@ -940,11 +913,40 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (this.SingletonType != SingletonLevel.Singleton)
+            if (getter)
             {
-                base.GenerateForInterface(fg);
+                fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
+                switch (this.NotifyingType)
+                {
+                    case NotifyingType.None:
+                        if (this.HasBeenSet)
+                        {
+                            fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                        }
+                        else
+                        {
+                            return;
+                        }
+                        break;
+                    case NotifyingType.ReactiveUI:
+                        if (this.HasBeenSet)
+                        {
+                            fg.AppendLine($"bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; }}");
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                fg.AppendLine();
+            }
+            else
+            {
+                if (this.SingletonType != SingletonLevel.Singleton)
+                {
+                    base.GenerateForInterface(fg, getter, internalInterface);
+                }
             }
         }
 

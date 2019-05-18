@@ -28,6 +28,7 @@ namespace Loqui.Generation
         public bool RaisePropertyChanged;
         public bool ReadOnly;
         public PermissionLevel SetPermission = PermissionLevel.@public;
+        public PermissionLevel GetPermission = PermissionLevel.@public;
         private bool _copy;
         public virtual bool Copy => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
@@ -50,7 +51,9 @@ namespace Loqui.Generation
         public virtual bool IsReference => IsClass;
         public virtual bool ReferenceChanged => IsReference;
         public abstract bool HasDefault { get; }
-        public bool InternalInterface { get; set; }
+        public bool InternalSetInterface { get; set; }
+        public bool InternalGetInterface { get; set; }
+        public bool HasInternalInterface => this.InternalSetInterface || this.InternalGetInterface;
         public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
         public TypeGeneration()
         {
@@ -85,13 +88,15 @@ namespace Loqui.Generation
             }
             node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => this.SetPermission = i);
             this.ReadOnly = this.SetPermission != PermissionLevel.@public || Derivative;
+            node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
             node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.Item = i);
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
-            node.TransferAttribute<bool>(Constants.INTERNAL_INTERFACE, i => this.InternalInterface = i);
+            node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
+            node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             if (requireName && Namable && Name == null)
             {
                 throw new ArgumentException("Type field needs a name.");
@@ -125,9 +130,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForClass(FileGeneration fg);
 
-        public abstract void GenerateForInterface(FileGeneration fg);
-
-        public abstract void GenerateForGetterInterface(FileGeneration fg);
+        public abstract void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface);
 
         public abstract bool CopyNeedsTryCatch { get; }
 
@@ -265,6 +268,22 @@ namespace Loqui.Generation
                     return $"{accessor.PropertyAccess}.HasBeenSet";
                 }
             }
+        }
+
+        public bool ApplicableInterfaceField(bool getter, bool internalInterface)
+        {
+            if (!this.IntegrateField) return false;
+            if (internalInterface)
+            {
+                if (getter && !this.InternalGetInterface) return false;
+                if (!getter && !this.InternalSetInterface) return false;
+            }
+            else
+            {
+                if (getter && this.InternalGetInterface) return false;
+                if (!getter && (this.ReadOnly || this.InternalSetInterface)) return false;
+            }
+            return true;
         }
     }
 }

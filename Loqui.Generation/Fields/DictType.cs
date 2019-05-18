@@ -88,14 +88,9 @@ namespace Loqui.Generation
             subGenerator.GenerateForClass(fg);
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            subGenerator.GenerateForInterface(fg);
-        }
-
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            subGenerator.GenerateForGetterInterface(fg);
+            subGenerator.GenerateForInterface(fg, getter, internalInterface);
         }
 
         public override void GenerateForCopy(

@@ -72,11 +72,18 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (!this.ReadOnly)
+            if (getter)
             {
-                fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} {{ get; }}");
+                fg.AppendLine($"IObservableSetList<{ItemTypeName}> {this.Name} {{ get; }}");
+            }
+            else
+            {
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} {{ get; }}");
+                }
             }
         }
 
@@ -90,11 +97,6 @@ namespace Loqui.Generation
             {
                 return $"{accessor.PropertyAccess}.HasBeenSet";
             }
-        }
-
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"IObservableSetList<{ItemTypeName}> {this.Name} {{ get; }}");
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)

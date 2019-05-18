@@ -50,10 +50,6 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-        }
-
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
         }
@@ -66,7 +62,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
         }
 

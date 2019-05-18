@@ -79,11 +79,6 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void GenerateGetNameIndex(FileGeneration fg)
         {
             throw new NotImplementedException();
@@ -114,7 +109,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
             throw new NotImplementedException();
         }

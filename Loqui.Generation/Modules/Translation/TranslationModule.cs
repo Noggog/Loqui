@@ -107,7 +107,7 @@ namespace Loqui.Generation
                 if (obj.CanAssume())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{await obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
+                        $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
                         {
@@ -170,7 +170,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"protected{await obj.FunctionOverride()}void CopyIn_{ModuleNickname}_Internal"))
+                    $"protected{obj.FunctionOverride()}void CopyIn_{ModuleNickname}_Internal"))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                     {
@@ -842,7 +842,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                        $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
                     {
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(obj,
                             new APILine(ErrorMaskBuilderKey, $"ErrorMaskBuilder errorMask"),
@@ -879,7 +879,7 @@ namespace Loqui.Generation
                 if (obj.IsTopClass)
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public{obj.FunctionOverride()}void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI(obj))
@@ -920,7 +920,7 @@ namespace Loqui.Generation
                     {
                         if (!minorAPI.When?.Invoke(obj) ?? false) continue;
                         using (var args = new FunctionWrapper(fg,
-                            $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                            $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
                         {
                             foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI(obj))
                             {
@@ -1022,7 +1022,7 @@ namespace Loqui.Generation
                 }
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public{await obj.FunctionOverride()}void Write_{ModuleNickname}"))
+                    $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
                 {
                     foreach (var item in this.MainAPI.WriterAPI.IterateAPI(
                         obj,

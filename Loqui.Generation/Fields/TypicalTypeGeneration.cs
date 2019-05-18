@@ -253,6 +253,26 @@ namespace Loqui.Generation
                     fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
                 }
             }
+            if (this.HasInternalInterface)
+            {
+                if (this.InternalSetInterface)
+                {
+                    fg.AppendLine($"{TypeName} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this.{this.Name};");
+                        fg.AppendLine($"set => this.{this.Name} = value;");
+                    }
+                }
+                if (this.InternalGetInterface)
+                {
+                    fg.AppendLine($"{TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: true)}.{this.Name}");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"get => this.{this.Name};");
+                    }
+                }
+            }
         }
 
         protected string GetNotifyingProperty()
@@ -317,49 +337,51 @@ namespace Loqui.Generation
             return this.DefaultValue;
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (this.ReadOnly || !this.IntegrateField) return;
-            fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
-            
-            if (this.NotifyingType == NotifyingType.ReactiveUI)
+            if (getter)
             {
-                if (this.HasBeenSet)
+                if (!ApplicableInterfaceField(getter, internalInterface)) return;
+                fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
-                    fg.AppendLine($"new bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; set; }}");
-                    fg.AppendLine($"void {this.Name}_Set({this.TypeName} item, bool hasBeenSet = true);");
-                    fg.AppendLine($"void {this.Name}_Unset();");
+                    if (this.HasBeenSet)
+                    {
+                        fg.AppendLine($"bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; }}");
+                    }
                 }
-            }
-            else if (this.NotifyingType == NotifyingType.None)
-            {
-                if (this.HasBeenSet)
+                else
                 {
-                    fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                    if (this.HasBeenSet)
+                    {
+                        fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                    }
                 }
-            }
-            fg.AppendLine();
-        }
-
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            if (!this.IntegrateField) return;
-            fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
-            if (this.NotifyingType == NotifyingType.ReactiveUI)
-            {
-                if (this.HasBeenSet)
-                {
-                    fg.AppendLine($"bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; }}");
-                }
+                fg.AppendLine();
             }
             else
             {
-                if (this.HasBeenSet)
+                if (!ApplicableInterfaceField(getter, internalInterface)) return;
+                fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
+
+                if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
-                    fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                    if (this.HasBeenSet)
+                    {
+                        fg.AppendLine($"new bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; set; }}");
+                        fg.AppendLine($"void {this.Name}_Set({this.TypeName} item, bool hasBeenSet = true);");
+                        fg.AppendLine($"void {this.Name}_Unset();");
+                    }
                 }
+                else if (this.NotifyingType == NotifyingType.None)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                    }
+                }
+                fg.AppendLine();
             }
-            fg.AppendLine();
         }
 
         public override void GenerateForCopy(
@@ -467,6 +489,9 @@ namespace Loqui.Generation
         public override void GenerateClear(FileGeneration fg, Accessor identifier)
         {
             if (this.ReadOnly || !this.IntegrateField) return;
+            // ToDo
+            // Add internal interface support
+            if (this.HasInternalInterface) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
@@ -521,6 +546,9 @@ namespace Loqui.Generation
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (!this.IntegrateField) return;
+            // ToDo
+            // Add Internal interface support
+            if (this.HasInternalInterface) return;
             if (this.HasBeenSet)
             {
                 if (this.NotifyingType == NotifyingType.ReactiveUI)
@@ -547,6 +575,9 @@ namespace Loqui.Generation
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
             if (!this.IntegrateField) return;
+            // ToDo
+            // Add Internal interface support
+            if (this.HasInternalInterface) return;
             fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor.DirectAccess}}}\");");
         }
 

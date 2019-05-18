@@ -25,9 +25,9 @@ namespace Loqui.Generation
         {
         }
 
-        public override string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null)
+        public override string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null, bool doIt = true)
         {
-            if (!HasLoquiBaseObject) return " ";
+            if (!doIt || !HasLoquiBaseObject) return " ";
             if (baseObjFilter == null) return " new ";
             foreach (var baseClass in this.BaseClassTrail())
             {
@@ -91,6 +91,10 @@ namespace Loqui.Generation
                 list.Add(NonLoquiBaseClass);
             }
             list.Add(this.Interface(getter: false));
+            if (this.HasInternalInterface)
+            {
+                list.Add(this.Interface(getter: false, internalInterface: true));
+            }
             list.Add($"ILoquiObject<{this.ObjectName}>");
             list.AddRange(this.Interfaces);
             list.AddRange(
@@ -164,6 +168,25 @@ namespace Loqui.Generation
                     {
                         return OverrideType.OnlyHasDerivative;
                     }
+                }
+            }
+            return OverrideType.None;
+        }
+
+        public override OverrideType GetFunctionOverrideType()
+        {
+            if (this.HasLoquiBaseObject)
+            {
+                foreach (var baseObj in this.BaseClassTrail())
+                {
+                    return OverrideType.HasBase;
+                }
+            }
+            if (this.HasDerivativeClasses)
+            {
+                foreach (var derivClass in this.GetDerivativeClasses())
+                {
+                    return OverrideType.OnlyHasDerivative;
                 }
             }
             return OverrideType.None;

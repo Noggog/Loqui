@@ -27,7 +27,7 @@ namespace Loqui.Generation
         {
             await base.Load(node, requireName);
             EnumName = node.GetAttribute<string>(
-                "enumName",
+                Constants.ENUM_NAME,
                 throwException: true);
         }
     }

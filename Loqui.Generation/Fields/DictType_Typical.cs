@@ -164,11 +164,18 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForInterface(FileGeneration fg)
+        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (!this.ReadOnly)
+            if (getter)
             {
-                fg.AppendLine($"new INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
+            }
+            else
+            {
+                if (!this.ReadOnly)
+                {
+                    fg.AppendLine($"new INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                }
             }
         }
 
@@ -182,11 +189,6 @@ namespace Loqui.Generation
             {
                 return $"{accessor.PropertyAccess}.HasBeenSet";
             }
-        }
-
-        public override void GenerateForGetterInterface(FileGeneration fg)
-        {
-            fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
         }
 
         public override void GenerateForCopy(
