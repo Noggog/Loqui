@@ -226,7 +226,8 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey(\"{this.Protocol.Namespace}\");");
-                    fg.AppendLine("public void Register()");
+                    fg.AppendLine("void IProtocolRegistration.Register() => Register();");
+                    fg.AppendLine("public static void Register()");
                     using (new BraceWrapper(fg))
                     {
                         foreach (var obj in this.ObjectGenerationsByID.Values
