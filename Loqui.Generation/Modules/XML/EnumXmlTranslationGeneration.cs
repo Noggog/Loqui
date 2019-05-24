@@ -97,11 +97,13 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             string nameOverride = null)
         {
+            _subGen.XmlMod = this.XmlMod;
             return _subGen.GenerateForXSD(obj, rootElement, choiceElement, typeGen, nameOverride);
         }
 
         public override void GenerateForCommonXSD(XElement rootElement, TypeGeneration typeGen)
         {
+            _subGen.XmlMod = this.XmlMod;
             _subGen.GenerateForCommonXSD(rootElement, typeGen);
         }
     }
