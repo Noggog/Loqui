@@ -434,7 +434,18 @@ namespace Loqui.Generation
         protected virtual async Task GenerateSetterInterface(FileGeneration fg)
         {
             // Interface
-            fg.AppendLine($"public partial interface {this.Interface()} : {this.Interface(getter: true)}{(this.HasLoquiBaseObject ? ", " + this.BaseClass.Interface(this.BaseGenericTypes) : string.Empty)}, ILoquiClass<{this.Interface()}, {this.Interface(getter: true)}>, ILoquiClass<{this.ObjectName}, {this.Interface(getter: true)}>");
+            using (var args = new ClassWrapper(fg, this.Interface()))
+            {
+                args.Type = ClassWrapper.ObjectType.@interface;
+                args.Partial = true;
+                args.Interfaces.Add(this.Interface(getter: true));
+                if (this.HasLoquiBaseObject)
+                {
+                    args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
+                }
+                args.Interfaces.Add($"ILoquiClass<{this.Interface()}, {this.Interface(getter: true)}>");
+                args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface(getter: true)}>");
+            }
             WriteWhereClauses(fg, this.Generics);
             using (new BraceWrapper(fg))
             {
@@ -448,8 +459,14 @@ namespace Loqui.Generation
             if (HasInternalInterface)
             {
                 // Internal Interface
-                var baseInternal = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true);
-                fg.AppendLine($"public partial interface {this.Interface(internalInterface: true)} : {this.Interface()}, {this.Interface(getter: true, internalInterface: true)}{(baseInternal == null ? null : $", {baseInternal}")}");
+                using (var args = new ClassWrapper(fg, this.Interface(internalInterface: true)))
+                {
+                    args.Type = ClassWrapper.ObjectType.@interface;
+                    args.Partial = true;
+                    args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true);
+                    args.Interfaces.Add(this.Interface());
+                    args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
+                }
                 WriteWhereClauses(fg, this.Generics);
                 using (new BraceWrapper(fg))
                 {
@@ -464,8 +481,13 @@ namespace Loqui.Generation
 
         protected virtual async Task GenerateGetterInterface(FileGeneration fg)
         {
-            // Getter 
-            fg.AppendLine($"public partial interface {this.Interface(getter: true)} : {(this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject))}");
+            // Getter
+            using (var args = new ClassWrapper(fg, this.Interface(getter: true)))
+            {
+                args.Type = ClassWrapper.ObjectType.@interface;
+                args.Partial = true;
+                args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
+            }
             WriteWhereClauses(fg, this.Generics);
 
             using (new BraceWrapper(fg))
@@ -491,9 +513,14 @@ namespace Loqui.Generation
 
             if (HasInternalInterface)
             {
-                // Internal Getter 
-                var baseInternal = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
-                fg.AppendLine($"public partial interface {this.Interface(getter: true, internalInterface: true)} : {this.Interface(getter: true)}{(baseInternal == null ? null : $", {baseInternal}")}");
+                // Internal Getter
+                using (var args = new ClassWrapper(fg, this.Interface(getter: true, internalInterface: true)))
+                {
+                    args.Type = ClassWrapper.ObjectType.@interface;
+                    args.Partial = true;
+                    args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
+                    args.Interfaces.Add(this.Interface(getter: true));
+                }
                 WriteWhereClauses(fg, this.Generics);
 
                 using (new BraceWrapper(fg))

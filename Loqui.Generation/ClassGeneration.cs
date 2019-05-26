@@ -74,46 +74,40 @@ namespace Loqui.Generation
 
         protected override async Task GenerateClassLine(FileGeneration fg)
         {
-            // Generate class header and interfaces
-            fg.AppendLine($"public {(this.Abstract ? "abstract " : string.Empty)}partial class {this.ObjectName} : ");
-
-            var list = new List<string>();
-            if (HasLoquiBaseObject && this.HasNonLoquiBaseObject)
+            using (var args = new ClassWrapper(fg, this.ObjectName))
             {
-                throw new ArgumentException("Cannot define both a loqui and non-loqui base class");
-            }
-            if (HasLoquiBaseObject)
-            {
-                list.Add(BaseClassName);
-            }
-            else if (HasNonLoquiBaseObject)
-            {
-                list.Add(NonLoquiBaseClass);
-            }
-            list.Add(this.Interface(getter: false));
-            if (this.HasInternalInterface)
-            {
-                list.Add(this.Interface(getter: false, internalInterface: true));
-            }
-            list.Add($"ILoquiObject<{this.ObjectName}>");
-            list.AddRange(this.Interfaces);
-            list.AddRange(
-                (await Task.WhenAll(this.gen.GenerationModules
-                        .Select((tr) => tr.Interfaces(this))))
-                .SelectMany(i => i));
-            list.AddRange(
-                (await Task.WhenAll(this.gen.GenerationModules
-                        .Select((tr) => tr.Interfaces(this))))
-                .SelectMany(i => i));
-            list.AddRange(this.ProtoGen.Interfaces);
-            list.AddRange(this.gen.Interfaces);
-            list.Add($"IEquatable<{this.ObjectName}>");
-            using (new DepthWrapper(fg))
-            {
-                foreach (var item in list.Distinct().IterateMarkLast())
+                args.Abstract = this.Abstract;
+                args.Partial = true;
+                if (HasLoquiBaseObject && this.HasNonLoquiBaseObject)
                 {
-                    fg.AppendLine($"{item.Item}{(item.Last ? null : ",")}");
+                    throw new ArgumentException("Cannot define both a loqui and non-loqui base class");
                 }
+                if (HasLoquiBaseObject)
+                {
+                    args.BaseClass = this.BaseClassName;
+                }
+                else if (HasNonLoquiBaseObject)
+                {
+                    args.BaseClass = this.NonLoquiBaseClass;
+                }
+                args.Interfaces.Add(this.Interface(getter: false));
+                if (this.HasInternalInterface)
+                {
+                    args.Interfaces.Add(this.Interface(getter: false, internalInterface: true));
+                }
+                args.Interfaces.Add($"ILoquiObject<{this.ObjectName}>");
+                args.Interfaces.Add(this.Interfaces);
+                args.Interfaces.Add(
+                    (await Task.WhenAll(this.gen.GenerationModules
+                            .Select((tr) => tr.Interfaces(this))))
+                    .SelectMany(i => i));
+                args.Interfaces.Add(
+                    (await Task.WhenAll(this.gen.GenerationModules
+                            .Select((tr) => tr.Interfaces(this))))
+                    .SelectMany(i => i));
+                args.Interfaces.Add(this.ProtoGen.Interfaces);
+                args.Interfaces.Add(this.gen.Interfaces);
+                args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
             }
         }
 

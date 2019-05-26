@@ -65,7 +65,11 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public partial class {TranslationClass(obj)}{(obj.HasLoquiBaseObject ? $" : {TranslationClass(obj.BaseClass)}" : null)}");
+            using (var args = new ClassWrapper(fg, TranslationClass(obj)))
+            {
+                args.Partial = true;
+                args.BaseClass = obj.HasLoquiBaseObject ? TranslationClass(obj.BaseClass) : null;
+            }
             obj.WriteWhereClauses(fg, obj.Generics);
             using (new BraceWrapper(fg))
             {

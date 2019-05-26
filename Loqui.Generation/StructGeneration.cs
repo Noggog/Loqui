@@ -84,21 +84,20 @@ namespace Loqui.Generation
             // Generate class header and interfaces
             using (new LineWrapper(fg))
             {
-                fg.Append($"public partial struct {Name}{this.GetGenericTypes(MaskType.Normal)} : ");
-
-                List<string> list = new List<string>
+                using (var args = new ClassWrapper(fg, $"{Name}{this.GetGenericTypes(MaskType.Normal)}"))
                 {
-                    this.Interface(getter: true)
-                };
-                list.AddRange(this.Interfaces);
-                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
-                            .Select((tr) => tr.Interfaces(this))))
-                            .SelectMany(i => i));
-                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
-                            .Select((tr) => tr.Interfaces(this))))
-                            .SelectMany(i => i));
-                list.Add($"IEquatable<{this.ObjectName}>");
-                fg.Append(string.Join(", ", list.Distinct()));
+                    args.Partial = true;
+                    args.Type = ClassWrapper.ObjectType.@struct;
+                    args.Interfaces.Add(this.Interface(getter: true));
+                    args.Interfaces.Add(this.Interfaces);
+                    args.Interfaces.Add((await Task.WhenAll(this.gen.GenerationModules
+                                .Select((tr) => tr.Interfaces(this))))
+                                .SelectMany(i => i));
+                    args.Interfaces.Add((await Task.WhenAll(this.gen.GenerationModules
+                                .Select((tr) => tr.Interfaces(this))))
+                                .SelectMany(i => i));
+                    args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
+                }
             }
         }
 
