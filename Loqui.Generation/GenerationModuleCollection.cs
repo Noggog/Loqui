@@ -151,18 +151,6 @@ namespace Loqui.Generation
                     }));
         }
 
-        public async Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
-        {
-            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.GetReaderInterfaces(obj))))
-                .SelectMany(i => i);
-        }
-
-        public async Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
-        {
-            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.GetWriterInterfaces(obj))))
-                .SelectMany(i => i);
-        }
-
         public async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
             return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.Interfaces(obj))))

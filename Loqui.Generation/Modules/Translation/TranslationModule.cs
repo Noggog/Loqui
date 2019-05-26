@@ -45,16 +45,6 @@ namespace Loqui.Generation
             transl.Load(obj, field, node);
         }
 
-        public override async Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
-        {
-            return Enumerable.Empty<string>();
-        }
-
-        public override async Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
-        {
-            return Enumerable.Empty<string>();
-        }
-
         public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
             return Enumerable.Empty<string>();

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>d5fd07fc55ad8d6aea11025bdb83c9cb84e66a51</Sha>
+         <Sha>e551235d1a9c49e54c28a8dc9a110dab40b3e89f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-13-2019 17:34:52</CommitDate>
-         <Description>Nuget Update</Description>
+         <CommitDate>05-20-2019 22:20:01</CommitDate>
+         <Description>IBinaryReadStream.RemainingSpan</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

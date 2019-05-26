@@ -621,16 +621,6 @@ namespace Loqui.Generation
             return Enumerable.Empty<string>();
         }
 
-        public override async Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
-        {
-            return Enumerable.Empty<string>();
-        }
-
-        public override async Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
-        {
-            return Enumerable.Empty<string>();
-        }
-
         public void GenerateStandardDefault(FileGeneration fg, ObjectGeneration obj, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
         {
             fg.AppendLine("default:");

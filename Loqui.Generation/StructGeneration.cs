@@ -95,9 +95,6 @@ namespace Loqui.Generation
                             .Select((tr) => tr.Interfaces(this))))
                             .SelectMany(i => i));
                 list.AddRange((await Task.WhenAll(this.gen.GenerationModules
-                            .Select((tr) => tr.GetWriterInterfaces(this))))
-                            .SelectMany(i => i));
-                list.AddRange((await Task.WhenAll(this.gen.GenerationModules
                             .Select((tr) => tr.Interfaces(this))))
                             .SelectMany(i => i));
                 list.Add($"IEquatable<{this.ObjectName}>");

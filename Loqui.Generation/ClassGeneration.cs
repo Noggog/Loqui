@@ -103,10 +103,6 @@ namespace Loqui.Generation
                 .SelectMany(i => i));
             list.AddRange(
                 (await Task.WhenAll(this.gen.GenerationModules
-                        .Select((tr) => tr.GetReaderInterfaces(this))))
-                .SelectMany(i => i));
-            list.AddRange(
-                (await Task.WhenAll(this.gen.GenerationModules
                         .Select((tr) => tr.Interfaces(this))))
                 .SelectMany(i => i));
             list.AddRange(this.ProtoGen.Interfaces);

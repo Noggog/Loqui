@@ -11,8 +11,6 @@ namespace Loqui.Generation
         string Name { get; }
         Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
         Task<IEnumerable<string>> Interfaces(ObjectGeneration obj);
-        Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj);
-        Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
         Task PostLoad(ObjectGeneration obj);
         Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
@@ -44,16 +42,6 @@ namespace Loqui.Generation
         public virtual Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
         {
             return SubModules.Interfaces(obj);
-        }
-
-        public virtual Task<IEnumerable<string>> GetWriterInterfaces(ObjectGeneration obj)
-        {
-            return SubModules.GetWriterInterfaces(obj);
-        }
-
-        public virtual Task<IEnumerable<string>> GetReaderInterfaces(ObjectGeneration obj)
-        {
-            return SubModules.GetReaderInterfaces(obj);
         }
 
         public virtual Task PreLoad(ObjectGeneration obj)
