@@ -1012,7 +1012,7 @@ namespace Loqui.Generation
                         args.Add(this.HasBeenSetAccessor(rhsAccessor));
                         args.Add(accessor.DirectAccess);
                         args.Add(rhsAccessor.DirectAccess);
-                        args.Add("(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
+                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs)");
                         args.Add("include");
                     }
                 }
@@ -1022,7 +1022,7 @@ namespace Loqui.Generation
                         $"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(EqualsMaskHelper.EqualsHelper)}"))
                     {
                         args.Add(rhsAccessor.PropertyOrDirectAccess);
-                        args.Add("(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
+                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs)");
                         args.Add("include");
                     }
                 }
