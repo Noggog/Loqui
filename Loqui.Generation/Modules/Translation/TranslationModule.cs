@@ -84,7 +84,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
             {
-                CommonWrite(obj, fg);
+                await CommonWrite(obj, fg);
                 foreach (var extra in ExtraTranslationTasks)
                 {
                     await extra(obj, fg);
@@ -652,101 +652,75 @@ namespace Loqui.Generation
                 }
             }
         }
-
-        private void CommonWrite(ObjectGeneration obj, FileGeneration fg)
+        
+        private void FillWriterArgs(FunctionWrapper args, ObjectGeneration obj)
         {
-            using (var args = new FunctionWrapper(fg,
-                $"public void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Error)).ToArray()))
+            foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
             {
-                foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
+                if (item.TryResolve(obj, out var line))
                 {
-                    if (item.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
-                }
-                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
-                foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
-                {
-                    if (item.API.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
-                }
-                args.Add($"bool doMasks");
-                args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
-                if (this.TranslationMaskParameter)
-                {
-                    args.Add($"{obj.Mask(MaskType.Translation)} translationMask");
-                }
-                foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
-                {
-                    if (item.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
+                    args.Add(line.Result);
                 }
             }
-            using (new BraceWrapper(fg))
+            args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
+            foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
             {
-                fg.AppendLine($"ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
-                using (var args = new ArgsWrapper(fg,
-                    $"Write_{ModuleNickname}"))
+                if (item.API.TryResolve(obj, out var line))
                 {
-                    foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
-                    {
-                        args.Add(item);
-                    }
-                    args.Add("item: item");
-                    foreach (var item in this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer))
-                    {
-                        args.Add(item);
-                    }
-                    args.Add($"errorMask: errorMaskBuilder");
-                    if (this.TranslationMaskParameter)
-                    {
-                        args.Add("translationMask: translationMask?.GetCrystal()");
-                    }
+                    args.Add(line.Result);
                 }
-                fg.AppendLine($"errorMask = {obj.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
-            fg.AppendLine();
+            args.Add($"ErrorMaskBuilder errorMask");
+            if (this.TranslationMaskParameter)
+            {
+                args.Add($"{nameof(TranslationCrystal)} translationMask");
+            }
+            foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
+            {
+                if (item.TryResolve(obj, out var line))
+                {
+                    args.Add(line.Result);
+                }
+            }
+        }
+
+        private async Task CommonWrite(ObjectGeneration obj, FileGeneration fg)
+        {
+            var inheriting = (await obj.InheritingObjects()).Any();
 
             using (var args = new FunctionWrapper(fg,
-                $"public void Write_{ModuleNickname}"))
+                $"public{(inheriting ? " virtual" : null)} void Write_{ModuleNickname}"))
             {
-                foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
-                {
-                    if (item.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
-                }
-                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
-                foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
-                {
-                    if (item.API.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
-                }
-                args.Add($"ErrorMaskBuilder errorMask");
-                if (this.TranslationMaskParameter)
-                {
-                    args.Add($"{nameof(TranslationCrystal)} translationMask");
-                }
-                foreach (var item in this.MainAPI.WriterAPI.OptionalAPI)
-                {
-                    if (item.TryResolve(obj, out var line))
-                    {
-                        args.Add(line.Result);
-                    }
-                }
+                FillWriterArgs(args, obj);
             }
             using (new BraceWrapper(fg))
             {
                 GenerateWriteSnippet(obj, fg);
+            }
+            fg.AppendLine();
+
+            foreach (var baseObj in obj.BaseClassTrail())
+            {
+                using (var args = new FunctionWrapper(fg,
+                    $"public override void Write_{ModuleNickname}"))
+                {
+                    FillWriterArgs(args, baseObj);
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg, $"Write_{ModuleNickname}"))
+                    {
+                        args.Add($"item: ({obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)})item");
+                        args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
+                        args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
+                        args.Add($"errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add($"translationMask: translationMask");
+                        }
+                    }
+                }
+                fg.AppendLine();
             }
         }
 
@@ -1053,14 +1027,8 @@ namespace Loqui.Generation
                         $"{TranslationClass(obj)}.Instance.{funcName}"))
                     {
                         args.Add("item: this");
-                        foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
-                        {
-                            args.Add(item);
-                        }
-                        foreach (var item in this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer))
-                        {
-                            args.Add(item);
-                        }
+                        args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
+                        args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
                         args.Add("errorMask: errorMask");
                         if (this.TranslationMaskParameter)
                         {

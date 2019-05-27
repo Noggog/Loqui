@@ -30,11 +30,12 @@ namespace Loqui.Generation
                 CombineResults(
                     custom.API.GetParameterName(obj),
                     custom.DefaultFallback));
-        public IEnumerable<string> InternalPassArgs(ObjectGeneration obj, Direction dir) =>
+        public string[] InternalPassArgs(ObjectGeneration obj, Direction dir) =>
             InternalMembers(obj, dir).Select(custom =>
                 CombineResults(
                     custom.API.GetParameterName(obj),
-                    custom.API.GetParameterName(obj)));
+                    custom.API.GetParameterName(obj)))
+            .ToArray();
         public TranslationFunnel Funnel;
 
         public Func<ObjectGeneration, bool> When { get; set; }
