@@ -13,6 +13,7 @@ namespace Loqui.Generation
         string initialLine;
         public bool SemiColon = false;
         string[] wheres;
+        private bool SemiColonAfterParenthesis => this.SemiColon && wheres.Length == 0;
 
         public FunctionWrapper(
             FileGeneration fg,
@@ -50,11 +51,11 @@ namespace Loqui.Generation
             {
                 if (args.Count == 0)
                 {
-                    fg.AppendLine($"{initialLine}(){(this.SemiColon ? ";" : null)}");
+                    fg.AppendLine($"{initialLine}(){(this.SemiColonAfterParenthesis ? ";" : null)}");
                 }
                 else if (args[0].Length == 1)
                 {
-                    fg.AppendLine($"{initialLine}({args[0][0]}){(this.SemiColon ? ";" : null)}");
+                    fg.AppendLine($"{initialLine}({args[0][0]}){(this.SemiColonAfterParenthesis ? ";" : null)}");
                 }
                 else
                 {
@@ -63,7 +64,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine(args[0][i]);
                     }
-                    fg.AppendLine($"{args[0][args[0].Length - 1]}){(this.SemiColon ? ";" : null)}");
+                    fg.AppendLine($"{args[0][args[0].Length - 1]}){(this.SemiColonAfterParenthesis ? ";" : null)}");
                 }
                 this.fg.Depth++;
                 foreach (var where in wheres.IterateMarkLast())
@@ -92,7 +93,7 @@ namespace Loqui.Generation
                         arg.Last(
                             each: (item, last) =>
                             {
-                                fg.AppendLine($"{item}{(last ? $"){(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
+                                fg.AppendLine($"{item}{(last ? $"){(SemiColonAfterParenthesis ? ";" : string.Empty)}" : string.Empty)}");
                             });
                     });
             }

@@ -454,6 +454,18 @@ namespace Loqui.Generation
                 {
                     field.GenerateForInterface(fg, getter: false, internalInterface: false);
                 }
+                using (var args = new FunctionWrapper(fg,
+                    $"void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
+                    wheres: this.GenericTypeMaskWheres(MaskType.Copy))
+                {
+                    SemiColon = true
+                })
+                {
+                    args.Add($"{this.Interface(getter: true)} rhs");
+                    args.Add($"ErrorMaskBuilder errorMask = null");
+                    args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
+                    args.Add($"{this.Interface(getter: true)} def = null");
+                }
             }
             fg.AppendLine();
 
@@ -995,7 +1007,6 @@ namespace Loqui.Generation
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                 args.Add($"{this.Interface(getter: true)} def = null");
-                args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
             {
