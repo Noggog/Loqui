@@ -24,6 +24,9 @@ namespace Loqui.Generation
         public bool DoErrorMasks = true;
         public string TranslationClassName(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}Translation";
         public string TranslationClass(ObjectGeneration obj) => $"{TranslationClassName(obj)}{obj.GetGenericTypes(MaskType.Normal)}";
+        public virtual bool DoTranslationInterface(ObjectGeneration obj) => true;
+        public string TranslationInterface => $"I{this.ModuleNickname}Translator";
+        public string TranslationItemInterface => $"I{this.ModuleNickname}Item";
 
         public const string ErrorMaskKey = "ErrorMask";
         public const string ErrorMaskBuilderKey = "ErrorMaskBuilder";
@@ -47,7 +50,14 @@ namespace Loqui.Generation
 
         public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
-            return Enumerable.Empty<(LoquiInterfaceType Location, string Interface)>();
+            if (this.DoTranslationInterface(obj))
+            {
+                return (LoquiInterfaceType.IGetter, TranslationItemInterface).Single().ToArray();
+            }
+            else
+            {
+                return EnumerableExt<(LoquiInterfaceType Location, string Interface)>.Empty.ToArray();
+            }
         }
 
         public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
@@ -69,6 +79,10 @@ namespace Loqui.Generation
             {
                 args.Partial = true;
                 args.BaseClass = obj.HasLoquiBaseObject ? TranslationClass(obj.BaseClass) : null;
+                if (this.DoTranslationInterface(obj))
+                {
+                    args.Interfaces.Add(this.TranslationInterface);
+                }
             }
             obj.WriteWhereClauses(fg, obj.Generics);
             using (new BraceWrapper(fg))
@@ -82,13 +96,10 @@ namespace Loqui.Generation
 
         public virtual async Task GenerateInTranslationClass(ObjectGeneration obj, FileGeneration fg)
         {
-            using (new RegionWrapper(fg, $"{ModuleNickname} Write"))
+            await CommonWrite(obj, fg);
+            foreach (var extra in ExtraTranslationTasks)
             {
-                await CommonWrite(obj, fg);
-                foreach (var extra in ExtraTranslationTasks)
-                {
-                    await extra(obj, fg);
-                }
+                await extra(obj, fg);
             }
         }
 
@@ -103,6 +114,14 @@ namespace Loqui.Generation
             if (this.MainAPI == null)
             {
                 throw new ArgumentException("Main API need to be set.");
+            }
+            if (this.DoTranslationInterface(obj))
+            {
+                fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}{this.TranslationInterface} {this.ModuleNickname}Translator => {this.TranslationClass(obj)}.Instance;");
+                if (!obj.BaseClassTrail().Any(b => this.DoTranslationInterface(b)))
+                {
+                    fg.AppendLine($"{this.TranslationInterface} {this.TranslationItemInterface}.{this.ModuleNickname}Translator => this.{this.ModuleNickname}Translator;");
+                }
             }
             if (!obj.Abstract || this.GenerateAbstractCreates)
             {
@@ -653,7 +672,7 @@ namespace Loqui.Generation
             }
         }
         
-        private void FillWriterArgs(FunctionWrapper args, ObjectGeneration obj)
+        private void FillWriterArgs(FunctionWrapper args, ObjectGeneration obj, bool objParam = false)
         {
             foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
             {
@@ -662,7 +681,7 @@ namespace Loqui.Generation
                     args.Add(line.Result);
                 }
             }
-            args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
+            args.Add($"{(objParam ? "object" : obj.Interface(internalInterface: obj.HasInternalInterface, getter: true))} item");
             foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
             {
                 if (item.API.TryResolve(obj, out var line))
@@ -696,6 +715,27 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 GenerateWriteSnippet(obj, fg);
+            }
+            fg.AppendLine();
+
+            using (var args = new FunctionWrapper(fg,
+                $"public{obj.FunctionOverride()}void Write_{ModuleNickname}"))
+            {
+                FillWriterArgs(args, obj, objParam: true);
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg, $"Write_{ModuleNickname}"))
+                {
+                    args.Add($"item: ({obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)})item");
+                    args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
+                    args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
+                    args.Add($"errorMask: errorMask");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.Add($"translationMask: translationMask");
+                    }
+                }
             }
             fg.AppendLine();
 
@@ -1108,6 +1148,22 @@ namespace Loqui.Generation
         public G GetTypeGeneration(Type t)
         {
             return this._typeGenerations[t];
+        }
+
+        public override async Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
+        {
+            await base.GenerateInRegistration(obj, fg);
+            fg.AppendLine($"public static readonly Type {this.ModuleNickname}Translation = typeof({this.TranslationClassName(obj)}{obj.EmptyGenerics});");
+        }
+
+        public override async Task PostLoad(ObjectGeneration obj)
+        {
+            await base.PostLoad(obj);
+            foreach (var gen in obj.Generics.Values)
+            {
+                if (!gen.Loqui) continue;
+                gen.Add(this.TranslationItemInterface);
+            }
         }
     }
 }

@@ -154,6 +154,7 @@ namespace Loqui.Generation
 
         public override async Task PostLoad(ObjectGeneration obj)
         {
+            await base.PostLoad(obj);
             foreach (var gen in _typeGenerations.Values)
             {
                 gen.XmlMod = this;
