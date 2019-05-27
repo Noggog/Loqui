@@ -607,9 +607,9 @@ namespace Loqui.Generation
         {
         }
 
-        public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
-            return Enumerable.Empty<string>();
+            return Enumerable.Empty<(LoquiInterfaceType Location, string Interface)>();
         }
 
         public override async Task Modify(LoquiGenerator gen)

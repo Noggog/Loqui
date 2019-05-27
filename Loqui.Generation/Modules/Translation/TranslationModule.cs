@@ -45,9 +45,9 @@ namespace Loqui.Generation
             transl.Load(obj, field, node);
         }
 
-        public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
-            return Enumerable.Empty<string>();
+            return Enumerable.Empty<(LoquiInterfaceType Location, string Interface)>();
         }
 
         public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)

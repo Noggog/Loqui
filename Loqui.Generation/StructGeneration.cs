@@ -90,12 +90,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@struct;
                     args.Interfaces.Add(this.Interface(getter: true));
                     args.Interfaces.Add(this.Interfaces);
-                    args.Interfaces.Add((await Task.WhenAll(this.gen.GenerationModules
-                                .Select((tr) => tr.Interfaces(this))))
-                                .SelectMany(i => i));
-                    args.Interfaces.Add((await Task.WhenAll(this.gen.GenerationModules
-                                .Select((tr) => tr.Interfaces(this))))
-                                .SelectMany(i => i));
+                    args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
                     args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
                 }
             }

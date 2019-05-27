@@ -151,7 +151,7 @@ namespace Loqui.Generation
                     }));
         }
 
-        public async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
+        public async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
             return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.Interfaces(obj))))
                 .SelectMany(i => i);

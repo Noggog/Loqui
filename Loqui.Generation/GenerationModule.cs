@@ -10,7 +10,7 @@ namespace Loqui.Generation
         string RegionString { get; }
         string Name { get; }
         Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
-        Task<IEnumerable<string>> Interfaces(ObjectGeneration obj);
+        Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
         Task PostLoad(ObjectGeneration obj);
         Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
@@ -39,7 +39,7 @@ namespace Loqui.Generation
             return SubModules.RequiredUsingStatements(obj);
         }
 
-        public virtual Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
+        public virtual Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
             return SubModules.Interfaces(obj);
         }

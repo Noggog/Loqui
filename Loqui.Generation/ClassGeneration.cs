@@ -97,14 +97,7 @@ namespace Loqui.Generation
                 }
                 args.Interfaces.Add($"ILoquiObject<{this.ObjectName}>");
                 args.Interfaces.Add(this.Interfaces);
-                args.Interfaces.Add(
-                    (await Task.WhenAll(this.gen.GenerationModules
-                            .Select((tr) => tr.Interfaces(this))))
-                    .SelectMany(i => i));
-                args.Interfaces.Add(
-                    (await Task.WhenAll(this.gen.GenerationModules
-                            .Select((tr) => tr.Interfaces(this))))
-                    .SelectMany(i => i));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(this.ProtoGen.Interfaces);
                 args.Interfaces.Add(this.gen.Interfaces);
                 args.Interfaces.Add($"IEquatable<{this.ObjectName}>");

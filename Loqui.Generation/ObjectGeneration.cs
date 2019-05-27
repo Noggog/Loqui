@@ -445,6 +445,7 @@ namespace Loqui.Generation
                 }
                 args.Interfaces.Add($"ILoquiClass<{this.Interface()}, {this.Interface(getter: true)}>");
                 args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface(getter: true)}>");
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
             }
             WriteWhereClauses(fg, this.Generics);
             using (new BraceWrapper(fg))
@@ -487,6 +488,7 @@ namespace Loqui.Generation
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
             }
             WriteWhereClauses(fg, this.Generics);
 
@@ -2994,6 +2996,15 @@ namespace Loqui.Generation
         public string InterfaceNoGenerics(bool getter = false, bool internalInterface = false)
         {
             return $"I{this.Name}{(internalInterface ? "Internal" : null)}{(getter ? "Getter" : null)}";
+        }
+
+        public async Task<IEnumerable<string>> GetApplicableInterfaces(LoquiInterfaceType type)
+        {
+            return (await Task.WhenAll(this.gen.GenerationModules
+                        .Select((tr) => tr.Interfaces(this))))
+                .SelectMany(i => i)
+                .Where(i => i.Location == type)
+                .Select(i => i.Interface);
         }
     }
 }

@@ -39,11 +39,11 @@ namespace Loqui.Generation
             return true;
         }
 
-        public override async Task<IEnumerable<string>> Interfaces(ObjectGeneration obj)
+        public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
         {
             return (await base.Interfaces(obj))
                 .Concat(GetContainedTypes(obj, forNotification: true)
-                    .Select(type => $"IPropertySupporter<{type.Key}>"));
+                    .Select(type => (LoquiInterfaceType.Direct, $"IPropertySupporter<{type.Key}>")));
         }
 
         public override async Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
