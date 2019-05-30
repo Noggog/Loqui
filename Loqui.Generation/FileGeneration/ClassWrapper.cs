@@ -19,6 +19,7 @@ namespace Loqui.Generation
         public PermissionLevel Public = PermissionLevel.@public;
         public bool Partial;
         public bool Abstract;
+        public bool Static;
         public string BaseClass;
         public ObjectType Type = ObjectType.@class;
         public HashSet<string> Interfaces = new HashSet<string>();
@@ -31,7 +32,7 @@ namespace Loqui.Generation
 
         public void Dispose()
         {
-            var classLine = $"{EnumExt.ToStringFast_Enum_Only<PermissionLevel>(Public)} {(this.Abstract ? "abstract " : null)}{(this.Partial ? "partial " : null)}{EnumExt.ToStringFast_Enum_Only<ObjectType>(Type)} {this.Name}";
+            var classLine = $"{EnumExt.ToStringFast_Enum_Only<PermissionLevel>(Public)} {(this.Static ? "static " : null)}{(this.Abstract ? "abstract " : null)}{(this.Partial ? "partial " : null)}{EnumExt.ToStringFast_Enum_Only<ObjectType>(Type)} {this.Name}";
             var toAdd = this.Interfaces.ToList();
             if (!string.IsNullOrWhiteSpace(this.BaseClass))
             {

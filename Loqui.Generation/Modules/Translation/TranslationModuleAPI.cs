@@ -25,11 +25,12 @@ namespace Loqui.Generation
                     api.rhs.GetParameterName(obj).Result))
             .ToArray();
         public IEnumerable<CustomMethodAPI> InternalMembers(ObjectGeneration obj, Direction dir) => Get(dir).CustomAPI.Where((a) => !a.Public).Where(o => o.API.When(obj));
-        public IEnumerable<string> InternalFallbackArgs(ObjectGeneration obj, Direction dir) =>
+        public string[] InternalFallbackArgs(ObjectGeneration obj, Direction dir) =>
             InternalMembers(obj, dir).Select(custom =>
                 CombineResults(
                     custom.API.GetParameterName(obj),
-                    custom.DefaultFallback));
+                    custom.DefaultFallback))
+            .ToArray();
         public string[] InternalPassArgs(ObjectGeneration obj, Direction dir) =>
             InternalMembers(obj, dir).Select(custom =>
                 CombineResults(

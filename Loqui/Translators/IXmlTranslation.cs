@@ -8,7 +8,7 @@ namespace Loqui.Xml
 {
     public interface IXmlTranslator
     {
-        void Write_Xml(
+        void Write(
             XElement node,
             object item,
             ErrorMaskBuilder errorMask,

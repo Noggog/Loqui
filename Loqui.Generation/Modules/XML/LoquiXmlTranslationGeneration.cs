@@ -29,20 +29,19 @@ namespace Loqui.Generation
             Accessor translationMaskAccessor)
         {
             var loquiGen = typeGen as LoquiType;
-            string callString;
-            if (loquiGen.RefType == LoquiType.LoquiRefType.Interface)
+            string line;
+            if (loquiGen.TargetObjectGeneration != null)
             {
-                callString = $"LoquiXmlTranslation.Instance.Write<{loquiGen.TypeName}>";
+                line = $"(({this.XmlMod.TranslationClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.ModuleNickname}Translator)";
             }
             else
             {
-                callString = $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance.Write";
+                line = $"(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.ModuleNickname}Translator";
             }
-            using (var args = new ArgsWrapper(fg,
-                callString))
+            using (var args = new ArgsWrapper(fg, $"{line}.Write"))
             {
-                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"item: {itemAccessor.DirectAccess}");
+                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
                 if (typeGen.HasIndex)
                 {
