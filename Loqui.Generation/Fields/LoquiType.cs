@@ -20,9 +20,9 @@ namespace Loqui.Generation
                             case LoquiInterfaceType.Direct:
                                 return DirectTypeName;
                             case LoquiInterfaceType.IGetter:
-                                return $"{this.Getter_InterfaceStr}{this.GenericTypes}";
+                                return $"{this.Interface(getter: true)}{this.GenericTypes}";
                             case LoquiInterfaceType.ISetter:
-                                return $"{this.InterfaceStr}{this.GenericTypes}";
+                                return $"{this.Interface(getter: false)}{this.GenericTypes}";
                             default:
                                 throw new NotImplementedException();
                         }
@@ -74,36 +74,17 @@ namespace Loqui.Generation
                 }
             }
         }
-
-        public string Getter_InterfaceStr
+        
+        public string Interface(bool getter = false, bool internalInterface = false)
         {
-            get
+            switch (RefType)
             {
-                switch (RefType)
-                {
-                    case LoquiRefType.Direct:
-                        return this._TargetObjectGeneration.Interface(GenericTypes, getter: true);
-                    case LoquiRefType.Generic:
-                        return _generic;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-        }
-
-        public string InterfaceStr
-        {
-            get
-            {
-                switch (RefType)
-                {
-                    case LoquiRefType.Direct:
-                        return this._TargetObjectGeneration.Interface(GenericTypes);
-                    case LoquiRefType.Generic:
-                        return _generic;
-                    default:
-                        throw new NotImplementedException();
-                }
+                case LoquiRefType.Direct:
+                    return this._TargetObjectGeneration.Interface(GenericTypes, getter: getter, internalInterface: internalInterface);
+                case LoquiRefType.Generic:
+                    return _generic;
+                default:
+                    throw new NotImplementedException();
             }
         }
         public string GenericTypes => GetGenericTypes(MaskType.Normal);
