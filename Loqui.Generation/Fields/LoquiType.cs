@@ -8,31 +8,30 @@ namespace Loqui.Generation
 {
     public class LoquiType : PrimitiveType
     {
-        public override string TypeName
+        public override string TypeName => GetTypeName(getter: false);
+
+        public string GetTypeName(bool getter, bool internalInterface = false)
         {
-            get
+            switch (RefType)
             {
-                switch (RefType)
-                {
-                    case LoquiRefType.Direct:
-                        switch (this.InterfaceType)
-                        {
-                            case LoquiInterfaceType.Direct:
-                                return DirectTypeName;
-                            case LoquiInterfaceType.IGetter:
-                                return $"{this.Interface(getter: true)}{this.GenericTypes}";
-                            case LoquiInterfaceType.ISetter:
-                                return $"{this.Interface(getter: false)}{this.GenericTypes}";
-                            default:
-                                throw new NotImplementedException();
-                        }
+                case LoquiRefType.Direct:
+                    switch (getter ? this.GetterInterfaceType : this.SetterInterfaceType)
+                    {
+                        case LoquiInterfaceType.Direct:
+                            return DirectTypeName;
+                        case LoquiInterfaceType.IGetter:
+                            return $"{this.Interface(getter: true, internalInterface: internalInterface)}";
+                        case LoquiInterfaceType.ISetter:
+                            return $"{this.Interface(getter: false, internalInterface: internalInterface)}";
+                        default:
+                            throw new NotImplementedException();
+                    }
                     case LoquiRefType.Generic:
                         return _generic;
                     case LoquiRefType.Interface:
                         return this.InterfaceName;
                     default:
-                        throw new NotImplementedException();
-                }
+                    throw new NotImplementedException();
             }
         }
 
@@ -90,7 +89,8 @@ namespace Loqui.Generation
         public string GenericTypes => GetGenericTypes(MaskType.Normal);
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
-        public LoquiInterfaceType InterfaceType = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType SetterInterfaceType = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType GetterInterfaceType = LoquiInterfaceType.Direct;
         protected string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
@@ -117,7 +117,7 @@ namespace Loqui.Generation
         public string RefName;
         public string InterfaceName;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
-        public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
+        public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
 
         public enum LoquiRefType
         {
@@ -303,7 +303,7 @@ namespace Loqui.Generation
                         }
                     }
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.ProtectedName};");
+                    fg.AppendLine($"{this.GetTypeName(getter: true, internalInterface: this.TargetObjectGeneration.HasInternalInterface)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.ProtectedName};");
                 }
                 else
                 {
@@ -441,7 +441,7 @@ namespace Loqui.Generation
                 throw new ArgumentException();
             }
             using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {item}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.InterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
+                $"{prepend} = {item}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.SetterInterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName}>"))
             {
                 switch (this.SingletonType)
                 {
@@ -459,7 +459,7 @@ namespace Loqui.Generation
                     args.Add($"onSet: (i) => this.OnPropertyChanged(nameof({this.Name}))");
                 }
                 if (this.SingletonType == SingletonLevel.NotNull
-                    && this.InterfaceType != LoquiInterfaceType.Direct)
+                    && this.SetterInterfaceType != LoquiInterfaceType.Direct)
                 {
                     args.Add($"noNullFallback: () => new {this.ObjectTypeName}()");
                 }
@@ -553,7 +553,8 @@ namespace Loqui.Generation
         {
             if (string.IsNullOrWhiteSpace(this.RefName)) return false;
 
-            this.InterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.API_INTERFACE_TYPE, this.ObjectGen.InterfaceTypeDefault);
+            this.SetterInterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.SET_INTERFACE_TYPE, this.ObjectGen.SetterInterfaceTypeDefault);
+            this.GetterInterfaceType = refNode.GetAttribute<LoquiInterfaceType>(Constants.GET_INTERFACE_TYPE, this.ObjectGen.GetterInterfaceTypeDefault);
 
             this.RefType = LoquiRefType.Direct;
             if (!ObjectNamedKey.TryFactory(this.RefName, this.ProtoGen.Protocol, out var namedKey)
@@ -624,7 +625,7 @@ namespace Loqui.Generation
                         fg.AppendLine("break;");
                     }
                     fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
-                    if (this.InterfaceType != LoquiInterfaceType.IGetter)
+                    if (this.SetterInterfaceType != LoquiInterfaceType.IGetter)
                     {
                         using (new DepthWrapper(fg))
                         {
@@ -649,7 +650,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
                                 args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.Specific");
@@ -701,7 +702,7 @@ namespace Loqui.Generation
                             if (this.RefType == LoquiRefType.Direct)
                             {
                                 using (var args2 = new ArgsWrapper(fg,
-                                    $"{accessor.DirectAccess} = {this.ObjectTypeName}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                    $"{accessor.DirectAccess} = {this.ObjectTypeName}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                 {
                                     args2.Add($"rhs{this.Name}Item");
                                     if (this.RefType == LoquiRefType.Direct)
@@ -737,7 +738,7 @@ namespace Loqui.Generation
                             fg.AppendLine("break;");
                         }
                         fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
-                        if (this.InterfaceType != LoquiInterfaceType.IGetter)
+                        if (this.SetterInterfaceType != LoquiInterfaceType.IGetter)
                         {
                             using (new DepthWrapper(fg))
                             {
@@ -792,7 +793,7 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args2 = new ArgsWrapper(fg,
-                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes}.Copy{(this.InterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                     {
                         args2.Add($"{rhsAccessor.DirectAccess}");
                         if (this.RefType == LoquiRefType.Direct)
@@ -853,7 +854,7 @@ namespace Loqui.Generation
                 base.GenerateUnsetNth(fg, identifier);
                 return;
             }
-            if (this.InterfaceType == LoquiInterfaceType.IGetter)
+            if (this.SetterInterfaceType == LoquiInterfaceType.IGetter)
             {
                 fg.AppendLine($"throw new ArgumentException(\"Cannot unset a get only singleton: {this.Name}\");");
             }
@@ -878,7 +879,7 @@ namespace Loqui.Generation
         {
             if (this.SingletonType == SingletonLevel.Singleton)
             {
-                if (!internalUse && this.InterfaceType == LoquiInterfaceType.IGetter)
+                if (!internalUse && this.SetterInterfaceType == LoquiInterfaceType.IGetter)
                 {
                     fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {this.Name}\");");
                 }
@@ -898,13 +899,13 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"{this.TypeName} {this.Name} {{ get; }}");
+                fg.AppendLine($"{this.GetTypeName(getter: true, internalInterface: this.TargetObjectGeneration.HasInternalInterface)} {this.Name} {{ get; }}");
                 switch (this.NotifyingType)
                 {
                     case NotifyingType.None:
                         if (this.HasBeenSet)
                         {
-                            fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                            fg.AppendLine($"IHasBeenSetItemGetter<{this.GetTypeName(getter: true, internalInterface: this.TargetObjectGeneration.HasInternalInterface)}> {this.Property} {{ get; }}");
                         }
                         else
                         {

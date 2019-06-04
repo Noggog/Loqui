@@ -53,7 +53,7 @@ namespace Loqui.Generation
             {
                 if (loqui.SingletonType == SingletonLevel.Singleton)
                 {
-                    if (loqui.InterfaceType == LoquiInterfaceType.IGetter) return;
+                    if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
                     fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Copy)}> {field.Name};");
                 }
                 else
@@ -192,7 +192,7 @@ namespace Loqui.Generation
             {
                 if (loqui.SingletonType == SingletonLevel.Singleton)
                 {
-                    if (loqui.InterfaceType == LoquiInterfaceType.IGetter) return;
+                    if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
                     fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.Copy)}>({basicValueStr}, default);");
                 }
                 else

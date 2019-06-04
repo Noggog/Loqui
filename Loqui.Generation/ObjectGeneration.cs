@@ -29,7 +29,8 @@ namespace Loqui.Generation
         public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public abstract bool ObjectCentralizedDefault { get; }
-        public LoquiInterfaceType InterfaceTypeDefault;
+        public LoquiInterfaceType SetterInterfaceTypeDefault;
+        public LoquiInterfaceType GetterInterfaceTypeDefault;
         public bool ObjectCentralized;
         public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
@@ -113,7 +114,8 @@ namespace Loqui.Generation
             this.ProtoGen = protoGen;
             this.TargetDir = sourceFile.Directory;
             this.SourceXMLFile = sourceFile;
-            this.InterfaceTypeDefault = this.ProtoGen.InterfaceTypeDefault;
+            this.SetterInterfaceTypeDefault = this.ProtoGen.SetterInterfaceTypeDefault;
+            this.GetterInterfaceTypeDefault = this.ProtoGen.GetterInterfaceTypeDefault;
             this.SetPermissionDefault = this.ProtoGen.SetPermissionDefault;
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
             this.GenerateNthReflections = this.ProtoGen.NthReflectionDefault;
@@ -139,7 +141,8 @@ namespace Loqui.Generation
             Node.TransferAttribute<PermissionLevel>(Constants.CTOR_PERMISSION, (i) => BasicCtorPermission = i);
             Node.TransferAttribute<ushort>(Constants.VERSION, (i) => Version = i);
             Node.TransferAttribute<bool>(Constants.FORCE_INTERNAL_INTERFACE, (i) => this.ForceInternalInterface = i);
-            Node.TransferAttribute<LoquiInterfaceType>(Constants.INTERFACE_TYPE_DEFAULT, (i) => this.InterfaceTypeDefault = i);
+            Node.TransferAttribute<LoquiInterfaceType>(Constants.SET_INTERFACE_TYPE_DEFAULT, (i) => this.SetterInterfaceTypeDefault = i);
+            Node.TransferAttribute<LoquiInterfaceType>(Constants.GET_INTERFACE_TYPE_DEFAULT, (i) => this.GetterInterfaceTypeDefault = i);
             Node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION_DEFAULT, (i) => this.SetPermissionDefault = i);
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => this.DerivativeDefault = i);
             Node.TransferAttribute<bool>(Constants.RAISEPROPERTYCHANGED_DEFAULT, (i) => this.RaisePropertyChangedDefault = i);

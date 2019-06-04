@@ -65,7 +65,7 @@ namespace Loqui.Generation
         public override bool ShouldGenerateCopyIn(TypeGeneration typeGen)
         {
             var loquiGen = typeGen as LoquiType;
-            return loquiGen.SingletonType != SingletonLevel.Singleton || loquiGen.InterfaceType != LoquiInterfaceType.IGetter;
+            return loquiGen.SingletonType != SingletonLevel.Singleton || loquiGen.SetterInterfaceType != LoquiInterfaceType.IGetter;
         }
 
         public override void GenerateCopyIn(
@@ -80,7 +80,7 @@ namespace Loqui.Generation
             var loquiGen = typeGen as LoquiType;
             if (loquiGen.SingletonType == SingletonLevel.Singleton)
             {
-                if (loquiGen.InterfaceType == LoquiInterfaceType.IGetter) return;
+                if (loquiGen.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
                 MaskGenerationUtility.WrapErrorFieldIndexPush(
                     fg,
                     () =>

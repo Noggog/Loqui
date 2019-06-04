@@ -25,7 +25,8 @@ namespace Loqui.Generation
         public HashSet<FilePath> GeneratedFiles = new HashSet<FilePath>();
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
-        public LoquiInterfaceType InterfaceTypeDefault = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType SetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
         public List<string> Interfaces = new List<string>();
         public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
