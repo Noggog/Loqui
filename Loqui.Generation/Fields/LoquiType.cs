@@ -89,8 +89,8 @@ namespace Loqui.Generation
         public string GenericTypes => GetGenericTypes(MaskType.Normal);
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
-        public LoquiInterfaceType SetterInterfaceType = LoquiInterfaceType.Direct;
-        public LoquiInterfaceType GetterInterfaceType = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType SetterInterfaceType;
+        public LoquiInterfaceType GetterInterfaceType;
         protected string _generic;
         public GenericDefinition GenericDef;
         public GenericSpecification GenericSpecification;
@@ -638,13 +638,13 @@ namespace Loqui.Generation
                     {
                         if (this.GetterInterfaceType == LoquiInterfaceType.IGetter)
                         {
-                            fg.AppendLine("throw new NotImplementedException(\"Need to implement an ISetter copy function to support reference copies.\");");
+                            fg.AppendLine($"{accessor.DirectAccess} = Utility.GetGetterInterfaceReference<{this.TypeName}>({rhsAccessorPrefix}.{this.Name});");
                         }
                         else
                         {
                             fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name};");
-                            fg.AppendLine("break;");
                         }
+                        fg.AppendLine("break;");
                     }
                     fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
                     if (this.SetterInterfaceType != LoquiInterfaceType.IGetter)

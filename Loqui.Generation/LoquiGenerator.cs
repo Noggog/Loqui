@@ -26,7 +26,7 @@ namespace Loqui.Generation
         public static string Namespace => "http://tempuri.org/LoquiSource.xsd";
         public List<string> Namespaces = new List<string>();
         public LoquiInterfaceType SetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
-        public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.IGetter;
         public List<string> Interfaces = new List<string>();
         public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;

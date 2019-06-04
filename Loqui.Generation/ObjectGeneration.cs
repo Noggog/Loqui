@@ -2137,7 +2137,7 @@ namespace Loqui.Generation
                 $"public static {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}",
                 wheres: this.GenericTypeMaskWheres(MaskType.Copy)))
             {
-                args.Add($"{this.Interface()} item");
+                args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                 args.Add($"{this.Interface(getter: true)} def = null");
             }

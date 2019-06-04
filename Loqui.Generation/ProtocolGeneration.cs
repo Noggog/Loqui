@@ -20,8 +20,8 @@ namespace Loqui.Generation
         public LoquiGenerator Gen { get; private set; }
         public DirectoryInfo GenerationFolder { get; private set; }
         public DirectoryInfo DefFileLocation => this.GenerationFolder;
-        public LoquiInterfaceType SetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
-        public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
+        public LoquiInterfaceType SetterInterfaceTypeDefault;
+        public LoquiInterfaceType GetterInterfaceTypeDefault;
         public PermissionLevel SetPermissionDefault;
         public bool DerivativeDefault;
         public bool ToStringDefault;
