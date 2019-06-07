@@ -389,8 +389,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> DictEqualsHelper<K, T, M>(
-            this IObservableCache<T, K> lhs,
-            IObservableCache<T, K> rhs,
+            this IReadOnlyDictionary<K, T> lhs,
+            IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, M> maskGetter,
             Include include)
             where M : IMask<bool>
@@ -434,8 +434,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> DictEqualsHelper<K, T>(
-            this IObservableCache<T, K> lhs,
-            IObservableCache<T, K> rhs,
+            this IReadOnlyDictionary<K, T> lhs,
+            IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, bool> maskGetter,
             Include include)
         {
