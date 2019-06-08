@@ -24,9 +24,10 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName => $"SourceSetCache<{TypeTuple}>";
+        public override string TypeName => $"SourceSetCache<{BackwardsTypeTuple}>";
 
-        public string TypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
+        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
+        public string BackwardsTypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
 
         public string GetterTypeName => this.ValueTypeGen.TypeName;
 
@@ -147,17 +148,17 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly SourceSetCache<{TypeTuple}> _{this.Name} = new SourceSetCache<{TypeTuple}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public ISourceSetCache<{TypeTuple}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple}>((item) => item.{this.KeyAccessorString});");
+            fg.AppendLine($"public ISourceSetCache<{BackwardsTypeTuple}> {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.BackwardsTypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"IObservableSetCache<{this.BackwardsTypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 
@@ -165,13 +166,13 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"IObservableSetCache<{this.BackwardsTypeTuple}> {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.BackwardsTypeTuple}> {this.Name} {{ get; }}");
                 }
             }
         }

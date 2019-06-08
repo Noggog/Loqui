@@ -8,7 +8,6 @@ namespace Loqui.Generation
     {
         TypeGeneration KeyTypeGen { get; }
         TypeGeneration ValueTypeGen { get; }
-        string TypeTuple { get; }
         DictMode Mode { get; }
         void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key);
     }
@@ -28,7 +27,6 @@ namespace Loqui.Generation
 
         public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
         public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
-        public string TypeTuple => subDictGenerator.TypeTuple;
 
         public override string Property => subGenerator.Property;
         public override string ProtectedName => subGenerator.ProtectedName;
