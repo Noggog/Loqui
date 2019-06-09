@@ -1,5 +1,6 @@
 ﻿using CSharpExt.Rx;
 using DynamicData;
+using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +100,7 @@ namespace Loqui
 
         #region List
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> CollectionEqualsHelper<T, M>(
-            this IObservableSetList<T> lhs,
+            this IReadOnlySetList<T> lhs,
             IObservableSetList<T> rhs,
             Func<T, T, M> maskGetter,
             Include include)
@@ -145,8 +146,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> CollectionEqualsHelper<T>(
-            this IObservableSetList<T> lhs,
-            IObservableSetList<T> rhs,
+            this IReadOnlySetList<T> lhs,
+            IReadOnlySetList<T> rhs,
             Func<T, T, bool> maskGetter,
             Include include)
         {
@@ -188,8 +189,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> CollectionEqualsHelper<T, M>(
-            this IObservableList<T> lhs,
-            IObservableSetList<T> rhs,
+            this IReadOnlyList<T> lhs,
+            IReadOnlyList<T> rhs,
             Func<T, T, M> maskGetter,
             Include include)
             where M : IMask<bool>
@@ -233,8 +234,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> CollectionEqualsHelper<T>(
-            this IObservableList<T> lhs,
-            IObservableSetList<T> rhs,
+            this IReadOnlyList<T> lhs,
+            IReadOnlyList<T> rhs,
             Func<T, T, bool> maskGetter,
             Include include)
         {

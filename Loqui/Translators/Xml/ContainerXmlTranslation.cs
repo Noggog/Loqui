@@ -22,7 +22,7 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement node,
             int fieldIndex,
-            ISourceSetList<T> item,
+            ISetList<T> item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
         {
@@ -76,7 +76,7 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement node,
             int fieldIndex,
-            ISourceSetList<T> item,
+            ISetList<T> item,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
             XmlSubParseDelegate<T> transl)
@@ -203,11 +203,11 @@ namespace Loqui.Xml
             T item, 
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask);
-
+        
         public void Write(
             XElement node,
             string name,
-            IHasBeenSetItemGetter<IEnumerable<T>> item,
+            IEnumerable<T> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask,
@@ -217,11 +217,10 @@ namespace Loqui.Xml
             {
                 try
                 {
-                    if (!item.HasBeenSet) return;
                     this.Write(
                         node: node,
                         name: name,
-                        item: item.Item,
+                        item: item,
                         errorMask: errorMask,
                         translationMask: translationMask,
                         transl: transl);

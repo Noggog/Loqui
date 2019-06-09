@@ -12,6 +12,7 @@ using Loqui;
 using Noggog.Notifying;
 using Loqui.Internal;
 using CSharpExt.Rx;
+using DynamicData;
 
 namespace Loqui.Xml
 {
@@ -61,6 +62,38 @@ namespace Loqui.Xml
                     else
                     {
                         item.Unset();
+                    }
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+            }
+        }
+
+        public void ParseInto(
+            XElement node,
+            ISourceCache<V, K> item,
+            int fieldIndex,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
+        {
+            using (errorMask?.PushIndex(fieldIndex))
+            {
+                try
+                {
+                    if (Parse(
+                        node: node,
+                        enumer: out var enumer,
+                        errorMask: errorMask,
+                        translationMask: translationMask))
+                    {
+                        item.SetTo(enumer);
+                    }
+                    else
+                    {
+                        item.Clear();
                     }
                 }
                 catch (Exception ex)
@@ -131,6 +164,40 @@ namespace Loqui.Xml
                     else
                     {
                         item.Unset();
+                    }
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+            }
+        }
+
+        public void ParseInto(
+            XElement node,
+            ISourceCache<V, K> item,
+            int fieldIndex,
+            XmlSubParseDelegate<V> valTransl,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
+        {
+            using (errorMask?.PushIndex(fieldIndex))
+            {
+                try
+                {
+                    if (Parse(
+                        node: node,
+                        valTransl: valTransl,
+                        enumer: out var enumer,
+                        errorMask: errorMask,
+                        translationMask: translationMask))
+                    {
+                        item.SetTo(enumer);
+                    }
+                    else
+                    {
+                        item.Clear();
                     }
                 }
                 catch (Exception ex)
