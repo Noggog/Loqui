@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>e551235d1a9c49e54c28a8dc9a110dab40b3e89f</Sha>
+         <Sha>0c7013c28e90ddcc0950eab9cef425a6738fc391</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>05-20-2019 22:20:01</CommitDate>
-         <Description>IBinaryReadStream.RemainingSpan</Description>
+         <CommitDate>05-24-2019 18:59:36</CommitDate>
+         <Description>Custom Memory&lt;T&gt; implementation</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

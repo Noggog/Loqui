@@ -137,6 +137,9 @@ namespace Loqui.Generation
         public string InterfaceName;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         public override bool Copy => base.Copy && !(this.InterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
+        // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
+        // Can probably be replaced with a more robust parameter configuration setup later
+        public bool ThisConstruction;
 
         public enum LoquiRefType
         {
@@ -228,6 +231,22 @@ namespace Loqui.Generation
         {
             base.GenerateForCtor(fg);
 
+            if (this.ThisConstruction)
+            {
+                switch (this.SingletonType)
+                {
+                    case SingletonLevel.None:
+                    case SingletonLevel.NotNull:
+                        fg.AppendLine($"_{this.Name} = new {this.DirectTypeName}(this);");
+                        break;
+                    case SingletonLevel.Singleton:
+                        fg.AppendLine($"{this.SingletonObjectName} = new {this.DirectTypeName}(this);");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             if (this.Bare) return;
             if (this.Notifying && this.ObjectCentralized)
             {
@@ -258,7 +277,7 @@ namespace Loqui.Generation
                     }
                     if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
+                        fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))} => true;");
                         fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -282,7 +301,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"private {this.TypeName} _{this.Name};");
                                 break;
                             case SingletonLevel.NotNull:
-                                fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.TypeName}();");
+                                fg.AppendLine($"private {this.TypeName} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName}();")}");
                                 break;
                             case SingletonLevel.Singleton:
                                 throw new NotImplementedException();
@@ -307,7 +326,7 @@ namespace Loqui.Generation
                         {
                             if (this.SingletonType == SingletonLevel.NotNull)
                             {
-                                fg.AppendLine($"if (value == null) value = new {this.TypeName}();");
+                                fg.AppendLine($"if (value == null) value = new {this.TypeName}({(this.ThisConstruction ? "this" : null)});");
                             }
                             fg.AppendLine($"this.RaiseAndSetIfReferenceChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                         }
@@ -347,17 +366,17 @@ namespace Loqui.Generation
                             break;
                         case SingletonLevel.NotNull:
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.DirectTypeName}();");
+                            fg.AppendLine($"private {this.TypeName} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName}();")}");
                             fg.AppendLine($"public {this.TypeName} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}();");
+                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}({(this.ThisConstruction ? "this" : null)});");
                             }
                             break;
                         case SingletonLevel.Singleton:
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
+                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                             fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
                         default:
@@ -371,7 +390,7 @@ namespace Loqui.Generation
                 {
                     if (this.SingletonType == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
+                        fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                     }
                     if (this.RaisePropertyChanged
                         || this.SingletonType == SingletonLevel.Singleton)
@@ -428,17 +447,17 @@ namespace Loqui.Generation
                             break;
                         case SingletonLevel.NotNull:
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.TypeName} _{this.Name} = new {this.DirectTypeName}();");
+                            fg.AppendLine($"private {this.TypeName} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                             fg.AppendLine($"public {this.TypeName} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}();");
+                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}({(this.ThisConstruction ? "this" : null)});");
                             }
                             break;
                         case SingletonLevel.Singleton:
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
+                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                             fg.AppendLine($"public {this.TypeName} {this.Name} => {this.SingletonObjectName};");
                             break;
                         default:
@@ -566,6 +585,7 @@ namespace Loqui.Generation
             }
 
             this.ReadOnly = this.ReadOnly || this.SingletonType == SingletonLevel.Singleton;
+            this.ThisConstruction = node.GetAttribute(Constants.THIS_CTOR, this.ThisConstruction);
         }
 
         public bool ParseRefNode(XElement refNode)

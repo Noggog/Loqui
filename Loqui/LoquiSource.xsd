@@ -1161,6 +1161,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="thisCtor" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Adds "this" to constructor parameters as it is a common pattern to tie child to parent
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="RefDirectField" >
@@ -1243,6 +1250,13 @@
           <xs:annotation>
             <xs:documentation>
               Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="thisCtor" type="xs:boolean" >
+          <xs:annotation>
+            <xs:documentation>
+              Adds "this" to constructor parameters as it is a common pattern to tie child to parent
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
