@@ -34,6 +34,7 @@ namespace Loqui.Generation
         public override IEnumerable<string> GetRequiredNamespaces()
         {
             yield return "CSharpExt.Rx";
+            yield return "DynamicData";
         }
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -146,6 +147,62 @@ namespace Loqui.Generation
             }
         }
 
+        public string DictInterface(bool getter)
+        {
+            if (this.ReadOnly || getter)
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"IObservableSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"IObservableCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+                else
+                {
+                    if (this.HasBeenSet)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        return $"IReadOnlyDictionary<{this.TypeTuple}>";
+                    }
+                }
+            }
+            else
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+                else
+                {
+                    // ToDo
+                    // Implement non notifying ICache in CSharpExt
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+            }
+        }
+
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple}>((item) => item.{this.KeyAccessorString});");
@@ -156,25 +213,16 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.BackwardsTypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{DictInterface(getter: false)} {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"IObservableSetCache<{this.BackwardsTypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"{DictInterface(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (getter)
-            {
-                fg.AppendLine($"IObservableSetCache<{this.BackwardsTypeTuple}> {this.Name} {{ get; }}");
-            }
-            else
-            {
-                if (!this.ReadOnly)
-                {
-                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.BackwardsTypeTuple}> {this.Name} {{ get; }}");
-                }
-            }
+            if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
+            fg.AppendLine($"{(getter ? null : "new ")}{DictInterface(getter: getter)} {this.Name} {{ get; }}");
         }
 
         public override void GenerateForCopy(
@@ -251,7 +299,14 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+            }
         }
 
         public override string GenerateACopy(string rhsAccessor)

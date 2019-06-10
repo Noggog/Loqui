@@ -27,19 +27,73 @@ namespace Loqui.Generation
             this.MaxValue = node.GetAttribute<int?>("maxSize", null);
         }
 
+        public string ListInterface(bool getter)
+        {
+            if (this.ReadOnly || getter)
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"IObservableSetList<{this.ItemTypeName}>";
+                    }
+                    else
+                    {
+                        return $"IObservableList<{this.ItemTypeName}>";
+                    }
+                }
+                else
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"IReadOnlySetList<{this.ItemTypeName}>";
+                    }
+                    else
+                    {
+                        return $"IReadOnlyList<{this.ItemTypeName}>";
+                    }
+                }
+            }
+            else
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISourceSetList<{this.ItemTypeName}>";
+                    }
+                    else
+                    {
+                        return $"ISourceList<{this.ItemTypeName}>";
+                    }
+                }
+                else
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISetList<{this.ItemTypeName}>";
+                    }
+                    else
+                    {
+                        return $"IList<{this.ItemTypeName}>";
+                    }
+                }
+            }
+        }
+
         public override void GenerateForClass(FileGeneration fg)
         {
             if (MaxValue.HasValue)
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly SourceSetList<{ItemTypeName}> _{this.Name} = new SourceBoundedSetList<{ItemTypeName}>(max: {MaxValue});");
+                fg.AppendLine($"private readonly ISource{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}> _{this.Name} = new SourceBounded{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}>(max: {MaxValue});");
             }
             else
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly SourceSetList<{ItemTypeName}> _{this.Name} = new SourceSetList<{ItemTypeName}>();");
+                fg.AppendLine($"private readonly Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}> _{this.Name} = new Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}>();");
             }
-            fg.AppendLine($"public {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"public {(this.ReadOnly ? $"IObservable{(this.HasBeenSet ? "Set" : null)}List" : $"ISource{(this.HasBeenSet ? "Set" : null)}List")}<{ItemTypeName}> {this.Name} => _{this.Name};");
             if (this.ReadOnly)
             {
                 fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable => _{this.Name};");
@@ -65,24 +119,25 @@ namespace Loqui.Generation
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{this.ItemTypeName}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{ListInterface(getter: false)} {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"IObservableSetList<{this.ItemTypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"{ListInterface(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
+            if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"IObservableSetList<{ItemTypeName}> {this.Name} {{ get; }}");
+                fg.AppendLine($"{ListInterface(getter: true)} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetList" : "ISourceSetList")}<{ItemTypeName}> {this.Name} {{ get; }}");
+                    fg.AppendLine($"new {ListInterface(getter: false)} {this.Name} {{ get; }}");
                 }
             }
         }
@@ -223,7 +278,14 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+            }
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
@@ -250,18 +312,21 @@ namespace Loqui.Generation
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
+            }
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.GetHasBeenSetMask())));");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.GetHasBeenSetMask())));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({accessor.PropertyOrDirectAccess}.HasBeenSet, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, null);");
             }
         }
 

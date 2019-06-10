@@ -33,6 +33,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType GetterInterfaceTypeDefault;
         public bool ObjectCentralized;
         public PermissionLevel SetPermissionDefault;
+        public bool NotifyingInterface;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
         public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
