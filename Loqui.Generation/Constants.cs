@@ -34,7 +34,10 @@ namespace Loqui.Generation
         public const string GENERIC = "Generic";
         public const string REF_NAME = "refName";
         public const string INTERFACE_TYPE = "interfaceName";
-        public const string API_INTERFACE_TYPE = "apiInterfaceType";
+        public const string SET_INTERFACE_TYPE = "setInterfaceType";
+        public const string GET_INTERFACE_TYPE = "getInterfaceType";
+        public const string SET_INTERFACE_TYPE_DEFAULT = "setInterfaceTypeDefault";
+        public const string GET_INTERFACE_TYPE_DEFAULT = "setInterfaceTypeDefault";
         public const string KEYED_VALUE = "KeyedValue";
         public const string KEY_ACCESSOR = "keyAccessor";
         public const string KEY_TYPE = "keyType";
@@ -49,7 +52,6 @@ namespace Loqui.Generation
         public const string GENERATE_TO_STRING = "generateToString";
         public const string CTOR_PERMISSION = "ctorPermission";
         public const string VERSION = "version";
-        public const string INTERFACE_TYPE_DEFAULT = "interfaceTypeDefault";
         public const string DERIVATIVE_DEFAULT = "derivativeDefault";
         public const string RAISEPROPERTYCHANGED_DEFAULT = "raisePropertyChangedDefault";
         public const string DISABLE = "disable";

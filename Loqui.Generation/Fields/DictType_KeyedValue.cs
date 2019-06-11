@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,15 +24,17 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName => $"SourceSetCache<{TypeTuple}>";
+        public override string TypeName => $"SourceSetCache<{BackwardsTypeTuple}>";
 
-        public string TypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
+        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
+        public string BackwardsTypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
 
         public string GetterTypeName => this.ValueTypeGen.TypeName;
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
             yield return "CSharpExt.Rx";
+            yield return "DynamicData";
         }
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -145,35 +147,82 @@ namespace Loqui.Generation
             }
         }
 
+        public string DictInterface(bool getter)
+        {
+            if (this.ReadOnly || getter)
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"IObservableSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"IObservableCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+                else
+                {
+                    if (this.HasBeenSet)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        return $"IReadOnlyDictionary<{this.TypeTuple}>";
+                    }
+                }
+            }
+            else
+            {
+                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                {
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+                else
+                {
+                    // ToDo
+                    // Implement non notifying ICache in CSharpExt
+                    if (this.HasBeenSet)
+                    {
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                    }
+                    else
+                    {
+                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                    }
+                }
+            }
+        }
+
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly SourceSetCache<{TypeTuple}> _{this.Name} = new SourceSetCache<{TypeTuple}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public ISourceSetCache<{TypeTuple}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple}>((item) => item.{this.KeyAccessorString});");
+            fg.AppendLine($"public ISourceSetCache<{BackwardsTypeTuple}> {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"{(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{DictInterface(getter: false)} {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"{DictInterface(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
-            if (getter)
-            {
-                fg.AppendLine($"IObservableSetCache<{this.TypeTuple}> {this.Name} {{ get; }}");
-            }
-            else
-            {
-                if (!this.ReadOnly)
-                {
-                    fg.AppendLine($"new {(this.ReadOnly ? "IObservableSetCache" : "ISourceSetCache")}<{this.TypeTuple}> {this.Name} {{ get; }}");
-                }
-            }
+            if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
+            fg.AppendLine($"{(getter ? null : "new ")}{DictInterface(getter: getter)} {this.Name} {{ get; }}");
         }
 
         public override void GenerateForCopy(
@@ -250,7 +299,14 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+            }
         }
 
         public override string GenerateACopy(string rhsAccessor)
@@ -345,13 +401,16 @@ namespace Loqui.Generation
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyOrDirectAccess}.HasBeenSet) return false;");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyOrDirectAccess}.HasBeenSet) return false;");
+            }
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({accessor.PropertyOrDirectAccess}.HasBeenSet, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()
