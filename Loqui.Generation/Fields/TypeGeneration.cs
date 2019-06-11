@@ -123,9 +123,8 @@ namespace Loqui.Generation
             yield break;
         }
 
-        public virtual void GenerateForCtor(FileGeneration fg)
+        public virtual async Task GenerateForCtor(FileGeneration fg)
         {
-
         }
 
         public abstract void GenerateForClass(FileGeneration fg);

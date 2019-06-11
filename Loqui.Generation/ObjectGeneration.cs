@@ -106,6 +106,8 @@ namespace Loqui.Generation
         public TaskCompletionSource LoadingCompleteTask = new TaskCompletionSource();
         protected TaskCompletionSource WiredBaseClassTCS = new TaskCompletionSource();
         public Task WiredBaseClassTask => WiredBaseClassTCS.Task;
+        protected TaskCompletionSource fieldCtorsGenerated = new TaskCompletionSource();
+        public Task FieldCtorsGeneratedSignal => fieldCtorsGenerated.Task;
 
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {

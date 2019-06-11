@@ -42,9 +42,9 @@ namespace Loqui.Generation
             node.TryGetAttribute("default", out DefaultValue);
         }
 
-        public override void GenerateForCtor(FileGeneration fg)
+        public override async Task GenerateForCtor(FileGeneration fg)
         {
-            base.GenerateForCtor(fg);
+            await base.GenerateForCtor(fg);
 
             if (!this.Bare
                 && !this.TrueReadOnly

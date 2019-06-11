@@ -227,9 +227,9 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => true;
 
-        public override void GenerateForCtor(FileGeneration fg)
+        public override async Task GenerateForCtor(FileGeneration fg)
         {
-            base.GenerateForCtor(fg);
+            await base.GenerateForCtor(fg);
 
             if (this.ThisConstruction)
             {

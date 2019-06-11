@@ -1,4 +1,5 @@
-﻿using System;
+using Noggog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -109,7 +110,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if (!(obj is {this.ObjectName} rhs)) return false;");
             fg.AppendLine("return Equals(rhs);");
         }
-
+        
         protected override async Task GenerateCtor(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Ctor"))
@@ -117,14 +118,13 @@ namespace Loqui.Generation
                 fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}()");
                 using (new BraceWrapper(fg))
                 {
-                    foreach (var mod in this.gen.GenerationModules)
-                    {
-                        await mod.GenerateInCtor(this, fg);
-                    }
-                    foreach (var field in this.IterateFields())
-                    {
-                        field.GenerateForCtor(fg);
-                    }
+                    List<Task> toDo = new List<Task>();
+                    toDo.AddRange(this.gen.GenerationModules.Select(mod => mod.GenerateInCtor(this, fg)));
+                    var fieldsTask = Task.WhenAll(this.IterateFields().Select(field => field.GenerateForCtor(fg)));
+                    toDo.Add(fieldsTask);
+                    await fieldsTask;
+                    fieldCtorsGenerated.Complete();
+                    await Task.WhenAll(toDo);
                     fg.AppendLine("CustomCtor();");
                 }
                 fg.AppendLine("partial void CustomCtor();");
