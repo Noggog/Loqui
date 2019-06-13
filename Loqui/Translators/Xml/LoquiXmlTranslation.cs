@@ -107,7 +107,7 @@ namespace Loqui.Xml
         {
             return DelegateBuilder.BuildDelegate<CREATE_FUNC>(
                 typeof(T).GetMethods()
-                .Where((methodInfo) => methodInfo.Name.Equals("Create_Xml"))
+                .Where((methodInfo) => methodInfo.Name.Equals("CreateFromXml"))
                 .Where((methodInfo) => methodInfo.IsStatic
                     && methodInfo.IsPublic)
                 .Where((methodInfo) => methodInfo.ReturnType.Equals(typeof(T)))
@@ -229,7 +229,7 @@ namespace Loqui.Xml
                 return (CREATE_FUNC<T>)createFunc;
             }
             var method = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where((methodInfo) => methodInfo.Name.Equals("Create_Xml"))
+                .Where((methodInfo) => methodInfo.Name.Equals("CreateFromXml"))
                 .Where((methodInfo) => methodInfo.ReturnType.Equals(t))
                 .Where(methodInfo =>
                 {

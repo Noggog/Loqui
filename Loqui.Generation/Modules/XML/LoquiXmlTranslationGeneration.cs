@@ -91,7 +91,7 @@ namespace Loqui.Generation
                             args.Add((gen) =>
                             {
                                 using (var subArgs = new FunctionWrapper(gen,
-                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
+                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.{this.XmlMod.CreateFromPrefix}{this.XmlMod.ModuleNickname}"))
                                 {
                                     subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
                                     foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
