@@ -873,7 +873,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this._TargetObjectGeneration?.ExtCommonName}.CopyFieldsFrom"))
+                    $"{this._TargetObjectGeneration.CommonClassName}{this.GenericTypes}.CopyFieldsFrom"))
                 {
                     args.Add($"item: {accessor.DirectAccess}");
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
@@ -909,7 +909,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{this.TargetObjectGeneration.ExtCommonName}.Clear({identifier.DirectAccess});");
+                fg.AppendLine($"{this.TargetObjectGeneration.CommonClassName}.Clear({identifier.DirectAccess});");
                 fg.AppendLine("break;");
             }
         }
@@ -1050,7 +1050,7 @@ namespace Loqui.Generation
                         args.Add(this.HasBeenSetAccessor(rhsAccessor));
                         args.Add(accessor.DirectAccess);
                         args.Add(rhsAccessor.DirectAccess);
-                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs)");
+                        args.Add($"(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
                         args.Add("include");
                     }
                 }
@@ -1060,7 +1060,7 @@ namespace Loqui.Generation
                         $"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(EqualsMaskHelper.EqualsHelper)}"))
                     {
                         args.Add(rhsAccessor.PropertyOrDirectAccess);
-                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask(loqLhs, loqRhs)");
+                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.CommonClassName}.GetEqualsMask(loqLhs, loqRhs)");
                         args.Add("include");
                     }
                 }
@@ -1077,7 +1077,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({this.TargetObjectGeneration.ExtCommonName}.GetEqualsMask({accessor.DirectAccess}, {rhsAccessor.DirectAccess}, include), include);");
+                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({accessor.DirectAccess}.GetEqualsMask({rhsAccessor.DirectAccess}, include), include);");
                 }
             }
         }
@@ -1105,7 +1105,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{this.HasBeenSetAccessor(accessor)}" : "true")}, {(this.TargetObjectGeneration.ExtCommonName)}.GetHasBeenSetMask({accessor.DirectAccess}));");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{this.HasBeenSetAccessor(accessor)}" : "true")}, {accessor.DirectAccess}.GetHasBeenSetMask());");
             }
         }
 

@@ -127,7 +127,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override async Task GenerateClear(FileGeneration fg, bool classFile)
+        protected override async Task GenerateClearCommon(FileGeneration fg)
         {
         }
 

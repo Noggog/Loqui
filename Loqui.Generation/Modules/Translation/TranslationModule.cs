@@ -87,8 +87,8 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.TranslationInterface);
                 }
+                args.Wheres.AddRange(obj.GenerateWhereClauses(obj.Generics));
             }
-            obj.WriteWhereClauses(fg, obj.Generics);
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationClass(obj)} Instance = new {TranslationClass(obj)}();");

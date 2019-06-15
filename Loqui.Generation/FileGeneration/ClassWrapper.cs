@@ -23,6 +23,7 @@ namespace Loqui.Generation
         public string BaseClass;
         public ObjectType Type = ObjectType.@class;
         public HashSet<string> Interfaces = new HashSet<string>();
+        public List<string> Wheres = new List<string>();
 
         public ClassWrapper(FileGeneration fg, string name)
         {
@@ -56,6 +57,16 @@ namespace Loqui.Generation
             else
             {
                 this.fg.AppendLine(classLine);
+            }
+            if (Wheres.Count > 0)
+            {
+                using (new DepthWrapper(fg))
+                {
+                    foreach (var where in this.Wheres)
+                    {
+                        fg.AppendLine(where);
+                    }
+                }
             }
         }
     }
