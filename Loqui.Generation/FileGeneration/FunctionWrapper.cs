@@ -42,7 +42,8 @@ namespace Loqui.Generation
         {
             var gen = new FileGeneration();
             generator(gen);
-            args.Add(gen.Strings.ToArray());
+            if (gen.Strings.Count == 0) return;
+            args.Add(gen.Strings.Take(gen.Strings.Count - 1).ToArray());
         }
 
         public void Dispose()
