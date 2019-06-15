@@ -141,14 +141,7 @@ namespace Loqui.Generation
                 case LoquiRefType.Direct:
                     return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
                 case LoquiRefType.Generic:
-                    if (this.TargetObjectGeneration == null)
-                    {
-                        return $"{copyMaskAccessor}?.{this.Name} != {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Skip)}";
-                    }
-                    else
-                    {
-                        return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
-                    }
+                    return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
                 default:
                     throw new NotImplementedException();
             }
@@ -726,96 +719,51 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                if (this.RefType == LoquiRefType.Generic
-                    && this.GenericDef?.BaseObjectGeneration == null)
+                fg.AppendLine($"switch ({copyMaskAccessor}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"switch ({copyMaskAccessor}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.Reference)})");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                    using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"case {nameof(GetterCopyOption)}.{nameof(CopyOption.Reference)}:");
-                        using (new DepthWrapper(fg))
+                        if (this.GetterInterfaceType == LoquiInterfaceType.IGetter)
+                        {
+                            fg.AppendLine("throw new NotImplementedException(\"Need to implement an ISetter copy function to support reference copies.\");");
+                        }
+                        else
                         {
                             fg.AppendLine($"{accessor.DirectAccess} = rhs{this.Name}Item;");
                             fg.AppendLine("break;");
                         }
-                        fg.AppendLine($"case {nameof(GetterCopyOption)}.{nameof(GetterCopyOption.MakeCopy)}:");
+                    }
+                    fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
+                    if (this.SetterInterfaceType != LoquiInterfaceType.IGetter)
+                    {
                         using (new DepthWrapper(fg))
                         {
-                            if (this.RefType == LoquiRefType.Direct)
-                            {
-                                using (var args2 = new ArgsWrapper(fg,
-                                    $"{accessor.DirectAccess} = {this.ObjectTypeName}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
-                                {
-                                    args2.Add($"rhs{this.Name}Item");
-                                    if (this.RefType == LoquiRefType.Direct)
-                                    {
-                                        args2.Add($"{copyMaskAccessor}?.Specific");
-                                    }
-                                    args2.Add($"def: def{this.Name}Item");
-                                }
-                            }
-                            else
-                            {
-                                fg.AppendLine($"var copyFunc = {nameof(LoquiRegistration)}.GetCopyFunc<{_generic}>();");
-                                fg.AppendLine($"{accessor.DirectAccess} = copyFunc(rhs{this.Name}Item, null, def{this.Name}Item);");
-                            }
+                            this.GenerateCopyFieldsFrom(
+                                fg,
+                                accessor: accessor,
+                                rhsAccessorPrefix: rhsAccessorPrefix,
+                                copyMaskAccessor: copyMaskAccessor,
+                                defaultFallbackAccessor: defaultFallbackAccessor);
                             fg.AppendLine("break;");
-                        }
-                        fg.AppendLine($"default:");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(GetterCopyOption)} {{{copyMaskAccessor}{(this.RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                         }
                     }
-                }
-                else
-                {
-                    fg.AppendLine($"switch ({copyMaskAccessor}{(this.RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                    using (new DepthWrapper(fg))
                     {
-                        fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                        using (new DepthWrapper(fg))
-                        {
-                            if (this.GetterInterfaceType == LoquiInterfaceType.IGetter)
-                            {
-                                fg.AppendLine("throw new NotImplementedException(\"Need to implement an ISetter copy function to support reference copies.\");");
-                            }
-                            else
-                            {
-                                fg.AppendLine($"{accessor.DirectAccess} = rhs{this.Name}Item;");
-                                fg.AppendLine("break;");
-                            }
-                        }
-                        fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
-                        if (this.SetterInterfaceType != LoquiInterfaceType.IGetter)
-                        {
-                            using (new DepthWrapper(fg))
-                            {
-                                this.GenerateCopyFieldsFrom(
-                                    fg,
-                                    accessor: accessor,
-                                    rhsAccessorPrefix: rhsAccessorPrefix,
-                                    copyMaskAccessor: copyMaskAccessor,
-                                    defaultFallbackAccessor: defaultFallbackAccessor);
-                                fg.AppendLine("break;");
-                            }
-                        }
-                        fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                        using (new DepthWrapper(fg))
-                        {
-                            GenerateTypicalMakeCopy(
-                                fg,
-                                retAccessor: $"{accessor.DirectAccess} = ",
-                                rhsAccessor: new Accessor($"rhs{this.Name}Item"),
-                                defAccessor: new Accessor($"def{this.Name}Item"),
-                                copyMaskAccessor: copyMaskAccessor);
-                            fg.AppendLine("break;");
-                        }
-                        fg.AppendLine($"default:");
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(this.RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
-                        }
+                        GenerateTypicalMakeCopy(
+                            fg,
+                            retAccessor: $"{accessor.DirectAccess} = ",
+                            rhsAccessor: new Accessor($"rhs{this.Name}Item"),
+                            defAccessor: new Accessor($"def{this.Name}Item"),
+                            copyMaskAccessor: copyMaskAccessor);
+                        fg.AppendLine("break;");
+                    }
+                    fg.AppendLine($"default:");
+                    using (new DepthWrapper(fg))
+                    {
+                        fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(this.RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                     }
                 }
             }

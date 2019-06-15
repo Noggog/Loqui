@@ -63,14 +63,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (loqui.TargetObjectGeneration == null)
-                {
-                    fg.AppendLine($"public {nameof(GetterCopyOption)} {field.Name};");
-                }
-                else
-                {
-                    fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
-                }
+                fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
             }
         }
 
