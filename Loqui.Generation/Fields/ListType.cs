@@ -114,20 +114,6 @@ namespace Loqui.Generation
                 fg.AppendLine($"private readonly Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}> _{this.Name} = new Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}>();");
             }
             fg.AppendLine($"public {(this.ReadOnly ? $"IObservable{(this.HasBeenSet ? "Set" : null)}List" : $"ISource{(this.HasBeenSet ? "Set" : null)}List")}<{ItemTypeName}> {this.Name} => _{this.Name};");
-            if (this.ReadOnly)
-            {
-                fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable => _{this.Name};");
-            }
-            else
-            {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"public IEnumerable<{ItemTypeName}> {this.Name}Enumerable");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"get => _{this.Name}.Items;");
-                    fg.AppendLine($"set => _{this.Name}.SetTo(value);");
-                }
-            }
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
