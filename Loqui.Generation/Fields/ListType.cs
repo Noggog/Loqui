@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -15,6 +15,21 @@ namespace Loqui.Generation
         public override bool HasDefault => false;
         public int? MaxValue;
 
+        public string SubGetterTypeName
+        {
+            get
+            {
+                if (this.SubTypeGeneration is LoquiType loqui)
+                {
+                    return loqui.GetTypeName(getter: true);
+                }
+                else
+                {
+                    return this.SubTypeGeneration.TypeName;
+                }
+            }
+        }
+
         public override IEnumerable<string> GetRequiredNamespaces()
         {
             yield return "DynamicData";
@@ -29,28 +44,33 @@ namespace Loqui.Generation
 
         public string ListInterface(bool getter)
         {
+            string itemTypeName = this.ItemTypeName;
+            if (this.SingleTypeGen is LoquiType loqui)
+            {
+                itemTypeName = loqui.GetTypeName(getter: getter);
+            }
             if (this.ReadOnly || getter)
             {
                 if (this.Notifying && this.ObjectGen.NotifyingInterface)
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"IObservableSetList<{this.ItemTypeName}>";
+                        return $"IObservableSetList<{itemTypeName}>";
                     }
                     else
                     {
-                        return $"IObservableList<{this.ItemTypeName}>";
+                        return $"IObservableList<{itemTypeName}>";
                     }
                 }
                 else
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"IReadOnlySetList<{this.ItemTypeName}>";
+                        return $"IReadOnlySetList<{itemTypeName}>";
                     }
                     else
                     {
-                        return $"IReadOnlyList<{this.ItemTypeName}>";
+                        return $"IReadOnlyList<{itemTypeName}>";
                     }
                 }
             }
@@ -60,22 +80,22 @@ namespace Loqui.Generation
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"ISourceSetList<{this.ItemTypeName}>";
+                        return $"ISourceSetList<{itemTypeName}>";
                     }
                     else
                     {
-                        return $"ISourceList<{this.ItemTypeName}>";
+                        return $"ISourceList<{itemTypeName}>";
                     }
                 }
                 else
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"ISetList<{this.ItemTypeName}>";
+                        return $"ISetList<{itemTypeName}>";
                     }
                     else
                     {
-                        return $"IList<{this.ItemTypeName}>";
+                        return $"IList<{itemTypeName}>";
                     }
                 }
             }
@@ -189,7 +209,7 @@ namespace Loqui.Generation
             {
                 LoquiType loqui = this.SubTypeGeneration as LoquiType;
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName}, {this.SubGetterTypeName}>"))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
@@ -206,7 +226,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine("return r;");
+                                    gen.AppendLine($"return ({loqui.TypeName})r;");
                                 }
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
                                 using (new DepthWrapper(gen))
