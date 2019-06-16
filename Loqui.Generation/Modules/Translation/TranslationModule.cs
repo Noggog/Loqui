@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class TranslationModule<G> : GenerationModule
+    public abstract class TranslationModule<G> : GenerationModule, ITranslationModule
         where G : TranslationGeneration
     {
         public LoquiGenerator Gen;
@@ -134,11 +134,7 @@ namespace Loqui.Generation
             }
             if (this.DoTranslationInterface(obj))
             {
-                fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}{this.TranslationInterface} {this.TranslationItemMember} => {this.TranslationClass(obj)}.Instance;");
-                if (!obj.BaseClassTrail().Any(b => this.DoTranslationInterface(b)))
-                {
-                    fg.AppendLine($"{this.TranslationInterface} {this.TranslationItemInterface}.{this.ModuleNickname}Translator => this.{this.TranslationItemMember};");
-                }
+                await GenerateTranslationInterfaceImplementation(obj, fg);
             }
             if (!obj.Abstract || this.GenerateAbstractCreates)
             {
@@ -147,6 +143,15 @@ namespace Loqui.Generation
             if (ShouldGenerateCopyIn)
             {
                 await GenerateCopyIn(obj, fg);
+            }
+        }
+
+        public async Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}{this.TranslationInterface} {this.TranslationItemMember} => {this.TranslationClass(obj)}.Instance;");
+            if (!obj.BaseClassTrail().Any(b => this.DoTranslationInterface(b)))
+            {
+                fg.AppendLine($"{this.TranslationInterface} {this.TranslationItemInterface}.{this.ModuleNickname}Translator => this.{this.TranslationItemMember};");
             }
         }
 

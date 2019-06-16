@@ -1266,7 +1266,7 @@ namespace Loqui.Generation
         }
 
         #region Generation Snippets
-        protected void GenerateRouting(FileGeneration fg)
+        public void GenerateRouting(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
