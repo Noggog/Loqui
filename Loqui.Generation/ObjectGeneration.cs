@@ -463,8 +463,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
                 }
-                args.Interfaces.Add($"ILoquiClass<{this.Interface()}, {this.Interface(getter: true)}>");
-                args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface(getter: true)}>");
+                args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface()}, {this.Interface(getter: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
                 args.Wheres.AddRange(GenerateWhereClauses(Generics));
             }
