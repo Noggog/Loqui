@@ -773,7 +773,7 @@ namespace Loqui.Generation
 
                     await GenerateClearCommon(fg);
 
-                    GenerateFillEqualsMask(fg);
+                    GenerateGetEqualsMask(fg);
 
                     GenerateCommonToString(fg);
 
@@ -1926,6 +1926,28 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                using (var args = new ArgsWrapper(fg,
+                    $"return (({this.CommonClassName}{this.GetGenericTypes(MaskType.Normal)})item.CommonInstance).GetEqualsMask"))
+                {
+                    args.AddPassArg("item");
+                    args.AddPassArg("rhs");
+                    args.AddPassArg("include");
+                }
+            }
+            fg.AppendLine();
+        }
+
+        private void GenerateGetEqualsMask(FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
+                GenerateWhereClauses().ToArray()))
+            {
+                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
+            }
+            using (new BraceWrapper(fg))
+            {
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 using (var args = new ArgsWrapper(fg,
                     $"(({this.CommonClassName}{this.GetGenericTypes(MaskType.Normal)})item.CommonInstance).FillEqualsMask"))
@@ -1938,10 +1960,7 @@ namespace Loqui.Generation
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
-        }
 
-        private void GenerateFillEqualsMask(FileGeneration fg)
-        {
             using (var args = new FunctionWrapper(fg, $"public void FillEqualsMask"))
             {
                 args.Add($"{this.Interface(getter: true)} item");

@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>4bab7c33e70d80790995006d51a6a8961a734133</Sha>
+         <Sha>d2a4fc9c37dc10a79d9eef3ff98f2e1c044ccaad</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>06-11-2019 23:29:33</CommitDate>
-         <Description>Made IReadOnlySetList covariant</Description>
+         <CommitDate>06-16-2019 02:01:03</CommitDate>
+         <Description>MemorySlice debugger step through</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
