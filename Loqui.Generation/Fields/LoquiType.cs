@@ -1076,20 +1076,7 @@ namespace Loqui.Generation
                             switch (mType)
                             {
                                 case MaskType.Normal:
-                                    switch (getter ? this.GetterInterfaceType : this.SetterInterfaceType)
-                                    {
-                                        case LoquiInterfaceType.Direct:
-                                            ret.Add(targetObjGen.Name);
-                                            break;
-                                        case LoquiInterfaceType.IGetter:
-                                            ret.Add(targetObjGen.Interface(getter: true, internalInterface: targetObjGen.HasInternalInterface));
-                                            break;
-                                        case LoquiInterfaceType.ISetter:
-                                            ret.Add(targetObjGen.Interface(getter: false, internalInterface: targetObjGen.HasInternalInterface));
-                                            break;
-                                        default:
-                                            throw new NotImplementedException();
-                                    }
+                                    ret.Add(targetObjGen.GetTypeName(getter ? this.GetterInterfaceType : this.SetterInterfaceType));
                                     break;
                                 case MaskType.Error:
                                     ret.Add(targetObjGen.Mask(MaskType.Error));

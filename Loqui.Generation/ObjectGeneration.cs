@@ -3188,6 +3188,21 @@ namespace Loqui.Generation
                     }).ToArray());
         }
 
+        public string GetTypeName(LoquiInterfaceType type)
+        {
+            switch (type)
+            {
+                case LoquiInterfaceType.Direct:
+                    return this.Name;
+                case LoquiInterfaceType.IGetter:
+                    return this.Interface(getter: true, internalInterface: this.HasInternalInterface);
+                case LoquiInterfaceType.ISetter:
+                    return this.Interface(getter: false, internalInterface: this.HasInternalInterface);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public string Interface(bool getter = false, bool? internalInterface = null)
         {
             return Interface(
