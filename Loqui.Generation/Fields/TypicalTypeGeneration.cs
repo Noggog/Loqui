@@ -115,7 +115,7 @@ namespace Loqui.Generation
                                     toDo: (subFg) => subFg.AppendLine($"this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));"));
                             }
                         }
-                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         fg.AppendLine($"private {TypeName} _{this.Name};");
                         if (HasDefault)
                         {
@@ -128,12 +128,12 @@ namespace Loqui.Generation
                             fg.AppendLine($"get => this._{this.Name};");
                             fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set(value);");
                         }
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                     else
                     {
                         fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
 
                     using (var args = new FunctionWrapper(fg,

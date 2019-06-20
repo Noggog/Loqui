@@ -125,10 +125,10 @@ namespace Loqui.Generation
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{ListInterface(getter: false)} {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{ListInterface(getter: false)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{ListInterface(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"{ListInterface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
 

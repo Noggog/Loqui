@@ -454,11 +454,11 @@ namespace Loqui.Generation
         protected virtual async Task GenerateSetterInterface(FileGeneration fg)
         {
             // Interface
-            using (var args = new ClassWrapper(fg, this.Interface()))
+            using (var args = new ClassWrapper(fg, this.Interface(internalInterface: false)))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
-                args.Interfaces.Add(this.Interface(getter: true));
+                args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
                 if (this.HasLoquiBaseObject)
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
@@ -496,7 +496,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@interface;
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true);
-                    args.Interfaces.Add(this.Interface());
+                    args.Interfaces.Add(this.Interface(internalInterface: false));
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
                     args.Wheres.AddRange(GenerateWhereClauses(Generics));
                 }
@@ -514,7 +514,7 @@ namespace Loqui.Generation
         protected virtual async Task GenerateGetterInterface(FileGeneration fg)
         {
             // Getter
-            using (var args = new ClassWrapper(fg, this.Interface(getter: true)))
+            using (var args = new ClassWrapper(fg, this.Interface(getter: true, internalInterface: false)))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
@@ -552,7 +552,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@interface;
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
-                    args.Interfaces.Add(this.Interface(getter: true));
+                    args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
                     args.Wheres.AddRange(GenerateWhereClauses(Generics));
                 }
 
@@ -807,7 +807,7 @@ namespace Loqui.Generation
                 $"public static string ToString{this.GetGenericTypes(MaskType.Normal)}",
                 GenerateWhereClauses().ToArray()))
             {
-                args.Add($"this {this.Interface(getter: true, internalInterface: this.HasInternalInterface)} item");
+                args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
@@ -827,7 +827,7 @@ namespace Loqui.Generation
                 $"public static void ToString{this.GetGenericTypes(MaskType.Normal)}",
                 GenerateWhereClauses().ToArray()))
             {
-                args.Add($"this {this.Interface(getter: true, internalInterface: this.HasInternalInterface)} item");
+                args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
@@ -946,7 +946,7 @@ namespace Loqui.Generation
                 $"public static bool HasBeenSet{this.GetGenericTypes(MaskType.Normal)}",
                 GenerateWhereClauses().ToArray()))
             {
-                args.Add($"this {this.Interface(getter: true, internalInterface: this.HasInternalInterface)} item");
+                args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"{this.GetMaskString("bool?")} checkMask");
             }
             using (new BraceWrapper(fg))
@@ -2382,7 +2382,7 @@ namespace Loqui.Generation
                 $"public static void Clear{this.GetGenericTypes(MaskType.Normal)}",
                 GenerateWhereClauses().ToArray()))
             {
-                args.Add($"this {this.Interface(internalInterface: this.HasInternalInterface)} item");
+                args.Add($"this {this.Interface()} item");
             }
             using (new BraceWrapper(fg))
             {
@@ -3186,12 +3186,12 @@ namespace Loqui.Generation
                     }).ToArray());
         }
 
-        public string Interface(bool getter = false, bool internalInterface = false)
+        public string Interface(bool getter = false, bool? internalInterface = null)
         {
             return Interface(
                 genericTypes: this.GetGenericTypes(MaskType.Normal),
                 getter: getter,
-                internalInterface: internalInterface);
+                internalInterface: internalInterface ?? this.HasInternalInterface);
         }
 
         public string Interface(string genericTypes, bool getter = false, bool internalInterface = false)

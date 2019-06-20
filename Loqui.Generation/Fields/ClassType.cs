@@ -70,7 +70,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                             }
                         }
-                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         fg.AppendLine($"protected {base.TypeName} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName} {this.Name}");
@@ -80,7 +80,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"{SetPermissionStr}set => {this.Name}_Set(value);");
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                     else
                     {

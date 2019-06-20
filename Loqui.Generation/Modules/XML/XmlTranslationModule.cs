@@ -298,7 +298,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public static void FillPublic_{ModuleNickname}"))
             {
-                args.Add($"{obj.Interface(getter: false, internalInterface: obj.HasInternalInterface)} item");
+                args.Add($"{obj.Interface(getter: false)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                 {
@@ -430,7 +430,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public static void FillPublicElement_{ModuleNickname}"))
             {
-                args.Add($"{obj.Interface(getter: false, internalInterface: obj.HasInternalInterface)} item");
+                args.Add($"{obj.Interface(getter: false)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");

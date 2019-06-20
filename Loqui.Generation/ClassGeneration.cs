@@ -92,10 +92,6 @@ namespace Loqui.Generation
                     args.BaseClass = this.NonLoquiBaseClass;
                 }
                 args.Interfaces.Add(this.Interface(getter: false));
-                if (this.HasInternalInterface)
-                {
-                    args.Interfaces.Add(this.Interface(getter: false, internalInterface: true));
-                }
                 args.Interfaces.Add($"ILoquiObject<{this.ObjectName}>");
                 args.Interfaces.Add(this.Interfaces);
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));

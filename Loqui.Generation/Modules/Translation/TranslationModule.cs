@@ -707,7 +707,7 @@ namespace Loqui.Generation
                     args.Add(line.Result);
                 }
             }
-            args.Add($"{(objParam ? "object" : obj.Interface(internalInterface: obj.HasInternalInterface, getter: true))} item");
+            args.Add($"{(objParam ? "object" : obj.Interface(getter: true))} item");
             if (doFallbackCustom)
             {
                 foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
@@ -760,7 +760,7 @@ namespace Loqui.Generation
             {
                 using (var args = new ArgsWrapper(fg, $"Write"))
                 {
-                    args.Add($"item: ({obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)})item");
+                    args.Add($"item: ({obj.Interface(getter: true)})item");
                     args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
                     args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
                     args.Add($"errorMask: errorMask");
@@ -783,7 +783,7 @@ namespace Loqui.Generation
                 {
                     using (var args = new ArgsWrapper(fg, $"Write"))
                     {
-                        args.Add($"item: ({obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)})item");
+                        args.Add($"item: ({obj.Interface(getter: true)})item");
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
                         args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
                         args.Add($"errorMask: errorMask");
@@ -814,7 +814,7 @@ namespace Loqui.Generation
                         {
                             using (var args = new ArgsWrapper(fg, $"Write"))
                             {
-                                args.Add($"item: ({obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)})item");
+                                args.Add($"item: ({obj.Interface(getter: true)})item");
                                 args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer));
                                 args.Add(this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Writer));
                                 args.Add($"errorMask: errorMask");
@@ -837,7 +837,7 @@ namespace Loqui.Generation
                 $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                 wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Normal, MaskType.Error))))
             {
-                args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                args.Add($"this {obj.Interface(getter: true)} item");
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
                     if (item.TryResolve(obj, out var line))
@@ -899,7 +899,7 @@ namespace Loqui.Generation
                     $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Normal, MaskType.Error))))
                 {
-                    args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                    args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var item in minorAPI.WriterAPI.IterateAPI(
                         obj,
                         new APILine(ErrorMaskKey, $"out {obj.Mask(MaskType.Error)} errorMask"),
@@ -940,7 +940,7 @@ namespace Loqui.Generation
                     $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                     wheres: obj.GenericTypeMaskWheres(MaskType.Normal)))
                     {
-                        args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                        args.Add($"this {obj.Interface(getter: true)} item");
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(
                             obj,
                             new APILine(ErrorMaskKey, $"{nameof(ErrorMaskBuilder)} errorMask"),
@@ -982,7 +982,7 @@ namespace Loqui.Generation
                     $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                     wheres: obj.GenericTypeMaskWheres(MaskType.Normal)))
                 {
-                    args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                    args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -1038,7 +1038,7 @@ namespace Loqui.Generation
                     $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Normal, MaskType.Error))))
                 {
-                    args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                    args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI(obj))
                     {
                         if (Public)
@@ -1081,7 +1081,7 @@ namespace Loqui.Generation
                         $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}",
                         wheres: obj.GenericTypeMaskWheres(GetMaskTypes(MaskType.Normal))))
                     {
-                        args.Add($"this {obj.Interface(getter: true, internalInterface: obj.HasInternalInterface)} item");
+                        args.Add($"this {obj.Interface(getter: true)} item");
                         foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI(obj))
                         {
                             if (Public)
