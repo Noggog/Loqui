@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Loqui.Generation
@@ -28,6 +29,22 @@ namespace Loqui.Generation
             {
                 Add(where);
             }
+        }
+
+        public void Resolve(ObjectGeneration obj)
+        {
+            if (!this.Wheres.Any()) return;
+            if (!this.Loqui)
+            {
+                var loquiElem = this.Wheres.FirstOrDefault((i) =>
+                    i.Equals(nameof(ILoquiObjectGetter))
+                    || i.Equals(nameof(ILoquiObject)));
+                this.Loqui = loquiElem != null;
+            }
+            if (!ObjectNamedKey.TryFactory(this.Wheres.First(), obj.ProtoGen.Protocol, out var objGenKey)) return;
+            if (!obj.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) return;
+            this.BaseObjectGeneration = baseObjGen;
+            this.Loqui = true;
         }
 
         private IEnumerable<string> GetWheres()

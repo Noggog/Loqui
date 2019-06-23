@@ -173,6 +173,7 @@ namespace Loqui.Generation
                     Loqui = genNode.GetAttribute<bool>("isLoqui", defaultVal: false)
                 };
                 generic.Name = genNode.GetAttribute(Constants.NAME);
+                generic.MustBeClass = genNode.GetAttribute<bool>(Constants.IS_CLASS);
                 var baseClass = genNode.Element(XName.Get(Constants.BASE_CLASS, LoquiGenerator.Namespace));
                 if (baseClass != null)
                 {
@@ -344,7 +345,8 @@ namespace Loqui.Generation
             foreach (var gen in (defs ?? this.Generics))
             {
                 List<string> wheres = new List<string>();
-                if (gen.Value.MustBeClass)
+                if (gen.Value.MustBeClass
+                    && (gen.Value.BaseObjectGeneration == null))
                 {
                     wheres.Add("class");
                 }
@@ -2650,18 +2652,7 @@ namespace Loqui.Generation
         {
             foreach (var gen in this.Generics.Values)
             {
-                if (!gen.Wheres.Any()) continue;
-                if (!gen.Loqui)
-                {
-                    var loquiElem = gen.Wheres.FirstOrDefault((i) =>
-                        i.Equals(nameof(ILoquiObjectGetter))
-                        || i.Equals(nameof(ILoquiObject)));
-                    gen.Loqui = loquiElem != null;
-                }
-                if (!ObjectNamedKey.TryFactory(gen.Wheres.First(), this.ProtoGen.Protocol, out var objGenKey)) continue;
-                if (!this.gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) continue;
-                gen.BaseObjectGeneration = baseObjGen;
-                gen.Loqui = true;
+                gen.Resolve(this);
             }
 
             await Task.WhenAll(this.IterateFields().ToList().Select((f) => f.Resolve()));

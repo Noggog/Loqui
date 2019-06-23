@@ -65,5 +65,6 @@ namespace Loqui.Generation
         public const string INTERNAL_GET_INTERFACE = "internalGetInterface";
         public const string ENUM_NAME = "enumName";
         public const string THIS_CTOR = "thisCtor";
+        public const string IS_CLASS = "isClass";
     }
 }

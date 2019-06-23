@@ -646,6 +646,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="isClass" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to require object to be a class
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="DefinedBaseGeneric">
