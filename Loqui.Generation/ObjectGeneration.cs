@@ -1950,7 +1950,8 @@ namespace Loqui.Generation
 
         private void GenerateGetEqualsMask(FileGeneration fg)
         {
-            using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask"))
+            using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Interface(getter: true)} rhs");
