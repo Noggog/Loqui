@@ -373,9 +373,12 @@ namespace Loqui.Generation
             {
                 await GenerateClassLine(fg);
 
-                foreach (var where in this.GenerateWhereClauses(this.Generics))
+                using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine(where);
+                    foreach (var where in this.GenerateWhereClauses(this.Generics))
+                    {
+                        fg.AppendLine(where);
+                    }
                 }
 
                 using (new BraceWrapper(fg))
