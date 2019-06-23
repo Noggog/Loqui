@@ -888,15 +888,20 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                string generics = "";
+                if (this.Generics.Any())
+                {
+                    generics = $"<{string.Join(", ", Generics.Select((g) => g.Key).Select(gen => $"{{typeof({gen}).Name}}"))}>";
+                }
                 fg.AppendLine("if (name == null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"fg.AppendLine($\"{{nameof({this.ObjectName})}} =>\");");
+                    fg.AppendLine($"fg.AppendLine($\"{this.Name}{generics} =>\");");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"fg.AppendLine($\"{{name}} ({{nameof({this.ObjectName})}}) =>\");");
+                    fg.AppendLine($"fg.AppendLine($\"{{name}} ({this.Name}{generics}) =>\");");
                 }
                 fg.AppendLine($"fg.AppendLine(\"[\");");
                 fg.AppendLine($"using (new DepthWrapper(fg))");
