@@ -123,7 +123,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasLoquiBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Copy));
+                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Copy));
             }
             using (new BraceWrapper(fg))
             {
@@ -159,7 +159,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}, IErrorMask<{obj.Mask(MaskType.Error)}>");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Error));
+                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Error));
             }
             using (new BraceWrapper(fg))
             {
@@ -512,7 +512,7 @@ namespace Loqui.Generation
             fg.AppendLine($"public class {obj.Mask(MaskType.Translation)} : {(obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation)}" : $"{nameof(ITranslationMask)}")}");
             using (new DepthWrapper(fg))
             {
-                fg.AppendLines(obj.GenericTypeMaskWheres(MaskType.Translation));
+                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Translation));
             }
             using (new BraceWrapper(fg))
             {

@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public ObjectGeneration BaseObjectGeneration;
         private readonly HashSet<string> _whereSet = new HashSet<string>();
         private readonly List<string> _whereList = new List<string>();
-        public IEnumerable<string> Wheres => GetWheres();
+        public IEnumerable<string> Wheres => _whereList;
         public string Name;
 
         public void Add(string where)
@@ -31,25 +31,13 @@ namespace Loqui.Generation
             }
         }
 
-        public void Resolve(ObjectGeneration obj)
+        public IEnumerable<string> GetWheres(LoquiInterfaceType type)
         {
-            if (!this.Wheres.Any()) return;
-            if (!this.Loqui)
+            if (this.BaseObjectGeneration != null)
             {
-                var loquiElem = this.Wheres.FirstOrDefault((i) =>
-                    i.Equals(nameof(ILoquiObjectGetter))
-                    || i.Equals(nameof(ILoquiObject)));
-                this.Loqui = loquiElem != null;
+                yield return this.BaseObjectGeneration.GetTypeName(type);
             }
-            if (!ObjectNamedKey.TryFactory(this.Wheres.First(), obj.ProtoGen.Protocol, out var objGenKey)) return;
-            if (!obj.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) return;
-            this.BaseObjectGeneration = baseObjGen;
-            this.Loqui = true;
-        }
-
-        private IEnumerable<string> GetWheres()
-        {
-            foreach (var item in _whereList)
+            foreach (var item in _whereList.Skip(BaseObjectGeneration == null ? 0 : 1))
             {
                 yield return item;
             }

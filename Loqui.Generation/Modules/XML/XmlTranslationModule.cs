@@ -363,7 +363,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
-                obj.GenericTypeMaskWheres(MaskType.Normal)))
+                obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
             {
                 args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");

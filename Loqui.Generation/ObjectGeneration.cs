@@ -340,7 +340,7 @@ namespace Loqui.Generation
             return $"<{string.Join(", ", keys)}>";
         }
 
-        public IEnumerable<string> GenerateWhereClauses(IEnumerable<KeyValuePair<string, GenericDefinition>> defs = null)
+        public IEnumerable<string> GenerateWhereClauses(LoquiInterfaceType type, IEnumerable<KeyValuePair<string, GenericDefinition>> defs = null)
         {
             foreach (var gen in (defs ?? this.Generics))
             {
@@ -350,7 +350,7 @@ namespace Loqui.Generation
                 {
                     wheres.Add("class");
                 }
-                wheres.AddRange(gen.Value.Wheres);
+                wheres.AddRange(gen.Value.GetWheres(type));
                 if (wheres.Count > 0)
                 {
                     yield return $"where {gen.Key} : {string.Join(", ", wheres)}";
@@ -375,7 +375,7 @@ namespace Loqui.Generation
 
                 using (new DepthWrapper(fg))
                 {
-                    foreach (var where in this.GenerateWhereClauses(this.Generics))
+                    foreach (var where in this.GenerateWhereClauses(LoquiInterfaceType.ISetter, this.Generics))
                     {
                         fg.AppendLine(where);
                     }
@@ -471,7 +471,7 @@ namespace Loqui.Generation
                 }
                 args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface()}, {this.Interface(getter: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
-                args.Wheres.AddRange(GenerateWhereClauses(Generics));
+                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
             }
             using (new BraceWrapper(fg))
             {
@@ -481,7 +481,7 @@ namespace Loqui.Generation
                 }
                 using (var args = new FunctionWrapper(fg,
                     $"void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
-                    wheres: this.GenericTypeMaskWheres(MaskType.Copy))
+                    wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy))
                 {
                     SemiColon = true
                 })
@@ -504,7 +504,7 @@ namespace Loqui.Generation
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true);
                     args.Interfaces.Add(this.Interface(internalInterface: false));
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
-                    args.Wheres.AddRange(GenerateWhereClauses(Generics));
+                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -526,7 +526,7 @@ namespace Loqui.Generation
                 args.Partial = true;
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
-                args.Wheres.AddRange(GenerateWhereClauses(Generics));
+                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
             }
 
             using (new BraceWrapper(fg))
@@ -558,7 +558,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@interface;
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
-                    args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
+                    args.Interfaces.Add(this.Interface(getter: true));
                     args.Wheres.AddRange(GenerateWhereClauses(Generics));
                 }
 
@@ -737,7 +737,7 @@ namespace Loqui.Generation
                     using (var args = new ClassWrapper(fg, $"{this.RegistrationName}{this.GetGenericTypes(MaskType.Normal)}"))
                     {
                         args.Interfaces.Add(this.RegistrationName);
-                        args.Wheres.AddRange(GenerateWhereClauses(Generics));
+                        args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.Direct, Generics));
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -811,7 +811,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public static string ToString{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"string name = null");
@@ -831,7 +831,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public static void ToString{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
@@ -953,7 +953,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public static bool HasBeenSet{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"{this.GetMaskString("bool?")} checkMask");
@@ -1007,7 +1007,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.GetMaskString("bool")} GetHasBeenSetMask{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"this {this.Interface(getter: true)} item");
             }
@@ -1096,7 +1096,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public{this.FunctionOverride()}void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
-                this.GenericTypeMaskWheres(MaskType.Copy)))
+                this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).Interface(getter: true)} rhs");
             }
@@ -1116,7 +1116,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
-                this.GenericTypeMaskWheres(MaskType.Copy)))
+                this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Interface(getter: true)} rhs");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask");
@@ -1138,7 +1138,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Error, MaskType.Copy)}",
-                wheres: this.GenericTypeMaskWheres(MaskType.Error, MaskType.Copy)))
+                wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Error, MaskType.Copy)))
             {
                 args.Add($"{this.Interface(getter: true)} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
@@ -1164,7 +1164,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
-                wheres: this.GenericTypeMaskWheres(MaskType.Copy)))
+                wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Interface(getter: true)} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
@@ -1192,7 +1192,7 @@ namespace Loqui.Generation
             {
                 using (var args = new FunctionWrapper(fg,
                     $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}",
-                    wheres: this.GenericTypeMaskWheres(MaskType.Normal, MaskType.Copy).ToArray()))
+                    wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy).ToArray()))
                 {
                     args.Add($"{this.Interface()} item");
                     args.Add($"{this.Interface(getter: true)} rhs");
@@ -1929,7 +1929,7 @@ namespace Loqui.Generation
         protected virtual async Task GenerateGetEqualsMaskMixIn(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg, $"public static {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"this {this.Interface(getter: true)} item");
                 args.Add($"{this.Interface(getter: true)} rhs");
@@ -1950,8 +1950,7 @@ namespace Loqui.Generation
 
         private void GenerateGetEqualsMask(FileGeneration fg)
         {
-            using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+            using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask"))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Interface(getter: true)} rhs");
@@ -2292,7 +2291,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}",
-                wheres: this.GenericTypeMaskWheres(MaskType.Copy)))
+                wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
                 args.Add($"{this.Interface(getter: true)} def = null");
@@ -2311,7 +2310,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}",
-                wheres: this.GenericTypeMaskWheres(MaskType.Copy)))
+                wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
@@ -2350,7 +2349,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public static {this.ObjectName} Copy_ToLoqui{GenerateGenericClause(GenericTypes_Nickname(MaskType.Copy))}",
-                wheres: this.GenericTypeMaskWheres(MaskType.Copy)))
+                wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
@@ -2392,7 +2391,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public static void Clear{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.ISetter).ToArray()))
             {
                 args.Add($"this {this.Interface()} item");
             }
@@ -3106,7 +3105,7 @@ namespace Loqui.Generation
             this.WiredBaseClassTCS.TrySetException(ex);
         }
 
-        public string[] GenericTypeMaskWheres(params MaskType[] maskTypes)
+        public string[] GenericTypeMaskWheres(LoquiInterfaceType type, params MaskType[] maskTypes)
         {
             return maskTypes.SelectMany(
                 (maskType) =>
@@ -3114,7 +3113,7 @@ namespace Loqui.Generation
                     switch (maskType)
                     {
                         case MaskType.Normal:
-                            return GenerateWhereClauses();
+                            return GenerateWhereClauses(type);
                         default:
                             break;
                     }
