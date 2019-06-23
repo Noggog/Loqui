@@ -89,7 +89,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.TranslationWriteInterface);
                 }
-                args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.Direct, defs: obj.Generics));
+                args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
             }
             using (new BraceWrapper(fg))
             {
@@ -104,7 +104,7 @@ namespace Loqui.Generation
             {
                 args.Partial = true;
                 args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
-                args.Wheres.AddRange(obj.GenerateWhereClauses(obj.Generics));
+                args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.ISetter, obj.Generics));
             }
             using (new BraceWrapper(fg))
             {

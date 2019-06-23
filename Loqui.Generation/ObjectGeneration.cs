@@ -346,7 +346,7 @@ namespace Loqui.Generation
             {
                 List<string> wheres = new List<string>();
                 if (gen.Value.MustBeClass
-                    && (gen.Value.BaseObjectGeneration == null))
+                    && (gen.Value.BaseObjectGeneration == null || type != LoquiInterfaceType.Direct))
                 {
                     wheres.Add("class");
                 }
@@ -559,7 +559,7 @@ namespace Loqui.Generation
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
                     args.Interfaces.Add(this.Interface(getter: true));
-                    args.Wheres.AddRange(GenerateWhereClauses(Generics));
+                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
                 }
 
                 using (new BraceWrapper(fg))
@@ -856,7 +856,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public string ToString{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"string name = null");
@@ -879,7 +879,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public void ToString{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
@@ -916,7 +916,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"protected static void ToStringFields{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
@@ -974,7 +974,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public bool HasBeenSet{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.GetMaskString("bool?")} checkMask");
@@ -1029,7 +1029,7 @@ namespace Loqui.Generation
         {
             using (var args = new FunctionWrapper(fg,
                 $"public void FillHasBeenSetMask{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.GetMaskString("bool")} mask");
@@ -1972,7 +1972,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg, $"public void FillEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
             {
                 args.Add($"{this.Interface(getter: true)} item");
                 args.Add($"{this.Interface(getter: true)} rhs");
@@ -2426,7 +2426,7 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg,
                 $"public virtual void Clear{this.GetGenericTypes(MaskType.Normal)}",
-                GenerateWhereClauses().ToArray()))
+                GenerateWhereClauses(LoquiInterfaceType.ISetter).ToArray()))
             {
                 args.Add($"{this.Interface()} item");
             }

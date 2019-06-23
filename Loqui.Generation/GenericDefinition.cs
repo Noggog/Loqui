@@ -31,6 +31,22 @@ namespace Loqui.Generation
             }
         }
 
+        public void Resolve(ObjectGeneration obj)
+        {
+            if (!this.Wheres.Any()) return;
+            if (!this.Loqui)
+            {
+                var loquiElem = this.Wheres.FirstOrDefault((i) =>
+                    i.Equals(nameof(ILoquiObjectGetter))
+                    || i.Equals(nameof(ILoquiObject)));
+                this.Loqui = loquiElem != null;
+            }
+            if (!ObjectNamedKey.TryFactory(this.Wheres.First(), obj.ProtoGen.Protocol, out var objGenKey)) return;
+            if (!obj.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) return;
+            this.BaseObjectGeneration = baseObjGen;
+            this.Loqui = true;
+        }
+
         public IEnumerable<string> GetWheres(LoquiInterfaceType type)
         {
             if (this.BaseObjectGeneration != null)
