@@ -32,7 +32,7 @@ namespace Loqui.Generation
             string line;
             if (loquiGen.TargetObjectGeneration != null)
             {
-                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
+                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes(getter: true)})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
             }
             else
             {
@@ -86,12 +86,12 @@ namespace Loqui.Generation
                     () =>
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(MaskType.Copy)}"))
+                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(getter: false, MaskType.Copy)}"))
                         {
                             args.Add((gen) =>
                             {
                                 using (var subArgs = new FunctionWrapper(gen,
-                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes}.Create_Xml"))
+                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes(getter: false)}.Create_Xml"))
                                 {
                                     subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
                                     foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
@@ -145,7 +145,7 @@ namespace Loqui.Generation
                 {
                     FG = fg,
                     TypeGen = typeGen,
-                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes}>.Instance",
+                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes(getter: false)}>.Instance",
                     MaskAccessor = errorMaskAccessor,
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,

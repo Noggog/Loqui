@@ -35,7 +35,7 @@ namespace Loqui.Generation
             }
         }
 
-        public string DirectTypeName => $"{this._TargetObjectGeneration.Name}{this.GenericTypes}";
+        public string DirectTypeName => $"{this._TargetObjectGeneration.Name}{this.GenericTypes(getter: false)}";
 
         public override string ProtectedName
         {
@@ -73,20 +73,20 @@ namespace Loqui.Generation
                 }
             }
         }
-        
+
         public string Interface(bool getter = false)
         {
             switch (RefType)
             {
                 case LoquiRefType.Direct:
-                    return this._TargetObjectGeneration.Interface(GenericTypes, getter: getter, internalInterface: this._TargetObjectGeneration.HasInternalInterface);
+                    return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: this._TargetObjectGeneration.HasInternalInterface);
                 case LoquiRefType.Generic:
                     return _generic;
                 default:
                     throw new NotImplementedException();
             }
         }
-        public string GenericTypes => GetGenericTypes(MaskType.Normal);
+        public string GenericTypes(bool getter) => GetGenericTypes(getter, MaskType.Normal);
         public SingletonLevel SingletonType;
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType SetterInterfaceType;
@@ -685,7 +685,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes(getter: false)}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
                                 args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.Specific");
@@ -790,7 +790,7 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args2 = new ArgsWrapper(fg,
-                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes(getter: false)}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                     {
                         args2.Add($"{rhsAccessor.DirectAccess}");
                         if (this.RefType == LoquiRefType.Direct)
@@ -821,7 +821,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this._TargetObjectGeneration.CommonClassName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
+                    $"{this._TargetObjectGeneration.CommonClassName}.CopyFieldsFrom{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add($"item: {accessor.DirectAccess}");
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
@@ -882,7 +882,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(getter: false, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
                     fg.AppendLine("break;");
                 }
             }
@@ -1057,7 +1057,7 @@ namespace Loqui.Generation
             }
         }
 
-        public IEnumerable<string> GetGenericTypesEnumerable(params MaskType[] additionalMasks)
+        public IEnumerable<string> GetGenericTypesEnumerable(bool getter, params MaskType[] additionalMasks)
         {
             if (this.GenericSpecification == null) return null;
             if (this.TargetObjectGeneration.Generics.Count == 0) return null;
@@ -1076,7 +1076,20 @@ namespace Loqui.Generation
                             switch (mType)
                             {
                                 case MaskType.Normal:
-                                    ret.Add(targetObjGen.Name);
+                                    switch (getter ? this.GetterInterfaceType : this.SetterInterfaceType)
+                                    {
+                                        case LoquiInterfaceType.Direct:
+                                            ret.Add(targetObjGen.Name);
+                                            break;
+                                        case LoquiInterfaceType.IGetter:
+                                            ret.Add(targetObjGen.Interface(getter: true, internalInterface: targetObjGen.HasInternalInterface));
+                                            break;
+                                        case LoquiInterfaceType.ISetter:
+                                            ret.Add(targetObjGen.Interface(getter: false, internalInterface: targetObjGen.HasInternalInterface));
+                                            break;
+                                        default:
+                                            throw new NotImplementedException();
+                                    }
                                     break;
                                 case MaskType.Error:
                                     ret.Add(targetObjGen.Mask(MaskType.Error));
@@ -1106,9 +1119,9 @@ namespace Loqui.Generation
             return ret;
         }
 
-        public string GetGenericTypes(params MaskType[] additionalMasks)
+        public string GetGenericTypes(bool getter, params MaskType[] additionalMasks)
         {
-            var e = GetGenericTypesEnumerable(additionalMasks);
+            var e = GetGenericTypesEnumerable(getter, additionalMasks);
             if (e == null) return null;
             return $"<{string.Join(", ", e)}>";
         }
