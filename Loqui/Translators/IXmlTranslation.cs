@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public interface IXmlTranslator
+    public interface IXmlWriteTranslator
     {
         void Write(
             XElement node,
@@ -18,6 +18,6 @@ namespace Loqui.Xml
 
     public interface IXmlItem
     {
-        IXmlTranslator XmlTranslator { get; }
+        IXmlWriteTranslator XmlWriteTranslator { get; }
     }
 }

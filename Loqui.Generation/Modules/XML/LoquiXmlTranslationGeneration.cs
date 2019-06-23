@@ -32,11 +32,11 @@ namespace Loqui.Generation
             string line;
             if (loquiGen.TargetObjectGeneration != null)
             {
-                line = $"(({this.XmlMod.TranslationClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.ModuleNickname}Translator)";
+                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
             }
             else
             {
-                line = $"(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.ModuleNickname}Translator";
+                line = $"(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember}";
             }
             using (var args = new ArgsWrapper(fg, $"{line}.Write"))
             {

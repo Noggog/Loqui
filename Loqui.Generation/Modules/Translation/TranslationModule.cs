@@ -22,15 +22,17 @@ namespace Loqui.Generation
         public bool ShouldGenerateCopyIn = true;
         public bool TranslationMaskParameter = true;
         public bool DoErrorMasks = true;
-        public string TranslationClassName(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}Translation";
-        public string TranslationClass(ObjectGeneration obj) => $"{TranslationClassName(obj)}{obj.GetGenericTypes(MaskType.Normal)}";
+        public string TranslationWriteClassName(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}WriteTranslation";
+        public string TranslationWriteClass(ObjectGeneration obj) => $"{TranslationWriteClassName(obj)}{obj.GetGenericTypes(MaskType.Normal)}";
+        public string TranslationCreateClassName(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}CreateTranslation";
+        public string TranslationCreateClass(ObjectGeneration obj) => $"{TranslationCreateClassName(obj)}{obj.GetGenericTypes(MaskType.Normal)}";
         public string TranslationMixInClass(ObjectGeneration obj) => $"{obj.Name}{ModuleNickname}TranslationMixIn";
         public virtual bool DoTranslationInterface(ObjectGeneration obj) => true;
         public virtual bool DirectTranslationReference(ObjectGeneration obj) => false;
-        public string TranslationInterface => $"I{this.ModuleNickname}Translator";
+        public string TranslationWriteInterface => $"I{this.ModuleNickname}WriteTranslator";
         public string TranslationItemInterface => $"I{this.ModuleNickname}Item";
-        public string TranslationItemMember => $"{this.ModuleNickname}Translator";
-        public virtual string TranslatorReference(ObjectGeneration obj, Accessor item) => $"(({this.TranslationClass(obj)}){item}.{this.TranslationItemMember})";
+        public string TranslationWriteItemMember => $"{this.ModuleNickname}WriteTranslator";
+        public virtual string TranslatorReference(ObjectGeneration obj, Accessor item) => $"(({this.TranslationWriteClass(obj)}){item}.{this.TranslationWriteItemMember})";
 
         public const string ErrorMaskKey = "ErrorMask";
         public const string ErrorMaskBuilderKey = "ErrorMaskBuilder";
@@ -79,22 +81,37 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            using (var args = new ClassWrapper(fg, TranslationClass(obj)))
+            using (var args = new ClassWrapper(fg, TranslationWriteClass(obj)))
             {
                 args.Partial = true;
-                args.BaseClass = obj.HasLoquiBaseObject ? TranslationClass(obj.BaseClass) : null;
+                args.BaseClass = obj.HasLoquiBaseObject ? TranslationWriteClass(obj.BaseClass) : null;
                 if (this.DoTranslationInterface(obj))
                 {
-                    args.Interfaces.Add(this.TranslationInterface);
+                    args.Interfaces.Add(this.TranslationWriteInterface);
                 }
                 args.Wheres.AddRange(obj.GenerateWhereClauses(obj.Generics));
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationClass(obj)} Instance = new {TranslationClass(obj)}();");
+                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
                 fg.AppendLine();
 
-                await GenerateInTranslationClass(obj, fg);
+                await GenerateInTranslationWriteClass(obj, fg);
+            }
+            fg.AppendLine();
+
+            using (var args = new ClassWrapper(fg, TranslationCreateClass(obj)))
+            {
+                args.Partial = true;
+                args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
+                args.Wheres.AddRange(obj.GenerateWhereClauses(obj.Generics));
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationCreateClass(obj)} Instance = new {TranslationCreateClass(obj)}();");
+                fg.AppendLine();
+
+                await GenerateInTranslationCreateClass(obj, fg);
             }
             fg.AppendLine();
 
@@ -111,13 +128,17 @@ namespace Loqui.Generation
             }
         }
 
-        public virtual async Task GenerateInTranslationClass(ObjectGeneration obj, FileGeneration fg)
+        public virtual async Task GenerateInTranslationWriteClass(ObjectGeneration obj, FileGeneration fg)
         {
             await TranslationWrite(obj, fg);
             foreach (var extra in ExtraTranslationTasks)
             {
                 await extra(obj, fg);
             }
+        }
+
+        public virtual async Task GenerateInTranslationCreateClass(ObjectGeneration obj, FileGeneration fg)
+        {
         }
 
         public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
@@ -148,10 +169,10 @@ namespace Loqui.Generation
 
         public async Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}{this.TranslationInterface} {this.TranslationItemMember} => {this.TranslationClass(obj)}.Instance;");
+            fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}{this.TranslationWriteInterface} {this.TranslationWriteItemMember} => {this.TranslationWriteClass(obj)}.Instance;");
             if (!obj.BaseClassTrail().Any(b => this.DoTranslationInterface(b)))
             {
-                fg.AppendLine($"{this.TranslationInterface} {this.TranslationItemInterface}.{this.ModuleNickname}Translator => this.{this.TranslationItemMember};");
+                fg.AppendLine($"{this.TranslationWriteInterface} {this.TranslationItemInterface}.{this.TranslationWriteItemMember} => this.{this.TranslationWriteItemMember};");
             }
         }
 
@@ -1158,7 +1179,7 @@ namespace Loqui.Generation
         public override async Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
         {
             await base.GenerateInRegistration(obj, fg);
-            fg.AppendLine($"public static readonly Type {this.ModuleNickname}Translation = typeof({this.TranslationClassName(obj)}{obj.EmptyGenerics});");
+            fg.AppendLine($"public static readonly Type {this.ModuleNickname}Translation = typeof({this.TranslationWriteClassName(obj)}{obj.EmptyGenerics});");
         }
 
         public override async Task PostLoad(ObjectGeneration obj)
