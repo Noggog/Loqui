@@ -1123,9 +1123,9 @@ namespace Loqui.Generation
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
                 this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"{this.ObjectName} rhs");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1145,10 +1145,10 @@ namespace Loqui.Generation
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Error, MaskType.Copy)}",
                 wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Error, MaskType.Copy)))
             {
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"{this.ObjectName} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -1171,10 +1171,10 @@ namespace Loqui.Generation
                 $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
                 wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"{this.ObjectName} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1199,9 +1199,9 @@ namespace Loqui.Generation
                     $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}",
                     wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy).ToArray()))
                 {
-                    args.Add($"{this.Interface()} item");
-                    args.Add($"{this.Interface(getter: true)} rhs");
-                    args.Add($"{this.Interface(getter: true)} def");
+                    args.Add($"{this.ObjectName} item");
+                    args.Add($"{this.ObjectName} rhs");
+                    args.Add($"{this.ObjectName} def");
                     args.Add($"ErrorMaskBuilder errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                 }
