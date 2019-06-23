@@ -558,7 +558,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@interface;
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalInterface)?.Interface(internalInterface: true, getter: true);
-                    args.Interfaces.Add(this.Interface(getter: true));
+                    args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
                     args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
                 }
 
