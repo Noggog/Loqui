@@ -206,7 +206,7 @@ namespace Loqui.Generation
             if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"protected static void FillPrivateElement_{ModuleNickname}"))
+                    $"protected static void FillPrivateElement{ModuleNickname}"))
                 {
                     args.Add($"{obj.ObjectName} item");
                     args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -301,7 +301,7 @@ namespace Loqui.Generation
         public override async Task GenerateInTranslationCreateClass(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void FillPublic_{ModuleNickname}"))
+                $"public static void FillPublic{ModuleNickname}"))
             {
                 args.Add($"{obj.Interface(getter: false)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -322,7 +322,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{this.TranslationCreateClass(obj)}.FillPublicElement_{ModuleNickname}"))
+                            $"{this.TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                         {
                             args.Add("item: item");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
@@ -362,7 +362,7 @@ namespace Loqui.Generation
         public virtual void GenerateWriteToNode(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void WriteToNode_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                $"public static void WriteToNode{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
             {
                 args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
@@ -375,7 +375,7 @@ namespace Loqui.Generation
                 if (obj.HasLoquiBaseObject)
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode_{ModuleNickname}"))
+                        $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode{ModuleNickname}"))
                     {
                         args.Add($"item: item");
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -432,7 +432,7 @@ namespace Loqui.Generation
         protected virtual void FillPublicElement(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void FillPublicElement_{ModuleNickname}"))
+                $"public static void FillPublicElement{ModuleNickname}"))
             {
                 args.Add($"{obj.Interface(getter: false)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -496,7 +496,7 @@ namespace Loqui.Generation
                         if (obj.HasLoquiBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClass.CommonClassName}.FillPublicElement_{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
+                                $"{obj.BaseClass.CommonClassName}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
@@ -697,7 +697,7 @@ namespace Loqui.Generation
                     if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                     {
                             using (var args = new ArgsWrapper(fg,
-                                $"FillPrivateElement_{ModuleNickname}"))
+                                $"FillPrivateElement{ModuleNickname}"))
                             {
                                 args.Add("item: ret");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
@@ -715,7 +715,7 @@ namespace Loqui.Generation
                             }
                         }
                         using (var args = new ArgsWrapper(fg,
-                            $"{this.TranslationCreateClass(obj)}.FillPublicElement_{ModuleNickname}"))
+                            $"{this.TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                         {
                             args.Add("item: ret");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
@@ -758,7 +758,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
             }
             using (var args = new ArgsWrapper(fg,
-                $"WriteToNode_{ModuleNickname}"))
+                $"WriteToNode{ModuleNickname}"))
             {
                 args.Add($"item: item");
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");

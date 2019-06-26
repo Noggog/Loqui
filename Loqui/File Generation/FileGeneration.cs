@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("ret.RegionPoints = item.RegionPoints.CollectionEqualsHelper("))
+            if (str.Contains("var tmpGameSettings = await Group<GameSetting>.Create_Binar"))
             {
                 int wer = 23;
                 wer++;

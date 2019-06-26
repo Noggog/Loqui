@@ -39,6 +39,9 @@ namespace Loqui.Generation
         public const string DoMaskKey = "DoMasks";
         public const string TranslationMaskKey = "TranslationMask";
 
+        public virtual string CreateFromPrefix => "CreateFrom";
+        public virtual string WriteToPrefix => "WriteTo";
+
         protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
 
         public List<Func<ObjectGeneration, FileGeneration, Task>> ExtraTranslationTasks = new List<Func<ObjectGeneration, FileGeneration, Task>>();
@@ -186,7 +189,7 @@ namespace Loqui.Generation
                 if (obj.CanAssume())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.FunctionOverride()}void CopyIn_{ModuleNickname}"))
+                        $"public{obj.FunctionOverride()}void CopyIn{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
                         {
@@ -199,7 +202,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"CopyIn_{ModuleNickname}_Internal"))
+                            $"CopyIn{ModuleNickname}_Internal"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             args.Add($"errorMask: null");
@@ -210,7 +213,7 @@ namespace Loqui.Generation
                 }
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public virtual void CopyIn_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    $"public virtual void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
@@ -238,7 +241,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"CopyIn_{ModuleNickname}_Internal"))
+                        $"CopyIn{ModuleNickname}_Internal"))
                     {
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         args.Add($"errorMask: errorMaskBuilder");
@@ -249,7 +252,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"protected{obj.FunctionOverride()}void CopyIn_{ModuleNickname}_Internal"))
+                    $"protected{obj.FunctionOverride()}void CopyIn{ModuleNickname}_Internal"))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                     {
@@ -297,7 +300,7 @@ namespace Loqui.Generation
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public void CopyIn_{ModuleNickname}"))
+                            $"public void CopyIn{ModuleNickname}"))
                         {
                             foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
                             {
@@ -312,7 +315,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"this.CopyIn_{ModuleNickname}"))
+                                    $"this.CopyIn{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
                                     {
@@ -325,7 +328,7 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public void CopyIn_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var item in minorAPI.ReaderAPI.MajorAPI)
@@ -354,7 +357,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"this.CopyIn_{ModuleNickname}"))
+                                $"this.CopyIn{ModuleNickname}"))
                             using (new DepthWrapper(fg))
                             {
                                 foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
@@ -373,7 +376,7 @@ namespace Loqui.Generation
                 foreach (var baseClass in obj.BaseClassTrail())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public override void CopyIn_{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
+                        $"public override void CopyIn{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                     {
                         foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                         {
@@ -401,7 +404,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                         using (var args = new ArgsWrapper(fg,
-                            $"CopyIn_{ModuleNickname}_Internal"))
+                            $"CopyIn{ModuleNickname}_Internal"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             args.Add($"errorMask: errorMaskBuilder");
@@ -492,7 +495,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
                         wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes())))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
@@ -510,7 +513,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
+                            $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -529,7 +532,7 @@ namespace Loqui.Generation
 
                 fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
-                    $"public static {await this.ObjectReturn(obj, maskReturn: true)} Create_{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                    $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
                 {
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
@@ -548,7 +551,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"var ret = {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
+                        $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
                     {
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -576,7 +579,7 @@ namespace Loqui.Generation
                 if (GenerateMainCreate(obj))
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}"))
+                        $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}"))
                     {
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
                             new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
@@ -598,7 +601,7 @@ namespace Loqui.Generation
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
+                            $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
                             wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes())))
                         {
                             foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
@@ -618,7 +621,7 @@ namespace Loqui.Generation
                             minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                             {
                                 using (var args = new ArgsWrapper(fg,
-                                    $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
+                                    $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
                                 {
                                     foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
                                     {
@@ -635,7 +638,7 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: true)} Create_{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
@@ -654,7 +657,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}{errorLabel}"))
+                                $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}{errorLabel}"))
                             using (new DepthWrapper(fg))
                             {
                                 foreach (var item in this.MainAPI.WrapAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
@@ -675,7 +678,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} Create_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
                         wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
                     {
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
@@ -694,7 +697,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.InConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"return {Utility.Await(asyncImport)}Create_{ModuleNickname}"))
+                                $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
                             using (new DepthWrapper(fg))
                             {
                                 foreach (var item in this.MainAPI.WrapFinalAccessors(obj, TranslationModuleAPI.Direction.Reader, accessor))
@@ -855,7 +858,7 @@ namespace Loqui.Generation
         private async Task GenerateWriteMixIn(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
+                $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                 wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
             {
                 args.Add($"this {obj.Interface(getter: true)} item");
@@ -917,7 +920,7 @@ namespace Loqui.Generation
             {
                 if (!minorAPI.When?.Invoke(obj) ?? false) continue;
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
                 {
                     args.Add($"this {obj.Interface(getter: true)} item");
@@ -936,7 +939,7 @@ namespace Loqui.Generation
                     minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"Write_{ModuleNickname}"))
+                            $"{WriteToPrefix}{ModuleNickname}"))
                         using (new DepthWrapper(fg))
                         {
                             args.Add("item: item");
@@ -958,7 +961,7 @@ namespace Loqui.Generation
                 if (obj.IsTopClass)
                 {
                     using (var args = new FunctionWrapper(fg,
-                    $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
                     {
                         args.Add($"this {obj.Interface(getter: true)} item");
@@ -977,7 +980,7 @@ namespace Loqui.Generation
                         minorAPI.Funnel.OutConverter(obj, fg, (accessor) =>
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
+                                $"{WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
                             using (new DepthWrapper(fg))
                             {
                                 args.Add("item: item");
@@ -1000,7 +1003,7 @@ namespace Loqui.Generation
             if (obj.IsTopClass)
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
                 {
                     args.Add($"this {obj.Interface(getter: true)} item");
@@ -1056,7 +1059,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
                     wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
                 {
                     args.Add($"this {obj.Interface(getter: true)} item");
@@ -1099,7 +1102,7 @@ namespace Loqui.Generation
                 {
                     if (!minorAPI.When?.Invoke(obj) ?? false) continue;
                     using (var args = new FunctionWrapper(fg,
-                        $"public static void Write_{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}",
+                        $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}",
                         wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal))))
                     {
                         args.Add($"this {obj.Interface(getter: true)} item");
