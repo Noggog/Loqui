@@ -66,5 +66,7 @@ namespace Loqui.Generation
         public const string ENUM_NAME = "enumName";
         public const string THIS_CTOR = "thisCtor";
         public const string IS_CLASS = "isClass";
+        public const string GETTER_VARIANCE = "getterVariance";
+        public const string SETTER_VARIANCE = "setterVariance";
     }
 }

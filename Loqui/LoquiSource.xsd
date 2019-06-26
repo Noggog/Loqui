@@ -111,6 +111,14 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="Variance" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="In" />
+      <xs:enumeration value="Out" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="DisabledLevel" final="restriction" >
     <xs:restriction base="xs:string">
       <xs:enumeration value="Enabled" />
@@ -650,6 +658,20 @@
       <xs:annotation>
         <xs:documentation>
           Whether to require object to be a class
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="getterVariance" type="Variance" >
+      <xs:annotation>
+        <xs:documentation>
+          Variance on the getter interface
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="setterVariance" type="Variance" >
+      <xs:annotation>
+        <xs:documentation>
+          Variance on the setter interface
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

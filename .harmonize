@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>d2a4fc9c37dc10a79d9eef3ff98f2e1c044ccaad</Sha>
+         <Sha>ef2473c1a98741e3d6e558f92d25ff550dfda4f4</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>06-16-2019 02:01:03</CommitDate>
-         <Description>MemorySlice debugger step through</Description>
+         <CommitDate>06-25-2019 21:05:34</CommitDate>
+         <Description>TryGetAttribute enum improvements.  Tests</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>cf7da29e7a13829f638210d1ce6c58c30de4dd86</Sha>
+         <Sha>88349576612d32f9bb24293a0c14936d4a5e1638</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>04-20-2019 16:23:13</CommitDate>
-         <Description>Nuget updates</Description>
+         <CommitDate>06-23-2019 18:15:12</CommitDate>
+         <Description>IReadOnlyCache</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>

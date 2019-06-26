@@ -168,21 +168,8 @@ namespace Loqui.Generation
 
             foreach (var genNode in Node.Elements(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace)))
             {
-                var generic = new GenericDefinition()
-                {
-                    Loqui = genNode.GetAttribute<bool>("isLoqui", defaultVal: false)
-                };
-                generic.Name = genNode.GetAttribute(Constants.NAME);
-                generic.MustBeClass = genNode.GetAttribute<bool>(Constants.IS_CLASS);
-                var baseClass = genNode.Element(XName.Get(Constants.BASE_CLASS, LoquiGenerator.Namespace));
-                if (baseClass != null)
-                {
-                    generic.Add(baseClass.Value);
-                }
-                foreach (var where in genNode.Elements(XName.Get(Constants.WHERE, LoquiGenerator.Namespace)))
-                {
-                    generic.Add(where.Value);
-                }
+                var generic = new GenericDefinition();
+                generic.Load(genNode);
                 this.Generics[generic.Name] = generic;
             }
 
@@ -459,8 +446,13 @@ namespace Loqui.Generation
 
         protected virtual async Task GenerateSetterInterface(FileGeneration fg)
         {
+            var interfaceLine = Interface(
+                genericTypes: GenerateGenericClause(Generics.Select((g) => g.Value.SetterName)),
+                getter: false,
+                internalInterface: false);
+
             // Interface
-            using (var args = new ClassWrapper(fg, this.Interface(internalInterface: false)))
+            using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
@@ -519,8 +511,13 @@ namespace Loqui.Generation
 
         protected virtual async Task GenerateGetterInterface(FileGeneration fg)
         {
+            var interfaceLine = Interface(
+                genericTypes: GenerateGenericClause(Generics.Select((g) => g.Value.GetterName)),
+                getter: true,
+                internalInterface: false); 
+
             // Getter
-            using (var args = new ClassWrapper(fg, this.Interface(getter: true, internalInterface: false)))
+            using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
