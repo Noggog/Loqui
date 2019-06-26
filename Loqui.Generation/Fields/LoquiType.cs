@@ -294,7 +294,7 @@ namespace Loqui.Generation
                             $"public void {this.Name}_Set"))
                         {
                             args.Add($"{this.TypeName} value");
-                            args.Add($"bool markSet = true");
+                            args.Add($"bool hasBeenSet = true");
                         }
                         using (new BraceWrapper(fg))
                         {
@@ -302,7 +302,7 @@ namespace Loqui.Generation
                             {
                                 fg.AppendLine($"if (value == null) value = new {this.TypeName}({(this.ThisConstruction ? "this" : null)});");
                             }
-                            fg.AppendLine($"this.RaiseAndSetIfReferenceChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                            fg.AppendLine($"this.RaiseAndSetIfReferenceChanged(ref _{this.Name}, value, _hasBeenSetTracker, hasBeenSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                         }
 
                         using (var args = new FunctionWrapper(fg,
@@ -773,7 +773,7 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"{accessor.DirectAccess}_Set"))
                 {
-                    args.Add($"item: default({this.TypeName})");
+                    args.Add($"value: default({this.TypeName})");
                     args.Add($"hasBeenSet: false");
                 }
             }
@@ -1059,6 +1059,11 @@ namespace Loqui.Generation
 
         public IEnumerable<string> GetGenericTypesEnumerable(bool getter, params MaskType[] additionalMasks)
         {
+            return GetGenericTypesEnumerable(getter: getter, typeOverride: null, additionalMasks: additionalMasks);
+        }
+
+        public IEnumerable<string> GetGenericTypesEnumerable(bool getter, LoquiInterfaceType? typeOverride, MaskType[] additionalMasks)
+        {
             if (this.GenericSpecification == null) return null;
             if (this.TargetObjectGeneration.Generics.Count == 0) return null;
             List<string> ret = new List<string>();
@@ -1076,7 +1081,7 @@ namespace Loqui.Generation
                             switch (mType)
                             {
                                 case MaskType.Normal:
-                                    ret.Add(targetObjGen.GetTypeName(getter ? this.GetterInterfaceType : this.SetterInterfaceType));
+                                    ret.Add(targetObjGen.GetTypeName(typeOverride ?? (getter ? this.GetterInterfaceType : this.SetterInterfaceType)));
                                     break;
                                 case MaskType.Error:
                                     ret.Add(targetObjGen.Mask(MaskType.Error));
@@ -1108,7 +1113,12 @@ namespace Loqui.Generation
 
         public string GetGenericTypes(bool getter, params MaskType[] additionalMasks)
         {
-            var e = GetGenericTypesEnumerable(getter, additionalMasks);
+            return GetGenericTypes(getter: getter, typeOverride: null, additionalMasks: additionalMasks);
+        }
+
+        public string GetGenericTypes(bool getter, LoquiInterfaceType? typeOverride, MaskType[] additionalMasks)
+        {
+            var e = GetGenericTypesEnumerable(getter, typeOverride, additionalMasks);
             if (e == null) return null;
             return $"<{string.Join(", ", e)}>";
         }

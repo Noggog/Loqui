@@ -170,7 +170,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        return $"IReadOnlyDictionary<{this.TypeTuple}>";
+                        return $"IReadOnlyCache<{this.BackwardsTypeTuple}>";
                     }
                 }
             }
@@ -357,7 +357,7 @@ namespace Loqui.Generation
         public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
+                $"{retAccessor} = EqualsMaskHelper.CacheEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
                 args.Add($"rhs: {rhsAccessor}");

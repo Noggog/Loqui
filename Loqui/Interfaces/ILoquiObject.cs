@@ -13,7 +13,7 @@ namespace Loqui
         object CommonInstance { get; }
     }
 
-    public interface ILoquiObject<T> : ILoquiObjectGetter, IEqualsMask<T>
+    public interface ILoquiObject<out T> : ILoquiObjectGetter
     {
     }
 
@@ -23,18 +23,22 @@ namespace Loqui
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
-    public interface ILoquiObjectGetter : ILoquiObject
+    public interface ILoquiObjectGetter : ILoquiObject, IEqualsMask
     {
         void ToString(FileGeneration fg, string name);
-        IMask<bool> GetHasBeenSetMask();
+        IMask<bool> GetHasBeenSetIMask();
     }
 
-    public interface IEqualsMask<T>
+    public interface IEqualsMask
     {
-        IMask<bool> GetEqualsMask(T rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
+        IMask<bool> GetEqualsIMask(object rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
+    {
+    }
+
+    public interface ILoquiObjectSetter<T> : ILoquiObjectSetter, ILoquiObject<T>
     {
     }
 
@@ -43,13 +47,6 @@ namespace Loqui
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index);
         void SetNthObject(ushort index, object o);
-    }
-
-    public interface ILoquiClass<TItem, TSetter, TGetter> : ILoquiObjectSetter, IEqualsMask<TGetter>
-        where TItem : class, TSetter
-        where TSetter : class, TGetter
-        where TGetter : class
-    {
     }
 
     public static class ILoquiObjectExt

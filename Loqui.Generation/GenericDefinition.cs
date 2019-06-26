@@ -96,10 +96,6 @@ namespace Loqui.Generation
             {
                 yield return item;
             }
-            if (Loqui)
-            {
-                yield return $"ILoquiObject<{Name}>";
-            }
         }
 
         public GenericDefinition Copy()

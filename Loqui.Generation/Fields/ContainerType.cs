@@ -41,7 +41,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("List had no elements.");
             }
-            
+
             if (node.Elements().Any())
             {
                 var typeGen = await ObjectGen.LoadField(
@@ -130,12 +130,20 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            string maskGetter = isLoquiSingle ? "(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs, include)" : $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
+            string funcStr;
+            if (this.SubTypeGeneration is LoquiType loqui)
+            {
+                funcStr = $"(loqLhs, loqRhs) => loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsIMask) : "GetEqualsMask")}(loqRhs, include)";
+            }
+            else
+            {
+                funcStr = $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
+            }
             using (var args = new ArgsWrapper(fg,
                 $"ret.{this.Name} = item.{this.Name}.CollectionEqualsHelper"))
             {
                 args.Add($"rhs.{this.Name}");
-                args.Add(maskGetter);
+                args.Add(funcStr);
                 args.Add($"include");
             }
         }

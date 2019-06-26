@@ -195,7 +195,7 @@ namespace Loqui.Generation
             {
                 LoquiType loqui = this.SubTypeGeneration as LoquiType;
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName}, {this.SubGetterTypeName}>"))
+                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName}, {this.SubTypeGeneration.TypeName}>"))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
@@ -328,7 +328,8 @@ namespace Loqui.Generation
         {
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.GetHasBeenSetMask())));");
+                string maskGetter = loqui.TargetObjectGeneration == null ? nameof(ILoquiObjectGetter.GetHasBeenSetIMask) : "GetHasBeenSetMask";
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.{maskGetter}())));");
             }
             else
             {

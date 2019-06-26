@@ -277,8 +277,8 @@ namespace Loqui
 
         #region Dict
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> DictEqualsHelper<K, T, M>(
-            this IObservableSetCache<T, K> lhs,
-            IObservableSetCache<T, K> rhs,
+            this IReadOnlySetCache<T, K> lhs,
+            IReadOnlySetCache<T, K> rhs,
             Func<K, T, T, M> maskGetter,
             Include include)
             where M : IMask<bool>
@@ -336,8 +336,8 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> DictEqualsHelper<K, T>(
-            this IObservableSetCache<T, K> lhs,
-            IObservableSetCache<T, K> rhs,
+            this IReadOnlySetCache<T, K> lhs,
+            IReadOnlySetCache<T, K> rhs,
             Func<K, T, T, bool> maskGetter,
             Include include)
         {
@@ -397,7 +397,7 @@ namespace Loqui
             where M : IMask<bool>
         {
             var masks = lhs.SelectAgainst<K, T, MaskItemIndexed<K, bool, M>>(
-                rhs, 
+                rhs,
                 (k, l, r) =>
                 {
                     MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k);
@@ -441,7 +441,93 @@ namespace Loqui
             Include include)
         {
             var masks = lhs.SelectAgainst<K, T, bool>(
-                rhs, 
+                rhs,
+                (k, l, r) =>
+                {
+                    return maskGetter(k, l, r);
+                },
+                out var countEqual)
+                .Where(i => include == Include.All || !i.Value)
+                .ToArray();
+            var overall = countEqual;
+            if (overall)
+            {
+                switch (include)
+                {
+                    case Include.All:
+                        overall = masks.All((b) => b.Value);
+                        break;
+                    case Include.OnlyFailures:
+                        overall = !masks.Any();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            if (!overall || include == Include.All)
+            {
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>()
+                {
+                    Overall = overall,
+                    Specific = masks
+                };
+            }
+            return null;
+        }
+
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> CacheEqualsHelper<K, T, M>(
+            this IReadOnlyCache<T, K> lhs,
+            IReadOnlyCache<T, K> rhs,
+            Func<K, T, T, M> maskGetter,
+            Include include)
+            where M : IMask<bool>
+        {
+            var masks = lhs.SelectAgainst<K, T, MaskItemIndexed<K, bool, M>>(
+                rhs,
+                (k, l, r) =>
+                {
+                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k);
+                    EqualsHelper(itemRet, l, r, maskGetter, include);
+                    return itemRet;
+                },
+                out var countEqual)
+                .Select(kv => kv.Value)
+                .Where(i => include == Include.All || !i.Overall)
+                .ToArray();
+            var overall = countEqual;
+            if (overall)
+            {
+                switch (include)
+                {
+                    case Include.All:
+                        overall = masks.All((b) => b.Overall);
+                        break;
+                    case Include.OnlyFailures:
+                        overall = !masks.Any();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            if (!overall || include == Include.All)
+            {
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>()
+                {
+                    Overall = overall,
+                    Specific = masks
+                };
+            }
+            return null;
+        }
+
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> CacheEqualsHelper<K, T>(
+            this IReadOnlyCache<T, K> lhs,
+            IReadOnlyCache<T, K> rhs,
+            Func<K, T, T, bool> maskGetter,
+            Include include)
+        {
+            var masks = lhs.SelectAgainst<K, T, bool>(
+                rhs,
                 (k, l, r) =>
                 {
                     return maskGetter(k, l, r);

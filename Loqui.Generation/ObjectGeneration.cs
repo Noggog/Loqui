@@ -338,6 +338,21 @@ namespace Loqui.Generation
                     wheres.Add("class");
                 }
                 wheres.AddRange(gen.Value.GetWheres(type));
+                if (gen.Value.Loqui && gen.Value.BaseObjectGeneration == null)
+                {
+                    switch (type)
+                    {
+                        case LoquiInterfaceType.IGetter:
+                            wheres.Add($"{nameof(ILoquiObject)}<{gen.Key}>");
+                            break;
+                        case LoquiInterfaceType.Direct:
+                        case LoquiInterfaceType.ISetter:
+                            wheres.Add($"{nameof(ILoquiObjectSetter)}<{gen.Key}>");
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
                 if (wheres.Count > 0)
                 {
                     yield return $"where {gen.Key} : {string.Join(", ", wheres)}";
@@ -461,7 +476,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
                 }
-                args.Interfaces.Add($"ILoquiClass<{this.ObjectName}, {this.Interface()}, {this.Interface(getter: true)}>");
+                args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface()}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
             }
@@ -478,10 +493,10 @@ namespace Loqui.Generation
                     SemiColon = true
                 })
                 {
-                    args.Add($"{this.Interface(getter: true)} rhs");
+                    args.Add($"{this.ObjectName} rhs");
                     args.Add($"ErrorMaskBuilder errorMask = null");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                    args.Add($"{this.Interface(getter: true)} def = null");
+                    args.Add($"{this.ObjectName} def = null");
                 }
             }
             fg.AppendLine();
@@ -522,6 +537,7 @@ namespace Loqui.Generation
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
+                args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
             }
@@ -1100,14 +1116,14 @@ namespace Loqui.Generation
                 $"public{this.FunctionOverride()}void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}",
                 this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
-                args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).Interface(getter: true)} rhs");
+                args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).ObjectName} rhs");
             }
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
                     $"this.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
                 {
-                    args.Add($"rhs: ({this.Interface(getter: true)})rhs");
+                    args.Add($"rhs: rhs");
                     args.Add("def: null");
                     args.Add("doMasks: false");
                     args.Add($"errorMask: out var errMask");
@@ -1924,8 +1940,7 @@ namespace Loqui.Generation
 
         private void GenerateGetEqualsMaskInterfaceImplementor(FileGeneration fg)
         {
-            fg.AppendLine($"IMask<bool> IEqualsMask<{this.ObjectName}>.GetEqualsMask({this.ObjectName} rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(rhs, include);");
-            fg.AppendLine($"IMask<bool> IEqualsMask<{this.Interface(getter: true)}>.GetEqualsMask({this.Interface(getter: true)} rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(rhs, include);");
+            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true)})rhs, include);");
         }
 
         protected virtual async Task GenerateGetEqualsMaskMixIn(FileGeneration fg)
@@ -2247,7 +2262,7 @@ namespace Loqui.Generation
 
         private void GenerateGetHasBeenSetMask(FileGeneration fg)
         {
-            fg.AppendLine($"IMask<bool> ILoquiObjectGetter.GetHasBeenSetMask() => this.GetHasBeenSetMask();");
+            fg.AppendLine($"IMask<bool> {nameof(ILoquiObjectGetter)}.{nameof(ILoquiObjectGetter.GetHasBeenSetIMask)}() => this.GetHasBeenSetMask();");
         }
 
         private async Task GenerateModules(FileGeneration fg)
@@ -2297,7 +2312,7 @@ namespace Loqui.Generation
                 wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -2315,9 +2330,9 @@ namespace Loqui.Generation
                 $"public static {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}",
                 wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.ObjectName} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -2354,9 +2369,9 @@ namespace Loqui.Generation
                 $"public static {this.ObjectName} Copy_ToLoqui{GenerateGenericClause(GenericTypes_Nickname(MaskType.Copy))}",
                 wheres: this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy)))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.ObjectName} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
+                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {

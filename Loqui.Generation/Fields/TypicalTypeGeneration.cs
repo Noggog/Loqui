@@ -369,7 +369,7 @@ namespace Loqui.Generation
                     if (this.HasBeenSet)
                     {
                         fg.AppendLine($"new bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; set; }}");
-                        fg.AppendLine($"void {this.Name}_Set({this.TypeName} item, bool hasBeenSet = true);");
+                        fg.AppendLine($"void {this.Name}_Set({this.TypeName} value, bool hasBeenSet = true);");
                         fg.AppendLine($"void {this.Name}_Unset();");
                     }
                 }
