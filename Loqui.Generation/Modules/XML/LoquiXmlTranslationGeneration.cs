@@ -32,13 +32,13 @@ namespace Loqui.Generation
             string line;
             if (loquiGen.TargetObjectGeneration != null)
             {
-                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)}{loquiGen.GenericTypes(getter: true)})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
+                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
             }
             else
             {
-                line = $"(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember}";
+                line = $"(({this.XmlMod.TranslationWriteInterface})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
             }
-            using (var args = new ArgsWrapper(fg, $"{line}.Write"))
+            using (var args = new ArgsWrapper(fg, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
             {
                 args.Add($"item: {itemAccessor.DirectAccess}");
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");

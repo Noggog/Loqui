@@ -1,4 +1,4 @@
-﻿using Loqui.Internal;
+using Loqui.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,9 +15,9 @@ namespace Loqui.Xml
             TranslationCrystal translationMask,
             string name);
     }
-
+    
     public interface IXmlItem
     {
-        IXmlWriteTranslator XmlWriteTranslator { get; }
+        object XmlWriteTranslator { get; }
     }
 }
