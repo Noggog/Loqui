@@ -45,6 +45,10 @@ namespace Loqui
 
         Type SetterType { get; }
 
+        Type InternalGetterType { get; }
+
+        Type InternalSetterType { get; }
+
         Type CommonType { get; }
 
         string FullName { get; }

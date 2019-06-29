@@ -725,7 +725,9 @@ namespace Loqui.Generation
                         fg.AppendLine($"Type ILoquiRegistration.ErrorMaskType => ErrorMaskType;");
                         fg.AppendLine($"Type ILoquiRegistration.ClassType => ClassType;");
                         fg.AppendLine($"Type ILoquiRegistration.SetterType => SetterType;");
+                        fg.AppendLine($"Type ILoquiRegistration.InternalSetterType => InternalSetterType;");
                         fg.AppendLine($"Type ILoquiRegistration.GetterType => GetterType;");
+                        fg.AppendLine($"Type ILoquiRegistration.InternalGetterType => InternalGetterType;");
                         fg.AppendLine($"Type ILoquiRegistration.CommonType => CommonType;");
                         fg.AppendLine($"string ILoquiRegistration.FullName => FullName;");
                         fg.AppendLine($"string ILoquiRegistration.Name => Name;");

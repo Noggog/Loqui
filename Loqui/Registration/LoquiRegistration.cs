@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using Loqui.Internal;
 using System;
 using System.Collections.Generic;
@@ -131,6 +131,14 @@ namespace Loqui
             TypeRegister.Add(reg.ClassType, reg);
             TypeRegister.Add(reg.SetterType, reg);
             TypeRegister.Add(reg.GetterType, reg);
+            if (reg.InternalGetterType != null)
+            {
+                TypeRegister.Add(reg.InternalGetterType, reg);
+            }
+            if (reg.InternalSetterType != null)
+            {
+                TypeRegister.Add(reg.InternalSetterType, reg);
+            }
             if (reg.GenericRegistrationType != null
                 && !reg.GenericRegistrationType.Equals(reg.GetType()))
             {
