@@ -82,6 +82,7 @@ namespace Loqui.Generation
         public string ProtocolDefinitionName => $"{this.ProtoGen.ProtocolDefinitionName}";
         public string CommonClassName => $"{Name}Common";
         public string CommonClass => this.CommonClassName;
+        public string CommonClassInstance(Accessor accessor) => $"(({this.CommonClass}){accessor}.CommonInstance)";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
@@ -455,6 +456,15 @@ namespace Loqui.Generation
                     await GenerateToStringMixIn(fg);
                     await GenerateHasBeenSetMixIn(fg);
                     await GenerateGetHasBeenSetMaskMixIn(fg);
+
+                    // Modules might add some content
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        using (new RegionWrapper(fg, mod.RegionString))
+                        {
+                            await mod.GenerateInCommonMixin(this, fg);
+                        }
+                    }
                 }
             }
         }
@@ -815,7 +825,7 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, mod.RegionString))
                         {
-                            await mod.GenerateInCommonExt(this, fg);
+                            await mod.GenerateInCommon(this, fg);
                         }
                     }
                 }
@@ -835,7 +845,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"return (({this.CommonClass})item.CommonInstance).ToString"))
+                    $"return {this.CommonClassInstance("item")}.ToString"))
                 {
                     args.Add("item: item");
                     args.Add("name: name");
@@ -856,7 +866,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"(({this.CommonClass})item.CommonInstance).ToString"))
+                    $"{this.CommonClassInstance("item")}.ToString"))
                 {
                     args.Add("item: item");
                     args.Add("fg: fg");
@@ -981,7 +991,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"return (({this.CommonClass})item.CommonInstance).HasBeenSet"))
+                    $"return {this.CommonClassInstance("item")}.HasBeenSet"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("checkMask");
@@ -1035,7 +1045,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"(({this.CommonClass})item.CommonInstance).FillHasBeenSetMask"))
+                    $"{this.CommonClassInstance("item")}.FillHasBeenSetMask"))
                 {
                     args.AddPassArg("item");
                     args.Add("mask: ret");
@@ -1957,7 +1967,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"return (({this.CommonClass})item.CommonInstance).GetEqualsMask"))
+                    $"return {this.CommonClassInstance("item")}.GetEqualsMask"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("rhs");
@@ -1980,7 +1990,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"(({this.CommonClass})item.CommonInstance).FillEqualsMask"))
+                    $"{this.CommonClassInstance("item")}.FillEqualsMask"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("rhs");
@@ -2418,7 +2428,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"(({this.CommonClass})item.CommonInstance).Clear"))
+                    $"{this.CommonClassInstance("item")}.Clear"))
                 {
                     args.AddPassArg("item");
                 }

@@ -71,7 +71,7 @@ namespace Loqui.Generation
                     }));
         }
 
-        public Task GenerateInCommonExt(ObjectGeneration obj, FileGeneration fg)
+        public Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg)
         {
             return Task.WhenAll(
                 this.subModules.Select(
@@ -79,7 +79,23 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInCommonExt(obj, fg)
+                            await subGen.GenerateInCommon(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
+                        }
+                    }));
+        }
+
+        public Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    async (subGen) =>
+                    {
+                        using (new RegionWrapper(fg, subGen.RegionString))
+                        {
+                            await subGen.GenerateInCommonMixin(obj, fg)
                                 .TimeoutButContinue(
                                     TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
