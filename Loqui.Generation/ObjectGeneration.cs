@@ -1955,6 +1955,14 @@ namespace Loqui.Generation
             fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true)})rhs, include);");
         }
 
+        public void GenerateGetterInterfaceImplementations(FileGeneration fg)
+        {
+            fg.AppendLine($"void {nameof(ILoquiObjectGetter)}.ToString(FileGeneration fg, string name) => this.ToString(fg, name);");
+            fg.AppendLine($"IMask<bool> {nameof(ILoquiObjectGetter)}.GetHasBeenSetIMask() => this.GetHasBeenSetMask();");
+            GenerateGetEqualsMaskInterfaceImplementor(fg);
+            fg.AppendLine();
+        }
+
         protected virtual async Task GenerateGetEqualsMaskMixIn(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg, $"public static {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}",
