@@ -471,7 +471,7 @@ namespace Loqui.Generation
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
-                args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
+                args.Interfaces.Add(this.Interface(getter: true));
                 if (this.HasLoquiBaseObject)
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));

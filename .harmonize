@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>ef2473c1a98741e3d6e558f92d25ff550dfda4f4</Sha>
+         <Sha>0164ede0ed8629ed18372c237ec34342ae18d9d1</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>06-25-2019 21:05:34</CommitDate>
-         <Description>TryGetAttribute enum improvements.  Tests</Description>
+         <CommitDate>06-29-2019 21:58:00</CommitDate>
+         <Description>Some has been set covariance</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
