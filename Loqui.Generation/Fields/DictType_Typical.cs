@@ -12,7 +12,6 @@ namespace Loqui.Generation
         protected bool ValueIsLoqui;
         public TypeGeneration KeyTypeGen;
         TypeGeneration IDictType.KeyTypeGen => this.KeyTypeGen;
-        public string KeyTypeName => KeyTypeGen.TypeName;
         protected bool KeyIsLoqui;
         public DictMode Mode => DictMode.KeyValue;
         public bool BothAreLoqui => KeyIsLoqui && ValueIsLoqui;
@@ -36,11 +35,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override string TypeName => $"NotifyingDictionary<{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}>";
+        public override string TypeName(bool getter) => $"NotifyingDictionary<{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}>";
 
-        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
-
-        public string GetterTypeName => (this.ValueIsLoqui ? $"I{TypeName}Getter" : TypeName);
+        public string TypeTuple(bool getter) => $"{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}";
 
         public override async Task Load(XElement node, bool requireName = true)
         {
@@ -141,7 +138,7 @@ namespace Loqui.Generation
         {
             if (this.ValueTypeGen is WildcardType wild)
             {
-                fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple}> _{this.Name} = new NotifyingDictionary<{TypeTuple}>(");
+                fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple(getter: false)}> _{this.Name} = new NotifyingDictionary<{TypeTuple(getter: false)}>(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine("valConv: (o) => WildcardLink.Validate(o));");
@@ -149,18 +146,18 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple}> _{this.Name} = new NotifyingDictionary<{TypeTuple}>();");
+                fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple(getter: false)}> _{this.Name} = new NotifyingDictionary<{TypeTuple(getter: false)}>();");
             }
-            fg.AppendLine($"public INotifyingDictionary<{TypeTuple}> {this.Name} {{ get {{ return _{this.Name}; }} }}");
+            fg.AppendLine($"public INotifyingDictionary<{TypeTuple(getter: false)}> {this.Name} {{ get {{ return _{this.Name}; }} }}");
 
             var member = "_" + this.Name;
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple(getter: false)}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
             }
         }
 
@@ -168,13 +165,13 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple}> {this.Name} {{ get; }}");
+                fg.AppendLine($"INotifyingDictionaryGetter<{this.TypeTuple(getter: false)}> {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple}> {this.Name} {{ get; }}");
+                    fg.AppendLine($"new INotifyingDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple(getter: false)}> {this.Name} {{ get; }}");
                 }
             }
         }
@@ -221,7 +218,7 @@ namespace Loqui.Generation
                     {
                         if (this.KeyIsLoqui)
                         {
-                            gen.AppendLine($"{this.KeyTypeGen.TypeName} key;");
+                            gen.AppendLine($"{this.KeyTypeGen.TypeName(getter: false)} key;");
                             gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
                             using (new BraceWrapper(gen))
                             {
@@ -246,7 +243,7 @@ namespace Loqui.Generation
                         }
                         if (this.ValueIsLoqui)
                         {
-                            gen.AppendLine($"{this.ValueTypeGen.TypeName} val;");
+                            gen.AppendLine($"{this.ValueTypeGen.TypeName(getter: false)} val;");
                             gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
                             using (new BraceWrapper(gen))
                             {
@@ -270,7 +267,7 @@ namespace Loqui.Generation
                             }
                         }
 
-                        gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>({(this.KeyIsLoqui ? "key" : "k")}, {(this.ValueIsLoqui ? "val" : "v")});");
+                        gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName(getter: false)}, {this.ValueTypeGen.TypeName(getter: false)}>({(this.KeyIsLoqui ? "key" : "k")}, {(this.ValueIsLoqui ? "val" : "v")});");
                     }
                 });
             }
@@ -284,7 +281,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"{rhsAccessorPrefix}.{this.Name}.Select(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
+                    fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName(getter: false)}, {this.ValueTypeGen.TypeName(getter: false)}>(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"i.Key{(this.KeyIsLoqui ? ".CopyFieldsFrom()" : string.Empty) },");
@@ -302,7 +299,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"({rhsAccessorPrefix}).Select(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName}, {this.ValueTypeGen.TypeName}>(");
+                    fg.AppendLine($"(i) => new KeyValuePair<{this.KeyTypeGen.TypeName(getter: false)}, {this.ValueTypeGen.TypeName(getter: false)}>(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"i.Key{(this.KeyIsLoqui ? ".Copy()" : string.Empty) },");
@@ -370,7 +367,7 @@ namespace Loqui.Generation
 
         public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
         {
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}();");
             LoquiType keyLoqui = KeyTypeGen as LoquiType;
             LoquiType valLoqui = ValueTypeGen as LoquiType;
             if (keyLoqui != null
@@ -379,7 +376,7 @@ namespace Loqui.Generation
                 var keyMaskStr = $"MaskItem<bool, {keyLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
                 var valMaskStr = $"MaskItem<bool, {valLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
                 var maskStr = $"KeyValuePair<{keyMaskStr}, {valMaskStr}>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
@@ -395,7 +392,7 @@ namespace Loqui.Generation
             {
                 var keyMaskStr = $"MaskItem<bool, {keyLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
                 var maskStr = $"KeyValuePair<{keyMaskStr}, bool>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{keyMaskStr} keyItemRet;");
@@ -410,7 +407,7 @@ namespace Loqui.Generation
             {
                 var valMaskStr = $"MaskItem<bool, {valLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
                 var maskStr = $"KeyValuePair<bool, {valMaskStr}>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"bool keyItemRet = object.Equals(l.Key, r.Key);");
@@ -423,14 +420,14 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple}>, KeyValuePair<bool, bool>>({rhsAccessor}, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out {retAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, KeyValuePair<bool, bool>>({rhsAccessor}, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out {retAccessor}.Overall);");
                 fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Key && b.Value);");
             }
         }
 
         public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
         {
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}();");
             fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 
@@ -478,7 +475,7 @@ namespace Loqui.Generation
             LoquiType valLoqui = this.ValueTypeGen as LoquiType;
             if (keyLoqui != null && valLoqui != null)
             {
-                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}(");
+                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, MaskItem<bool, {valLoqui.GetMaskString("bool")}>>(");
@@ -491,7 +488,7 @@ namespace Loqui.Generation
             }
             else if (keyLoqui != null)
             {
-                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}(");
+                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, bool>(");
@@ -504,7 +501,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}(");
+                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
                     fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<bool, MaskItem<bool, {valLoqui.GetMaskString("bool")}>>(");

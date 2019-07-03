@@ -12,10 +12,10 @@ namespace Loqui.Generation
 {
     public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
     {
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             var loquiGen = typeGen as LoquiType;
-            return $"LoquiXmlTranslation<{loquiGen.TypeName}>.Instance";
+            return $"LoquiXmlTranslation<{loquiGen.TypeName(getter)}>.Instance";
         }
 
         public override void GenerateWrite(

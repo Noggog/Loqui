@@ -7,28 +7,12 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName => $"SourceSetList<{this.ItemTypeName}>";
+        public override string TypeName(bool getter) => $"SourceSetList<{this.ItemTypeName(getter)}>";
         public override bool CopyNeedsTryCatch => true;
-        public override string SetToName => $"IEnumerable<{this.ItemTypeName}>";
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
         public int? MaxValue;
-
-        public string SubGetterTypeName
-        {
-            get
-            {
-                if (this.SubTypeGeneration is LoquiType loqui)
-                {
-                    return loqui.GetTypeName(getter: true);
-                }
-                else
-                {
-                    return this.SubTypeGeneration.TypeName;
-                }
-            }
-        }
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
@@ -44,10 +28,10 @@ namespace Loqui.Generation
 
         public string ListInterface(bool getter)
         {
-            string itemTypeName = this.ItemTypeName;
+            string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SingleTypeGen is LoquiType loqui)
             {
-                itemTypeName = loqui.GetTypeName(getter: getter);
+                itemTypeName = loqui.TypeName(getter: getter);
             }
             if (this.ReadOnly || getter)
             {
@@ -106,14 +90,14 @@ namespace Loqui.Generation
             if (MaxValue.HasValue)
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly ISource{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}> _{this.Name} = new SourceBounded{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}>(max: {MaxValue});");
+                fg.AppendLine($"private readonly ISource{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}> _{this.Name} = new SourceBounded{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}>(max: {MaxValue});");
             }
             else
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}> _{this.Name} = new Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName}>();");
+                fg.AppendLine($"private readonly Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}> _{this.Name} = new Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}>();");
             }
-            fg.AppendLine($"public {(this.ReadOnly ? $"IObservable{(this.HasBeenSet ? "Set" : null)}List" : $"ISource{(this.HasBeenSet ? "Set" : null)}List")}<{ItemTypeName}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"public {(this.ReadOnly ? $"IObservable{(this.HasBeenSet ? "Set" : null)}List" : $"ISource{(this.HasBeenSet ? "Set" : null)}List")}<{ItemTypeName(getter: false)}> {this.Name} => _{this.Name};");
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
@@ -195,7 +179,7 @@ namespace Loqui.Generation
             {
                 LoquiType loqui = this.SubTypeGeneration as LoquiType;
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName}, {this.SubTypeGeneration.TypeName}>"))
+                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
                     args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
@@ -212,7 +196,7 @@ namespace Loqui.Generation
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
                                 using (new DepthWrapper(gen))
                                 {
-                                    gen.AppendLine($"return ({loqui.TypeName})r;");
+                                    gen.AppendLine($"return ({loqui.TypeName()})r;");
                                 }
                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
                                 using (new DepthWrapper(gen))

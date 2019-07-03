@@ -5,7 +5,7 @@ namespace Loqui.Generation
 {
     public class UDoubleType : TypicalDoubleNumberTypeGeneration
     {
-        public override Type Type => typeof(UDouble);
+        public override Type Type(bool getter) => typeof(UDouble);
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {

@@ -29,7 +29,7 @@ namespace Loqui.Generation
                 List<string> lines = new List<string>();
                 foreach (var field in this.IterateFields())
                 {
-                    lines.Add($"{field.TypeName} {field.Name} = default({field.TypeName})");
+                    lines.Add($"{field.TypeName(getter: false)} {field.Name} = default({field.TypeName(getter: false)})");
                 }
                 for (int i = 0; i < lines.Count; i++)
                 {

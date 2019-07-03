@@ -10,7 +10,7 @@ namespace Loqui.Generation
     public class ByteArrayType : ClassType
     {
         public int? Length;
-        public override Type Type => typeof(byte[]);
+        public override Type Type(bool getter) => typeof(byte[]);
         public override bool IsEnumerable => true;
         public override bool IsReference => true;
 

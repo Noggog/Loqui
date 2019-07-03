@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -71,27 +71,27 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                        fg.AppendLine($"protected {base.TypeName} _{this.Name};");
+                        fg.AppendLine($"protected {base.TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{ this.Name};");
                             fg.AppendLine($"{SetPermissionStr}set => {this.Name}_Set(value);");
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                     else
                     {
-                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
+                        fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     }
 
                     using (var args = new FunctionWrapper(fg,
                         $"public void {this.Name}_Set"))
                     {
-                        args.Add($"{this.TypeName} value");
+                        args.Add($"{this.TypeName(getter: false)} value");
                         args.Add($"bool markSet = true");
                     }
                     using (new BraceWrapper(fg))
@@ -105,13 +105,13 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")}, false);");
+                        fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")}, false);");
                     }
                 }
                 else
                 {
-                    fg.AppendLine($"private {base.TypeName} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
-                    fg.AppendLine($"public {base.TypeName} {this.Name}");
+                    fg.AppendLine($"private {base.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"public {base.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");
@@ -147,37 +147,37 @@ namespace Loqui.Generation
                     {
                         if (this.RaisePropertyChanged)
                         {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName}> _{this.Name};");
+                            fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
                         }
                         else
                         {
                             GenerateNotifyingCtor(fg);
                         }
-                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{ this.Name}.Item;");
                             fg.AppendLine($"{SetPermissionStr}set => this._{this.Name}.Set(value);");
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
                     }
                     else
                     {
-                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
+                        fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                     }
                 }
                 else
                 {
-                    fg.AppendLine($"private {base.TypeName} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
-                    fg.AppendLine($"public {base.TypeName} {this.Name}");
+                    fg.AppendLine($"private {base.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"public {base.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");

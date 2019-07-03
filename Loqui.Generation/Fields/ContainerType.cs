@@ -17,21 +17,16 @@ namespace Loqui.Generation
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
 
-        public virtual string ItemTypeName
+        public virtual string ItemTypeName(bool getter)
         {
-            get
+            if (singleType)
             {
-                if (singleType)
-                {
-                    return SingleTypeGen.TypeName;
-                }
-                throw new NotImplementedException();
+                return SingleTypeGen.TypeName(getter);
             }
+            throw new NotImplementedException();
         }
 
         public TypeGeneration SubTypeGeneration => SingleTypeGen;
-
-        public string GetterTypeName => (this.isLoquiSingle ? LoquiTypeSingleton.TypeName : ItemTypeName);
 
         public override async Task Load(XElement node, bool requireName = true)
         {

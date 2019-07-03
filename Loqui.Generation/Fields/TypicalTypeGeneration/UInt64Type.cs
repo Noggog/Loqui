@@ -4,6 +4,6 @@ namespace Loqui.Generation
 {
     public class UInt64Type : TypicalWholeNumberTypeGeneration
     {
-        public override Type Type => typeof(UInt64);
+        public override Type Type(bool getter) => typeof(UInt64);
     }
 }

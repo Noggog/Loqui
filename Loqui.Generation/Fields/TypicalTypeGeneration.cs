@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,8 @@ namespace Loqui.Generation
 {
     public abstract class TypicalTypeGeneration : TypeGeneration
     {
-        public abstract Type Type { get; }
-        public override string TypeName => Type.GetName();
+        public abstract Type Type(bool getter);
+        public override string TypeName(bool getter) => Type(getter).GetName();
         public string DefaultValue;
         public override bool HasDefault => !string.IsNullOrWhiteSpace(DefaultValue);
         public override string ProtectedProperty => "_" + this.Name;
@@ -116,30 +116,30 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                        fg.AppendLine($"private {TypeName} _{this.Name};");
+                        fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                         if (HasDefault)
                         {
-                            fg.AppendLine($"public readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
+                            fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name};");
                             fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set(value);");
                         }
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                     else
                     {
-                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
 
                     using (var args = new FunctionWrapper(fg,
                         $"public void {this.Name}_Set"))
                     {
-                        args.Add($"{this.TypeName} value");
+                        args.Add($"{this.TypeName(getter: false)} value");
                         args.Add($"bool markSet = true");
                     }
                     using (new BraceWrapper(fg))
@@ -157,17 +157,17 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")}, false);");
+                        fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")}, false);");
                     }
                 }
                 else
                 {
-                    fg.AppendLine($"private {TypeName} _{this.Name};");
+                    fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                     if (HasDefault)
                     {
-                        fg.AppendLine($"public readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
+                        fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
-                    fg.AppendLine($"public {TypeName} {this.Name}");
+                    fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{this.Name};");
@@ -185,19 +185,19 @@ namespace Loqui.Generation
                     {
                         if (this.RaisePropertyChanged)
                         {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName}> _{this.Name};");
+                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
                         }
                         else
                         {
                             GenerateNotifyingCtor(fg);
                         }
-                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
+                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
                         if (HasDefault)
                         {
-                            fg.AppendLine($"public readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
+                            fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName} {this.Name}");
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name}.Item;");
@@ -205,24 +205,24 @@ namespace Loqui.Generation
                                 linePrefix: $"{SetPermissionStr}set",
                                 toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set(value);"));
                         }
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                     }
                     else
                     {
-                        fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                        fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                        fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                     }
                 }
                 else
                 {
                     if (HasDefault)
                     {
-                        fg.AppendLine($"public readonly static {TypeName} _{this.Name}_Default = {this.DefaultValue};");
+                        fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
                     if (this.RaisePropertyChanged)
                     {
-                        fg.AppendLine($"private {TypeName} _{this.Name};");
-                        fg.AppendLine($"public {TypeName} {this.Name}");
+                        fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
+                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name};");
@@ -237,7 +237,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"public {TypeName} {this.Name} {{ get; {SetPermissionStr}set; }}");
+                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {SetPermissionStr}set; }}");
                     }
                 }
             }
@@ -250,14 +250,14 @@ namespace Loqui.Generation
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
-                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName})")};");
+                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")};");
                 }
             }
             if (this.HasInternalInterface)
             {
                 if (this.InternalSetInterface)
                 {
-                    fg.AppendLine($"{TypeName} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
+                    fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this.{this.Name};");
@@ -266,7 +266,7 @@ namespace Loqui.Generation
                 }
                 if (this.InternalGetInterface)
                 {
-                    fg.AppendLine($"{TypeName} {this.ObjectGen.Interface(getter: true, internalInterface: true)}.{this.Name}");
+                    fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: true)}.{this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this.{this.Name};");
@@ -286,7 +286,7 @@ namespace Loqui.Generation
             {
                 throw new NotImplementedException();
             }
-            return $"protected I{item}<{TypeName}> _{this.Name}";
+            return $"protected I{item}<{TypeName(getter: false)}> _{this.Name}";
         }
 
         protected void GenerateNotifyingCtor(FileGeneration fg)
@@ -323,7 +323,7 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
             using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {item}.Factory<{TypeName}>"))
+                $"{prepend} = {item}.Factory<{TypeName(getter: false)}>"))
             {
                 foreach (var arg in GenerateNotifyingConstructionParameters())
                 {
@@ -342,7 +342,7 @@ namespace Loqui.Generation
             if (getter)
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
-                fg.AppendLine($"{TypeName} {this.Name} {{ get; }}");
+                fg.AppendLine($"{TypeName(getter: true)} {this.Name} {{ get; }}");
                 if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
                     if (this.HasBeenSet)
@@ -354,7 +354,7 @@ namespace Loqui.Generation
                 {
                     if (this.HasBeenSet)
                     {
-                        fg.AppendLine($"IHasBeenSetItemGetter<{TypeName}> {this.Property} {{ get; }}");
+                        fg.AppendLine($"IHasBeenSetItemGetter<{TypeName(getter: false)}> {this.Property} {{ get; }}");
                     }
                 }
                 fg.AppendLine();
@@ -362,14 +362,14 @@ namespace Loqui.Generation
             else
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
-                fg.AppendLine($"new {TypeName} {this.Name} {{ get; set; }}");
+                fg.AppendLine($"new {TypeName(getter: false)} {this.Name} {{ get; set; }}");
 
                 if (this.NotifyingType == NotifyingType.ReactiveUI)
                 {
                     if (this.HasBeenSet)
                     {
                         fg.AppendLine($"new bool {this.HasBeenSetAccessor(new Accessor(this.Name))} {{ get; set; }}");
-                        fg.AppendLine($"void {this.Name}_Set({this.TypeName} value, bool hasBeenSet = true);");
+                        fg.AppendLine($"void {this.Name}_Set({this.TypeName(getter: false)} value, bool hasBeenSet = true);");
                         fg.AppendLine($"void {this.Name}_Unset();");
                     }
                 }
@@ -377,7 +377,7 @@ namespace Loqui.Generation
                 {
                     if (this.HasBeenSet)
                     {
-                        fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName}> {this.Property} {{ get; }}");
+                        fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName(getter: false)}> {this.Property} {{ get; }}");
                     }
                 }
                 fg.AppendLine();
@@ -426,7 +426,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
                         args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
-                        args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name} ?? default({this.TypeName})");
+                        args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name} ?? default({this.TypeName(getter: false)})");
                         args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}?."))} ?? false");
                         args.Add($"outRhsItem: out var rhs{this.Name}Item");
                         args.Add($"outDefItem: out var def{this.Name}Item");
@@ -500,7 +500,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default({this.TypeName})")};");
+                    fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default({this.TypeName(getter: false)})")};");
                 }
                 return;
             }
@@ -510,7 +510,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default({this.TypeName})")};");
+                fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default({this.TypeName(getter: false)})")};");
             }
         }
 

@@ -30,7 +30,7 @@ namespace Loqui.Generation
 
         public override string Property => subGenerator.Property;
         public override string ProtectedName => subGenerator.ProtectedName;
-        public override string TypeName => subGenerator.TypeName;
+        public override string TypeName(bool getter) => subGenerator.TypeName(getter);
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;

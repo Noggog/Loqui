@@ -8,7 +8,7 @@ namespace Loqui.Generation
 {
     public class P3DoubleNullType : P3DoubleType
     {
-        public override string TypeName => $"{base.TypeName}?";
+        public override string TypeName(bool getter) => $"{base.TypeName(getter)}?";
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {

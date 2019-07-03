@@ -12,7 +12,7 @@ namespace Loqui.Generation
     {
         public virtual string TranslatorName => $"ListXmlTranslation";
 
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             var list = typeGen as ListType;
             if (!XmlMod.TryGetTypeGeneration(list.SubTypeGeneration.GetType(), out var subTransl))
@@ -21,7 +21,7 @@ namespace Loqui.Generation
             }
 
             var subMaskStr = subTransl.MaskModule.GetMaskModule(list.SubTypeGeneration.GetType()).GetErrorMaskTypeStr(list.SubTypeGeneration);
-            return $"{TranslatorName}<{list.SubTypeGeneration.TypeName}, {subMaskStr}>.Instance";
+            return $"{TranslatorName}<{list.SubTypeGeneration.TypeName(getter)}, {subMaskStr}>.Instance";
         }
 
         public override void GenerateWrite(
@@ -41,7 +41,7 @@ namespace Loqui.Generation
             }
             
             using (var args = new ArgsWrapper(fg,
-                $"{TranslatorName}<{list.SubGetterTypeName}>.Instance.Write"))
+                $"{TranslatorName}<{list.SubTypeGeneration.TypeName(getter: true)}>.Instance.Write"))
             {
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -58,7 +58,7 @@ namespace Loqui.Generation
                 args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: (XElement subNode, {list.SubGetterTypeName} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
+                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName(getter: true)} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
@@ -151,7 +151,7 @@ namespace Loqui.Generation
                 {
                     using (var args = new FunctionWrapper(
                         fg,
-                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName}>.Instance.Parse"))
+                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false)}>.Instance.Parse"))
                     {
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");
@@ -159,7 +159,7 @@ namespace Loqui.Generation
                         {
                             args.Add((gen) =>
                             {
-                                gen.AppendLine($"transl: (XElement subNode, out {list.SubTypeGeneration.TypeName} listSubItem, ErrorMaskBuilder listErrMask, TranslationCrystal listTranslMask) =>");
+                                gen.AppendLine($"transl: (XElement subNode, out {list.SubTypeGeneration.TypeName(getter: false)} listSubItem, ErrorMaskBuilder listErrMask, TranslationCrystal listTranslMask) =>");
                                 using (new BraceWrapper(gen))
                                 {
                                     subTransl.GenerateCopyInRet(
@@ -176,7 +176,7 @@ namespace Loqui.Generation
                         }
                         else
                         {
-                            args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration)}.Parse");
+                            args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration, getter: false)}.Parse");
                         }
                         args.Add("errorMask: errorMask");
                         args.Add($"translationMask: {translationMaskAccessor})");

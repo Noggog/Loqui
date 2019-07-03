@@ -12,10 +12,10 @@ namespace Loqui.Generation
     {
         public virtual string TranslatorName => "DictXmlTranslation";
 
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             var dictType = typeGen as DictType;
-            return $"{TranslatorName}<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance";
+            return $"{TranslatorName}<{dictType.KeyTypeGen.TypeName(getter)}, {dictType.ValueTypeGen.TypeName(getter)}>.Instance";
         }
 
         public override void GenerateWrite(
@@ -43,7 +43,7 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new ArgsWrapper(fg,
-                        $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
+                        $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                     {
                         args.Add($"writer: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
@@ -60,7 +60,7 @@ namespace Loqui.Generation
                         args.Add($"translationMask: {translationMaskAccessor}");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictSubTranslMask) =>");
+                            gen.AppendLine($"keyTransl: ({dictType.KeyTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictSubTranslMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 keyTransl.GenerateWrite(
@@ -76,7 +76,7 @@ namespace Loqui.Generation
                         });
                         args.Add((gen) =>
                         {
-                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictSubTranslMask) =>");
+                            gen.AppendLine($"valTransl: ({dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictSubTranslMask) =>");
                             using (new BraceWrapper(gen))
                             {
                                 valTransl.GenerateWrite(
@@ -99,7 +99,7 @@ namespace Loqui.Generation
                         {
                             using (var args = new ArgsWrapper(
                                 fg,
-                                $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Write"))
+                                $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                             {
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                                 args.Add($"name: {nameAccessor}");
@@ -108,7 +108,7 @@ namespace Loqui.Generation
                                 args.Add("errorMask: errorMask");
                                 args.Add((gen) =>
                                 {
-                                    gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictTranslMask) =>");
+                                    gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictTranslMask) =>");
                                     using (new BraceWrapper(gen))
                                     {
                                         valTransl.GenerateWrite(
@@ -166,9 +166,9 @@ namespace Loqui.Generation
             TypeGeneration keyTypeGen = dictType.KeyTypeGen;
             if (keyTypeGen == null)
             {
-                if (!this.XmlMod.Gen.TryGetTypeGeneration(dictType.KeyTypeGen.TypeName, out keyTypeGen))
+                if (!this.XmlMod.Gen.TryGetTypeGeneration(dictType.KeyTypeGen.TypeName(getter: false), out keyTypeGen))
                 {
-                    throw new ArgumentException($"Could not find dictionary key type for {dictType.KeyTypeGen.TypeName}");
+                    throw new ArgumentException($"Could not find dictionary key type for {dictType.KeyTypeGen.TypeName(getter: false)}");
                 }
             }
 
@@ -192,10 +192,10 @@ namespace Loqui.Generation
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    funcStr = $"{prefix}DictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Parse{(ret ? null : "Into")}";
+                    funcStr = $"{prefix}DictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: false)}, {dictType.ValueTypeGen.TypeName(getter: false)}>.Instance.Parse{(ret ? null : "Into")}";
                     break;
                 case DictMode.KeyedValue:
-                    funcStr = $"{prefix}KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName}, {dictType.ValueTypeGen.TypeName}>.Instance.Parse{(ret ? null : "Into")}";
+                    funcStr = $"{prefix}KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: false)}, {dictType.ValueTypeGen.TypeName(getter: false)}>.Instance.Parse{(ret ? null : "Into")}";
                     break;
                 default:
                     throw new NotImplementedException();
@@ -260,7 +260,7 @@ namespace Loqui.Generation
                         //});
                         break;
                     case DictMode.KeyedValue:
-                        args.Add($"valTransl: {valSubTransl.GetTranslatorInstance(dictType.ValueTypeGen)}.Parse");
+                        args.Add($"valTransl: {valSubTransl.GetTranslatorInstance(dictType.ValueTypeGen, getter: false)}.Parse");
                         break;
                     default:
                         throw new ArgumentException();

@@ -11,8 +11,7 @@ namespace Loqui.Generation
         public ObjectGeneration ObjectGen { get; private set; }
         public ProtocolGeneration ProtoGen => ObjectGen.ProtoGen;
         public bool KeyField { get; protected set; }
-        public abstract string TypeName { get; }
-        public virtual string SetToName => TypeName;
+        public abstract string TypeName(bool getter);
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
@@ -180,7 +179,7 @@ namespace Loqui.Generation
         public virtual void GenerateGetNthType(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"return typeof({this.TypeName});");
+            fg.AppendLine($"return typeof({this.TypeName(getter: false)});");
         }
 
         public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);

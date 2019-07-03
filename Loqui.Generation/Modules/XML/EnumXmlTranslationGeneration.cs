@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             var eType = typeGen as EnumType;
             return $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance";

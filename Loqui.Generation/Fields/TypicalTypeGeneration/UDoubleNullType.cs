@@ -5,6 +5,6 @@ namespace Loqui.Generation
 {
     public class UDoubleNullType : TypicalDoubleNumberTypeGeneration
     {
-        public override Type Type => typeof(UDouble?);
+        public override Type Type(bool getter) => typeof(UDouble?);
     }
 }

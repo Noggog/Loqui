@@ -5,6 +5,6 @@ namespace Loqui.Generation
 {
     public class PercentNullType : DoubleType
     {
-        public override Type Type => typeof(Percent?);
+        public override Type Type(bool getter) => typeof(Percent?);
     }
 }

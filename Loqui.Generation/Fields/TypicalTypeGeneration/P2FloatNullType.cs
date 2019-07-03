@@ -8,7 +8,7 @@ namespace Loqui.Generation
 {
     public class P2FloatNullType : P2FloatType
     {
-        public override string TypeName => $"{base.TypeName}?";
+        public override string TypeName(bool getter) => $"{base.TypeName(getter)}?";
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {

@@ -38,7 +38,7 @@ namespace Loqui.Generation
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor);
 
-        public abstract string GetTranslatorInstance(TypeGeneration typeGen);
+        public abstract string GetTranslatorInstance(TypeGeneration typeGen, bool getter);
 
         public abstract void GenerateCopyInRet(
             FileGeneration fg,

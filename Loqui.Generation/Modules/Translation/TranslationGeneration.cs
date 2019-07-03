@@ -84,7 +84,7 @@ namespace Loqui.Generation
                         }
                         else if (param.AsyncMode == AsyncMode.Off)
                         {
-                            args.Add($"item: out {param.TypeGen.TypeName} {param.TypeGen.Name}Parse");
+                            args.Add($"item: out {param.TypeGen.TypeName(getter: false)} {param.TypeGen.Name}Parse");
                         }
                         if (!param.SkipErrorMask)
                         {
@@ -121,7 +121,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = default({param.TypeGen.TypeName});");
+                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = default({param.TypeGen.TypeName(getter: false)});");
                             }
                         }
                     }

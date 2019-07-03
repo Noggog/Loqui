@@ -5,6 +5,6 @@ namespace Loqui.Generation
 {
     public class RangeDoubleNullType : RangeDoubleType
     {
-        public override Type Type => typeof(RangeDouble?);
+        public override Type Type(bool getter) => typeof(RangeDouble?);
     }
 }

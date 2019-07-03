@@ -24,12 +24,10 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName => $"SourceSetCache<{BackwardsTypeTuple}>";
+        public override string TypeName(bool getter) => $"SourceSetCache<{BackwardsTypeTuple(getter)}>";
 
-        public string TypeTuple => $"{KeyTypeGen.TypeName}, {ValueTypeGen.TypeName}";
-        public string BackwardsTypeTuple => $"{ValueTypeGen.TypeName}, {KeyTypeGen.TypeName}";
-
-        public string GetterTypeName => this.ValueTypeGen.TypeName;
+        public string TypeTuple(bool getter) => $"{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}";
+        public string BackwardsTypeTuple(bool getter) => $"{ValueTypeGen.TypeName(getter)}, {KeyTypeGen.TypeName(getter)}";
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
@@ -155,11 +153,11 @@ namespace Loqui.Generation
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"IObservableSetCache<{this.BackwardsTypeTuple}>";
+                        return $"IObservableSetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                     else
                     {
-                        return $"IObservableCache<{this.BackwardsTypeTuple}>";
+                        return $"IObservableCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                 }
                 else
@@ -170,7 +168,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        return $"IReadOnlyCache<{this.BackwardsTypeTuple}>";
+                        return $"IReadOnlyCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                 }
             }
@@ -180,11 +178,11 @@ namespace Loqui.Generation
                 {
                     if (this.HasBeenSet)
                     {
-                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                     else
                     {
-                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                        return $"ISourceCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                 }
                 else
@@ -193,11 +191,11 @@ namespace Loqui.Generation
                     // Implement non notifying ICache in CSharpExt
                     if (this.HasBeenSet)
                     {
-                        return $"ISourceSetCache<{this.BackwardsTypeTuple}>";
+                        return $"ISourceSetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                     else
                     {
-                        return $"ISourceCache<{this.BackwardsTypeTuple}>";
+                        return $"ISourceCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                 }
             }
@@ -205,8 +203,8 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public ISourceSetCache<{BackwardsTypeTuple}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple(getter: false)}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString});");
+            fg.AppendLine($"public ISourceSetCache<{BackwardsTypeTuple(getter: false)}> {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
@@ -278,7 +276,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{accessorPrefix}.{this.GetName(protectedUse)}.SetTo"))
             {
-                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}.{this.GetName(false)}).Select((i) => i.Copy())");
+                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName(getter: true)}>){rhsAccessorPrefix}.{this.GetName(false)}).Select((i) => i.Copy())");
             }
         }
 
@@ -287,7 +285,7 @@ namespace Loqui.Generation
             using (var args = new ArgsWrapper(fg,
                 $"{accessorPrefix}.{this.Name}.SetTo"))
             {
-                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName}>){rhsAccessorPrefix}");
+                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName(getter: true)}>){rhsAccessorPrefix}");
             }
             fg.AppendLine("break;");
         }
@@ -368,7 +366,7 @@ namespace Loqui.Generation
 
         public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
         {
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}();");
             fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 
@@ -410,7 +408,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()

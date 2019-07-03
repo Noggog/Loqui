@@ -11,7 +11,7 @@ namespace Loqui.Generation
     {
         public string ErrMaskString = "object";
 
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             return $"WildcardXmlTranslation.Instance";
         }
@@ -58,7 +58,7 @@ namespace Loqui.Generation
             string prefix = typeGen.PrefersProperty ? null : $"{itemAccessor.DirectAccess} = ";
             using (var args = new ArgsWrapper(fg,
                 $"{prefix}WildcardXmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}",
-                suffixLine: $".Bubble<{typeGen.TypeName}>(i => ({typeGen.TypeName})i){(typeGen.PrefersProperty ? null : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
+                suffixLine: $".Bubble<{typeGen.TypeName(getter: true)}>(i => ({typeGen.TypeName(getter: true)})i){(typeGen.PrefersProperty ? null : $".GetOrDefault({itemAccessor.DirectAccess})")}"))
             {
                 args.Add($"root: {nodeAccessor}");
                 if (typeGen.HasIndex)

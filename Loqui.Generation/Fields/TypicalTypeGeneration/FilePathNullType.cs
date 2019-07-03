@@ -9,6 +9,6 @@ namespace Loqui.Generation
 {
     public class FilePathNullType : StringType
     {
-        public override Type Type => typeof(FilePath?);
+        public override Type Type(bool getter) => typeof(FilePath?);
     }
 }

@@ -11,7 +11,7 @@ namespace Loqui.Generation
         public bool RangeThrowException;
         public bool HasRange;
 
-        public virtual string RangeTypeName => $"Range{this.TypeName.TrimEnd("?")}";
+        public virtual string RangeTypeName(bool getter) => $"Range{this.TypeName(getter).TrimEnd("?")}";
         public string RangeMemberName => $"{this.Name}_Range";
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -43,33 +43,33 @@ namespace Loqui.Generation
                 {
                     if (this.RaisePropertyChanged)
                     {
-                        fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName}> _{this.Name};");
+                        fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
                     }
                     else
                     {
                         GenerateNotifyingCtor(fg);
                     }
-                    fg.AppendLine($"public IHasBeenSetItem<{this.TypeName}> {this.Property} => _{this.Name};");
-                    fg.AppendLine($"public {this.TypeName} {this.Name}");
+                    fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
+                    fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{ this.Name}.Item;");
                         fg.AppendLine($"{SetPermission}set => this._{this.Name}.Set(value{InRangeCheckerString});");
                     }
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
+                    fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
                 }
                 else
                 {
-                    fg.AppendLine($"public readonly {this.TypeName} {this.Name};");
-                    fg.AppendLine($"{this.TypeName} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                    fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                    fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                    fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                 }
             }
             else
             {
-                fg.AppendLine($"private {base.TypeName} _{this.Name};");
-                fg.AppendLine($"public {base.TypeName} {this.Name}");
+                fg.AppendLine($"private {base.TypeName(getter: false)} _{this.Name};");
+                fg.AppendLine($"public {base.TypeName(getter: false)} {this.Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => _{this.Name};");
@@ -87,7 +87,7 @@ namespace Loqui.Generation
 
             if (this.HasRange)
             {
-                fg.AppendLine($"public static {this.RangeTypeName} {RangeMemberName} = new {this.RangeTypeName}({Min}, {Max});");
+                fg.AppendLine($"public static {this.RangeTypeName(getter: false)} {RangeMemberName} = new {this.RangeTypeName(getter: false)}({Min}, {Max});");
             }
         }
     }

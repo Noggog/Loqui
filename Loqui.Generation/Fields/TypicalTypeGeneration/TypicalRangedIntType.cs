@@ -11,7 +11,7 @@ namespace Loqui.Generation
     {
         string defaultFrom, defaultTo;
         
-        public override Type Type => typeof(T);
+        public override Type Type(bool getter) => typeof(T);
 
         public override async Task Load(XElement node, bool requireName = true)
         {
@@ -29,6 +29,6 @@ namespace Loqui.Generation
             defaultTo = split[1];
         }
 
-        protected override string GenerateDefaultValue() => $"new {Type.GetName().TrimEnd("?")}({this.defaultFrom}, {this.defaultTo})";
+        protected override string GenerateDefaultValue() => $"new {Type(getter: false).GetName().TrimEnd("?")}({this.defaultFrom}, {this.defaultTo})";
     }
 }

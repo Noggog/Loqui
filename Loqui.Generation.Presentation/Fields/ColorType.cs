@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class ColorType : PrimitiveType
     {
-        public override Type Type => typeof(Color);
+        public override Type Type(bool getter) => typeof(Color);
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {

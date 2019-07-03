@@ -34,7 +34,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override string GetTranslatorInstance(TypeGeneration typeGen)
+        public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
             return $"{this.TypeName}XmlTranslation.Instance";
         }

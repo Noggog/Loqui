@@ -25,7 +25,7 @@ namespace Loqui.Generation
             foreach (var field in obj.IterateFields())
             {
                 if (!ShouldBeCentralized(field, forNotification: forNotification)) continue;
-                containedTypes.TryCreateValue(field.TypeName).Add(field);
+                containedTypes.TryCreateValue(field.TypeName(getter: false)).Add(field);
             }
             return containedTypes;
         }
@@ -149,7 +149,7 @@ namespace Loqui.Generation
         {
             return obj.IterateFields().Any(
                     (f) => f.ObjectCentralized
-                            && f.TypeName.Equals(type));
+                            && f.TypeName(getter: false).Equals(type));
         }
 
         private static bool ParentHasImplementation(ObjectGeneration obj, string type)

@@ -9,9 +9,9 @@ namespace Loqui.Generation
 {
     public class P3IntType : PrimitiveType
     {
-        public override Type Type => typeof(P3Int);
+        public override Type Type(bool getter) => typeof(P3Int);
 
-        protected override string GenerateDefaultValue() => $"new {TypeName}({DefaultValue})";
+        protected override string GenerateDefaultValue() => $"new {TypeName(getter: false)}({DefaultValue})";
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {

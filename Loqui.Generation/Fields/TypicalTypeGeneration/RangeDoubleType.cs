@@ -9,7 +9,7 @@ namespace Loqui.Generation
     {
         string defaultFrom, defaultTo;
 
-        public override Type Type => typeof(RangeDouble);
+        public override Type Type(bool getter) => typeof(RangeDouble);
 
         public override async Task Load(XElement node, bool requireName = true)
         {

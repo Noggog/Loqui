@@ -1544,7 +1544,7 @@ namespace Loqui.Generation
                             field.GenerateSetNth(
                                 fg,
                                 accessorPrefix: $"this",
-                                rhsAccessorPrefix: $"({field.SetToName})obj",
+                                rhsAccessorPrefix: $"({field.TypeName(getter: false)})obj",
                                 internalUse: false);
                         }
                     }
@@ -2554,7 +2554,7 @@ namespace Loqui.Generation
                             field.GenerateSetNth(
                                 fg,
                                 accessorPrefix: $"obj",
-                                rhsAccessorPrefix: $"({field.SetToName})pair.Value",
+                                rhsAccessorPrefix: $"({field.TypeName(getter: false)})pair.Value",
                                 internalUse: true);
                         }
                     }

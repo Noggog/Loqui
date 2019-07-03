@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("var tmpGameSettings = await Group<GameSetting>.Create_Binar"))
+            if (str.Contains("Byte[] IModHeaderGetter.TypeOffsets => this.TypeOffsets;"))
             {
                 int wer = 23;
                 wer++;

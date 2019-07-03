@@ -4,12 +4,12 @@ namespace Loqui.Generation
 {
     public class DictMaskFieldGeneration : MaskModuleField
     {
-        public static string GetMaskString(IDictType dictType, string typeStr)
+        public static string GetMaskString(IDictType dictType, string typeStr, bool getter)
         {
-            return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr)}>>";
+            return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr, getter)}>>";
         }
 
-        public static string GetSubMaskString(IDictType dictType, string typeStr)
+        public static string GetSubMaskString(IDictType dictType, string typeStr, bool getter)
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
@@ -23,7 +23,7 @@ namespace Loqui.Generation
                     itemStr = $"KeyValuePair<{keyStr}, {valueStr}>";
                     break;
                 case DictMode.KeyedValue:
-                    itemStr = $"{(valueLoquiType == null ? $"({dictType.KeyTypeGen.TypeName} Key, {typeStr} Value)" : $"MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, {typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
+                    itemStr = $"{(valueLoquiType == null ? $"({dictType.KeyTypeGen.TypeName(getter)} Key, {typeStr} Value)" : $"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter)}, {typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
                     break;
                 default:
                     throw new NotImplementedException();
@@ -82,7 +82,7 @@ namespace Loqui.Generation
 
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
-            fg.AppendLine($"public {GetMaskString(field as IDictType, typeStr)} {field.Name};");
+            fg.AppendLine($"public {GetMaskString(field as IDictType, typeStr, getter: false)} {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
@@ -284,12 +284,12 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({field.Name} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(dictType, "R")}();");
+                fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(dictType, "R", getter: false)}();");
                 fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
                 fg.AppendLine($"if ({field.Name}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"List<{GetSubMaskString(dictType, "R")}> l = new List<{GetSubMaskString(dictType, "R")}>();");
+                    fg.AppendLine($"List<{GetSubMaskString(dictType, "R", getter: false)}> l = new List<{GetSubMaskString(dictType, "R", getter: false)}>();");
                     fg.AppendLine($"{retAccessor}.Specific = l;");
                     fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
                     using (new BraceWrapper(fg))
@@ -315,11 +315,11 @@ namespace Loqui.Generation
                                 {
                                     fg.AppendLine($"R valVal = eval(item.Value);");
                                 }
-                                fg.AppendLine($"l.Add(new {GetSubMaskString(dictType, "R")}(keyVal, valVal));");
+                                fg.AppendLine($"l.Add(new {GetSubMaskString(dictType, "R", getter: false)}(keyVal, valVal));");
                                 break;
                             case DictMode.KeyedValue:
                                 var loquiType = dictType.ValueTypeGen as LoquiType;
-                                fg.AppendLine($"MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItemIndexed<{dictType.KeyTypeGen.TypeName}, R, {loquiType.GenerateMaskString("R")}>);");
+                                fg.AppendLine($"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}>);");
                                 fg.AppendLine("throw new NotImplementedException();");
                                 //var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
                                 //fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item", true);
@@ -367,7 +367,7 @@ namespace Loqui.Generation
 
         public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, typeStr)}({valueStr}, null);");
+            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as IDictType, typeStr, getter: false)}({valueStr}, null);");
         }
 
         public override string GetErrorMaskTypeStr(TypeGeneration field)
