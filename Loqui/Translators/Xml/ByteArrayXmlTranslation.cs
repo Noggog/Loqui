@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loqui.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace Loqui.Xml
         public readonly static ByteArrayXmlTranslation Instance = new ByteArrayXmlTranslation();
 
         protected override string GetItemStr(byte[] item)
+        {
+            return item.ToHexString();
+        }
+
+        protected virtual string GetItemStr(ReadOnlySpan<byte> item)
         {
             return item.ToHexString();
         }
@@ -53,6 +59,47 @@ namespace Loqui.Xml
             {
                 throw new ArgumentException("Malformed byte: " + str.Substring(i, 2));
             }
+        }
+
+        public void Write(
+            XElement node,
+            string name,
+            ReadOnlySpan<byte> item,
+            int fieldIndex,
+            ErrorMaskBuilder errorMask)
+        {
+            using (errorMask?.PushIndex(fieldIndex))
+            {
+                try
+                {
+                    this.Write(
+                        node: node,
+                        name: name,
+                        item: item);
+                }
+                catch (Exception ex)
+                when (errorMask != null)
+                {
+                    errorMask.ReportException(ex);
+                }
+            }
+        }
+
+        protected virtual void WriteValue(XElement node, string name, ReadOnlySpan<byte> item)
+        {
+            node.SetAttributeValue(
+                XmlConstants.VALUE_ATTRIBUTE,
+                item != null ? GetItemStr(item) : string.Empty);
+        }
+
+        private void Write(
+            XElement node,
+            string name,
+            ReadOnlySpan<byte> item)
+        {
+            var elem = new XElement(name);
+            node.Add(elem);
+            WriteValue(elem, name, item);
         }
     }
 }

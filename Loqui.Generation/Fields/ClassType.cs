@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -136,6 +136,10 @@ namespace Loqui.Generation
                                 }
                             }
                         }
+                    }
+                    if (this.TypeName(getter: true) != this.TypeName(getter: false))
+                    {
+                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                 }
             }
