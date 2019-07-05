@@ -566,10 +566,10 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
+            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

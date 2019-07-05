@@ -58,7 +58,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
         }
 

@@ -97,12 +97,6 @@ namespace Loqui.Generation
                 args.Interfaces.Add($"IEqualsMask");
             }
         }
-
-        protected override void GenerateEqualsCode(FileGeneration fg)
-        {
-            fg.AppendLine($"if (!(obj is {this.ObjectName} rhs)) return false;");
-            fg.AppendLine("return Equals(rhs);");
-        }
         
         protected override async Task GenerateCtor(FileGeneration fg)
         {

@@ -158,7 +158,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor);
 
-        public abstract void GenerateForHash(FileGeneration fg, string hashResultAccessor);
+        public abstract void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor);
 
         public virtual void GenerateForInterfaceExt(FileGeneration fg) { }
 

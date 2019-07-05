@@ -370,9 +370,9 @@ namespace Loqui.Generation
             fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 
-        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
-            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({this.Name}).CombineHashCode({hashResultAccessor});");
+            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

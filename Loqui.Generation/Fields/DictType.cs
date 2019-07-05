@@ -147,9 +147,9 @@ namespace Loqui.Generation
             subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
         }
 
-        public override void GenerateForHash(FileGeneration fg, string hashResultAccessor)
+        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
-            subGenerator.GenerateForHash(fg, hashResultAccessor);
+            subGenerator.GenerateForHash(fg, accessor, hashResultAccessor);
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

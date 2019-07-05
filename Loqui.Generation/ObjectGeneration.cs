@@ -456,6 +456,7 @@ namespace Loqui.Generation
                     await GenerateToStringMixIn(fg);
                     await GenerateHasBeenSetMixIn(fg);
                     await GenerateGetHasBeenSetMaskMixIn(fg);
+                    await GenerateEqualsMixIn(fg);
 
                     // Modules might add some content
                     foreach (var mod in this.gen.GenerationModules)
@@ -539,7 +540,7 @@ namespace Loqui.Generation
             var interfaceLine = Interface(
                 genericTypes: GenerateGenericClause(Generics.Select((g) => g.Value.GetterName)),
                 getter: true,
-                internalInterface: false); 
+                internalInterface: false);
 
             // Getter
             using (var args = new ClassWrapper(fg, interfaceLine))
@@ -813,6 +814,8 @@ namespace Loqui.Generation
                     GenerateHasBeenSetMaskGetter(fg);
 
                     GenerateFieldIndexConverters(fg, this);
+
+                    GenerateEqualsCommon(fg);
 
                     // Fields might add some content
                     foreach (var field in this.IterateFields())
@@ -2143,8 +2146,6 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        protected abstract void GenerateEqualsCode(FileGeneration fg);
-
         private void GenerateEqualsSection(FileGeneration fg)
         {
             // Generate equals and hash
@@ -2155,91 +2156,180 @@ namespace Loqui.Generation
                     fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        GenerateEqualsCode(fg);
+                        fg.AppendLine($"if (!(obj is {this.Interface(getter: true)} rhs)) return false;");
+                        fg.AppendLine($"return {this.CommonClassInstance("this")}.Equals(this, rhs);");
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals({this.ObjectName} rhs)");
+                    fg.AppendLine($"public bool Equals({this.ObjectName} obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("if (rhs == null) return false;");
-                        if (this.HasLoquiBaseObject)
+                        fg.AppendLine($"return {this.CommonClassInstance("this")}.Equals(this, obj);");
+                    }
+                    fg.AppendLine();
+
+                    fg.AppendLine($"public override int GetHashCode() => {this.CommonClassInstance("this")}.GetHashCode(this);");
+                    fg.AppendLine();
+                }
+            }
+        }
+
+        private async Task GenerateEqualsMixIn(FileGeneration fg)
+        {
+            using (var args = new FunctionWrapper(fg,
+                $"public static bool Equals{this.GetGenericTypes(MaskType.Normal)}",
+                GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
+            {
+                args.Add($"this {this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true)} rhs");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"return {this.CommonClassInstance("item")}.Equals"))
+                {
+                    args.Add("lhs: item");
+                    args.Add("rhs: rhs");
+                }
+            }
+            fg.AppendLine();
+        }
+
+        private void GenerateEqualsCommon(FileGeneration fg)
+        {
+            using (new RegionWrapper(fg, "Equals and Hash"))
+            {
+                using (var args = new FunctionWrapper(fg, $"public virtual bool Equals{this.GetGenericTypes(MaskType.Normal)}",
+                     GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
+                {
+                    args.Add($"{this.Interface(getter: true)} lhs");
+                    args.Add($"{this.Interface(getter: true)} rhs");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("if (lhs == null && rhs == null) return false;");
+                    fg.AppendLine("if (lhs == null || rhs == null) return false;");
+                    if (this.HasLoquiBaseObject)
+                    {
+                        fg.AppendLine($"if (!base.Equals(rhs)) return false;");
+                    }
+                    foreach (var field in this.IterateFields())
+                    {
+                        if (!HasKeyField() || field.KeyField)
                         {
-                            fg.AppendLine($"if (!base.Equals(rhs)) return false;");
-                        }
-                        foreach (var field in this.IterateFields())
-                        {
-                            if (!HasKeyField() || field.KeyField)
+                            var lhsAccessor = new Accessor(field, "lhs.");
+                            var rhsAccessor = new Accessor(field, "rhs.");
+                            if (field.Bare)
                             {
-                                if (field.Bare)
+                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
+                            }
+                            else if (field.IntegrateField)
+                            {
+                                if (field.HasBeenSet)
                                 {
-                                    field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
-                                }
-                                else if (field.IntegrateField)
-                                {
-                                    if (field.HasBeenSet)
+                                    fg.AppendLine($"if ({field.HasBeenSetAccessor(lhsAccessor)} != {field.HasBeenSetAccessor(rhsAccessor)}) return false;");
+                                    fg.AppendLine($"if ({field.HasBeenSetAccessor(lhsAccessor)})");
+                                    using (new BraceWrapper(fg))
                                     {
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()} != {field.HasBeenSetAccessor(new Accessor(field, "rhs."))}) return false;");
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()})");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
+                                        field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
                                     }
                                 }
                                 else
                                 {
-                                    field.GenerateForEquals(fg, new Accessor(field, "this."), new Accessor(field, "rhs."));
+                                    field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
                                 }
                             }
+                            else
+                            {
+                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
+                            }
                         }
-                        fg.AppendLine("return true;");
                     }
-                    fg.AppendLine();
+                    fg.AppendLine("return true;");
+                }
+                fg.AppendLine();
 
-                    fg.AppendLine("public override int GetHashCode()");
+                foreach (var baseObj in this.BaseClassTrail())
+                {
+                    using (var args = new FunctionWrapper(fg,
+                        $"public override bool Equals{this.GetGenericTypes(MaskType.Normal)}"))
+                    {
+                        args.Add($"{baseObj.Interface(getter: true)} lhs");
+                        args.Add($"{baseObj.Interface(getter: true)} rhs");
+                    }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("int ret = 0;");
-                        foreach (var field in this.IterateFields())
+                        using (var args = new ArgsWrapper(fg,
+                            "return Equals"))
                         {
-                            if (!HasKeyField() || field.KeyField)
-                            {
-                                if (field.Bare)
-                                {
-                                    field.GenerateForHash(fg, "ret");
-                                }
-                                else if (field.IntegrateField)
-                                {
-                                    if (field.HasBeenSet)
-                                    {
-                                        fg.AppendLine($"if ({field.HasBeenSetAccessor()})");
-                                    }
-                                    using (new BraceWrapper(fg, doIt: field.HasBeenSet))
-                                    {
-                                        field.GenerateForHash(fg, "ret");
-                                    }
-                                }
-                                else
-                                {
-                                    field.GenerateForHash(fg, "ret");
-                                }
-                            }
+                            args.Add($"lhs: ({this.Interface(getter: true)})lhs");
+                            args.Add($"rhs: rhs as {this.Interface(getter: true)}");
                         }
-                        if (this.HasLoquiBaseObject)
-                        {
-                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
-                        }
-                        fg.AppendLine("return ret;");
                     }
                     fg.AppendLine();
                 }
+
+                using (var args = new FunctionWrapper(fg, $"public virtual int GetHashCode{this.GetGenericTypes(MaskType.Normal)}",
+                     GenerateWhereClauses(LoquiInterfaceType.IGetter).ToArray()))
+                {
+                    args.Add($"{this.Interface(getter: true)} item");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine("int ret = 0;");
+                    foreach (var field in this.IterateFields())
+                    {
+                        var itemAccessor = new Accessor(field, "item.");
+                        if (!HasKeyField() || field.KeyField)
+                        {
+                            if (field.Bare)
+                            {
+                                field.GenerateForHash(fg, itemAccessor, "ret");
+                            }
+                            else if (field.IntegrateField)
+                            {
+                                if (field.HasBeenSet)
+                                {
+                                    fg.AppendLine($"if ({field.HasBeenSetAccessor(itemAccessor)})");
+                                }
+                                using (new BraceWrapper(fg, doIt: field.HasBeenSet))
+                                {
+                                    field.GenerateForHash(fg, itemAccessor, "ret");
+                                }
+                            }
+                            else
+                            {
+                                field.GenerateForHash(fg, itemAccessor, "ret");
+                            }
+                        }
+                    }
+                    if (this.HasLoquiBaseObject)
+                    {
+                        fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                    }
+                    fg.AppendLine("return ret;");
+                }
                 fg.AppendLine();
+
+                foreach (var baseObj in this.BaseClassTrail())
+                {
+                    using (var args = new FunctionWrapper(fg,
+                        $"public override int GetHashCode"))
+                    {
+                        args.Add($"{baseObj.Interface(getter: true)} item");
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            "return GetHashCode"))
+                        {
+                            args.Add($"item: ({this.Interface(getter: true)})item");
+                        }
+                    }
+                    fg.AppendLine();
+                }
             }
+            fg.AppendLine();
         }
 
         private async Task GenerateToStringCode(FileGeneration fg)
