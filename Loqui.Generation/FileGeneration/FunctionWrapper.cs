@@ -25,6 +25,11 @@ namespace Loqui.Generation
             this.wheres = wheres ?? new string[0];
         }
 
+        public void AddPassArg(string str)
+        {
+            Add($"{str}: {str}");
+        }
+
         public void Add(params string[] lines)
         {
             foreach (var line in lines)
