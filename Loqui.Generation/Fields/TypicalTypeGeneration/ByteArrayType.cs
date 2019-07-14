@@ -42,7 +42,7 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.Length = node.GetAttribute<int?>("length", null);
+            this.Length = node.GetAttribute<int?>("byteLength", null);
             if (this.Length == null
                 && this.Singleton != SingletonLevel.None)
             {
