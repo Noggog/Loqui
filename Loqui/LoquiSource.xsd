@@ -927,7 +927,7 @@
   <xs:complexType name="ByteArray" >
     <xs:complexContent>
       <xs:extension base="ClassField">
-        <xs:attribute name="byteLength" type="xs:string" />
+        <xs:attribute name="byteLength" type="xs:integer" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
