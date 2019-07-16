@@ -28,35 +28,40 @@ namespace Loqui.Generation
             Accessor nameAccessor,
             Accessor translationMaskAccessor)
         {
-            var loquiGen = typeGen as LoquiType;
-            string line;
-            if (loquiGen.TargetObjectGeneration != null)
+            using (new BraceWrapper(fg, doIt: !this.XmlMod.TranslationMaskParameter))
             {
-                line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
-            }
-            else
-            {
-                line = $"(({this.XmlMod.TranslationWriteInterface})(({nameof(IXmlItem)}){itemAccessor.DirectAccess}).{this.XmlMod.TranslationWriteItemMember})";
-            }
-            using (var args = new ArgsWrapper(fg, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
-            {
-                args.Add($"item: {itemAccessor.DirectAccess}");
-                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
-                args.Add($"name: {nameAccessor}");
-                if (typeGen.HasIndex)
+                // We want to cache retrievals, in case it's a wrapper being written
+                fg.AppendLine($"var loquiItem = {itemAccessor.DirectAccess};");
+                var loquiGen = typeGen as LoquiType;
+                string line;
+                if (loquiGen.TargetObjectGeneration != null)
                 {
-                    args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
+                    line = $"(({this.XmlMod.TranslationWriteClassName(loquiGen.TargetObjectGeneration)})(({nameof(IXmlItem)})loquiItem).{this.XmlMod.TranslationWriteItemMember})";
                 }
-                args.Add($"errorMask: {errorMaskAccessor}");
-                if (this.XmlMod.TranslationMaskParameter)
+                else
                 {
+                    line = $"(({this.XmlMod.TranslationWriteInterface})(({nameof(IXmlItem)})loquiItem).{this.XmlMod.TranslationWriteItemMember})";
+                }
+                using (var args = new ArgsWrapper(fg, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
+                {
+                    args.Add($"item: loquiItem");
+                    args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+                    args.Add($"name: {nameAccessor}");
                     if (typeGen.HasIndex)
                     {
-                        args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
+                        args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                     }
-                    else
+                    args.Add($"errorMask: {errorMaskAccessor}");
+                    if (this.XmlMod.TranslationMaskParameter)
                     {
-                        args.Add($"translationMask: {translationMaskAccessor}");
+                        if (typeGen.HasIndex)
+                        {
+                            args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
+                        }
+                        else
+                        {
+                            args.Add($"translationMask: {translationMaskAccessor}");
+                        }
                     }
                 }
             }
