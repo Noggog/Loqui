@@ -675,6 +675,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="override" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether this type definition is an override of a base class generic
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="DefinedBaseGeneric">

@@ -2799,7 +2799,17 @@ namespace Loqui.Generation
 
                 foreach (var baseGen in this.BaseClass.Generics)
                 {
-                    this.Generics.Add(baseGen.Key, baseGen.Value.Copy());
+                    if (this.Generics.TryGetValue(baseGen.Key, out var existing))
+                    {
+                        if (!existing.Override)
+                        {
+                            throw new ArgumentException("Generic added with the same name that was not marked as override.");
+                        }
+                    }
+                    else
+                    {
+                        this.Generics.Add(baseGen.Key, baseGen.Value.Copy());
+                    }
                     this.BaseGenerics[baseGen.Key] = baseGen.Key;
                 }
 

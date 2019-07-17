@@ -68,5 +68,6 @@ namespace Loqui.Generation
         public const string IS_CLASS = "isClass";
         public const string GETTER_VARIANCE = "getterVariance";
         public const string SETTER_VARIANCE = "setterVariance";
+        public const string OVERRIDE = "override";
     }
 }
