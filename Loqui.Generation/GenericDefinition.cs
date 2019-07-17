@@ -104,6 +104,10 @@ namespace Loqui.Generation
             {
                 MustBeClass = this.MustBeClass
             };
+            ret.Name = this.Name;
+            ret.MustBeClass = this.MustBeClass;
+            ret.GetterVariance = this.GetterVariance;
+            ret.SetterVariance = this.SetterVariance;
             ret.BaseObjectGeneration = this.BaseObjectGeneration;
             ret.Loqui = this.Loqui;
             ret._whereSet.Add(this._whereSet);
