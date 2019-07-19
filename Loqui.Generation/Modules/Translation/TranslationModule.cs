@@ -806,8 +806,7 @@ namespace Loqui.Generation
             foreach (var baseObj in obj.BaseClassTrail())
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public override void Write{obj.GetGenericTypes(MaskType.Normal)}",
-                    obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics).ToArray()))
+                    $"public override void Write{obj.GetGenericTypes(MaskType.Normal)}"))
                 {
                     FillWriterArgs(args, baseObj);
                 }

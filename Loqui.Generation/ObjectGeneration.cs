@@ -1258,7 +1258,7 @@ namespace Loqui.Generation
             if (this.HasLoquiBaseObject)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.BaseClass.CommonClassName}.CopyFieldsFrom{this.GetBaseGenericTypes(MaskType.Error, MaskType.Copy)}"))
+                    $"{this.BaseClass.CommonClassName}.CopyFieldsFrom{this.GetBaseGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
@@ -2314,7 +2314,7 @@ namespace Loqui.Generation
                 foreach (var baseObj in this.BaseClassTrail())
                 {
                     using (var args = new FunctionWrapper(fg,
-                        $"public override int GetHashCode"))
+                        $"public override int GetHashCode{baseObj.GetGenericTypes(MaskType.Normal)}"))
                     {
                         args.Add($"{baseObj.Interface(getter: true)} item");
                     }
@@ -2576,7 +2576,7 @@ namespace Loqui.Generation
             foreach (var baseObj in this.BaseClassTrail())
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public override void Clear"))
+                    $"public override void Clear{baseObj.GetGenericTypes(MaskType.Normal)}"))
                 {
                     args.Add($"{baseObj.Interface()} item");
                 }
