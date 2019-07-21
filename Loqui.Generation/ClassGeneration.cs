@@ -83,7 +83,7 @@ namespace Loqui.Generation
                 {
                     args.BaseClass = this.BaseClassName;
                 }
-                else if (HasNonLoquiBaseObject)
+                else if (HasNonLoquiBaseObject && this.SetBaseClass)
                 {
                     args.BaseClass = this.NonLoquiBaseClass;
                 }

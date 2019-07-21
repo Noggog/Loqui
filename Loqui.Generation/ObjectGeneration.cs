@@ -41,6 +41,7 @@ namespace Loqui.Generation
         public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();
         public ClassGeneration BaseClass;
         public bool HasLoquiBaseObject => BaseClass != null;
+        public bool SetBaseClass = true;
         public string NonLoquiBaseClass;
         public bool HasNonLoquiBaseObject => !string.IsNullOrWhiteSpace(this.NonLoquiBaseClass);
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
@@ -153,6 +154,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => this.DerivativeDefault = i);
             Node.TransferAttribute<bool>(Constants.RAISEPROPERTYCHANGED_DEFAULT, (i) => this.RaisePropertyChangedDefault = i);
             Node.TransferAttribute<DisabledLevel>(Constants.DISABLE, (i) => this.Disabled = i);
+            Node.TransferAttribute<bool>(Constants.SET_BASE_CLASS, i => this.SetBaseClass = i);
 
             var namespacesNode = Node.Element(XName.Get(Constants.NAMESPACES, LoquiGenerator.Namespace));
             if (namespacesNode != null)

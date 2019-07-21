@@ -499,6 +499,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="setBaseClass" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to automatically set base class to LoquiNotifyingObject if no Loqui base class specified.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="notifyingDefault" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
