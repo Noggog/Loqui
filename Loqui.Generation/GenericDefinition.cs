@@ -15,6 +15,7 @@ namespace Loqui.Generation
         private readonly List<string> _whereList = new List<string>();
         public IEnumerable<string> Wheres => _whereList;
         public string Name;
+        public bool Override;
         public Variance GetterVariance = Variance.Out;
         public Variance SetterVariance = Variance.None;
 
@@ -59,6 +60,7 @@ namespace Loqui.Generation
             this.MustBeClass = node.GetAttribute<bool>(Constants.IS_CLASS);
             this.GetterVariance = node.GetAttribute<Variance>(Constants.GETTER_VARIANCE, this.GetterVariance);
             this.SetterVariance = node.GetAttribute<Variance>(Constants.SETTER_VARIANCE, this.SetterVariance);
+            this.Override = node.GetAttribute<bool>(Constants.OVERRIDE, this.Override);
             var baseClass = node.Element(XName.Get(Constants.BASE_CLASS, LoquiGenerator.Namespace));
             if (baseClass != null)
             {
@@ -104,6 +106,10 @@ namespace Loqui.Generation
             {
                 MustBeClass = this.MustBeClass
             };
+            ret.Name = this.Name;
+            ret.MustBeClass = this.MustBeClass;
+            ret.GetterVariance = this.GetterVariance;
+            ret.SetterVariance = this.SetterVariance;
             ret.BaseObjectGeneration = this.BaseObjectGeneration;
             ret.Loqui = this.Loqui;
             ret._whereSet.Add(this._whereSet);
