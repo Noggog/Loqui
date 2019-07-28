@@ -7,7 +7,7 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName(bool getter) => $"SourceSetList<{this.ItemTypeName(getter)}>";
+        public override string TypeName(bool getter) => ListInterface(getter);
         public override bool CopyNeedsTryCatch => true;
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
