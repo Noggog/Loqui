@@ -83,7 +83,7 @@ namespace Loqui.Generation
         public string ProtocolDefinitionName => $"{this.ProtoGen.ProtocolDefinitionName}";
         public string CommonClassName => $"{Name}Common";
         public string CommonClass => this.CommonClassName;
-        public string CommonClassInstance(Accessor accessor) => $"(({this.CommonClass}){accessor}.CommonInstance)";
+        public string CommonClassInstance(Accessor accessor) => $"(({this.CommonClass})(({nameof(ILoquiObject)}){accessor}).CommonInstance)";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
