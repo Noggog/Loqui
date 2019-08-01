@@ -48,7 +48,7 @@ namespace Loqui.Generation
         public bool HasNewGenerics => this.HasLoquiBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
         public bool IsTopClass => BaseClass == null;
         public bool ForceInternalInterface = false;
-        public HashSet<string> Interfaces = new HashSet<string>();
+        public InterfaceCollection Interfaces = new InterfaceCollection();
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
         public string EmptyGenerics => (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
         public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
@@ -178,7 +178,7 @@ namespace Loqui.Generation
 
             foreach (var interfNode in Node.Elements(XName.Get(Constants.INTERFACE, LoquiGenerator.Namespace)))
             {
-                Interfaces.Add(interfNode.Value.Split(',').Select(s => s.Trim()));
+                Interfaces.Add(interfNode.GetAttribute<LoquiInterfaceType>(Constants.TYPE, LoquiInterfaceType.Direct), interfNode.Value);
             }
 
             var fieldsNode = Node.Element(XName.Get(Constants.FIELDS, LoquiGenerator.Namespace));
@@ -489,6 +489,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
                 }
+                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.ISetter));
                 args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface()}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
@@ -550,6 +551,7 @@ namespace Loqui.Generation
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
+                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.IGetter));
                 args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
@@ -2792,7 +2794,7 @@ namespace Loqui.Generation
             if (this.HasRaisedPropertyChanged)
             {
                 this.RequiredNamespaces.Add("System.ComponentModel");
-                this.Interfaces.Add(nameof(INotifyPropertyChanged));
+                this.Interfaces.Add(LoquiInterfaceType.IGetter, nameof(INotifyPropertyChanged));
             }
 
             if (this.HasLoquiBaseObject)

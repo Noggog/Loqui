@@ -47,7 +47,7 @@ namespace Loqui.Generation
 
             if (this.NeedsReflectionGeneration)
             {
-                this.Interfaces.Add(nameof(ILoquiReflectionSetter));
+                this.Interfaces.Add(LoquiInterfaceType.ISetter, nameof(ILoquiReflectionSetter));
             }
 
             if (ObjectNamedKey.TryFactory(this.BaseClassStr, this.ProtoGen.Protocol, out var baseClassObjKey))
@@ -89,7 +89,7 @@ namespace Loqui.Generation
                 }
                 args.Interfaces.Add(this.Interface(getter: false));
                 args.Interfaces.Add($"ILoquiObjectSetter<{this.ObjectName}>");
-                args.Interfaces.Add(this.Interfaces);
+                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(this.ProtoGen.Interfaces);
                 args.Interfaces.Add(this.gen.Interfaces);

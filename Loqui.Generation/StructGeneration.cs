@@ -89,7 +89,7 @@ namespace Loqui.Generation
                     args.Partial = true;
                     args.Type = ClassWrapper.ObjectType.@struct;
                     args.Interfaces.Add(this.Interface(getter: true));
-                    args.Interfaces.Add(this.Interfaces);
+                    args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
                     args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
                     args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
                 }
@@ -98,8 +98,6 @@ namespace Loqui.Generation
 
         public override async Task Load()
         {
-            this.Interfaces.Add($"ILoquiWriterSerializer<{this.Mask(MaskType.Error)}>");
-
             await base.Load();
             foreach (var field in this.IterateFields())
             {

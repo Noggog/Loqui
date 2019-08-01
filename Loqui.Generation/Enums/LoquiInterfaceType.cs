@@ -9,7 +9,7 @@ namespace Loqui.Generation
     public enum LoquiInterfaceType
     {
         Direct,
-        IGetter,
-        ISetter
+        ISetter,
+        IGetter
     }
 }

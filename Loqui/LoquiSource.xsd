@@ -440,13 +440,7 @@
 
   <xs:complexType name="ObjectType">
     <xs:choice minOccurs="0" maxOccurs="unbounded" >
-      <xs:element name="Interface" type="xs:string" minOccurs="0" maxOccurs="1" >
-        <xs:annotation>
-          <xs:documentation>
-            Define an interface this object should have.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
+      <xs:element name="Interface" type="InterfaceType" minOccurs="0" maxOccurs="1" />
       <xs:element name="Fields" type="FieldsType" minOccurs="0" maxOccurs="1" />
       <xs:element name="Namespaces" type="Namespaces" minOccurs="0" maxOccurs="1" />
       <xs:element name="Generic" type="Generic" minOccurs="0" maxOccurs="unbounded" >
@@ -613,6 +607,25 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="InterfaceType">
+    <xs:annotation>
+      <xs:documentation>
+        Define an interface this object should have.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="LoquiInterfaceType">
+          <xs:annotation>
+            <xs:documentation>
+              Where to place the interface
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
 
   <xs:complexType name="Namespaces">
