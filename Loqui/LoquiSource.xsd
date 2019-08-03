@@ -1195,6 +1195,13 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element type="InterfaceType" name="Interface" minOccurs="0" maxOccurs="unbounded" >
+        <xs:annotation>
+          <xs:documentation>
+            Interface to reference.  Can not be used with refName, as this is an alternate way to reference.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="refName">
       <xs:annotation>
@@ -1207,13 +1214,6 @@
       <xs:annotation>
         <xs:documentation>
           What type of reference interface to use in exposed API members.  Direct reference to Loqui object type, or one of the interfaces.
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="interfaceName" >
-      <xs:annotation>
-        <xs:documentation>
-          Interface to reference.  Can not be used with refName, as this is an alternate way to reference.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

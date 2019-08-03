@@ -27,7 +27,7 @@ namespace Loqui.Generation
                 case LoquiRefType.Generic:
                     return _generic;
                 case LoquiRefType.Interface:
-                    return this.InterfaceName;
+                    return getter ? this.GetterInterface : this.SetterInterface;
                 default:
                     throw new NotImplementedException();
             }
@@ -113,7 +113,8 @@ namespace Loqui.Generation
         public string SingletonObjectName => $"_{this.Name}_Object";
         public override Type Type(bool getter) => throw new NotImplementedException();
         public string RefName;
-        public string InterfaceName;
+        public string SetterInterface;
+        public string GetterInterface;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
@@ -534,13 +535,29 @@ namespace Loqui.Generation
                 refTypeCount++;
             }
 
-            if (this.InterfaceName == null)
+            bool usingInterface = false;
+            foreach (var interfNode in Node.Elements(XName.Get(Constants.INTERFACE, LoquiGenerator.Namespace)))
             {
-                this.InterfaceName = refNode?.GetAttribute(Constants.INTERFACE_TYPE);
+                switch (interfNode.GetAttribute<LoquiInterfaceType>(Constants.TYPE, LoquiInterfaceType.Direct))
+                {
+                    case LoquiInterfaceType.ISetter:
+                        this.SetterInterface = interfNode.Value;
+                        break;
+                    case LoquiInterfaceType.IGetter:
+                        this.GetterInterface = interfNode.Value;
+                        break;
+                    case LoquiInterfaceType.Direct:
+                        this.SetterInterface = interfNode.Value;
+                        this.GetterInterface = interfNode.Value;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
-            if (!string.IsNullOrWhiteSpace(this.InterfaceName))
+            if (!string.IsNullOrWhiteSpace(this.SetterInterface) || !string.IsNullOrWhiteSpace(this.GetterInterface))
             {
                 refTypeCount++;
+                usingInterface = true;
             }
 
             if (refTypeCount > 1)
@@ -561,7 +578,7 @@ namespace Loqui.Generation
                         throw new ArgumentException("Cannot be a generic and singleton.");
                     }
                 }
-                else if (!string.IsNullOrWhiteSpace(InterfaceName))
+                else if (usingInterface)
                 {
                     this.RefType = LoquiRefType.Interface;
                 }
