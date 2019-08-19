@@ -53,13 +53,13 @@ namespace Loqui.Generation
             {
                 if (args.Count == 0)
                 {
-                    fg.AppendLine($"{initialLine}(){suffixLine};");
+                    fg.AppendLine($"{initialLine}(){suffixLine}{(SemiColon ? ";" : string.Empty)}");
                     return;
                 }
                 else if (args.Count == 1
                     && args[0].Length == 1)
                 {
-                    fg.AppendLine($"{initialLine}({args[0][0]}){suffixLine};");
+                    fg.AppendLine($"{initialLine}({args[0][0]}){suffixLine}{(SemiColon ? ";" : string.Empty)}");
                     return;
                 }
                 else
