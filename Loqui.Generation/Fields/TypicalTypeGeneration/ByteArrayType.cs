@@ -15,11 +15,6 @@ namespace Loqui.Generation
         public override bool IsEnumerable => true;
         public override bool IsReference => true;
 
-        public override void GenerateForClass(FileGeneration fg)
-        {
-            base.GenerateForClass(fg);
-        }
-
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
             return $"{(negate ? "!" : null)}MemoryExtensions.SequenceEqual({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";

@@ -50,7 +50,7 @@ namespace Loqui.Generation
         public bool ForceInternalInterface = false;
         public InterfaceCollection Interfaces = new InterfaceCollection();
         public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
-        public string EmptyGenerics => (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
+        public string EmptyGenerics(params MaskType[] maskType) => GetEmptyGenerics(maskType);
         public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
         public virtual string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null, bool doIt = true) => " ";
         public virtual string ProtectedKeyword => "protected";
@@ -667,19 +667,19 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly Type ErrorMaskType = typeof({this.Mask_Unspecified(MaskType.Error)});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics});");
+                    fg.AppendLine($"public static readonly Type ClassType = typeof({this.Name}{this.EmptyGenerics()});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type GetterType = typeof({this.InterfaceNoGenerics(getter: true)}{this.EmptyGenerics});");
+                    fg.AppendLine($"public static readonly Type GetterType = typeof({this.InterfaceNoGenerics(getter: true)}{this.EmptyGenerics()});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type InternalGetterType = {(this.HasInternalInterface ? $"typeof({this.InterfaceNoGenerics(getter: true, internalInterface: true)}{this.EmptyGenerics})" : "null")};");
+                    fg.AppendLine($"public static readonly Type InternalGetterType = {(this.HasInternalInterface ? $"typeof({this.InterfaceNoGenerics(getter: true, internalInterface: true)}{this.EmptyGenerics()})" : "null")};");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type SetterType = typeof({this.InterfaceNoGenerics()}{this.EmptyGenerics});");
+                    fg.AppendLine($"public static readonly Type SetterType = typeof({this.InterfaceNoGenerics()}{this.EmptyGenerics()});");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type InternalSetterType = {(this.HasInternalInterface ? $"typeof({this.InterfaceNoGenerics(internalInterface: true)}{this.EmptyGenerics})" : "null")};");
+                    fg.AppendLine($"public static readonly Type InternalSetterType = {(this.HasInternalInterface ? $"typeof({this.InterfaceNoGenerics(internalInterface: true)}{this.EmptyGenerics()})" : "null")};");
                     fg.AppendLine();
 
                     fg.AppendLine($"public static readonly Type CommonType = typeof({this.CommonClassName});");
@@ -697,7 +697,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public const byte GenericCount = {this.Generics.Count};");
                     fg.AppendLine();
 
-                    fg.AppendLine($"public static readonly Type GenericRegistrationType = {(this.Generics.Count > 0 ? $"typeof({this.RegistrationName}{this.EmptyGenerics})" : "null")};");
+                    fg.AppendLine($"public static readonly Type GenericRegistrationType = {(this.Generics.Count > 0 ? $"typeof({this.RegistrationName}{this.EmptyGenerics()})" : "null")};");
                     fg.AppendLine();
 
                     GenerateGetNameIndex(fg);
@@ -3368,10 +3368,37 @@ namespace Loqui.Generation
         public async Task<IEnumerable<string>> GetApplicableInterfaces(LoquiInterfaceType type)
         {
             return (await Task.WhenAll(this.gen.GenerationModules
-                        .Select((tr) => tr.Interfaces(this))))
+                .Select((tr) => tr.Interfaces(this))))
                 .SelectMany(i => i)
                 .Where(i => i.Location == type)
                 .Select(i => i.Interface);
+        }
+
+        private string GetEmptyGenerics(MaskType[] maskTypes)
+        {
+            if (maskTypes?.Length == 0)
+            {
+                return (this.Generics.Count > 0 ? $"<{string.Join(",", this.Generics.Select((g) => string.Empty))}>" : string.Empty);
+            }
+
+            string[] strs = maskTypes.Select(
+                (maskType) =>
+                {
+                    switch (maskType)
+                    {
+                        case MaskType.Normal:
+                            return Generics.Select((g) => g.Key);
+                        case MaskType.Error:
+                        case MaskType.Copy:
+                        case MaskType.Translation:
+                            return GenericTypes_Nickname(maskType);
+                        default:
+                            throw new NotImplementedException();
+                    }
+                })
+                .SelectMany(s => s)
+                .ToArray();
+            return (strs.Length > 0 ? $"<{string.Join(",", strs)}>" : string.Empty);
         }
     }
 }
