@@ -82,7 +82,7 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("Byte[] IModHeaderGetter.TypeOffsets => this.TypeOffsets;"))
+            if (str.Contains("(MajorRecordCommon)((ILoquiObject)this).CommonInstance).Equals(this, obj);"))
             {
                 int wer = 23;
                 wer++;

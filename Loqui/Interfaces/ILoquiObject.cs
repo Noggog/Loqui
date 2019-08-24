@@ -10,7 +10,6 @@ namespace Loqui
     public interface ILoquiObject
     {
         ILoquiRegistration Registration { get; }
-        object CommonInstance { get; }
     }
 
     public interface ILoquiObject<out T> : ILoquiObjectGetter

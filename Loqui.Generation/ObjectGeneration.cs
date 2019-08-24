@@ -73,7 +73,7 @@ namespace Loqui.Generation
         public string ProtocolDefinitionName => $"{this.ProtoGen.ProtocolDefinitionName}";
         public string CommonClassName => $"{Name}Common";
         public string CommonClass => this.CommonClassName;
-        public string CommonClassInstance(Accessor accessor) => $"(({this.CommonClass})(({nameof(ILoquiObject)}){accessor}).CommonInstance)";
+        public string CommonClassInstance(Accessor accessor) => $"(({this.CommonClass})(({this.Interface(getter: true, internalInterface: true)}){accessor}).CommonInstance)";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
@@ -576,9 +576,13 @@ namespace Loqui.Generation
                 args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
             }
-
             using (new BraceWrapper(fg))
             {
+                if (this.IsTopClass)
+                {
+                    fg.AppendLine($"object CommonInstance {{ get; }}");
+                }
+
                 foreach (var field in this.IterateFields())
                 {
                     if (!field.HasInternalInterface) continue;
@@ -1307,7 +1311,7 @@ namespace Loqui.Generation
             fg.AppendLine($"protected{this.FunctionOverride()}object CommonInstance => {this.CommonClass}.Instance;");
             if (this.IsTopClass)
             {
-                fg.AppendLine($"object {nameof(ILoquiObject)}.CommonInstance => this.CommonInstance;");
+                fg.AppendLine($"object {this.Interface(getter: true, internalInterface: true)}.CommonInstance => this.CommonInstance;");
             }
             fg.AppendLine();
         }
