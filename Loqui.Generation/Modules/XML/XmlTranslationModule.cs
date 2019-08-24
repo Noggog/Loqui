@@ -365,7 +365,7 @@ namespace Loqui.Generation
                 $"public static void WriteToNode{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
                 obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
             {
-                args.Add($"{obj.Interface(internalInterface: obj.HasInternalInterface, getter: true)} item");
+                args.Add($"{obj.Interface(internalInterface: true, getter: true)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
