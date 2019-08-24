@@ -581,7 +581,11 @@ namespace Loqui.Generation
             if (HasInternalInterface)
             {
                 // Internal Getter
-                using (var args = new ClassWrapper(fg, this.Interface(getter: true, internalInterface: true)))
+            interfaceLine = Interface(
+                genericTypes: GenerateGenericClause(Generics.Select((g) => g.Value.GetterName)),
+                getter: true,
+                internalInterface: true);
+            using (var args = new ClassWrapper(fg, interfaceLine))
                 {
                     args.Type = ClassWrapper.ObjectType.@interface;
                     args.Partial = true;

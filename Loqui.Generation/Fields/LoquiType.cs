@@ -445,7 +445,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                             if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                             {
-                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {this.SingletonObjectName};");
+                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {this.SingletonObjectName};");
                             }
                             break;
                         default:

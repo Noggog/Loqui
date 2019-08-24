@@ -211,9 +211,9 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"{DictInterface(getter: false)} {this.ObjectGen.Interface()}.{this.Name} => {member};");
+                    fg.AppendLine($"{DictInterface(getter: false)} {this.ObjectGen.Interface(internalInterface: false)}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"{DictInterface(getter: true)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                fg.AppendLine($"{DictInterface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {member};");
             }
         }
 
