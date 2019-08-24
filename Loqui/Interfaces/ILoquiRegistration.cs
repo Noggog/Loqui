@@ -49,8 +49,6 @@ namespace Loqui
 
         Type InternalSetterType { get; }
 
-        Type CommonType { get; }
-
         string FullName { get; }
 
         string Name { get; }

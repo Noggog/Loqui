@@ -1,4 +1,4 @@
-﻿using Noggog.Notifying;
+using Noggog.Notifying;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -160,7 +160,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor);
 
-        public virtual void GenerateForInterfaceExt(FileGeneration fg) { }
+        public virtual void GenerateInCommon(FileGeneration fg, MaskTypeSet maskTypes) { }
 
         public virtual void GenerateForStaticCtor(FileGeneration fg) { }
 

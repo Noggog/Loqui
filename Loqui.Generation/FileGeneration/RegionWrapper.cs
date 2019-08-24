@@ -23,7 +23,7 @@ namespace Loqui.Generation
             if (string.IsNullOrWhiteSpace(name)) return;
             if (startingIndex == fg.Strings.Count) return;
             if (SkipIfOnlyOneLine && startingIndex + 1 == fg.Strings.Count) return;
-            fg.Strings.Insert(startingIndex - 1, fg.DepthStr + $"#region {name}");
+            fg.Strings.Insert(Math.Max(0, startingIndex - 1), fg.DepthStr + $"#region {name}");
             fg.AppendLine("#endregion");
             if (AppendExtraLine)
             {

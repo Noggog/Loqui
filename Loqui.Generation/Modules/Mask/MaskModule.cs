@@ -641,7 +641,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
         {
         }
 

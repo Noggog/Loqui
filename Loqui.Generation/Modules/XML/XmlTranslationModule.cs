@@ -496,7 +496,7 @@ namespace Loqui.Generation
                         if (obj.HasLoquiBaseObject)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{obj.BaseClass.CommonClassName}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
+                                $"{obj.BaseClass.CommonClassName(LoquiInterfaceType.ISetter)}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: {XmlTranslationModule.XElementLine.GetParameterName(obj)}");

@@ -21,6 +21,7 @@ namespace Loqui
                 return sb.ToString();
             }
         }
+        public bool Empty => this.Strings.Count <= 1;
 
         public void Append(string str)
         {
