@@ -211,10 +211,9 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                using (var args = new FunctionWrapper(fg,
-                    $"public virtual void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error))))
+                using (var args = new FunctionWrapper(fg, $"public virtual void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                 {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error)));
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                     {
                         if (item.TryResolve(obj, out var line))
@@ -326,10 +325,9 @@ namespace Loqui.Generation
                         fg.AppendLine();
                     }
 
-                    using (var args = new FunctionWrapper(fg,
-                        $"public void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                        wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error))))
+                    using (var args = new FunctionWrapper(fg, $"public void CopyIn{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: GetMaskTypes(MaskType.Error)));
                         foreach (var item in minorAPI.ReaderAPI.MajorAPI)
                         {
                             if (item.TryResolve(obj, out var line))
@@ -494,9 +492,9 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
-                        wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes())))
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
                         {
                             if (Public)
@@ -531,9 +529,9 @@ namespace Loqui.Generation
 
                 fg.AppendLine("[DebuggerStepThrough]");
                 using (var args = new FunctionWrapper(fg,
-                    $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
+                    $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                 {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
                         new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
@@ -600,9 +598,9 @@ namespace Loqui.Generation
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}",
-                            wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes())))
+                            $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}"))
                         {
+                            args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
                             foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj))
                             {
                                 if (Public)
@@ -637,9 +635,9 @@ namespace Loqui.Generation
                     }
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                        wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
+                        $"public static {await this.ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{ModuleNickname}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                             obj,
                             new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
@@ -677,9 +675,9 @@ namespace Loqui.Generation
                     fg.AppendLine();
 
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}",
-                        wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error))))
+                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                             obj,
                             new APILine(ErrorMaskBuilderKey, $"ErrorMaskBuilder errorMask"),
@@ -764,9 +762,9 @@ namespace Loqui.Generation
             var inheriting = (await obj.InheritingObjects()).Any();
 
             using (var args = new FunctionWrapper(fg,
-                $"public{(inheriting ? " virtual" : null)} void Write{obj.GetGenericTypes(MaskType.Normal)}",
-                obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics).ToArray()))
+                $"public{(inheriting ? " virtual" : null)} void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
+                args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
                 FillWriterArgs(args, obj);
             }
             using (new BraceWrapper(fg))
@@ -831,9 +829,9 @@ namespace Loqui.Generation
                 && this.DoErrorMasks)
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public void Write{obj.GetGenericTypes(MaskType.Normal)}",
-                    obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics).ToArray()))
+                    $"public void Write{obj.GetGenericTypes(MaskType.Normal)}"))
                 {
+                    args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
                     FillWriterArgs(args, obj, addIndex: true);
                 }
                 using (new BraceWrapper(fg))
@@ -866,9 +864,9 @@ namespace Loqui.Generation
         private async Task GenerateWriteMixIn(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
-                wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
+                $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
             {
+                args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
                 args.Add($"this {obj.Interface(getter: true)} item");
                 foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                 {
@@ -928,9 +926,9 @@ namespace Loqui.Generation
             {
                 if (!minorAPI.When?.Invoke(obj) ?? false) continue;
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
                     args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var item in minorAPI.WriterAPI.IterateAPI(
                         obj,
@@ -969,9 +967,9 @@ namespace Loqui.Generation
                 if (obj.IsTopClass)
                 {
                     using (var args = new FunctionWrapper(fg,
-                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
+                        $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal));
                         args.Add($"this {obj.Interface(getter: true)} item");
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(
                             obj,
@@ -1011,9 +1009,9 @@ namespace Loqui.Generation
             if (obj.IsTopClass)
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal)))
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
                 {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal));
                     args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var item in this.MainAPI.WriterAPI.MajorAPI)
                     {
@@ -1067,9 +1065,9 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}",
-                    wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error))))
+                    $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
                     args.Add($"this {obj.Interface(getter: true)} item");
                     foreach (var (API, Public) in this.MainAPI.WriterAPI.IterateAPI(obj))
                     {
@@ -1110,9 +1108,9 @@ namespace Loqui.Generation
                 {
                     if (!minorAPI.When?.Invoke(obj) ?? false) continue;
                     using (var args = new FunctionWrapper(fg,
-                        $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}",
-                        wheres: obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal))))
+                        $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}"))
                     {
+                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal)));
                         args.Add($"this {obj.Interface(getter: true)} item");
                         foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI(obj))
                         {

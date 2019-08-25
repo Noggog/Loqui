@@ -12,17 +12,15 @@ namespace Loqui.Generation
         List<string[]> args = new List<string[]>();
         string initialLine;
         public bool SemiColon = false;
-        string[] wheres;
-        private bool SemiColonAfterParenthesis => this.SemiColon && wheres.Length == 0;
+        public List<string> Wheres = new List<string>();
+        private bool SemiColonAfterParenthesis => this.SemiColon && Wheres.Count == 0;
 
         public FunctionWrapper(
             FileGeneration fg,
-            string initialLine,
-            params string[] wheres)
+            string initialLine)
         {
             this.fg = fg;
             this.initialLine = initialLine;
-            this.wheres = wheres ?? new string[0];
         }
 
         public void AddPassArg(string str)
@@ -73,9 +71,9 @@ namespace Loqui.Generation
                     fg.AppendLine($"{args[0][args[0].Length - 1]}){(this.SemiColonAfterParenthesis ? ";" : null)}");
                 }
                 this.fg.Depth++;
-                foreach (var where in wheres.IterateMarkLast())
+                foreach (var where in Wheres.IterateMarkLast())
                 {
-                    fg.AppendLine($"{where.item}{(this.SemiColon && where.Last ? ";" : null)}");
+                    fg.AppendLine($"{where.Item}{(this.SemiColon && where.Last ? ";" : null)}");
                 }
                 this.fg.Depth--;
                 return;
@@ -103,9 +101,9 @@ namespace Loqui.Generation
                             });
                     });
             }
-            foreach (var where in wheres.IterateMarkLast())
+            foreach (var where in Wheres.IterateMarkLast())
             {
-                fg.AppendLine($"{where.item}{(this.SemiColon && where.Last ? ";" : null)}");
+                fg.AppendLine($"{where.Item}{(this.SemiColon && where.Last ? ";" : null)}");
             }
             this.fg.Depth--;
         }
