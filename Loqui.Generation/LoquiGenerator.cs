@@ -29,6 +29,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.IGetter;
         public List<string> Interfaces = new List<string>();
         public PermissionLevel SetPermissionDefault;
+        public RxBaseOption RxBaseOptionDefault;
         public bool DerivativeDefault;
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;

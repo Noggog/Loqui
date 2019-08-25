@@ -70,5 +70,6 @@ namespace Loqui.Generation
         public const string OVERRIDE = "override";
         public const string SET_BASE_CLASS = "setBaseClass";
         public const string TYPE = "type";
+        public const string RX_BASE_OPTION = "rxBase";
     }
 }

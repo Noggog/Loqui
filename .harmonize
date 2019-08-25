@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>54a8dd00ad0c98e02ed5f4ebba88d9f09f81307d</Sha>
+         <Sha>355910af30339bc70d9e47f7af9b20168f8a9c86</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-25-2019 15:59:59</CommitDate>
-         <Description>Noggog.WPF:  Basic theming.  Some snippets</Description>
+         <CommitDate>08-25-2019 18:48:12</CommitDate>
+         <Description>ViewModel:  Extra RaiseAndSet calls</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>

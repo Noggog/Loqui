@@ -33,6 +33,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType GetterInterfaceTypeDefault;
         public bool ObjectCentralized;
         public PermissionLevel SetPermissionDefault;
+        public RxBaseOption RxBaseOptionDefault;
         public bool NotifyingInterface;
         public bool DerivativeDefault;
         public bool RaisePropertyChangedDefault;
@@ -124,6 +125,7 @@ namespace Loqui.Generation
             this.SetterInterfaceTypeDefault = this.ProtoGen.SetterInterfaceTypeDefault;
             this.GetterInterfaceTypeDefault = this.ProtoGen.GetterInterfaceTypeDefault;
             this.SetPermissionDefault = this.ProtoGen.SetPermissionDefault;
+            this.RxBaseOptionDefault = this.ProtoGen.RxBaseOptionDefault;
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
             this.GenerateNthReflections = this.ProtoGen.NthReflectionDefault;
             this.GenerateToString = this.ProtoGen.ToStringDefault;
