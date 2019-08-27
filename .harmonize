@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>355910af30339bc70d9e47f7af9b20168f8a9c86</Sha>
+         <Sha>3b00fc705aa7464fde7ff08c442b1da36f5845cb</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-25-2019 18:48:12</CommitDate>
-         <Description>ViewModel:  Extra RaiseAndSet calls</Description>
+         <CommitDate>08-25-2019 19:48:08</CommitDate>
+         <Description>ObservableExt:  DisposeWith observable of IDisposables</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
