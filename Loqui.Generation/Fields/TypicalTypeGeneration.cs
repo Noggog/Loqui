@@ -92,6 +92,8 @@ namespace Loqui.Generation
             }
         }
 
+        public virtual string GetValueSetString(Accessor accessor) => accessor.DirectAccess;
+
         public override void GenerateForClass(FileGeneration fg)
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
@@ -112,7 +114,7 @@ namespace Loqui.Generation
                                 fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
                                 WrapSetAccessor(fg,
                                     linePrefix: $"{SetPermissionStr}set",
-                                    toDo: (subFg) => subFg.AppendLine($"this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));"));
+                                    toDo: (subFg) => subFg.AppendLine($"this.RaiseAndSetIfChanged(_hasBeenSetTracker, {GetValueSetString("value")}, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));"));
                             }
                         }
                         fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
@@ -126,7 +128,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{this.Name};");
-                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set(value);");
+                            fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set({GetValueSetString("value")});");
                         }
                         fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
@@ -147,7 +149,7 @@ namespace Loqui.Generation
                         WrapSetCode(fg,
                             subGen =>
                             {
-                                subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                                subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref _{this.Name}, {GetValueSetString("value")}, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                             });
                     }
 
@@ -173,7 +175,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => this._{this.Name};");
                         WrapSetAccessor(fg,
                             linePrefix: $"{SetPermissionStr}set",
-                            toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref this._{this.Name}, value, nameof({this.Name}));"));
+                            toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref this._{this.Name}, {GetValueSetString("value")}, nameof({this.Name}));"));
                     }
                 }
             }
@@ -203,7 +205,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"get => this._{this.Name}.Item;");
                             WrapSetAccessor(fg,
                                 linePrefix: $"{SetPermissionStr}set",
-                                toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set(value);"));
+                                toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set({GetValueSetString("value")});"));
                         }
                         fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
                     }
@@ -230,7 +232,7 @@ namespace Loqui.Generation
                                 linePrefix: $"{SetPermissionStr}set",
                                 toDo: subGen =>
                                 {
-                                    subGen.AppendLine($"this._{this.Name} = value;");
+                                    subGen.AppendLine($"this._{this.Name} = {GetValueSetString("value")};");
                                     subGen.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
                                 });
                         }
@@ -261,7 +263,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this.{this.Name};");
-                        fg.AppendLine($"set => this.{this.Name} = value;");
+                        fg.AppendLine($"set => this.{this.Name} = {GetValueSetString("value")};");
                     }
                 }
                 if (this.InternalGetInterface)
