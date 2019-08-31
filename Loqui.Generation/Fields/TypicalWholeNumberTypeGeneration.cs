@@ -6,39 +6,34 @@ namespace Loqui.Generation
 {
     public abstract class TypicalWholeNumberTypeGeneration : TypicalRangedTypeGeneration
     {
-        string defaultFrom, defaultTo;
-
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
 
             if (!HasRange) return;
 
-            defaultFrom = this.Min;
-            defaultTo = this.Max;
-
             int min, max;
-            if (string.IsNullOrWhiteSpace(defaultFrom) && string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(this.Min) && string.IsNullOrWhiteSpace(this.Max))
             {
                 throw new ArgumentException($"Value was not convertable to range: {this.Min}-{this.Max}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultFrom))
+            if (string.IsNullOrWhiteSpace(this.Min))
             {
                 min = int.MinValue;
-                defaultFrom = "int.MinValue";
+                this.Min = "int.MinValue";
             }
-            else if (!int.TryParse(defaultFrom, out min))
+            else if (!int.TryParse(this.Min, out min))
             {
                 throw new ArgumentException($"Value was not convertable to int: {this.Min}");
             }
 
-            if (string.IsNullOrWhiteSpace(defaultTo))
+            if (string.IsNullOrWhiteSpace(this.Max))
             {
-                max = int.MinValue;
-                defaultTo = "int.MaxValue";
+                max = int.MaxValue;
+                this.Max = "int.MaxValue";
             }
-            else if (!int.TryParse(defaultTo, out max))
+            else if (!int.TryParse(this.Max, out max))
             {
                 throw new ArgumentException($"Value was not convertable to int: {this.Max}");
             }
