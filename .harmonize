@@ -2,18 +2,18 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>9b0482f113d60db27ec62b1062467f9d5277a93e</Sha>
+         <Sha>1cbaf5876a37123941d3b4bd70f3c261574d2689</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-30-2019 21:11:00</CommitDate>
-         <Description>ObservableExt:  SelectLatestFrom, SelectLatest</Description>
+         <CommitDate>08-31-2019 15:59:47</CommitDate>
+         <Description>ObservableListExt.DistinctValues /w no parameter</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>88349576612d32f9bb24293a0c14936d4a5e1638</Sha>
+         <Sha>a357e131f6e5eb90f6b82ee71f87f525fb58a14e</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>06-23-2019 18:15:12</CommitDate>
-         <Description>IReadOnlyCache</Description>
+         <CommitDate>08-31-2019 15:59:16</CommitDate>
+         <Description>Nuget Update</Description>
          <Author>Justin Swanson</Author>
       </RepoListing>
    </ParentRepos>
