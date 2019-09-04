@@ -166,7 +166,7 @@ namespace Loqui.Generation
                 {
                     if (HasDefault)
                     {
-                        fg.AppendLine($"private {TypeName(getter: false)} _{this.Name} =  _{this.Name}_Default;");
+                        fg.AppendLine($"private {TypeName(getter: false)} _{this.Name} = _{this.Name}_Default;");
                         fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
                     else

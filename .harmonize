@@ -2,11 +2,12 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>1cbaf5876a37123941d3b4bd70f3c261574d2689</Sha>
+         <Sha>7af63048309e4a20125125bcf2db9a8a31d30ba6</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>08-31-2019 15:59:47</CommitDate>
-         <Description>ObservableListExt.DistinctValues /w no parameter</Description>
+         <CommitDate>09-03-2019 22:27:24</CommitDate>
+         <Description>Merge remote-tracking branch 'origin/master'</Description>
          <Author>Justin Swanson</Author>
+         <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
