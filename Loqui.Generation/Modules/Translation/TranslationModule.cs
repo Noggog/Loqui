@@ -438,6 +438,10 @@ namespace Loqui.Generation
 
         public virtual async Task<bool> AsyncImport(ObjectGeneration obj)
         {
+            if (obj.HasLoquiBaseObject)
+            {
+                if (await AsyncImport(obj.BaseClass)) return true;
+            }
             foreach (var field in obj.Fields)
             {
                 if (!this.TryGetTypeGeneration(field.GetType(), out var gen)) continue;

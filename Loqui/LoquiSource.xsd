@@ -266,6 +266,8 @@
       <xs:element name="P2Int32Null" type="NString" />
       <xs:element name="P2Int16" type="NString" />
       <xs:element name="P2Int16Null" type="NString" />
+      <xs:element name="P3Int16" type="NString" />
+      <xs:element name="P3Int16Null" type="NString" />
       <xs:element name="P3Int32" type="NString" />
       <xs:element name="P3Int32Null" type="NString" />
       <xs:element name="P3UInt16" type="NString" />

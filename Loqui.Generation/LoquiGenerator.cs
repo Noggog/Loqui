@@ -81,6 +81,8 @@ namespace Loqui.Generation
             AddTypeAssociation<P3UInt16NullType>("P3UInt16Null");
             AddTypeAssociation<P3IntType>("P3Int32");
             AddTypeAssociation<P3IntNullType>("P3Int32Null");
+            AddTypeAssociation<P3Int16Type>("P3Int16");
+            AddTypeAssociation<P3Int16NullType>("P3Int16Null");
             AddTypeAssociation<P2FloatType>("P2Float");
             AddTypeAssociation<P2FloatNullType>("P2FloatNull");
             AddTypeAssociation<P3FloatType>("P3Float");

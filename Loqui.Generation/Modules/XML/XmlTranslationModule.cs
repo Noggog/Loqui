@@ -65,6 +65,8 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(P3IntType)] = new PrimitiveXmlTranslationGeneration<P3Int>();
             this._typeGenerations[typeof(P3UInt16NullType)] = new PrimitiveXmlTranslationGeneration<P3UInt16?>();
             this._typeGenerations[typeof(P3UInt16Type)] = new PrimitiveXmlTranslationGeneration<P3UInt16>();
+            this._typeGenerations[typeof(P3Int16NullType)] = new PrimitiveXmlTranslationGeneration<P3Int16?>();
+            this._typeGenerations[typeof(P3Int16Type)] = new PrimitiveXmlTranslationGeneration<P3Int16>();
             this._typeGenerations[typeof(P3DoubleNullType)] = new PrimitiveXmlTranslationGeneration<P3Double?>();
             this._typeGenerations[typeof(P3DoubleType)] = new PrimitiveXmlTranslationGeneration<P3Double>();
             this._typeGenerations[typeof(PercentNullType)] = new PrimitiveXmlTranslationGeneration<Percent?>();
