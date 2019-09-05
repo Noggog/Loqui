@@ -71,7 +71,7 @@ namespace Loqui.Generation
                     }));
         }
 
-        public Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg)
+        public Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
         {
             return Task.WhenAll(
                 this.subModules.Select(
@@ -79,7 +79,7 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, subGen.RegionString))
                         {
-                            await subGen.GenerateInCommon(obj, fg)
+                            await subGen.GenerateInCommon(obj, fg, maskTypes)
                                 .TimeoutButContinue(
                                     TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
