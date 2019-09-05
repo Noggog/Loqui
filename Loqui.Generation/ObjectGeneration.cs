@@ -1995,7 +1995,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"var ret = new {this.GetMaskString("bool")}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.CommonClassInstance("item")}.FillEqualsMask"))
+                    $"this.FillEqualsMask"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("rhs");
