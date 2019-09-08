@@ -176,6 +176,32 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"object {this.TranslationItemInterface}.{this.TranslationWriteItemMember} => this.{this.TranslationWriteItemMember};");
             }
+            using (var args = new FunctionWrapper(fg,
+                $"void {this.TranslationItemInterface}.WriteTo{this.ModuleNickname}"))
+            {
+                FillWriterArgs(args, obj, objParam: null);
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{this.TranslatorReference(obj, "this")}.Write"))
+                {
+                    args.Add("item: this");
+                    foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Writer))
+                    {
+                        args.Add(item);
+                    }
+                    foreach (var item in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Writer))
+                    {
+                        args.Add(item);
+                    }
+                    args.AddPassArg($"errorMask");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.AddPassArg("translationMask");
+                    }
+                }
+            }
         }
 
         private async Task GenerateCopyIn(ObjectGeneration obj, FileGeneration fg)
@@ -721,7 +747,7 @@ namespace Loqui.Generation
         private void FillWriterArgs(
             FunctionWrapper args, 
             ObjectGeneration obj, 
-            bool objParam = false,
+            bool? objParam = false,
             bool doFallbackCustom = true,
             bool addIndex = false)
         {
@@ -732,7 +758,10 @@ namespace Loqui.Generation
                     args.Add(line.Result);
                 }
             }
-            args.Add($"{(objParam ? "object" : obj.Interface(getter: true))} item");
+            if (objParam.HasValue)
+            {
+                args.Add($"{(objParam.Value ? "object" : obj.Interface(getter: true))} item");
+            }
             if (doFallbackCustom)
             {
                 foreach (var item in this.MainAPI.WriterAPI.CustomAPI)
