@@ -540,7 +540,8 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
+                            $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}",
+                            suffixLine: Utility.ConfigAwait(asyncImport)))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -578,7 +579,8 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}"))
+                        $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}",
+                        suffixLine: Utility.ConfigAwait(asyncImport)))
                     {
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationModuleAPI.Direction.Reader))
