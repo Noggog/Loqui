@@ -84,49 +84,56 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            using (var args = new ClassWrapper(fg, TranslationWriteClass(obj)))
+            using (new NamespaceWrapper(fg, obj.InternalNamespace))
             {
-                args.Partial = true;
-                args.BaseClass = obj.HasLoquiBaseObject ? TranslationWriteClass(obj.BaseClass) : null;
-                if (this.DoTranslationInterface(obj))
+                using (var args = new ClassWrapper(fg, TranslationWriteClass(obj)))
                 {
-                    args.Interfaces.Add(this.TranslationWriteInterface);
-                }
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
-                fg.AppendLine();
-
-                await GenerateInTranslationWriteClass(obj, fg);
-            }
-            fg.AppendLine();
-
-            using (var args = new ClassWrapper(fg, TranslationCreateClass(obj)))
-            {
-                args.Partial = true;
-                args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
-                args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.ISetter, obj.Generics));
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationCreateClass(obj)} Instance = new {TranslationCreateClass(obj)}();");
-                fg.AppendLine();
-
-                await GenerateInTranslationCreateClass(obj, fg);
-            }
-            fg.AppendLine();
-
-            using (new RegionWrapper(fg, $"{this.ModuleNickname} Write Mixins"))
-            {
-                using (var args = new ClassWrapper(fg, TranslationMixInClass(obj)))
-                {
-                    args.Static = true;
+                    args.Partial = true;
+                    args.BaseClass = obj.HasLoquiBaseObject ? TranslationWriteClass(obj.BaseClass) : null;
+                    if (this.DoTranslationInterface(obj))
+                    {
+                        args.Interfaces.Add(this.TranslationWriteInterface);
+                    }
                 }
                 using (new BraceWrapper(fg))
                 {
-                    await GenerateWriteMixIn(obj, fg);
+                    fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
+                    fg.AppendLine();
+
+                    await GenerateInTranslationWriteClass(obj, fg);
                 }
+                fg.AppendLine();
+
+                using (var args = new ClassWrapper(fg, TranslationCreateClass(obj)))
+                {
+                    args.Partial = true;
+                    args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
+                    args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.ISetter, obj.Generics));
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"public{obj.NewOverride()}readonly static {TranslationCreateClass(obj)} Instance = new {TranslationCreateClass(obj)}();");
+                    fg.AppendLine();
+
+                    await GenerateInTranslationCreateClass(obj, fg);
+                }
+                fg.AppendLine();
+            }
+
+            using (new NamespaceWrapper(fg, obj.Namespace))
+            {
+                using (new RegionWrapper(fg, $"{this.ModuleNickname} Write Mixins"))
+                {
+                    using (var args = new ClassWrapper(fg, TranslationMixInClass(obj)))
+                    {
+                        args.Static = true;
+                    }
+                    using (new BraceWrapper(fg))
+                    {
+                        await GenerateWriteMixIn(obj, fg);
+                    }
+                }
+                fg.AppendLine();
             }
         }
 

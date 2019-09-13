@@ -289,9 +289,10 @@ namespace Loqui.Generation
                 GenerateEnumIndex(fg);
                 await GenerateRegistration(fg);
                 await GenerateCommon(fg);
-                await GenerateTranslations(fg);
                 GenerateLoquiInterfaces(fg);
             }
+
+            await GenerateTranslations(fg);
 
             var fileName = Path.Combine(TargetDir.FullName, FileName);
             var file = new FileInfo(fileName);
