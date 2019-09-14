@@ -107,15 +107,18 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            foreach (var item in _fieldMapping.Values)
+            using (new NamespaceWrapper(fg, obj.InternalNamespace))
             {
-                item.Module = this;
-            }
+                foreach (var item in _fieldMapping.Values)
+                {
+                    item.Module = this;
+                }
 
-            await GenerateNormalMask(obj, fg);
-            await GenerateErrorMask(obj, fg);
-            GenerateCopyMask(obj, fg);
-            await GenerateTranslationMask(obj, fg);
+                await GenerateNormalMask(obj, fg);
+                await GenerateErrorMask(obj, fg);
+                GenerateCopyMask(obj, fg);
+                await GenerateTranslationMask(obj, fg);
+            }
         }
 
         private void GenerateCopyMask(ObjectGeneration obj, FileGeneration fg)

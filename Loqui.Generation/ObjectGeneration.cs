@@ -317,7 +317,6 @@ namespace Loqui.Generation
                 GenerateEnumIndex(fg);
                 await GenerateRegistration(fg);
                 await GenerateCommon(fg);
-                await GenerateTranslations(fg);
                 GenerateLoquiInterfaces(fg);
             }
             fg.AppendLine();
@@ -330,6 +329,8 @@ namespace Loqui.Generation
                     await this.GenerateRouting(fg, getterOnly: false);
                 }
             }
+
+            await GenerateTranslations(fg);
 
             var fileName = Path.Combine(TargetDir.FullName, FileName);
             var file = new FileInfo(fileName);
