@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Loqui.Internal;
+using Noggog;
 
 namespace Loqui.Generation
 {

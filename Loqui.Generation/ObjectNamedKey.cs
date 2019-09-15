@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Linq;
 
 namespace Loqui.Generation
