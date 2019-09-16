@@ -155,7 +155,7 @@ namespace Loqui.Generation
         {
         }
 
-        private async Task<string> ErrorLabel(ObjectGeneration obj) => await this.AsyncImport(obj) ? "_Error" : null;
+        private async Task<string> ErrorLabel(ObjectGeneration obj) => await this.AsyncImport(obj) ? "WithErrorMask" : null;
 
         public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
