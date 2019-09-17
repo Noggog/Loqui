@@ -2,6 +2,7 @@ using Noggog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reactive.Subjects;
 using System.Text;
 
 namespace Loqui
@@ -24,8 +25,15 @@ namespace Loqui
         }
         public bool Empty => this.Strings.Count <= 1;
 
+        // Debug inspection members
+        private static readonly Subject<string> _LineAppended = new Subject<string>();
+        public static IObservable<string> LineAppended => _LineAppended;
+
         public void Append(string str)
         {
+#if DEBUG
+            _LineAppended.OnNext(str);
+#endif
             if (str.Length == 1 && str[0] == '\n')
             {
                 Strings.Add("");
@@ -84,12 +92,6 @@ namespace Loqui
 
         public void AppendLine(string str, bool extraLine = false)
         {
-            if (str.Contains("Byte[] IModHeaderGetter.TypeOffsets => this.TypeOffsets;"))
-            {
-                int wer = 23;
-                wer++;
-            }
-
             using (new LineWrapper(this))
             {
                 Append(str);
