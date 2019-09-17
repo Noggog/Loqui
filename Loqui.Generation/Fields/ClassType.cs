@@ -97,7 +97,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"this.RaiseAndSetIf{(ReferenceChanged ? "Reference" : null)}Changed(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                     }
 
                     using (var args = new FunctionWrapper(fg,

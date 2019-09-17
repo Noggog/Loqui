@@ -27,7 +27,6 @@ namespace Loqui
             ref T item,
             T newItem,
             [CallerMemberName] string propertyName = null)
-            where T : struct
         {
             if (PropertyChanged == null)
             {
@@ -41,24 +40,6 @@ namespace Loqui
             }
         }
 
-        protected void RaiseAndSetIfReferenceChanged<T>(
-            ref T item,
-            T newItem,
-            [CallerMemberName] string propertyName = null)
-            where T : class
-        {
-            if (PropertyChanged == null)
-            {
-                item = newItem;
-            }
-            else
-            {
-                if (ReferenceEquals(item, newItem)) return;
-                item = newItem;
-                this.RaisePropertyChanged(propertyName);
-            }
-        }
-
         protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
@@ -66,7 +47,6 @@ namespace Loqui
             bool newHasBeenSet,
             string name,
             string hasBeenSetName)
-            where T : struct
         {
             if (PropertyChanged == null)
             {
@@ -87,34 +67,6 @@ namespace Loqui
             }
         }
 
-        protected void RaiseAndSetIfReferenceChanged<T>(
-            ref T item,
-            T newItem,
-            ref bool hasBeenSet,
-            bool newHasBeenSet,
-            string name,
-            string hasBeenSetName)
-            where T : class
-        {
-            if (PropertyChanged == null)
-            {
-                item = newItem;
-                hasBeenSet = newHasBeenSet;
-            }
-            else
-            {
-                if (!newHasBeenSet)
-                {
-                    this.RaiseAndSetIfChanged(ref hasBeenSet, newHasBeenSet, propertyName: hasBeenSetName);
-                }
-                this.RaiseAndSetIfReferenceChanged(ref item, newItem, propertyName: name);
-                if (newHasBeenSet)
-                {
-                    this.RaiseAndSetIfChanged(ref hasBeenSet, newHasBeenSet, propertyName: hasBeenSetName);
-                }
-            }
-        }
-
         protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
@@ -123,7 +75,6 @@ namespace Loqui
             int index,
             string name,
             string hasBeenSetName)
-            where T : struct
         {
             if (PropertyChanged == null)
             {
@@ -134,41 +85,6 @@ namespace Loqui
             {
                 var oldHasBeenSet = hasBeenSet[index];
                 bool itemEqual = EqualityComparer<T>.Default.Equals(item, newItem);
-                if (oldHasBeenSet != newHasBeenSet)
-                {
-                    hasBeenSet[index] = newHasBeenSet;
-                }
-                if (!itemEqual)
-                {
-                    item = newItem;
-                    this.RaisePropertyChanged(name);
-                }
-                if (oldHasBeenSet != newHasBeenSet)
-                {
-                    this.RaisePropertyChanged(hasBeenSetName);
-                }
-            }
-        }
-
-        protected void RaiseAndSetIfReferenceChanged<T>(
-            ref T item,
-            T newItem,
-            BitArray hasBeenSet,
-            bool newHasBeenSet,
-            int index,
-            string name,
-            string hasBeenSetName)
-            where T : class
-        {
-            if (PropertyChanged == null)
-            {
-                hasBeenSet[index] = newHasBeenSet;
-                item = newItem;
-            }
-            else
-            {
-                var oldHasBeenSet = hasBeenSet[index];
-                bool itemEqual = ReferenceEquals(item, newItem);
                 if (oldHasBeenSet != newHasBeenSet)
                 {
                     hasBeenSet[index] = newHasBeenSet;
