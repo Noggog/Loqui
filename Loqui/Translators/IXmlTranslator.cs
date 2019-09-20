@@ -15,14 +15,4 @@ namespace Loqui.Xml
             TranslationCrystal translationMask,
             string name);
     }
-    
-    public interface IXmlItem
-    {
-        object XmlWriteTranslator { get; }
-        void WriteToXml(
-            XElement node,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask,
-            string name);
-    }
 }
