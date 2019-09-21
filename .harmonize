@@ -2,19 +2,19 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>f19b41e3a1896253c9a193bad303f7ed8329aceb</Sha>
+         <Sha>c744bb0199c415a92a291b4fd53e9de342a01b9b</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-20-2019 19:02:46</CommitDate>
-         <Description>Nuget update</Description>
+         <CommitDate>09-21-2019 17:38:42</CommitDate>
+         <Description>Dynamic data library updates</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>a5866ca375b49ede7bd91346657e8adedad09286</Sha>
+         <Sha>e07de13ef2bc5ae6d0352b26c5129796c165ddbd</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>09-16-2019 21:38:33</CommitDate>
-         <Description>ObservableListEx.CollectionCount starts with 0</Description>
+         <CommitDate>09-21-2019 17:08:07</CommitDate>
+         <Description>Merge branch 'BufferIf-clearing-fix'</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/DynamicData.git</OriginHint>
       </RepoListing>

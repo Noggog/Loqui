@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj" />
-    <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj" />
+    <ProjectReference Include="..\..\DynamicData\src\DynamicData\DynamicData.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -53,7 +53,7 @@
       <Project>{c56b9607-41cf-4f59-9eef-f79d57309eda}</Project>
       <Name>CSharpExt</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DynamicData\DynamicData\DynamicData.csproj">
+    <ProjectReference Include="..\..\DynamicData\src\DynamicData\DynamicData.csproj">
       <Project>{edbe1edf-07c6-42e3-8c77-cab14d4b92b7}</Project>
       <Name>DynamicData</Name>
     </ProjectReference>

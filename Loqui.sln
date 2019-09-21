@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests.Generator", "Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests", "Loqui.Tests\Loqui.Tests.csproj", "{EFE5029A-F561-4108-8547-4BE22DA99596}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicData", "..\DynamicData\DynamicData\DynamicData.csproj", "{EDBE1EDF-07C6-42E3-8C77-CAB14D4B92B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicData", "..\DynamicData\src\DynamicData\DynamicData.csproj", "{EDBE1EDF-07C6-42E3-8C77-CAB14D4B92B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui", "Loqui\Loqui.csproj", "{6BDB8C9C-0FDB-431E-9EB2-A09C9C4A3E26}"
 EndProject
