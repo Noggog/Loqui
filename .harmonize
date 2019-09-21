@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>15c01e9461a7e56cb7acdf7fac5b85b60fc610c3</Sha>
+         <Sha>f19b41e3a1896253c9a193bad303f7ed8329aceb</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-19-2019 19:20:47</CommitDate>
-         <Description>UserControlRx.  FilePicker control</Description>
+         <CommitDate>09-20-2019 19:02:46</CommitDate>
+         <Description>Nuget update</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

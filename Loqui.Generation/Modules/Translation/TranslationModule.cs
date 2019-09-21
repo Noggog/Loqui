@@ -235,7 +235,7 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"CopyIn{ModuleNickname}_Internal"))
+                            $"CopyIn{ModuleNickname}Internal"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             args.Add($"errorMask: null");
@@ -273,7 +273,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                     using (var args = new ArgsWrapper(fg,
-                        $"CopyIn{ModuleNickname}_Internal"))
+                        $"CopyIn{ModuleNickname}Internal"))
                     {
                         args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                         args.Add($"errorMask: errorMaskBuilder");
@@ -284,7 +284,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
 
                 using (var args = new FunctionWrapper(fg,
-                    $"protected{obj.FunctionOverride()}void CopyIn{ModuleNickname}_Internal"))
+                    $"protected{obj.FunctionOverride()}void CopyIn{ModuleNickname}Internal"))
                 {
                     foreach (var item in this.MainAPI.ReaderAPI.MajorAPI)
                     {
@@ -308,21 +308,22 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    // ToDo
+                    // Actually implement a copy in, without needing to create an object
                     using (var args = new ArgsWrapper(fg,
-                        $"Loqui{ModuleNickname}Translation<{obj.ObjectName}>.Instance.CopyIn"))
+                        $"var obj = {obj.ObjectName}.{CreateFromPrefix}{ModuleNickname}"))
                     {
                         foreach (var item in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader))
                         {
                             args.Add(item);
                         }
-                        args.Add($"item: this");
-                        args.Add($"skipProtected: true");
-                        args.Add($"errorMask: errorMask");
+                        args.AddPassArg($"errorMask");
                         if (this.TranslationMaskParameter)
                         {
-                            args.Add($"translationMask: translationMask");
+                            args.AddPassArg($"translationMask");
                         }
                     }
+                    fg.AppendLine("this.CopyFieldsFrom(obj);");
                 }
                 fg.AppendLine();
 
@@ -435,7 +436,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                         using (var args = new ArgsWrapper(fg,
-                            $"CopyIn{ModuleNickname}_Internal"))
+                            $"CopyIn{ModuleNickname}Internal"))
                         {
                             args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
                             args.Add($"errorMask: errorMaskBuilder");
