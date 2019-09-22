@@ -1526,7 +1526,7 @@ namespace Loqui.Generation
             {
                 field.GenerateForStaticCtor(staticCtorFG);
             }
-            if (staticCtorFG.Strings.Count == 0) return;
+            if (staticCtorFG.Empty) return;
             fg.AppendLine($"static {this.Name}()");
             using (new BraceWrapper(fg))
             {

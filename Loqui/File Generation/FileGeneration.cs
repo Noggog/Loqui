@@ -20,11 +20,24 @@ namespace Loqui
                 return sb.ToString();
             }
         }
-        public bool Empty => this.Strings.Count == 0;
+        public bool Empty
+        {
+            get
+            {
+                if (this.Strings.Count > 1) return false;
+                if (this.Strings.Count == 0) return true;
+                return string.IsNullOrWhiteSpace(this.Strings[0]);
+            }
+        }
 
         // Debug inspection members
         private static readonly Subject<string> _LineAppended = new Subject<string>();
         public static IObservable<string> LineAppended => _LineAppended;
+
+        public FileGeneration()
+        {
+            this.AppendLine();
+        }
 
         public void Append(string str)
         {
