@@ -43,19 +43,6 @@ namespace Loqui.Generation
             node.TryGetAttribute("default", out DefaultValue);
         }
 
-        public override async Task GenerateForCtor(FileGeneration fg)
-        {
-            await base.GenerateForCtor(fg);
-
-            if (!this.Bare
-                && !this.TrueReadOnly
-                && this.RaisePropertyChanged
-                && this.NotifyingType != NotifyingType.ReactiveUI)
-            {
-                GenerateNotifyingConstruction(fg, $"_{this.Name}");
-            }
-        }
-
         private void WrapSetCode(FileGeneration fg, Action<FileGeneration> toDo)
         {
             PreSetEvent?.Invoke(fg);
@@ -190,14 +177,7 @@ namespace Loqui.Generation
                 {
                     if (!this.TrueReadOnly)
                     {
-                        if (this.RaisePropertyChanged)
-                        {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
-                        }
-                        else
-                        {
-                            GenerateNotifyingCtor(fg);
-                        }
+                        fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
                         if (HasDefault)
                         {
@@ -296,11 +276,6 @@ namespace Loqui.Generation
             return $"protected I{item}<{TypeName(getter: false)}> _{this.Name}";
         }
 
-        protected void GenerateNotifyingCtor(FileGeneration fg)
-        {
-            GenerateNotifyingConstruction(fg, GetNotifyingProperty());
-        }
-
         protected virtual IEnumerable<string> GenerateNotifyingConstructionParameters()
         {
             if (this.RaisePropertyChanged)
@@ -314,28 +289,6 @@ namespace Loqui.Generation
             if (this.HasBeenSet)
             {
                 yield return "markAsSet: false";
-            }
-        }
-
-        protected virtual void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
-        {
-            if (!this.IntegrateField) return;
-            string item;
-            if (this.HasBeenSet)
-            {
-                item = "HasBeenSetItem";
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {item}.Factory<{TypeName(getter: false)}>"))
-            {
-                foreach (var arg in GenerateNotifyingConstructionParameters())
-                {
-                    args.Add(arg);
-                }
             }
         }
 

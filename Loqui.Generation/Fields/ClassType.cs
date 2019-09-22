@@ -150,14 +150,7 @@ namespace Loqui.Generation
                 {
                     if (!this.TrueReadOnly)
                     {
-                        if (this.RaisePropertyChanged)
-                        {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
-                        }
-                        else
-                        {
-                            GenerateNotifyingCtor(fg);
-                        }
+                        fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
                         fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");

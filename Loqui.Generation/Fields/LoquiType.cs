@@ -230,13 +230,6 @@ namespace Loqui.Generation
                 }
                 return;
             }
-
-            if ((!this.TrueReadOnly
-                && this.RaisePropertyChanged)
-                || this.SingletonType == SingletonLevel.Singleton)
-            {
-                GenerateNotifyingConstruction(fg, $"_{this.Name}");
-            }
         }
 
         public override void GenerateForClass(FileGeneration fg)
@@ -377,15 +370,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                     }
-                    if (this.RaisePropertyChanged
-                        || this.SingletonType == SingletonLevel.Singleton)
-                    {
-                        fg.AppendLine(GetNotifyingProperty() + ";");
-                    }
-                    else
-                    {
-                        GenerateNotifyingCtor(fg);
-                    }
+                    fg.AppendLine(GetNotifyingProperty() + ";");
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"public {this.TypeName()} {this.Name}");
                     using (new BraceWrapper(fg))
@@ -452,47 +437,6 @@ namespace Loqui.Generation
                         default:
                             throw new NotImplementedException();
                     }
-                }
-            }
-        }
-
-        protected override void GenerateNotifyingConstruction(FileGeneration fg, string prepend)
-        {
-            string item;
-            if (this.HasBeenSet)
-            {
-                item = $"HasBeenSetItem";
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
-            using (var args = new ArgsWrapper(fg,
-                $"{prepend} = {item}.Factory{(this.SingletonType == SingletonLevel.NotNull && this.SetterInterfaceType == LoquiInterfaceType.Direct ? "NoNull" : string.Empty)}<{TypeName()}>"))
-            {
-                switch (this.SingletonType)
-                {
-                    case SingletonLevel.None:
-                    case SingletonLevel.NotNull:
-                        break;
-                    case SingletonLevel.Singleton:
-                        args.Add($"defaultVal: {this.SingletonObjectName}");
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-                if (this.RaisePropertyChanged)
-                {
-                    args.Add($"onSet: (i) => this.OnPropertyChanged(nameof({this.Name}))");
-                }
-                if (this.SingletonType == SingletonLevel.NotNull
-                    && this.SetterInterfaceType != LoquiInterfaceType.Direct)
-                {
-                    args.Add($"noNullFallback: () => new {this.ObjectTypeName}()");
-                }
-                if (this.HasBeenSet)
-                {
-                    args.Add($"markAsSet: {(this.SingletonType == SingletonLevel.Singleton ? "true" : "false")}");
                 }
             }
         }

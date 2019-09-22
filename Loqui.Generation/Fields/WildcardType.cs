@@ -10,14 +10,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                if (this.RaisePropertyChanged)
-                {
-                    fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
-                }
-                else
-                {
-                    GenerateNotifyingCtor(fg);
-                }
+                fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
                 fg.AppendLine($"public {(ReadOnly ? "IHasBeenSetItemGetter" : "IHasBeenSetItem")}<{TypeName(getter: false)}> {this.Property} => _{this.Name};");
                 if (this.ReadOnly)
                 {
