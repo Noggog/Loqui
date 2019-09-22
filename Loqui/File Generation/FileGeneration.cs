@@ -16,14 +16,11 @@ namespace Loqui
             get
             {
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < this.Depth; i++)
-                {
-                    sb.Append("    ");
-                }
+                sb.Append(' ', this.Depth * 4);
                 return sb.ToString();
             }
         }
-        public bool Empty => this.Strings.Count <= 1;
+        public bool Empty => this.Strings.Count == 0;
 
         // Debug inspection members
         private static readonly Subject<string> _LineAppended = new Subject<string>();

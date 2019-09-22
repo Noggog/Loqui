@@ -4,17 +4,17 @@ namespace Loqui
 {
     public class LineWrapper : IDisposable
     {
-        FileGeneration fg; 
+        readonly FileGeneration _fg; 
 
         public LineWrapper(FileGeneration fg)
         {
-            this.fg = fg;
-            this.fg.Append(this.fg.DepthStr);
+            this._fg = fg;
+            this._fg.Append(this._fg.DepthStr);
         }
 
         public void Dispose()
         {
-            fg.Append("\n");
+            this._fg.Append("\n");
         }
     }
 }
