@@ -223,18 +223,6 @@ namespace Loqui.Generation
                     }
                 }
             }
-            if (this.ObjectCentralized && this.NotifyingType != NotifyingType.ReactiveUI)
-            {
-                using (var args = new FunctionWrapper(fg,
-                    $"protected void Unset{this.Name}"))
-                {
-                }
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = false;");
-                    fg.AppendLine($"{this.Name} = {(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")};");
-                }
-            }
             if (this.HasInternalInterface)
             {
                 if (this.InternalSetInterface)
