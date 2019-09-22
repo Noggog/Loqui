@@ -101,20 +101,11 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => {this.ProtectedName};");
                         if (this.Singleton == SingletonLevel.None)
                         {
-                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
+                            fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(ref _{this.Name}, value, nameof({this.Name}));");
                         }
                         else
                         {
-                            fg.AppendLine($"{SetPermissionStr}set");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"this.{this.ProtectedName} = value;");
-                                fg.AppendLine("if (value == null)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"this.{this.ProtectedName} = {this.GetNewForNonNullable()};");
-                                }
-                            }
+                            fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(ref _{this.Name}, value ?? {this.GetNewForNonNullable()}, nameof({this.Name}));");
                         }
                     }
                     if (this.TypeName(getter: true) != this.TypeName(getter: false))
@@ -164,16 +155,7 @@ namespace Loqui.Generation
                         }
                         else
                         {
-                            fg.AppendLine($"{SetPermissionStr}set");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"this.{this.ProtectedName} = value;");
-                                fg.AppendLine("if (value == null)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"this.{this.ProtectedName} = {this.GetNewForNonNullable()};");
-                                }
-                            }
+                            fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedName} = value ?? {this.GetNewForNonNullable()};");
                         }
                     }
                 }
