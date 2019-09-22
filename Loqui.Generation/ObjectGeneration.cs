@@ -907,7 +907,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public{this.NewOverride()}static readonly {className} Instance = new {className}();");
                 fg.AppendLine();
 
-                fg.AppendLines(subGen.Strings);
+                fg.AppendLines(subGen);
             }
             activeMaskCollections.Add(maskTypeCol);
         }
@@ -1530,7 +1530,7 @@ namespace Loqui.Generation
             fg.AppendLine($"static {this.Name}()");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLines(staticCtorFG.Strings);
+                fg.AppendLines(staticCtorFG);
             }
             fg.AppendLine();
         }

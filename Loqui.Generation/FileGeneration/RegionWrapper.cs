@@ -13,7 +13,7 @@ namespace Loqui.Generation
         public RegionWrapper(FileGeneration fg, string str, bool appendExtraLine = true)
         {
             this._fg = fg;
-            this._startingIndex = fg.Strings.Count;
+            this._startingIndex = fg.Count;
             this._name = str;
             this.AppendExtraLine = appendExtraLine;
         }
@@ -21,9 +21,9 @@ namespace Loqui.Generation
         public void Dispose()
         {
             if (string.IsNullOrWhiteSpace(_name)) return;
-            if (_startingIndex == _fg.Strings.Count) return;
-            if (SkipIfOnlyOneLine && _startingIndex + 1 == _fg.Strings.Count) return;
-            _fg.Strings.Insert(Math.Max(0, _startingIndex - 1), $"{_fg.DepthStr}#region {_name}");
+            if (_startingIndex == _fg.Count) return;
+            if (SkipIfOnlyOneLine && _startingIndex + 1 == _fg.Count) return;
+            _fg.Insert(Math.Max(0, _startingIndex), $"{_fg.DepthStr}#region {_name}");
             _fg.AppendLine("#endregion");
             if (AppendExtraLine)
             {

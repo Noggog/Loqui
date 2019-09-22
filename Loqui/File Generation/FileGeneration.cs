@@ -1,5 +1,6 @@
 using Noggog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive.Subjects;
@@ -7,10 +8,10 @@ using System.Text;
 
 namespace Loqui
 {
-    public class FileGeneration
+    public class FileGeneration : IEnumerable<string>
     {
         public int Depth;
-        public List<string> Strings = new List<string>();
+        private readonly List<string> _strings = new List<string>();
         public string DepthStr
         {
             get
@@ -24,9 +25,9 @@ namespace Loqui
         {
             get
             {
-                if (this.Strings.Count > 1) return false;
-                if (this.Strings.Count == 0) return true;
-                return string.IsNullOrWhiteSpace(this.Strings[0]);
+                if (this._strings.Count > 1) return false;
+                if (this._strings.Count == 0) return true;
+                return string.IsNullOrWhiteSpace(this._strings[0]);
             }
         }
 
@@ -34,9 +35,46 @@ namespace Loqui
         private static readonly Subject<string> _LineAppended = new Subject<string>();
         public static IObservable<string> LineAppended => _LineAppended;
 
+        public int Count => this._strings.Count - 1;
+
+        public string this[int index]
+        {
+            get
+            {
+                CheckIndex(index);
+                return this._strings[index];
+            }
+            set
+            {
+                CheckIndex(index);
+                if (index == this._strings.Count - 1)
+                {
+                    this.AppendLine(value);
+                }
+                else
+                {
+                    this._strings[index] = value;
+                }
+            }
+        }
+
         public FileGeneration()
         {
             this.AppendLine();
+        }
+
+        public void Insert(int index, string str)
+        {
+            CheckIndex(index);
+            this._strings.Insert(index, str);
+        }
+
+        private void CheckIndex(int index)
+        {
+            if (index >= this._strings.Count - 1 || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
         }
 
         public void Append(string str)
@@ -46,26 +84,26 @@ namespace Loqui
 #endif
             if (str.Length == 1 && str[0] == '\n')
             {
-                Strings.Add("");
+                this._strings.Add("");
                 return;
             }
             string[] split = str.Split('\n');
             split.First(
                 (s, first) =>
                 {
-                    if (Strings.Count == 0)
+                    if (this._strings.Count == 0)
                     {
-                        Strings.Add(s);
+                        this._strings.Add(s);
                     }
                     else
                     {
                         if (first)
                         {
-                            Strings[Strings.Count - 1] = Strings[Strings.Count - 1] + s;
+                            this._strings[this._strings.Count - 1] = this._strings[this._strings.Count - 1] + s;
                         }
                         else
                         {
-                            Strings.Add(s);
+                            this._strings.Add(s);
                         }
                     }
                 });
@@ -135,12 +173,25 @@ namespace Loqui
 
         public string GetString()
         {
-            return string.Join("\n", Strings);
+            return string.Join("\n", this._strings);
         }
 
         public override string ToString()
         {
             return GetString();
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            for (int i = 0; i < this._strings.Count - 1; i++)
+            {
+                yield return this._strings[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

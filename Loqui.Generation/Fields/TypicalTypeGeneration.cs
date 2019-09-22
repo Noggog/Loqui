@@ -57,22 +57,17 @@ namespace Loqui.Generation
         {
             FileGeneration subFg = new FileGeneration();
             WrapSetCode(subFg, toDo);
-            if (subFg.Strings.Count > 0
-                && string.IsNullOrWhiteSpace(subFg.Strings[subFg.Strings.Count - 1]))
-            {
-                subFg.Strings.RemoveAt(subFg.Strings.Count - 1);
-            }
-            if (subFg.Strings.Count > 1)
+            if (subFg.Count > 1)
             {
                 fg.AppendLine(linePrefix);
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLines(subFg.Strings);
+                    fg.AppendLines(subFg);
                 }
             }
-            else if (subFg.Strings.Count > 0)
+            else if (subFg.Count > 0)
             {
-                fg.AppendLine($"{linePrefix} => {subFg.Strings[0]}");
+                fg.AppendLine($"{linePrefix} => {subFg[0]}");
             }
             else
             {
