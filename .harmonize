@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>9f2ebde61c8904f6314dd53fe1da4a5494f979c3</Sha>
+         <Sha>0d3454a6ad03a97ec8d95f6b1f5bafe32966db6e</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-22-2019 00:51:02</CommitDate>
-         <Description>BehaviorSetSubject</Description>
+         <CommitDate>09-22-2019 00:55:54</CommitDate>
+         <Description>Removed NotifyingItem concepts</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
