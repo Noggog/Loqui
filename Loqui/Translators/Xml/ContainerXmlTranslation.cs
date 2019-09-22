@@ -58,10 +58,10 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var transl = XmlTranslator<T>.Translator;
-            if (transl.Item.Failed)
+            if (transl.Failed)
             {
                 errorMask.ReportExceptionOrThrow(
-                    new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Item.Reason}"));
+                    new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Reason}"));
                 enumer = null;
                 return false;
             }
@@ -69,7 +69,7 @@ namespace Loqui.Xml
                 node,
                 out enumer,
                 errorMask: errorMask,
-                transl: transl.Item.Value.Parse,
+                transl: transl.Value.Parse,
                 translationMask: translationMask);
         }
 
@@ -148,10 +148,10 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var transl = XmlTranslator<T>.Translator;
-            if (transl.Item.Failed)
+            if (transl.Failed)
             {
                 errorMask.ReportExceptionOrThrow(
-                    new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Item.Reason}"));
+                    new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Reason}"));
             }
             this.Write(
                 node: node,
@@ -160,7 +160,7 @@ namespace Loqui.Xml
                 errorMask: errorMask,
                 translationMask: translationMask,
                 transl: (XElement n, T item1, ErrorMaskBuilder errorMask2, TranslationCrystal transCrystal2) => 
-                    transl.Item.Value.Write(
+                    transl.Value.Write(
                         node: n, 
                         name: "Item", 
                         item: item1,

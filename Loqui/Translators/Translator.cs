@@ -11,11 +11,10 @@ namespace Loqui.Translators
     public abstract class Translator<ObjTransl>
         where ObjTransl : class
     {
-        public NotifyingItem<GetResponse<ObjTransl>> NullTranslationItem;
-        public NotifyingItem<Type> NullType = new NotifyingItem<Type>(
-            defaultVal: null);
+        public GetResponse<ObjTransl> NullTranslationItem;
+        public Type NullType = default;
 
-        public Dictionary<Type, NotifyingItem<GetResponse<ObjTransl>>> typeDict = new Dictionary<Type, NotifyingItem<GetResponse<ObjTransl>>>();
+        public Dictionary<Type, GetResponse<ObjTransl>> typeDict = new Dictionary<Type, GetResponse<ObjTransl>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
 
         private Type genericCaster;
@@ -34,8 +33,7 @@ namespace Loqui.Translators
 
             var nullCasterType = genericCaster.MakeGenericType(typeof(Object));
             var nullTranslation = Activator.CreateInstance(nullTranslator);
-            this.NullTranslationItem = new NotifyingItem<GetResponse<ObjTransl>>(
-                defaultVal: GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation })));
+            this.NullTranslationItem = GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation }));
 
             var genInterfType = typeof(ObjTransl).GetGenericTypeDefinition();
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(genInterfType))
@@ -56,12 +54,7 @@ namespace Loqui.Translators
                 }
                 catch (Exception ex)
                 {
-                    var resp = typeDict.TryCreateValue(
-                        transItemType,
-                        () =>
-                        {
-                            return new NotifyingItem<GetResponse<ObjTransl>>();
-                        }).Item = GetResponse<ObjTransl>.Fail(ex);
+                    typeDict[transItemType] = GetResponse<ObjTransl>.Fail(ex);
                 }
             }
         }
@@ -70,7 +63,7 @@ namespace Loqui.Translators
             return TryGetTranslator(t, out ObjTransl not);
         }
 
-        public bool TryGetTranslator(Type t, out INotifyingItemGetter<GetResponse<ObjTransl>> not)
+        public bool TryGetTranslator(Type t, out GetResponse<ObjTransl> not)
         {
             if (t == null)
             {
@@ -94,8 +87,7 @@ namespace Loqui.Translators
 
                 var xmlConverterGenType = loquiTranslation.MakeGenericType(loquiTypes);
                 var xmlCaster = GetCaster(xmlConverterGenType, regis.ClassType);
-                item = new NotifyingItem<GetResponse<ObjTransl>>(
-                    GetResponse<ObjTransl>.Succeed(xmlCaster));
+                item = GetResponse<ObjTransl>.Succeed(xmlCaster);
                 typeDict[t] = item;
                 not = item;
                 return true;
@@ -123,7 +115,7 @@ namespace Loqui.Translators
                     return true;
                 }
             }
-            not = null;
+            not = default;
             return false;
         }
 
@@ -134,42 +126,41 @@ namespace Loqui.Translators
             return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as ObjTransl;
         }
 
-        protected virtual NotifyingItem<GetResponse<ObjTransl>> SetTranslator_Internal(ObjTransl transl, Type t)
+        protected virtual GetResponse<ObjTransl> SetTranslator_Internal(ObjTransl transl, Type t)
         {
             var resp = typeDict.TryCreateValue(
                 t,
                 () =>
                 {
-                    return new NotifyingItem<GetResponse<ObjTransl>>();
+                    return GetResponse<ObjTransl>.Succeed(transl);
                 });
-            resp.Item = GetResponse<ObjTransl>.Succeed(transl);
             return resp;
         }
 
-        internal NotifyingItem<GetResponse<ObjTransl>> SetTranslator(ObjTransl transl, Type t)
+        internal GetResponse<ObjTransl> SetTranslator(ObjTransl transl, Type t)
         {
             return SetTranslator_Internal(transl, t);
         }
 
-        public INotifyingItemGetter<GetResponse<ObjTransl>> GetTranslator(Type t)
+        public GetResponse<ObjTransl> GetTranslator(Type t)
         {
-            TryGetTranslator(t, out INotifyingItemGetter<GetResponse<ObjTransl>> not);
+            TryGetTranslator(t, out GetResponse<ObjTransl> not);
             return not;
         }
 
         public bool TryGetTranslator(Type t, out ObjTransl transl)
         {
-            if (!TryGetTranslator(t, out INotifyingItemGetter<GetResponse<ObjTransl>> not))
+            if (!TryGetTranslator(t, out GetResponse<ObjTransl> not))
             {
                 transl = null;
                 return false;
             }
-            if (not.Item.Failed)
+            if (not.Failed)
             {
                 transl = null;
                 return false;
             }
-            transl = not.Item.Value;
+            transl = not.Value;
             return transl != null;
         }
     }

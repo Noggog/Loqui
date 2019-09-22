@@ -17,7 +17,7 @@ namespace Loqui.Xml
 
         public IXmlTranslation<object> GetTranslator(Type t)
         {
-            return XmlTranslator.Instance.GetTranslator(t).Item.Value;
+            return XmlTranslator.Instance.GetTranslator(t).Value;
         }
 
         public bool Validate(Type t)
@@ -44,12 +44,12 @@ namespace Loqui.Xml
                     new ArgumentException($"Could not get item node."));
             }
 
-            if (!XmlTranslator.Instance.TranslateElementName(nameAttr.Value, out INotifyingItemGetter<Type> t))
+            if (!XmlTranslator.Instance.TranslateElementName(nameAttr.Value, out Type t))
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator."));
             }
-            var xml = GetTranslator(t.Item);
+            var xml = GetTranslator(t);
             return xml.Parse(itemNode, out item, errorMask, translationMask);
         }
 

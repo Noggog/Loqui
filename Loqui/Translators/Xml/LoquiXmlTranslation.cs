@@ -186,7 +186,7 @@ namespace Loqui.Xml
                     item = default(T);
                     return false;
                 }
-                var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Item.Value.Parse(
+                var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Value.Parse(
                     node: node,
                     item: out var itemObj,
                     errorMask: errorMask,

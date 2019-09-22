@@ -28,18 +28,18 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var keyTransl = XmlTranslator<K>.Translator;
-            if (keyTransl.Item.Failed)
+            if (keyTransl.Failed)
             {
-                throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Item.Reason}");
+                throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Reason}");
             }
             var valTransl = XmlTranslator<V>.Translator;
-            if (valTransl.Item.Failed)
+            if (valTransl.Failed)
             {
-                throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
+                throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Reason}");
             }
             return Parse(
-                keyTransl: keyTransl.Item.Value.Parse,
-                valTransl: valTransl.Item.Value.Parse,
+                keyTransl: keyTransl.Value.Parse,
+                valTransl: valTransl.Value.Parse,
                 root: root,
                 item: out item,
                 errorMask: errorMask,
@@ -214,14 +214,14 @@ namespace Loqui.Xml
             TranslationCrystal translationMask)
         {
             var keyTransl = XmlTranslator<K>.Translator;
-            if (keyTransl.Item.Failed)
+            if (keyTransl.Failed)
             {
-                throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Item.Reason}");
+                throw new ArgumentException($"No XML Translator available for {typeof(K)}. {keyTransl.Reason}");
             }
             var valTransl = XmlTranslator<V>.Translator;
-            if (valTransl.Item.Failed)
+            if (valTransl.Failed)
             {
-                throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Item.Reason}");
+                throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Reason}");
             }
             this.Write(
                 node: node,
@@ -230,14 +230,14 @@ namespace Loqui.Xml
                 errorMask: errorMask,
                 translationMask: translationMask,
                 keyTransl: (XElement n, K item1, ErrorMaskBuilder errorMask2, TranslationCrystal transl2)
-                    => keyTransl.Item.Value.Write(
+                    => keyTransl.Value.Write(
                         node: n, 
                         name: "Item",
                         item: item1,
                         errorMask: errorMask2,
                         translationMask: transl2),
                 valTransl: (XElement n, V item1, ErrorMaskBuilder errorMask2, TranslationCrystal transl2) 
-                    => valTransl.Item.Value.Write(
+                    => valTransl.Value.Write(
                         node: n,
                         name: "Item", 
                         item: item1, 
