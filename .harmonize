@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>9b301ff39daac8a83cb63934c4e67865d1cfab46</Sha>
+         <Sha>9f2ebde61c8904f6314dd53fe1da4a5494f979c3</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-21-2019 19:07:51</CommitDate>
-         <Description>ForegroundDarkBrush</Description>
+         <CommitDate>09-22-2019 00:51:02</CommitDate>
+         <Description>BehaviorSetSubject</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

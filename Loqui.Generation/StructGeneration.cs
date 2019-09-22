@@ -102,8 +102,8 @@ namespace Loqui.Generation
             await base.Load();
             foreach (var field in this.IterateFields())
             {
-                field.NotifyingProperty.Item = NotifyingType.None;
-                field.HasBeenSetProperty.Item = false;
+                field.NotifyingProperty.OnNext(NotifyingType.None);
+                field.HasBeenSetProperty.OnNext(false);
                 field.ReadOnly = true;
             }
         }

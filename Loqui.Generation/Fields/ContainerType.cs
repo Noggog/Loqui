@@ -65,7 +65,7 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
 
-            this.NotifyingProperty.Set(NotifyingType.ReactiveUI);
+            this.NotifyingProperty.OnNext(NotifyingType.ReactiveUI);
         }
 
         public override IEnumerable<string> GetRequiredNamespaces()

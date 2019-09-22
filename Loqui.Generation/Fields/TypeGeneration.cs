@@ -2,6 +2,7 @@ using Noggog;
 using Noggog.Notifying;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -34,13 +35,13 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        public readonly NotifyingSetItem<NotifyingType> NotifyingProperty = new NotifyingSetItem<NotifyingType>();
-        public NotifyingType NotifyingType => NotifyingProperty.Item;
+        public readonly BehaviorSetSubject<NotifyingType> NotifyingProperty = new BehaviorSetSubject<NotifyingType>();
+        public NotifyingType NotifyingType => NotifyingProperty.Value;
         public bool Notifying => NotifyingType != NotifyingType.None;
-        public readonly NotifyingSetItem<bool> HasBeenSetProperty = new NotifyingSetItem<bool>();
-        public bool HasBeenSet => HasBeenSetProperty.Item;
-        public readonly NotifyingSetItem<bool> ObjectCentralizedProperty = new NotifyingSetItem<bool>();
-        public bool ObjectCentralized => ObjectCentralizedProperty.Item;
+        public readonly BehaviorSetSubject<bool> HasBeenSetProperty = new BehaviorSetSubject<bool>();
+        public bool HasBeenSet => HasBeenSetProperty.Value;
+        public readonly BehaviorSetSubject<bool> ObjectCentralizedProperty = new BehaviorSetSubject<bool>();
+        public bool ObjectCentralized => ObjectCentralizedProperty.Value;
         public bool Bare => this.NotifyingType == NotifyingType.None && !this.HasBeenSet;
         public virtual bool HasProperty => !this.Bare && this.NotifyingType != NotifyingType.ReactiveUI;
         public bool PrefersProperty => HasProperty && !this.ObjectCentralized;
@@ -92,9 +93,9 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
-            node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.Item = i);
-            node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.Item = i);
-            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.Item = i);
+            node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext(i));
+            node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.OnNext(i));
+            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             if (requireName && Namable && Name == null)

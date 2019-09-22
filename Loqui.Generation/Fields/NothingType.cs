@@ -26,8 +26,8 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.NotifyingProperty.Set(NotifyingType.None);
-            this.HasBeenSetProperty.Set(false);
+            this.NotifyingProperty.OnNext(NotifyingType.None);
+            this.HasBeenSetProperty.OnNext(false);
         }
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
