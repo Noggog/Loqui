@@ -243,26 +243,24 @@ namespace Loqui.Generation
         {
             if (accessor == null)
             {
-                if (this.NotifyingType == NotifyingType.ReactiveUI
-                    && !this.HasProperty)
+                if (this.PrefersProperty)
                 {
-                    return $"{this.Name}_IsSet";
+                    return $"{this.Property}.HasBeenSet";
                 }
                 else
                 {
-                    return $"{this.Property}.HasBeenSet";
+                    return $"{this.Name}_IsSet";
                 }
             }
             else
             {
-                if (this.NotifyingType == NotifyingType.ReactiveUI
-                    && !this.HasProperty)
+                if (this.PrefersProperty)
                 {
-                    return  $"{accessor.DirectAccess}_IsSet";
+                    return $"{accessor.PropertyAccess}.HasBeenSet";
                 }
                 else
                 {
-                    return $"{accessor.PropertyAccess}.HasBeenSet";
+                    return $"{accessor.DirectAccess}_IsSet";
                 }
             }
         }

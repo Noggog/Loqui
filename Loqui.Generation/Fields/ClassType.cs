@@ -118,28 +118,83 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    if (!this.TrueReadOnly)
+                    if (this.PrefersProperty)
                     {
-                        fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
-                        fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
-                        using (new BraceWrapper(fg))
+                        if (!this.TrueReadOnly)
                         {
-                            fg.AppendLine($"get => this._{ this.Name}.Item;");
-                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name}.Set(value);");
+                            fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
+                            fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"get => this._{ this.Name}.Item;");
+                                fg.AppendLine($"{SetPermissionStr}set => this._{this.Name}.Set(value);");
+                            }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
                         }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
+                        else
+                        {
+                            fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
+                            fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                        }
                     }
                     else
                     {
-                        fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
+                        if (!this.TrueReadOnly)
+                        {
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
+                            using (new BraceWrapper(fg))
+                            {
+                                if (this.ObjectCentralized)
+                                {
+                                    fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
+                                    fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                                }
+                            }
+                            fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                            fg.AppendLine($"protected {base.TypeName(getter: false)} _{this.Name};");
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"get => this._{ this.Name};");
+                                fg.AppendLine($"{SetPermissionStr}set => {this.Name}_Set(value);");
+                            }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                        }
+                        else
+                        {
+                            fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        }
+
+                        using (var args = new FunctionWrapper(fg,
+                            $"public void {this.Name}_Set"))
+                        {
+                            args.Add($"{this.TypeName(getter: false)} value");
+                            args.Add($"bool markSet = true");
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                        }
+
+                        using (var args = new FunctionWrapper(fg,
+                            $"public void {this.Name}_Unset"))
+                        {
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")}, false);");
+                        }
                     }
                 }
                 else
@@ -157,6 +212,10 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedName} = value ?? {this.GetNewForNonNullable()};");
                         }
+                    }
+                    if (this.TypeName(getter: true) != this.TypeName(getter: false))
+                    {
+                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                 }
             }
