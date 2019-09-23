@@ -31,7 +31,6 @@ namespace Loqui.Generation
         public NotifyingType NotifyingDefault;
         public bool HasBeenSetDefault;
         public bool ObjectCentralizedDefault;
-        public bool RaisePropertyChangedDefault = true;
         public List<string> Interfaces = new List<string>();
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
@@ -56,7 +55,6 @@ namespace Loqui.Generation
             this.NthReflectionDefault = gen.NthReflectionDefault;
             this.ToStringDefault = gen.ToStringDefault;
             this.DerivativeDefault = gen.DerivativeDefault;
-            this.RaisePropertyChangedDefault = gen.RaisePropertyChangedDefault;
             this.AddSearchableFolder(defSearchableFolder);
         }
 

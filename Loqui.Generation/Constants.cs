@@ -18,7 +18,6 @@ namespace Loqui.Generation
         public const string GET_PERMISSION_DEFAULT = "getPermissionDefault";
         public const string COPY = "copy";
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
-        public const string RAISE_PROPERTY_CHANGED = "raisePropertyChanged";
         public const string NOTIFYING = "notifying";
         public const string OBJECT_CENTRALIZED = "objectCentralized";
         public const string HAS_BEEN_SET = "hasBeenSet";
@@ -52,7 +51,6 @@ namespace Loqui.Generation
         public const string CTOR_PERMISSION = "ctorPermission";
         public const string VERSION = "version";
         public const string DERIVATIVE_DEFAULT = "derivativeDefault";
-        public const string RAISEPROPERTYCHANGED_DEFAULT = "raisePropertyChangedDefault";
         public const string DISABLE = "disable";
         public const string NAMESPACES = "Namespaces";
         public const string BASE_CLASS = "BaseClass";

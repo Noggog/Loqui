@@ -201,26 +201,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
-                    if (this.RaisePropertyChanged)
-                    {
-                        fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
-                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"get => this._{this.Name};");
-                            WrapSetAccessor(fg,
-                                linePrefix: $"{SetPermissionStr}set",
-                                toDo: subGen =>
-                                {
-                                    subGen.AppendLine($"this._{this.Name} = {GetValueSetString("value")};");
-                                    subGen.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
-                                });
-                        }
-                    }
-                    else
-                    {
-                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {SetPermissionStr}set; }}");
-                    }
+                    fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {SetPermissionStr}set; }}");
                 }
             }
             if (this.HasInternalInterface)
@@ -257,22 +238,6 @@ namespace Loqui.Generation
                 throw new NotImplementedException();
             }
             return $"protected I{item}<{TypeName(getter: false)}> _{this.Name}";
-        }
-
-        protected virtual IEnumerable<string> GenerateNotifyingConstructionParameters()
-        {
-            if (this.RaisePropertyChanged)
-            {
-                yield return $"onSet: (i) => this.OnPropertyChanged(nameof({this.Name}))";
-            }
-            if (HasDefault)
-            {
-                yield return $"defaultVal: {GenerateDefaultValue()}";
-            }
-            if (this.HasBeenSet)
-            {
-                yield return "markAsSet: false";
-            }
         }
 
         protected virtual string GenerateDefaultValue()

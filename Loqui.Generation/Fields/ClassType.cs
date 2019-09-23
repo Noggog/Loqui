@@ -35,23 +35,6 @@ namespace Loqui.Generation
             return base.GenerateDefaultValue();
         }
 
-        protected override IEnumerable<string> GenerateNotifyingConstructionParameters()
-        {
-            foreach (var arg in base.GenerateNotifyingConstructionParameters())
-            {
-                if (arg.Contains("markAsSet")) continue;
-                yield return arg;
-            }
-            if (this.HasBeenSet)
-            {
-                yield return $"markAsSet: {(this.Singleton == SingletonLevel.Singleton ? "true" : "false")}";
-            }
-            if (this.Singleton != SingletonLevel.None)
-            {
-                yield return $"noNullFallback: () => {GetNewForNonNullable()}";
-            }
-        }
-
         public override void GenerateForClass(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
@@ -118,7 +101,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => {this.ProtectedName};");
                         if (this.Singleton == SingletonLevel.None)
                         {
-                            fg.AppendLine($"{SetPermissionStr}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
+                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
                         }
                         else
                         {
@@ -130,10 +113,6 @@ namespace Loqui.Generation
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine($"this.{this.ProtectedName} = {this.GetNewForNonNullable()};");
-                                }
-                                if (this.RaisePropertyChanged)
-                                {
-                                    fg.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
                                 }
                             }
                         }
@@ -181,7 +160,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"get => {this.ProtectedName};");
                         if (this.Singleton == SingletonLevel.None)
                         {
-                            fg.AppendLine($"{SetPermissionStr}set {{ this._{this.Name} = value;{(this.RaisePropertyChanged ? $" OnPropertyChanged(nameof({this.Name}));" : string.Empty)} }}");
+                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
                         }
                         else
                         {
@@ -193,10 +172,6 @@ namespace Loqui.Generation
                                 using (new BraceWrapper(fg))
                                 {
                                     fg.AppendLine($"this.{this.ProtectedName} = {this.GetNewForNonNullable()};");
-                                }
-                                if (this.RaisePropertyChanged)
-                                {
-                                    fg.AppendLine($"OnPropertyChanged(nameof({this.Name}));");
                                 }
                             }
                         }

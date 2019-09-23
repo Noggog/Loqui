@@ -26,7 +26,6 @@ namespace Loqui.Generation
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public virtual bool IntegrateField { get; set; } = true;
-        public bool RaisePropertyChanged;
         public bool ReadOnly;
         public PermissionLevel SetPermission = PermissionLevel.@public;
         public PermissionLevel GetPermission = PermissionLevel.@public;
@@ -64,7 +63,6 @@ namespace Loqui.Generation
         {
             this.ObjectGen = obj;
             if (!setDefaults) return;
-            this.RaisePropertyChanged = this.ObjectGen.RaisePropertyChangedDefault;
             this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
             this.ObjectCentralizedProperty.SetIfNotSet(this.ObjectGen.ObjectCentralizedDefault, markAsSet: false);
@@ -92,7 +90,6 @@ namespace Loqui.Generation
             node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
-            node.TransferAttribute<bool>(Constants.RAISE_PROPERTY_CHANGED, i => this.RaisePropertyChanged = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext(i));

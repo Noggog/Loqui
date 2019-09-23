@@ -36,8 +36,6 @@ namespace Loqui.Generation
         public RxBaseOption RxBaseOptionDefault;
         public bool NotifyingInterface;
         public bool DerivativeDefault;
-        public bool RaisePropertyChangedDefault;
-        public bool HasRaisedPropertyChanged => this.IterateFields().Any((f) => f.RaisePropertyChanged);
         public int StartingIndex => this.HasLoquiBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
         public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();
         public ClassGeneration BaseClass;
@@ -158,7 +156,6 @@ namespace Loqui.Generation
             this.DerivativeDefault = this.ProtoGen.DerivativeDefault;
             this.GenerateNthReflections = this.ProtoGen.NthReflectionDefault;
             this.GenerateToString = this.ProtoGen.ToStringDefault;
-            this.RaisePropertyChangedDefault = this.ProtoGen.RaisePropertyChangedDefault;
             this.Disabled = DisabledLevel.Enabled;
 
             RequiredNamespaces.Add("System");
@@ -182,7 +179,6 @@ namespace Loqui.Generation
             Node.TransferAttribute<LoquiInterfaceType>(Constants.GET_INTERFACE_TYPE_DEFAULT, (i) => this.GetterInterfaceTypeDefault = i);
             Node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION_DEFAULT, (i) => this.SetPermissionDefault = i);
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => this.DerivativeDefault = i);
-            Node.TransferAttribute<bool>(Constants.RAISEPROPERTYCHANGED_DEFAULT, (i) => this.RaisePropertyChangedDefault = i);
             Node.TransferAttribute<DisabledLevel>(Constants.DISABLE, (i) => this.Disabled = i);
             Node.TransferAttribute<bool>(Constants.SET_BASE_CLASS, i => this.SetBaseClass = i);
 
@@ -429,8 +425,6 @@ namespace Loqui.Generation
 
                 using (new BraceWrapper(fg))
                 {
-                    GenerateRaisePropertyChanged(fg);
-
                     await GenerateCtor(fg);
 
                     await GenerateStaticCtor(fg);
@@ -1495,22 +1489,6 @@ namespace Loqui.Generation
             //{ // Fallback
             //    return this.CommonClass(LoquiInterfaceType.IGetter, MaskType.Normal);
             //}
-        }
-
-        protected void GenerateRaisePropertyChanged(FileGeneration fg)
-        {
-            if (!this.HasRaisedPropertyChanged) return;
-            using (new RegionWrapper(fg, "PropertyChangedHandler"))
-            {
-                fg.AppendLine($"public event PropertyChangedEventHandler PropertyChanged;");
-                fg.AppendLine();
-
-                fg.AppendLine($"protected void OnPropertyChanged(string name)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));");
-                }
-            }
         }
 
         protected abstract Task GenerateCtor(FileGeneration fg);
@@ -2964,12 +2942,6 @@ namespace Loqui.Generation
             }
 
             await Task.WhenAll(this.IterateFields().ToList().Select((f) => f.Resolve()));
-
-            if (this.HasRaisedPropertyChanged)
-            {
-                this.RequiredNamespaces.Add("System.ComponentModel");
-                this.Interfaces.Add(LoquiInterfaceType.IGetter, nameof(INotifyPropertyChanged));
-            }
 
             if (this.HasLoquiBaseObject)
             {

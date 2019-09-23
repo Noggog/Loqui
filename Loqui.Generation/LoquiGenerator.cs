@@ -36,7 +36,6 @@ namespace Loqui.Generation
         public bool ToStringDefault = true;
         public bool NthReflectionDefault = false;
         public bool ObjectCentralizedDefault = true;
-        public bool RaisePropertyChangedDefault;
         public ProtocolKey ProtocolDefault;
         public MaskModule MaskModule = new MaskModule();
         public ObjectCentralizationModule ObjectCentralizationModule = new ObjectCentralizationModule();
