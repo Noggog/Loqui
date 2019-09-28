@@ -214,6 +214,7 @@
       <xs:element name="RefList" type="RefListField" />
       <xs:element name="List" type="List" />
       <xs:element name="Dict" type="Dict" />
+      <xs:element name="Array" type="Array" />
       <xs:element name="Array2D" type="List" />
       <xs:element name="Enum" type="Enum" />
       <xs:element name="EnumNull" type="Enum" />
@@ -322,6 +323,7 @@
       <xs:element name="RefList" type="NRefListField" />
       <xs:element name="List" type="NList" />
       <xs:element name="Dict" type="NDict" />
+      <xs:element name="Array" type="NArray" />
       <xs:element name="Array2D" type="NList" />
       <xs:element name="Enum" type="NEnum" />
       <xs:element name="EnumNull" type="NEnum" />
@@ -1281,7 +1283,6 @@
   <xs:complexType name="RefListField" >
     <xs:complexContent>
       <xs:extension base="RefDirectField">
-        <xs:attribute name="maxSize" type="xs:int" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1439,7 +1440,6 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:group ref="FieldOptions" minOccurs="1" maxOccurs="1" />
-        <xs:attribute name="maxSize" type="xs:int" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1447,6 +1447,24 @@
   <xs:complexType name="NList" >
     <xs:complexContent>
       <xs:extension base="List">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Array" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:group ref="FieldOptions" minOccurs="1" maxOccurs="1" />
+        <xs:attribute name="fixedSize" type="xs:int" />
+        <xs:attribute name="nullable" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NArray" >
+    <xs:complexContent>
+      <xs:extension base="Array">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>

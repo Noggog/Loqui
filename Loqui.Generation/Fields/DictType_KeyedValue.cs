@@ -150,7 +150,7 @@ namespace Loqui.Generation
         {
             if (this.ReadOnly || getter)
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {
@@ -175,7 +175,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {

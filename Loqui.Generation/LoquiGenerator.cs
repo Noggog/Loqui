@@ -122,6 +122,7 @@ namespace Loqui.Generation
             AddTypeAssociation<LoquiType>("RefDirect");
             AddTypeAssociation<LoquiListType>("RefList");
             AddTypeAssociation<ListType>("List");
+            AddTypeAssociation<ArrayType>("Array");
             AddTypeAssociation<DictType>("Dict");
             AddTypeAssociation<EnumType>("Enum");
             AddTypeAssociation<EnumNullType>("EnumNull");

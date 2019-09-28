@@ -34,7 +34,6 @@ namespace Loqui.Generation
         public bool ObjectCentralized;
         public PermissionLevel SetPermissionDefault;
         public RxBaseOption RxBaseOptionDefault;
-        public bool NotifyingInterface;
         public bool DerivativeDefault;
         public int StartingIndex => this.HasLoquiBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
         public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();

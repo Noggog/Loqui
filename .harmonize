@@ -2,19 +2,19 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>0d3454a6ad03a97ec8d95f6b1f5bafe32966db6e</Sha>
+         <Sha>4e6541eb2d9dbb31c3f7c8de91cfd580c4980c9a</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-22-2019 00:55:54</CommitDate>
-         <Description>Removed NotifyingItem concepts</Description>
+         <CommitDate>09-28-2019 11:59:06</CommitDate>
+         <Description>SetList implementation</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>e07de13ef2bc5ae6d0352b26c5129796c165ddbd</Sha>
+         <Sha>3b512df4ac8d2ae999ab2ee37c09e9e3d5287277</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>09-21-2019 17:08:07</CommitDate>
-         <Description>Merge branch 'BufferIf-clearing-fix'</Description>
+         <CommitDate>09-28-2019 11:27:42</CommitDate>
+         <Description>IExtendedList implements IReadOnlyList</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/DynamicData.git</OriginHint>
       </RepoListing>

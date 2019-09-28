@@ -24,6 +24,11 @@ namespace Loqui.Generation
             return $"{TranslatorName}<{list.SubTypeGeneration.TypeName(getter)}, {subMaskStr}>.Instance";
         }
 
+        protected virtual string GetWriteAccessor(Accessor itemAccessor)
+        {
+            return itemAccessor.DirectAccess;
+        }
+
         public override void GenerateWrite(
             FileGeneration fg,
             ObjectGeneration objGen,
@@ -45,7 +50,7 @@ namespace Loqui.Generation
             {
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor.DirectAccess}");
+                args.Add($"item: {GetWriteAccessor(itemAccessor)}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");

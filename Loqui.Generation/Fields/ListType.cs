@@ -8,12 +8,11 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName(bool getter) => ListInterface(getter);
+        public override string TypeName(bool getter) => Interface(getter);
         public override bool CopyNeedsTryCatch => true;
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
-        public int? MaxValue;
 
         public override IEnumerable<string> GetRequiredNamespaces()
         {
@@ -21,13 +20,7 @@ namespace Loqui.Generation
             yield return "CSharpExt.Rx";
         }
 
-        public override async Task Load(XElement node, bool requireName = true)
-        {
-            await base.Load(node, requireName);
-            this.MaxValue = node.GetAttribute<int?>("maxSize", null);
-        }
-
-        public string ListInterface(bool getter)
+        public virtual string Interface(bool getter)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SingleTypeGen is LoquiType loqui)
@@ -36,7 +29,7 @@ namespace Loqui.Generation
             }
             if (this.ReadOnly || getter)
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {
@@ -61,7 +54,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {
@@ -80,7 +73,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        return $"IList<{itemTypeName}>";
+                        return $"IExtendedList<{itemTypeName}>";
                     }
                 }
             }
@@ -88,32 +81,49 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (MaxValue.HasValue)
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+            fg.AppendLine($"private readonly {GetActualItemClass(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false, ctor: true)};");
+            fg.AppendLine($"public {this.Interface(getter: false)} {this.Name} => _{this.Name};");
+            GenerateInterfaceMembers(fg, $"_{this.Name}");
+        }
+
+        protected virtual string GetActualItemClass(bool getter, bool ctor = false)
+        {
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly ISource{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}> _{this.Name} = new SourceBounded{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}>(max: {MaxValue});");
+                if (this.HasBeenSet)
+                {
+                    return $"SourceSetList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                }
+                else
+                {
+                    return $"SourceList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                }
             }
             else
             {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}> _{this.Name} = new Source{(this.HasBeenSet ? "Set" : null)}List<{ItemTypeName(getter: false)}>();");
+                if (this.HasBeenSet)
+                {
+                    return $"SetList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                }
+                else
+                {
+                    return $"ExtendedList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                }
             }
-            fg.AppendLine($"public {(this.ReadOnly ? $"IObservable{(this.HasBeenSet ? "Set" : null)}List" : $"ISource{(this.HasBeenSet ? "Set" : null)}List")}<{ItemTypeName(getter: false)}> {this.Name} => _{this.Name};");
-            GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
         public void GenerateInterfaceMembers(FileGeneration fg, string member)
         {
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                // Get nth
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{ListInterface(getter: false)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                    fg.AppendLine($"{Interface(getter: false)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{ListInterface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                fg.AppendLine($"{Interface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
 
@@ -122,13 +132,13 @@ namespace Loqui.Generation
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"{ListInterface(getter: true)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{Interface(getter: true)} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {ListInterface(getter: false)} {this.Name} {{ get; }}");
+                    fg.AppendLine($"new {Interface(getter: false)} {this.Name} {{ get; }}");
                 }
             }
         }
