@@ -103,7 +103,7 @@ namespace Loqui.Generation
                             {
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                                 args.Add($"name: {nameAccessor}");
-                                args.Add($"items: {itemAccessor.DirectAccess}.Values");
+                                args.Add($"items: {itemAccessor.DirectAccess}.Items");
                                 args.Add($"translationMask: {translationMaskAccessor}");
                                 args.Add("errorMask: errorMask");
                                 args.Add((gen) =>

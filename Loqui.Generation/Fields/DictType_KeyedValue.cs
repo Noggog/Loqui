@@ -409,7 +409,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Items.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()
