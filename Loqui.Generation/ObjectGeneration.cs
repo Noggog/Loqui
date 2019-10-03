@@ -66,8 +66,6 @@ namespace Loqui.Generation
         public string RegistrationName => $"{this.Name}_Registration";
         public string BaseGenericTypes => GenerateGenericClause(BaseGenerics.Select((g) => g.Value));
         public string BaseClassName => $"{this.BaseClass.Name}{this.BaseGenericTypes}";
-        public string GenericTypes_SubTypeAssumedErrMask => $"{GenerateGenericClause(Generics.Select((g) => g.Key), GenericTypes_Assumed(MaskType.Error, onlyAssumeSubclass: true))}";
-        public string GenericTypes_AssumedErrMask_CopyMask => $"{GenerateGenericClause(GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Copy))}";
         public string FieldIndexName => $"{this.Name}_FieldIndex";
         public string ProtocolDefinitionName => $"{this.ProtoGen.ProtocolDefinitionName}";
         public string CommonNameAdditions(LoquiInterfaceType loquiType, params MaskType[] types)
@@ -456,13 +454,14 @@ namespace Loqui.Generation
 
                     GenerateCopy(fg);
 
-                    await GenerateCopyFieldsFrom(fg);
-
                     await GenerateSetNthObject(fg);
 
                     GenerateClear(fg);
 
-                    //GenerateGenericCreate(fg);
+                    if (this.GenerateNthReflections)
+                    {
+                        GenerateGenericCreate(fg);
+                    }
                 }
             }
         }
@@ -492,6 +491,7 @@ namespace Loqui.Generation
                     await GenerateHasBeenSetMixIn(fg);
                     await GenerateGetHasBeenSetMaskMixIn(fg);
                     await GenerateEqualsMixIn(fg);
+                    await GenerateCopyFieldsFrom(fg);
 
                     // Modules might add some content
                     foreach (var mod in this.gen.GenerationModules)
@@ -532,16 +532,6 @@ namespace Loqui.Generation
                 foreach (var field in this.IterateFields())
                 {
                     field.GenerateForInterface(fg, getter: false, internalInterface: false);
-                }
-                using (var args = new FunctionWrapper(fg,
-                    $"void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}"))
-                {
-                    args.SemiColon = true;
-                    args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
-                    args.Add($"{this.ObjectName} rhs");
-                    args.Add($"ErrorMaskBuilder errorMask = null");
-                    args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                    args.Add($"{this.ObjectName} def = null");
                 }
             }
             fg.AppendLine();
@@ -1197,33 +1187,39 @@ namespace Loqui.Generation
 
         protected virtual async Task GenerateCopyFieldsFrom(FileGeneration fg)
         {
-            using (var args = new FunctionWrapper(fg,
-                $"public{this.FunctionOverride()}void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}"))
+            if (this.IsTopClass)
             {
-                if (this.IsTopClass)
+                using (var args = new FunctionWrapper(fg,
+                    $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
-                    args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
+                    if (this.IsTopClass)
+                    {
+                        args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
+                    }
+                    args.Add($"this {this.ObjectName} lhs");
+                    args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).ObjectName} rhs");
                 }
-                args.Add($"{(this.BaseClassTrail().LastOrDefault() ?? this).ObjectName} rhs");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"this.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
+                using (new BraceWrapper(fg))
                 {
-                    args.Add($"rhs: rhs");
-                    args.Add("def: null");
-                    args.Add("doMasks: false");
-                    args.Add($"errorMask: out var errMask");
-                    args.Add("copyMask: null");
+                    using (var args = new ArgsWrapper(fg,
+                        $"CopyFieldsFrom{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Copy))}"))
+                    {
+                        args.AddPassArg($"lhs");
+                        args.AddPassArg($"rhs");
+                        args.Add("def: null");
+                        args.Add("doMasks: false");
+                        args.Add($"errorMask: out var errMask");
+                        args.Add("copyMask: null");
+                    }
                 }
+                fg.AppendLine();
             }
-            fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}"))
+                $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
             {
-                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
+                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
+                args.Add($"this {this.ObjectName} lhs");
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                 args.Add($"{this.ObjectName} def = null");
@@ -1231,21 +1227,23 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"this.CopyFieldsFrom{this.GenericTypes_AssumedErrMask_CopyMask}"))
+                    $"CopyFieldsFrom{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Copy))}"))
                 {
-                    args.Add("rhs: rhs");
-                    args.Add("def: def");
+                    args.AddPassArg($"lhs");
+                    args.AddPassArg($"rhs");
+                    args.AddPassArg($"def");
                     args.Add("doMasks: false");
                     args.Add("errorMask: out var errMask");
-                    args.Add("copyMask: copyMask");
+                    args.AddPassArg("copyMask");
                 }
             }
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Error, MaskType.Copy)}"))
+                $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Error, MaskType.Copy)}"))
             {
-                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Error, MaskType.Copy));
+                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Error, MaskType.Copy));
+                args.Add($"this {this.ObjectName} lhs");
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
@@ -1258,20 +1256,21 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"{this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom"))
                 {
-                    args.Add("item: this");
-                    args.Add("rhs: rhs");
-                    args.Add("def: def");
+                    args.Add("item: lhs");
+                    args.AddPassArg($"rhs");
+                    args.AddPassArg($"def");
                     args.Add("errorMask: errorMaskBuilder");
-                    args.Add("copyMask: copyMask");
+                    args.AddPassArg($"copyMask");
                 }
                 fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Copy)}"))
+                $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
             {
-                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
+                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
+                args.Add($"this {this.ObjectName} lhs");
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
@@ -1282,11 +1281,11 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg,
                     $"{this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom"))
                 {
-                    args.Add("item: this");
-                    args.Add("rhs: rhs");
-                    args.Add("def: def");
-                    args.Add("errorMask: errorMask");
-                    args.Add("copyMask: copyMask");
+                    args.Add("item: lhs");
+                    args.AddPassArg($"rhs");
+                    args.AddPassArg($"def");
+                    args.AddPassArg($"errorMask");
+                    args.AddPassArg($"copyMask");
                 }
             }
             fg.AppendLine();
@@ -2621,7 +2620,7 @@ namespace Loqui.Generation
                     }
                 }
                 using (var args = new ArgsWrapper(fg,
-                    $"ret.CopyFieldsFrom{GenerateGenericClause(GenericTypes_Nickname(MaskType.Copy))}"))
+                    $"ret.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add("item");
                     args.Add("copyMask: copyMask");
@@ -2660,7 +2659,7 @@ namespace Loqui.Generation
                     }
                 }
                 using (var args = new ArgsWrapper(fg,
-                    $"ret.CopyFieldsFrom{GenerateGenericClause(GenericTypes_Nickname(MaskType.Copy))}"))
+                    $"ret.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add("item");
                     args.Add("copyMask: copyMask");

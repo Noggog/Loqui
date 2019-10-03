@@ -91,7 +91,7 @@ namespace Loqui.Generation
                     () =>
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(getter: false, MaskType.Copy)}"))
+                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}"))
                         {
                             args.Add((gen) =>
                             {
