@@ -238,7 +238,7 @@ namespace Loqui.Generation
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
             await Task.WhenAll(
-                this.gen.GenerationModules.Select((m) => m.PostLoad(this)
+                this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)
                     .TimeoutButContinue(4000, () => System.Console.WriteLine($"{m.GetType()} {this.Name} post load taking a long time."))));
         }
 

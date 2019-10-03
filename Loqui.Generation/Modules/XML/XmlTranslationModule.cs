@@ -154,9 +154,9 @@ namespace Loqui.Generation
                 });
         }
 
-        public override async Task PostLoad(ObjectGeneration obj)
+        public override async Task LoadWrapup(ObjectGeneration obj)
         {
-            await base.PostLoad(obj);
+            await base.LoadWrapup(obj);
             foreach (var gen in _typeGenerations.Values)
             {
                 gen.XmlMod = this;

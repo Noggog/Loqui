@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace Loqui.Generation
         Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
         Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
-        Task PostLoad(ObjectGeneration obj);
+        Task LoadWrapup(ObjectGeneration obj);
         Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
         Task Modify(LoquiGenerator gen);
         Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg);
@@ -52,10 +52,10 @@ namespace Loqui.Generation
                 .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} pre load taking a long time."));
         }
 
-        public virtual Task PostLoad(ObjectGeneration obj)
+        public virtual Task LoadWrapup(ObjectGeneration obj)
         {
-            return SubModules.PostLoad(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} post load taking a long time."));
+            return SubModules.LoadWrapup(obj)
+                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} load wrap up taking a long time."));
         }
 
         public virtual Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node)

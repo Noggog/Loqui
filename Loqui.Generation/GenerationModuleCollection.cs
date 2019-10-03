@@ -200,16 +200,16 @@ namespace Loqui.Generation
                     }));
         }
 
-        public Task PostLoad(ObjectGeneration obj)
+        public Task LoadWrapup(ObjectGeneration obj)
         {
             return Task.WhenAll(
                 this.subModules.Select(
                     (subGen) =>
                     {
-                        return subGen.PostLoad(obj)
+                        return subGen.LoadWrapup(obj)
                             .TimeoutButContinue(
                                 TimeoutMS,
-                                () => System.Console.WriteLine($"{subGen} {obj.Name} post load taking a long time."));
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} load wrap up taking a long time."));
                     }));
         }
 

@@ -10,7 +10,7 @@ namespace Loqui.Generation
 { 
     public class ReactiveModule : GenerationModule
     {
-        public override async Task PostLoad(ObjectGeneration obj)
+        public override async Task LoadWrapup(ObjectGeneration obj)
         {
             var opt = obj.Node.GetAttribute(Constants.RX_BASE_OPTION, obj.RxBaseOptionDefault);
             if (!obj.HasLoquiBaseObject)
@@ -30,7 +30,7 @@ namespace Loqui.Generation
                         throw new NotImplementedException();
                 }
             }
-            await base.PostLoad(obj);
+            await base.LoadWrapup(obj);
         }
     }
 }
