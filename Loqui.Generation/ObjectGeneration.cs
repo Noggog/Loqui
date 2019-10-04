@@ -1179,11 +1179,6 @@ namespace Loqui.Generation
             GenerateFieldIndexConverters(fg, baseObj, maskTypes);
         }
 
-        protected virtual void GenerateStaticCopy_ToLoqui(FileGeneration fg)
-        {
-            fg.AppendLine($"return {this.ObjectName}.Copy(item, def: null);");
-        }
-
         protected virtual async Task GenerateCopyFieldsFrom(FileGeneration fg)
         {
             if (this.IsTopClass)
@@ -2611,45 +2606,6 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"ret = new {this.ObjectName}();");
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
-                    }
-                }
-                using (var args = new ArgsWrapper(fg,
-                    $"ret.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
-                {
-                    args.Add("item");
-                    args.Add("copyMask: copyMask");
-                    args.Add("def: def");
-                }
-                fg.AppendLine("return ret;");
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static {this.ObjectName} Copy_ToLoqui{GenerateGenericClause(GenericTypes_Nickname(MaskType.Copy))}"))
-            {
-                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
-                args.Add($"{this.ObjectName} item");
-                args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                if (this.Abstract)
-                {
-                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
-                }
-                else
-                {
-                    fg.AppendLine($"{this.ObjectName} ret;");
-                    fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"ret = new {this.ObjectName}() as {this.ObjectName};");
                     }
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))

@@ -169,10 +169,5 @@ namespace Loqui.Generation
         public void GenerateCopyCtor(FileGeneration fg, string accessor, string rhs)
         {
         }
-
-        protected override void GenerateStaticCopy_ToLoqui(FileGeneration fg)
-        {
-            fg.AppendLine($"return {this.ObjectName}.Copy(item);");
-        }
     }
 }
