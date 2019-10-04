@@ -19,7 +19,6 @@ namespace Loqui.Generation
             SingleTypeGen.Name = null;
             singleType = true;
             isLoquiSingle = SingleTypeGen as LoquiType != null;
-            this.MaxValue = node.GetAttribute<int?>("maxSize", null);
         }
     }
 }

@@ -2,19 +2,19 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>3e4cd142778c0b35a4f63cecfd2f1df439e0afc0</Sha>
+         <Sha>d770a207139f3e476a773f0fe5f38044084bd4ba</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>09-24-2019 23:13:04</CommitDate>
-         <Description>ISetList Count override</Description>
+         <CommitDate>09-28-2019 23:32:07</CommitDate>
+         <Description>CacheExt work</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
       <RepoListing>
          <Nickname>DynamicData</Nickname>
-         <Sha>e07de13ef2bc5ae6d0352b26c5129796c165ddbd</Sha>
+         <Sha>22b0745592a640f0dc332c86581d708ce1bd4228</Sha>
          <Path>../DynamicData</Path>
-         <CommitDate>09-21-2019 17:08:07</CommitDate>
-         <Description>Merge branch 'BufferIf-clearing-fix'</Description>
+         <CommitDate>09-28-2019 22:02:29</CommitDate>
+         <Description>Cache implementation</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/DynamicData.git</OriginHint>
       </RepoListing>

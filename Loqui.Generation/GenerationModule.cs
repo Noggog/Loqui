@@ -13,6 +13,7 @@ namespace Loqui.Generation
         Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
         Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
+        Task LoadWrapup(ObjectGeneration obj);
         Task PostLoad(ObjectGeneration obj);
         Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
         Task Modify(LoquiGenerator gen);
@@ -50,6 +51,12 @@ namespace Loqui.Generation
         {
             return SubModules.PreLoad(obj)
                 .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} pre load taking a long time."));
+        }
+
+        public virtual Task LoadWrapup(ObjectGeneration obj)
+        {
+            return SubModules.LoadWrapup(obj)
+                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} load wrap up taking a long time."));
         }
 
         public virtual Task PostLoad(ObjectGeneration obj)

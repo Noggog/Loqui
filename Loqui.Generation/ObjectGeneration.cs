@@ -34,7 +34,6 @@ namespace Loqui.Generation
         public bool ObjectCentralized;
         public PermissionLevel SetPermissionDefault;
         public RxBaseOption RxBaseOptionDefault;
-        public bool NotifyingInterface;
         public bool DerivativeDefault;
         public int StartingIndex => this.HasLoquiBaseObject ? this.BaseClass.StartingIndex + this.BaseClass.IterateFields().Count() : 0;
         public int TotalFieldCount => this.StartingIndex + this.IterateFieldIndices().Count();
@@ -237,7 +236,7 @@ namespace Loqui.Generation
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
             await Task.WhenAll(
-                this.gen.GenerationModules.Select((m) => m.PostLoad(this)
+                this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)
                     .TimeoutButContinue(4000, () => System.Console.WriteLine($"{m.GetType()} {this.Name} post load taking a long time."))));
         }
 

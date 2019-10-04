@@ -146,11 +146,37 @@ namespace Loqui.Generation
             }
         }
 
+        protected virtual string GetActualItemClass(bool getter)
+        {
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
+            {
+                if (this.HasBeenSet)
+                {
+                    return $"SourceSetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
+                }
+                else
+                {
+                    return $"SourceCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
+                }
+            }
+            else
+            {
+                if (this.HasBeenSet)
+                {
+                    return $"SetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
+                }
+                else
+                {
+                    return $"Cache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
+                }
+            }
+        }
+
         public string DictInterface(bool getter)
         {
             if (this.ReadOnly || getter)
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {
@@ -175,7 +201,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.Notifying && this.ObjectGen.NotifyingInterface)
+                if (this.Notifying)
                 {
                     if (this.HasBeenSet)
                     {
@@ -188,15 +214,13 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    // ToDo
-                    // Implement non notifying ICache in CSharpExt
                     if (this.HasBeenSet)
                     {
-                        return $"ISourceSetCache<{this.BackwardsTypeTuple(getter)}>";
+                        return $"ISetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
                     else
                     {
-                        return $"ISourceCache<{this.BackwardsTypeTuple(getter)}>";
+                        return $"ICache<{this.BackwardsTypeTuple(getter)}>";
                     }
                 }
             }
@@ -204,8 +228,8 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            fg.AppendLine($"private readonly SourceSetCache<{BackwardsTypeTuple(getter: false)}> _{this.Name} = new SourceSetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString});");
-            fg.AppendLine($"public ISourceSetCache<{BackwardsTypeTuple(getter: false)}> {this.Name} => _{this.Name};");
+            fg.AppendLine($"private readonly {this.DictInterface(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false)};");
+            fg.AppendLine($"public {this.DictInterface(getter: false)} {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
             using (new RegionWrapper(fg, "Interface Members"))
@@ -233,42 +257,85 @@ namespace Loqui.Generation
             bool protectedMembers)
         {
             var loqui = this.ValueTypeGen as LoquiType;
-            using (var args = new ArgsWrapper(fg,
-                $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+            if (this.HasBeenSet)
             {
-                args.Add($"rhs.{this.Name}");
-                args.Add($"def?.{this.Name}");
-                args.Add((gen) =>
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
                 {
-                    gen.AppendLine("(r, d) =>");
-                    using (new BraceWrapper(gen))
+                    args.Add($"rhs.{this.Name}");
+                    args.Add($"def?.{this.Name}");
+                    args.Add((gen) =>
                     {
-                        gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                        gen.AppendLine("(r, d) =>");
                         using (new BraceWrapper(gen))
                         {
-                            gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                            using (new DepthWrapper(gen))
+                            gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            using (new BraceWrapper(gen))
                             {
-                                gen.AppendLine("return r;");
-                            }
-                            gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                            using (new DepthWrapper(gen))
-                            {
-                                loqui.GenerateTypicalMakeCopy(
-                                    gen,
-                                    retAccessor: $"return ",
-                                    rhsAccessor: new Accessor("r"),
-                                    defAccessor: new Accessor("d"),
-                                    copyMaskAccessor: copyMaskAccessor);
-                            }
-                            gen.AppendLine($"default:");
-                            using (new DepthWrapper(gen))
-                            {
-                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine("return r;");
+                                }
+                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    loqui.GenerateTypicalMakeCopy(
+                                        gen,
+                                        retAccessor: $"return ",
+                                        rhsAccessor: new Accessor("r"),
+                                        defAccessor: new Accessor("d"),
+                                        copyMaskAccessor: copyMaskAccessor);
+                                }
+                                gen.AppendLine($"default:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
+            }
+            else
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                {
+                    args.Add($"rhs.{this.Name}");
+                    args.Add($"def?.{this.Name}");
+                    args.Add((gen) =>
+                    {
+                        gen.AppendLine("(r, d) =>");
+                        using (new BraceWrapper(gen))
+                        {
+                            gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            using (new BraceWrapper(gen))
+                            {
+                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine("return r;");
+                                }
+                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    loqui.GenerateTypicalMakeCopy(
+                                        gen,
+                                        retAccessor: $"return ",
+                                        rhsAccessor: new Accessor("r"),
+                                        defAccessor: new Accessor("d"),
+                                        copyMaskAccessor: copyMaskAccessor);
+                                }
+                                gen.AppendLine($"default:");
+                                using (new DepthWrapper(gen))
+                                {
+                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                }
+                            }
+                        }
+                    });
+                }
             }
         }
 
@@ -409,7 +476,7 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Values.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Items.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override bool IsNullable()

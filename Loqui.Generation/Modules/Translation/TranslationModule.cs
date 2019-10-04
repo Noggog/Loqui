@@ -1235,9 +1235,9 @@ namespace Loqui.Generation
             fg.AppendLine($"public static readonly Type {this.ModuleNickname}WriteTranslation = typeof({this.TranslationWriteClassName(obj)});");
         }
 
-        public override async Task PostLoad(ObjectGeneration obj)
+        public override async Task LoadWrapup(ObjectGeneration obj)
         {
-            await base.PostLoad(obj);
+            await base.LoadWrapup(obj);
             foreach (var gen in obj.Generics.Values)
             {
                 if (!gen.Loqui) continue;

@@ -42,7 +42,7 @@ namespace Loqui.Xml
 
         public void ParseInto(
             XElement node,
-            ISourceSetCache<V, K> item,
+            ICache<V, K> item,
             int fieldIndex,
             ErrorMaskBuilder errorMask,
             TranslationCrystal translationMask)
@@ -61,7 +61,7 @@ namespace Loqui.Xml
                     }
                     else
                     {
-                        item.Unset();
+                        item.Clear();
                     }
                 }
                 catch (Exception ex)
@@ -142,7 +142,7 @@ namespace Loqui.Xml
 
         public void ParseInto(
             XElement node,
-            ISourceSetCache<V, K> item,
+            ICache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
             ErrorMaskBuilder errorMask,
@@ -163,7 +163,7 @@ namespace Loqui.Xml
                     }
                     else
                     {
-                        item.Unset();
+                        item.Clear();
                     }
                 }
                 catch (Exception ex)

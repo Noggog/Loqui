@@ -36,6 +36,10 @@ namespace Loqui.Generation
 
         public string DirectTypeName => $"{this._TargetObjectGeneration.Name}{this.GenericTypes(getter: false)}";
 
+        // ToDo
+        // Perhaps implement detection for those that are
+        public override bool IsIEquatable => false;
+
         public override string ProtectedName
         {
             get
@@ -515,7 +519,7 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.SingletonType = node.GetAttribute(Constants.SINGLETON, SingletonLevel.None);
+            this.SingletonType = node.GetAttribute(Constants.NULLABLE, SingletonLevel.None);
 
             XElement refNode = GetRefNode(node);
 

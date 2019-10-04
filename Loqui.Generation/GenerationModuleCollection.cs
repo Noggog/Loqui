@@ -200,6 +200,19 @@ namespace Loqui.Generation
                     }));
         }
 
+        public Task LoadWrapup(ObjectGeneration obj)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    (subGen) =>
+                    {
+                        return subGen.LoadWrapup(obj)
+                            .TimeoutButContinue(
+                                TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} load wrap up taking a long time."));
+                    }));
+        }
+
         public Task PostLoad(ObjectGeneration obj)
         {
             return Task.WhenAll(
@@ -209,7 +222,7 @@ namespace Loqui.Generation
                         return subGen.PostLoad(obj)
                             .TimeoutButContinue(
                                 TimeoutMS,
-                                () => System.Console.WriteLine($"{subGen} {obj.Name} post load taking a long time."));
+                                () => System.Console.WriteLine($"{subGen} {obj.Name} post load up taking a long time."));
                     }));
         }
 

@@ -177,6 +177,23 @@ namespace Loqui.Generation
                 this.ObjectGenerationsByID.Values
                     .Select((obj) => obj.Resolve()));
 
+            await Task.WhenAll(
+                ObjectGenerationsByID.Values
+                    .Select(async (obj) =>
+                    {
+                        try
+                        {
+                            await Task.WhenAll(
+                                this.Gen.GenerationModules.Select((m) => m.PostLoad(obj)
+                                    .TimeoutButContinue(4000, () => System.Console.WriteLine($"{m.GetType()} {obj.Name} post load taking a long time."))));
+                        }
+                        catch (Exception ex)
+                        {
+                            MarkFailure(ex);
+                            throw;
+                        }
+                    }));
+
             await Task.WhenAll(this.ObjectGenerationsByID.Values
                 .Select(async (obj) =>
                 {
