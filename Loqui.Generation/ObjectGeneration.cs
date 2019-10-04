@@ -2647,12 +2647,12 @@ namespace Loqui.Generation
         protected void GenerateClear(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"public{this.FunctionOverride()}void Clear"))
+                $"void {nameof(IClearable)}.Clear"))
             {
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.Instance.Clear(this);");
+                fg.AppendLine($"{this.CommonClassInstance("this", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.Clear(this);");
             }
             fg.AppendLine();
         }
