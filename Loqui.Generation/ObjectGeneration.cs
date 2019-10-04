@@ -453,12 +453,12 @@ namespace Loqui.Generation
 
                     GenerateCopy(fg);
 
-                    await GenerateSetNthObject(fg);
-
                     GenerateClear(fg);
 
                     if (this.GenerateNthReflections)
                     {
+                        await GenerateSetNthObject(fg);
+
                         GenerateGenericCreate(fg);
                     }
                 }
