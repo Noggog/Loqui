@@ -34,7 +34,7 @@ namespace Loqui.Generation
             await base.Load(node, requireName);
         }
 
-        protected override string GetActualItemClass(bool getter, bool ctor = false)
+        protected override string GetActualItemClass(bool ctor = false)
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
@@ -48,7 +48,7 @@ namespace Loqui.Generation
                 }
                 if (!ctor)
                 {
-                    return $"{this.ItemTypeName(getter)}[]";
+                    return $"{this.ItemTypeName(getter: false)}[]";
                 }
                 if (this.Nullable)
                 {
@@ -56,11 +56,11 @@ namespace Loqui.Generation
                 }
                 else if (this.FixedSize.HasValue)
                 {
-                    return $"{this.ItemTypeName(getter)}[{this.FixedSize}]";
+                    return $"{this.ItemTypeName(getter: false)}[{this.FixedSize}]";
                 }
                 else
                 {
-                    return $"{this.ItemTypeName(getter)}[0]";
+                    return $"{this.ItemTypeName(getter: false)}[0]";
                 }
             }
         }

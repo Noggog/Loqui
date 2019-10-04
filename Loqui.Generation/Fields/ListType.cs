@@ -82,33 +82,33 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private readonly {GetActualItemClass(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false, ctor: true)};");
+            fg.AppendLine($"private readonly {GetActualItemClass()} _{this.Name} = new {GetActualItemClass(ctor: true)};");
             fg.AppendLine($"public {this.Interface(getter: false)} {this.Name} => _{this.Name};");
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
-        protected virtual string GetActualItemClass(bool getter, bool ctor = false)
+        protected virtual string GetActualItemClass(bool ctor = false)
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
                 {
-                    return $"SourceSetList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                    return $"SourceSetList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
                 }
                 else
                 {
-                    return $"SourceList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                    return $"SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
                 }
             }
             else
             {
                 if (this.HasBeenSet)
                 {
-                    return $"SetList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                    return $"SetList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
                 }
                 else
                 {
-                    return $"ExtendedList<{ItemTypeName(getter: getter)}>{(ctor ? "()" : null)}";
+                    return $"ExtendedList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
                 }
             }
         }
