@@ -902,7 +902,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(getter: false, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
                     fg.AppendLine("break;");
                 }
             }
