@@ -854,6 +854,8 @@ namespace Loqui.Generation
 
             GenerateEqualsCommon(subGen, maskTypeCol);
 
+            GenerateCreateNewBasicCommon(subGen, maskTypeCol);
+
             // Fields might add some content
             foreach (var field in this.IterateFields())
             {
@@ -2479,6 +2481,32 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
+        }
+
+        private void GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        {
+            if (this.Abstract) return;
+            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
+
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.ObjectName} GetNew"))
+            {
+            }
+            using (new BraceWrapper(fg))
+            {
+                switch (this.BasicCtorPermission)
+                {
+                    case PermissionLevel.@public:
+                    case PermissionLevel.@internal:
+                        fg.AppendLine($"return new {this.ObjectName}();");
+                        break;
+                    case PermissionLevel.@private:
+                    case PermissionLevel.@protected:
+                    default:
+                        fg.AppendLine($"return ({this.ObjectName})System.Activator.CreateInstance(typeof({this.ObjectName}));");
+                        break;
+                }
+            }
         }
 
         private async Task GenerateToStringCode(FileGeneration fg)
