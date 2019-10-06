@@ -124,40 +124,6 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateCopy(FileGeneration fg)
-        {
-            fg.AppendLine($"public static {this.ObjectName} Copy({this.Interface(getter: true)} item)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"return new {this.ObjectName}(");
-                List<string> lines = new List<string>();
-                foreach (var field in this.IterateFields())
-                {
-                    lines.Add($"{field.Name}: {field.GenerateACopy("item." + field.Name)}");
-                }
-
-                for (int i = 0; i < lines.Count; i++)
-                {
-                    using (new DepthWrapper(fg))
-                    {
-                        using (new LineWrapper(fg))
-                        {
-                            fg.Append(lines[i]);
-                            if (i != lines.Count - 1)
-                            {
-                                fg.Append(",");
-                            }
-                            else
-                            {
-                                fg.Append(");");
-                            }
-                        }
-                    }
-                }
-            }
-            fg.AppendLine();
-        }
-
         protected override async Task GenerateCopyFieldsFrom(FileGeneration fg)
         {
         }

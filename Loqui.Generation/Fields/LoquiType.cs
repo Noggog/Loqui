@@ -705,9 +705,8 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.DirectAccess} = {this.ObjectTypeName}{this.GenericTypes(getter: false)}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                $"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
-                                args.Add($"{rhsAccessorPrefix}.{this.Name}");
                                 args.Add($"{copyMaskAccessor}?.Specific");
                                 args.Add($"{defaultFallbackAccessor}?.{this.Name}");
                             }
@@ -799,7 +798,7 @@ namespace Loqui.Generation
             }
         }
 
-        public void GenerateTypicalMakeCopy(
+        public virtual void GenerateTypicalMakeCopy(
             FileGeneration fg,
             string retAccessor,
             Accessor rhsAccessor,
@@ -810,9 +809,8 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args2 = new ArgsWrapper(fg,
-                        $"{retAccessor}{this.ObjectTypeName}{this.GenericTypes(getter: false)}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                        $"{retAccessor}{rhsAccessor.DirectAccess}.Copy"))
                     {
-                        args2.Add($"{rhsAccessor.DirectAccess}");
                         if (this.RefType == LoquiRefType.Direct)
                         {
                             args2.Add($"{copyMaskAccessor}?.Specific");

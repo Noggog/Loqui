@@ -48,6 +48,14 @@ namespace Loqui.Generation
             args.Add(gen.ToArray());
         }
 
+        public async Task Add(Func<FileGeneration, Task> generator)
+        {
+            var gen = new FileGeneration();
+            await generator(gen);
+            if (gen.Empty) return;
+            args.Add(gen.ToArray());
+        }
+
         public void Dispose()
         {
             if (initialLine != null)

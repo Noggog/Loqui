@@ -451,8 +451,6 @@ namespace Loqui.Generation
 
                     GenerateInterfacesInClass(fg);
 
-                    GenerateCopy(fg);
-
                     GenerateClear(fg);
 
                     if (this.GenerateNthReflections)
@@ -491,6 +489,7 @@ namespace Loqui.Generation
                     await GenerateGetHasBeenSetMaskMixIn(fg);
                     await GenerateEqualsMixIn(fg);
                     await GenerateCopyFieldsFrom(fg);
+                    GenerateCopyMixIn(fg);
 
                     // Modules might add some content
                     foreach (var mod in this.gen.GenerationModules)
@@ -854,7 +853,9 @@ namespace Loqui.Generation
 
             GenerateEqualsCommon(subGen, maskTypeCol);
 
-            GenerateCreateNewBasicCommon(subGen, maskTypeCol);
+            await GenerateCreateNewBasicCommon(subGen, maskTypeCol);
+
+            GenerateCopy(subGen, maskTypeCol);
 
             // Fields might add some content
             foreach (var field in this.IterateFields())
@@ -1565,17 +1566,6 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
             }
-        }
-
-        private async Task GenerateProtocolProperty(FileGeneration fg)
-        {
-            fg.AppendLine($"public static ProtocolKey Loqui_ProtocolKey_Static => new ProtocolKey({ProtoGen.Protocol.Namespace});");
-
-            fg.AppendLine($"public{this.FunctionOverride()}ProtocolKey Loqui_ProtocolKey => Loqui_ProtocolKey_Static;");
-
-            fg.AppendLine($"public static ObjectKey Loqui_ObjectKey_Static => new ObjectKey(protocolKey: Loqui_ProtocolKey_Static, msgID: {this.ID}, version: {this.Version});");
-
-            fg.AppendLine($"public{this.FunctionOverride()}ObjectKey Loqui_ObjectKey => Loqui_ObjectKey_Static;");
         }
 
         private void GenerateGetNthObject(FileGeneration fg, MaskTypeSet maskTypes)
@@ -2483,30 +2473,48 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        public bool SupportsGetNew()
         {
-            if (this.Abstract) return;
-            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
+            if (this.Abstract) return false;
+            switch (this.BasicCtorPermission)
+            {
+                case PermissionLevel.@public:
+                case PermissionLevel.@internal:
+                    return true;
+                case PermissionLevel.@private:
+                case PermissionLevel.@protected:
+                default:
+                    return false;
+            }
+        }
 
+        public bool SupportsCopy()
+        {
+            switch (this.BasicCtorPermission)
+            {
+                case PermissionLevel.@public:
+                case PermissionLevel.@internal:
+                    return true;
+                case PermissionLevel.@private:
+                case PermissionLevel.@protected:
+                default:
+                    return false;
+            }
+        }
+
+        private async Task GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        {
+            if (!SupportsGetNew()) return;
+            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
             using (var args = new FunctionWrapper(fg,
-                $"public static {this.ObjectName} GetNew"))
+                $"public{this.NewOverride(o => !o.Abstract)}{this.ObjectName} GetNew"))
             {
             }
             using (new BraceWrapper(fg))
             {
-                switch (this.BasicCtorPermission)
-                {
-                    case PermissionLevel.@public:
-                    case PermissionLevel.@internal:
-                        fg.AppendLine($"return new {this.ObjectName}();");
-                        break;
-                    case PermissionLevel.@private:
-                    case PermissionLevel.@protected:
-                    default:
-                        fg.AppendLine($"return ({this.ObjectName})System.Activator.CreateInstance(typeof({this.ObjectName}));");
-                        break;
-                }
+                fg.AppendLine($"return new {this.ObjectName}();");
             }
+            fg.AppendLine();
         }
 
         private async Task GenerateToStringCode(FileGeneration fg)
@@ -2580,41 +2588,12 @@ namespace Loqui.Generation
             }
         }
 
-        protected virtual async Task GenerateCopy_ToObject(FileGeneration fg)
+        public virtual void GenerateCopy(FileGeneration fg, MaskTypeSet maskTypeSet)
         {
-            fg.AppendLine($"{this.ProtectedKeyword}{this.FunctionOverride()}object Copy_ToObject(object def = null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"var ret = new {this.ObjectName}();");
-                fg.AppendLine($"ret.CopyFieldsFrom_Generic(this, def: def);");
-                fg.AppendLine("return ret;");
-            }
-            fg.AppendLine();
-        }
-
-        public virtual void GenerateCopy(FileGeneration fg)
-        {
+            if (!maskTypeSet.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
+            if (!SupportsCopy()) return;
             using (var args = new FunctionWrapper(fg,
-                $"public {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}"))
-            {
-                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
-                args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"return {this.ObjectName}.Copy"))
-                {
-                    args.Add("this");
-                    args.Add("copyMask: copyMask");
-                    args.Add("def: def");
-                }
-            }
-            fg.AppendLine();
-
-            using (var args = new FunctionWrapper(fg,
-                $"public static {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}"))
+                $"public{this.NewOverride(o => o.SupportsCopy())}{this.ObjectName} Copy{this.GetGenericTypes(MaskType.Copy)}"))
             {
                 args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
                 args.Add($"{this.ObjectName} item");
@@ -2629,17 +2608,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{this.ObjectName} ret;");
-                    fg.AppendLine($"if (item.GetType().Equals(typeof({this.ObjectName})))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"ret = new {this.ObjectName}();");
-                    }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
-                    }
+                    fg.AppendLine($"{this.ObjectName} ret = GetNew();");
                 }
                 using (var args = new ArgsWrapper(fg,
                     $"ret.CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
@@ -2649,6 +2618,30 @@ namespace Loqui.Generation
                     args.Add("def: def");
                 }
                 fg.AppendLine("return ret;");
+            }
+            fg.AppendLine();
+        }
+
+        public void GenerateCopyMixIn(FileGeneration fg)
+        {
+            if (!SupportsCopy()) return;
+            using (var args = new FunctionWrapper(fg,
+                $"public static {this.ObjectName} Copy{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
+            {
+                args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
+                args.Add($"this {this.ObjectName} item");
+                args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
+                args.Add($"{this.ObjectName} def = null");
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"return {this.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.Copy"))
+                {
+                    args.AddPassArg("item");
+                    args.AddPassArg("copyMask");
+                    args.AddPassArg("def");
+                }
             }
             fg.AppendLine();
         }
@@ -2728,10 +2721,6 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
             }
-        }
-
-        private void GenerateClear(FileGeneration fg, string accessor)
-        {
         }
 
         protected virtual void GenerateGenericCreate(FileGeneration fg)
