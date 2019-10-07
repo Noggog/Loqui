@@ -10,8 +10,14 @@ namespace Loqui.Generation
 { 
     public class ReactiveModule : GenerationModule
     {
-        public override async Task LoadWrapup(ObjectGeneration obj)
+        public override async Task PostLoad(ObjectGeneration obj)
         {
+            if (!(await obj.EntireClassTree())
+                .SelectMany(o => o.Fields)
+                .Any(f => f.NotifyingType == NotifyingType.ReactiveUI))
+            {
+                return;
+            }
             var opt = obj.Node.GetAttribute(Constants.RX_BASE_OPTION, obj.RxBaseOptionDefault);
             if (!obj.HasLoquiBaseObject)
             {
