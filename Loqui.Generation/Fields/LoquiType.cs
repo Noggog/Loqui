@@ -81,7 +81,7 @@ namespace Loqui.Generation
             switch (RefType)
             {
                 case LoquiRefType.Direct:
-                    return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: true);
+                    return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: this._TargetObjectGeneration.HasInternalInterface);
                 case LoquiRefType.Generic:
                     return _generic;
                 default:
