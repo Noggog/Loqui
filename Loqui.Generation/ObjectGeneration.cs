@@ -526,13 +526,13 @@ namespace Loqui.Generation
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
-                args.Interfaces.Add(this.Interface(getter: true));
+                args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
                 if (this.HasLoquiBaseObject)
                 {
-                    args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes));
+                    args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes, internalInterface: false));
                 }
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.ISetter));
-                args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface()}>");
+                args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface(internalInterface: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
             }
@@ -580,9 +580,9 @@ namespace Loqui.Generation
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
-                args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true) : nameof(ILoquiObject));
+                args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true, internalInterface: false) : nameof(ILoquiObject));
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.IGetter));
-                args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true)}>");
+                args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true, internalInterface: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
             }
@@ -924,7 +924,7 @@ namespace Loqui.Generation
                 $"public static string ToString{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
@@ -944,7 +944,7 @@ namespace Loqui.Generation
                 $"public static void ToString{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
@@ -969,7 +969,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public string ToString"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
@@ -991,7 +991,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public void ToString"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
                 args.Add($"string name = null");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
@@ -1032,7 +1032,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"protected static void ToStringFields"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{nameof(FileGeneration)} fg");
                 args.Add($"{this.GetMaskString("bool")} printMask = null");
             }
@@ -1069,7 +1069,7 @@ namespace Loqui.Generation
                 $"public static bool HasBeenSet{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{this.GetMaskString("bool?")} checkMask");
             }
             using (new BraceWrapper(fg))
@@ -1090,7 +1090,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public bool HasBeenSet"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{this.GetMaskString("bool?")} checkMask");
             }
             using (new BraceWrapper(fg))
@@ -1123,7 +1123,7 @@ namespace Loqui.Generation
                 $"public static {this.GetMaskString("bool")} GetHasBeenSetMask{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
             }
             using (new BraceWrapper(fg))
             {
@@ -1145,7 +1145,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public void FillHasBeenSetMask"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{this.GetMaskString("bool")} mask");
             }
             using (new BraceWrapper(fg))
@@ -2117,7 +2117,7 @@ namespace Loqui.Generation
 
         private void GenerateGetEqualsMaskInterfaceImplementor(FileGeneration fg)
         {
-            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true)})rhs, include);");
+            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
         }
 
         public void GenerateGetterInterfaceImplementations(FileGeneration fg)
@@ -2133,8 +2133,8 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg, $"public static {this.GetMaskString("bool")} GetEqualsMask{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
                 args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
             }
             using (new BraceWrapper(fg))
@@ -2155,8 +2155,8 @@ namespace Loqui.Generation
             if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
             using (var args = new FunctionWrapper(fg, $"public {this.GetMaskString("bool")} GetEqualsMask"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
                 args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
             }
             using (new BraceWrapper(fg))
@@ -2176,8 +2176,8 @@ namespace Loqui.Generation
 
             using (var args = new FunctionWrapper(fg, $"public void FillEqualsMask"))
             {
-                args.Add($"{this.Interface(getter: true)} item");
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
                 args.Add($"{this.GetMaskString("bool")} ret");
                 args.Add($"EqualsMaskHelper.Include include = EqualsMaskHelper.Include.All");
             }
@@ -2318,7 +2318,7 @@ namespace Loqui.Generation
                     fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!(obj is {this.Interface(getter: true)} rhs)) return false;");
+                        fg.AppendLine($"if (!(obj is {this.Interface(getter: true, internalInterface: true)} rhs)) return false;");
                         fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, rhs);");
                     }
                     fg.AppendLine();
@@ -2342,8 +2342,8 @@ namespace Loqui.Generation
                 $"public static bool Equals{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true)} item");
-                args.Add($"{this.Interface(getter: true)} rhs");
+                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
+                args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
             }
             using (new BraceWrapper(fg))
             {
@@ -2364,8 +2364,8 @@ namespace Loqui.Generation
             {
                 using (var args = new FunctionWrapper(fg, $"public virtual bool Equals"))
                 {
-                    args.Add($"{this.Interface(getter: true)} lhs");
-                    args.Add($"{this.Interface(getter: true)} rhs");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} lhs");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -2416,16 +2416,16 @@ namespace Loqui.Generation
                     using (var args = new FunctionWrapper(fg,
                         $"public override bool Equals"))
                     {
-                        args.Add($"{baseObj.Interface(getter: true)} lhs");
-                        args.Add($"{baseObj.Interface(getter: true)} rhs");
+                        args.Add($"{baseObj.Interface(getter: true, internalInterface: true)} lhs");
+                        args.Add($"{baseObj.Interface(getter: true, internalInterface: true)} rhs");
                     }
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
                             "return Equals"))
                         {
-                            args.Add($"lhs: ({this.Interface(getter: true)})lhs");
-                            args.Add($"rhs: rhs as {this.Interface(getter: true)}");
+                            args.Add($"lhs: ({this.Interface(getter: true, internalInterface: true)})lhs");
+                            args.Add($"rhs: rhs as {this.Interface(getter: true, internalInterface: true)}");
                         }
                     }
                     fg.AppendLine();
@@ -2433,7 +2433,7 @@ namespace Loqui.Generation
 
                 using (var args = new FunctionWrapper(fg, $"public virtual int GetHashCode"))
                 {
-                    args.Add($"{this.Interface(getter: true)} item");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -2477,14 +2477,14 @@ namespace Loqui.Generation
                     using (var args = new FunctionWrapper(fg,
                         $"public override int GetHashCode"))
                     {
-                        args.Add($"{baseObj.Interface(getter: true)} item");
+                        args.Add($"{baseObj.Interface(getter: true, internalInterface: true)} item");
                     }
                     using (new BraceWrapper(fg))
                     {
                         using (var args = new ArgsWrapper(fg,
                             "return GetHashCode"))
                         {
-                            args.Add($"item: ({this.Interface(getter: true)})item");
+                            args.Add($"item: ({this.Interface(getter: true, internalInterface: true)})item");
                         }
                     }
                     fg.AppendLine();
@@ -2672,7 +2672,7 @@ namespace Loqui.Generation
                 $"public static void Clear{this.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter));
-                args.Add($"this {this.Interface()} item");
+                args.Add($"this {this.Interface(internalInterface: true)} item");
             }
             using (new BraceWrapper(fg))
             {
@@ -2707,7 +2707,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public virtual void Clear"))
             {
-                args.Add($"{this.Interface()} item");
+                args.Add($"{this.Interface(internalInterface: true)} item");
             }
             using (new BraceWrapper(fg))
             {
@@ -2729,14 +2729,14 @@ namespace Loqui.Generation
                 using (var args = new FunctionWrapper(fg,
                     $"public override void Clear"))
                 {
-                    args.Add($"{baseObj.Interface()} item");
+                    args.Add($"{baseObj.Interface(internalInterface: true)} item");
                 }
                 using (new BraceWrapper(fg))
                 {
                     using (var args = new ArgsWrapper(fg,
                         "Clear"))
                     {
-                        args.Add($"item: ({this.Interface()})item");
+                        args.Add($"item: ({this.Interface(internalInterface: true)})item");
                     }
                 }
                 fg.AppendLine();
@@ -3481,12 +3481,12 @@ namespace Loqui.Generation
             }
         }
 
-        public string Interface(bool getter = false, bool? internalInterface = null)
+        public string Interface(bool getter = false, bool internalInterface = false)
         {
             return Interface(
                 genericTypes: this.GetGenericTypes(MaskType.Normal),
                 getter: getter,
-                internalInterface: internalInterface ?? this.HasInternalInterface);
+                internalInterface: internalInterface);
         }
 
         public string Interface(string genericTypes, bool getter = false, bool internalInterface = false)
@@ -3499,7 +3499,7 @@ namespace Loqui.Generation
 
         public string InterfaceNoGenerics(bool getter = false, bool internalInterface = false)
         {
-            return $"I{this.Name}{(internalInterface ? "Internal" : null)}{(getter ? "Getter" : null)}";
+            return $"I{this.Name}{(internalInterface && this.HasInternalInterface ? "Internal" : null)}{(getter ? "Getter" : null)}";
         }
 
         public async Task<IEnumerable<string>> GetApplicableInterfaces(LoquiInterfaceType type)

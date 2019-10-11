@@ -305,7 +305,7 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public static void FillPublic{ModuleNickname}"))
             {
-                args.Add($"{obj.Interface(getter: false)} item");
+                args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                 {

@@ -8,7 +8,7 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName(bool getter) => Interface(getter);
+        public override string TypeName(bool getter) => Interface(getter, internalInterface: true);
         public override bool CopyNeedsTryCatch => true;
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
@@ -20,12 +20,12 @@ namespace Loqui.Generation
             yield return "CSharpExt.Rx";
         }
 
-        public virtual string Interface(bool getter)
+        public virtual string Interface(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SingleTypeGen is LoquiType loqui)
             {
-                itemTypeName = loqui.TypeName(getter: getter);
+                itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
             }
             if (this.ReadOnly || getter)
             {
@@ -83,7 +83,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"private readonly {GetActualItemClass()} _{this.Name} = new {GetActualItemClass(ctor: true)};");
-            fg.AppendLine($"public {this.Interface(getter: false)} {this.Name} => _{this.Name};");
+            fg.AppendLine($"public {this.Interface(getter: false, internalInterface: true)} {this.Name} => _{this.Name};");
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
@@ -120,25 +120,26 @@ namespace Loqui.Generation
                 if (!this.ReadOnly)
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{Interface(getter: false)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                    fg.AppendLine($"{Interface(getter: false, internalInterface: true)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{Interface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
+
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"{Interface(getter: true)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {Interface(getter: false)} {this.Name} {{ get; }}");
+                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)} {this.Name} {{ get; }}");
                 }
             }
         }

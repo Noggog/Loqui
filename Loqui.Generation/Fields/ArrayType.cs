@@ -65,12 +65,12 @@ namespace Loqui.Generation
             }
         }
 
-        public override string Interface(bool getter)
+        public override string Interface(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SingleTypeGen is LoquiType loqui)
             {
-                itemTypeName = loqui.TypeName(getter: getter);
+                itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
             }
             if (getter)
             {
