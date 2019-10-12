@@ -119,7 +119,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"get => this._{this.Name};");
                     fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set({GetValueSetString("value")});");
                 }
-                fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
 
                 using (var args = new FunctionWrapper(fg,
                     $"public void {this.Name}_Set"))
@@ -256,6 +256,10 @@ namespace Loqui.Generation
                     else
                     {
                         throw new ArgumentException();
+                    }
+                    if (!this.InternalGetInterface && this.TypeName(getter: true) != this.TypeName(getter: false))
+                    {
+                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                 }
             }
