@@ -343,6 +343,7 @@ namespace Loqui.Generation
                     await this.GenerateRouting(fg, getterOnly: false);
                 }
             }
+            fg.AppendLine();
 
             await GenerateTranslations(fg);
 
@@ -2311,11 +2312,13 @@ namespace Loqui.Generation
             RequiredNamespaces.Add(
                 (await Task.WhenAll(this.GenerationInterfaces.Select((tr) => tr.RequiredUsingStatements())))
                     .SelectMany(i => i));
-            foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
+            using (new RegionWrapper(fg, "Usings"))
             {
-                fg.AppendLine($"using {nameSpace};");
+                foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
+                {
+                    fg.AppendLine($"using {nameSpace};");
+                }
             }
-            fg.AppendLine();
         }
 
         private void GenerateEqualsSection(FileGeneration fg)
