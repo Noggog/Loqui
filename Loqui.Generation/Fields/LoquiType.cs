@@ -19,9 +19,34 @@ namespace Loqui.Generation
                         case LoquiInterfaceType.Direct:
                             return DirectTypeName;
                         case LoquiInterfaceType.IGetter:
-                            return $"{this.Interface(getter: true)}";
+                            return $"{this.Interface(getter: true, internalInterface: this.InternalGetInterface)}";
                         case LoquiInterfaceType.ISetter:
-                            return $"{this.Interface(getter: false)}";
+                            return $"{this.Interface(getter: false, internalInterface: this.InternalSetInterface)}";
+                        default:
+                            throw new NotImplementedException();
+                    }
+                case LoquiRefType.Generic:
+                    return _generic;
+                case LoquiRefType.Interface:
+                    return getter ? this.GetterInterface : this.SetterInterface;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string TypeName(bool getter, bool internalInterface)
+        {
+            switch (RefType)
+            {
+                case LoquiRefType.Direct:
+                    switch (getter ? this.GetterInterfaceType : this.SetterInterfaceType)
+                    {
+                        case LoquiInterfaceType.Direct:
+                            return DirectTypeName;
+                        case LoquiInterfaceType.IGetter:
+                            return $"{this.Interface(getter: true, internalInterface: internalInterface)}";
+                        case LoquiInterfaceType.ISetter:
+                            return $"{this.Interface(getter: false, internalInterface: internalInterface)}";
                         default:
                             throw new NotImplementedException();
                     }
@@ -76,12 +101,12 @@ namespace Loqui.Generation
             }
         }
 
-        public string Interface(bool getter = false)
+        public string Interface(bool getter = false, bool internalInterface = false)
         {
             switch (RefType)
             {
                 case LoquiRefType.Direct:
-                    return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: true);
+                    return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: internalInterface);
                 case LoquiRefType.Generic:
                     return _generic;
                 default:
@@ -465,7 +490,7 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
+                        fg.AppendLine($"{this.TypeName(getter: true, internalInterface: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
                     }
                 }
                 else
@@ -922,7 +947,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"{this.TypeName(getter: true)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{this.TypeName(getter: true, internalInterface: true)} {this.Name} {{ get; }}");
                 switch (this.NotifyingType)
                 {
                     case NotifyingType.None:

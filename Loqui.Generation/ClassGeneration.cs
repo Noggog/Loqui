@@ -87,7 +87,7 @@ namespace Loqui.Generation
                 {
                     args.BaseClass = this.NonLoquiBaseClass;
                 }
-                args.Interfaces.Add(this.Interface(getter: false));
+                args.Interfaces.Add(this.Interface(getter: false, internalInterface: true));
                 args.Interfaces.Add($"ILoquiObjectSetter<{this.ObjectName}>");
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));

@@ -30,7 +30,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             // ToDo
             // Add Internal interface support
-            if (this.HasInternalInterface) return;
+            if (this.InternalGetInterface) return;
             fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{nameof(SpanExt)}.{nameof(SpanExt.ToHexString)}({accessor.DirectAccess})}}\");");
         }
 

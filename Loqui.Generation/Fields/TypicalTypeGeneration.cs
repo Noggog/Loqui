@@ -263,24 +263,21 @@ namespace Loqui.Generation
                     }
                 }
             }
-            if (this.HasInternalInterface)
+            if (this.InternalSetInterface)
             {
-                if (this.InternalSetInterface)
+                fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
+                using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this.{this.Name};");
-                        fg.AppendLine($"set => this.{this.Name} = {GetValueSetString("value")};");
-                    }
+                    fg.AppendLine($"get => this.{this.Name};");
+                    fg.AppendLine($"set => this.{this.Name} = {GetValueSetString("value")};");
                 }
-                if (this.InternalGetInterface)
+            }
+            if (this.InternalGetInterface)
+            {
+                fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: true)}.{this.Name}");
+                using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: true)}.{this.Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this.{this.Name};");
-                    }
+                    fg.AppendLine($"get => this.{this.Name};");
                 }
             }
         }
@@ -474,7 +471,7 @@ namespace Loqui.Generation
             if (this.ReadOnly || !this.IntegrateField) return;
             // ToDo
             // Add internal interface support
-            if (this.HasInternalInterface) return;
+            if (this.InternalSetInterface) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.HasBeenSet)
@@ -535,7 +532,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             // ToDo
             // Add Internal interface support
-            if (this.HasInternalInterface) return;
+            if (this.InternalGetInterface) return;
             if (this.HasBeenSet)
             {
                 if (this.HasProperty && this.PrefersProperty)
@@ -564,7 +561,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             // ToDo
             // Add Internal interface support
-            if (this.HasInternalInterface) return;
+            if (this.InternalGetInterface) return;
             fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{accessor.DirectAccess}}}\");");
         }
 

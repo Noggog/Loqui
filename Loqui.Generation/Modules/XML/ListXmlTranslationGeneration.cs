@@ -44,9 +44,15 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
             }
-            
+
+            var typeName = list.SubTypeGeneration.TypeName(getter: true);
+            if (list.SubTypeGeneration is LoquiType loqui)
+            {
+                typeName = loqui.TypeName(getter: true, internalInterface: true);
+            }
+
             using (var args = new ArgsWrapper(fg,
-                $"{TranslatorName}<{list.SubTypeGeneration.TypeName(getter: true)}>.Instance.Write"))
+                $"{TranslatorName}<{typeName}>.Instance.Write"))
             {
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -63,7 +69,12 @@ namespace Loqui.Generation
                 args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
-                    gen.AppendLine($"transl: (XElement subNode, {list.SubTypeGeneration.TypeName(getter: true)} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
+                    var subTypeName = list.SubTypeGeneration.TypeName(getter: true);
+                    if (list.SubTypeGeneration is LoquiType subLoqui)
+                    {
+                        subTypeName = subLoqui.TypeName(getter: true, internalInterface: true);
+                    }
+                    gen.AppendLine($"transl: (XElement subNode, {subTypeName} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(
@@ -144,7 +155,7 @@ namespace Loqui.Generation
             {
                 throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
             }
-           
+
             if (ret)
             {
                 throw new NotImplementedException();

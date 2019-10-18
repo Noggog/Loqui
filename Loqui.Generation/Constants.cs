@@ -57,6 +57,7 @@ namespace Loqui.Generation
         public const string WHERE = "Where";
         public const string INTERFACE = "Interface";
         public const string FIELDS = "Fields";
+        public const string FORCE_INTERNAL_INTERFACE = "forceInternalInterface";
         public const string INTERNAL_SET_INTERFACE = "internalSetInterface";
         public const string INTERNAL_GET_INTERFACE = "internalGetInterface";
         public const string ENUM_NAME = "enumName";

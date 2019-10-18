@@ -11,6 +11,7 @@ namespace Loqui.Xml
 {
     public interface IXmlItem
     {
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         object XmlWriteTranslator { get; }
         void WriteToXml(
             XElement node,
