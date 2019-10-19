@@ -645,7 +645,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
+        protected override async Task GenerateNewSnippet(ObjectGeneration obj, FileGeneration fg)
         {
             fg.AppendLine($"switch ({MissingLine.GetParameterName(obj)})");
             using (new BraceWrapper(fg))
@@ -678,6 +678,10 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
             }
+        }
+
+        protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
+        {
             if (obj.Abstract)
             {
                 fg.AppendLine("if (!LoquiXmlTranslation.Instance.TryCreate(node, out ret, errorMask, translationMask))");

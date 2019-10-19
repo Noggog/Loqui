@@ -449,6 +449,8 @@ namespace Loqui.Generation
             }
         }
 
+        protected abstract Task GenerateNewSnippet(ObjectGeneration obj, FileGeneration fg);
+
         protected abstract Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg);
 
         public MaskType[] GetMaskTypes(params MaskType[] otherMasks)
@@ -628,6 +630,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
+                        await GenerateNewSnippet(obj, fg);
                         await GenerateCreateSnippet(obj, fg);
                     }
                     fg.AppendLine();
