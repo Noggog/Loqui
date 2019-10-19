@@ -690,13 +690,13 @@ namespace Loqui.Generation
             {
                 fg.AppendLine("try");
                 using (new BraceWrapper(fg))
-            {
-                await PreCreateLoop(obj, fg);
-                fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
-                using (new BraceWrapper(fg))
                 {
-                    if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
+                    await PreCreateLoop(obj, fg);
+                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
+                    using (new BraceWrapper(fg))
                     {
+                        if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
+                        {
                             using (var args = new ArgsWrapper(fg,
                                 $"FillPrivateElement{ModuleNickname}"))
                             {
@@ -704,15 +704,15 @@ namespace Loqui.Generation
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                                 args.Add("name: elem.Name.LocalName");
                                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
-                            {
-                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
-                                args.Add(passthrough);
-                            }
-                            args.Add("errorMask: errorMask");
-                            if (this.TranslationMaskParameter)
-                            {
-                                args.Add("translationMask: translationMask");
-                            }
+                                {
+                                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                    args.Add(passthrough);
+                                }
+                                args.Add("errorMask: errorMask");
+                                if (this.TranslationMaskParameter)
+                                {
+                                    args.Add("translationMask: translationMask");
+                                }
                             }
                         }
                         using (var args = new ArgsWrapper(fg,
@@ -722,21 +722,21 @@ namespace Loqui.Generation
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                             args.Add("name: elem.Name.LocalName");
                             foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
-                        {
-                            if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
-                            args.Add(passthrough);
-                        }
-                        args.Add("errorMask: errorMask");
-                        if (this.TranslationMaskParameter)
-                        {
-                            args.Add("translationMask: translationMask");
+                            {
+                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                args.Add(passthrough);
+                            }
+                            args.Add("errorMask: errorMask");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.Add("translationMask: translationMask");
+                            }
                         }
                     }
+                    await PostCreateLoop(obj, fg);
                 }
-                await PostCreateLoop(obj, fg);
-            }
-            fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine("when (errorMask != null)");
+                fg.AppendLine("catch (Exception ex)");
+                fg.AppendLine("when (errorMask != null)");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine("errorMask.ReportException(ex);");
