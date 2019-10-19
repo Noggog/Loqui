@@ -49,20 +49,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForDeepCopyMask(FileGeneration fg, TypeGeneration field)
-        {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Copy))
-            {
-                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}> {field.Name};");
-            }
-            else
-            {
-                fg.AppendLine($"public bool {field.Name};");
-            }
-        }
-
         public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
         {
             ListType listType = field as ListType;
@@ -74,20 +60,6 @@ namespace Loqui.Generation
             else
             {
                 fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
-            }
-        }
-
-        public override void GenerateForDeepCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr)
-        {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Copy))
-            {
-                fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}>({basicValueStr}, default);");
-            }
-            else
-            {
-                fg.AppendLine($"this.{field.Name} = {basicValueStr};");
             }
         }
 

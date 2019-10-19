@@ -3063,8 +3063,6 @@ namespace Loqui.Generation
                     return $"{name}_{MaskModule.ErrMaskNickname}";
                 case MaskType.Copy:
                     return $"{name}_{MaskModule.CopyMaskNickname}";
-                case MaskType.DeepCopy:
-                    return $"{name}_{MaskModule.DeepCopyMaskNickname}";
                 case MaskType.Translation:
                     return $"{name}_{MaskModule.TranslationMaskNickname}";
                 default:
@@ -3123,8 +3121,6 @@ namespace Loqui.Generation
                     return $"{this.Name}_ErrorMask";
                 case MaskType.Copy:
                     return $"{this.Name}_CopyMask";
-                case MaskType.DeepCopy:
-                    return $"{this.Name}_DeepCopyMask";
                 case MaskType.Translation:
                     return $"{this.Name}_TranslationMask";
                 default:
@@ -3140,8 +3136,6 @@ namespace Loqui.Generation
                     return $"{this.Mask_BasicName(MaskType.Error)}{GetGenericTypes(MaskType.Error)}";
                 case MaskType.Copy:
                     return $"{this.Mask_BasicName(MaskType.Copy)}{GetGenericTypes(MaskType.Copy)}";
-                case MaskType.DeepCopy:
-                    return $"{this.Mask_BasicName(MaskType.DeepCopy)}{GetGenericTypes(MaskType.DeepCopy)}";
                 case MaskType.Translation:
                     return $"{this.Mask_BasicName(MaskType.Translation)}{GetGenericTypes(MaskType.Translation)}";
                 case MaskType.Normal:
@@ -3457,7 +3451,6 @@ namespace Loqui.Generation
                                 return Generics.Select((g) => g.Key);
                             case MaskType.Error:
                             case MaskType.Copy:
-                            case MaskType.DeepCopy:
                             case MaskType.Translation:
                                 return GenericTypes_Nickname(maskType);
                             default:

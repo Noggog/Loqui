@@ -11,7 +11,6 @@ namespace Loqui.Generation
         Normal,
         Error,
         Copy,
-        DeepCopy,
         Translation,
     }
 }

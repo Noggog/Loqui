@@ -22,8 +22,6 @@ namespace Loqui.Generation
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMask(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr);
-        public abstract void GenerateForDeepCopyMask(FileGeneration fg, TypeGeneration field);
-        public abstract void GenerateForDeepCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr);
         public abstract void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field);
         public abstract string GenerateForTranslationMaskCrystalization(TypeGeneration field);
         public abstract void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor);
