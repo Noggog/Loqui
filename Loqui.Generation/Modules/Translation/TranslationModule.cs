@@ -256,7 +256,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.{CopyInFromPrefix}{ModuleNickname}"))
+                    $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{ModuleNickname}"))
                 {
                     args.AddPassArg("item");
                     args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
@@ -652,7 +652,7 @@ namespace Loqui.Generation
                     {
                         await GenerateNewSnippet(obj, fg);
                         using (var args = new ArgsWrapper(fg,
-                            $"{Loqui.Generation.Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.{CopyInFromPrefix}{ModuleNickname}"))
+                            $"{Loqui.Generation.Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{ModuleNickname}"))
                         {
                             args.Add("item: ret");
                             foreach (var arg in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader))

@@ -127,7 +127,7 @@ namespace Loqui.Generation
         }
         public string CommonClassName(LoquiInterfaceType interfaceType, params MaskType[] types) => $"{Name}{CommonNameAdditions(interfaceType, types)}Common";
         public string CommonClass(LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"{this.CommonClassName(interfaceType, types)}{(commonGen == CommonGenerics.Class ? this.GetGenericTypes(types.Length == 0 ? new MaskType[] { MaskType.Normal } : types) : null)}";
-        public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance())";
+        public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance{this.GetGenericTypes(types)}())";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
