@@ -139,6 +139,44 @@ namespace Loqui.Generation
             }
         }
 
+        public override async Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg)
+        {
+            var asyncImport = await this.AsyncImport(obj);
+            using (var args = new FunctionWrapper(fg,
+                $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
+            {
+                if (obj.IsTopClass)
+                {
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal));
+                }
+                args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
+                foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
+                    new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
+                    new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
+                {
+                    args.Add(API.Result);
+                }
+            }
+            using (new BraceWrapper(fg))
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.{CopyInFromPrefix}{ModuleNickname}"))
+                {
+                    args.AddPassArg("item");
+                    args.Add(this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader));
+                    foreach (var customArgs in this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Reader))
+                    {
+                        args.Add(customArgs);
+                    }
+                    args.AddPassArg($"errorMask");
+                    if (this.TranslationMaskParameter)
+                    {
+                        args.AddPassArg($"translationMask");
+                    }
+                }
+            }
+        }
+
         public virtual async Task GenerateInTranslationWriteClass(ObjectGeneration obj, FileGeneration fg)
         {
             await TranslationWrite(obj, fg);
@@ -633,7 +671,7 @@ namespace Loqui.Generation
                     {
                         await GenerateNewSnippet(obj, fg);
                         using (var args = new ArgsWrapper(fg,
-                            $"{Loqui.Generation.Utility.Await(await AsyncImport(obj))}{CopyInFromPrefix}{ModuleNickname}"))
+                            $"{Loqui.Generation.Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.{CopyInFromPrefix}{ModuleNickname}"))
                         {
                             args.Add("item: ret");
                             foreach (var arg in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader))
@@ -654,23 +692,6 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
                 }
-
-                using (var args = new FunctionWrapper(fg,
-                    $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
-                {
-                    args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
-                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
-                        new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
-                        new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
-                    {
-                        args.Add(API.Result);
-                    }
-                }
-                using (new BraceWrapper(fg))
-                {
-                    await GenerateCopyInSnippet(obj, fg, "item");
-                }
-                fg.AppendLine();
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
@@ -794,9 +815,34 @@ namespace Loqui.Generation
             }
         }
 
+        public override async Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
+        {
+            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)) return;
+
+            using (var args = new FunctionWrapper(fg,
+                $"public{obj.NewOverride()}{await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
+            {
+                args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
+                foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
+                    new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
+                    new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
+                {
+                    args.Add(API.Result);
+                }
+            }
+            using (new BraceWrapper(fg))
+            {
+                if (!obj.Abstract || this.GenerateAbstractCreates)
+                {
+                    await GenerateCopyInSnippet(obj, fg, "item");
+                }
+            }
+            fg.AppendLine();
+        }
+
         private void FillWriterArgs(
-            FunctionWrapper args, 
-            ObjectGeneration obj, 
+            FunctionWrapper args,
+            ObjectGeneration obj,
             bool? objParam = false,
             bool doFallbackCustom = true,
             bool addIndex = false)

@@ -355,12 +355,6 @@ namespace Loqui.Generation
             await base.GenerateInTranslationCreateClass(obj, fg);
         }
 
-        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
-        {
-            await base.GenerateInClass(obj, fg);
-            FillPrivateElement(obj, fg);
-        }
-
         public virtual void GenerateWriteToNode(ObjectGeneration obj, FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
@@ -763,6 +757,15 @@ namespace Loqui.Generation
                 args.Add($"errorMask: errorMask");
                 args.Add($"translationMask: translationMask");
             }
+        }
+
+        public override async Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
+        {
+            if (maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal))
+            {
+                FillPrivateElement(obj, fg);
+            }
+            await base.GenerateInCommon(obj, fg, maskTypes);
         }
     }
 }
