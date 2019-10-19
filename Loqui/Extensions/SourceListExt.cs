@@ -9,7 +9,7 @@ namespace Loqui
     public static class SourceListExt
     {
         public static void SetToWithDefault<TItem, TGetter>(
-            this ISetList<TItem> not,
+            this ISetList<TItem> lhs,
             IReadOnlySetList<TGetter> rhs,
             IReadOnlySetList<TGetter> def,
             Func<TGetter, TGetter, TItem> converter)
@@ -19,13 +19,13 @@ namespace Loqui
             {
                 if (def == null)
                 {
-                    not.SetTo(
+                    lhs.SetTo(
                         rhs.Select((t) => converter(t, default)));
                 }
                 else
                 {
                     int i = 0;
-                    not.SetTo(
+                    lhs.SetTo(
                         rhs.Select((t) =>
                         {
                             TGetter defVal = default;
@@ -39,30 +39,30 @@ namespace Loqui
             }
             else if (def?.HasBeenSet ?? false)
             {
-                not.SetTo(
+                lhs.SetTo(
                     def.Select((t) => converter(t, default)));
             }
             else
             {
-                not.Unset();
+                lhs.Unset();
             }
         }
 
         public static void SetToWithDefault<TItem, TGetter>(
-            this IList<TItem> not,
+            this IList<TItem> lhs,
             IReadOnlyList<TGetter> rhs,
             IReadOnlyList<TGetter> def,
             Func<TGetter, TGetter, TItem> converter)
         {
             if (def == null)
             {
-                not.SetTo(
+                lhs.SetTo(
                     rhs.Select((t) => converter(t, default)));
             }
             else
             {
                 int i = 0;
-                not.SetTo(
+                lhs.SetTo(
                     rhs.Select((t) =>
                     {
                         TGetter defVal = default;

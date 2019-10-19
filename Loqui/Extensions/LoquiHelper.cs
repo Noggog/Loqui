@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Noggog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,34 @@ namespace Loqui.Internal
             {
                 outRhsItem = default(T);
                 outDefItem = default(T);
+                return false;
+            }
+        }
+
+        public static bool DefaultSwitch<T>(
+            ReadOnlySpan<T> rhsItem,
+            bool rhsHasBeenSet,
+            ReadOnlySpan<T> defItem,
+            bool defHasBeenSet,
+            out ReadOnlySpan<T> outRhsItem,
+            out ReadOnlySpan<T> outDefItem)
+        {
+            if (rhsHasBeenSet)
+            {
+                outRhsItem = rhsItem;
+                outDefItem = defItem;
+                return true;
+            }
+            else if (defHasBeenSet)
+            {
+                outRhsItem = defItem;
+                outDefItem = default;
+                return true;
+            }
+            else
+            {
+                outRhsItem = default;
+                outDefItem = default;
                 return false;
             }
         }
@@ -92,6 +121,33 @@ namespace Loqui.Internal
             {
                 itemHasBeenSet = false;
                 item = default(T);
+            }
+        }
+
+        public static void SetToWithDefault<TItem, TGetter>(
+            this TItem[] lhs,
+            ReadOnlyMemorySlice<TGetter> rhs,
+            ReadOnlyMemorySlice<TGetter>? def,
+            Func<TGetter, TGetter, TItem> converter)
+        {
+            if (def == null)
+            {
+                lhs.SetTo(
+                    rhs.Select((t) => converter(t, default)));
+            }
+            else
+            {
+                int i = 0;
+                lhs.SetTo(
+                    rhs.Select((t) =>
+                    {
+                        TGetter defVal = default;
+                        if (def.Value.Length > i)
+                        {
+                            defVal = def.Value[i];
+                        }
+                        return converter(t, defVal);
+                    }));
             }
         }
     }
