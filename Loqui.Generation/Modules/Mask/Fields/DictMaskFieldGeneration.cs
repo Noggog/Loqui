@@ -126,6 +126,24 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForDeepCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            DictType dictType = field as DictType;
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    throw new NotImplementedException();
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"public MaskItem<bool, {valueLoquiType.Mask(MaskType.DeepCopy)}> {field.Name};");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             DictType dictType = field as DictType;
@@ -423,6 +441,24 @@ namespace Loqui.Generation
                     break;
                 case DictMode.KeyedValue:
                     fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {valueLoquiType.Mask(MaskType.Copy)}>({deepCopyStr}, default);");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public override void GenerateForDeepCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr)
+        {
+            DictType dictType = field as DictType;
+            LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
+            LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
+
+            switch (dictType.Mode)
+            {
+                case DictMode.KeyValue:
+                    throw new NotImplementedException();
+                case DictMode.KeyedValue:
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.DeepCopy)}>({basicValueStr}, default);");
                     break;
                 default:
                     break;

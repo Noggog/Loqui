@@ -34,6 +34,18 @@ namespace Loqui.Generation
             fg.AppendLine($"this.{field.Name} = {basicValueStr};");
         }
 
+        public override void GenerateForDeepCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"public bool {field.Name};");
+        }
+
+        public override void GenerateForDeepCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"this.{field.Name} = {basicValueStr};");
+        }
+
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             if (!field.IntegrateField) return;

@@ -67,6 +67,27 @@ namespace Loqui.Generation
             }
         }
 
+        public override void GenerateForDeepCopyMask(FileGeneration fg, TypeGeneration field)
+        {
+            LoquiType loqui = field as LoquiType;
+            if (loqui.RefType == LoquiRefType.Direct)
+            {
+                if (loqui.SingletonType == SingletonLevel.Singleton)
+                {
+                    if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
+                    fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}> {field.Name};");
+                }
+                else
+                {
+                    fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}> {field.Name};");
+                }
+            }
+            else
+            {
+                fg.AppendLine($"public bool {field.Name};");
+            }
+        }
+
         public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
         {
             LoquiType loqui = field as LoquiType;
@@ -196,6 +217,27 @@ namespace Loqui.Generation
             else
             {
                 fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
+            }
+        }
+
+        public override void GenerateForDeepCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr)
+        {
+            LoquiType loqui = field as LoquiType;
+            if (loqui.RefType == LoquiRefType.Direct)
+            {
+                if (loqui.SingletonType == SingletonLevel.Singleton)
+                {
+                    if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}>({basicValueStr}, default);");
+                }
+                else
+                {
+                    fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.DeepCopy)}>({basicValueStr}, default);");
+                }
+            }
+            else
+            {
+                fg.AppendLine($"this.{field.Name} = {basicValueStr};");
             }
         }
 

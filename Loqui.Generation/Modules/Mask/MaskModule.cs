@@ -11,6 +11,7 @@ namespace Loqui.Generation
     {
         public const string ErrMaskNickname = "ErrMask";
         public const string CopyMaskNickname = "CopyMask";
+        public const string DeepCopyMaskNickname = "DeepCopyMask";
         public const string TranslationMaskNickname = "TranslMask";
         private Dictionary<Type, MaskModuleField> _fieldMapping = new Dictionary<Type, MaskModuleField>();
         public static readonly TypicalMaskFieldGeneration TypicalField = new TypicalMaskFieldGeneration();
@@ -34,6 +35,8 @@ namespace Loqui.Generation
                     return ErrMaskNickname;
                 case MaskType.Copy:
                     return CopyMaskNickname;
+                case MaskType.DeepCopy:
+                    return DeepCopyMaskNickname;
                 case MaskType.Translation:
                     return TranslationMaskNickname;
                 case MaskType.Normal:
@@ -118,6 +121,7 @@ namespace Loqui.Generation
                 await GenerateNormalMask(obj, fg);
                 await GenerateErrorMask(obj, fg);
                 GenerateCopyMask(obj, fg);
+                GenerateDeepCopyMask(obj, fg);
                 await GenerateTranslationMask(obj, fg);
             }
         }
@@ -152,6 +156,42 @@ namespace Loqui.Generation
                     foreach (var field in obj.IterateFields())
                     {
                         GetMaskModule(field.GetType()).GenerateForCopyMask(fg, field);
+                    }
+                }
+            }
+            fg.AppendLine();
+        }
+
+        private void GenerateDeepCopyMask(ObjectGeneration obj, FileGeneration fg)
+        {
+            fg.AppendLine($"public class {obj.Mask(MaskType.DeepCopy)}{(obj.HasLoquiBaseObject ? $" : {obj.BaseClass.Mask(MaskType.DeepCopy)}" : string.Empty)}");
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.DeepCopy));
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"public {obj.Mask_BasicName(MaskType.DeepCopy)}()");
+                using (new BraceWrapper(fg))
+                {
+                }
+                fg.AppendLine();
+
+                fg.AppendLine($"public {obj.Mask_BasicName(MaskType.DeepCopy)}(bool defaultOn)");
+                using (new BraceWrapper(fg))
+                {
+                    foreach (var field in obj.IterateFields())
+                    {
+                        GetMaskModule(field.GetType()).GenerateForDeepCopyMaskCtor(fg, field, basicValueStr: "defaultOn");
+                    }
+                }
+                fg.AppendLine();
+
+                using (new RegionWrapper(fg, "Members"))
+                {
+                    foreach (var field in obj.IterateFields())
+                    {
+                        GetMaskModule(field.GetType()).GenerateForDeepCopyMask(fg, field);
                     }
                 }
             }
