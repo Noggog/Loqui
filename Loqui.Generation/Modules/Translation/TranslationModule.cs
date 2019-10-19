@@ -41,6 +41,7 @@ namespace Loqui.Generation
         public const string TranslationMaskKey = "TranslationMask";
 
         public virtual string CreateFromPrefix => "CreateFrom";
+        public virtual string CopyInFromPrefix => "CopyInFrom";
         public virtual string WriteToPrefix => "WriteTo";
 
         protected Dictionary<Type, G> _typeGenerations = new Dictionary<Type, G>();
@@ -451,7 +452,7 @@ namespace Loqui.Generation
 
         protected abstract Task GenerateNewSnippet(ObjectGeneration obj, FileGeneration fg);
 
-        protected abstract Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg);
+        protected abstract Task GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, Accessor accessor);
 
         public MaskType[] GetMaskTypes(params MaskType[] otherMasks)
         {
@@ -631,10 +632,45 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         await GenerateNewSnippet(obj, fg);
-                        await GenerateCreateSnippet(obj, fg);
+                        using (var args = new ArgsWrapper(fg,
+                            $"{Loqui.Generation.Utility.Await(await AsyncImport(obj))}{CopyInFromPrefix}{ModuleNickname}"))
+                        {
+                            args.Add("item: ret");
+                            foreach (var arg in this.MainAPI.PassArgs(obj, TranslationModuleAPI.Direction.Reader))
+                            {
+                                args.Add(arg);
+                            }
+                            foreach (var arg in this.MainAPI.InternalPassArgs(obj, TranslationModuleAPI.Direction.Reader))
+                            {
+                                args.Add(arg);
+                            }
+                            args.AddPassArg("errorMask");
+                            if (this.TranslationMaskParameter)
+                            {
+                                args.AddPassArg("translationMask");
+                            }
+                        }
+                        fg.AppendLine("return ret;");
                     }
                     fg.AppendLine();
                 }
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
+                {
+                    args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
+                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
+                        new APILine(ErrorMaskKey, "ErrorMaskBuilder errorMask"),
+                        new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask", (o) => this.TranslationMaskParameter)))
+                    {
+                        args.Add(API.Result);
+                    }
+                }
+                using (new BraceWrapper(fg))
+                {
+                    await GenerateCopyInSnippet(obj, fg, "item");
+                }
+                fg.AppendLine();
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {

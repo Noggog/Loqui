@@ -672,19 +672,7 @@ namespace Loqui.Generation
             }
             if (obj.Abstract)
             {
-                fg.AppendLine($"{obj.Name}{obj.GetGenericTypes(MaskType.Normal)} ret;");
-            }
-            else
-            {
-                fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
-            }
-        }
-
-        protected override async Task GenerateCreateSnippet(ObjectGeneration obj, FileGeneration fg)
-        {
-            if (obj.Abstract)
-            {
-                fg.AppendLine("if (!LoquiXmlTranslation.Instance.TryCreate(node, out ret, errorMask, translationMask))");
+                fg.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate(node, out {obj.Name} ret, errorMask, translationMask))");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"throw new ArgumentException($\"Unknown {obj.Name} subclass: {{node.Name.LocalName}}\");");
@@ -692,37 +680,25 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine("try");
+                fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
+            }
+        }
+
+        protected override async Task GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, Accessor accessor)
+        {
+            fg.AppendLine("try");
+            using (new BraceWrapper(fg))
+            {
+                await PreCreateLoop(obj, fg);
+                fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
                 using (new BraceWrapper(fg))
                 {
-                    await PreCreateLoop(obj, fg);
-                    fg.AppendLine($"foreach (var elem in {XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements())");
-                    using (new BraceWrapper(fg))
+                    if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                     {
-                        if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
-                        {
-                            using (var args = new ArgsWrapper(fg,
-                                $"FillPrivateElement{ModuleNickname}"))
-                            {
-                                args.Add("item: ret");
-                                args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
-                                args.Add("name: elem.Name.LocalName");
-                                foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
-                                {
-                                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
-                                    args.Add(passthrough);
-                                }
-                                args.Add("errorMask: errorMask");
-                                if (this.TranslationMaskParameter)
-                                {
-                                    args.Add("translationMask: translationMask");
-                                }
-                            }
-                        }
                         using (var args = new ArgsWrapper(fg,
-                            $"{this.TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
+                            $"FillPrivateElement{ModuleNickname}"))
                         {
-                            args.Add("item: ret");
+                            args.Add($"item: {accessor}");
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                             args.Add("name: elem.Name.LocalName");
                             foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
@@ -737,20 +713,32 @@ namespace Loqui.Generation
                             }
                         }
                     }
-                    await PostCreateLoop(obj, fg);
-                }
-                fg.AppendLine("catch (Exception ex)");
-                fg.AppendLine("when (errorMask != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine("errorMask.ReportException(ex);");
-                    if (obj.Abstract)
+                    using (var args = new ArgsWrapper(fg,
+                        $"{this.TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                     {
-                        fg.AppendLine("return null;");
+                        args.Add($"item: {accessor}");
+                        args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
+                        args.Add("name: elem.Name.LocalName");
+                        foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
+                        {
+                            if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                            args.Add(passthrough);
+                        }
+                        args.Add("errorMask: errorMask");
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.Add("translationMask: translationMask");
+                        }
                     }
                 }
+                await PostCreateLoop(obj, fg);
             }
-            fg.AppendLine("return ret;");
+            fg.AppendLine("catch (Exception ex)");
+            fg.AppendLine("when (errorMask != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine("errorMask.ReportException(ex);");
+            }
         }
 
         protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
