@@ -91,25 +91,10 @@ namespace Loqui.Generation
                     () =>
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{itemAccessor.DirectAccess}.CopyFieldsFrom{loquiGen.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}"))
+                            $"{itemAccessor.DirectAccess}.{this.XmlMod.CopyInFromPrefix}{this.XmlMod.ModuleNickname}{loquiGen.GetGenericTypes(getter: false, MaskType.Normal)}"))
                         {
-                            args.Add((gen) =>
-                            {
-                                using (var subArgs = new FunctionWrapper(gen,
-                                    $"rhs: {loquiGen.TargetObjectGeneration.Name}{loquiGen.GenericTypes(getter: false)}.{this.XmlMod.CreateFromPrefix}{this.XmlMod.ModuleNickname}"))
-                                {
-                                    subArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}");
-                                    foreach (var item in this.XmlMod.MainAPI.ReaderAPI.CustomAPI)
-                                    {
-                                        if (!item.TryGetPassthrough(objGen, loquiGen.TargetObjectGeneration, out var passthrough)) continue;
-                                        subArgs.Add(passthrough);
-                                    }
-                                    subArgs.Add($"errorMask: {errorMaskAccessor}");
-                                    subArgs.Add($"translationMask: {translationMaskAccessor}");
-                                }
-                            });
-                            args.Add("def: null");
-                            args.Add("copyMask: null");
+                            args.Add($"node: {nodeAccessor}");
+                            args.Add($"translationMask: {translationMaskAccessor}");
                             args.Add($"errorMask: {errorMaskAccessor}");
                         }
                     },
