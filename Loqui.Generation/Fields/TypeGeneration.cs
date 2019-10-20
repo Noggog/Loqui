@@ -131,7 +131,7 @@ namespace Loqui.Generation
 
         public abstract bool CopyNeedsTryCatch { get; }
 
-        public abstract string SkipCheck(string copyMaskAccessor);
+        public abstract string SkipCheck(string copyMaskAccessor, bool deepCopy);
 
         public abstract void GenerateForCopy(
             FileGeneration fg,
@@ -139,7 +139,10 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers);
+            bool protectedMembers,
+            bool deepCopy);
+
+        public virtual void GenerateCopySetToConverter(FileGeneration fg) { }
 
         public abstract string GenerateACopy(string rhsAccessor);
 

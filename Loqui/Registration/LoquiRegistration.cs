@@ -17,8 +17,8 @@ namespace Loqui
         static Dictionary<Type, Type> GenericRegisters = new Dictionary<Type, Type>();
         static Dictionary<Type, object> CreateFuncRegister = new Dictionary<Type, object>();
         static Dictionary<Type, object> CopyInFuncRegister = new Dictionary<Type, object>();
-        static Dictionary<Type, object> CopyFuncRegister = new Dictionary<Type, object>();
-        static Dictionary<Type, UntypedCopyFunction> UntypedCopyFuncRegister = new Dictionary<Type, UntypedCopyFunction>();
+        static Dictionary<(Type TSource, Type TResult), object> CopyFuncRegister = new Dictionary<(Type TSource, Type TResult), object>();
+        static Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> UntypedCopyFuncRegister = new Dictionary<(Type TSource, Type TResult), UntypedCopyFunction>();
         static Dictionary<string, Type> cache = new Dictionary<string, Type>();
 
         static LoquiRegistration()
@@ -321,20 +321,19 @@ namespace Loqui
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
-        public static Func<T, object, object, T> GetCopyFunc<T>()
+        public static Func<TSource, object, object, TResult> GetCopyFunc<TResult, TSource>()
         {
-            var t = typeof(T);
-            return GetCopyFunc<T>(t);
+            return GetCopyFunc<TResult, TSource>(typeof(TSource), typeof(TResult));
         }
 
-        public static Func<T, object, object, T> GetCopyFunc<T>(Type t)
+        public static Func<TSource, object, object, TResult> GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
         {
-            if (CopyFuncRegister.TryGetValue(t, out var copyFunc))
+            if (CopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
-                return copyFunc as Func<T, object, object, T>;
+                return copyFunc as Func<TSource, object, object, TResult>;
             }
 
-            var untypedCopyFunc = GetCopyFunc(t);
+            var untypedCopyFunc = GetCopyFunc(tSource, tResult);
 
             //var methodParams = methodInfo.GetParameters();
             //var item = Expression.Parameter(t, "item");
@@ -357,30 +356,31 @@ namespace Loqui
             //    body: Expression.Call(methodInfo, item, copyCast, defaultsCast),
             //    parameters: new ParameterExpression[] { item, copyMask, defaults }).Compile();
 
-            var f = new Func<T, object, object, T>(
+            var f = new Func<TSource, object, object, TResult>(
                 (item, copy, def) =>
                 {
-                    return (T)untypedCopyFunc(item, copy, def);
+                    return (TResult)untypedCopyFunc(item, copy, def);
                 });
-            CopyFuncRegister[t] = f;
+            CopyFuncRegister[(tSource, tResult)] = f;
             return f;
         }
 
-        public static UntypedCopyFunction GetCopyFunc(Type t)
+        public static UntypedCopyFunction GetCopyFunc(Type tSource, Type tResult)
         {
-            if (UntypedCopyFuncRegister.TryGetValue(t, out var copyFunc))
+            if (UntypedCopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
                 return copyFunc;
             }
-            var register = GetRegister(t);
-            var methodInfo = t.GetMethods(BindingFlags.Static | BindingFlags.Public)
+            var register = GetRegister(tResult);
+            var methodInfo = tResult.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 .Where((m) => m.IsGenericMethod)
                 .Where((m) => m.Name.Equals(Constants.COPY_FUNC_NAME))
                 .First();
             methodInfo = methodInfo.MakeGenericMethod(
                 new Type[]
                 {
-                    t,
+                    tSource,
+                    tResult,
                 });
 
             var f = new UntypedCopyFunction(
@@ -395,7 +395,7 @@ namespace Loqui
                             def
                         });
                 });
-            UntypedCopyFuncRegister[t] = f;
+            UntypedCopyFuncRegister[(tSource, tResult)] = f;
             return f;
         }
     }

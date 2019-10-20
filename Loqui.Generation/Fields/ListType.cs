@@ -1,6 +1,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -166,16 +167,31 @@ namespace Loqui.Generation
 
         }
 
-        public override string SkipCheck(string copyMaskAccessor)
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
         {
-            if (this.SubTypeGeneration is LoquiType loqui
+            var loqui = this.SubTypeGeneration as LoquiType;
+            if (!deepCopy
+                && loqui != null
                 && loqui.SupportsMask(MaskType.Copy))
             {
                 return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
             }
+            else if (deepCopy
+                && loqui != null
+                && loqui.SupportsMask(MaskType.Translation))
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
+            }
             else
             {
-                return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+                if (deepCopy)
+                {
+                    return $"{copyMaskAccessor}?.{this.Name} ?? true";
+                }
+                else
+                {
+                    return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+                }
             }
         }
 
@@ -185,58 +201,101 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers)
+            bool protectedMembers,
+            bool deepCopy)
         {
             if (this.isLoquiSingle)
             {
-                LoquiType loqui = this.SubTypeGeneration as LoquiType;
-                using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                if (deepCopy)
                 {
-                    args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
-                    args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
-                    args.Add((gen) =>
+                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
                     {
-                        gen.AppendLine("converter: (r, d) =>");
-                        using (new BraceWrapper(gen))
+                        args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
+                        args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
+                        args.Add((gen) =>
                         {
-                            var supportsCopy = loqui.SupportsMask(MaskType.Copy);
-                            var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
-                            gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            gen.AppendLine("converter: (r, d) =>");
                             using (new BraceWrapper(gen))
                             {
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(gen))
+                                loqui.GenerateTypicalMakeCopy(
+                                    gen,
+                                    retAccessor: $"return ",
+                                    rhsAccessor: new Accessor("r"),
+                                    defAccessor: new Accessor("d"),
+                                    copyMaskAccessor: copyMaskAccessor,
+                                    deepCopy: deepCopy);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                    {
+                        args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
+                        args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
+                        args.Add((gen) =>
+                        {
+                            gen.AppendLine("converter: (r, d) =>");
+                            using (new BraceWrapper(gen))
+                            {
+                                var supportsCopy = loqui.SupportsMask(MaskType.Copy);
+                                var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
+                                gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                                using (new BraceWrapper(gen))
                                 {
-                                    gen.AppendLine($"return ({loqui.TypeName()})r;");
-                                }
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    loqui.GenerateTypicalMakeCopy(
-                                        gen,
-                                        retAccessor: $"return ",
-                                        rhsAccessor: new Accessor("r"),
-                                        defAccessor: new Accessor("d"),
-                                        copyMaskAccessor: copyMaskAccessor);
-                                }
-                                gen.AppendLine($"default:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
+                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        gen.AppendLine($"return ({loqui.TypeName()})r;");
+                                    }
+                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        loqui.GenerateTypicalMakeCopy(
+                                            gen,
+                                            retAccessor: $"return ",
+                                            rhsAccessor: new Accessor("r"),
+                                            defAccessor: new Accessor("d"),
+                                            copyMaskAccessor: copyMaskAccessor,
+                                            deepCopy: deepCopy);
+                                    }
+                                    gen.AppendLine($"default:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
             else
             {
-                using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                FileGeneration subFg = new FileGeneration();
+                this.SingleTypeGen.GenerateCopySetToConverter(subFg);
+                if (subFg.Empty)
                 {
-                    args.Add($"rhs.{this.Name}");
-                    args.Add($"def?.{this.Name}");
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                    {
+                        args.Add($"rhs.{this.Name}");
+                    }
+                }
+                else
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                    {
+                        args.Add($"rhs.{this.Name}");
+                        args.Add($"def?.{this.Name}");
+                        args.Add(subFg.ToArray());
+                    }
                 }
             }
         }

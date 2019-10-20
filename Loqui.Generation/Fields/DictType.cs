@@ -36,7 +36,7 @@ namespace Loqui.Generation
         public override bool HasDefault => false;
         public override bool HasProperty => true;
 
-        public override string SkipCheck(string copyMaskAccessor) => subGenerator.SkipCheck(copyMaskAccessor);
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
 
         public override string GetName(bool internalUse, bool property)
         {
@@ -97,9 +97,10 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers)
+            bool protectedMembers,
+            bool deepCopy)
         {
-            subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, protectedMembers);
+            subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, defaultFallbackAccessor, protectedMembers, deepCopy);
         }
 
         public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)

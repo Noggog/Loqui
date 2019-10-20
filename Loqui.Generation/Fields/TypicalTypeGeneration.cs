@@ -35,7 +35,7 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => !this.Bare;
 
-        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name} ?? true";
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy) => $"{copyMaskAccessor}?.{this.Name} ?? true";
 
         public override async Task Load(XElement node, bool requireName = true)
         {
@@ -370,7 +370,8 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers)
+            bool protectedMembers,
+            bool deepCopy)
         {
             if (!this.IntegrateField) return;
             if (this.PrefersProperty)

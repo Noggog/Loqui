@@ -22,7 +22,7 @@ namespace Loqui.Generation
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
-        public override string SkipCheck(string copyMaskAccessor)
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
         {
             if (KeyTypeGen is LoquiType
                 || ValueTypeGen is LoquiType)
@@ -194,7 +194,8 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers)
+            bool protectedMembers, 
+            bool deepCopy)
         {
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {

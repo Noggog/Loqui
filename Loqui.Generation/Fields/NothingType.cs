@@ -38,7 +38,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, bool protectedMembers)
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, string defaultFallbackAccessor, bool protectedMembers, bool deepCopy)
         {
         }
 
@@ -91,7 +91,7 @@ namespace Loqui.Generation
             return "Nothing";
         }
 
-        public override string SkipCheck(string copyMaskAccessor)
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
         {
             return null;
         }

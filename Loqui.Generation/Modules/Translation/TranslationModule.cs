@@ -271,6 +271,7 @@ namespace Loqui.Generation
                     }
                 }
             }
+            fg.AppendLine();
 
             foreach (var minorAPI in this.MinorAPIs)
             {

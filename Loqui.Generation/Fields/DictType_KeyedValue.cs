@@ -21,7 +21,17 @@ namespace Loqui.Generation
         public override bool IsEnumerable => true;
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
-        public override string SkipCheck(string copyMaskAccessor) => $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
+        {
+            if (deepCopy)
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
+            }
+            else
+            {
+                return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+            }
+        }
         
         public override bool CopyNeedsTryCatch => true;
 
@@ -254,7 +264,8 @@ namespace Loqui.Generation
             string rhsAccessorPrefix,
             string copyMaskAccessor,
             string defaultFallbackAccessor,
-            bool protectedMembers)
+            bool protectedMembers, 
+            bool deepCopy)
         {
             var loqui = this.ValueTypeGen as LoquiType;
             if (this.HasBeenSet)
@@ -285,7 +296,8 @@ namespace Loqui.Generation
                                         retAccessor: $"return ",
                                         rhsAccessor: new Accessor("r"),
                                         defAccessor: new Accessor("d"),
-                                        copyMaskAccessor: copyMaskAccessor);
+                                        copyMaskAccessor: copyMaskAccessor,
+                                        deepCopy: deepCopy);
                                 }
                                 gen.AppendLine($"default:");
                                 using (new DepthWrapper(gen))
@@ -309,28 +321,42 @@ namespace Loqui.Generation
                         gen.AppendLine("(r, d) =>");
                         using (new BraceWrapper(gen))
                         {
-                            gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                            using (new BraceWrapper(gen))
+                            if (deepCopy)
                             {
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(gen))
+                                loqui.GenerateTypicalMakeCopy(
+                                    gen,
+                                    retAccessor: $"return ",
+                                    rhsAccessor: new Accessor("r"),
+                                    defAccessor: new Accessor("d"),
+                                    copyMaskAccessor: copyMaskAccessor,
+                                    deepCopy: deepCopy);
+                            }
+                            else
+                            {
+                                gen.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                                using (new BraceWrapper(gen))
                                 {
-                                    gen.AppendLine("return r;");
-                                }
-                                gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    loqui.GenerateTypicalMakeCopy(
-                                        gen,
-                                        retAccessor: $"return ",
-                                        rhsAccessor: new Accessor("r"),
-                                        defAccessor: new Accessor("d"),
-                                        copyMaskAccessor: copyMaskAccessor);
-                                }
-                                gen.AppendLine($"default:");
-                                using (new DepthWrapper(gen))
-                                {
-                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        gen.AppendLine("return r;");
+                                    }
+                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        loqui.GenerateTypicalMakeCopy(
+                                            gen,
+                                            retAccessor: $"return ",
+                                            rhsAccessor: new Accessor("r"),
+                                            defAccessor: new Accessor("d"),
+                                            copyMaskAccessor: copyMaskAccessor,
+                                            deepCopy: deepCopy);
+                                    }
+                                    gen.AppendLine($"default:");
+                                    using (new DepthWrapper(gen))
+                                    {
+                                        gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                    }
                                 }
                             }
                         }

@@ -56,5 +56,53 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
         }
+
+        public override void GenerateForCopy(
+            FileGeneration fg,
+            Accessor accessor,
+            string rhsAccessorPrefix, 
+            string copyMaskAccessor, 
+            string defaultFallbackAccessor, 
+            bool protectedMembers,
+            bool getter)
+        {
+            if (this.HasBeenSet)
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"if (LoquiHelper.DefaultSwitch",
+                    suffixLine: ")")
+                {
+                    SemiColon = false,
+                })
+                {
+                    args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
+                    args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
+                    args.Add($"defItem: {defaultFallbackAccessor}.{this.Name}");
+                    args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}."))}");
+                    args.Add($"outRhsItem: out var rhs{this.Name}Item");
+                    args.Add($"outDefItem: out var def{this.Name}Item");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{accessor.DirectAccess} = rhs{this.Name}Item.ToArray();");
+                }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    if (this.HasProperty && this.PrefersProperty)
+                    {
+                        fg.AppendLine($"{accessor.PropertyAccess}.Unset();");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"{accessor.DirectAccess}_Unset();");
+                    }
+                }
+            }
+            else
+            {
+                fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}.ToArray();");
+            }
+        }
     }
 }

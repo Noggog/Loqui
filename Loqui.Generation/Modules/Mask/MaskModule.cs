@@ -117,7 +117,10 @@ namespace Loqui.Generation
 
                 await GenerateNormalMask(obj, fg);
                 await GenerateErrorMask(obj, fg);
-                GenerateCopyMask(obj, fg);
+                if (obj.GenerateComplexCopySystems)
+                {
+                    GenerateCopyMask(obj, fg);
+                }
                 await GenerateTranslationMask(obj, fg);
             }
         }
