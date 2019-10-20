@@ -127,7 +127,8 @@ namespace Loqui.Generation
         }
         public string CommonClassName(LoquiInterfaceType interfaceType, params MaskType[] types) => $"{Name}{CommonNameAdditions(interfaceType, types)}Common";
         public string CommonClass(LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"{this.CommonClassName(interfaceType, types)}{(commonGen == CommonGenerics.Class ? this.GetGenericTypes(types.Length == 0 ? new MaskType[] { MaskType.Normal } : types) : null)}";
-        public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance{this.GetGenericTypes(types)}())";
+        public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) =>
+            $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance{this.GetGenericTypes(types)}())";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
@@ -1295,7 +1296,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"var errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom"))
+                    $"{this.CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Copy)}.CopyFieldsFrom"))
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
@@ -1320,7 +1321,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom"))
+                    $"{this.CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Copy)}.CopyFieldsFrom"))
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
@@ -1338,7 +1339,7 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, "Copy Fields From"))
             {
                 using (var args = new FunctionWrapper(fg,
-                    $"public static void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
+                    $"public void CopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
                     args.Add($"{this.ObjectName} item");
@@ -1372,7 +1373,7 @@ namespace Loqui.Generation
             if (this.HasLoquiBaseObject)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this.BaseClass.CommonClassName(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom{this.GetBaseGenericTypes(MaskType.Normal, MaskType.Copy)}"))
+                    $"{this.BaseClass.CommonClassInstance(accessorPrefix, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom{this.GetBaseGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);

@@ -157,7 +157,6 @@ namespace Loqui.Generation
             Generic
         }
 
-
         public override string SkipCheck(string copyMaskAccessor)
         {
             if (this.SingletonType == SingletonLevel.Singleton)
@@ -668,6 +667,11 @@ namespace Loqui.Generation
             return true;
         }
 
+        public string CommonClassInstance(Accessor accessor, bool getter, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types)
+        {
+            return $"(({this._TargetObjectGeneration.CommonClass(interfaceType, commonGen, types)})(({this.Interface(getter: true, internalInterface: false)}){accessor}).Common{this._TargetObjectGeneration.CommonNameAdditions(interfaceType, types)}Instance{this.GetGenericTypes(getter: getter, types)}())";
+        }
+
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
@@ -872,7 +876,7 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{this._TargetObjectGeneration.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.CopyFieldsFrom"))
+                    $"{this.CommonClassInstance(accessor.DirectAccess, false, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Copy)}.CopyFieldsFrom"))
                 {
                     args.Add($"item: {accessor.DirectAccess}");
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
