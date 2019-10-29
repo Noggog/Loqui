@@ -144,6 +144,7 @@ namespace Loqui.Generation
         public string RefName;
         public string SetterInterface;
         public string GetterInterface;
+        public override bool HasBeenSet => base.HasBeenSet && this.SingletonType == SingletonLevel.None;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
@@ -1000,6 +1001,7 @@ namespace Loqui.Generation
             if (getter)
             {
                 fg.AppendLine($"{this.TypeName(getter: true, internalInterface: true)} {this.Name} {{ get; }}");
+                if (this.SingletonType != SingletonLevel.None) return;
                 switch (this.NotifyingType)
                 {
                     case NotifyingType.None:

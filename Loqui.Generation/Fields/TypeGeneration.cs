@@ -38,7 +38,7 @@ namespace Loqui.Generation
         public NotifyingType NotifyingType => NotifyingProperty.Value;
         public bool Notifying => NotifyingType != NotifyingType.None;
         public readonly BehaviorSetSubject<bool> HasBeenSetProperty = new BehaviorSetSubject<bool>();
-        public bool HasBeenSet => HasBeenSetProperty.Value;
+        public virtual bool HasBeenSet => HasBeenSetProperty.Value;
         public readonly BehaviorSetSubject<bool> ObjectCentralizedProperty = new BehaviorSetSubject<bool>();
         public bool ObjectCentralized => ObjectCentralizedProperty.Value;
         public bool Bare => this.NotifyingType == NotifyingType.None && !this.HasBeenSet;
