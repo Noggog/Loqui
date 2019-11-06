@@ -193,7 +193,6 @@ namespace Loqui.Generation
             Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
-            string defaultFallbackAccessor,
             bool protectedMembers, 
             bool deepCopy)
         {

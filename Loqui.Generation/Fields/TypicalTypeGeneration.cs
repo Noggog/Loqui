@@ -369,7 +369,6 @@ namespace Loqui.Generation
             Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
-            string defaultFallbackAccessor,
             bool protectedMembers,
             bool deepCopy)
         {
@@ -379,10 +378,9 @@ namespace Loqui.Generation
                 if (this.HasBeenSet)
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyAccess}.SetToWithDefault"))
+                        $"{accessor.PropertyAccess}.SetTo"))
                     {
                         args.Add($"rhs: {rhsAccessorPrefix}.{this.GetName(false, true)}");
-                        args.Add($"def: {defaultFallbackAccessor}?.{this.GetName(false, true)}");
                     }
                 }
                 else
@@ -398,23 +396,10 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    using (var args = new ArgsWrapper(fg,
-                        $"if (LoquiHelper.DefaultSwitch",
-                        suffixLine: ")")
-                    {
-                        SemiColon = false,
-                    })
-                    {
-                        args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
-                        args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name} ?? default({this.TypeName(getter: false)})");
-                        args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}?."))} ?? false");
-                        args.Add($"outRhsItem: out var rhs{this.Name}Item");
-                        args.Add($"outDefItem: out var def{this.Name}Item");
-                    }
+                    fg.AppendLine($"if ({this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))})");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{accessor.DirectAccess} = rhs{this.Name}Item;");
+                        fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name};");
                     }
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))

@@ -10,7 +10,7 @@ namespace Loqui
 {
     public static class LoquiRegistration
     {
-        public delegate object UntypedCopyFunction(object item, object copy, object def);
+        public delegate object UntypedCopyFunction(object item, object copy);
         static Dictionary<ObjectKey, ILoquiRegistration> Registers = new Dictionary<ObjectKey, ILoquiRegistration>();
         static Dictionary<string, ILoquiRegistration> NameRegisters = new Dictionary<string, ILoquiRegistration>();
         static Dictionary<Type, ILoquiRegistration> TypeRegister = new Dictionary<Type, ILoquiRegistration>();
@@ -321,16 +321,16 @@ namespace Loqui
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
-        public static Func<TSource, object, object, TResult> GetCopyFunc<TResult, TSource>()
+        public static Func<TSource, object, TResult> GetCopyFunc<TResult, TSource>()
         {
             return GetCopyFunc<TResult, TSource>(typeof(TSource), typeof(TResult));
         }
 
-        public static Func<TSource, object, object, TResult> GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
+        public static Func<TSource, object, TResult> GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
         {
             if (CopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
-                return copyFunc as Func<TSource, object, object, TResult>;
+                return copyFunc as Func<TSource, object, TResult>;
             }
 
             var untypedCopyFunc = GetCopyFunc(tSource, tResult);
@@ -356,10 +356,10 @@ namespace Loqui
             //    body: Expression.Call(methodInfo, item, copyCast, defaultsCast),
             //    parameters: new ParameterExpression[] { item, copyMask, defaults }).Compile();
 
-            var f = new Func<TSource, object, object, TResult>(
-                (item, copy, def) =>
+            var f = new Func<TSource, object, TResult>(
+                (item, copy) =>
                 {
-                    return (TResult)untypedCopyFunc(item, copy, def);
+                    return (TResult)untypedCopyFunc(item, copy);
                 });
             CopyFuncRegister[(tSource, tResult)] = f;
             return f;
@@ -384,15 +384,14 @@ namespace Loqui
                 });
 
             var f = new UntypedCopyFunction(
-                (item, copy, def) =>
+                (item, copy) =>
                 {
                     return methodInfo.Invoke(
                         null,
                         new object[]
                         {
                             item,
-                            copy,
-                            def
+                            copy
                         });
                 });
             UntypedCopyFuncRegister[(tSource, tResult)] = f;

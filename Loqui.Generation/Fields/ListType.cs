@@ -200,7 +200,6 @@ namespace Loqui.Generation
             Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
-            string defaultFallbackAccessor,
             bool protectedMembers,
             bool deepCopy)
         {
@@ -210,20 +209,18 @@ namespace Loqui.Generation
                 {
                     LoquiType loqui = this.SubTypeGeneration as LoquiType;
                     using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
                     {
-                        args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
+                        args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine("converter: (r, d) =>");
+                            gen.AppendLine("converter: (r) =>");
                             using (new BraceWrapper(gen))
                             {
                                 loqui.GenerateTypicalMakeCopy(
                                     gen,
                                     retAccessor: $"return ",
                                     rhsAccessor: new Accessor("r"),
-                                    defAccessor: new Accessor("d"),
                                     copyMaskAccessor: copyMaskAccessor,
                                     deepCopy: deepCopy);
                             }
@@ -234,13 +231,12 @@ namespace Loqui.Generation
                 {
                     LoquiType loqui = this.SubTypeGeneration as LoquiType;
                     using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                        $"{accessor.PropertyOrDirectAccess}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
                     {
-                        args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
+                        args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
                         args.Add((gen) =>
                         {
-                            gen.AppendLine("converter: (r, d) =>");
+                            gen.AppendLine("converter: (r) =>");
                             using (new BraceWrapper(gen))
                             {
                                 var supportsCopy = loqui.SupportsMask(MaskType.Copy);
@@ -260,7 +256,6 @@ namespace Loqui.Generation
                                             gen,
                                             retAccessor: $"return ",
                                             rhsAccessor: new Accessor("r"),
-                                            defAccessor: new Accessor("d"),
                                             copyMaskAccessor: copyMaskAccessor,
                                             deepCopy: deepCopy);
                                     }
@@ -290,10 +285,9 @@ namespace Loqui.Generation
                 else
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetToWithDefault"))
+                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
                     {
                         args.Add($"rhs.{this.Name}");
-                        args.Add($"def?.{this.Name}");
                         args.Add(subFg.ToArray());
                     }
                 }

@@ -680,7 +680,6 @@ namespace Loqui.Generation
             Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
-            string defaultFallbackAccessor,
             bool protectedMembers,
             bool deepCopy)
         {
@@ -698,7 +697,6 @@ namespace Loqui.Generation
                     accessor: accessor,
                     rhsAccessorPrefix: rhsAccessorPrefix,
                     copyMaskAccessor: copyMaskAccessor,
-                    defaultFallbackAccessor: defaultFallbackAccessor,
                     deepCopy: deepCopy);
                 return;
             }
@@ -722,7 +720,6 @@ namespace Loqui.Generation
                                 $"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
                                 args.Add($"{copyMaskAccessor}?.Specific");
-                                args.Add($"{defaultFallbackAccessor}?.{this.Name}");
                             }
                         }
                     }
@@ -755,7 +752,6 @@ namespace Loqui.Generation
                                     accessor: accessor,
                                     rhsAccessorPrefix: rhsAccessorPrefix,
                                     copyMaskAccessor: copyMaskAccessor,
-                                    defaultFallbackAccessor: defaultFallbackAccessor,
                                     deepCopy: deepCopy);
                                 fg.AppendLine("break;");
                             }
@@ -775,7 +771,6 @@ namespace Loqui.Generation
                                     $"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                 {
                                     args.Add($"{copyMaskAccessor}?.Specific");
-                                    args.Add($"{defaultFallbackAccessor}?.{this.Name}");
                                 }
                             }
                             fg.AppendLine("break;");
@@ -790,20 +785,7 @@ namespace Loqui.Generation
                 return;
             }
 
-            using (var args = new ArgsWrapper(fg,
-                $"if (LoquiHelper.DefaultSwitch",
-                suffixLine: ")")
-            {
-                SemiColon = false,
-            })
-            {
-                args.Add($"rhsItem: {rhsAccessorPrefix}.{this.Name}");
-                args.Add($"rhsHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))}");
-                args.Add($"defItem: {defaultFallbackAccessor}?.{this.Name}");
-                args.Add($"defHasBeenSet: {this.HasBeenSetAccessor(new Accessor(this, $"{defaultFallbackAccessor}?."))} ?? false");
-                args.Add($"outRhsItem: out var rhs{this.Name}Item");
-                args.Add($"outDefItem: out var def{this.Name}Item");
-            }
+            fg.AppendLine($"if({this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))})");
             using (new BraceWrapper(fg))
             {
                 if (this.ObjectGen.GenerateComplexCopySystems)
@@ -820,7 +802,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                fg.AppendLine($"{accessor.DirectAccess} = rhs{this.Name}Item;");
+                                fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name};");
                                 fg.AppendLine("break;");
                             }
                         }
@@ -834,7 +816,6 @@ namespace Loqui.Generation
                                     accessor: accessor,
                                     rhsAccessorPrefix: rhsAccessorPrefix,
                                     copyMaskAccessor: copyMaskAccessor,
-                                    defaultFallbackAccessor: defaultFallbackAccessor,
                                     deepCopy: deepCopy);
                                 fg.AppendLine("break;");
                             }
@@ -845,8 +826,7 @@ namespace Loqui.Generation
                             GenerateTypicalMakeCopy(
                                 fg,
                                 retAccessor: $"{accessor.DirectAccess} = ",
-                                rhsAccessor: new Accessor($"rhs{this.Name}Item"),
-                                defAccessor: new Accessor($"def{this.Name}Item"),
+                                rhsAccessor: new Accessor($"{rhsAccessorPrefix}.{this.Name}"),
                                 copyMaskAccessor: copyMaskAccessor,
                                 deepCopy: deepCopy);
                             fg.AppendLine("break;");
@@ -863,8 +843,7 @@ namespace Loqui.Generation
                     GenerateTypicalMakeCopy(
                         fg,
                         retAccessor: $"{accessor.DirectAccess} = ",
-                        rhsAccessor: new Accessor($"rhs{this.Name}Item"),
-                        defAccessor: new Accessor($"def{this.Name}Item"),
+                        rhsAccessor: new Accessor($"{rhsAccessorPrefix}.{this.Name}"),
                         copyMaskAccessor: copyMaskAccessor,
                         deepCopy: deepCopy);
                 }
@@ -885,7 +864,6 @@ namespace Loqui.Generation
             FileGeneration fg,
             string retAccessor,
             Accessor rhsAccessor,
-            Accessor defAccessor,
             string copyMaskAccessor,
             bool deepCopy)
         {
@@ -899,14 +877,13 @@ namespace Loqui.Generation
                         {
                             args.Add($"{copyMaskAccessor}?.Specific");
                         }
-                        args.Add($"def: {defAccessor.DirectAccess}");
                     }
                     break;
                 case LoquiRefType.Generic:
-                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.DirectAccess}, null, {defAccessor.DirectAccess});");
+                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.DirectAccess}, null);");
                     break;
                 case LoquiRefType.Interface:
-                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{this.TypeName()}>(r.GetType())({rhsAccessor.DirectAccess}, null, {defAccessor.DirectAccess});");
+                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{this.TypeName()}>(r.GetType())({rhsAccessor.DirectAccess}, null);");
                     break;
                 default:
                     throw new NotImplementedException();
@@ -918,7 +895,6 @@ namespace Loqui.Generation
             Accessor accessor,
             string rhsAccessorPrefix,
             string copyMaskAccessor,
-            string defaultFallbackAccessor,
             bool deepCopy)
         {
             if (this.RefType == LoquiRefType.Direct)
@@ -929,7 +905,6 @@ namespace Loqui.Generation
                 using (var args = new ArgsWrapper(fg, funcStr))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
-                    args.Add($"def: {defaultFallbackAccessor}?.{this.Name}");
                     if (this.RefType == LoquiRefType.Direct)
                     {
                         args.Add($"errorMask: errorMask");

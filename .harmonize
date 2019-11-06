@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>bc69fc25825b84783fa7dec016fa747cb3601913</Sha>
+         <Sha>be189bfdbbd2f7a0b6842e52f427b68a93f2b838</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>10-20-2019 17:40:13</CommitDate>
-         <Description>SetToWithDefault generic improvements</Description>
+         <CommitDate>11-06-2019 17:26:24</CommitDate>
+         <Description>ListExt.SetTo /w converter</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

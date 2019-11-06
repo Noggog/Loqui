@@ -1261,7 +1261,6 @@ namespace Loqui.Generation
                     {
                         args.AddPassArg($"lhs");
                         args.AddPassArg($"rhs");
-                        args.Add("def: null");
                         args.Add("doMasks: false");
                         args.Add($"errorMask: out var errMask");
                         args.Add("copyMask: null");
@@ -1277,7 +1276,6 @@ namespace Loqui.Generation
                 args.Add($"this {this.ObjectName} lhs");
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask");
-                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1286,7 +1284,6 @@ namespace Loqui.Generation
                 {
                     args.AddPassArg($"lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("doMasks: false");
                     args.Add("errorMask: out var errMask");
                     args.AddPassArg("copyMask");
@@ -1302,7 +1299,6 @@ namespace Loqui.Generation
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -1313,7 +1309,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("errorMask: errorMaskBuilder");
                     args.AddPassArg($"copyMask");
                 }
@@ -1329,7 +1324,6 @@ namespace Loqui.Generation
                 args.Add($"{this.ObjectName} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1338,7 +1332,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.AddPassArg($"errorMask");
                     args.AddPassArg($"copyMask");
                 }
@@ -1367,7 +1360,6 @@ namespace Loqui.Generation
                     {
                         args.AddPassArg($"lhs");
                         args.AddPassArg($"rhs");
-                        args.Add("def: null");
                         args.Add("doMasks: false");
                         args.Add($"errorMask: out var errMask");
                         args.Add("copyMask: null");
@@ -1383,7 +1375,6 @@ namespace Loqui.Generation
                 args.Add($"this {this.Interface(getter: false, internalInterface: true)} lhs");
                 args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask");
-                args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1392,7 +1383,6 @@ namespace Loqui.Generation
                 {
                     args.AddPassArg($"lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("doMasks: false");
                     args.Add("errorMask: out var errMask");
                     args.AddPassArg("copyMask");
@@ -1408,7 +1398,6 @@ namespace Loqui.Generation
                 args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} def = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -1419,7 +1408,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("errorMask: errorMaskBuilder");
                     args.AddPassArg($"copyMask");
                 }
@@ -1435,7 +1423,6 @@ namespace Loqui.Generation
                 args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1444,7 +1431,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.AddPassArg($"errorMask");
                     args.AddPassArg($"copyMask");
                 }
@@ -1473,7 +1459,6 @@ namespace Loqui.Generation
                     {
                         args.AddPassArg($"lhs");
                         args.AddPassArg($"rhs");
-                        args.Add("def: null");
                         args.Add("doMasks: false");
                         args.Add($"errorMask: out var errMask");
                         args.Add("copyMask: null");
@@ -1489,7 +1474,6 @@ namespace Loqui.Generation
                 args.Add($"this {this.Interface(getter: false)} lhs");
                 args.Add($"{this.Interface(getter: true)} rhs");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1498,7 +1482,6 @@ namespace Loqui.Generation
                 {
                     args.AddPassArg($"lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("doMasks: false");
                     args.Add("errorMask: out var errMask");
                     args.AddPassArg("copyMask");
@@ -1514,7 +1497,6 @@ namespace Loqui.Generation
                 args.Add($"{this.Interface(true)} rhs");
                 args.Add($"out {this.Mask(MaskType.Error)} errorMask");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(true)} def = null");
                 args.Add($"bool doMasks = true");
             }
             using (new BraceWrapper(fg))
@@ -1525,7 +1507,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.Add("errorMask: errorMaskBuilder");
                     args.AddPassArg($"copyMask");
                 }
@@ -1541,7 +1522,6 @@ namespace Loqui.Generation
                 args.Add($"{this.Interface(getter: true)} rhs");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(getter: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -1550,7 +1530,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
-                    args.AddPassArg($"def");
                     args.AddPassArg($"errorMask");
                     args.AddPassArg($"copyMask");
                 }
@@ -1569,7 +1548,6 @@ namespace Loqui.Generation
                     args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
                     args.Add($"{this.ObjectName} item");
                     args.Add($"{this.ObjectName} rhs");
-                    args.Add($"{this.ObjectName} def");
                     args.Add($"ErrorMaskBuilder errorMask");
                     args.Add($"{this.Mask(MaskType.Copy)} copyMask");
                 }
@@ -1579,7 +1557,6 @@ namespace Loqui.Generation
                         fg,
                         "item",
                         "rhs",
-                        defaultFallbackAccessor: "def",
                         errMaskAccessor: "errorMask",
                         copyMaskAccessor: "copyMask",
                         deepCopy: false);
@@ -1599,7 +1576,6 @@ namespace Loqui.Generation
                     args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter, MaskType.Translation));
                     args.Add($"{this.Interface(getter: false)} item");
                     args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
-                    args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true)} def");
                     args.Add($"ErrorMaskBuilder errorMask");
                     args.Add($"{this.Mask(MaskType.Translation)} copyMask");
                 }
@@ -1609,7 +1585,6 @@ namespace Loqui.Generation
                         fg,
                         "item",
                         "rhs",
-                        defaultFallbackAccessor: "def",
                         errMaskAccessor: "errorMask",
                         copyMaskAccessor: "copyMask",
                         deepCopy: true);
@@ -1622,7 +1597,6 @@ namespace Loqui.Generation
             FileGeneration fg,
             string accessorPrefix,
             string rhsAccessorPrefix,
-            string defaultFallbackAccessor,
             string errMaskAccessor,
             string copyMaskAccessor,
             bool deepCopy)
@@ -1636,7 +1610,6 @@ namespace Loqui.Generation
                 {
                     args.Add(accessorPrefix);
                     args.Add(rhsAccessorPrefix);
-                    args.Add(defaultFallbackAccessor);
                     args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
                 }
@@ -1662,7 +1635,6 @@ namespace Loqui.Generation
                                 new Accessor(item.Field, $"{accessorPrefix}."),
                                 rhsAccessorPrefix,
                                 $"{copyMaskAccessor}?.{item.Field.Name}",
-                                defaultFallbackAccessor,
                                 protectedMembers: false,
                                 deepCopy: deepCopy);
                         }
@@ -1675,7 +1647,6 @@ namespace Loqui.Generation
                             new Accessor(item.Field, $"{accessorPrefix}."),
                             rhsAccessorPrefix,
                             $"{copyMaskAccessor}.{item.Field.Name}",
-                            defaultFallbackAccessor,
                             protectedMembers: false,
                             deepCopy: deepCopy);
                     }
@@ -2931,7 +2902,6 @@ namespace Loqui.Generation
                 args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, maskTypes: MaskType.Copy));
                 args.Add($"{this.ObjectName} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -2948,7 +2918,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item");
                     args.Add("copyMask: copyMask");
-                    args.Add("def: def");
                 }
                 fg.AppendLine("return ret;");
             }
@@ -2964,7 +2933,6 @@ namespace Loqui.Generation
                 args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy));
                 args.Add($"this {this.ObjectName} item");
                 args.Add($"{this.Mask(MaskType.Copy)} copyMask = null");
-                args.Add($"{this.ObjectName} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -2973,7 +2941,6 @@ namespace Loqui.Generation
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("copyMask");
-                    args.AddPassArg("def");
                 }
             }
             fg.AppendLine();
@@ -2989,7 +2956,6 @@ namespace Loqui.Generation
                 args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter, MaskType.Translation));
                 args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} item");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -3006,7 +2972,6 @@ namespace Loqui.Generation
                 {
                     args.Add("item");
                     args.Add("copyMask: copyMask");
-                    args.Add("def: def");
                 }
                 fg.AppendLine("return ret;");
             }
@@ -3022,7 +2987,6 @@ namespace Loqui.Generation
                 args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter, MaskType.Translation));
                 args.Add($"this {this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} item");
                 args.Add($"{this.Mask(MaskType.Translation)} copyMask = null");
-                args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} def = null");
             }
             using (new BraceWrapper(fg))
             {
@@ -3031,7 +2995,6 @@ namespace Loqui.Generation
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("copyMask");
-                    args.AddPassArg("def");
                 }
             }
             fg.AppendLine();
@@ -3178,7 +3141,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public static void {Loqui.Internal.Constants.COPYIN_FUNC_NAME}(IEnumerable<KeyValuePair<ushort, object>> fields, {this.ObjectName} obj)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(obj, fields, def: null, skipProtected: false);");
+                    fg.AppendLine("ILoquiObjectExt.CopyFieldsIn(obj, fields, skipProtected: false);");
                 }
                 fg.AppendLine();
             }
