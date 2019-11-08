@@ -477,6 +477,8 @@ namespace Loqui.Generation
 
                     GenerateClear(fg);
 
+                    await GenerateCreateNew(fg);
+
                     if (this.GenerateNthReflections)
                     {
                         await GenerateSetNthObject(fg);
@@ -2779,6 +2781,7 @@ namespace Loqui.Generation
         public bool SupportsGetNew()
         {
             if (this.Abstract) return false;
+            return true;
             switch (this.BasicCtorPermission)
             {
                 case PermissionLevel.@public:
@@ -2793,6 +2796,7 @@ namespace Loqui.Generation
 
         public bool SupportsCopy()
         {
+            return true;
             switch (this.BasicCtorPermission)
             {
                 case PermissionLevel.@public:
@@ -2805,18 +2809,25 @@ namespace Loqui.Generation
             }
         }
 
-        private async Task GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        private async Task GenerateCreateNew(FileGeneration fg)
         {
             if (!SupportsGetNew()) return;
-            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
             using (var args = new FunctionWrapper(fg,
-                $"public{this.NewOverride(o => !o.Abstract)}{this.ObjectName} GetNew"))
+                $"internal static {this.ObjectName} GetNew"))
             {
             }
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"return new {this.ObjectName}();");
             }
+            fg.AppendLine();
+        }
+
+        private async Task GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        {
+            if (!SupportsGetNew()) return;
+            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
+            fg.AppendLine($"public{this.NewOverride(o => !o.Abstract)}{this.ObjectName} GetNew() => {this.ObjectName}.GetNew();");
             fg.AppendLine();
         }
 
@@ -2890,7 +2901,6 @@ namespace Loqui.Generation
                 }
             }
         }
-
 
         public virtual void GenerateCopy(FileGeneration fg, MaskTypeSet maskTypeSet)
         {
@@ -2999,6 +3009,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
         }
+
         protected virtual async Task GenerateClearMixIn(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
