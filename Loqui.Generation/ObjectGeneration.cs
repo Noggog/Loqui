@@ -2778,22 +2778,6 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        public bool SupportsGetNew()
-        {
-            if (this.Abstract) return false;
-            return true;
-            switch (this.BasicCtorPermission)
-            {
-                case PermissionLevel.@public:
-                case PermissionLevel.@internal:
-                    return true;
-                case PermissionLevel.@private:
-                case PermissionLevel.@protected:
-                default:
-                    return false;
-            }
-        }
-
         public bool SupportsCopy()
         {
             return true;
@@ -2811,23 +2795,28 @@ namespace Loqui.Generation
 
         private async Task GenerateCreateNew(FileGeneration fg)
         {
-            if (!SupportsGetNew()) return;
             using (var args = new FunctionWrapper(fg,
                 $"internal static {this.ObjectName} GetNew"))
             {
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"return new {this.ObjectName}();");
+                if (this.Abstract)
+                {
+                    fg.AppendLine($"throw new ArgumentException(\"New called on an abstract class.\");");
+                }
+                else
+                {
+                    fg.AppendLine($"return new {this.ObjectName}();");
+                }
             }
             fg.AppendLine();
         }
 
         private async Task GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
         {
-            if (!SupportsGetNew()) return;
             if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
-            fg.AppendLine($"public{this.NewOverride(o => !o.Abstract)}{this.ObjectName} GetNew() => {this.ObjectName}.GetNew();");
+            fg.AppendLine($"public{this.FunctionOverride()}object GetNew() => {this.ObjectName}.GetNew();");
             fg.AppendLine();
         }
 
@@ -2969,14 +2958,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                if (this.Abstract)
-                {
-                    fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName})System.Activator.CreateInstance(item.GetType());");
-                }
-                else
-                {
-                    fg.AppendLine($"{this.ObjectName} ret = {this.CommonClass(LoquiInterfaceType.ISetter, CommonGenerics.Class)}.Instance.GetNew();");
-                }
+                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.GetNew();");
                 using (var args = new ArgsWrapper(fg,
                     $"ret.DeepCopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
                 {
