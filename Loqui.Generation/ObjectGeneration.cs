@@ -463,15 +463,13 @@ namespace Loqui.Generation
                         await GenerateLoquiReflectionSetterInterface(fg);
                     }
 
-                    GenerateGetEqualsMaskInterfaceImplementor(fg);
-
                     await GenerateToStringCode(fg);
-
-                    GenerateGetHasBeenSetMask(fg);
 
                     GenerateEqualsSection(fg);
 
                     await GenerateModules(fg);
+
+                    GenerateGetterInterfaceImplementations(fg);
 
                     GenerateInterfacesInClass(fg);
 
@@ -2398,16 +2396,11 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void GenerateGetEqualsMaskInterfaceImplementor(FileGeneration fg)
-        {
-            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
-        }
-
         public void GenerateGetterInterfaceImplementations(FileGeneration fg)
         {
             fg.AppendLine($"void {nameof(ILoquiObjectGetter)}.ToString(FileGeneration fg, string name) => this.ToString(fg, name);");
             fg.AppendLine($"IMask<bool> {nameof(ILoquiObjectGetter)}.GetHasBeenSetIMask() => this.GetHasBeenSetMask();");
-            GenerateGetEqualsMaskInterfaceImplementor(fg);
+            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
             fg.AppendLine();
         }
 
