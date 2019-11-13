@@ -12,10 +12,6 @@ namespace Loqui.Generation
         public MaskModule MaskModule;
         public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField;
         public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.IntegrateField;
-        public virtual string GetTranslationIfAccessor(TypeGeneration typeGen, string translationAccessor)
-        {
-            return $"({translationAccessor}?.GetShouldTranslate({typeGen.IndexEnumInt}) ?? true)";
-        }
         public virtual bool IsAsync(TypeGeneration gen, bool read) => false;
 
         public static bool IsParseInto(

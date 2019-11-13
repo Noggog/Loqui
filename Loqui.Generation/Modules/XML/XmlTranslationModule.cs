@@ -238,7 +238,7 @@ namespace Loqui.Generation
                                     List<string> conditions = new List<string>();
                                     if (this.TranslationMaskParameter)
                                     {
-                                        conditions.Add(generator.GetTranslationIfAccessor(field, "translationMask"));
+                                        conditions.Add(field.GetTranslationIfAccessor("translationMask"));
                                     }
                                     if (conditions.Count > 0)
                                     {
@@ -394,7 +394,7 @@ namespace Loqui.Generation
                     }
                     if (this.TranslationMaskParameter)
                     {
-                        conditions.Add(generator.GetTranslationIfAccessor(field.Field, "translationMask"));
+                        conditions.Add(field.Field.GetTranslationIfAccessor("translationMask"));
                     }
                     if (conditions.Count > 0)
                     {
@@ -457,7 +457,7 @@ namespace Loqui.Generation
                                 List<string> conditions = new List<string>();
                                 if (this.TranslationMaskParameter)
                                 {
-                                    conditions.Add(generator.GetTranslationIfAccessor(field, "translationMask"));
+                                    conditions.Add(field.GetTranslationIfAccessor("translationMask"));
                                 }
                                 if (conditions.Count > 0)
                                 {

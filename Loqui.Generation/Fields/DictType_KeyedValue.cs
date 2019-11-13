@@ -294,7 +294,8 @@ namespace Loqui.Generation
                                         retAccessor: $"return ",
                                         rhsAccessor: new Accessor("r"),
                                         copyMaskAccessor: copyMaskAccessor,
-                                        deepCopy: deepCopy);
+                                        deepCopy: deepCopy,
+                                        doTranslationMask: false);
                                 }
                                 gen.AppendLine($"default:");
                                 using (new DepthWrapper(gen))
@@ -326,7 +327,8 @@ namespace Loqui.Generation
                                         retAccessor: $"return ",
                                         rhsAccessor: new Accessor("r"),
                                         copyMaskAccessor: copyMaskAccessor,
-                                        deepCopy: deepCopy);
+                                        deepCopy: deepCopy,
+                                        doTranslationMask: false);
                                 }
                                 else
                                 {
@@ -346,7 +348,8 @@ namespace Loqui.Generation
                                                 retAccessor: $"return ",
                                                 rhsAccessor: new Accessor("r"),
                                                 copyMaskAccessor: copyMaskAccessor,
-                                                deepCopy: deepCopy);
+                                                deepCopy: deepCopy,
+                                                doTranslationMask: false);
                                         }
                                         gen.AppendLine($"default:");
                                         using (new DepthWrapper(gen))

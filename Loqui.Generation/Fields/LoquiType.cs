@@ -705,7 +705,7 @@ namespace Loqui.Generation
             {
                 if (deepCopy)
                 {
-                    fg.AppendLine($"if ({copyMaskAccessor}?.Overall ?? true)");
+                    fg.AppendLine($"if ({this.GetTranslationIfAccessor(copyMaskAccessor)})");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if ({rhsAccessorPrefix}.{this.Name} == null)");
@@ -719,7 +719,15 @@ namespace Loqui.Generation
                             using (var args = new ArgsWrapper(fg,
                                 $"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                             {
-                                args.Add($"{copyMaskAccessor}?.Specific");
+                                if (deepCopy)
+                                {
+                                    args.Add($"copyMask: {copyMaskAccessor}?.GetSubCrystal({this.IndexEnumInt})");
+                                }
+                                else
+                                {
+                                    args.Add($"copyMask: {copyMaskAccessor}.Specific");
+                                }
+                                args.AddPassArg("errorMask");
                             }
                         }
                     }
@@ -828,7 +836,8 @@ namespace Loqui.Generation
                                 retAccessor: $"{accessor.DirectAccess} = ",
                                 rhsAccessor: new Accessor($"{rhsAccessorPrefix}.{this.Name}"),
                                 copyMaskAccessor: copyMaskAccessor,
-                                deepCopy: deepCopy);
+                                deepCopy: deepCopy,
+                                doTranslationMask: true);
                             fg.AppendLine("break;");
                         }
                         fg.AppendLine($"default:");
@@ -845,7 +854,8 @@ namespace Loqui.Generation
                         retAccessor: $"{accessor.DirectAccess} = ",
                         rhsAccessor: new Accessor($"{rhsAccessorPrefix}.{this.Name}"),
                         copyMaskAccessor: copyMaskAccessor,
-                        deepCopy: deepCopy);
+                        deepCopy: deepCopy,
+                        doTranslationMask: true);
                 }
             }
             fg.AppendLine("else");
@@ -865,7 +875,8 @@ namespace Loqui.Generation
             string retAccessor,
             Accessor rhsAccessor,
             string copyMaskAccessor,
-            bool deepCopy)
+            bool deepCopy,
+            bool doTranslationMask)
         {
             switch (this.RefType)
             {
@@ -873,9 +884,21 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"{retAccessor}{rhsAccessor.DirectAccess}.DeepCopy{this.GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
                     {
+                        args.AddPassArg("errorMask");
                         if (this.RefType == LoquiRefType.Direct)
                         {
-                            args.Add($"{copyMaskAccessor}?.Specific");
+                            if (!doTranslationMask)
+                            {
+                                args.Add($"default(TranslationCrystal)");
+                            }
+                            else if(deepCopy)
+                            {
+                                args.Add($"{copyMaskAccessor}?.GetSubCrystal({this.IndexEnumInt})");
+                            }
+                            else
+                            {
+                                args.Add($"{copyMaskAccessor}?.Specific");
+                            }
                         }
                     }
                     break;
@@ -908,7 +931,14 @@ namespace Loqui.Generation
                     if (this.RefType == LoquiRefType.Direct)
                     {
                         args.Add($"errorMask: errorMask");
-                        args.Add($"copyMask: {copyMaskAccessor}.Specific");
+                        if (deepCopy)
+                        {
+                            args.Add($"copyMask: {copyMaskAccessor}?.GetSubCrystal({this.IndexEnumInt})");
+                        }
+                        else
+                        {
+                            args.Add($"copyMask: {copyMaskAccessor}.Specific");
+                        }
                     }
                     else
                     {

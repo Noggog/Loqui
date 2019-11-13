@@ -35,7 +35,17 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => !this.Bare;
 
-        public override string SkipCheck(string copyMaskAccessor, bool deepCopy) => $"{copyMaskAccessor}?.{this.Name} ?? true";
+        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
+        {
+            if (deepCopy)
+            {
+                return this.GetTranslationIfAccessor(copyMaskAccessor);
+            }
+            else
+            {
+                return $"{copyMaskAccessor}?.{this.Name} ?? true";
+            }
+        }
 
         public override async Task Load(XElement node, bool requireName = true)
         {

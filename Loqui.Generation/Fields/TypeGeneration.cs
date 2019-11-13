@@ -282,5 +282,10 @@ namespace Loqui.Generation
             }
             return true;
         }
+
+        public virtual string GetTranslationIfAccessor(string translationCrystalAccessor)
+        {
+            return $"({translationCrystalAccessor}?.GetShouldTranslate({this.IndexEnumInt}) ?? true)";
+        }
     }
 }
