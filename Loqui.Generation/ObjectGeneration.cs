@@ -1409,7 +1409,7 @@ namespace Loqui.Generation
                     args.Add("item: lhs");
                     args.AddPassArg($"rhs");
                     args.Add("errorMask: errorMaskBuilder");
-                    args.Add($"copyMask: copyMask.GetCrystal()");
+                    args.Add($"copyMask: copyMask?.GetCrystal()");
                 }
                 fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
