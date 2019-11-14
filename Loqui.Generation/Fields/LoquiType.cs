@@ -903,7 +903,14 @@ namespace Loqui.Generation
                     }
                     break;
                 case LoquiRefType.Generic:
-                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.DirectAccess}, null);");
+                    if (deepCopy)
+                    {
+                        fg.AppendLine($"{retAccessor}r.DeepCopy() as {_generic};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.DirectAccess}, null);");
+                    }
                     break;
                 case LoquiRefType.Interface:
                     fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{this.TypeName()}>(r.GetType())({rhsAccessor.DirectAccess}, null);");
