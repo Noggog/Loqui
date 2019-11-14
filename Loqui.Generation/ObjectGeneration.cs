@@ -388,7 +388,7 @@ namespace Loqui.Generation
             return $"<{string.Join(", ", keys)}>";
         }
 
-        public IEnumerable<string> GenerateWhereClauses(LoquiInterfaceType type, IEnumerable<KeyValuePair<string, GenericDefinition>> defs = null)
+        public IEnumerable<string> GenerateWhereClauses(LoquiInterfaceType type, IEnumerable<KeyValuePair<string, GenericDefinition>> defs = null, string nickname = null)
         {
             foreach (var gen in (defs ?? this.Generics))
             {
@@ -416,7 +416,7 @@ namespace Loqui.Generation
                 }
                 if (wheres.Count > 0)
                 {
-                    yield return $"where {gen.Key} : {string.Join(", ", wheres)}";
+                    yield return $"where {gen.Key}{nickname} : {string.Join(", ", wheres)}";
                 }
             }
         }
@@ -2748,8 +2748,16 @@ namespace Loqui.Generation
 
         private async Task GenerateCreateNewBasicCommon(FileGeneration fg, MaskTypeSet maskTypes)
         {
-            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
-            fg.AppendLine($"public{this.FunctionOverride()}object GetNew() => {this.ObjectName}.GetNew();");
+            if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
+            using (var args = new FunctionWrapper(fg,
+                $"public{this.FunctionOverride()}object GetNew{this.GetGenericTypesNickname("_Setter", MaskType.Normal)}"))
+            {
+                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, nickname: "_Setter"));
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"return {this.Name}{this.GetGenericTypesNickname("_Setter", MaskType.Normal)}.GetNew();");
+            }
             fg.AppendLine();
         }
 
@@ -2891,7 +2899,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.GetNew();");
+                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
                     $"ret.DeepCopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
                 {
@@ -2912,7 +2920,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.GetNew();");
+                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
                     $"ret.DeepCopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Error, MaskType.Translation)}"))
                 {
@@ -2934,7 +2942,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.GetNew();");
+                fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
                     $"ret.DeepCopyFieldsFrom{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                 {
@@ -3803,6 +3811,28 @@ namespace Loqui.Generation
                             case MaskType.Copy:
                             case MaskType.Translation:
                                 return GenericTypes_Nickname(maskType);
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }).ToArray());
+        }
+
+        public string GetGenericTypesNickname(string nickName, params MaskType[] maskTypes)
+        {
+            return GenerateGenericClause(
+                maskTypes.Select(
+                    (maskType) =>
+                    {
+                        switch (maskType)
+                        {
+                            case MaskType.Normal:
+                                return Generics.Select((g) => $"{g.Key}{nickName}");
+                            case MaskType.NormalGetter:
+                                return Generics.Select((g) => $"{MaskNickname(g.Key, MaskType.NormalGetter)}{nickName}");
+                            case MaskType.Error:
+                            case MaskType.Copy:
+                            case MaskType.Translation:
+                                return GenericTypes_Nickname(maskType).Select(s => $"{s}{nickName}");
                             default:
                                 throw new NotImplementedException();
                         }
