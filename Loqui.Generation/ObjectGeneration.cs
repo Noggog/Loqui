@@ -624,11 +624,7 @@ namespace Loqui.Generation
                         }
                     }
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-                    using (var args = new FunctionWrapper(fg,
-                        $"object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance"))
-                    {
-                        args.SemiColon = true;
-                    }
+                    fg.AppendLine($"object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
                 }
                 foreach (var field in this.IterateFields())
                 {
@@ -1666,14 +1662,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
                 fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
-                using (var args = new FunctionWrapper(fg,
-                    $"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter, MaskType.Normal)}Instance"))
-                {
-                }
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return {CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance;");
-                }
+                fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter, MaskType.Normal)}Instance() => {CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance;");
                 if (!getterOnly)
                 {
                     using (var args = new FunctionWrapper(fg,
@@ -1700,76 +1689,27 @@ namespace Loqui.Generation
                         }
                     }
                 }
-                using (var args = new FunctionWrapper(fg,
-                    $"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance"))
-                {
-                }
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"return {CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.Instance;");
-                }
+                fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => {CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.Instance;");
                 if (this.IsTopClass)
                 {
-                    using (var args = new FunctionWrapper(fg,
-                        $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance"))
-                    {
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return this.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance();");
-                    }
+                    fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance();");
                     if (getterOnly)
                     {
-                        using (var args = new FunctionWrapper(fg,
-                            $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance"))
-                        {
-                        }
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"return null;");
-                        }
+                        fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => null;");
                         if (this.GenerateComplexCopySystems)
                         {
-                            using (var args = new FunctionWrapper(fg,
-                            $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}"))
-                            {
-                            }
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"return null;");
-                            }
+                            fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}() => null;");
                         }
                     }
                     else
                     {
-                        using (var args = new FunctionWrapper(fg,
-                            $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance"))
-                        {
-                        }
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"return this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance();");
-                        }
+                        fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance();");
                         if (this.GenerateComplexCopySystems)
                         {
-                            using (var args = new FunctionWrapper(fg,
-                                $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}"))
-                            {
-                            }
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"return this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}();");
-                            }
+                            fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}();");
                         }
                     }
-                    using (var args = new FunctionWrapper(fg,
-                        $"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance"))
-                    {
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
-                    }
+                    fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
                 }
                 fg.AppendLine();
             }
