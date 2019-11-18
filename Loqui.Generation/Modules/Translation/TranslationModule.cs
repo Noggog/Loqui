@@ -870,10 +870,8 @@ namespace Loqui.Generation
 
         protected virtual async Task TranslationWrite(ObjectGeneration obj, FileGeneration fg)
         {
-            var inheriting = (await obj.InheritingObjects()).Any();
-
             using (var args = new FunctionWrapper(fg,
-                $"public{(inheriting ? " virtual" : null)} void Write{obj.GetGenericTypes(MaskType.Normal)}"))
+                $"public{obj.Virtual()}void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
                 FillWriterArgs(args, obj);

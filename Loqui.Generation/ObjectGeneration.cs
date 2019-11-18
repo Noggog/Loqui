@@ -3056,7 +3056,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public virtual void Clear"))
+                $"public{this.Virtual()}void Clear"))
             {
                 args.Add($"{this.Interface(internalInterface: true)} item");
             }
@@ -3682,6 +3682,11 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public virtual string Virtual(bool doIt = true)
+        {
+            return " ";
         }
 
         public IEnumerable<ClassGeneration> BaseClassTrail()

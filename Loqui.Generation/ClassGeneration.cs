@@ -173,5 +173,12 @@ namespace Loqui.Generation
                 }
             }
         }
+
+        public override string Virtual(bool doIt = true)
+        {
+            if (!doIt) return " ";
+            if (this.HasDerivativeClasses) return " virtual "; 
+            return " ";
+        }
     }
 }
