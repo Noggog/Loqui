@@ -72,7 +72,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"{args[0][args[0].Length - 1]}){(this.SemiColonAfterParenthesis ? ";" : null)}");
                 }
                 this.fg.Depth++;
-                foreach (var where in Wheres.IterateMarkLast())
+                foreach (var where in Wheres.NotNull().IterateMarkLast())
                 {
                     fg.AppendLine($"{where.Item}{(this.SemiColon && where.Last ? ";" : null)}");
                 }
