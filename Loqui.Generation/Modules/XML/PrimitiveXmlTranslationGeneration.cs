@@ -11,7 +11,7 @@ namespace Loqui.Generation
     public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
     {
         private string _typeName;
-        public virtual string TypeName => _typeName;
+        public virtual string TypeName(TypeGeneration typeGen) => _typeName;
         private bool? nullable;
         public bool Nullable => nullable ?? false || typeof(T).GetName().EndsWith("?");
         public bool CanBeNotNullable = true;
@@ -36,7 +36,7 @@ namespace Loqui.Generation
 
         public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)
         {
-            return $"{this.TypeName}XmlTranslation.Instance";
+            return $"{this.TypeName(typeGen)}XmlTranslation.Instance";
         }
 
         public override void GenerateWrite(
@@ -50,7 +50,7 @@ namespace Loqui.Generation
             Accessor translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{this.TypeName}XmlTranslation.Instance.Write"))
+                $"{this.TypeName(typeGen)}XmlTranslation.Instance.Write"))
             {
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
@@ -96,7 +96,7 @@ namespace Loqui.Generation
                 {
                     FG = fg,
                     TypeGen = typeGen,
-                    TranslatorLine = $"{this.TypeName}XmlTranslation.Instance",
+                    TranslatorLine = $"{this.TypeName(typeGen)}XmlTranslation.Instance",
                     MaskAccessor = errorMaskAccessor,
                     ItemAccessor = itemAccessor,
                     TranslationMaskAccessor = null,
@@ -116,7 +116,7 @@ namespace Loqui.Generation
             Accessor translationMaskAccessor)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{retAccessor.DirectAccess}{this.TypeName}XmlTranslation.Instance.Parse",
+                $"{retAccessor.DirectAccess}{this.TypeName(typeGen)}XmlTranslation.Instance.Parse",
                 (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
             {
                 args.Add(nodeAccessor.DirectAccess);
