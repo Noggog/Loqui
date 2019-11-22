@@ -88,7 +88,7 @@ namespace Loqui.Generation
             node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => this.SetPermission = i);
             this.ReadOnly = this.SetPermission != PermissionLevel.@public || Derivative;
             node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
-            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.ReadOnly);
+            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.OnNext(i));
