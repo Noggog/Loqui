@@ -12,7 +12,6 @@ namespace Loqui.Generation
     {
         public SingletonLevel Singleton;
         public bool Readonly;
-        public override bool Copy => base.Copy && this.Singleton != SingletonLevel.Singleton;
         public override string ProtectedName => $"_{this.Name}";
         public override bool IsClass => true;
 
@@ -44,7 +43,6 @@ namespace Loqui.Generation
                 {
                     if (!this.TrueReadOnly)
                     {
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
                         using (new BraceWrapper(fg))
                         {
@@ -54,8 +52,9 @@ namespace Loqui.Generation
                                 fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
                             }
                         }
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                        fg.AppendLine($"protected {base.TypeName(getter: false)} _{this.Name};");
+                        fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
@@ -94,8 +93,8 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"private {base.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
-                    fg.AppendLine($"public {base.TypeName(getter: false)} {this.Name}");
+                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");
@@ -148,7 +147,6 @@ namespace Loqui.Generation
                     {
                         if (!this.TrueReadOnly)
                         {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
                             using (new BraceWrapper(fg))
                             {
@@ -158,8 +156,9 @@ namespace Loqui.Generation
                                     fg.AppendLine($"{SetPermissionStr}set => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = value;");
                                 }
                             }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                            fg.AppendLine($"protected {base.TypeName(getter: false)} _{this.Name};");
+                            fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                             using (new BraceWrapper(fg))
@@ -200,18 +199,25 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"private {base.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
-                    fg.AppendLine($"public {base.TypeName(getter: false)} {this.Name}");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    if (this.Singleton == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"get => {this.ProtectedName};");
-                        if (this.Singleton == SingletonLevel.None)
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name} =>  {this.ProtectedName};");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                        using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedName} = value ?? {this.GetNewForNonNullable()};");
+                            fg.AppendLine($"get => {this.ProtectedName};");
+                            if (this.Singleton == SingletonLevel.None)
+                            {
+                                fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
+                            }
+                            else
+                            {
+                                fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedName} = value ?? {this.GetNewForNonNullable()};");
+                            }
                         }
                     }
                     if (this.TypeName(getter: true) != this.TypeName(getter: false))

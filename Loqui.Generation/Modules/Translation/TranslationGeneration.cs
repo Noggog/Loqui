@@ -80,7 +80,7 @@ namespace Loqui.Generation
                         }
                         else if (param.AsyncMode == AsyncMode.Off)
                         {
-                            args.Add($"item: out {param.TypeGen.TypeName(getter: false)} {param.TypeGen.Name}Parse");
+                            args.Add($"item: out {param.TypeOverride ?? param.TypeGen.TypeName(getter: false)} {param.TypeGen.Name}Parse");
                         }
                         if (!param.SkipErrorMask)
                         {
@@ -117,7 +117,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = default({param.TypeGen.TypeName(getter: false)});");
+                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.DefaultOverride ?? $"default({param.TypeGen.TypeName(getter: false)})"};");
                             }
                         }
                     }
@@ -142,7 +142,9 @@ namespace Loqui.Generation
             public Accessor TranslationMaskAccessor;
             public Accessor ItemAccessor;
             public Accessor IndexAccessor;
+            public string TypeOverride;
             public AsyncMode AsyncMode;
+            public string DefaultOverride;
             public Action<FileGeneration> UnsetCall;
             public IEnumerable<string> ExtraArgs;
             public bool SkipErrorMask;
