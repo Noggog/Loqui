@@ -203,96 +203,117 @@ namespace Loqui.Generation
             bool protectedMembers,
             bool deepCopy)
         {
-            if (this.isLoquiSingle)
+            void GenerateSet()
             {
-                if (deepCopy)
+                if (this.isLoquiSingle)
                 {
-                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                    if (deepCopy)
                     {
-                        args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add((gen) =>
+                        LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                        using (var args = new ArgsWrapper(fg,
+                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
                         {
-                            gen.AppendLine("converter: (r) =>");
-                            using (new BraceWrapper(gen))
+                            args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
+                            args.Add((gen) =>
                             {
-                                loqui.GenerateTypicalMakeCopy(
-                                    gen,
-                                    retAccessor: $"return ",
-                                    rhsAccessor: new Accessor("r"),
-                                    copyMaskAccessor: copyMaskAccessor,
-                                    deepCopy: deepCopy,
-                                    doTranslationMask: false);
-                            }
-                        });
+                                gen.AppendLine("converter: (r) =>");
+                                using (new BraceWrapper(gen))
+                                {
+                                    loqui.GenerateTypicalMakeCopy(
+                                        gen,
+                                        retAccessor: $"return ",
+                                        rhsAccessor: new Accessor("r"),
+                                        copyMaskAccessor: copyMaskAccessor,
+                                        deepCopy: deepCopy,
+                                        doTranslationMask: false);
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+                        LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                        using (var args = new ArgsWrapper(fg,
+                            $"{accessor.PropertyOrDirectAccess}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                        {
+                            args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
+                            args.Add((gen) =>
+                            {
+                                gen.AppendLine("converter: (r) =>");
+                                using (new BraceWrapper(gen))
+                                {
+                                    var supportsCopy = loqui.SupportsMask(MaskType.Copy);
+                                    var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
+                                    gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                                    using (new BraceWrapper(gen))
+                                    {
+                                        gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                        using (new DepthWrapper(gen))
+                                        {
+                                            gen.AppendLine($"return ({loqui.TypeName()})r;");
+                                        }
+                                        gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                        using (new DepthWrapper(gen))
+                                        {
+                                            loqui.GenerateTypicalMakeCopy(
+                                                gen,
+                                                retAccessor: $"return ",
+                                                rhsAccessor: new Accessor("r"),
+                                                copyMaskAccessor: copyMaskAccessor,
+                                                deepCopy: deepCopy,
+                                                doTranslationMask: false);
+                                        }
+                                        gen.AppendLine($"default:");
+                                        using (new DepthWrapper(gen))
+                                        {
+                                            gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
+                                        }
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
                 else
                 {
-                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                    FileGeneration subFg = new FileGeneration();
+                    this.SingleTypeGen.GenerateCopySetToConverter(subFg);
+                    if (subFg.Empty)
                     {
-                        args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
-                        args.Add((gen) =>
+                        using (var args = new ArgsWrapper(fg,
+                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
                         {
-                            gen.AppendLine("converter: (r) =>");
-                            using (new BraceWrapper(gen))
-                            {
-                                var supportsCopy = loqui.SupportsMask(MaskType.Copy);
-                                var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
-                                gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                                using (new BraceWrapper(gen))
-                                {
-                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                    using (new DepthWrapper(gen))
-                                    {
-                                        gen.AppendLine($"return ({loqui.TypeName()})r;");
-                                    }
-                                    gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                    using (new DepthWrapper(gen))
-                                    {
-                                        loqui.GenerateTypicalMakeCopy(
-                                            gen,
-                                            retAccessor: $"return ",
-                                            rhsAccessor: new Accessor("r"),
-                                            copyMaskAccessor: copyMaskAccessor,
-                                            deepCopy: deepCopy,
-                                            doTranslationMask: false);
-                                    }
-                                    gen.AppendLine($"default:");
-                                    using (new DepthWrapper(gen))
-                                    {
-                                        gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
-                                    }
-                                }
-                            }
-                        });
+                            args.Add($"rhs.{this.Name}");
+                        }
                     }
+                    else
+                    {
+                        using (var args = new ArgsWrapper(fg,
+                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                        {
+                            args.Add($"rhs.{this.Name}");
+                            args.Add(subFg.ToArray());
+                        }
+                    }
+                }
+            }
+
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))})");
+                using (new BraceWrapper(fg))
+                {
+                    GenerateSet();
+                }
+                fg.AppendLine("else");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"{accessor.PropertyOrDirectAccess}.Unset();");
                 }
             }
             else
             {
-                FileGeneration subFg = new FileGeneration();
-                this.SingleTypeGen.GenerateCopySetToConverter(subFg);
-                if (subFg.Empty)
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
-                    {
-                        args.Add($"rhs.{this.Name}");
-                    }
-                }
-                else
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyOrDirectAccess}.SetTo"))
-                    {
-                        args.Add($"rhs.{this.Name}");
-                        args.Add(subFg.ToArray());
-                    }
-                }
+                GenerateSet();
             }
         }
 
