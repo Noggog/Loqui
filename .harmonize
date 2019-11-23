@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>0eca3e7dd5b491635096cc6991c8f03f3ce325e2</Sha>
+         <Sha>85e7d2d50cb7ef05afcc15d9ad24b1643b7e8499</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>11-19-2019 18:17:02</CommitDate>
-         <Description>Missing ISetList.SetTo override</Description>
+         <CommitDate>11-23-2019 17:13:58</CommitDate>
+         <Description>NuGet update.  .NET 4.8</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
