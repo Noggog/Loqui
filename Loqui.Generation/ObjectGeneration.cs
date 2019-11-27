@@ -1751,9 +1751,11 @@ namespace Loqui.Generation
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
                 fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
+                fg.AppendLine("[DebuggerStepThrough]");
                 fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter, MaskType.Normal)}Instance() => {CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance;");
                 if (!getterOnly)
                 {
+                    fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
                         $"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal)}Instance"))
                     {
@@ -1764,8 +1766,9 @@ namespace Loqui.Generation
                     }
                     if (this.GenerateComplexCopySystems)
                     {
+                        fg.AppendLine("[DebuggerStepThrough]");
                         using (var args = new FunctionWrapper(fg,
-                        $"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}"))
+                            $"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}"))
                         {
                             if (this.IsTopClass)
                             {
@@ -1778,26 +1781,33 @@ namespace Loqui.Generation
                         }
                     }
                 }
+                fg.AppendLine("[DebuggerStepThrough]");
                 fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => {CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.Instance;");
                 if (this.IsTopClass)
                 {
+                    fg.AppendLine("[DebuggerStepThrough]");
                     fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance();");
                     if (getterOnly)
                     {
+                        fg.AppendLine("[DebuggerStepThrough]");
                         fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => null;");
                         if (this.GenerateComplexCopySystems)
                         {
+                            fg.AppendLine("[DebuggerStepThrough]");
                             fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}() => null;");
                         }
                     }
                     else
                     {
+                        fg.AppendLine("[DebuggerStepThrough]");
                         fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance();");
                         if (this.GenerateComplexCopySystems)
                         {
+                            fg.AppendLine("[DebuggerStepThrough]");
                             fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{this.GetGenericTypes(MaskType.Copy)}();");
                         }
                     }
+                    fg.AppendLine("[DebuggerStepThrough]");
                     fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
                 }
                 fg.AppendLine();
