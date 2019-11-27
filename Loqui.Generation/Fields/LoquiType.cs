@@ -11,10 +11,28 @@ namespace Loqui.Generation
     {
         public override string TypeName(bool getter = false)
         {
+            return TypeName(getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
+        }
+
+        public string TypeName(LoquiInterfaceType interfaceType)
+        {
             switch (RefType)
             {
                 case LoquiRefType.Direct:
-                    switch (getter ? this.GetterInterfaceType : this.SetterInterfaceType)
+                    switch (interfaceType)
+                    {
+                        case LoquiInterfaceType.Direct:
+                            break;
+                        case LoquiInterfaceType.ISetter:
+                            interfaceType = this.SetterInterfaceType;
+                            break;
+                        case LoquiInterfaceType.IGetter:
+                            interfaceType = this.GetterInterfaceType;
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    switch (interfaceType)
                     {
                         case LoquiInterfaceType.Direct:
                             return DirectTypeName;
@@ -28,7 +46,16 @@ namespace Loqui.Generation
                 case LoquiRefType.Generic:
                     return _generic;
                 case LoquiRefType.Interface:
-                    return getter ? this.GetterInterface : this.SetterInterface;
+                    switch (interfaceType)
+                    {
+                        case LoquiInterfaceType.Direct:
+                        case LoquiInterfaceType.ISetter:
+                            return this.SetterInterface;
+                        case LoquiInterfaceType.IGetter:
+                            return this.GetterInterface;
+                        default:
+                            throw new NotImplementedException();
+                    }
                 default:
                     throw new NotImplementedException();
             }
