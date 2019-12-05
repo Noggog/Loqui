@@ -1246,25 +1246,55 @@
 
   <xs:complexType name="RefDirectField" >
     <xs:complexContent>
-      <xs:extension base="RefDirect">
-        <xs:attribute name="nullable" type="SingletonLevel" >
+      <xs:extension base="Field">
+        <xs:sequence>
+          <xs:element type="xs:string" name="Generic" minOccurs="0" maxOccurs="unbounded" >
+            <xs:annotation>
+              <xs:documentation>
+                The generic symbols to create in the object.  These can be used/referenced by fields.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="RefSpecifyGenericType" name="GenericSpecification" minOccurs="0" maxOccurs="unbounded" >
+            <xs:annotation>
+              <xs:documentation>
+                The generic symbols to specify and define on the field.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="RefMapGenericType" name="GenericMapping" minOccurs="0" maxOccurs="unbounded" >
+            <xs:annotation>
+              <xs:documentation>
+                The generic symbols to map to generics on the containing object.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="InterfaceType" name="Interface" minOccurs="0" maxOccurs="unbounded" >
+            <xs:annotation>
+              <xs:documentation>
+                Interface to reference.  Can not be used with refName, as this is an alternate way to reference.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="refName">
           <xs:annotation>
             <xs:documentation>
-              Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
+              Name of the Loqui object to reference.
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="notifying" type="NotifyingOption" >
+        <xs:attribute name="apiIterfaceType" type="LoquiInterfaceType">
           <xs:annotation>
             <xs:documentation>
-              Whether the field should be Notifying and can be subscribed to.  By default this is true.
+              What type of reference interface to use in exposed API members.  Direct reference to Loqui object type, or one of the interfaces.
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="hasBeenSet" type="HasBeenSetOption" >
+        <xs:attribute name="thisCtor" type="xs:boolean" >
           <xs:annotation>
             <xs:documentation>
-              Whether the field should keep track of whether it was set or unset.  By default this is true.
+              Adds "this" to constructor parameters as it is a common pattern to tie child to parent
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
