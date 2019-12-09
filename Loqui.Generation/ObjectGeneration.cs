@@ -705,7 +705,12 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Registration"))
             {
-                fg.AppendLine($"public class {this.RegistrationName} : ILoquiRegistration");
+                using (var args = new ClassWrapper(fg, this.RegistrationName))
+                {
+                    args.Interfaces.Add(nameof(ILoquiRegistration));
+                    args.Partial = true;
+                    args.Public = PermissionLevel.@public;
+                }
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"public static readonly {this.RegistrationName} Instance = new {this.RegistrationName}();");
