@@ -32,6 +32,11 @@ namespace Loqui
             }
         }
 
+        public static void SpinUp()
+        {
+            // Do nothing. Work is done in static ctor
+        }
+
         public static TryGet<Type> TryGetType(string name)
         {
             if (!cache.TryGetValue(name, out Type t))

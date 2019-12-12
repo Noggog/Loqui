@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>85e7d2d50cb7ef05afcc15d9ad24b1643b7e8499</Sha>
+         <Sha>4fc9c55605aba9584f9545a349d7cda21cdcfbcc</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>11-23-2019 17:13:58</CommitDate>
-         <Description>NuGet update.  .NET 4.8</Description>
+         <CommitDate>12-11-2019 19:20:39</CommitDate>
+         <Description>TaskExt.FireAndForget</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
