@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public class LoquiType : PrimitiveType
+    public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
         public override string TypeName(bool getter = false)
         {
@@ -1326,6 +1326,50 @@ namespace Loqui.Generation
                 case MaskType.Copy:
                 case MaskType.Translation:
                     return false;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is LoquiType rhs)) return false;
+            return Equals(rhs);
+        }
+
+        public override int GetHashCode()
+        {
+            var ret = this.RefType.GetHashCode();
+            switch (this.RefType)
+            {
+                case LoquiRefType.Direct:
+                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this.TargetObjectGeneration));
+                    break;
+                case LoquiRefType.Interface:
+                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this.GetterInterface, this.SetterInterface));
+                    break;
+                case LoquiRefType.Generic:
+                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this._generic));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return ret;
+        }
+
+        public bool Equals(LoquiType other)
+        {
+            if (object.ReferenceEquals(this, other)) return true;
+            if (other == null) return true;
+            switch (this.RefType)
+            {
+                case LoquiRefType.Direct:
+                    return object.ReferenceEquals(this.TargetObjectGeneration, other.TargetObjectGeneration);
+                case LoquiRefType.Interface:
+                    return string.Equals(this.GetterInterface, other.GetterInterface)
+                        && string.Equals(this.SetterInterface, other.SetterInterface);
+                case LoquiRefType.Generic:
+                    return string.Equals(this._generic, other._generic);
                 default:
                     throw new NotImplementedException();
             }
