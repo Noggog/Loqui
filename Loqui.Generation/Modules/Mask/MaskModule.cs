@@ -335,7 +335,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Factory"))
                 {
-                    fg.AppendLine($"public static {obj.Mask(MaskType.Error)} Factory(ErrorMaskBuilder errorMask)");
+                    fg.AppendLine($"public static{obj.NewOverride()}{obj.Mask(MaskType.Error)} Factory(ErrorMaskBuilder errorMask)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (errorMask?.Empty ?? true) return null;");

@@ -1200,13 +1200,13 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private void GenerateFieldIndexConverters(FileGeneration fg, ObjectGeneration obj, MaskTypeSet maskTypes)
+        private void GenerateFieldIndexConverters(FileGeneration fg, ObjectGeneration obj, MaskTypeSet maskTypes, bool first = true)
         {
             if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
             if (!obj.HasLoquiBaseObject) return;
             var baseObj = obj.BaseClass;
             using (var args = new FunctionWrapper(fg,
-                $"public static {this.FieldIndexName} ConvertFieldIndex"))
+                $"public static{this.NewOverride(doIt: !first)}{this.FieldIndexName} ConvertFieldIndex"))
             {
                 args.Add($"{baseObj.FieldIndexName} index");
             }
@@ -1232,7 +1232,7 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-            GenerateFieldIndexConverters(fg, baseObj, maskTypes);
+            GenerateFieldIndexConverters(fg, baseObj, maskTypes, first: false);
         }
 
         protected virtual async Task GenerateCopyFieldsFromExtensions(FileGeneration fg)
@@ -2818,7 +2818,7 @@ namespace Loqui.Generation
         private async Task GenerateCreateNew(FileGeneration fg)
         {
             using (var args = new FunctionWrapper(fg,
-                $"internal static {this.ObjectName} GetNew"))
+                $"internal static{this.NewOverride()}{this.ObjectName} GetNew"))
             {
             }
             using (new BraceWrapper(fg))

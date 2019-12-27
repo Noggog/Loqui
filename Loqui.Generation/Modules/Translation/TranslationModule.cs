@@ -239,7 +239,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             using (var args = new FunctionWrapper(fg,
-                $"public{obj.NewOverride()}static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
+                $"public static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
             {
                 if (obj.IsTopClass)
                 {
@@ -554,7 +554,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine("[DebuggerStepThrough]");
                     using (var args = new FunctionWrapper(fg,
-                        $"public static {await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}"))
+                        $"public static{obj.NewOverride()}{await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj))
@@ -802,7 +802,7 @@ namespace Loqui.Generation
             if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)) return;
 
             using (var args = new FunctionWrapper(fg,
-                $"public{obj.NewOverride()}{await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
+                $"public {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
             {
                 args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
                 foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
