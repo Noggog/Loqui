@@ -3889,26 +3889,35 @@ namespace Loqui.Generation
                 }).ToArray();
         }
 
+        public IEnumerable<IEnumerable<string>> GetGenericTypeStrings(params MaskType[] maskTypes)
+        {
+            return maskTypes.Select(
+                (maskType) =>
+                {
+                    switch (maskType)
+                    {
+                        case MaskType.Normal:
+                            return Generics.Select((g) => g.Key);
+                        case MaskType.NormalGetter:
+                            return Generics.Select((g) => MaskNickname(g.Key, MaskType.NormalGetter));
+                        case MaskType.Error:
+                        case MaskType.Copy:
+                        case MaskType.Translation:
+                            return GenericTypes_Nickname(maskType);
+                        default:
+                            throw new NotImplementedException();
+                    }
+                });
+        }
+
         public string GetGenericTypes(params MaskType[] maskTypes)
         {
-            return GenerateGenericClause(
-                maskTypes.Select(
-                    (maskType) =>
-                    {
-                        switch (maskType)
-                        {
-                            case MaskType.Normal:
-                                return Generics.Select((g) => g.Key);
-                            case MaskType.NormalGetter:
-                                return Generics.Select((g) => MaskNickname(g.Key, MaskType.NormalGetter));
-                            case MaskType.Error:
-                            case MaskType.Copy:
-                            case MaskType.Translation:
-                                return GenericTypes_Nickname(maskType);
-                            default:
-                                throw new NotImplementedException();
-                        }
-                    }).ToArray());
+            return GenerateGenericClause(GetGenericTypeStrings(maskTypes).ToArray());
+        }
+
+        public string GetGenericTypes(MaskType maskType, params string[] extraGenerics)
+        {
+            return GenerateGenericClause(GetGenericTypeStrings(maskType.Single().ToArray()).And(extraGenerics).ToArray());
         }
 
         public string GetGenericTypesNickname(string nickName, params MaskType[] maskTypes)
