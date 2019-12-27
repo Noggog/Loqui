@@ -109,6 +109,12 @@ namespace Loqui.Generation
                     return this._TargetObjectGeneration.Interface(GenericTypes(getter), getter: getter, internalInterface: internalInterface);
                 case LoquiRefType.Generic:
                     return _generic;
+                case LoquiRefType.Interface:
+                    if (internalInterface)
+                    {
+                        throw new ArgumentException();
+                    }
+                    return getter ? this.GetterInterface : this.SetterInterface;
                 default:
                     throw new NotImplementedException();
             }
@@ -150,6 +156,8 @@ namespace Loqui.Generation
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
         // Can probably be replaced with a more robust parameter configuration setup later
         public bool ThisConstruction;
+        public bool HasInternalGetInterface => this.TargetObjectGeneration?.HasInternalGetInterface ?? false;
+        public bool HasInternalSetInterface => this.TargetObjectGeneration?.HasInternalSetInterface ?? false;
 
         public enum LoquiRefType
         {
@@ -891,7 +899,7 @@ namespace Loqui.Generation
                             {
                                 args.Add($"default(TranslationCrystal)");
                             }
-                            else if(deepCopy)
+                            else if (deepCopy)
                             {
                                 args.Add($"{copyMaskAccessor}?.GetSubCrystal({this.IndexEnumInt})");
                             }
