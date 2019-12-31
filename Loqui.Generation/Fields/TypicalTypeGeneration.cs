@@ -116,19 +116,21 @@ namespace Loqui.Generation
                             });
                     }
                 }
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                 if (HasDefault)
                 {
                     fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                 }
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => this._{this.Name};");
                     fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => {this.Name}_Set({GetValueSetString("value")});");
                 }
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
 
                 using (var args = new FunctionWrapper(fg,
@@ -182,11 +184,13 @@ namespace Loqui.Generation
                 {
                     if (HasDefault)
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name} = _{this.Name}_Default;");
                         fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
                     else
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                     }
                     fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
@@ -207,6 +211,7 @@ namespace Loqui.Generation
                     {
                         if (this.PrefersProperty)
                         {
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
                             fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
                             if (HasDefault)
@@ -222,6 +227,7 @@ namespace Loqui.Generation
                                     linePrefix: $"{SetPermissionStr}set",
                                     toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set({GetValueSetString("value")});"));
                             }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                         }
                         else
@@ -251,6 +257,7 @@ namespace Loqui.Generation
                         });
                     if (subFg.Count > 1)
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
@@ -275,6 +282,7 @@ namespace Loqui.Generation
             }
             if (this.InternalSetInterface)
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"{TypeName(getter: false)} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
                 using (new BraceWrapper(fg))
                 {

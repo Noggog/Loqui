@@ -61,6 +61,7 @@ namespace Loqui.Generation
             if (!GetContainedTypes(obj, forNotification: false).Any()) return;
             if (!ParentHasImplementation(obj))
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"protected readonly BitArray _hasBeenSetTracker;");
             }
             using (var args = new FunctionWrapper(fg,

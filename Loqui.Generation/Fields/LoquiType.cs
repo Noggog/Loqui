@@ -445,13 +445,16 @@ namespace Loqui.Generation
                                     fg.AppendLine($"{SetPermissionStr}set => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = value;");
                                 }
                             }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                             switch (this.SingletonType)
                             {
                                 case SingletonLevel.None:
+                                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                     fg.AppendLine($"private {this.TypeName()} _{this.Name};");
                                     break;
                                 case SingletonLevel.NotNull:
+                                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                     fg.AppendLine($"private {this.TypeName()} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName()}();")}");
                                     break;
                                 case SingletonLevel.Singleton:
@@ -459,7 +462,6 @@ namespace Loqui.Generation
                                 default:
                                     break;
                             }
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"public {this.TypeName()} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
@@ -511,6 +513,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"public {this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}");
                             if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                             {
+                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                 fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {this.Name};");
                             }
                             break;
@@ -525,6 +528,7 @@ namespace Loqui.Generation
                             }
                             if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                             {
+                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                 fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => _{this.Name};");
                             }
                             break;
@@ -534,6 +538,7 @@ namespace Loqui.Generation
                             fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                             if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                             {
+                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                                 fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {this.SingletonObjectName};");
                             }
                             break;

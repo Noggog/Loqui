@@ -238,6 +238,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"private readonly {this.DictInterface(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false)};");
             fg.AppendLine($"public {this.DictInterface(getter: false)} {this.Name} => _{this.Name};");
 
@@ -246,8 +247,10 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{DictInterface(getter: false)} {this.ObjectGen.Interface(internalInterface: false)}.{this.Name} => {member};");
                 }
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"{DictInterface(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {member};");
             }
         }

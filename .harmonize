@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>4fc9c55605aba9584f9545a349d7cda21cdcfbcc</Sha>
+         <Sha>aeb7f03317f2ae18ec74dc7555b3af5d31f9c199</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>12-11-2019 19:20:39</CommitDate>
-         <Description>TaskExt.FireAndForget</Description>
+         <CommitDate>12-31-2019 03:14:56</CommitDate>
+         <Description>ITryGetter</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

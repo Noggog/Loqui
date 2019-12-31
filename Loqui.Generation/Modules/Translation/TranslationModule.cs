@@ -437,9 +437,11 @@ namespace Loqui.Generation
 
         public async Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, FileGeneration fg)
         {
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"protected{await obj.FunctionOverride(async c => this.DoTranslationInterface(c))}object {this.TranslationWriteItemMember} => {this.TranslationWriteClass(obj)}.Instance;");
             if (!obj.BaseClassTrail().Any(b => this.DoTranslationInterface(b)))
             {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"object {this.TranslationItemInterface}.{this.TranslationWriteItemMember} => this.{this.TranslationWriteItemMember};");
             }
             using (var args = new FunctionWrapper(fg,

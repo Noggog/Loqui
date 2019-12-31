@@ -158,8 +158,8 @@ namespace Loqui.Generation
                             }
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                            fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                             fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
@@ -199,6 +199,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
                     if (this.Singleton == SingletonLevel.Singleton)
                     {
@@ -222,6 +223,7 @@ namespace Loqui.Generation
                     }
                     if (this.TypeName(getter: true) != this.TypeName(getter: false))
                     {
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
                 }
