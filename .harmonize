@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>9ab0dba74335c0a11d4a8d84620dece04381da65</Sha>
+         <Sha>c82e035e48cff38726807c25e08e42e1cd11211c</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-11-2020 23:53:11</CommitDate>
-         <Description>Nuget updates</Description>
+         <CommitDate>01-12-2020 01:24:25</CommitDate>
+         <Description>Namespace cleaning</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

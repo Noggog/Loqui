@@ -1,9 +1,6 @@
 ﻿using Loqui.Internal;
 using Noggog;
-using Noggog.Notifying;
-using Noggog.Xml;
 using System;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Loqui.Xml

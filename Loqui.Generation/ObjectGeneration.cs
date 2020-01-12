@@ -1,5 +1,4 @@
 using Noggog;
-using Noggog.Notifying;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -185,7 +184,6 @@ namespace Loqui.Generation
             RequiredNamespaces.Add("System.Text");
             RequiredNamespaces.Add("Loqui");
             RequiredNamespaces.Add("Noggog");
-            RequiredNamespaces.Add("Noggog.Notifying");
         }
 
         public virtual async Task Load()

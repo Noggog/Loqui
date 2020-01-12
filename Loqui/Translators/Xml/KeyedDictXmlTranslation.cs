@@ -1,17 +1,11 @@
-﻿using Loqui.Xml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Noggog;
-using System.Xml;
 using System.Xml.Linq;
-using Noggog.Xml;
-using Loqui;
-using Noggog.Notifying;
 using Loqui.Internal;
-using CSharpExt.Rx;
 using DynamicData;
 
 namespace Loqui.Xml

@@ -1,13 +1,10 @@
 ﻿using Loqui.Internal;
 using Noggog;
-using Noggog.Notifying;
-using Noggog.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Loqui.Xml

@@ -1,5 +1,4 @@
 ﻿using Noggog;
-using Noggog.Notifying;
 using Noggog.Printing;
 using System;
 using System.Collections;

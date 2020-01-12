@@ -1,5 +1,4 @@
-﻿using Noggog.Notifying;
-using System;
+﻿using System;
 
 namespace Loqui
 {
