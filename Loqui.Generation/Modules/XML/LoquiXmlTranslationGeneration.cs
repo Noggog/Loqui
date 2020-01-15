@@ -109,10 +109,10 @@ namespace Loqui.Generation
                 }
                 GenerateCopyInRet_Internal(
                     fg: fg,
+                    objGen: objGen,
                     typeGen: typeGen,
                     nodeAccessor: nodeAccessor,
                     itemAccessor: itemAccessor,
-                    ret: false,
                     translationMaskAccessor: translationMaskAccessor,
                     indexAccessor: $"(int){typeGen.IndexEnumName}",
                     errorMaskAccessor: errorMaskAccessor);
@@ -121,10 +121,10 @@ namespace Loqui.Generation
 
         public void GenerateCopyInRet_Internal(
             FileGeneration fg,
+            ObjectGeneration objGen,
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor itemAccessor,
-            bool ret,
             Accessor indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
@@ -135,7 +135,7 @@ namespace Loqui.Generation
                 {
                     FG = fg,
                     TypeGen = typeGen,
-                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.ObjectTypeName}{loquiGen.GenericTypes(getter: false)}>.Instance",
+                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.TypeName(LoquiInterfaceType.Direct)}{loquiGen.GenericTypes(getter: false)}>.Instance",
                     MaskAccessor = errorMaskAccessor,
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,
@@ -159,10 +159,10 @@ namespace Loqui.Generation
         {
             GenerateCopyInRet_Internal(
                 fg: fg,
+                objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
                 itemAccessor: retAccessor,
-                ret: true,
                 indexAccessor: null,
                 errorMaskAccessor: errorMaskAccessor,
                 translationMaskAccessor: translationMaskAccessor);
