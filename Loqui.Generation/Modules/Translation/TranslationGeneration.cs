@@ -30,32 +30,33 @@ namespace Loqui.Generation
                 {
                     ArgsWrapper args;
                     bool parseInto = IsParseInto(param.TypeGen, param.ItemAccessor);
+                    bool doIf = !parseInto && param.UnsetCall != null;
                     if (param.AsyncMode == AsyncMode.Off)
                     {
-                        args = new ArgsWrapper(param.FG,
-                           $"{(parseInto ? null : "if (")}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
-                           suffixLine: (parseInto ? null : ")"))
+                        string prefix = null;
+                        if (doIf)
                         {
-                            SemiColon = parseInto,
+                            prefix = $"if (";
+                        }
+                        else if (!parseInto)
+                        {
+                            prefix = $"{param.ItemAccessor.DirectAccess} = ";
+                        }
+                        args = new ArgsWrapper(param.FG,
+                           $"{prefix}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
+                           suffixLine: (doIf ? ")" : null))
+                        {
+                            SemiColon = !doIf,
                         };
                     }
                     else if (param.AsyncMode == AsyncMode.Async)
                     {
-                        if (parseInto)
+                        args = new ArgsWrapper(param.FG,
+                            $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse{(parseInto ? "Into" : null)}",
+                            suffixLine: Loqui.Generation.Utility.ConfigAwait())
                         {
-                            args = new ArgsWrapper(param.FG,
-                                $"{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.ParseInto",
-                                suffixLine: Loqui.Generation.Utility.ConfigAwait())
-                            {
-                                SemiColon = true
-                            };
-                        }
-                        else
-                        {
-                            args = new ArgsWrapper(param.FG,
-                               $"var {param.TypeGen.Name}Parse = {Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse",
-                               suffixLine: Loqui.Generation.Utility.ConfigAwait());
-                        }
+                            SemiColon = !doIf
+                        };
                     }
                     else
                     {
@@ -78,7 +79,7 @@ namespace Loqui.Generation
                                 args.Add($"fieldIndex: {param.IndexAccessor}");
                             }
                         }
-                        else if (param.AsyncMode == AsyncMode.Off)
+                        else if (param.AsyncMode == AsyncMode.Off && doIf)
                         {
                             args.Add($"item: out {param.TypeOverride ?? param.TypeGen.TypeName(getter: false)} {param.TypeGen.Name}Parse");
                         }
@@ -90,8 +91,12 @@ namespace Loqui.Generation
                         {
                             args.Add($"translationMask: {param.TranslationMaskAccessor}");
                         }
+                        if (!doIf && param.DefaultOverride != null)
+                        {
+                            args.Add($"defaultVal: {param.DefaultOverride}");
+                        }
                     }
-                    if (!parseInto)
+                    if (doIf)
                     {
                         if (param.AsyncMode == AsyncMode.Off)
                         {

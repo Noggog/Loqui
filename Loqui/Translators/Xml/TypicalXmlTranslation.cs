@@ -87,6 +87,22 @@ namespace Loqui.Xml
                 nullable: false);
         }
 
+        public T Parse(
+            XElement node,
+            ErrorMaskBuilder errorMask,
+            T defaultVal = default)
+        {
+            if (this.Parse(
+                node: node,
+                item: out var item,
+                errorMask: errorMask,
+                nullable: false))
+            {
+                return item;
+            }
+            return defaultVal;
+        }
+
         public bool Parse(
             XElement node,
             int fieldIndex,

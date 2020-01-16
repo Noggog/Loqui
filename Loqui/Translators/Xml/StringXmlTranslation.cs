@@ -38,6 +38,17 @@ namespace Loqui.Xml
             return false;
         }
 
+        public string Parse(
+            XElement node,
+            ErrorMaskBuilder errorMask)
+        {
+            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            {
+                return val.Value;
+            }
+            return null;
+        }
+
         public bool Parse(
             XElement node,
             out string item,

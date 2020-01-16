@@ -201,6 +201,21 @@ namespace Loqui.Xml
             }
         }
 
+        public T Parse(
+            XElement node,
+            ErrorMaskBuilder errorMask,
+            TranslationCrystal translationMask)
+        {
+            if (Parse(node, out var item, errorMask, translationMask))
+            {
+                return item;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
         public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
         {
             throw new NotImplementedException();
