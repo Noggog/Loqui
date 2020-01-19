@@ -48,6 +48,7 @@ namespace Loqui.Generation
             }
             foreach (var item in customLines)
             {
+                if (item == null) continue;
                 if (!item.When(obj)) continue;
                 yield return (item.Resolver(obj), true);
             }
