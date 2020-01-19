@@ -14,7 +14,6 @@ namespace Loqui.Tests.Generator
         {
             LoquiGenerator gen = new LoquiGenerator()
             {
-                RaisePropertyChangedDefault = false,
             };
             gen.XmlTranslation.ShouldGenerateXSD = false;
 
