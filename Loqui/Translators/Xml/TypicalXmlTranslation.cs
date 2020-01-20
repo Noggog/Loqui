@@ -18,7 +18,7 @@ namespace Loqui.Xml
 
         protected virtual string GetItemStr(T item)
         {
-            return item.ToStringSafe();
+            return item?.ToString();
         }
 
         protected abstract T ParseNonNullString(string str);

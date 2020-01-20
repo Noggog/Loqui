@@ -14,7 +14,7 @@ namespace Loqui.Generation
     {
         Dictionary<ProtocolKey, ProtocolGeneration> targetData = new Dictionary<ProtocolKey, ProtocolGeneration>();
         private HashSet<DirectoryPath> addedTargetDirs = new HashSet<DirectoryPath>();
-        Dictionary<StringCaseAgnostic, Type> nameToTypeDict = new Dictionary<StringCaseAgnostic, Type>();
+        Dictionary<string, Type> nameToTypeDict = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
         Dictionary<Type, Type> typeDict = new Dictionary<Type, Type>();
         public string DefaultNamespace;
         public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
@@ -140,7 +140,7 @@ namespace Loqui.Generation
             AddTypeAssociation<NothingType>("Nothing");
         }
 
-        public void AddTypeAssociation<T>(StringCaseAgnostic key, bool overrideExisting = false)
+        public void AddTypeAssociation<T>(string key, bool overrideExisting = false)
             where T : TypeGeneration
         {
             if (!overrideExisting && nameToTypeDict.ContainsKey(key))
@@ -237,7 +237,7 @@ namespace Loqui.Generation
             }
         }
 
-        public bool TryGetTypeGeneration(StringCaseAgnostic name, out TypeGeneration gen)
+        public bool TryGetTypeGeneration(string name, out TypeGeneration gen)
         {
             if (!nameToTypeDict.TryGetValue(name, out Type t)
                 || !typeDict.TryGetValue(t, out var outT))

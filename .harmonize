@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>52ccc557a86f6cbbb1c85abb3b916b3c01b29f0d</Sha>
+         <Sha>b6e5e431fd2476dc71409a7899eb016a2f6d501d</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-19-2020 17:14:46</CommitDate>
-         <Description>.NET Core updates</Description>
+         <CommitDate>01-20-2020 22:46:09</CommitDate>
+         <Description>Nullability work</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

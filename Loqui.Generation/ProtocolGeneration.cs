@@ -14,8 +14,8 @@ namespace Loqui.Generation
     {
         public ProtocolKey Protocol;
         public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
-        public Dictionary<StringCaseAgnostic, ObjectGeneration> ObjectGenerationsByName = new Dictionary<StringCaseAgnostic, ObjectGeneration>();
-        public Dictionary<StringCaseAgnostic, FieldBatch> FieldBatchesByName = new Dictionary<StringCaseAgnostic, FieldBatch>();
+        public Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new Dictionary<string, ObjectGeneration>(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, FieldBatch> FieldBatchesByName = new Dictionary<string, FieldBatch>(StringComparer.OrdinalIgnoreCase);
         public bool Empty => ObjectGenerationsByID.Count == 0;
         public LoquiGenerator Gen { get; private set; }
         public DirectoryInfo GenerationFolder { get; private set; }

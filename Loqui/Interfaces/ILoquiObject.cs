@@ -96,7 +96,7 @@ namespace Loqui
                                             continue;
                                         }
 
-                                        depthPrinter.AddLine(obj.ToStringSafe() + ",");
+                                        depthPrinter.AddLine(obj?.ToString() + ",");
                                     }
                                 }
                                 depthPrinter.AddLine("]");
@@ -115,7 +115,7 @@ namespace Loqui
                         continue;
                     }
 
-                    depthPrinter.AddLine(loqui.Registration.GetNthName(i) + ": " + obj.ToStringSafe());
+                    depthPrinter.AddLine(loqui.Registration.GetNthName(i) + ": " + obj?.ToString());
                 }
             }
             depthPrinter.AddLine("]");
