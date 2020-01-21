@@ -54,7 +54,11 @@ namespace Loqui.Generation
 
         public override async Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node)
         {
-            if (!_typeGenerations.TryGetValue(field.GetType(), out var transl)) return;
+            G transl;
+            lock (_typeGenerations)
+            {
+                if (!_typeGenerations.TryGetValue(field.GetType(), out  transl)) return;
+            }
             transl.Load(obj, field, node);
         }
 
@@ -1320,37 +1324,46 @@ namespace Loqui.Generation
         public void AddTypeAssociation<T>(G transl, bool overrideExisting = false)
             where T : TypeGeneration
         {
-            if (overrideExisting)
+            lock (this._typeGenerations)
             {
-                this._typeGenerations[typeof(T)] = transl;
-            }
-            else
-            {
-                this._typeGenerations.Add(typeof(T), transl);
+                if (overrideExisting)
+                {
+                    this._typeGenerations[typeof(T)] = transl;
+                }
+                else
+                {
+                    this._typeGenerations.Add(typeof(T), transl);
+                }
             }
         }
 
         public bool TryGetTypeGeneration(Type t, out G gen)
         {
-            if (!this._typeGenerations.TryGetValue(t, out gen))
+            lock (this._typeGenerations)
             {
-                foreach (var kv in _typeGenerations.ToList())
+                if (!this._typeGenerations.TryGetValue(t, out gen))
                 {
-                    if (t.InheritsFrom(kv.Key))
+                    foreach (var kv in _typeGenerations.ToList())
                     {
-                        _typeGenerations[t] = kv.Value;
-                        gen = kv.Value;
-                        return true;
+                        if (t.InheritsFrom(kv.Key))
+                        {
+                            _typeGenerations[t] = kv.Value;
+                            gen = kv.Value;
+                            return true;
+                        }
                     }
+                    return false;
                 }
-                return false;
             }
             return true;
         }
 
         public G GetTypeGeneration(Type t)
         {
-            return this._typeGenerations[t];
+            lock (this._typeGenerations)
+            {
+                return this._typeGenerations[t];
+            }
         }
 
         public override async Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)

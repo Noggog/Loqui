@@ -157,10 +157,13 @@ namespace Loqui.Generation
         public override async Task LoadWrapup(ObjectGeneration obj)
         {
             await base.LoadWrapup(obj);
-            foreach (var gen in _typeGenerations.Values)
+            lock (_typeGenerations)
             {
-                gen.XmlMod = this;
-                gen.MaskModule = this.Gen.MaskModule;
+                foreach (var gen in _typeGenerations.Values)
+                {
+                    gen.XmlMod = this;
+                    gen.MaskModule = this.Gen.MaskModule;
+                }
             }
         }
 
