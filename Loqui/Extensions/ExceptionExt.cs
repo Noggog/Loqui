@@ -1,6 +1,7 @@
 ﻿using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ namespace Loqui
 {
     public static class ExceptionExt
     {
-        public static Exception Combine(this Exception lhs, Exception rhs)
+        [return: NotNullIfNotNull("lhs")]
+        [return: NotNullIfNotNull("rhs")]
+        public static Exception? Combine(this Exception? lhs, Exception? rhs)
         {
             if (lhs == null && rhs == null) return null;
             if (lhs == null) return rhs;

@@ -13,7 +13,7 @@ namespace Loqui
         List<string> Warnings { get; }
         void SetNthException(int index, Exception ex);
         void SetNthMask(int index, object maskObj);
-        Object GetNthMask(int index);
+        object? GetNthMask(int index);
         bool IsInError();
     }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Loqui
 {
@@ -12,14 +13,14 @@ namespace Loqui
     {
         public delegate object UntypedCopyFunction(object item, object copy);
         static Dictionary<ObjectKey, ILoquiRegistration> Registers = new Dictionary<ObjectKey, ILoquiRegistration>();
-        static Dictionary<string, ILoquiRegistration> NameRegisters = new Dictionary<string, ILoquiRegistration>();
-        static Dictionary<Type, ILoquiRegistration> TypeRegister = new Dictionary<Type, ILoquiRegistration>();
+        static Dictionary<string, ILoquiRegistration?> NameRegisters = new Dictionary<string, ILoquiRegistration?>();
+        static Dictionary<Type, ILoquiRegistration?> TypeRegister = new Dictionary<Type, ILoquiRegistration?>();
         static Dictionary<Type, Type> GenericRegisters = new Dictionary<Type, Type>();
         static Dictionary<Type, object> CreateFuncRegister = new Dictionary<Type, object>();
         static Dictionary<Type, object> CopyInFuncRegister = new Dictionary<Type, object>();
         static Dictionary<(Type TSource, Type TResult), object> CopyFuncRegister = new Dictionary<(Type TSource, Type TResult), object>();
         static Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> UntypedCopyFuncRegister = new Dictionary<(Type TSource, Type TResult), UntypedCopyFunction>();
-        static Dictionary<string, Type> cache = new Dictionary<string, Type>();
+        static Dictionary<string, Type?> cache = new Dictionary<string, Type?>();
 
         static LoquiRegistration()
         {
@@ -27,8 +28,8 @@ namespace Loqui
             foreach (var interf in TypeExt.GetInheritingFromInterface<IProtocolRegistration>(
                 loadAssemblies: true))
             {
-                IProtocolRegistration regis = Activator.CreateInstance(interf) as IProtocolRegistration;
-                regis.Register();
+                IProtocolRegistration? regis = Activator.CreateInstance(interf) as IProtocolRegistration;
+                regis?.Register();
             }
         }
 
@@ -37,9 +38,9 @@ namespace Loqui
             // Do nothing. Work is done in static ctor
         }
 
-        public static TryGet<Type> TryGetType(string name)
+        public static bool TryGetType(string name, [MaybeNullWhen(false)]out Type type)
         {
-            if (!cache.TryGetValue(name, out Type t))
+            if (!cache.TryGetValue(name, out type!))
             {
                 try
                 {
@@ -49,24 +50,33 @@ namespace Loqui
                 catch
                 {
                     cache[name] = null;
-                    return TryGet<Type>.Failure;
+                    type = null!;
                 }
             }
 
-            return TryGet<Type>.Create(t != null, t);
+            return type != null;
         }
 
-        public static TryGet<object> Instantiate(string name, object[] args)
+        public static bool Instantiate(string name, object[] args, out object? obj)
         {
-            TryGet<Type> tGet = TryGetType(name);
-            if (tGet.Failed) return tGet.BubbleFailure<object>();
-            return TryGet<object>.Succeed(Activator.CreateInstance(tGet.Value, args));
+            if (!TryGetType(name, out Type? type))
+            {
+                obj = null;
+                return false;
+            }
+            obj = Activator.CreateInstance(type, args);
+            return true;
         }
 
         class TypeStringNode
         {
             public string Name;
-            public TypeStringNode[] Children;
+            public TypeStringNode[]? Children;
+
+            public TypeStringNode(string name)
+            {
+                this.Name = name;
+            }
         }
         static char[] searchChars = new char[] { '<', '>', ',' };
         static char[] search2Chars = new char[] { '>', ',' };
@@ -76,7 +86,7 @@ namespace Loqui
             int openIndex = str.IndexOfAny(searchChars);
             if (openIndex == -1)
             {
-                return new TypeStringNode() { Name = str };
+                return new TypeStringNode(str);
             }
 
             if (str[openIndex] != '<')
@@ -103,10 +113,7 @@ namespace Loqui
 
             string[] commaSplit = content.Split(',');
 
-            var ret = new TypeStringNode()
-            {
-                Name = str.Substring(0, openIndex).Trim()
-            };
+            var ret = new TypeStringNode(str.Substring(0, openIndex).Trim());
             if (commaSplit.Length > 0)
             {
                 ret.Children = commaSplit.Select((t) => Parse(str)).ToArray();
@@ -114,16 +121,18 @@ namespace Loqui
             return ret;
         }
 
-        private static Type Parse(TypeStringNode nodes)
+        private static Type? Parse(TypeStringNode nodes)
         {
-            string typeStr = nodes.Name;
-            if (nodes.Children.Length == 0) return Type.GetType(typeStr);
+            var typeStr = nodes.Name;
+            TypeStringNode[]? children = nodes.Children;
+            if (children == null) return Type.GetType(typeStr);
+            if (children.Length == 0) return Type.GetType(typeStr);
 
-            typeStr += "`" + nodes.Children.Length;
+            typeStr += "`" + children.Length;
             Type mainType = Type.GetType(typeStr);
             if (mainType == null) return null;
 
-            Type[] subTypes = nodes.Children.Select((child) => Parse(child)).ToArray();
+            Type?[] subTypes = children.Select((child) => Parse(child)).ToArray();
             if (subTypes.Any((t) => t == null)) return null;
 
             return mainType.MakeGenericType(subTypes);
@@ -156,16 +165,16 @@ namespace Loqui
             return TypeRegister.ContainsKey(t);
         }
 
-        public static ILoquiRegistration GetRegister(Type t, bool returnNull = false)
+        public static ILoquiRegistration? GetRegister(Type t, bool returnNull = false)
         {
             if (TryGetRegister(t, out var regis)) return regis;
             if (returnNull) return null;
             throw new ArgumentException("Type was not a Loqui type: " + t);
         }
 
-        public static bool TryGetRegister(Type t, out ILoquiRegistration regis)
+        public static bool TryGetRegister(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (TypeRegister.TryGetValue(t, out regis))
+            if (TypeRegister.TryGetValue(t, out regis!))
             {
                 return regis != null;
             }
@@ -178,25 +187,30 @@ namespace Loqui
                 }
                 else
                 {
-                    genRegisterType = TryGetRegistration(t).GenericRegistrationType;
+                    if (!TryGetRegistration(t, out var tRegis)) return false;
+                    genRegisterType = tRegis.GenericRegistrationType;
                     GenericRegisters[t] = genRegisterType;
                 }
-                regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments());
+                regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
                 TypeRegister[t] = regis;
             }
             else
             {
-                regis = TryGetRegistration(t);
+                TryGetRegistration(t, out regis!);
                 TypeRegister[t] = regis;
             }
             return regis != null;
         }
 
-        private static ILoquiRegistration TryGetRegistration(Type t)
+        private static bool TryGetRegistration(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (t.GetInterface(nameof(ILoquiObject)) == null) return null;
+            if (t.GetInterface(nameof(ILoquiObject)) == null)
+            {
+                regis = null!;
+                return false;
+            }
 
-            PropertyInfo getRegistrationProperty(Type type)
+            PropertyInfo? getRegistrationProperty(Type type)
             {
                 return type.GetMembers(BindingFlags.Public | BindingFlags.Static)
                     .Where((m) => m.Name.Equals(nameof(ILoquiObject.Registration))
@@ -208,15 +222,17 @@ namespace Loqui
             var regisField = getRegistrationProperty(t);
             if (regisField != null)
             {
-                return regisField.GetValue(null) as ILoquiRegistration;
+                regis = (regisField.GetValue(null) as ILoquiRegistration)!;
+                return regis != null;
             }
             else
             {
-                return null;
+                regis = null!;
+                return false;
             }
         }
 
-        private static ILoquiRegistration GetGenericRegistration(Type genRegisterType, Type[] subTypes)
+        private static ILoquiRegistration? GetGenericRegistration(Type genRegisterType, Type?[] subTypes)
         {
             var customGenRegisterType = genRegisterType.MakeGenericType(subTypes);
             var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public);
@@ -234,15 +250,15 @@ namespace Loqui
             return Registers.TryGetValue(key, out regis);
         }
 
-        public static ILoquiRegistration GetRegisterByFullName(string str)
+        public static ILoquiRegistration? GetRegisterByFullName(string str)
         {
             if (TryGetRegisterByFullName(str, out var regis)) return regis;
             return null;
         }
 
-        public static bool TryGetRegisterByFullName(string str, out ILoquiRegistration regis)
+        public static bool TryGetRegisterByFullName(string str, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (NameRegisters.TryGetValue(str, out regis))
+            if (NameRegisters.TryGetValue(str, out regis!))
             {
                 return regis != null;
             }
@@ -260,7 +276,7 @@ namespace Loqui
                 NameRegisters[str] = null;
                 return false;
             }
-            regis = GetGenericRegistration(genRegisterType, subTypes);
+            regis = GetGenericRegistration(genRegisterType, subTypes)!;
             if (regis != null)
             {
                 TypeRegister[regis.ClassType] = regis;
@@ -269,7 +285,7 @@ namespace Loqui
             return regis != null;
         }
 
-        public static Func<IEnumerable<KeyValuePair<ushort, object>>, T> GetCreateFunc<T>()
+        public static Func<IEnumerable<KeyValuePair<ushort, object>>, T>? GetCreateFunc<T>()
         {
             var t = typeof(T);
             if (CreateFuncRegister.TryGetValue(t, out var createFunc))
@@ -295,7 +311,7 @@ namespace Loqui
             return del as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
-        public static Action<IEnumerable<KeyValuePair<ushort, object>>, T> GetCopyInFunc<T>()
+        public static Action<IEnumerable<KeyValuePair<ushort, object>>, T>? GetCopyInFunc<T>()
         {
             var t = typeof(T);
             if (CopyInFuncRegister.TryGetValue(t, out var createFunc))
@@ -326,12 +342,14 @@ namespace Loqui
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
-        public static Func<TSource, object, TResult> GetCopyFunc<TResult, TSource>()
+        public static Func<TSource, object, TResult>? GetCopyFunc<TResult, TSource>()
+            where TSource : notnull
         {
             return GetCopyFunc<TResult, TSource>(typeof(TSource), typeof(TResult));
         }
 
-        public static Func<TSource, object, TResult> GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
+        public static Func<TSource, object, TResult>? GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
+            where TSource : notnull
         {
             if (CopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
@@ -339,6 +357,7 @@ namespace Loqui
             }
 
             var untypedCopyFunc = GetCopyFunc(tSource, tResult);
+            if (untypedCopyFunc == null) throw new ArgumentException();
 
             //var methodParams = methodInfo.GetParameters();
             //var item = Expression.Parameter(t, "item");

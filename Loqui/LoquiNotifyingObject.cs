@@ -11,14 +11,14 @@ namespace Loqui
 {
     public class LoquiNotifyingObject : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void RaisePropertyChangedChecked([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChangedChecked([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -26,7 +26,7 @@ namespace Loqui
         protected void RaiseAndSetIfChanged<T>(
             ref T item,
             T newItem,
-            [CallerMemberName] string propertyName = null)
+            [CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged == null)
             {

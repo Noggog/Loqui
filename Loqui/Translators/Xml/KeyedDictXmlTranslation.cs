@@ -7,6 +7,7 @@ using Noggog;
 using System.Xml.Linq;
 using Loqui.Internal;
 using DynamicData;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Loqui.Xml
 {
@@ -17,12 +18,12 @@ namespace Loqui.Xml
 
         public bool Parse(
             XElement node, 
-            out IEnumerable<V> enumer,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            [MaybeNullWhen(false)] out IEnumerable<V> enumer,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             var valTransl = XmlTranslator<V>.Translator;
-            if (valTransl.Failed)
+            if (valTransl.Failed || valTransl.Value == null)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Reason}");
             }
@@ -38,7 +39,7 @@ namespace Loqui.Xml
             XElement node,
             ICache<V, K> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -70,7 +71,7 @@ namespace Loqui.Xml
             XElement node,
             ISourceCache<V, K> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -102,8 +103,8 @@ namespace Loqui.Xml
             XElement node,
             XmlSubParseDelegate<V> valTransl,
             out IEnumerable<V> enumer,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             var ret = new List<V>();
             int i = 0;
@@ -139,7 +140,7 @@ namespace Loqui.Xml
             ICache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -173,7 +174,7 @@ namespace Loqui.Xml
             ISourceCache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -206,8 +207,8 @@ namespace Loqui.Xml
             XElement node,
             XmlSubParseDelegate<V> valTransl,
             out V item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             return valTransl(
                 node, 
@@ -220,11 +221,11 @@ namespace Loqui.Xml
             XElement node,
             string name,
             IEnumerable<V> items,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             var valTransl = XmlTranslator<V>.Translator;
-            if (valTransl.Failed)
+            if (valTransl.Failed || valTransl.Value == null)
             {
                 throw new ArgumentException($"No XML Translator available for {typeof(V)}. {valTransl.Reason}");
             }
@@ -234,10 +235,10 @@ namespace Loqui.Xml
                 items: items,
                 errorMask: errorMask,
                 translationMask: translationMask,
-                valTransl: (XElement n, V item1, ErrorMaskBuilder errorMask2, TranslationCrystal translationMask2) 
+                valTransl: (XElement n, V item1, ErrorMaskBuilder? errorMask2, TranslationCrystal? translationMask2) 
                     => valTransl.Value.Write(
                         node: n, 
-                        name: null,
+                        name: string.Empty,
                         item: item1, 
                         errorMask: errorMask2, 
                         translationMask: translationMask2));
@@ -247,8 +248,8 @@ namespace Loqui.Xml
             XElement node,
             string name,
             IEnumerable<V> items,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
             var elem = new XElement(name);
@@ -279,8 +280,8 @@ namespace Loqui.Xml
         public void WriteSingleItem(
             XElement node,
             V item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
             valTransl(
@@ -295,7 +296,7 @@ namespace Loqui.Xml
             string name,
             IEnumerable<V> items,
             int fieldIndex,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
@@ -324,7 +325,7 @@ namespace Loqui.Xml
             string name,
             IHasItem<IEnumerable<V>> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {

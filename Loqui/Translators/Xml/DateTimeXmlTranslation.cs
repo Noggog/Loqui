@@ -9,7 +9,7 @@ namespace Loqui.Xml
     {
         public readonly static DateTimeXmlTranslation Instance = new DateTimeXmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out DateTime value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out DateTime value, ErrorMaskBuilder? errorMask)
         {
             if (DateTime.TryParse(str, out value))
             {

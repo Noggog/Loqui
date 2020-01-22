@@ -11,15 +11,15 @@ using Noggog.Xml;
 
 namespace Loqui.Xml
 {
-    public class NullXmlTranslation : IXmlTranslation<object>
+    public class NullXmlTranslation : IXmlTranslation<object?>
     {
         public string ElementName => "Null";
 
         public bool Parse(
             XElement root, 
-            out object item, 
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            out object? item, 
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             item = null;
             return true;
@@ -28,9 +28,9 @@ namespace Loqui.Xml
         public void Write(
             XElement node,
             string name,
-            object item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            object? item,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             node.Add(
                 new XElement(name));

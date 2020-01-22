@@ -15,27 +15,27 @@ namespace Loqui.Xml
         public const string B = "B";
         public readonly static ColorXmlTranslation Instance = new ColorXmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out Color value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out Color value, ErrorMaskBuilder? errorMask)
         {
             throw new NotImplementedException();
         }
 
-        protected override bool ParseValue(XElement root, out Color? value, ErrorMaskBuilder errorMask)
+        public override bool Parse(XElement root, out Color value, ErrorMaskBuilder? errorMask)
         {
             byte? r = null, g = null, b = null, a = null;
-            if (root.TryGetAttribute(A, out XAttribute aAtt))
+            if (root.TryGetAttribute(A, out XAttribute? aAtt))
             {
                 a = byte.Parse(aAtt.Value);
             }
-            if (root.TryGetAttribute(R, out XAttribute rAtt))
+            if (root.TryGetAttribute(R, out XAttribute? rAtt))
             {
                 r = byte.Parse(rAtt.Value);
             }
-            if (root.TryGetAttribute(G, out XAttribute gAtt))
+            if (root.TryGetAttribute(G, out XAttribute? gAtt))
             {
                 g = byte.Parse(gAtt.Value);
             }
-            if (root.TryGetAttribute(B, out XAttribute bAtt))
+            if (root.TryGetAttribute(B, out XAttribute? bAtt))
             {
                 b = byte.Parse(bAtt.Value);
             }
@@ -44,7 +44,7 @@ namespace Loqui.Xml
                 && !g.HasValue
                 && !b.HasValue)
             {
-                value = null;
+                value = default;
                 return true;
             }
             value = Color.FromArgb(alpha: a ?? 0, red: r ?? 0, green: g ?? 0, blue: b ?? 0);

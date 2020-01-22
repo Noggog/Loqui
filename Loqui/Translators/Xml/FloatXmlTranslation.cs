@@ -14,7 +14,7 @@ namespace Loqui.Xml
             return item.ToString("G9");
         }
 
-        protected override bool ParseNonNullString(string str, out float value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out float value, ErrorMaskBuilder? errorMask)
         {
             if (float.TryParse(str, out value))
             {

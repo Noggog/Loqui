@@ -7,7 +7,7 @@ namespace Loqui
     {
         public static object Validate(object o)
         {
-            if (!WildcardXmlTranslation.Instance.Validate(o?.GetType()))
+            if (!WildcardXmlTranslation.Instance.Validate(o.GetType()))
             {
                 throw new ArgumentException($"Type not supported by wildcard systems {o.GetType()}");
             }

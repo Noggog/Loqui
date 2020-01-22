@@ -9,9 +9,9 @@ namespace Loqui
 {
     public class ErrorMask : IErrorMask
     {
-        public Exception Overall { get; set; }
-        public List<string> Warnings { get; set; }
-        public object[] Errors { get; set; }
+        public Exception? Overall { get; set; }
+        public List<string>? Warnings { get; set; }
+        public object[]? Errors { get; set; }
         public readonly ushort IndexSize;
 
         public ErrorMask(ushort numIndexes)
@@ -60,20 +60,20 @@ namespace Loqui
             if (errMaskObj == null) return;
             var mask = creator();
             var nthMask = mask.GetNthMask(index);
-            MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>> maskItem = nthMask as MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>;
-            ICollection<MaskItem<Exception, O>> coll = maskItem?.Specific as ICollection<MaskItem<Exception, O>>;
+            MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>? maskItem = nthMask as MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>;
+            ICollection<MaskItem<Exception?, O>>? coll = maskItem?.Specific as ICollection<MaskItem<Exception?, O>>;
             if (maskItem == null)
             {
-                coll = new List<MaskItem<Exception, O>>();
-                maskItem = new MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>(null, coll);
+                coll = new List<MaskItem<Exception?, O>>();
+                maskItem = new MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>(null, coll);
                 mask.SetNthMask(index, maskItem);
             }
             else if (coll == null)
             {
-                coll = new List<MaskItem<Exception, O>>();
+                coll = new List<MaskItem<Exception?, O>>();
                 maskItem.Specific = coll;
             }
-            coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
+            coll.Add(new MaskItem<Exception?, O>(null, errMaskObj));
         }
 
         public static void HandleErrorMaskAddition<M, O>(
@@ -84,31 +84,32 @@ namespace Loqui
         {
             if (errMaskObj == null) return;
             var nthMask = mask.GetNthMask(index);
-            MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>> maskItem = nthMask as MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>;
-            ICollection<MaskItem<Exception, O>> coll = maskItem?.Specific as ICollection<MaskItem<Exception, O>>;
+            MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>? maskItem = nthMask as MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>;
+            ICollection<MaskItem<Exception?, O>>? coll = maskItem?.Specific as ICollection<MaskItem<Exception?, O>>;
             if (maskItem == null)
             {
-                coll = new List<MaskItem<Exception, O>>();
-                maskItem = new MaskItem<Exception, IEnumerable<MaskItem<Exception, O>>>(null, coll);
+                coll = new List<MaskItem<Exception?, O>>();
+                maskItem = new MaskItem<Exception?, IEnumerable<MaskItem<Exception?, O>>>(null, coll);
                 mask.SetNthMask(index, maskItem);
             }
             else if (coll == null)
             {
-                coll = new List<MaskItem<Exception, O>>();
+                coll = new List<MaskItem<Exception?, O>>();
                 maskItem.Specific = coll;
             }
-            coll.Add(new MaskItem<Exception, O>(null, errMaskObj));
+            coll.Add(new MaskItem<Exception?, O>(null, errMaskObj));
         }
         
         public bool IsInError()
         {
             if (Overall != null) return true;
-            if (Errors.Length > 0) return true;
+            if (Errors?.Length > 0) return true;
             return false;
         }
 
-        public object GetNthMask(int index)
+        public object? GetNthMask(int index)
         {
+            if (Errors == null) return null;
             return Errors[index];
         }
     }

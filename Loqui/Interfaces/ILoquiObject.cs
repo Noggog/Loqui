@@ -17,7 +17,7 @@ namespace Loqui
 
     public interface ILoquiReflectionGetter : ILoquiObject
     {
-        object GetNthObject(ushort index);
+        object? GetNthObject(ushort index);
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
@@ -44,7 +44,7 @@ namespace Loqui
     {
         void SetNthObjectHasBeenSet(ushort index, bool on);
         void UnsetNthObject(ushort index);
-        void SetNthObject(ushort index, object o);
+        void SetNthObject(ushort index, object? o);
     }
 
     public static class ILoquiObjectExt
@@ -96,7 +96,7 @@ namespace Loqui
                                             continue;
                                         }
 
-                                        depthPrinter.AddLine(obj?.ToString() + ",");
+                                        depthPrinter.AddLine(obj.ToString() + ",");
                                     }
                                 }
                                 depthPrinter.AddLine("]");

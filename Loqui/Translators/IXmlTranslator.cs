@@ -11,7 +11,7 @@ namespace Loqui.Xml
         void Write(
             XElement node,
             object item,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask,
             string name);
     }

@@ -15,9 +15,9 @@ namespace Loqui.Xml
         object XmlWriteTranslator { get; }
         void WriteToXml(
             XElement node,
-            ErrorMaskBuilder errorMask = null,
-            TranslationCrystal translationMask = null,
-            string name = null);
+            ErrorMaskBuilder? errorMask = null,
+            TranslationCrystal? translationMask = null,
+            string name = "");
     }
 
     public static class IXmlItemExt
@@ -25,9 +25,9 @@ namespace Loqui.Xml
         public static void WriteToXml(
             this IXmlItem item,
             string path,
-            ErrorMaskBuilder errorMask = null,
-            TranslationCrystal translationMask = null,
-            string name = null)
+            ErrorMaskBuilder? errorMask = null,
+            TranslationCrystal? translationMask = null,
+            string name = "")
         {
             var node = new XElement("topnode");
             item.WriteToXml(
@@ -41,9 +41,9 @@ namespace Loqui.Xml
         public static void WriteToXml(
             this IXmlItem item,
             Stream stream,
-            ErrorMaskBuilder errorMask = null,
-            TranslationCrystal translationMask = null,
-            string name = null)
+            ErrorMaskBuilder? errorMask = null,
+            TranslationCrystal? translationMask = null,
+            string name = "")
         {
             var node = new XElement("topnode");
             item.WriteToXml(

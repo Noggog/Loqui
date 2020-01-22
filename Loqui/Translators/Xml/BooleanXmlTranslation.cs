@@ -8,7 +8,7 @@ namespace Loqui.Xml
     {
         public readonly static BooleanXmlTranslation Instance = new BooleanXmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out bool value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out bool value, ErrorMaskBuilder? errorMask)
         {
             if (Boolean.TryParse(str, out value))
             {

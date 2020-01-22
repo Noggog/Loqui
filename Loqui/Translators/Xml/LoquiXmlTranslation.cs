@@ -3,6 +3,7 @@ using Noggog;
 using Noggog.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,17 +16,17 @@ namespace Loqui.Xml
         where T : ILoquiObject
     {
         public static readonly LoquiXmlTranslation<T> Instance = new LoquiXmlTranslation<T>();
-        private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T)).FullName);
+        private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T))!.FullName);
         public string ElementName => _elementName.Value;
-        private static readonly ILoquiRegistration Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
-        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder errorMaskBuilder, TranslationCrystal translationMask, MissingCreate missing);
+        private static readonly ILoquiRegistration? Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
+        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder? errorMaskBuilder, TranslationCrystal? translationMask, MissingCreate missing);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
             ILoquiRegistration registration,
             XElement node,
             bool skipProtected,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             var ret = new List<KeyValuePair<ushort, object>>();
@@ -46,7 +47,7 @@ namespace Loqui.Xml
                     try
                     {
                         var type = registration.GetNthType(i.Value);
-                        if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object> translator))
+                        if (!XmlTranslator.Instance.TryGetTranslator(type, out IXmlTranslation<object>? translator))
                         {
                             XmlTranslator.Instance.TryGetTranslator(type, out translator);
                             throw new ArgumentException($"No Xml Translator found for {type}");
@@ -71,11 +72,11 @@ namespace Loqui.Xml
         }
 
         public void CopyIn<C>(
-            XElement node,
+            XElement? node,
             C item,
             bool skipProtected,
             MissingCreate missing,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
             where C : T, ILoquiObject
         {
@@ -86,8 +87,9 @@ namespace Loqui.Xml
                     case MissingCreate.Null:
                     case MissingCreate.New:
                         return;
+                    case MissingCreate.Exception:
                     default:
-                        break;
+                        throw new NullReferenceException();
                 }
             }
             var fields = EnumerateObjects(
@@ -96,7 +98,7 @@ namespace Loqui.Xml
                 skipProtected,
                 errorMask: errorMask,
                 translationMask: translationMask);
-            var copyIn = LoquiRegistration.GetCopyInFunc<C>();
+            var copyIn = LoquiRegistration.GetCopyInFunc<C>()!;
             copyIn(fields, item);
         }
 
@@ -125,7 +127,7 @@ namespace Loqui.Xml
             XElement node,
             int fieldIndex,
             IHasItem<T> item,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -155,9 +157,9 @@ namespace Loqui.Xml
 
         public bool Parse(
             XElement node,
-            out T item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            [MaybeNullWhen(false)]out T item,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             var typeStr = node.GetAttribute(XmlConstants.TYPE_ATTRIBUTE);
             string comparisonString = typeStr ?? node.Name.LocalName;
@@ -183,12 +185,11 @@ namespace Loqui.Xml
                     item = default(T);
                     return false;
                 }
-                var ret = XmlTranslator.Instance.GetTranslator(register.ClassType).Value.Parse(
+                if (XmlTranslator.Instance.GetTranslator(register.ClassType).Value.Parse(
                     node: node,
                     item: out var itemObj,
                     errorMask: errorMask,
-                    translationMask: translationMask);
-                if (ret)
+                    translationMask: translationMask))
                 {
                     item = (T)itemObj;
                     return true;
@@ -203,7 +204,7 @@ namespace Loqui.Xml
 
         public T Parse(
             XElement node,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
         {
             if (Parse(node, out var item, errorMask, translationMask))
@@ -216,7 +217,7 @@ namespace Loqui.Xml
             }
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        public void Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             throw new NotImplementedException();
         }
@@ -228,8 +229,8 @@ namespace Loqui.Xml
 
         public delegate T CREATE_FUNC<T>(
             XElement node,
-            ErrorMaskBuilder errorMaskBuilder,
-            TranslationCrystal translationMask);
+            ErrorMaskBuilder? errorMaskBuilder,
+            TranslationCrystal? translationMask);
         private static Dictionary<Type, object> createDict = new Dictionary<Type, object>();
         private static Dictionary<(Type Base, Type Actual), object> subCreateDict = new Dictionary<(Type Base, Type Actual), object>();
 
@@ -255,8 +256,8 @@ namespace Loqui.Xml
                 .First();
             if (!method.IsGenericMethod)
             {
-                var f = DelegateBuilder.BuildDelegate<Func<XElement, ErrorMaskBuilder, TranslationCrystal, T>>(method);
-                CREATE_FUNC<T> ret = (XElement node, ErrorMaskBuilder errorMask, TranslationCrystal translationMask) =>
+                var f = DelegateBuilder.BuildDelegate<Func<XElement, ErrorMaskBuilder?, TranslationCrystal?, T>>(method);
+                CREATE_FUNC<T> ret = (XElement node, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask) =>
                 {
                     return f(node, errorMask, translationMask);
                 };
@@ -272,7 +273,7 @@ namespace Loqui.Xml
         public bool TryCreate<T>(
             XElement node,
             out T item,
-            ErrorMaskBuilder errorMask,
+            ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
             where T : ILoquiObjectGetter
         {
@@ -286,7 +287,7 @@ namespace Loqui.Xml
                 }
                 if (subCreateDict.TryGetValue((typeof(T), registration.ClassType), out var createFuncGeneric))
                 {
-                    CREATE_FUNC<T> createFunc = createFuncGeneric as CREATE_FUNC<T>;
+                    CREATE_FUNC<T>? createFunc = createFuncGeneric as CREATE_FUNC<T>;
                     if (createFunc == null)
                     {
                         item = default;

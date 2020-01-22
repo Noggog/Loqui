@@ -8,7 +8,7 @@ namespace Loqui.Xml
     {
         public readonly static Int32XmlTranslation Instance = new Int32XmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out int value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out int value, ErrorMaskBuilder? errorMask)
         {
             if (int.TryParse(str, out value))
             {

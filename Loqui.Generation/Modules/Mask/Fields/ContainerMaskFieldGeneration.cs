@@ -172,8 +172,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({field.Name} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(listType, "R")}();");
-                fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(listType, "R")}(eval({rhsAccessor}.Overall), default);");
                 fg.AppendLine($"if ({field.Name}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {

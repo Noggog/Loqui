@@ -9,14 +9,6 @@ namespace Loqui.Internal
 {
     public static class LoquiHelper
     {
-        public static object Combine(object lhs, object rhs)
-        {
-            if (lhs == null && rhs == null) return null;
-            if (lhs == null) return rhs;
-            if (rhs == null) return lhs;
-            return new object[] { lhs, rhs };
-        }
-
         public static bool DefaultSwitch<T>(
             T rhsItem,
             bool rhsHasBeenSet,

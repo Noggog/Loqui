@@ -13,7 +13,7 @@ namespace Loqui.Xml
             return item.ToString("R");
         }
 
-        protected override bool ParseNonNullString(string str, out double value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out double value, ErrorMaskBuilder? errorMask)
         {
             if (double.TryParse(str, out value))
             {

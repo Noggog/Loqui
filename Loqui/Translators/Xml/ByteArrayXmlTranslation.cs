@@ -2,6 +2,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,17 +31,19 @@ namespace Loqui.Xml
             base.WriteValue(node, name, item);
         }
 
-        protected override Byte[] ParseValue(XElement root)
+        public override bool Parse(XElement node, [MaybeNullWhen(false)] out byte[] val)
         {
-            if (!root.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
-                || val.Value == null)
+            if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? attr)
+                || attr.Value == null)
             {
-                return null;
+                val = default!;
+                return false;
             }
-            return ParseNonNullString(val.Value);
+            val = Parse(attr.Value);
+            return true;
         }
 
-        protected override byte[] ParseNonNullString(string str)
+        protected override byte[] Parse(string str)
         {
             if (str.Length % 2 != 0)
             {

@@ -8,7 +8,7 @@ namespace Loqui.Xml
     {
         public readonly static ByteXmlTranslation Instance = new ByteXmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out byte value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out byte value, ErrorMaskBuilder? errorMask)
         {
             if (byte.TryParse(str, out value))
             {

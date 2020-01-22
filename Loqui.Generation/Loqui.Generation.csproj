@@ -14,6 +14,10 @@
     <NoWarn>1701;1702; 1998</NoWarn>
     <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />

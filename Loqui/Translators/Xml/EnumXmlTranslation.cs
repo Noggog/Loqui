@@ -33,7 +33,7 @@ namespace Loqui.Xml
             return false;
         }
 
-        protected override bool ParseNonNullString(string str, out E value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out E value, ErrorMaskBuilder? errorMask)
         {
             if (TryParseToEnum(str, out value)) return true;
             errorMask.ReportExceptionOrThrow(
@@ -42,16 +42,16 @@ namespace Loqui.Xml
             return false;
         }
 
-        protected override bool ParseValue(XElement root, out E? value, ErrorMaskBuilder errorMask)
+        public override bool Parse(XElement root, out E value, ErrorMaskBuilder? errorMask)
         {
             if (!IsFlagsEnum)
             {
-                return base.ParseValue(root, out value, errorMask);
+                return base.Parse(root, out value, errorMask);
             }
             if (root.TryGetAttribute<bool>("null", out var isNull)
                 && isNull)
             {
-                value = null;
+                value = default;
                 return true;
             }
             value = default(E);
@@ -59,12 +59,12 @@ namespace Loqui.Xml
             {
                 if (TryParseToEnum(item.Name.LocalName, out E subEnum))
                 {
-                    value = value.Value.Or(subEnum);
+                    value = value.Or(subEnum);
                 }
                 else if (item.Name.LocalName.StartsWith(UnknownString)
                     && int.TryParse(item.Name.LocalName.Substring(UnknownString.Length), out var num))
                 {
-                    int i = Convert.ToInt32(value.Value);
+                    int i = Convert.ToInt32(value);
                     i += 1 << num;
                     value = (E)(object)i;
                 }
@@ -87,6 +87,7 @@ namespace Loqui.Xml
             if (!item.HasValue)
             {
                 node.SetAttributeValue("null", "true");
+                return;
             }
             // Write normal values
             Enum e = item.Value as Enum;

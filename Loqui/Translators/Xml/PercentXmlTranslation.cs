@@ -8,7 +8,7 @@ namespace Loqui.Xml
     {
         public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
 
-        protected override bool ParseNonNullString(string str, out Percent value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out Percent value, ErrorMaskBuilder? errorMask)
         {
             if (Percent.TryParse(str, out value))
             {

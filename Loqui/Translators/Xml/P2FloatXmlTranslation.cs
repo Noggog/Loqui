@@ -13,7 +13,7 @@ namespace Loqui.Xml
             return $"{item.X.ToString("G9")}, {item.Y.ToString("G9")}";
         }
 
-        protected override bool ParseNonNullString(string str, out P2Float value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out P2Float value, ErrorMaskBuilder? errorMask)
         {
             if (P2Float.TryParse(str, out value))
             {

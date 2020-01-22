@@ -24,15 +24,15 @@ namespace Loqui.Xml
             throw new NotImplementedException();
         }
 
-        protected override bool ParseNonNullString(string str, out RangeUInt8 value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out RangeUInt8 value, ErrorMaskBuilder? errorMask)
         {
             throw new NotImplementedException();
         }
 
-        protected override bool ParseValue(XElement root, out RangeUInt8? value, ErrorMaskBuilder errorMask)
+        public override bool Parse(XElement root, out RangeUInt8 value, ErrorMaskBuilder? errorMask)
         {
             byte? min, max;
-            if (root.TryGetAttribute(MIN, out XAttribute val))
+            if (root.TryGetAttribute(MIN, out XAttribute? val))
             {
                 if (byte.TryParse(val.Value, out var i))
                 {
@@ -42,7 +42,7 @@ namespace Loqui.Xml
                 {
                     errorMask.ReportExceptionOrThrow(
                         new ArgumentException("Min value was malformed: " + val.Value));
-                    value = null;
+                    value = default;
                     return false;
                 }
             }
@@ -60,7 +60,7 @@ namespace Loqui.Xml
                 {
                     errorMask.ReportExceptionOrThrow(
                         new ArgumentException("Min value was malformed: " + val.Value));
-                    value = null;
+                    value = default;
                     return false;
                 }
             }
@@ -70,8 +70,8 @@ namespace Loqui.Xml
             }
             if (!min.HasValue && !max.HasValue)
             {
-                value = null;
-                return true;
+                value = default;
+                return false;
             }
             value = new RangeUInt8(min, max);
             return true;

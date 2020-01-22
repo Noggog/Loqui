@@ -122,19 +122,13 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({rhsAccessor} != null)");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem{(indexed ? "Indexed" : null)}<R, {loqui.GenerateMaskString("R")}>({(indexed ? $"{rhsAccessor}.Index" : null)});");
-                fg.AppendLine($"{retAccessor}.Overall = eval({rhsAccessor}.Overall);");
-                if (!IsUnknownGeneric(loqui))
+                if (IsUnknownGeneric(loqui))
                 {
-                    fg.AppendLine($"if ({rhsAccessor}.Specific != null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"{retAccessor}.Specific = {rhsAccessor}.Specific.Translate(eval);");
-                    }
+                    fg.AppendLine($"throw new {nameof(NotImplementedException)}();");
                 }
                 else
                 {
-                    fg.AppendLine($"throw new {nameof(NotImplementedException)}();");
+                    fg.AppendLine($"{retAccessor} = new MaskItem{(indexed ? "Indexed" : null)}<R, {loqui.GenerateMaskString("R")}>({(indexed ? $"{rhsAccessor}.Index, " : null)}eval({rhsAccessor}.Overall), {rhsAccessor}.Specific?.Translate(eval));");
                 }
             }
         }

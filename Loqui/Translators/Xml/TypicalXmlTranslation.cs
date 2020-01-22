@@ -2,6 +2,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,32 +19,34 @@ namespace Loqui.Xml
 
         protected virtual string GetItemStr(T item)
         {
-            return item?.ToString();
+            return item.ToString();
         }
 
-        protected abstract T ParseNonNullString(string str);
+        protected abstract T Parse(string str);
 
-        protected virtual T ParseValue(XElement node)
+        public virtual bool Parse(XElement node, [MaybeNullWhen(false)]out T item)
         {
-            if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val)
-                || string.IsNullOrEmpty(val.Value))
+            if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? attr)
+                || string.IsNullOrEmpty(attr.Value))
             {
-                return null;
+                item = default!;
+                return false;
             }
-            return ParseNonNullString(val.Value);
+            item = Parse(attr.Value);
+            return true;
         }
 
         public void ParseInto(
             XElement node,
             int fieldIndex,
             IHasItem<T> item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
                 try
                 {
-                    if (Parse(node, out var val, errorMask))
+                    if (Parse(node, out var val))
                     {
                         item.Item = val;
                     }
@@ -60,43 +63,14 @@ namespace Loqui.Xml
             }
         }
 
-        public bool Parse(
+        public T? Parse(
             XElement node,
-            bool nullable,
-            out T item,
-            ErrorMaskBuilder errorMask)
-        {
-            item = ParseValue(node);
-            if (!nullable && item == null)
-            {
-                errorMask.ReportExceptionOrThrow(
-                    new ArgumentException("Value was unexpectedly null."));
-            }
-            return true;
-        }
-
-        public bool Parse(
-            XElement node,
-            out T item,
-            ErrorMaskBuilder errorMask)
-        {
-            return this.Parse(
-                node: node,
-                item: out item,
-                errorMask: errorMask,
-                nullable: false);
-        }
-
-        public T Parse(
-            XElement node,
-            ErrorMaskBuilder errorMask,
-            T defaultVal = default)
+            ErrorMaskBuilder? errorMask,
+            T? defaultVal = default)
         {
             if (this.Parse(
                 node: node,
-                item: out var item,
-                errorMask: errorMask,
-                nullable: false))
+                item: out var item))
             {
                 return item;
             }
@@ -106,14 +80,14 @@ namespace Loqui.Xml
         public bool Parse(
             XElement node,
             int fieldIndex,
-            out T item,
-            ErrorMaskBuilder errorMask)
+            [MaybeNullWhen(false)] out T item,
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask.PushIndex(fieldIndex))
             {
                 try
                 {
-                    return Parse(node, out item, errorMask);
+                    return Parse(node, out item!);
                 }
                 catch (Exception ex)
                 when (errorMask != null)
@@ -121,7 +95,7 @@ namespace Loqui.Xml
                     errorMask.ReportException(ex);
                 }
             }
-            item = null;
+            item = default!;
             return false;
         }
 
@@ -147,7 +121,7 @@ namespace Loqui.Xml
             string name,
             T item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -171,7 +145,7 @@ namespace Loqui.Xml
             string name,
             IHasItemGetter<T> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -195,7 +169,7 @@ namespace Loqui.Xml
             string name,
             IHasBeenSetItemGetter<T> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(
@@ -206,7 +180,7 @@ namespace Loqui.Xml
                 errorMask: errorMask);
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        public void Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             this.Write(
                 node: node,
@@ -214,12 +188,11 @@ namespace Loqui.Xml
                 name: name);
         }
 
-        public bool Parse(XElement node, out T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        public bool Parse(XElement node, [MaybeNullWhen(false)] out T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             return this.Parse(
                 node: node,
-                item: out item,
-                errorMask: errorMask);
+                item: out item!);
         }
     }
 }

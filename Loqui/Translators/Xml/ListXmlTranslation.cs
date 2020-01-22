@@ -19,8 +19,8 @@ namespace Loqui.Xml
             XElement node,
             XmlSubWriteDelegate<T> transl,
             T item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translMask)
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translMask)
         {
             transl(
                 node, 

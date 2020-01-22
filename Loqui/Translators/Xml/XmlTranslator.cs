@@ -3,6 +3,7 @@ using Loqui.Translators;
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
 namespace Loqui.Xml
@@ -11,7 +12,7 @@ namespace Loqui.Xml
     {
         public readonly static XmlTranslator Instance = new XmlTranslator();
 
-        public Dictionary<string, Type> elementNameTypeDict = new Dictionary<string, Type>();
+        public Dictionary<string, Type?> elementNameTypeDict = new Dictionary<string, Type?>();
 
         private XmlTranslator()
             : base (
@@ -23,24 +24,23 @@ namespace Loqui.Xml
             elementNameTypeDict["Null"] = NullType;
         }
 
-        public bool TranslateElementName(string elementName, out Type t)
+        public bool TranslateElementName(string elementName, [MaybeNullWhen(false)] out Type t)
         {
-            var ret = elementNameTypeDict.TryGetValue(elementName, out Type n);
+            var ret = elementNameTypeDict.TryGetValue(elementName, out t!);
             if (!ret)
             {
                 var regis = LoquiRegistration.GetRegisterByFullName(elementName);
                 if (regis != null)
                 {
-                    t = elementNameTypeDict.TryCreateValue(elementName, () => regis.ClassType);
-                    return true;
+                    t = elementNameTypeDict.TryCreateValue(elementName, () => regis.ClassType)!;
+                    return t != null;
                 }
                 else
                 {
                     elementNameTypeDict[elementName] = null;
                 }
             }
-            t = n;
-            return ret && n != null;
+            return ret && t != null;
         }
 
         protected override GetResponse<IXmlTranslation<object>> SetTranslator_Internal(IXmlTranslation<object> transl, Type t)
@@ -54,8 +54,8 @@ namespace Loqui.Xml
 
     public class XmlTranslator<T>
     {
-        private static GetResponse<IXmlTranslation<T>> _translator;
-        public static GetResponse<IXmlTranslation<T>> Translator => _translator;
+        private static GetResponse<IXmlTranslation<T>?> _translator;
+        public static GetResponse<IXmlTranslation<T>?> Translator => _translator;
         public delegate T CREATE_FUNC(XElement root, ErrorMaskBuilder errorMask);
 
         static XmlTranslator()
@@ -63,11 +63,11 @@ namespace Loqui.Xml
             var transl = XmlTranslator.Instance.GetTranslator(typeof(T));
             if (transl.Failed)
             {
-                _translator = transl.BubbleFailure<IXmlTranslation<T>>();
+                _translator = transl.BubbleFailure<IXmlTranslation<T>?>();
                 return;
             }
             var caster = transl.Value as XmlTranslationCaster<T>;
-            _translator = GetResponse<IXmlTranslation<T>>.Succeed(caster.Source);
+            _translator = GetResponse<IXmlTranslation<T>?>.Create(successful: caster != null, caster?.Source);
         }
     }
 }

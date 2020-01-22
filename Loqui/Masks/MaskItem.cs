@@ -4,6 +4,7 @@ using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Loqui
@@ -12,10 +13,6 @@ namespace Loqui
     {
         public TOverall Overall;
         public TSpecific Specific;
-
-        public MaskItem()
-        {
-        }
 
         [DebuggerStepThrough]
         public MaskItem(
@@ -44,7 +41,8 @@ namespace Loqui
                 .CombineHashCode(this.Specific);
         }
 
-        public static MaskItem<TOverall, TSpecific> WrapValue(TSpecific val)
+        [return: NotNullIfNotNull("val")]
+        public static MaskItem<TOverall, TSpecific>? WrapValue(TSpecific val)
         {
             if (val == null) return null;
             return new MaskItem<TOverall, TSpecific>(default(TOverall), val);
@@ -54,12 +52,6 @@ namespace Loqui
     public class MaskItemIndexed<TOverall, TSpecific> : MaskItem<TOverall, TSpecific>, IEquatable<MaskItemIndexed<TOverall, TSpecific>>
     {
         public int Index;
-
-        public MaskItemIndexed(int index)
-            : base()
-        {
-            this.Index = index;
-        }
 
         [DebuggerStepThrough]
         public MaskItemIndexed(
@@ -88,12 +80,6 @@ namespace Loqui
     public class MaskItemIndexed<TKey, TOverall, TSpecific> : MaskItem<TOverall, TSpecific>, IEquatable<MaskItemIndexed<TKey, TOverall, TSpecific>>
     {
         public TKey Index;
-
-        public MaskItemIndexed(TKey index)
-            : base()
-        {
-            this.Index = index;
-        }
 
         [DebuggerStepThrough]
         public MaskItemIndexed(
@@ -148,14 +134,15 @@ namespace Loqui
             }
         }
 
-        public static MaskItem<Exception, TRet> Bubble<TSource, TRet>(this MaskItem<Exception, TSource> item)
+        [return: NotNullIfNotNull("item")]
+        public static MaskItem<Exception, TRet>? Bubble<TSource, TRet>(this MaskItem<Exception, TSource> item)
             where TSource : TRet
         {
             if (item == null) return null;
             return new MaskItem<Exception, TRet>(item.Overall, item.Specific);
         }
 
-        public static MaskItem<bool, M> Factory<M>(M mask, EqualsMaskHelper.Include include)
+        public static MaskItem<bool, M>? Factory<M>(M mask, EqualsMaskHelper.Include include)
             where M : IMask<bool>
         {
             var allEq = mask.AllEqual(b => b);
@@ -164,11 +151,7 @@ namespace Loqui
                 switch (include)
                 {
                     case EqualsMaskHelper.Include.All:
-                        return new MaskItem<bool, M>()
-                        {
-                            Overall = true,
-                            Specific = mask,
-                        };
+                        return new MaskItem<bool, M>(overall: true, specific: mask);
                     case EqualsMaskHelper.Include.OnlyFailures:
                         return null;
                     default:
@@ -177,11 +160,7 @@ namespace Loqui
             }
             else
             {
-                return new MaskItem<bool, M>()
-                {
-                    Overall = allEq,
-                    Specific = mask
-                };
+                return new MaskItem<bool, M>(overall: allEq, specific: mask);
             }
         }
     }

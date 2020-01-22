@@ -10,7 +10,7 @@ namespace Loqui.Internal
     {
         public const int OVERALL_INDEX = -2;
 
-        Stack<int> _depthStack;
+        Stack<int>? _depthStack;
         private int? _CurrentIndex;
         public int? CurrentIndex
         {
@@ -26,8 +26,8 @@ namespace Loqui.Internal
             }
             set => _CurrentIndex = value;
         }
-        public List<(int[], Exception)> Exceptions;
-        public List<(int[], string)> Warnings;
+        public List<(int[], Exception)>? Exceptions;
+        public List<(int[], string)>? Warnings;
         public bool Empty => (Exceptions?.Count ?? 0) == 0 && (Warnings?.Count ?? 0) == 0;
 
         internal IDisposable PushIndexInternal(int fieldIndex)
@@ -50,6 +50,7 @@ namespace Loqui.Internal
         {
             if (_CurrentIndex.HasValue)
             {
+                if (_depthStack == null) throw new NullReferenceException();
                 int[] ret = new int[_depthStack.Count + 1];
                 _depthStack.CopyTo(ret, 0);
                 ret[_depthStack.Count] = _CurrentIndex.Value;
@@ -57,6 +58,7 @@ namespace Loqui.Internal
             }
             else
             {
+                if (_depthStack == null) throw new NullReferenceException();
                 int[] ret = new int[_depthStack.Count];
                 _depthStack.CopyTo(ret, 0);
                 return ret;
@@ -67,6 +69,7 @@ namespace Loqui.Internal
         {
             if (_CurrentIndex.HasValue)
             {
+                if (_depthStack == null) throw new NullReferenceException();
                 int[] ret = new int[_depthStack.Count + 2];
                 _depthStack.CopyTo(ret, 0);
                 ret[_depthStack.Count] = _CurrentIndex.Value;
@@ -75,6 +78,7 @@ namespace Loqui.Internal
             }
             else
             {
+                if (_depthStack == null) throw new NullReferenceException();
                 int[] ret = new int[_depthStack.Count + 1];
                 _depthStack.CopyTo(ret, 0);
                 ret[_depthStack.Count] = index;
@@ -113,14 +117,14 @@ namespace Loqui.Internal
 
     public static class ErrorMaskBuilderExt
     {
-        public static IDisposable PushIndex(this ErrorMaskBuilder errorMask, int fieldIndex)
+        public static IDisposable PushIndex(this ErrorMaskBuilder? errorMask, int fieldIndex)
         {
             if (errorMask == null) return Noggog.IDisposableExt.Nothing;
             errorMask.PushIndexInternal(fieldIndex);
             return errorMask;
         }
 
-        public static void ReportExceptionOrThrow(this ErrorMaskBuilder errorMask, Exception ex)
+        public static void ReportExceptionOrThrow(this ErrorMaskBuilder? errorMask, Exception ex)
         {
             if (errorMask == null)
             {
@@ -129,7 +133,7 @@ namespace Loqui.Internal
             errorMask.ReportException(ex);
         }
 
-        public static void ReportWarning(this ErrorMaskBuilder errorMask, string str)
+        public static void ReportWarning(this ErrorMaskBuilder? errorMask, string str)
         {
             if (errorMask == null) return;
             if (errorMask.Warnings == null)
@@ -141,7 +145,7 @@ namespace Loqui.Internal
                 str));
         }
 
-        public static void WrapAction(this ErrorMaskBuilder errorMask, int fieldIndex, Action a)
+        public static void WrapAction(this ErrorMaskBuilder? errorMask, int fieldIndex, Action a)
         {
             if (errorMask == null)
             {

@@ -584,11 +584,7 @@ namespace Loqui.Generation
                         fg.AppendLine("if (_crystal != null) return _crystal;");
                         fg.AppendLine("List<(bool On, TranslationCrystal SubCrystal)> ret = new List<(bool On, TranslationCrystal SubCrystal)>();");
                         fg.AppendLine($"GetCrystal(ret);");
-                        fg.AppendLine($"_crystal = new TranslationCrystal()");
-                        using (new BraceWrapper(fg) { AppendSemicolon = true })
-                        {
-                            fg.AppendLine($"Crystal = ret.ToArray()");
-                        }
+                        fg.AppendLine($"_crystal = new TranslationCrystal(ret.ToArray());");
                         fg.AppendLine("return _crystal;");
                     }
                     fg.AppendLine();

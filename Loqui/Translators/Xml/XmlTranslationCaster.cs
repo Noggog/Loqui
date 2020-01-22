@@ -2,6 +2,7 @@
 using Loqui.Translators;
 using Noggog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -23,24 +24,24 @@ namespace Loqui.Xml
             XElement node, 
             string name,
             object item, 
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             Source.Write(node, name, (T)item, errorMask, translationMask);
         }
 
         bool IXmlTranslation<object>.Parse(
-            XElement root, 
-            out object item, 
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            XElement root,
+            [MaybeNullWhen(false)] out object item, 
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             if (Source.Parse(root, out T sourceItem, errorMask, translationMask))
             {
-                item = sourceItem;
-                return true;
+                item = sourceItem!;
+                return item != null;
             }
-            item = null;
+            item = default!;
             return false;
         }
     }

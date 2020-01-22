@@ -68,7 +68,7 @@ namespace Loqui
             }
         }
 
-        public static MaskItem<bool, M> EqualsHelper<T, M>(
+        public static MaskItem<bool, M>? EqualsHelper<T, M>(
             bool lhsHas,
             bool rhsHas,
             T lhs,
@@ -89,17 +89,13 @@ namespace Loqui
             var overall = lhsHas == rhsHas && mask.AllEqual((b) => b);
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, M>()
-                {
-                    Overall = overall,
-                    Specific = mask
-                };
+                return new MaskItem<bool, M>(overall, mask);
             }
             return null;
         }
 
         #region Enumerable
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> CollectionEqualsHelper<T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>? CollectionEqualsHelper<T, M>(
             this IEnumerable<T> lhs,
             IEnumerable<T> rhs,
             Func<T, T, M> maskGetter,
@@ -111,7 +107,7 @@ namespace Loqui
                 rhs,
                 (l, r) =>
                 {
-                    MaskItemIndexed<bool, M> itemRet = new MaskItemIndexed<bool, M>(index++);
+                    MaskItemIndexed<bool, M> itemRet = new MaskItemIndexed<bool, M>(index++, false, default);
                     EqualsHelper(itemRet, l, r, maskGetter, include);
                     return itemRet;
                 },
@@ -135,16 +131,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> CollectionEqualsHelper<T>(
+        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>? CollectionEqualsHelper<T>(
             this IEnumerable<T> lhs,
             IEnumerable<T> rhs,
             Func<T, T, bool> maskGetter,
@@ -176,18 +168,14 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<(int, bool)>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<(int, bool)>>(overall, masks);
             }
             return null;
         }
         #endregion
 
         #region List
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> CollectionEqualsHelper<T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>? CollectionEqualsHelper<T, M>(
             this IReadOnlySetList<T> lhs,
             IObservableSetList<T> rhs,
             Func<T, T, M> maskGetter,
@@ -199,7 +187,7 @@ namespace Loqui
                 rhs,
                 (l, r) =>
                 {
-                    MaskItemIndexed<bool, M> itemRet = new MaskItemIndexed<bool, M>(index++);
+                    MaskItemIndexed<bool, M> itemRet = new MaskItemIndexed<bool, M>(index++, false, default);
                     EqualsHelper(itemRet, l, r, maskGetter, include);
                     return itemRet;
                 },
@@ -224,16 +212,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> CollectionEqualsHelper<T>(
+        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>? CollectionEqualsHelper<T>(
             this IReadOnlySetList<T> lhs,
             IReadOnlySetList<T> rhs,
             Func<T, T, bool> maskGetter,
@@ -267,16 +251,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> CollectionEqualsHelper<T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>? CollectionEqualsHelper<T, M>(
             this IReadOnlyList<T> lhs,
             IReadOnlyList<T> rhs,
             Func<T, T, M> maskGetter,
@@ -286,7 +266,7 @@ namespace Loqui
             return CollectionEqualsHelper((IEnumerable<T>)lhs, (IEnumerable<T>)rhs, maskGetter, include);
         }
 
-        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> CollectionEqualsHelper<T>(
+        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>? CollectionEqualsHelper<T>(
             this IReadOnlyList<T> lhs,
             IReadOnlyList<T> rhs,
             Func<T, T, bool> maskGetter,
@@ -297,7 +277,7 @@ namespace Loqui
         #endregion
 
         #region Span
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>> SpanEqualsHelper<T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>? SpanEqualsHelper<T, M>(
             this ReadOnlyMemorySlice<T> lhs,
             ReadOnlyMemorySlice<T> rhs,
             Func<T, T, M> maskGetter,
@@ -307,7 +287,7 @@ namespace Loqui
             return CollectionEqualsHelper(lhs, rhs, maskGetter, include);
         }
 
-        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>> SpanEqualsHelper<T>(
+        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>? SpanEqualsHelper<T>(
             this ReadOnlyMemorySlice<T> lhs,
             ReadOnlyMemorySlice<T> rhs,
             Func<T, T, bool> maskGetter,
@@ -318,7 +298,7 @@ namespace Loqui
         #endregion
 
         #region Dict
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> DictEqualsHelper<K, T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>? DictEqualsHelper<K, T, M>(
             this IReadOnlySetCache<T, K> lhs,
             IReadOnlySetCache<T, K> rhs,
             Func<K, T, T, M> maskGetter,
@@ -341,7 +321,7 @@ namespace Loqui
                 rhs, 
                 (k, l, r) =>
                 {
-                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k);
+                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k, false, default);
                     EqualsHelper(itemRet, l, r, maskGetter, include);
                     return itemRet;
                 },
@@ -365,19 +345,15 @@ namespace Loqui
                         throw new NotImplementedException();
                 }
             }
-                
+
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> DictEqualsHelper<K, T>(
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>? DictEqualsHelper<K, T>(
             this IReadOnlySetCache<T, K> lhs,
             IReadOnlySetCache<T, K> rhs,
             Func<K, T, T, bool> maskGetter,
@@ -422,16 +398,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> DictEqualsHelper<K, T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>? DictEqualsHelper<K, T, M>(
             this IReadOnlyDictionary<K, T> lhs,
             IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, M> maskGetter,
@@ -442,7 +414,7 @@ namespace Loqui
                 rhs,
                 (k, l, r) =>
                 {
-                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k);
+                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k, false, default);
                     EqualsHelper(itemRet, l, r, maskGetter, include);
                     return itemRet;
                 },
@@ -467,16 +439,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> DictEqualsHelper<K, T>(
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>? DictEqualsHelper<K, T>(
             this IReadOnlyDictionary<K, T> lhs,
             IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, bool> maskGetter,
@@ -508,16 +476,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>> CacheEqualsHelper<K, T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>? CacheEqualsHelper<K, T, M>(
             this IReadOnlyCache<T, K> lhs,
             IReadOnlyCache<T, K> rhs,
             Func<K, T, T, M> maskGetter,
@@ -528,7 +492,7 @@ namespace Loqui
                 rhs,
                 (k, l, r) =>
                 {
-                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k);
+                    MaskItemIndexed<K, bool, M> itemRet = new MaskItemIndexed<K, bool, M>(k, false, default);
                     EqualsHelper(itemRet, l, r, maskGetter, include);
                     return itemRet;
                 },
@@ -553,16 +517,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M>>>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>> CacheEqualsHelper<K, T>(
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>? CacheEqualsHelper<K, T>(
             this IReadOnlyCache<T, K> lhs,
             IReadOnlyCache<T, K> rhs,
             Func<K, T, T, bool> maskGetter,
@@ -594,11 +554,7 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>()
-                {
-                    Overall = overall,
-                    Specific = masks
-                };
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>(overall, masks);
             }
             return null;
         }

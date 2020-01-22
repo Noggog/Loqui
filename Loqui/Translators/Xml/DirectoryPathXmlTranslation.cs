@@ -16,7 +16,7 @@ namespace Loqui.Xml
             return item.Path;
         }
 
-        protected override bool ParseNonNullString(string str, out DirectoryPath value, ErrorMaskBuilder errorMask)
+        protected override bool Parse(string str, out DirectoryPath value, ErrorMaskBuilder? errorMask)
         {
             value = new DirectoryPath(str);
             return true;

@@ -1,6 +1,7 @@
 ﻿using Loqui.Internal;
 using Noggog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
 namespace Loqui.Xml
@@ -11,38 +12,25 @@ namespace Loqui.Xml
 
         public readonly static StringXmlTranslation Instance = new StringXmlTranslation();
 
-        public TryGet<string> Parse(XElement node)
-        {
-            if (!node.Name.LocalName.Equals(ElementName))
-            {
-                throw new ArgumentException($"Skipping field Version that did not match proper type. Type: {node.Name.LocalName}, expected: {ElementName}.");
-            }
-            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
-            {
-                return TryGet<string>.Succeed(val.Value);
-            }
-            return TryGet<string>.Succeed(null);
-        }
-
         public bool Parse(
             XElement node,
-            out string item,
-            ErrorMaskBuilder errorMask)
+            [MaybeNullWhen(false)] out string item,
+            ErrorMaskBuilder? errorMask)
         {
-            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? val))
             {
                 item = val.Value;
                 return true;
             }
-            item = null;
+            item = null!;
             return false;
         }
 
-        public string Parse(
+        public string? Parse(
             XElement node,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
-            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute val))
+            if (node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? val))
             {
                 return val.Value;
             }
@@ -51,17 +39,17 @@ namespace Loqui.Xml
 
         public bool Parse(
             XElement node,
-            out string item,
-            ErrorMaskBuilder errorMask,
-            TranslationCrystal translationMask)
+            [MaybeNullWhen(false)] out string item,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask)
         {
             return this.Parse(
                 node: node,
-                item: out item,
+                item: out item!,
                 errorMask: errorMask);
         }
 
-        public void ParseInto(XElement node, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder errorMask)
+        public void ParseInto(XElement node, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -101,7 +89,7 @@ namespace Loqui.Xml
             XElement node,
             string name,
             string item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             this.Write(node, name, item);
         }
@@ -111,7 +99,7 @@ namespace Loqui.Xml
             string name,
             string item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             errorMask.WrapAction(fieldIndex, () =>
             {
@@ -127,7 +115,7 @@ namespace Loqui.Xml
             string name,
             IHasItemGetter<string> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -151,7 +139,7 @@ namespace Loqui.Xml
             string name,
             IHasBeenSetItemGetter<string> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             if (!item.HasBeenSet) return;
             this.Write(
@@ -162,7 +150,7 @@ namespace Loqui.Xml
                 errorMask: errorMask);
         }
 
-        void IXmlTranslation<string>.Write(XElement node, string name, string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        void IXmlTranslation<string>.Write(XElement node, string name, string item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             this.Write(
                 node: node,
@@ -170,11 +158,11 @@ namespace Loqui.Xml
                 item: item);
         }
 
-        bool IXmlTranslation<string>.Parse(XElement node, out string item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
+        bool IXmlTranslation<string>.Parse(XElement node, [MaybeNullWhen(false)] out string item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             return this.Parse(
                 node: node,
-                item: out item,
+                item: out item!,
                 errorMask: errorMask);
         }
     }

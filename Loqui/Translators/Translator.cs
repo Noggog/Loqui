@@ -1,6 +1,7 @@
 ﻿using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Loqui.Translators
         where ObjTransl : class
     {
         public GetResponse<ObjTransl> NullTranslationItem;
-        public Type NullType = default;
+        public Type? NullType = default;
 
         public Dictionary<Type, GetResponse<ObjTransl>> typeDict = new Dictionary<Type, GetResponse<ObjTransl>>();
         public HashSet<Type> GenericTypes = new HashSet<Type>();
@@ -59,10 +60,10 @@ namespace Loqui.Translators
         }
         public bool Validate(Type t)
         {
-            return TryGetTranslator(t, out ObjTransl not);
+            return TryGetTranslator(t, out ObjTransl? not);
         }
 
-        public bool TryGetTranslator(Type t, out GetResponse<ObjTransl> not)
+        public bool TryGetTranslator(Type? t, out GetResponse<ObjTransl> not)
         {
             if (t == null)
             {
@@ -76,9 +77,8 @@ namespace Loqui.Translators
                 return true;
             }
 
-            if (LoquiRegistration.IsLoquiType(t))
+            if (LoquiRegistration.TryGetRegister(t, out var regis))
             {
-                var regis = LoquiRegistration.GetRegister(t);
                 var loquiTypes = new Type[]
                 {
                     regis.ClassType
@@ -122,7 +122,9 @@ namespace Loqui.Translators
         {
             object xmlTransl = Activator.CreateInstance(xmlType);
             var xmlConverterGenType = genericCaster.MakeGenericType(targetType);
-            return Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as ObjTransl;
+            var ret = Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as ObjTransl;
+            if (ret == null) throw new ArgumentException();
+            return ret;
         }
 
         protected virtual GetResponse<ObjTransl> SetTranslator_Internal(ObjTransl transl, Type t)
@@ -147,16 +149,16 @@ namespace Loqui.Translators
             return not;
         }
 
-        public bool TryGetTranslator(Type t, out ObjTransl transl)
+        public bool TryGetTranslator(Type t, [MaybeNullWhen(false)] out ObjTransl transl)
         {
             if (!TryGetTranslator(t, out GetResponse<ObjTransl> not))
             {
-                transl = null;
+                transl = null!;
                 return false;
             }
             if (not.Failed)
             {
-                transl = null;
+                transl = null!;
                 return false;
             }
             transl = not.Value;
