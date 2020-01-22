@@ -16,7 +16,7 @@ namespace Loqui.Xml
                 return true;
             }
             errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {NullableName}"));
+                new ArgumentException($"Could not convert to {ElementName}"));
             return false;
         }
     }

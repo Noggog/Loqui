@@ -7,15 +7,11 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public abstract class PrimitiveXmlTranslation<T> : IXmlTranslation<T>, IXmlTranslation<T?>
+    public abstract class PrimitiveXmlTranslation<T> : IXmlTranslation<T>
         where T : struct
     {
-        string IXmlTranslation<T?>.ElementName => NullableName;
         string IXmlTranslation<T>.ElementName => ElementName;
-        public static readonly string RAW_NULLABLE_NAME = typeof(T?).GetName().Replace('?', 'N');
-        public static readonly string RAW_ELEMENT_NAME = typeof(T).GetName().Replace("?", string.Empty);
-        public virtual string NullableName => RAW_NULLABLE_NAME;
-        public virtual string ElementName => RAW_ELEMENT_NAME;
+        public virtual string ElementName => typeof(T).GetName();
 
         protected virtual string GetItemStr(T item)
         {
@@ -244,7 +240,7 @@ namespace Loqui.Xml
             T? item,
             bool nullable)
         {
-            var elem = new XElement(name ?? RAW_NULLABLE_NAME);
+            var elem = new XElement(name ?? ElementName);
             node.Add(elem);
             WriteValue(elem, item);
         }
@@ -359,22 +355,6 @@ namespace Loqui.Xml
                 item.Item,
                 fieldIndex,
                 errorMask);
-        }
-
-        void IXmlTranslation<T?>.Write(XElement node, string name, T? item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
-        {
-            this.Write(
-                node: node,
-                name: name,
-                item: item);
-        }
-
-        bool IXmlTranslation<T?>.Parse(XElement node, out T? item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)
-        {
-            return this.Parse(
-                node: node,
-                item: out item,
-                errorMask: errorMask);
         }
 
         void IXmlTranslation<T>.Write(XElement node, string name, T item, ErrorMaskBuilder errorMask, TranslationCrystal translationMask)

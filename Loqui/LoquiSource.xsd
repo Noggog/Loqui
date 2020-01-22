@@ -155,60 +155,29 @@
       <xs:element name="Int16" type="RangedInt16" />
       <xs:element name="Int32" type="RangedInt32" />
       <xs:element name="Int64" type="RangedInt64" />
-      <xs:element name="UInt8Null" type="RangedUInt8" />
-      <xs:element name="UInt16Null" type="RangedUInt16" />
-      <xs:element name="UInt32Null" type="RangedUInt32" />
-      <xs:element name="UInt64Null" type="RangedUInt64" />
-      <xs:element name="Int8Null" type="RangedInt8" />
-      <xs:element name="Int16Null" type="RangedInt16" />
-      <xs:element name="Int32Null" type="RangedInt32" />
-      <xs:element name="Int64Null" type="RangedInt64" />
       <xs:element name="P2Int32" type="String" />
-      <xs:element name="P2Int32Null" type="String" />
       <xs:element name="P2Int16" type="String" />
-      <xs:element name="P2Int16Null" type="String" />
       <xs:element name="P2Float" type="String" />
-      <xs:element name="P2FloatNull" type="String" />
       <xs:element name="P3Float" type="String" />
-      <xs:element name="P3FloatNull" type="String" />
       <xs:element name="P3Int32" type="String" />
-      <xs:element name="P3Int32Null" type="String" />
       <xs:element name="P3UInt16" type="String" />
-      <xs:element name="P3UInt16Null" type="String" />
       <xs:element name="P3Double" type="String" />
-      <xs:element name="P3DoubleNull" type="String" />
       <xs:element name="Bool" type="Bool" />
-      <xs:element name="BoolNull" type="Bool" />
       <xs:element name="Char" type="Char" />
-      <xs:element name="CharNull" type="Char" />
       <xs:element name="RangeInt8" type="RangedUInt8" />
-      <xs:element name="RangeInt8Null" type="RangedUInt8" />
       <xs:element name="RangeInt16" type="RangedUInt16" />
-      <xs:element name="RangeInt16Null" type="RangedUInt16" />
       <xs:element name="RangeInt32" type="RangedUInt32" />
-      <xs:element name="RangeInt32Null" type="RangedUInt32" />
       <xs:element name="RangeInt64" type="RangedUInt64" />
-      <xs:element name="RangeInt64Null" type="RangedUInt64" />
       <xs:element name="RangeUInt8" type="RangedUInt8" />
-      <xs:element name="RangeUInt8Null" type="RangedUInt8" />
       <xs:element name="RangeUInt16" type="RangedUInt16" />
-      <xs:element name="RangeUInt16Null" type="RangedUInt16" />
       <xs:element name="RangeUInt32" type="RangedUInt32" />
-      <xs:element name="RangeUInt32Null" type="RangedUInt32" />
       <xs:element name="RangeUInt64" type="RangedUInt64" />
-      <xs:element name="RangeUInt64Null" type="RangedUInt64" />
       <xs:element name="RangeDouble" type="RangedFloat" />
-      <xs:element name="RangeDoubleNull" type="RangedFloat" />
       <xs:element name="Percent" type="String" />
-      <xs:element name="PercentNull" type="String" />
       <xs:element name="Float" type="RangedFloat" />
-      <xs:element name="FloatNull" type="RangedFloat" />
       <xs:element name="UDouble" type="RangedFloat" />
-      <xs:element name="UDoubleNull" type="RangedFloat" />
       <xs:element name="Double" type="RangedFloat" />
-      <xs:element name="DoubleNull" type="RangedFloat" />
       <xs:element name="DateTime" type="DateTime" />
-      <xs:element name="DateTimeNull" type="DateTime" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="RefDirect" type="RefDirectField" />
       <xs:element name="RefList" type="RefListField" />
@@ -217,12 +186,9 @@
       <xs:element name="Array" type="Array" />
       <xs:element name="Array2D" type="List" />
       <xs:element name="Enum" type="Enum" />
-      <xs:element name="EnumNull" type="Enum" />
       <xs:element name="String" type="String" />
       <xs:element name="FilePath" type="String" />
-      <xs:element name="FilePathNull" type="String" />
       <xs:element name="DirectoryPath" type="String" />
-      <xs:element name="DirectoryPathNull" type="String" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
       <xs:element name="Color" type="Color" />
@@ -255,69 +221,34 @@
       <xs:element name="Int16" type="NRangedInt16" />
       <xs:element name="Int32" type="NRangedInt32" />
       <xs:element name="Int64" type="NRangedInt64" />
-      <xs:element name="UInt8Null" type="NRangedUInt8" />
-      <xs:element name="UInt16Null" type="NRangedUInt16" />
-      <xs:element name="UInt32Null" type="NRangedUInt32" />
-      <xs:element name="UInt64Null" type="NRangedUInt64" />
-      <xs:element name="Int8Null" type="NRangedInt8" />
-      <xs:element name="Int16Null" type="NRangedInt16" />
-      <xs:element name="Int32Null" type="NRangedInt32" />
-      <xs:element name="Int64Null" type="NRangedInt64" />
       <xs:element name="P2Int32" type="NString" />
-      <xs:element name="P2Int32Null" type="NString" />
       <xs:element name="P2Int16" type="NString" />
-      <xs:element name="P2Int16Null" type="NString" />
       <xs:element name="P3Int16" type="NString" />
-      <xs:element name="P3Int16Null" type="NString" />
       <xs:element name="P3Int32" type="NString" />
-      <xs:element name="P3Int32Null" type="NString" />
       <xs:element name="P3UInt16" type="NString" />
-      <xs:element name="P3UInt16Null" type="NString" />
       <xs:element name="P2Float" type="NString" />
-      <xs:element name="P2FloatNull" type="NString" />
       <xs:element name="P3Float" type="NString" />
-      <xs:element name="P3FloatNull" type="NString" />
       <xs:element name="P3Double" type="NString" />
-      <xs:element name="P3DoubleNull" type="NString" />
       <xs:element name="P4Double" type="NString" />
-      <xs:element name="P4DoubleNull" type="NString" />
       <xs:element name="Dimension2D" type="NString" />
-      <xs:element name="Dimension2DNull" type="NString" />
       <xs:element name="Bounding2D" type="NString" />
-      <xs:element name="Bounding2DNull" type="NString" />
       <xs:element name="Bool" type="NBool" />
-      <xs:element name="BoolNull" type="NBool" />
       <xs:element name="Char" type="NChar" />
-      <xs:element name="CharNull" type="NChar" />
       <xs:element name="Random" type="NField" />
       <xs:element name="RangeInt8" type="NRangedUInt8" />
-      <xs:element name="RangeInt8Null" type="NRangedUInt8" />
       <xs:element name="RangeInt16" type="NRangedUInt16" />
-      <xs:element name="RangeInt16Null" type="NRangedUInt16" />
       <xs:element name="RangeInt32" type="NRangedUInt32" />
-      <xs:element name="RangeInt32Null" type="NRangedUInt32" />
       <xs:element name="RangeInt64" type="NRangedUInt64" />
-      <xs:element name="RangeInt64Null" type="NRangedUInt64" />
       <xs:element name="RangeUInt8" type="NRangedUInt8" />
-      <xs:element name="RangeUInt8Null" type="NRangedUInt8" />
       <xs:element name="RangeUInt16" type="NRangedUInt16" />
-      <xs:element name="RangeUInt16Null" type="NRangedUInt16" />
       <xs:element name="RangeUInt32" type="NRangedUInt32" />
-      <xs:element name="RangeUInt32Null" type="NRangedUInt32" />
       <xs:element name="RangeUInt64" type="NRangedUInt64" />
-      <xs:element name="RangeUInt64Null" type="NRangedUInt64" />
       <xs:element name="RangeDouble" type="NRangedFloat" />
-      <xs:element name="RangeDoubleNull" type="NRangedFloat" />
       <xs:element name="Percent" type="NString" />
-      <xs:element name="PercentNull" type="NString" />
       <xs:element name="Float" type="NRangedFloat" />
-      <xs:element name="FloatNull" type="NRangedFloat" />
       <xs:element name="UDouble" type="NRangedFloat" />
-      <xs:element name="UDoubleNull" type="NRangedFloat" />
       <xs:element name="Double" type="NRangedFloat" />
-      <xs:element name="DoubleNull" type="NRangedFloat" />
       <xs:element name="DateTime" type="NDateTime" />
-      <xs:element name="DateTimeNull" type="NDateTime" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="RefDirect" type="NRefDirectField" />
       <xs:element name="RefList" type="NRefListField" />
@@ -326,12 +257,9 @@
       <xs:element name="Array" type="NArray" />
       <xs:element name="Array2D" type="NList" />
       <xs:element name="Enum" type="NEnum" />
-      <xs:element name="EnumNull" type="NEnum" />
       <xs:element name="String" type="NString" />
       <xs:element name="FilePath" type="NString" />
-      <xs:element name="FilePathNull" type="NString" />
       <xs:element name="DirectoryPath" type="NString" />
-      <xs:element name="DirectoryPathNull" type="NString" />
       <xs:element name="Nothing" type="Nothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
       <xs:element name="Color" type="NColor" />

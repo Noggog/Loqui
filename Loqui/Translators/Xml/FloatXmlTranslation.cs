@@ -7,7 +7,6 @@ namespace Loqui.Xml
     public class FloatXmlTranslation : PrimitiveXmlTranslation<float>
     {
         public readonly static FloatXmlTranslation Instance = new FloatXmlTranslation();
-        public override string NullableName => "FloatN";
         public override string ElementName => "Float";
 
         protected override string GetItemStr(float item)
@@ -22,7 +21,7 @@ namespace Loqui.Xml
                 return true;
             }
             errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {NullableName}"));
+                new ArgumentException($"Could not convert to {ElementName}"));
             return false;
         }
     }

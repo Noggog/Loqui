@@ -37,7 +37,7 @@ namespace Loqui.Xml
         {
             if (TryParseToEnum(str, out value)) return true;
             errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {NullableName}"));
+                new ArgumentException($"Could not convert to {ElementName}"));
             value = default;
             return false;
         }
@@ -71,7 +71,7 @@ namespace Loqui.Xml
                 else
                 {
                     errorMask.ReportExceptionOrThrow(
-                        new ArgumentException($"Could not convert to {NullableName}"));
+                        new ArgumentException($"Could not convert to {ElementName}"));
                 }
             }
             return true;
