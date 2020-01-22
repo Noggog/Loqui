@@ -204,14 +204,7 @@ namespace Loqui.Generation
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))
                     {
-                        if (list.HasBeenSet)
-                        {
-                            fg.AppendLine($"{itemAccessor.DirectAccess}.Unset();");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"{itemAccessor.DirectAccess}.Clear();");
-                        }
+                        list.GenerateClear(fg, itemAccessor);
                     }
                 },
                 errorMaskAccessor: errorMaskAccessor,

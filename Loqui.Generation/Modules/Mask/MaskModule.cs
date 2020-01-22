@@ -45,7 +45,10 @@ namespace Loqui.Generation
         public void AddTypeAssociation<T>(MaskModuleField gen)
             where T : TypeGeneration
         {
-            _fieldMapping[typeof(T)] = gen;
+            lock (_fieldMapping)
+            {
+                _fieldMapping[typeof(T)] = gen;
+            }
         }
 
         public void GenerateForErrorMaskToStringForField(FileGeneration fg, ObjectGeneration obj, TypeGeneration field)
@@ -110,9 +113,12 @@ namespace Loqui.Generation
         {
             using (new NamespaceWrapper(fg, obj.InternalNamespace))
             {
-                foreach (var item in _fieldMapping.Values)
+                lock (_fieldMapping)
                 {
-                    item.Module = this;
+                    foreach (var item in _fieldMapping.Values)
+                    {
+                        item.Module = this;
+                    }
                 }
 
                 await GenerateNormalMask(obj, fg);
@@ -654,20 +660,23 @@ namespace Loqui.Generation
 
         public MaskModuleField GetMaskModule(Type t)
         {
-            if (!this._fieldMapping.TryGetValue(t, out var fieldGen))
+            lock (_fieldMapping)
             {
-                foreach (var kv in _fieldMapping.ToList())
+                if (!this._fieldMapping.TryGetValue(t, out var fieldGen))
                 {
-                    if (t.InheritsFrom(kv.Key))
+                    foreach (var kv in _fieldMapping.ToList())
                     {
-                        _fieldMapping[t] = kv.Value;
-                        return kv.Value;
+                        if (t.InheritsFrom(kv.Key))
+                        {
+                            _fieldMapping[t] = kv.Value;
+                            return kv.Value;
+                        }
                     }
+                    _fieldMapping[t] = TypicalField;
+                    return TypicalField;
                 }
-                _fieldMapping[t] = TypicalField;
-                return TypicalField;
+                return fieldGen;
             }
-            return fieldGen;
         }
 
         public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)

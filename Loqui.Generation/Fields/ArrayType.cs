@@ -90,7 +90,16 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+                switch (this.SubTypeGeneration)
+                {
+                    case ClassType c:
+                    case LoquiType l:
+                        fg.AppendLine($"{accessorPrefix.DirectAccess}.ResetToNull();");
+                        break;
+                    default:
+                        fg.AppendLine($"{accessorPrefix.DirectAccess}.Reset();");
+                        break;
+                }
             }
         }
 

@@ -2,9 +2,9 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>b6e5e431fd2476dc71409a7899eb016a2f6d501d</Sha>
+         <Sha>d38d07095418bd41eb0cb8e0b8f340d0827658f6</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>01-20-2020 22:46:09</CommitDate>
+         <CommitDate>01-21-2020 20:13:03</CommitDate>
          <Description>Nullability work</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
