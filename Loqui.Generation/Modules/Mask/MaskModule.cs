@@ -364,12 +364,39 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public {obj.Name}_Mask(T initialValue)");
-                    using (new BraceWrapper(fg))
+                    if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(1) || !obj.IterateFields(includeBaseClass: true).Any())
                     {
-                        foreach (var field in obj.IterateFields())
+                        using (var args = new FunctionWrapper(fg,
+                        $"public {obj.Name}_Mask"))
                         {
-                            GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: "initialValue");
+                            args.Add($"T initialValue");
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var field in obj.IterateFields())
+                            {
+                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: "initialValue");
+                            }
+                        }
+                        fg.AppendLine();
+                    }
+
+                    if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(0))
+                    {
+                        using (var args = new FunctionWrapper(fg,
+                            $"public {obj.Name}_Mask"))
+                        {
+                            foreach (var field in obj.IterateFields(includeBaseClass: true))
+                            {
+                                args.Add($"T {field.Name}");
+                            }
+                        }
+                        using (new BraceWrapper(fg))
+                        {
+                            foreach (var field in obj.IterateFields(includeBaseClass: true))
+                            {
+                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: field.Name);
+                            }
                         }
                     }
                 }
