@@ -208,7 +208,6 @@ namespace Loqui.Generation
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                         obj,
                         new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
-                        new APILine(DoMaskKey, $"bool doMasks = true"),
                         GetTranslationMaskParameter()))
                     {
                         if (Public)
@@ -219,7 +218,7 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
+                    fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
                     using (var args = new ArgsWrapper(fg,
                         $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{ModuleNickname}",
                         suffixLine: Utility.ConfigAwait(asyncImport)))
@@ -624,7 +623,6 @@ namespace Loqui.Generation
                         foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(
                             obj,
                             new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o) => !asyncImport),
-                            new APILine(DoMaskKey, $"bool doMasks = true"),
                             GetTranslationMaskParameter()))
                         {
                             if (Public)
@@ -637,7 +635,7 @@ namespace Loqui.Generation
                     {
                         if (this.DoErrorMasks)
                         {
-                            fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
+                            fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
                         }
                         using (var args = new ArgsWrapper(fg,
                             $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}",
@@ -1046,7 +1044,6 @@ namespace Loqui.Generation
                         }
                     }
                     args.Add($"out {obj.Mask(MaskType.Error)} errorMask");
-                    args.Add($"bool doMasks = true");
                     if (this.TranslationMaskParameter)
                     {
                         args.Add($"{obj.Mask(MaskType.Translation)} translationMask = null");
@@ -1061,7 +1058,7 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
+                    fg.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
                     using (var args = new ArgsWrapper(fg,
                         $"{this.TranslatorReference(obj, "item")}.Write"))
                     {
@@ -1095,8 +1092,7 @@ namespace Loqui.Generation
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(
                             obj,
                             new APILine(ErrorMaskKey, $"out {obj.Mask(MaskType.Error)} errorMask"),
-                            new APILine(TranslationMaskKey, $"{obj.Mask(MaskType.Translation)} translationMask = null", (o) => this.TranslationMaskParameter),
-                            new APILine(DoMaskKey, "bool doMasks = true")))
+                            new APILine(TranslationMaskKey, $"{obj.Mask(MaskType.Translation)} translationMask = null", (o) => this.TranslationMaskParameter)))
                         {
                             if (!item.Public) continue;
                             args.Add(item.API.Result);
@@ -1116,7 +1112,6 @@ namespace Loqui.Generation
                                     args.Add(item);
                                 }
                                 args.Add($"errorMask: out errorMask");
-                                args.Add("doMasks: doMasks");
                                 if (this.TranslationMaskParameter)
                                 {
                                     args.Add("translationMask: translationMask");
@@ -1136,8 +1131,7 @@ namespace Loqui.Generation
                             foreach (var item in minorAPI.WriterAPI.IterateAPI(
                                 obj,
                                 new APILine(ErrorMaskKey, $"{nameof(ErrorMaskBuilder)} errorMask"),
-                                new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask = null", (o) => this.TranslationMaskParameter),
-                                new APILine(DoMaskKey, "bool doMasks = true")))
+                                new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)} translationMask = null", (o) => this.TranslationMaskParameter)))
                             {
                                 if (!item.Public) continue;
                                 args.Add(item.API.Result);
