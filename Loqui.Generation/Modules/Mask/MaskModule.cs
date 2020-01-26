@@ -493,22 +493,6 @@ namespace Loqui.Generation
                     }
                 }
 
-                using (new RegionWrapper(fg, "Clear Enumerables"))
-                {
-                    fg.AppendLine($"public{obj.FunctionOverride()}void ClearEnumerables()");
-                    using (new BraceWrapper(fg))
-                    {
-                        if (obj.HasLoquiBaseObject)
-                        {
-                            fg.AppendLine($"base.ClearEnumerables();");
-                        }
-                        foreach (var field in obj.IterateFields())
-                        {
-                            GetMaskModule(field.GetType()).GenerateForClearEnumerable(fg, field);
-                        }
-                    }
-                }
-
                 using (new RegionWrapper(fg, "To String"))
                 {
                     fg.AppendLine($"public override string ToString()");
