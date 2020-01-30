@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Noggog;
 using System.Xml.Linq;
 using Loqui.Internal;
-using DynamicData;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Loqui.Xml
@@ -38,38 +37,6 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement node,
             ICache<V, K> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(
-                        node: node,
-                        enumer: out var enumer,
-                        errorMask: errorMask,
-                        translationMask: translationMask))
-                    {
-                        item.SetTo(enumer);
-                    }
-                    else
-                    {
-                        item.Clear();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void ParseInto(
-            XElement node,
-            ISourceCache<V, K> item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal translationMask)
@@ -138,40 +105,6 @@ namespace Loqui.Xml
         public void ParseInto(
             XElement node,
             ICache<V, K> item,
-            int fieldIndex,
-            XmlSubParseDelegate<V> valTransl,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(
-                        node: node,
-                        valTransl: valTransl,
-                        enumer: out var enumer,
-                        errorMask: errorMask,
-                        translationMask: translationMask))
-                    {
-                        item.SetTo(enumer);
-                    }
-                    else
-                    {
-                        item.Clear();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void ParseInto(
-            XElement node,
-            ISourceCache<V, K> item,
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
             ErrorMaskBuilder? errorMask,

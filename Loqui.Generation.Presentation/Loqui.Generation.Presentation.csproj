@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj" />
-    <ProjectReference Include="..\..\DynamicData\src\DynamicData\DynamicData.csproj" />
     <ProjectReference Include="..\Loqui.Generation\Loqui.Generation.csproj" />
     <ProjectReference Include="..\Loqui.Presentation\Loqui.Presentation.csproj" />
     <ProjectReference Include="..\Loqui\Loqui.csproj" />

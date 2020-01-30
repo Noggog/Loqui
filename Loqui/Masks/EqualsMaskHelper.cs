@@ -1,5 +1,4 @@
 ﻿using CSharpExt.Rx;
-using DynamicData;
 using Noggog;
 using System;
 using System.Collections.Generic;
@@ -175,48 +174,6 @@ namespace Loqui
         #endregion
 
         #region List
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>? CollectionEqualsHelper<T, M>(
-            this IReadOnlySetList<T> lhs,
-            IObservableSetList<T> rhs,
-            Func<T, T, M> maskGetter,
-            Include include)
-            where M : IMask<bool>
-        {
-            int index = 0;
-            var masks = lhs.SelectAgainst<T, MaskItemIndexed<bool, M>>(
-                rhs,
-                (l, r) =>
-                {
-                    MaskItemIndexed<bool, M> itemRet = new MaskItemIndexed<bool, M>(index++, false, default);
-                    EqualsHelper(itemRet, l, r, maskGetter, include);
-                    return itemRet;
-                },
-                out var countEqual)
-                .Where(i => include == Include.All || !i.Overall)
-                .ToArray();
-            var overall = countEqual
-                && lhs.HasBeenSet == rhs.HasBeenSet;
-            if (overall)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        overall = masks.All((b) => b.Overall);
-                        break;
-                    case Include.OnlyFailures:
-                        overall = !masks.Any();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            if (!overall || include == Include.All)
-            {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M>>>(overall, masks);
-            }
-            return null;
-        }
-
         public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>>? CollectionEqualsHelper<T>(
             this IReadOnlySetList<T> lhs,
             IReadOnlySetList<T> rhs,

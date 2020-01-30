@@ -35,16 +35,10 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName(bool getter) => $"SourceSetCache<{BackwardsTypeTuple(getter)}>";
+        public override string TypeName(bool getter) => $"ICache<{BackwardsTypeTuple(getter)}>";
 
         public string TypeTuple(bool getter) => $"{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}";
         public string BackwardsTypeTuple(bool getter) => $"{ValueTypeGen.TypeName(getter)}, {KeyTypeGen.TypeName(getter)}";
-
-        public override IEnumerable<string> GetRequiredNamespaces()
-        {
-            yield return "CSharpExt.Rx";
-            yield return "DynamicData";
-        }
 
         public override async Task Load(XElement node, bool requireName = true)
         {

@@ -15,12 +15,6 @@ namespace Loqui.Generation
         public override bool IsClass => true;
         public override bool HasDefault => false;
 
-        public override IEnumerable<string> GetRequiredNamespaces()
-        {
-            yield return "DynamicData";
-            yield return "CSharpExt.Rx";
-        }
-
         public virtual string Interface(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
