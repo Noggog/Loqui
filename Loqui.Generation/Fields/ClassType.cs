@@ -43,17 +43,6 @@ namespace Loqui.Generation
                 {
                     if (!this.TrueReadOnly)
                     {
-                        fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
-                        using (new BraceWrapper(fg))
-                        {
-                            if (this.ObjectCentralized)
-                            {
-                                fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                                fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(_hasBeenSetTracker, value, (int){this.ObjectCentralizationEnumName}, nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
-                            }
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
                         fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
@@ -79,7 +68,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), nameof({this.HasBeenSetAccessor(new Accessor(this.Name))}));");
+                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{this.Name}, value, _hasBeenSetTracker, markSet, (int){this.ObjectCentralizationEnumName}, nameof({this.Name}), zzz);");
                     }
 
                     using (var args = new FunctionWrapper(fg,
@@ -143,58 +132,38 @@ namespace Loqui.Generation
                             fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
                         }
                     }
-                    else
+                    else if (this.CanBeNullable(false))
                     {
                         if (!this.TrueReadOnly)
                         {
-                            fg.AppendLine($"public bool {this.HasBeenSetAccessor(new Accessor(this.Name))}");
-                            using (new BraceWrapper(fg))
-                            {
-                                if (this.ObjectCentralized)
-                                {
-                                    fg.AppendLine($"get => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}];");
-                                    fg.AppendLine($"{SetPermissionStr}set => _hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = value;");
-                                }
-                            }
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => {this.HasBeenSetAccessor(new Accessor(this.Name))};");
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
-                            fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                            fg.AppendLine($"protected {this.TypeName(getter: false)}? _{this.Name};");
+                            fg.AppendLine($"public {this.TypeName(getter: false)}? {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => this._{ this.Name};");
-                                fg.AppendLine($"{SetPermissionStr}set => {this.Name}_Set(value);");
+                                fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
                             }
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                            if (this.CanBeNullable(getter: true))
+                            {
+                                fg.AppendLine($"{this.TypeName(getter: true)}? {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                            }
+                            else
+                            {
+                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                                fg.AppendLine($"bool {this.ObjectGen.Interface(getter: true, this.InternalGetInterface)}.{this.Name}_IsSet => this.{this.Name} != null;");
+                            }
                         }
                         else
                         {
-                            fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
+                            fg.AppendLine($"public readonly {this.TypeName(getter: false)}? {this.Name};");
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         }
-
-                        using (var args = new FunctionWrapper(fg,
-                            $"public void {this.Name}_Set"))
-                        {
-                            args.Add($"{this.TypeName(getter: false)} value");
-                            args.Add($"bool markSet = true");
-                        }
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"_{this.Name} = value;");
-                            fg.AppendLine($"_hasBeenSetTracker[(int){this.ObjectCentralizationEnumName}] = markSet;");
-                        }
-
-                        using (var args = new FunctionWrapper(fg,
-                            $"public void {this.Name}_Unset"))
-                        {
-                        }
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"this.{this.Name}_Set({(this.HasDefault ? $"_{this.Name}_Default" : $"default({this.TypeName(getter: false)})")}, false);");
-                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
                     }
                 }
                 else
@@ -233,6 +202,38 @@ namespace Loqui.Generation
         public override bool IsNullable()
         {
             return this.Singleton == SingletonLevel.None;
+        }
+
+        public override void GenerateClear(FileGeneration fg, Accessor identifier)
+        {
+            if (this.ReadOnly || !this.IntegrateField) return;
+            // ToDo
+            // Add internal interface support
+            if (this.InternalSetInterface) return;
+            if (this.NotifyingType == NotifyingType.ReactiveUI)
+            {
+                if (this.HasBeenSet)
+                {
+                    fg.AppendLine($"{identifier.DirectAccess}_Unset();");
+                }
+                else
+                {
+                    fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default")};");
+                }
+                return;
+            }
+            if (this.HasProperty && this.PrefersProperty)
+            {
+                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
+            }
+            else if (this.HasBeenSet)
+            {
+                fg.AppendLine($"{identifier.DirectAccess} = default;");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

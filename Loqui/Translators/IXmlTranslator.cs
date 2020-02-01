@@ -12,7 +12,7 @@ namespace Loqui.Xml
             XElement node,
             object item,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask,
-            string name);
+            TranslationCrystal? translationMask,
+            string? name);
     }
 }

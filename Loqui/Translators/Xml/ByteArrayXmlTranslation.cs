@@ -65,12 +65,39 @@ namespace Loqui.Xml
             }
         }
 
+        public byte[]? Parse(
+            XElement node,
+            ErrorMaskBuilder? errorMask)
+        {
+            if (this.Parse(
+                node: node,
+                val: out var item))
+            {
+                return item;
+            }
+            return null;
+        }
+
+        public byte[] Parse(
+            XElement node,
+            ErrorMaskBuilder? errorMask,
+            int fallbackLength)
+        {
+            if (this.Parse(
+                node: node,
+                val: out var item))
+            {
+                return item;
+            }
+            return new byte[fallbackLength];
+        }
+
         public void Write(
             XElement node,
             string name,
             ReadOnlySpan<byte> item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {

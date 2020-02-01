@@ -17,7 +17,7 @@ namespace Loqui.Xml
             XElement node,
             ErrorMaskBuilder? errorMask = null,
             TranslationCrystal? translationMask = null,
-            string name = "");
+            string? name = null);
     }
 
     public static class IXmlItemExt
@@ -27,7 +27,7 @@ namespace Loqui.Xml
             string path,
             ErrorMaskBuilder? errorMask = null,
             TranslationCrystal? translationMask = null,
-            string name = "")
+            string? name = null)
         {
             var node = new XElement("topnode");
             item.WriteToXml(
@@ -43,7 +43,7 @@ namespace Loqui.Xml
             Stream stream,
             ErrorMaskBuilder? errorMask = null,
             TranslationCrystal? translationMask = null,
-            string name = "")
+            string? name = null)
         {
             var node = new XElement("topnode");
             item.WriteToXml(

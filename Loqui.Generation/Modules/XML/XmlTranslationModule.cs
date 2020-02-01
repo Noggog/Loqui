@@ -24,8 +24,7 @@ namespace Loqui.Generation
         public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}";
         public string ObjectType(ObjectGeneration obj) => $"{obj.Name}Type";
         public readonly static APILine PathLine = new APILine("Path", "string path");
-        public readonly static APILine NameLine = new APILine("Name", "string name = null");
-        public readonly static APILine MissingLine = new APILine("Missing", "MissingCreate missing = MissingCreate.New");
+        public readonly static APILine NameLine = new APILine("Name", "string? name = null");
         public readonly static APILine XElementLine = new APILine("XElement", "XElement node");
         public override bool GenerateAbstractCreates => true;
 
@@ -108,7 +107,7 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
-            this._typeGenerations[typeof(ByteArrayType)] = new PrimitiveXmlTranslationGeneration<byte[]>(typeName: "ByteArray", nullable: true);
+            this._typeGenerations[typeof(ByteArrayType)] = new ByteArrayXmlTranslationGeneration();
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
@@ -118,7 +117,7 @@ namespace Loqui.Generation
                 readerAPI: new MethodAPI(
                     majorAPI: new APILine[] { XElementLine },
                     customAPI: null,
-                    optionalAPI: new APILine[] { MissingLine }));
+                    optionalAPI: null));
             this.MinorAPIs.Add(
                 new TranslationModuleAPI(
                     writerAPI: new MethodAPI(
@@ -128,7 +127,7 @@ namespace Loqui.Generation
                     readerAPI: new MethodAPI(
                         majorAPI: new APILine[] { PathLine },
                         customAPI: null,
-                        optionalAPI: new APILine[] { MissingLine }))
+                        optionalAPI: null))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -145,7 +144,7 @@ namespace Loqui.Generation
                     readerAPI: new MethodAPI(
                         majorAPI: new APILine[] { stream },
                         customAPI: null,
-                        optionalAPI: new APILine[] { MissingLine }))
+                        optionalAPI: null))
                 {
                     Funnel = new TranslationFunnel(
                         this.MainAPI,
@@ -202,7 +201,7 @@ namespace Loqui.Generation
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
-            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = System.IO.File.Exists(path) ? XDocument.Load(path).Root : null;");
+            fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
             internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
         }
 
@@ -315,8 +314,8 @@ namespace Loqui.Generation
                     if (!item.API.TryResolve(obj, out var line)) continue;
                     args.Add(line.Result);
                 }
-                args.Add($"ErrorMaskBuilder errorMask");
-                args.Add($"{nameof(TranslationCrystal)} translationMask");
+                args.Add($"ErrorMaskBuilder? errorMask");
+                args.Add($"{nameof(TranslationCrystal)}? translationMask");
             }
             using (new BraceWrapper(fg))
             {
@@ -365,8 +364,8 @@ namespace Loqui.Generation
             {
                 args.Add($"{obj.Interface(internalInterface: true, getter: true)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
-                args.Add($"ErrorMaskBuilder errorMask");
-                args.Add($"{nameof(TranslationCrystal)} translationMask");
+                args.Add($"ErrorMaskBuilder? errorMask");
+                args.Add($"{nameof(TranslationCrystal)}? translationMask");
             }
             using (new BraceWrapper(fg))
             {
@@ -393,7 +392,7 @@ namespace Loqui.Generation
                     List<string> conditions = new List<string>();
                     if (field.Field.HasBeenSet)
                     {
-                        conditions.Add($"{field.Field.HasBeenSetAccessor(new Accessor(field.Field, "item."))}");
+                        conditions.Add($"{field.Field.HasBeenSetAccessor(getter: true, accessor: new Accessor(field.Field, "item."))}");
                     }
                     if (this.TranslationMaskParameter)
                     {
@@ -435,8 +434,8 @@ namespace Loqui.Generation
                 args.Add($"{obj.Interface(getter: false)} item");
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 args.Add("string name");
-                args.Add($"ErrorMaskBuilder errorMask");
-                args.Add($"{nameof(TranslationCrystal)} translationMask");
+                args.Add($"ErrorMaskBuilder? errorMask");
+                args.Add($"{nameof(TranslationCrystal)}? translationMask");
             }
             using (new BraceWrapper(fg))
             {
@@ -644,29 +643,6 @@ namespace Loqui.Generation
 
         protected override async Task GenerateNewSnippet(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"switch ({MissingLine.GetParameterName(obj)})");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.New)}:");
-                fg.AppendLine($"case {nameof(MissingCreate)}.{nameof(MissingCreate.Null)}:");
-                using (new DepthWrapper(fg))
-                {
-                    if (obj.Abstract)
-                    {
-                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return null;");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"if ({XmlTranslationModule.XElementLine.GetParameterName(obj)} == null) return {MissingLine.GetParameterName(obj)} == {nameof(MissingCreate)}.{nameof(MissingCreate.New)} ? new {obj.ObjectName}() : null;");
-                    }
-                    fg.AppendLine("break;");
-                }
-                fg.AppendLine($"default:");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine("break;");
-                }
-            }
             if (obj.Abstract)
             {
                 fg.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate(node, out {obj.Name} ret, errorMask, translationMask))");

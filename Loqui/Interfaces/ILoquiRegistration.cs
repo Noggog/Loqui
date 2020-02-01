@@ -45,9 +45,9 @@ namespace Loqui
 
         Type SetterType { get; }
 
-        Type InternalGetterType { get; }
+        Type? InternalGetterType { get; }
 
-        Type InternalSetterType { get; }
+        Type? InternalSetterType { get; }
 
         string FullName { get; }
 
@@ -57,6 +57,6 @@ namespace Loqui
 
         byte GenericCount { get; }
 
-        Type GenericRegistrationType { get; }
+        Type? GenericRegistrationType { get; }
     }
 }

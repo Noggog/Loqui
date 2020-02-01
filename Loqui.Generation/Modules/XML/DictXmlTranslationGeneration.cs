@@ -108,7 +108,7 @@ namespace Loqui.Generation
                                 args.Add("errorMask: errorMask");
                                 args.Add((gen) =>
                                 {
-                                    gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder dictSubMask, {nameof(TranslationCrystal)} dictTranslMask) =>");
+                                    gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder? dictSubMask, {nameof(TranslationCrystal)}? dictTranslMask) =>");
                                     using (new BraceWrapper(gen))
                                     {
                                         valTransl.GenerateWrite(

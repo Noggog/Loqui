@@ -52,4 +52,16 @@ dotnet_diagnostic.CS8614.severity = error
 dotnet_diagnostic.CS8617.severity = error
 
 # CS8714: The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
-dotnet_diagnostic.CS8714.severity = none
+dotnet_diagnostic.CS8714.severity = error
+
+# CS8613: Nullability of reference types in return type doesn't match implicitly implemented member.
+dotnet_diagnostic.CS8613.severity = error
+
+# CS8634: The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
+dotnet_diagnostic.CS8634.severity = error
+
+# CS8631: The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match constraint type.
+dotnet_diagnostic.CS8631.severity = error
+
+# CS8634: The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
+dotnet_diagnostic.CS8634.severity = error

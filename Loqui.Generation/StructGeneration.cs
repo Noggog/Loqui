@@ -13,7 +13,6 @@ namespace Loqui.Generation
 
         public override NotifyingType NotifyingDefault => NotifyingType.None;
         public override bool HasBeenSetDefault => false;
-        public override bool ObjectCentralizedDefault => false;
 
         public override string ProtectedKeyword => "private";
 

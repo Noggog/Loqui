@@ -23,8 +23,8 @@ namespace Loqui
 
         public bool Equals(MaskItem<TOverall, TSpecific> other)
         {
-            return object.Equals(this.Overall, other.Overall)
-                && object.Equals(this.Specific, other.Specific);
+            return EqualityComparer<TOverall>.Default.Equals(this.Overall, other.Overall)
+                && EqualityComparer<TSpecific>.Default.Equals(this.Specific, other.Specific);
         }
 
         public override bool Equals(object obj)
@@ -140,8 +140,8 @@ namespace Loqui
             return new MaskItem<Exception, TRet>(item.Overall, item.Specific);
         }
 
-        public static MaskItem<bool, M>? Factory<M>(M mask, EqualsMaskHelper.Include include)
-            where M : IMask<bool>
+        public static MaskItem<bool, M?>? Factory<M>(M mask, EqualsMaskHelper.Include include)
+            where M : class, IMask<bool>
         {
             var allEq = mask.AllEqual(b => b);
             if (allEq)
@@ -149,7 +149,7 @@ namespace Loqui
                 switch (include)
                 {
                     case EqualsMaskHelper.Include.All:
-                        return new MaskItem<bool, M>(overall: true, specific: mask);
+                        return new MaskItem<bool, M?>(overall: true, specific: mask);
                     case EqualsMaskHelper.Include.OnlyFailures:
                         return null;
                     default:
@@ -158,7 +158,7 @@ namespace Loqui
             }
             else
             {
-                return new MaskItem<bool, M>(overall: allEq, specific: mask);
+                return new MaskItem<bool, M?>(overall: allEq, specific: mask);
             }
         }
     }

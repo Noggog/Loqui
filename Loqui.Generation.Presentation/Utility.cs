@@ -9,10 +9,10 @@ namespace Loqui.Generation.Presentation
 {
     public static class Utility
     {
-        public static void AddToLoquiGenerator(LoquiGenerator gen)
+        public static void AddToLoquiGenerator(LoquiGenerator gen, XmlTranslationModule? xmlModule = null)
         {
             gen.AddTypeAssociation<ColorType>("Color");
-            gen.XmlTranslation.AddTypeAssociation<ColorType>(new PrimitiveXmlTranslationGeneration<Color>());
+            xmlModule?.AddTypeAssociation<ColorType>(new PrimitiveXmlTranslationGeneration<Color>());
         }
     }
 }

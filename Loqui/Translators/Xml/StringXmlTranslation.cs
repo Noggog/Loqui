@@ -26,7 +26,7 @@ namespace Loqui.Xml
             return false;
         }
 
-        public string? Parse(
+        public string Parse(
             XElement node,
             ErrorMaskBuilder? errorMask)
         {
@@ -34,7 +34,7 @@ namespace Loqui.Xml
             {
                 return val.Value;
             }
-            return null;
+            return string.Empty;
         }
 
         public bool Parse(
@@ -74,7 +74,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             string item)
         {
             var elem = new XElement(name ?? "String");
@@ -87,7 +87,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             string item,
             ErrorMaskBuilder? errorMask)
         {
@@ -96,7 +96,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             string item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask)
@@ -112,7 +112,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             IHasItemGetter<string> item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask)

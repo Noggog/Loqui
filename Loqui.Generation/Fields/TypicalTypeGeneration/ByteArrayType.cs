@@ -14,6 +14,7 @@ namespace Loqui.Generation
         public override Type Type(bool getter) => getter ? typeof(ReadOnlySpan<byte>) : typeof(byte[]);
         public override bool IsEnumerable => true;
         public override bool IsReference => true;
+        public override bool CanBeNullable(bool getter) => !getter;
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
@@ -54,7 +55,14 @@ namespace Loqui.Generation
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"if ({accessor}_IsSet)");
+            }
+            using (new BraceWrapper(fg, doIt: this.HasBeenSet))
+            {
+                fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
+            }
         }
 
         public override void GenerateForCopy(
@@ -67,10 +75,10 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if({this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))})");
+                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, new Accessor(this, $"{rhsAccessorPrefix}."))})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}.ToArray();");
+                    fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}{(getter ? null : ".Value")}.ToArray();");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
@@ -81,13 +89,33 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"{accessor.DirectAccess}_Unset();");
+                        fg.AppendLine($"{accessor.DirectAccess} = default;");
                     }
                 }
             }
             else
             {
                 fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}.ToArray();");
+            }
+        }
+
+        public override void GenerateClear(FileGeneration fg, Accessor identifier)
+        {
+            if (this.ReadOnly || !this.IntegrateField) return;
+            // ToDo
+            // Add internal interface support
+            if (this.InternalSetInterface) return;
+            if (this.HasBeenSet)
+            {
+                fg.AppendLine($"{identifier.DirectAccess} = default;");
+            }
+            else if (this.Length.HasValue)
+            {
+                fg.AppendLine($"{identifier.DirectAccess} = new byte[{Length.Value}];");
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
         }
     }

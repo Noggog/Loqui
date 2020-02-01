@@ -38,5 +38,15 @@ namespace Loqui
                 lhs,
                 rhs);
         }
+
+        [return: NotNullIfNotNull("lhs")]
+        [return: NotNullIfNotNull("rhs")]
+        public static IEnumerable<T>? Combine<T>(this IEnumerable<T>? lhs, IEnumerable<T>? rhs)
+        {
+            if (lhs == null && rhs == null) return null;
+            if (rhs == null) return lhs;
+            if (lhs == null) return rhs;
+            return lhs.And(rhs);
+        }
     }
 }

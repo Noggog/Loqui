@@ -15,7 +15,7 @@ namespace Loqui.Generation
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";
-        public virtual string PropertyOrName => $"{(this.Bare ? Name : Property)}";
+        public virtual string PropertyOrName => $"{(this.HasProperty ? Property : Name)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public string ObjectCentralizationEnumName => IndexEnumName;
         public string IndexEnumInt => $"(int){this.IndexEnumName}";
@@ -37,11 +37,9 @@ namespace Loqui.Generation
         public bool Notifying => NotifyingType != NotifyingType.None;
         public readonly BehaviorSetSubject<bool> HasBeenSetProperty = new BehaviorSetSubject<bool>();
         public virtual bool HasBeenSet => HasBeenSetProperty.Value;
-        public readonly BehaviorSetSubject<bool> ObjectCentralizedProperty = new BehaviorSetSubject<bool>();
-        public bool ObjectCentralized => ObjectCentralizedProperty.Value;
-        public bool Bare => this.NotifyingType == NotifyingType.None && !this.HasBeenSet;
-        public virtual bool HasProperty => !this.Bare && this.NotifyingType != NotifyingType.ReactiveUI;
-        public bool PrefersProperty => HasProperty && !this.ObjectCentralized;
+        public virtual bool HasProperty => false;
+        public bool PrefersProperty => HasProperty;
+        public virtual bool CanBeNullable(bool getter) => true;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
         public virtual bool Namable => true;
@@ -63,7 +61,6 @@ namespace Loqui.Generation
             if (!setDefaults) return;
             this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
             this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
-            this.ObjectCentralizedProperty.SetIfNotSet(this.ObjectGen.ObjectCentralizedDefault, markAsSet: false);
             this._derivative = this.ObjectGen.DerivativeDefault;
         }
 
@@ -89,7 +86,6 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext(i));
-            node.TransferAttribute<bool>(Constants.OBJECT_CENTRALIZED, i => this.ObjectCentralizedProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext(i));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
@@ -192,7 +188,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"return obj.{this.HasBeenSetAccessor()};");
+                fg.AppendLine($"return obj.{this.HasBeenSetAccessor(getter: true)};");
             }
             else
             {
@@ -239,13 +235,17 @@ namespace Loqui.Generation
             this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
         }
 
-        public virtual string HasBeenSetAccessor(Accessor accessor = null)
+        public virtual string HasBeenSetAccessor(bool getter, Accessor accessor = null)
         {
             if (accessor == null)
             {
                 if (this.PrefersProperty)
                 {
                     return $"{this.Property}.HasBeenSet";
+                }
+                else if (this.CanBeNullable(getter))
+                {
+                    return $"({this.Name} != null)";
                 }
                 else
                 {
@@ -257,6 +257,10 @@ namespace Loqui.Generation
                 if (this.PrefersProperty)
                 {
                     return $"{accessor.PropertyAccess}.HasBeenSet";
+                }
+                else if (this.CanBeNullable(getter))
+                {
+                    return $"({accessor.DirectAccess} != null)";
                 }
                 else
                 {
@@ -285,5 +289,7 @@ namespace Loqui.Generation
         {
             return $"({translationCrystalAccessor}?.GetShouldTranslate({this.IndexEnumInt}) ?? true)";
         }
+
+        public virtual string GetDefault() => "default";
     }
 }

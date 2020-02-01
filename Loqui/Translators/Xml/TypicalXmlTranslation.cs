@@ -36,34 +36,7 @@ namespace Loqui.Xml
             return true;
         }
 
-        public void ParseInto(
-            XElement node,
-            int fieldIndex,
-            IHasItem<T> item,
-            ErrorMaskBuilder? errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(node, out var val))
-                    {
-                        item.Item = val;
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public T? Parse(
+        public T? ParseNullable(
             XElement node,
             ErrorMaskBuilder? errorMask,
             T? defaultVal = default)
@@ -138,46 +111,6 @@ namespace Loqui.Xml
                     errorMask.ReportException(ex);
                 }
             }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasItemGetter<T> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node: node,
-                        name: name,
-                        item: item.Item);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasBeenSetItemGetter<T> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask)
-        {
-            if (!item.HasBeenSet) return;
-            this.Write(
-                node: node,
-                name: name,
-                item: item.Item,
-                fieldIndex: fieldIndex,
-                errorMask: errorMask);
         }
 
         public void Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)

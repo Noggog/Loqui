@@ -8,9 +8,9 @@ namespace Loqui.Internal
 {
     public class TranslationCrystal
     {
-        public (bool On, TranslationCrystal SubCrystal)[] Crystal;
+        public (bool On, TranslationCrystal? SubCrystal)[] Crystal;
 
-        public TranslationCrystal((bool On, TranslationCrystal SubCrystal)[] crystal)
+        public TranslationCrystal((bool On, TranslationCrystal? SubCrystal)[] crystal)
         {
             this.Crystal = crystal;
         }

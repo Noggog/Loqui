@@ -13,5 +13,17 @@ namespace Loqui.Generation
         {
             return $"{(negate ? "!" : null)}string.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
         }
+
+        public override string GetDefault()
+        {
+            if (this.HasBeenSet)
+            {
+                return "default(string?)";
+            }
+            else
+            {
+                return "string.Empty";
+            }
+        }
     }
 }

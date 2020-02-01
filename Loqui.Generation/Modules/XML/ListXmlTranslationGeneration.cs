@@ -74,7 +74,7 @@ namespace Loqui.Generation
                     {
                         subTypeName = subLoqui.TypeName(getter: true, internalInterface: true);
                     }
-                    gen.AppendLine($"transl: (XElement subNode, {subTypeName} subItem, ErrorMaskBuilder listSubMask, {nameof(TranslationCrystal)} listTranslMask) =>");
+                    gen.AppendLine($"transl: (XElement subNode, {subTypeName} subItem, ErrorMaskBuilder? listSubMask, {nameof(TranslationCrystal)}? listTranslMask) =>");
                     using (new BraceWrapper(gen))
                     {
                         subTransl.GenerateWrite(

@@ -8,11 +8,11 @@ namespace Loqui
 {
     public class ErrorMaskPlaceholder : IErrorMask<ErrorMaskPlaceholder>
     {
-        public Exception Overall { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Exception? Overall { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public List<string> Warnings => throw new NotImplementedException();
+        public List<string>? Warnings => throw new NotImplementedException();
 
-        public ErrorMaskPlaceholder Combine(ErrorMaskPlaceholder rhs)
+        public ErrorMaskPlaceholder Combine(ErrorMaskPlaceholder? rhs)
         {
             throw new NotImplementedException();
         }

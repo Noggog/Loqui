@@ -49,7 +49,7 @@ namespace Loqui.Generation
         public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
         {
             if (!field.IntegrateField) return;
-            fg.AppendLine($"{retAccessor}{(indexed ? ".Item" : null)} = eval({rhsAccessor}{(indexed ? ".Value" : null)});");
+            fg.AppendLine($"{retAccessor} = eval({rhsAccessor}{(indexed ? ".Value" : null)});");
         }
 
         public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)

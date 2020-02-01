@@ -30,7 +30,7 @@ namespace Loqui.Generation
             }
             else
             {
-                return itemAccessor.DirectAccess;
+                return $"{itemAccessor.DirectAccess}{(typeGen.HasBeenSet && typeGen.CanBeNullable(true) && CanBeNotNullable ? ".Value" : null)}";
             }
         }
 

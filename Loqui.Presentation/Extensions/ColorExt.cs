@@ -14,5 +14,17 @@ namespace Loqui.Presentation
                 && color.G == rhs.G
                 && color.B == rhs.B;
         }
+
+        public static bool ColorOnlyEquals(this Color? color, Color? rhs)
+        {
+            if (color.HasValue && rhs.HasValue)
+            {
+                return ColorOnlyEquals(color.Value, rhs.Value);
+            }
+            else
+            {
+                return !color.HasValue && !rhs.HasValue;
+            }
+        }
     }
 }

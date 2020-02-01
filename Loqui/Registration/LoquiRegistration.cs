@@ -188,8 +188,8 @@ namespace Loqui
                 else
                 {
                     if (!TryGetRegistration(t, out var tRegis)) return false;
-                    genRegisterType = tRegis.GenericRegistrationType;
-                    GenericRegisters[t] = genRegisterType;
+                    if (tRegis.GenericRegistrationType == null) return false;
+                    GenericRegisters[t] = tRegis.GenericRegistrationType;
                 }
                 regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
                 TypeRegister[t] = regis;
@@ -268,6 +268,7 @@ namespace Loqui
             if (genIndex == -1 || genEndIndex == -1) return false;
             if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
             var genRegisterType = baseReg.GenericRegistrationType;
+            if (genRegisterType == null) throw new ArgumentException();
             str = str.Substring(genIndex + 1, genEndIndex - genIndex - 1);
             var subTypeStrings = str.Split(',');
             var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
@@ -292,7 +293,6 @@ namespace Loqui
             {
                 return createFunc as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
             }
-            var register = GetRegister(t);
             var methodInfo = t.GetMethod(
                 Constants.CREATE_FUNC_NAME,
                 Constants.CREATE_FUNC_PARAM_ARRAY);

@@ -139,7 +139,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override string HasBeenSetAccessor(Accessor accessor = null)
+        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
         {
             if (accessor == null)
             {
@@ -294,7 +294,7 @@ namespace Loqui.Generation
 
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(new Accessor(this, $"{rhsAccessorPrefix}."))})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, new Accessor(this, $"{rhsAccessorPrefix}."))})");
                 using (new BraceWrapper(fg))
                 {
                     GenerateSet();
@@ -386,7 +386,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
             }
         }
 
@@ -395,11 +395,11 @@ namespace Loqui.Generation
             if (this.SubTypeGeneration is LoquiType loqui)
             {
                 string maskGetter = loqui.TargetObjectGeneration == null ? nameof(ILoquiObjectGetter.GetHasBeenSetIMask) : "GetHasBeenSetMask";
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}>(i.Index, true, i.Item.{maskGetter}())));");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, Enumerable.Empty<(int, bool)>());");
             }
         }
 

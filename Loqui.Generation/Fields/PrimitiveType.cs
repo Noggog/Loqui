@@ -14,5 +14,22 @@ namespace Loqui.Generation
         {
             return $"{accessor.DirectAccess} {(negate ? "!" : "=")}= {rhsAccessor.DirectAccess}";
         }
+
+        public override string GetDefault()
+        {
+            if (this.HasBeenSet)
+            {
+                return $"default({this.TypeName(getter: true)}?)";
+            }
+            else
+            {
+                return "default";
+            }
+        }
+
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, bool protectedMembers, bool deepCopy)
+        {
+            fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
+        }
     }
 }

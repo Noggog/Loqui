@@ -108,7 +108,7 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{this.HasBeenSetAccessor(identifier)} = {onIdentifier};");
+                fg.AppendLine($"{this.HasBeenSetAccessor(getter: false, accessor: identifier)} = {onIdentifier};");
             }
             fg.AppendLine("break;");
         }
@@ -176,7 +176,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override string HasBeenSetAccessor(Accessor accessor = null)
+        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
         {
             if (accessor == null)
             {
@@ -337,16 +337,16 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            if (this.Bare)
+            if (!this.HasProperty)
             {
                 this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
             }
             else
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)} == {this.HasBeenSetAccessor(rhsAccessor)})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)} == {this.HasBeenSetAccessor(getter: true, accessor: rhsAccessor)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if ({this.HasBeenSetAccessor(accessor)})");
+                    fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)})");
                     using (new BraceWrapper(fg))
                     {
                         this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");

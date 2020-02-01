@@ -6,7 +6,7 @@ namespace Loqui.Generation
     {
         public static string GetMaskString(IDictType dictType, string typeStr, bool getter)
         {
-            return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr, getter)}>>";
+            return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr, getter)}>?>";
         }
 
         public static string GetSubMaskString(IDictType dictType, string typeStr, bool getter)
@@ -18,12 +18,12 @@ namespace Loqui.Generation
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.GetMaskString(typeStr)}>")}";
-                    string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
+                    string keyStr = $"{(keyLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {keyLoquiType.GetMaskString(typeStr)}?>")}";
+                    string valueStr = $"{(valueLoquiType == null ? typeStr : $"MaskItem<{typeStr}, {valueLoquiType.GetMaskString(typeStr)}?>")}";
                     itemStr = $"KeyValuePair<{keyStr}, {valueStr}>";
                     break;
                 case DictMode.KeyedValue:
-                    itemStr = $"{(valueLoquiType == null ? $"({dictType.KeyTypeGen.TypeName(getter)} Key, {typeStr} Value)" : $"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter)}, {typeStr}, {valueLoquiType.GetMaskString(typeStr)}>")}";
+                    itemStr = $"{(valueLoquiType == null ? $"({dictType.KeyTypeGen.TypeName(getter)} Key, {typeStr} Value)" : $"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter)}, {typeStr}, {valueLoquiType.GetMaskString(typeStr)}?>")}";
                     break;
                 default:
                     throw new NotImplementedException();
@@ -33,15 +33,15 @@ namespace Loqui.Generation
 
         public static string GetErrorMaskString(IDictType dictType)
         {
-            return $"MaskItem<Exception, IEnumerable<{GetSubErrorMaskString(dictType)}>>";
+            return $"MaskItem<Exception?, IEnumerable<{GetSubErrorMaskString(dictType)}>?>";
         }
 
         public static string GetSubErrorMaskString(IDictType dictType)
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
-            string keyStr = $"{(keyLoquiType == null ? "Exception" : $"MaskItem<Exception, {keyLoquiType.Mask(MaskType.Error)}>")}";
-            string valueStr = $"{(valueLoquiType == null ? "Exception" : $"MaskItem<Exception, {valueLoquiType.Mask(MaskType.Error)}>")}";
+            string keyStr = $"{(keyLoquiType == null ? "Exception?" : $"MaskItem<Exception?, {keyLoquiType.Mask(MaskType.Error)}?>")}";
+            string valueStr = $"{(valueLoquiType == null ? "Exception?" : $"MaskItem<Exception?, {valueLoquiType.Mask(MaskType.Error)}?>")}";
 
             string itemStr;
             switch (dictType.Mode)
@@ -62,8 +62,8 @@ namespace Loqui.Generation
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;
             LoquiType valueLoquiType = dictType.ValueTypeGen as LoquiType;
-            string keyStr = $"{(keyLoquiType == null ? "bool" : $"MaskItem<bool, {keyLoquiType.Mask(MaskType.Translation)}>")}";
-            string valueStr = $"{(valueLoquiType == null ? "bool" : $"MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}>")}";
+            string keyStr = $"{(keyLoquiType == null ? "bool" : $"MaskItem<bool, {keyLoquiType.Mask(MaskType.Translation)}?>")}";
+            string valueStr = $"{(valueLoquiType == null ? "bool" : $"MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?>")}";
 
             string itemStr;
             switch (dictType.Mode)
@@ -82,7 +82,7 @@ namespace Loqui.Generation
 
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
-            fg.AppendLine($"public {GetMaskString(field as IDictType, typeStr, getter: false)} {field.Name};");
+            fg.AppendLine($"public {GetMaskString(field as IDictType, typeStr, getter: false)}? {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
@@ -141,16 +141,16 @@ namespace Loqui.Generation
                     }
                     else if (keyLoquiType != null && valueLoquiType != null)
                     {
-                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>?> {field.Name};");
                     }
                     else
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}> {field.Name};");
+                        fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}?> {field.Name};");
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}> {field.Name};");
+                    fg.AppendLine($"public MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?> {field.Name};");
                     break;
                 default:
                     break;
@@ -166,52 +166,53 @@ namespace Loqui.Generation
             {
                 DictType dictType = field as DictType;
 
-                if (topLevel)
+                fg.AppendLine($"if ({accessor} != null)");
+                using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"if ({accessor}.Overall != null)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
                     }
-                }
-                fg.AppendLine($"if ({accessor}.Specific != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"foreach (var subItem in {accessor}{(topLevel ? ".Specific" : string.Empty)})");
+                    fg.AppendLine($"if ({accessor}.Specific != null)");
                     using (new BraceWrapper(fg))
                     {
-                        var keyFieldGen = this.Module.GetMaskModule(dictType.KeyTypeGen.GetType());
-                        var valFieldGen = this.Module.GetMaskModule(dictType.ValueTypeGen.GetType());
-                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                        fg.AppendLine($"foreach (var subItem in {accessor}{(topLevel ? ".Specific" : string.Empty)})");
                         using (new BraceWrapper(fg))
                         {
-                            switch (dictType.Mode)
+                            var keyFieldGen = this.Module.GetMaskModule(dictType.KeyTypeGen.GetType());
+                            var valFieldGen = this.Module.GetMaskModule(dictType.ValueTypeGen.GetType());
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                            using (new BraceWrapper(fg))
                             {
-                                case DictMode.KeyValue:
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Key => [\");");
-                                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem.Key", false);
-                                    }
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Value => [\");");
-                                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        valFieldGen.GenerateForErrorMaskToString(fg, dictType.ValueTypeGen, "subItem.Value", false);
-                                    }
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                                    break;
-                                case DictMode.KeyedValue:
-                                    keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem", false);
-                                    break;
-                                default:
-                                    break;
+                                switch (dictType.Mode)
+                                {
+                                    case DictMode.KeyValue:
+                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Key => [\");");
+                                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                                        using (new BraceWrapper(fg))
+                                        {
+                                            keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem.Key", false);
+                                        }
+                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Value => [\");");
+                                        fg.AppendLine($"using (new DepthWrapper(fg))");
+                                        using (new BraceWrapper(fg))
+                                        {
+                                            valFieldGen.GenerateForErrorMaskToString(fg, dictType.ValueTypeGen, "subItem.Value", false);
+                                        }
+                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                        break;
+                                    case DictMode.KeyedValue:
+                                        keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem", false);
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                         }
-                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                     }
                 }
             }
@@ -317,9 +318,9 @@ namespace Loqui.Generation
                                 fg.AppendLine($"l.Add(new {GetSubMaskString(dictType, "R", getter: false)}(keyVal, valVal));");
                                 break;
                             case DictMode.KeyedValue:
-                                var loquiType = dictType.ValueTypeGen as LoquiType;
-                                fg.AppendLine($"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}> mask = default(MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}>);");
                                 fg.AppendLine("throw new NotImplementedException();");
+                                //var loquiType = dictType.ValueTypeGen as LoquiType;
+                                //fg.AppendLine($"MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}?> mask = default(MaskItemIndexed<{dictType.KeyTypeGen.TypeName(getter: false)}, R, {loquiType.GenerateMaskString("R")}?>);");
                                 //var fieldGen = this.Module.GetMaskModule(loquiType.GetType());
                                 //fieldGen.GenerateForTranslate(fg, loquiType, "mask", "item", true);
                                 //fg.AppendLine($"l.Add(mask);");
@@ -338,21 +339,21 @@ namespace Loqui.Generation
             switch (dictType.Mode)
             {
                 case DictMode.KeyValue:
-                    string keyStr = "Exception", valStr = "Exception";
+                    string keyStr = "Exception?", valStr = "Exception?";
                     if (dictType.KeyTypeGen is LoquiType keyLoqui)
                     {
-                        keyStr = $"MaskItem<Exception, {keyLoqui.GenerateMaskString("Exception")}>";
+                        keyStr = $"MaskItem<Exception?, {keyLoqui.GenerateMaskString("Exception?")}?>";
                     }
                     if (dictType.ValueTypeGen is LoquiType valLoqui)
                     {
-                        valStr = $"MaskItem<Exception, {valLoqui.GenerateMaskString("Exception")}>";
+                        valStr = $"MaskItem<Exception?, {valLoqui.GenerateMaskString("Exception?")}?>";
                     }
                     var keyValStr = $"KeyValuePair<{keyStr}, {valStr}>";
-                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<{keyValStr}>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<{keyValStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{keyValStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), new List<{keyValStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
                     break;
                 case DictMode.KeyedValue:
                     var loqui = dictType.ValueTypeGen as LoquiType;
-                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception, IEnumerable<MaskItem<Exception, {loqui.Mask(MaskType.Error)}>>>({accessor}.Overall.Combine({rhsAccessor}.Overall), new List<MaskItem<Exception, {loqui.Mask(MaskType.Error)}>>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), new List<MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>>(ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific)));");
                     break;
                 default:
                     throw new NotImplementedException();
@@ -452,7 +453,7 @@ namespace Loqui.Generation
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}>({onAccessor}, null);");
+                    fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?>({onAccessor}, null);");
                     break;
                 default:
                     break;

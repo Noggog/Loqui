@@ -19,7 +19,7 @@ namespace Loqui.Xml
         private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T))!.FullName);
         public string ElementName => _elementName.Value;
         private static readonly ILoquiRegistration? Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
-        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder? errorMaskBuilder, TranslationCrystal? translationMask, MissingCreate missing);
+        public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder? errorMaskBuilder, TranslationCrystal? translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
 
         private IEnumerable<KeyValuePair<ushort, object>> EnumerateObjects(
@@ -27,7 +27,7 @@ namespace Loqui.Xml
             XElement node,
             bool skipProtected,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
         {
             var ret = new List<KeyValuePair<ushort, object>>();
             foreach (var elem in node.Elements())
@@ -72,26 +72,13 @@ namespace Loqui.Xml
         }
 
         public void CopyIn<C>(
-            XElement? node,
+            XElement node,
             C item,
             bool skipProtected,
-            MissingCreate missing,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
             where C : T, ILoquiObject
         {
-            if (node == null)
-            {
-                switch (missing)
-                {
-                    case MissingCreate.Null:
-                    case MissingCreate.New:
-                        return;
-                    case MissingCreate.Exception:
-                    default:
-                        throw new NullReferenceException();
-                }
-            }
             var fields = EnumerateObjects(
                 item.Registration,
                 node,
@@ -113,11 +100,10 @@ namespace Loqui.Xml
                 .Where(methodInfo =>
                 {
                     var param = methodInfo.GetParameters();
-                    if (param.Length != 4) return false;
+                    if (param.Length != 3) return false;
                     if (!param[0].ParameterType.Equals(typeof(XElement))) return false;
                     if (!param[1].ParameterType.Equals(typeof(ErrorMaskBuilder))) return false;
                     if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
-                    if (!param[3].ParameterType.Equals(typeof(MissingCreate))) return false;
                     return true;
                 })
                 .FirstOrDefault());
@@ -128,7 +114,7 @@ namespace Loqui.Xml
             int fieldIndex,
             IHasItem<T> item,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -170,8 +156,7 @@ namespace Loqui.Xml
                 item = CREATE.Value(
                     node: node,
                     errorMaskBuilder: errorMask,
-                    translationMask: translationMask,
-                    missing: MissingCreate.Exception);
+                    translationMask: translationMask);
                 return true;
             }
             else
@@ -205,7 +190,7 @@ namespace Loqui.Xml
         public T Parse(
             XElement node,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
         {
             if (Parse(node, out var item, errorMask, translationMask))
             {
@@ -274,7 +259,7 @@ namespace Loqui.Xml
             XElement node,
             out T item,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
             where T : ILoquiObjectGetter
         {
             try

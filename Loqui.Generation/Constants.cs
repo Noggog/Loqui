@@ -19,7 +19,6 @@ namespace Loqui.Generation
         public const string COPY = "copy";
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
         public const string NOTIFYING = "notifying";
-        public const string OBJECT_CENTRALIZED = "objectCentralized";
         public const string HAS_BEEN_SET = "hasBeenSet";
         public const string MIN = "min";
         public const string MAX = "max";

@@ -39,7 +39,7 @@ namespace Loqui.Xml
             ICache<V, K> item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -108,7 +108,7 @@ namespace Loqui.Xml
             int fieldIndex,
             XmlSubParseDelegate<V> valTransl,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
+            TranslationCrystal? translationMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -230,7 +230,7 @@ namespace Loqui.Xml
             IEnumerable<V> items,
             int fieldIndex,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask,
+            TranslationCrystal? translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
             using (errorMask?.PushIndex(fieldIndex))
@@ -259,7 +259,7 @@ namespace Loqui.Xml
             IHasItem<IEnumerable<V>> item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask,
+            TranslationCrystal? translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
             using (errorMask?.PushIndex(fieldIndex))

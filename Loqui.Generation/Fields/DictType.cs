@@ -107,9 +107,9 @@ namespace Loqui.Generation
             subGenerator.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, internalUse);
         }
 
-        public override string HasBeenSetAccessor(Accessor accessor = null)
+        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
         {
-            return subGenerator.HasBeenSetAccessor(accessor);
+            return subGenerator.HasBeenSetAccessor(getter, accessor);
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)

@@ -21,29 +21,6 @@ namespace Loqui.Xml
 
         protected abstract bool Parse(string str, out T value, ErrorMaskBuilder? errorMask);
 
-        public void ParseInto(XElement node, int fieldIndex, IHasItem<T> item, ErrorMaskBuilder? errorMask)
-        {
-            using (errorMask.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(node, out T val, errorMask))
-                    {
-                        item.Item = val;
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
         public T Parse(
             XElement node,
             ErrorMaskBuilder? errorMask,
@@ -119,7 +96,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             T? item)
         {
             Write_Internal(
@@ -131,9 +108,9 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             T? item,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             Write_Internal(
                 node,
@@ -144,7 +121,7 @@ namespace Loqui.Xml
 
         private void Write_Internal(
             XElement node, 
-            string name, 
+            string? name, 
             T? item,
             bool nullable)
         {
@@ -166,7 +143,7 @@ namespace Loqui.Xml
             string name,
             T? item,
             int fieldIndex,
-            ErrorMaskBuilder errorMask)
+            ErrorMaskBuilder? errorMask)
         {
             using (errorMask?.PushIndex(fieldIndex))
             {
@@ -183,86 +160,6 @@ namespace Loqui.Xml
                     errorMask.ReportException(ex);
                 }
             }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasItemGetter<T> item,
-            int fieldIndex,
-            ErrorMaskBuilder errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node,
-                        name,
-                        item.Item);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasItemGetter<T?> item,
-            int fieldIndex,
-            ErrorMaskBuilder errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node,
-                        name,
-                        item.Item);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasBeenSetItemGetter<T?> item,
-            int fieldIndex,
-            ErrorMaskBuilder errorMask)
-        {
-            if (!item.HasBeenSet) return;
-            this.Write(
-                node,
-                name,
-                item.Item,
-                fieldIndex,
-                errorMask);
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasBeenSetItemGetter<T> item,
-            int fieldIndex,
-            ErrorMaskBuilder errorMask)
-        {
-            if (!item.HasBeenSet) return;
-            this.Write(
-                node,
-                name,
-                item.Item,
-                fieldIndex,
-                errorMask);
         }
 
         void IXmlTranslation<T>.Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
