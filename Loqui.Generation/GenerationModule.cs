@@ -35,7 +35,7 @@ namespace Loqui.Generation
         public virtual string RegionString { get; }
         public GenerationModuleCollection SubModules = new GenerationModuleCollection();
         public string Name => RegionString ?? this.GetType().Name;
-        public int? TimeoutMS = 4000;
+        public int? TimeoutMS = 60000;
 
         public virtual Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
