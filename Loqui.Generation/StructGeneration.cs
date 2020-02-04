@@ -123,7 +123,7 @@ namespace Loqui.Generation
         {
         }
 
-        protected override async Task GenerateCopyFieldsFromExtensions(FileGeneration fg)
+        protected override async Task GenerateDeepCopyInExtensions(FileGeneration fg)
         {
         }
 

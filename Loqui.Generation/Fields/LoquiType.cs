@@ -656,7 +656,7 @@ namespace Loqui.Generation
 
             if (this.SingletonType == SingletonLevel.Singleton)
             {
-                this.GenerateCopyFieldsFrom(
+                this.GenerateCopyIn(
                     fg,
                     accessor: accessor,
                     rhsAccessorPrefix: rhsAccessorPrefix,
@@ -738,7 +738,7 @@ namespace Loqui.Generation
                         {
                             using (new DepthWrapper(fg))
                             {
-                                this.GenerateCopyFieldsFrom(
+                                this.GenerateCopyIn(
                                     fg,
                                     accessor: accessor,
                                     rhsAccessorPrefix: rhsAccessorPrefix,
@@ -802,7 +802,7 @@ namespace Loqui.Generation
                         {
                             using (new DepthWrapper(fg))
                             {
-                                this.GenerateCopyFieldsFrom(
+                                this.GenerateCopyIn(
                                     fg,
                                     accessor: accessor,
                                     rhsAccessorPrefix: rhsAccessorPrefix,
@@ -905,7 +905,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateCopyFieldsFrom(
+        private void GenerateCopyIn(
             FileGeneration fg,
             Accessor accessor,
             string rhsAccessorPrefix,
@@ -915,8 +915,8 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 var funcStr = deepCopy
-                    ? $"{accessor.DirectAccess}.DeepCopyFieldsFrom"
-                    : $"{accessor.DirectAccess}.CopyFieldsFrom";
+                    ? $"{accessor.DirectAccess}.DeepCopyIn"
+                    : $"{accessor.DirectAccess}.CopyIn";
                 using (var args = new ArgsWrapper(fg, funcStr))
                 {
                     args.Add($"rhs: {rhsAccessorPrefix}.{this.Name}");
@@ -983,7 +983,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyFieldsFrom{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
+                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyIn{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
                     fg.AppendLine("break;");
                 }
             }
