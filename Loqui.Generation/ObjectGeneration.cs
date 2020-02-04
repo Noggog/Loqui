@@ -41,6 +41,7 @@ namespace Loqui.Generation
         public string NonLoquiBaseClass;
         public bool HasNonLoquiBaseObject => !string.IsNullOrWhiteSpace(this.NonLoquiBaseClass);
         public bool HasLoquiGenerics => this.Generics.Any((g) => g.Value.BaseObjectGeneration != null);
+        public bool IsGeneric => this.Generics.Any();
         public bool HasNewGenerics => this.HasLoquiBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
         public bool IsTopClass => BaseClass == null;
         public bool ForceInternalInterface = false;
@@ -348,6 +349,7 @@ namespace Loqui.Generation
             fg.AppendLine();
 
             await GenerateTranslations(fg);
+            await GenerateNonGenericClass(fg);
 
             var fileName = Path.Combine(TargetDir.FullName, FileName);
             var file = new FileInfo(fileName);
@@ -2861,6 +2863,10 @@ namespace Loqui.Generation
                     using (new RegionWrapper(fg, transl.RegionString))
                     {
                         await transl.GenerateInClass(this, fg);
+                        if (!this.IsGeneric)
+                        {
+                            await transl.GenerateInNonGenericClass(this, fg);
+                        }
                     }
                 }
             }
@@ -3288,6 +3294,31 @@ namespace Loqui.Generation
                 .Select((g) => g.MiscellaneousGenerationActions(this)));
         }
 
+        private async Task GenerateNonGenericClass(FileGeneration fg)
+        {
+            if (!this.IsGeneric) return;
+            FileGeneration subGen = new FileGeneration();
+            foreach (var translGen in this.gen.GenerationModules)
+            {
+                using (new RegionWrapper(fg, translGen.RegionString))
+                {
+                    await translGen.GenerateInNonGenericClass(this, subGen);
+                }
+            }
+
+            if (subGen.Count == 0) return;
+
+            using var ns = new NamespaceWrapper(fg, this.Namespace);
+            using (var args = new ClassWrapper(fg, this.Name))
+            {
+                args.Static = true;
+            }
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLines(subGen);
+            }
+        }
+
         private void GenerateLoquiInterfaces(FileGeneration fg)
         {
             if (this.gen.GenerationModules.Count == 0) return;
@@ -3309,7 +3340,7 @@ namespace Loqui.Generation
             return this.GenerationInterfaces.Any((i) => i.GetType().Equals(typeof(T)));
         }
 
-        public string GetMaskString(string t)
+        public string GetMaskString(string t, bool addClassName = true)
         {
             if (t.Equals("Exception"))
             {
@@ -3317,10 +3348,7 @@ namespace Loqui.Generation
             }
             else
             {
-                var str = this.Name;
-                str += "_Mask";
-                str += $"<{t}>";
-                return str;
+                return $"{(addClassName ? $"{this.Name}." : null)}Mask<{t}>";
             }
         }
 
@@ -3434,9 +3462,9 @@ namespace Loqui.Generation
             }
         }
 
-        public string Mask_Specified(MaskType type, GenericSpecification specifications)
+        public string Mask_Specified(MaskType type, GenericSpecification specifications, bool addClassName = true)
         {
-            return $"{this.Mask_BasicName(type)}{GenerateGenericClause(GenericTypes_Nickname(type, specifications.Specifications.ToArray()))}";
+            return $"{(addClassName ? $"{this.Name}." : null)}{this.Mask_BasicName(type)}{GenerateGenericClause(GenericTypes_Nickname(type, specifications.Specifications.ToArray()))}";
         }
 
         public string MaskNickname(string name, MaskType maskType)
@@ -3504,28 +3532,28 @@ namespace Loqui.Generation
             switch (type)
             {
                 case MaskType.Normal:
-                    return $"{this.Name}_Mask";
+                    return $"Mask";
                 case MaskType.Error:
-                    return $"{this.Name}_ErrorMask";
+                    return $"ErrorMask";
                 case MaskType.Copy:
-                    return $"{this.Name}_CopyMask";
+                    return $"CopyMask";
                 case MaskType.Translation:
-                    return $"{this.Name}_TranslationMask";
+                    return $"TranslationMask";
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public string Mask(MaskType type)
+        public string Mask(MaskType type, bool addClassName = true)
         {
             switch (type)
             {
                 case MaskType.Error:
-                    return $"{this.Mask_BasicName(MaskType.Error)}{GetGenericTypes(MaskType.Error)}";
+                    return $"{(addClassName ? $"{this.Name}." : null)}{this.Mask_BasicName(MaskType.Error)}{GetGenericTypes(MaskType.Error)}";
                 case MaskType.Copy:
-                    return $"{this.Mask_BasicName(MaskType.Copy)}{GetGenericTypes(MaskType.Copy)}";
+                    return $"{(addClassName ? $"{this.Name}." : null)}{this.Mask_BasicName(MaskType.Copy)}{GetGenericTypes(MaskType.Copy)}";
                 case MaskType.Translation:
-                    return $"{this.Mask_BasicName(MaskType.Translation)}{GetGenericTypes(MaskType.Translation)}";
+                    return $"{(addClassName ? $"{this.Name}." : null)}{this.Mask_BasicName(MaskType.Translation)}{GetGenericTypes(MaskType.Translation)}";
                 case MaskType.Normal:
                 default:
                     throw new NotImplementedException();
@@ -3581,7 +3609,7 @@ namespace Loqui.Generation
 
         public string Mask_Unspecified(MaskType type)
         {
-            return $"{this.Mask_BasicName(type)}{GenerateGenericClause(Generics.Where((g) => g.Value.BaseObjectGeneration != null || g.Value.Loqui).Select((g) => string.Empty))}";
+            return $"{this.Name}.{this.Mask_BasicName(type)}{GenerateGenericClause(Generics.Where((g) => g.Value.BaseObjectGeneration != null || g.Value.Loqui).Select((g) => string.Empty))}";
         }
 
         public string BaseMask_GenericClausesAssumed(MaskType type)

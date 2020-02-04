@@ -109,31 +109,14 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
-        {
-            using (new NamespaceWrapper(fg, obj.InternalNamespace))
-            {
-                lock (_fieldMapping)
-                {
-                    foreach (var item in _fieldMapping.Values)
-                    {
-                        item.Module = this;
-                    }
-                }
-
-                await GenerateNormalMask(obj, fg);
-                await GenerateErrorMask(obj, fg);
-                if (obj.GenerateComplexCopySystems)
-                {
-                    GenerateCopyMask(obj, fg);
-                }
-                await GenerateTranslationMask(obj, fg);
-            }
-        }
-
         private void GenerateCopyMask(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public class {obj.Mask(MaskType.Copy)}{(obj.HasLoquiBaseObject ? $" : {obj.BaseClass.Mask(MaskType.Copy)}" : string.Empty)}");
+            using (var args = new ClassWrapper(fg, obj.Mask(MaskType.Copy, addClassName: false)))
+            {
+                args.BaseClass = obj.HasLoquiBaseObject ? obj.BaseClass.Mask(MaskType.Copy, addClassName: true) : string.Empty;
+                args.New = obj.HasLoquiBaseObject;
+                args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Copy));
+            }
             using (new DepthWrapper(fg))
             {
                 fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Copy));
@@ -169,10 +152,16 @@ namespace Loqui.Generation
 
         private async Task GenerateErrorMask(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public class {obj.Mask(MaskType.Error)} : {(obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error)}" : "IErrorMask")}, IErrorMask<{obj.Mask(MaskType.Error)}>");
-            using (new DepthWrapper(fg))
+            using (var args = new ClassWrapper(fg, obj.Mask(MaskType.Error, addClassName: false)))
             {
-                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Error));
+                args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error, addClassName: true)}" : string.Empty;
+                if (!obj.HasLoquiBaseObject)
+                {
+                    args.Interfaces.Add("IErrorMask");
+                }
+                args.Interfaces.Add($"IErrorMask<{obj.Mask(MaskType.Error, addClassName: false)}>");
+                args.New = obj.HasLoquiBaseObject;
+                args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Error));
             }
             using (new BraceWrapper(fg))
             {
@@ -320,11 +309,11 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Combine"))
                 {
-                    fg.AppendLine($"public {obj.Mask(MaskType.Error)} Combine({obj.Mask(MaskType.Error)}? rhs)");
+                    fg.AppendLine($"public {obj.Mask(MaskType.Error, addClassName: false)} Combine({obj.Mask(MaskType.Error, addClassName: false)}? rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return this;");
-                        fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error)}();");
+                        fg.AppendLine($"var ret = new {obj.Mask(MaskType.Error, addClassName: false)}();");
                         foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForErrorMaskCombine(fg, field, $"this.{field.Name}", $"ret.{field.Name}", $"rhs.{field.Name}");
@@ -332,7 +321,7 @@ namespace Loqui.Generation
                         fg.AppendLine("return ret;");
                     }
 
-                    fg.AppendLine($"public static {obj.Mask(MaskType.Error)}? Combine({obj.Mask(MaskType.Error)}? lhs, {obj.Mask(MaskType.Error)}? rhs)");
+                    fg.AppendLine($"public static {obj.Mask(MaskType.Error, addClassName: false)}? Combine({obj.Mask(MaskType.Error, addClassName: false)}? lhs, {obj.Mask(MaskType.Error, addClassName: false)}? rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if (lhs != null && rhs != null) return lhs.Combine(rhs);");
@@ -342,10 +331,10 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Factory"))
                 {
-                    fg.AppendLine($"public static{obj.NewOverride()}{obj.Mask(MaskType.Error)} Factory(ErrorMaskBuilder errorMask)");
+                    fg.AppendLine($"public static{obj.NewOverride()}{obj.Mask(MaskType.Error, addClassName: false)} Factory(ErrorMaskBuilder errorMask)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"return new {obj.Mask(MaskType.Error)}();");
+                        fg.AppendLine($"return new {obj.Mask(MaskType.Error, addClassName: false)}();");
                     }
                 }
             }
@@ -353,12 +342,13 @@ namespace Loqui.Generation
 
         private async Task GenerateNormalMask(ObjectGeneration obj, FileGeneration fg)
         {
-            using (var args = new ClassWrapper(fg, $"{obj.Name}_Mask<T>"))
+            using (var args = new ClassWrapper(fg, $"Mask<T>"))
             {
                 args.Wheres.Add("where T : notnull");
                 args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.GetMaskString("T")}" : string.Empty;
                 args.Interfaces.Add("IMask<T>");
-                args.Interfaces.Add($"IEquatable<{obj.Name}_Mask<T>>");
+                args.Interfaces.Add($"IEquatable<Mask<T>>");
+                args.New = obj.HasLoquiBaseObject;
             }
             using (new BraceWrapper(fg))
             {
@@ -367,7 +357,7 @@ namespace Loqui.Generation
                     if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(1) || !obj.IterateFields(includeBaseClass: true).Any())
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public {obj.Name}_Mask"))
+                            $"public Mask"))
                         {
                             args.Add($"T initialValue");
                         }
@@ -388,7 +378,7 @@ namespace Loqui.Generation
                     if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(0))
                     {
                         using (var args = new FunctionWrapper(fg,
-                            $"public {obj.Name}_Mask"))
+                            $"public Mask"))
                         {
                             foreach (var field in obj.IterateFields(includeBaseClass: true))
                             {
@@ -418,7 +408,7 @@ namespace Loqui.Generation
 
                     fg.AppendLine("#pragma warning disable CS8618");
                     using (var args = new FunctionWrapper(fg,
-                        $"protected {obj.Name}_Mask"))
+                        $"protected Mask"))
                     {
                     }
                     using (new BraceWrapper(fg))
@@ -441,12 +431,12 @@ namespace Loqui.Generation
                     fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!(obj is {obj.Name}_Mask<T> rhs)) return false;");
+                        fg.AppendLine($"if (!(obj is Mask<T> rhs)) return false;");
                         fg.AppendLine($"return Equals(rhs);");
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals({obj.Name}_Mask<T> rhs)");
+                    fg.AppendLine($"public bool Equals(Mask<T> rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return false;");
@@ -497,7 +487,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Translate"))
                 {
-                    fg.AppendLine($"public{obj.NewOverride()}{obj.Name}_Mask<R> Translate<R>(Func<T, R> eval)");
+                    fg.AppendLine($"public{obj.NewOverride()}Mask<R> Translate<R>(Func<T, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
@@ -506,7 +496,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"protected void Translate_InternalFill<R>({obj.Name}_Mask<R> obj, Func<T, R> eval)");
+                    fg.AppendLine($"protected void Translate_InternalFill<R>(Mask<R> obj, Func<T, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -560,10 +550,12 @@ namespace Loqui.Generation
 
         private async Task GenerateTranslationMask(ObjectGeneration obj, FileGeneration fg)
         {
-            fg.AppendLine($"public class {obj.Mask(MaskType.Translation)} : {(obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation)}" : $"{nameof(ITranslationMask)}")}");
-            using (new DepthWrapper(fg))
+            using (var args = new ClassWrapper(fg, obj.Mask(MaskType.Translation, addClassName: false)))
             {
-                fg.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Translation));
+                args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Translation));
+                args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation, addClassName: true)}" : string.Empty;
+                args.Interfaces.Add(nameof(ITranslationMask));
+                args.New = obj.HasLoquiBaseObject;
             }
             using (new BraceWrapper(fg))
             {
@@ -633,8 +625,23 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+        public override async Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
         {
+            lock (_fieldMapping)
+            {
+                foreach (var item in _fieldMapping.Values)
+                {
+                    item.Module = this;
+                }
+            }
+
+            await GenerateNormalMask(obj, fg);
+            await GenerateErrorMask(obj, fg);
+            if (obj.GenerateComplexCopySystems)
+            {
+                GenerateCopyMask(obj, fg);
+            }
+            await GenerateTranslationMask(obj, fg);
         }
 
         public override async Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg, bool internalInterface)

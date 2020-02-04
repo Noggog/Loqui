@@ -19,6 +19,7 @@ namespace Loqui.Generation
         Task Modify(LoquiGenerator gen);
         Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInClass(ObjectGeneration obj, FileGeneration fg);
+        Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes);
         Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg);
@@ -87,6 +88,12 @@ namespace Loqui.Generation
         {
             return SubModules.GenerateInClass(obj, fg)
                 .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in class taking a long time."));
+        }
+
+        public virtual Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
+        {
+            return SubModules.GenerateInNonGenericClass(obj, fg)
+                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in non-generic class taking a long time."));
         }
 
         public virtual Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)

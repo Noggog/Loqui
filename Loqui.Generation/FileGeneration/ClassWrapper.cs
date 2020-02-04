@@ -22,6 +22,7 @@ namespace Loqui.Generation
         public bool Abstract;
         public bool Static;
         public string BaseClass;
+        public bool New;
         public ObjectType Type = ObjectType.@class;
         public HashSet<string> Interfaces = new HashSet<string>();
         public List<string> Wheres = new List<string>();
@@ -34,7 +35,7 @@ namespace Loqui.Generation
 
         public void Dispose()
         {
-            var classLine = $"{EnumExt.ToStringFast_Enum_Only<PermissionLevel>(Public)} {(this.Static ? "static " : null)}{(this.Abstract ? "abstract " : null)}{(this.Partial ? "partial " : null)}{EnumExt.ToStringFast_Enum_Only<ObjectType>(Type)} {this.Name}";
+            var classLine = $"{EnumExt.ToStringFast_Enum_Only<PermissionLevel>(Public)} {(this.Static ? "static " : null)}{(this.New ? "new " : null)}{(this.Abstract ? "abstract " : null)}{(this.Partial ? "partial " : null)}{EnumExt.ToStringFast_Enum_Only<ObjectType>(Type)} {this.Name}";
             var toAdd = this.Interfaces.ToList();
             if (!string.IsNullOrWhiteSpace(this.BaseClass))
             {

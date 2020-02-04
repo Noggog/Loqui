@@ -72,6 +72,22 @@ namespace Loqui.Generation
                     }));
         }
 
+        public Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    async (subGen) =>
+                    {
+                        using (new RegionWrapper(fg, subGen.RegionString))
+                        {
+                            await subGen.GenerateInNonGenericClass(obj, fg)
+                                .TimeoutButContinue(
+                                    TimeoutMS,
+                                    () => System.Console.WriteLine($"{subGen} {obj.Name} gen in non generic class taking a long time."));
+                        }
+                    }));
+        }
+
         public Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
         {
             return Task.WhenAll(
