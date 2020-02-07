@@ -43,7 +43,7 @@ namespace Loqui.Generation
                             prefix = $"{param.ItemAccessor.DirectAccess} = ";
                         }
                         args = new ArgsWrapper(param.FG,
-                           $"{prefix}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}",
+                           $"{prefix}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}{(param.Generic == null ? null : $"<{param.Generic}>")}",
                            suffixLine: (doIf ? ")" : null))
                         {
                             SemiColon = !doIf,
@@ -52,7 +52,7 @@ namespace Loqui.Generation
                     else if (param.AsyncMode == AsyncMode.Async)
                     {
                         args = new ArgsWrapper(param.FG,
-                            $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse{(parseInto ? "Into" : null)}",
+                            $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse{(parseInto ? "Into" : null)}{param.Generic}",
                             suffixLine: Loqui.Generation.Utility.ConfigAwait())
                         {
                             SemiColon = !doIf
@@ -153,6 +153,7 @@ namespace Loqui.Generation
             public Action<FileGeneration> UnsetCall;
             public IEnumerable<string> ExtraArgs;
             public bool SkipErrorMask;
+            public string Generic;
         }
     }
 }

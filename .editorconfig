@@ -65,3 +65,7 @@ dotnet_diagnostic.CS8631.severity = error
 
 # CS8634: The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
 dotnet_diagnostic.CS8634.severity = error
+
+# CS8597: Thrown value may be null.
+dotnet_diagnostic.CS8597.severity = error
+
