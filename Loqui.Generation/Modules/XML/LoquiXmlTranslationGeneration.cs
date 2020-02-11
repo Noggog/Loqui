@@ -135,7 +135,7 @@ namespace Loqui.Generation
                 {
                     FG = fg,
                     TypeGen = typeGen,
-                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.TypeName(LoquiInterfaceType.Direct)}{loquiGen.GenericTypes(getter: false)}>.Instance",
+                    TranslatorLine = $"LoquiXmlTranslation<{loquiGen.TypeName(LoquiInterfaceType.Direct)}>.Instance",
                     MaskAccessor = errorMaskAccessor,
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,

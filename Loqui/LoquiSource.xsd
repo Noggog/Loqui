@@ -260,7 +260,7 @@
       <xs:element name="String" type="NString" />
       <xs:element name="FilePath" type="NString" />
       <xs:element name="DirectoryPath" type="NString" />
-      <xs:element name="Nothing" type="Nothing" />
+      <xs:element name="Nothing" type="NNothing" />
       <xs:element name="MarkerSet" type="MarkerSet" />
       <xs:element name="Color" type="NColor" />
       <xs:element name="UnsafeObject" type="Object" >
@@ -869,6 +869,14 @@
   <xs:complexType name="Nothing" >
     <xs:complexContent>
       <xs:extension base="Field">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NNothing" >
+    <xs:complexContent>
+      <xs:extension base="Nothing">
+        <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
