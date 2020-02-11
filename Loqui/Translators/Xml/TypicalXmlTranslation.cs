@@ -72,7 +72,7 @@ namespace Loqui.Xml
             return false;
         }
 
-        protected virtual void WriteValue(XElement node, string name, T item)
+        protected virtual void WriteValue(XElement node, string? name, T item)
         {
             node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
@@ -81,7 +81,7 @@ namespace Loqui.Xml
 
         private void Write(
             XElement node,
-            string name,
+            string? name,
             T item)
         {
             var elem = new XElement(name);
@@ -91,7 +91,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             T item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask)
@@ -113,7 +113,19 @@ namespace Loqui.Xml
             }
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
+        public void Write(
+            XElement node,
+            string? name,
+            T item,
+            ErrorMaskBuilder? errorMask)
+        {
+            Write(
+                node,
+                name,
+                item);
+        }
+
+        public void Write(XElement node, string? name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             this.Write(
                 node: node,

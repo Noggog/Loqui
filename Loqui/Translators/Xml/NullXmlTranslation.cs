@@ -27,7 +27,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             object? item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)

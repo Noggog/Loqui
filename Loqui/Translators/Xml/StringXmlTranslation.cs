@@ -150,7 +150,7 @@ namespace Loqui.Xml
                 errorMask: errorMask);
         }
 
-        void IXmlTranslation<string>.Write(XElement node, string name, string item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
+        void IXmlTranslation<string>.Write(XElement node, string? name, string item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             this.Write(
                 node: node,

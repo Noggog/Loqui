@@ -25,7 +25,7 @@ namespace Loqui.Xml
             return item.ToHexString();
         }
 
-        protected override void WriteValue(XElement node, string name, byte[] item)
+        protected override void WriteValue(XElement node, string? name, byte[] item)
         {
             if (item == null) return;
             base.WriteValue(node, name, item);

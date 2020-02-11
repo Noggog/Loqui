@@ -202,7 +202,7 @@ namespace Loqui.Xml
             }
         }
 
-        public void Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
+        public void Write(XElement node, string? name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             throw new NotImplementedException();
         }

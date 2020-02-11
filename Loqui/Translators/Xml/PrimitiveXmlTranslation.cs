@@ -132,7 +132,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node, 
-            string name,
+            string? name,
             T item)
         {
             Write_Internal(node, name, (T?)item, nullable: false);
@@ -162,7 +162,7 @@ namespace Loqui.Xml
             }
         }
 
-        void IXmlTranslation<T>.Write(XElement node, string name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
+        void IXmlTranslation<T>.Write(XElement node, string? name, T item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
         {
             this.Write(
                 node: node,

@@ -22,7 +22,7 @@ namespace Loqui.Xml
 
         void IXmlTranslation<object>.Write(
             XElement node, 
-            string name,
+            string? name,
             object item, 
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)

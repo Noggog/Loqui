@@ -152,7 +152,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             IEnumerable<V> items,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
@@ -179,7 +179,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             IEnumerable<V> items,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask,

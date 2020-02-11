@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>209357f59ce3cfec2b90466b93f64f59352e65b4</Sha>
+         <Sha>cc97afeb5c043a6610e1721383ada6e7bbc3819f</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-02-2020 23:43:35</CommitDate>
-         <Description>Fixes for unit tests not running</Description>
+         <CommitDate>02-11-2020 00:31:28</CommitDate>
+         <Description>Bugfix for MemorySlice</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>
