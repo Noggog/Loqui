@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>cc97afeb5c043a6610e1721383ada6e7bbc3819f</Sha>
+         <Sha>b2e83820a4b9f72d2fe108f656c033e8c2647614</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-11-2020 00:31:28</CommitDate>
-         <Description>Bugfix for MemorySlice</Description>
+         <CommitDate>02-11-2020 17:02:13</CommitDate>
+         <Description>ListExt.Empty</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

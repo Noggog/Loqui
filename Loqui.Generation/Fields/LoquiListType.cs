@@ -13,12 +13,11 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             LoadTypeGenerationFromNode(node, requireName);
-            SingleTypeGen = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
-            SingleTypeGen.SetObjectGeneration(this.ObjectGen, setDefaults: false);
-            await SingleTypeGen.Load(node, false);
-            SingleTypeGen.Name = null;
-            singleType = true;
-            isLoquiSingle = SingleTypeGen as LoquiType != null;
+            SubTypeGeneration = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
+            SubTypeGeneration.SetObjectGeneration(this.ObjectGen, setDefaults: false);
+            await SubTypeGeneration.Load(node, false);
+            SubTypeGeneration.Name = null;
+            isLoquiSingle = SubTypeGeneration as LoquiType != null;
         }
     }
 }

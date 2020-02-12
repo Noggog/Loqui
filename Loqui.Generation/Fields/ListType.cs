@@ -11,14 +11,12 @@ namespace Loqui.Generation
     {
         public override string TypeName(bool getter) => Interface(getter, internalInterface: true);
         public override bool CopyNeedsTryCatch => true;
-        public override bool IsEnumerable => true;
-        public override bool IsClass => true;
         public override bool HasDefault => false;
 
         public virtual string Interface(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
-            if (this.SingleTypeGen is LoquiType loqui)
+            if (this.SubTypeGeneration is LoquiType loqui)
             {
                 itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
             }
@@ -121,7 +119,6 @@ namespace Loqui.Generation
                 fg.AppendLine($"{Interface(getter: true, internalInterface: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
-
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
@@ -271,7 +268,7 @@ namespace Loqui.Generation
                 else
                 {
                     FileGeneration subFg = new FileGeneration();
-                    this.SingleTypeGen.GenerateCopySetToConverter(subFg);
+                    this.SubTypeGeneration.GenerateCopySetToConverter(subFg);
                     if (subFg.Empty)
                     {
                         using (var args = new ArgsWrapper(fg,

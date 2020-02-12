@@ -68,7 +68,7 @@ namespace Loqui.Generation
         public override string Interface(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
-            if (this.SingleTypeGen is LoquiType loqui)
+            if (this.SubTypeGeneration is LoquiType loqui)
             {
                 itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
             }
@@ -105,7 +105,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
-            if (this.SingleTypeGen.IsIEquatable)
+            if (this.SubTypeGeneration.IsIEquatable)
             {
                 fg.AppendLine($"if (!MemoryExtensions.SequenceEqual({accessor.DirectAccess}.Span, {rhsAccessor.DirectAccess}.Span)) return false;");
             }

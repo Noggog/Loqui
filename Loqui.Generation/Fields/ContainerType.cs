@@ -6,70 +6,14 @@ using System.Xml.Linq;
 
 namespace Loqui.Generation
 {
-    public abstract class ContainerType : TypeGeneration
+    public abstract class ContainerType : WrapperType
     {
-        protected bool singleType;
-        public TypeGeneration SingleTypeGen;
-        protected bool isLoquiSingle;
-        protected LoquiType LoquiTypeSingleton => SingleTypeGen as LoquiType;
         public override bool HasProperty => true;
+        public override bool IsEnumerable => true;
+        public override bool IsClass => true;
 
         public override string Property => $"{this.Name}";
         public override string ProtectedName => $"{this.ProtectedProperty}";
-
-        public virtual string ItemTypeName(bool getter)
-        {
-            if (singleType)
-            {
-                return SingleTypeGen.TypeName(getter);
-            }
-            throw new NotImplementedException();
-        }
-
-        public TypeGeneration SubTypeGeneration => SingleTypeGen;
-
-        public override async Task Load(XElement node, bool requireName = true)
-        {
-            await base.Load(node, requireName);
-
-            if (!node.Elements().Any())
-            {
-                throw new ArgumentException("List had no elements.");
-            }
-
-            if (node.Elements().Any())
-            {
-                var typeGen = await ObjectGen.LoadField(
-                    node.Elements().First(),
-                    requireName: false,
-                    setDefaults: false);
-                if (typeGen.Succeeded)
-                {
-                    SingleTypeGen = typeGen.Value;
-                    singleType = true;
-                    isLoquiSingle = SingleTypeGen as LoquiType != null;
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-
-            if (SingleTypeGen is ContainerType
-                || SingleTypeGen is DictType)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override IEnumerable<string> GetRequiredNamespaces()
-        {
-            return this.SingleTypeGen.GetRequiredNamespaces();
-        }
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
