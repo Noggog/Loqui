@@ -131,6 +131,7 @@ namespace Loqui.Generation
                 indexAccessor: param.IndexAccessor,
                 doIt: !param.SkipErrorMask
                     && param.IndexAccessor != null
+                    && param.Do
                     && !IsParseInto(param.TypeGen, param.ItemAccessor));
         }
 
@@ -154,6 +155,7 @@ namespace Loqui.Generation
             public IEnumerable<string> ExtraArgs;
             public bool SkipErrorMask;
             public string Generic;
+            public bool Do = true;
         }
     }
 }

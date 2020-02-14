@@ -20,7 +20,7 @@ namespace Loqui.Generation
         public string ObjectCentralizationEnumName => IndexEnumName;
         public string IndexEnumInt => $"(int){this.IndexEnumName}";
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
-        public abstract string ProtectedName { get; }
+        public virtual string ProtectedName => this.Name;
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public virtual bool IntegrateField { get; set; } = true;

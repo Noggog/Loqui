@@ -23,7 +23,10 @@ namespace Loqui.Generation
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
+                if (!string.IsNullOrWhiteSpace(indexAccessor.DirectAccess))
+                {
+                    fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
+                }
                 toDo();
             }
             fg.AppendLine("catch (Exception ex)");

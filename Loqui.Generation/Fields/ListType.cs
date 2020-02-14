@@ -213,7 +213,7 @@ namespace Loqui.Generation
                                     loqui.GenerateTypicalMakeCopy(
                                         gen,
                                         retAccessor: $"return ",
-                                        rhsAccessor: new Accessor("r"),
+                                        rhsAccessor: "r",
                                         copyMaskAccessor: copyMaskAccessor,
                                         deepCopy: deepCopy,
                                         doTranslationMask: false);
