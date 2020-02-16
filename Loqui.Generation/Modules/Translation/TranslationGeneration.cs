@@ -40,7 +40,7 @@ namespace Loqui.Generation
                         }
                         else if (!parseInto)
                         {
-                            prefix = $"{param.ItemAccessor.DirectAccess} = ";
+                            prefix = $"{param.ItemAccessor.DirectAccess}{param.ItemAccessor.AssignmentOperator}";
                         }
                         args = new ArgsWrapper(param.FG,
                            $"{prefix}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}{(param.Generic == null ? null : $"<{param.Generic}>")}",

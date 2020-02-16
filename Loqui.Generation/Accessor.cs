@@ -11,6 +11,7 @@ namespace Loqui.Generation
         public string DirectAccess;
         public string PropertyAccess;
         public string PropertyOrDirectAccess => this.PropertyAccess ?? this.DirectAccess;
+        public bool DirectIsAssignment = true;
 
         public Accessor()
         {
@@ -31,6 +32,21 @@ namespace Loqui.Generation
             {
                 this.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
             }
+        }
+
+        public string Assign(string rhs)
+        {
+            return $"{DirectAccess}{AssignmentOperator}{rhs}";
+        }
+
+        public string AssignmentOperator => DirectIsAssignment ? " = " : ": ";
+
+        public static Accessor ConstructorParam(string path)
+        {
+            return new Accessor(path)
+            {
+                DirectIsAssignment = false,
+            };
         }
 
         public override string ToString()
