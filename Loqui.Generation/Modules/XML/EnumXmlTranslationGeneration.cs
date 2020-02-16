@@ -69,27 +69,6 @@ namespace Loqui.Generation
                 });
         }
 
-        public override void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor)
-        {
-            var eType = typeGen as EnumType;
-            using (var args = new ArgsWrapper(fg,
-                $"{retAccessor.DirectAccess}EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Parse{(eType.Nullable ? null : "NonNull")}"))
-            {
-                args.Add(nodeAccessor.DirectAccess);
-                args.Add($"item: out {outItemAccessor}");
-                args.Add($"errorMask: out {errorMaskAccessor}");
-                args.Add($"translationMask: {translationMaskAccessor}");
-            }
-        }
-
         public override XElement GenerateForXSD(
             ObjectGeneration obj,
             XElement rootElement,

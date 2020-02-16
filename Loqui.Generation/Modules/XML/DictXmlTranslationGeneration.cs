@@ -268,27 +268,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor)
-        {
-            this.GenerateCopyIn_Internal(
-                fg: fg,
-                objGen: objGen,
-                typeGen: typeGen,
-                nodeAccessor: nodeAccessor,
-                ret: true,
-                itemAccessor: retAccessor,
-                translationMaskAccessor: translationMaskAccessor,
-                errorMaskAccessor: errorMaskAccessor);
-        }
-
         public override XElement GenerateForXSD(
             ObjectGeneration obj,
             XElement rootElement,

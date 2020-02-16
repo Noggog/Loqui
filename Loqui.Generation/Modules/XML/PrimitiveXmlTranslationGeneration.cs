@@ -60,14 +60,6 @@ namespace Loqui.Generation
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
                 }
                 args.Add($"errorMask: {errorMaskAccessor}");
-                foreach (var writeParam in this.AdditionalWriteParams)
-                {
-                    var get = writeParam(
-                        objGen: objGen,
-                        typeGen: typeGen);
-                    if (get.Failed) continue;
-                    args.Add(get.Value);
-                }
             }
         }
 
@@ -82,14 +74,6 @@ namespace Loqui.Generation
         {
             List<string> extraArgs = new List<string>();
             extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}");
-            foreach (var writeParam in this.AdditionalCopyInParams)
-            {
-                var get = writeParam(
-                    objGen: objGen,
-                    typeGen: typeGen);
-                if (get.Failed) continue;
-                extraArgs.Add(get.Value);
-            }
 
             TranslationGeneration.WrapParseCall(
                 new TranslationWrapParseArgs()
@@ -103,39 +87,6 @@ namespace Loqui.Generation
                     IndexAccessor = new Accessor(typeGen.IndexEnumInt),
                     ExtraArgs = extraArgs.ToArray()
                 });
-        }
-
-        public override void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor)
-        {
-            using (var args = new ArgsWrapper(fg,
-                $"{retAccessor.DirectAccess}{this.TypeName(typeGen)}XmlTranslation.Instance.Parse",
-                (this.Nullable ? string.Empty : $".Bubble((o) => o.Value)")))
-            {
-                args.Add(nodeAccessor.DirectAccess);
-                if (CanBeNotNullable)
-                {
-                    args.Add($"nullable: {Nullable.ToString().ToLower()}");
-                }
-                args.Add($"item: out {outItemAccessor}");
-                args.Add($"errorMask: {errorMaskAccessor}");
-                args.Add($"translationMask: {translationMaskAccessor}");
-                foreach (var writeParam in this.AdditionalCopyInRetParams)
-                {
-                    var get = writeParam(
-                        objGen: objGen,
-                        typeGen: typeGen);
-                    if (get.Failed) continue;
-                    args.Add(get.Value);
-                }
-            }
         }
 
         public override XElement GenerateForXSD(

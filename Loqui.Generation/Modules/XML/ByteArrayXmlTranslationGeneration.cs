@@ -24,14 +24,6 @@ namespace Loqui.Generation
 
             List<string> extraArgs = new List<string>();
             extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}");
-            foreach (var writeParam in this.AdditionalCopyInParams)
-            {
-                var get = writeParam(
-                    objGen: objGen,
-                    typeGen: typeGen);
-                if (get.Failed) continue;
-                extraArgs.Add(get.Value);
-            }
 
             if (byteArray.Length != null)
             {

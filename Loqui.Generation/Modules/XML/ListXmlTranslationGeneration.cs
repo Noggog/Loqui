@@ -119,27 +119,6 @@ namespace Loqui.Generation
                 errorMaskAccessor: errorMaskAccessor);
         }
 
-        public override void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor)
-        {
-            GenerateCopyInRet_Internal(
-                fg: fg,
-                objGen: objGen,
-                typeGen: typeGen,
-                nodeAccessor: nodeAccessor,
-                itemAccessor: retAccessor,
-                ret: true,
-                errorMaskAccessor: errorMaskAccessor,
-                translationMaskAccessor: translationMaskAccessor);
-        }
-
         public void GenerateCopyInRet_Internal(
             FileGeneration fg,
             ObjectGeneration objGen,
@@ -171,29 +150,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");
-                        if (subTransl.AdditionalCopyInParams.Any((p) => p(objGen, typeGen).Succeeded))
-                        {
-                            args.Add((gen) =>
-                            {
-                                gen.AppendLine($"transl: (XElement subNode, out {list.SubTypeGeneration.TypeName(getter: false)} listSubItem, ErrorMaskBuilder listErrMask, TranslationCrystal listTranslMask) =>");
-                                using (new BraceWrapper(gen))
-                                {
-                                    subTransl.GenerateCopyInRet(
-                                        fg: gen,
-                                        objGen: objGen,
-                                        typeGen: list.SubTypeGeneration,
-                                        nodeAccessor: "subNode",
-                                        outItemAccessor: "listSubItem",
-                                        translationMaskAccessor: "listTranslMask",
-                                        retAccessor: "return ",
-                                        errorMaskAccessor: "listErrMask");
-                                }
-                            });
-                        }
-                        else
-                        {
-                            args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration, getter: false)}.Parse");
-                        }
+                        args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration, getter: false)}.Parse");
                         args.Add("errorMask: errorMask");
                         args.Add($"translationMask: {translationMaskAccessor})");
                     }

@@ -78,30 +78,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor)
-        {
-            UnsafeType unsafeType = typeGen as UnsafeType;
-            using (var args = new ArgsWrapper(fg,
-                $"{retAccessor.DirectAccess}WildcardXmlTranslation.Instance.Parse{(typeGen.PrefersProperty ? "Into" : null)}"))
-            {
-                args.Add($"root: {nodeAccessor}");
-                if (typeGen.PrefersProperty)
-                {
-                    args.Add($"item: {retAccessor.PropertyAccess}");
-                }
-                args.Add($"errorMask: {errorMaskAccessor}");
-                args.Add($"translationMask: {translationMaskAccessor}");
-            }
-        }
-
         public override XElement GenerateForXSD(
             ObjectGeneration obj,
             XElement rootElement, 

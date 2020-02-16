@@ -15,9 +15,6 @@ namespace Loqui.Generation
         public delegate TryGet<string> ParamTest(
             ObjectGeneration objGen,
             TypeGeneration typeGen);
-        public List<ParamTest> AdditionalWriteParams = new List<ParamTest>();
-        public List<ParamTest> AdditionalCopyInParams = new List<ParamTest>();
-        public List<ParamTest> AdditionalCopyInRetParams = new List<ParamTest>();
 
         public abstract void GenerateWrite(
             FileGeneration fg,
@@ -39,16 +36,6 @@ namespace Loqui.Generation
             Accessor translationMaskAccessor);
 
         public abstract string GetTranslatorInstance(TypeGeneration typeGen, bool getter);
-
-        public abstract void GenerateCopyInRet(
-            FileGeneration fg,
-            ObjectGeneration objGen,
-            TypeGeneration typeGen,
-            Accessor nodeAccessor,
-            Accessor retAccessor,
-            Accessor outItemAccessor,
-            Accessor errorMaskAccessor,
-            Accessor translationMaskAccessor);
 
         public abstract XElement GenerateForXSD(
             ObjectGeneration objGen,
