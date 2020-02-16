@@ -64,7 +64,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{initialLine}({(args.Count == 1 ? args[0] : null)}");
+                    fg.AppendLine($"{initialLine}({(args.Count == 1 ? args[0][0] : null)}");
                     for (int i = 1; i < args[0].Length - 1; i++)
                     {
                         fg.AppendLine(args[0][i]);
