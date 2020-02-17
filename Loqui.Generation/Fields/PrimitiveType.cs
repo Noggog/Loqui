@@ -31,5 +31,10 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
         }
+
+        public override string GetDuplicate(Accessor accessor)
+        {
+            return $"{accessor}";
+        }
     }
 }

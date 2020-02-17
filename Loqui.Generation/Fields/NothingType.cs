@@ -100,5 +100,10 @@ namespace Loqui.Generation
         {
             throw new ArgumentException();
         }
+
+        public override string GetDuplicate(Accessor accessor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

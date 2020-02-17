@@ -291,5 +291,7 @@ namespace Loqui.Generation
         }
 
         public virtual string GetDefault() => "default";
+
+        public abstract string GetDuplicate(Accessor accessor);
     }
 }
