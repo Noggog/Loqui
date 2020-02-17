@@ -19,7 +19,7 @@ namespace Loqui.Generation
         public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
         {
             if (!field.IntegrateField) return;
-            fg.AppendLine($"this.{field.Name} = (Exception)obj;");
+            fg.AppendLine($"this.{field.Name} = ({GetErrorMaskTypeStr(field)}?)obj;");
         }
 
         public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
