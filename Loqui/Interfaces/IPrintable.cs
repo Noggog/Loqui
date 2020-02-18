@@ -8,6 +8,6 @@ namespace Loqui
 {
     public interface IPrintable
     {
-        void ToString(FileGeneration fg);
+        void ToString(FileGeneration fg, string? name);
     }
 }

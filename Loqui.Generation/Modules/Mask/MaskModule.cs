@@ -263,15 +263,15 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var fg = new {nameof(FileGeneration)}();");
-                        fg.AppendLine($"ToString(fg);");
+                        fg.AppendLine($"ToString(fg, null);");
                         fg.AppendLine("return fg.ToString();");
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public{obj.FunctionOverride()}void ToString({nameof(FileGeneration)} fg)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}void ToString({nameof(FileGeneration)} fg, string? name = null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.AppendLine(\"{obj.Mask_BasicName(MaskType.Error)} =>\");");
+                        fg.AppendLine($"fg.AppendLine($\"{{(name ?? \"{obj.Mask_BasicName(MaskType.Error)}\")}} =>\");");
                         fg.AppendLine($"fg.AppendLine(\"[\");");
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))

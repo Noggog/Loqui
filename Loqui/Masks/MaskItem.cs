@@ -112,7 +112,7 @@ namespace Loqui
             {
                 if (maskItem.Overall is IPrintable printable)
                 {
-                    printable.ToString(fg);
+                    printable.ToString(fg, null);
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace Loqui
             {
                 if (maskItem.Specific is IPrintable printable)
                 {
-                    printable.ToString(fg);
+                    printable.ToString(fg, null);
                 }
                 else
                 {

@@ -21,9 +21,8 @@ namespace Loqui
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
-    public interface ILoquiObjectGetter : ILoquiObject, IEqualsMask
+    public interface ILoquiObjectGetter : ILoquiObject, IEqualsMask, IPrintable
     {
-        void ToString(FileGeneration fg, string name);
         IMask<bool> GetHasBeenSetIMask();
     }
 

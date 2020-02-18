@@ -37,7 +37,7 @@ namespace Loqui
             throw new NotImplementedException();
         }
 
-        public void ToString(FileGeneration fg)
+        public void ToString(FileGeneration fg, string? name)
         {
             throw new NotImplementedException();
         }
