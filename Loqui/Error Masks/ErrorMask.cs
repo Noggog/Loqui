@@ -113,4 +113,15 @@ namespace Loqui
             return Errors[index];
         }
     }
+
+    public static class ErrorMaskExt
+    {
+        public static TMask? Combine<TMask>(this TMask? lhs, TMask? rhs)
+            where TMask : class, IErrorMask<TMask>
+        {
+            if (lhs == null) return rhs;
+            if (rhs == null) return lhs;
+            return lhs.Combine(rhs);
+        }
+    }
 }

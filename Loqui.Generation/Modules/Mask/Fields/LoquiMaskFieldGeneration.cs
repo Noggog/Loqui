@@ -134,7 +134,7 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (!IsUnknownGeneric(loqui))
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ({accessor}?.Specific as IErrorMask<{loqui.Mask(MaskType.Error)}>)?.Combine({rhsAccessor}?.Specific));");
+                fg.AppendLine($"{retAccessor} = {accessor}.Combine({rhsAccessor}, (l, r) => l.Combine(r));");
             }
             else
             {

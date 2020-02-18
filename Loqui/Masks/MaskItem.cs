@@ -161,5 +161,28 @@ namespace Loqui
                 return new MaskItem<bool, M?>(overall: allEq, specific: mask);
             }
         }
+
+        public static MaskItem<Exception?, TMask?>? Combine<TMask>(this MaskItem<Exception?, TMask?>? lhs, MaskItem<Exception?, TMask?>? rhs, Func<TMask, TMask, TMask> combiner)
+            where TMask : class
+        {
+            if (rhs == null) return lhs;
+            if (lhs == null) return rhs;
+            var overall = ExceptionExt.Combine(lhs.Overall, rhs.Overall);
+            TMask? specific;
+            if (lhs.Specific == null)
+            {
+                specific = rhs.Specific;
+            }
+            else if (rhs.Specific == null)
+            {
+                specific = lhs.Specific;
+            }
+            else
+            {
+                specific = combiner(lhs.Specific, rhs.Specific);
+            }
+            if (overall == null && specific == null) return null;
+            return new MaskItem<Exception?, TMask?>(overall, specific);
+        }
     }
 }
