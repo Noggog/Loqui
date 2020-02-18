@@ -27,9 +27,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, string rhsAccessorPrefix, string copyMaskAccessor, bool protectedMembers, bool deepCopy)
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
         {
-            fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
+            fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
         }
 
         public override string GetDuplicate(Accessor accessor)

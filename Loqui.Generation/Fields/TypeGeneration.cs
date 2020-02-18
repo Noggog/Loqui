@@ -130,8 +130,8 @@ namespace Loqui.Generation
         public abstract void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            string rhsAccessorPrefix,
-            string copyMaskAccessor,
+            Accessor rhs,
+            Accessor copyMaskAccessor,
             bool protectedMembers,
             bool deepCopy);
 
@@ -285,7 +285,7 @@ namespace Loqui.Generation
             return true;
         }
 
-        public virtual string GetTranslationIfAccessor(string translationCrystalAccessor)
+        public virtual string GetTranslationIfAccessor(Accessor translationCrystalAccessor)
         {
             return $"({translationCrystalAccessor}?.GetShouldTranslate({this.IndexEnumInt}) ?? true)";
         }

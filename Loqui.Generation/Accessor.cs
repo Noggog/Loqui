@@ -40,12 +40,13 @@ namespace Loqui.Generation
         public static Accessor FromType(
             TypeGeneration typeGen,
             string accessor,
-            bool protectedAccess = false)
+            bool protectedAccess = false,
+            bool nullable = false)
         {
             string process(string name)
             {
-                if (string.IsNullOrWhiteSpace(name)) return string.Empty;
-                return $"{accessor}.{name}";
+                if (string.IsNullOrWhiteSpace(name)) return accessor;
+                return $"{accessor}{(nullable ? "?" : null)}.{name}";
             }
             Accessor ret = new Accessor();
             ret.DirectAccess = process(protectedAccess ? typeGen.ProtectedName : typeGen.Name);

@@ -258,8 +258,8 @@ namespace Loqui.Generation
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            string rhsAccessorPrefix,
-            string copyMaskAccessor,
+            Accessor rhs, 
+            Accessor copyMaskAccessor,
             bool protectedMembers, 
             bool deepCopy)
         {

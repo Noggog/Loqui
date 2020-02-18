@@ -68,17 +68,17 @@ namespace Loqui.Generation
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            string rhsAccessorPrefix, 
-            string copyMaskAccessor,
+            Accessor rhs, 
+            Accessor copyMaskAccessor,
             bool protectedMembers,
             bool getter)
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, Accessor.FromType(this, rhsAccessorPrefix))})");
+                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, rhs)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}{(getter ? null : ".Value")}.ToArray();");
+                    fg.AppendLine($"{accessor.DirectAccess} = {rhs}{(getter ? null : ".Value")}.ToArray();");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
@@ -95,7 +95,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)}.ToArray();");
+                fg.AppendLine($"{accessor.DirectAccess} = {rhs}.ToArray();");
             }
         }
 

@@ -189,8 +189,8 @@ namespace Loqui.Generation
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            string rhsAccessorPrefix,
-            string copyMaskAccessor,
+            Accessor rhs,
+            Accessor copyMaskAccessor,
             bool protectedMembers,
             bool deepCopy)
         {
@@ -204,7 +204,7 @@ namespace Loqui.Generation
                         using (var args = new ArgsWrapper(fg,
                             $"{accessor.PropertyOrDirectAccess}.SetTo"))
                         {
-                            args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
+                            args.Add($"items: {rhs}");
                             args.Add((gen) =>
                             {
                                 gen.AppendLine("converter: (r) =>");
@@ -213,7 +213,7 @@ namespace Loqui.Generation
                                     loqui.GenerateTypicalMakeCopy(
                                         gen,
                                         retAccessor: $"return ",
-                                        rhsAccessor: "r",
+                                        rhsAccessor: Accessor.FromType(loqui, "r"),
                                         copyMaskAccessor: copyMaskAccessor,
                                         deepCopy: deepCopy,
                                         doTranslationMask: false);
@@ -227,7 +227,7 @@ namespace Loqui.Generation
                         using (var args = new ArgsWrapper(fg,
                             $"{accessor.PropertyOrDirectAccess}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
                         {
-                            args.Add($"items: {rhsAccessorPrefix}.{this.Name}");
+                            args.Add($"items: {rhs}");
                             args.Add((gen) =>
                             {
                                 gen.AppendLine("converter: (r) =>");
@@ -291,7 +291,7 @@ namespace Loqui.Generation
 
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, Accessor.FromType(this, rhsAccessorPrefix))})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, rhs)})");
                 using (new BraceWrapper(fg))
                 {
                     GenerateSet();

@@ -1703,9 +1703,9 @@ namespace Loqui.Generation
                         {
                             item.Field.GenerateForCopy(
                                 fg,
-                                Accessor.FromType(item.Field, $"{accessorPrefix}"),
-                                rhsAccessorPrefix,
-                                deepCopy ? copyMaskAccessor : $"{copyMaskAccessor}?.{item.Field.Name}",
+                                Accessor.FromType(item.Field, accessorPrefix),
+                                Accessor.FromType(item.Field, rhsAccessorPrefix),
+                                deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: true),
                                 protectedMembers: false,
                                 deepCopy: deepCopy);
                         }
@@ -1715,9 +1715,9 @@ namespace Loqui.Generation
                     {
                         item.Field.GenerateForCopy(
                             fg,
-                            Accessor.FromType(item.Field, $"{accessorPrefix}"),
-                            rhsAccessorPrefix,
-                            deepCopy ? copyMaskAccessor : $"{copyMaskAccessor}.{item.Field.Name}",
+                            accessor: Accessor.FromType(item.Field, accessorPrefix),
+                            rhs: Accessor.FromType(item.Field, rhsAccessorPrefix),
+                            copyMaskAccessor: deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor),
                             protectedMembers: false,
                             deepCopy: deepCopy);
                     }

@@ -322,8 +322,8 @@ namespace Loqui.Generation
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            string rhsAccessorPrefix,
-            string copyMaskAccessor,
+            Accessor rhs,
+            Accessor copyMaskAccessor,
             bool protectedMembers,
             bool deepCopy)
         {
@@ -333,9 +333,9 @@ namespace Loqui.Generation
                 if (this.HasBeenSet)
                 {
                     using (var args = new ArgsWrapper(fg,
-                        $"{accessor.PropertyAccess}.SetTo"))
+                        $"{accessor}.SetTo"))
                     {
-                        args.Add($"rhs: {rhsAccessorPrefix}.{this.GetName(false, true)}");
+                        args.Add($"rhs: {rhs}");
                     }
                 }
                 else
@@ -343,7 +343,7 @@ namespace Loqui.Generation
                     using (var args = new ArgsWrapper(fg,
                         $"{accessor.PropertyAccess}.Set"))
                     {
-                        args.Add($"value: {rhsAccessorPrefix}.{this.GetName(false, false)}");
+                        args.Add($"value: {rhs}");
                     }
                 }
             }
@@ -351,7 +351,7 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"if ({rhsAccessorPrefix}.{this.Name}.TryGet(out var item{this.Name}))");
+                    fg.AppendLine($"if ({rhs}.TryGet(out var item{this.Name}))");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"{accessor.DirectAccess} = item{this.Name};");
@@ -371,7 +371,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.GetName(internalUse: false, property: false)};");
+                    fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
                 }
             }
         }
