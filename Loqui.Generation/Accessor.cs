@@ -22,18 +22,6 @@ namespace Loqui.Generation
             this.DirectAccess = direct;
         }
 
-        public Accessor(
-            TypeGeneration typeGen,
-            string accessor,
-            bool protectedAccess = false)
-        {
-            this.DirectAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedName : typeGen.Name)}";
-            if (typeGen.HasProperty)
-            {
-                this.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
-            }
-        }
-
         public string Assign(string rhs)
         {
             return $"{DirectAccess}{AssignmentOperator}{rhs}";
@@ -47,6 +35,20 @@ namespace Loqui.Generation
             {
                 DirectIsAssignment = false,
             };
+        }
+
+        public static Accessor FromType(
+            TypeGeneration typeGen,
+            string accessor,
+            bool protectedAccess = false)
+        {
+            Accessor ret = new Accessor();
+            ret.DirectAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedName : typeGen.Name)}";
+            if (typeGen.HasProperty)
+            {
+                ret.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
+            }
+            return ret;
         }
 
         public override string ToString()

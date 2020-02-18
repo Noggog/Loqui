@@ -1099,7 +1099,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg, doIt: field.IntegrateField))
                     {
-                        field.GenerateToString(fg, field.Name, new Accessor(field, "item."), "fg");
+                        field.GenerateToString(fg, field.Name, Accessor.FromType(field, "item."), "fg");
                     }
                 }
             }
@@ -1140,7 +1140,7 @@ namespace Loqui.Generation
             {
                 foreach (var field in this.IterateFieldIndices())
                 {
-                    field.Field.GenerateForHasBeenSetCheck(fg, new Accessor(field.Field, "item."), $"checkMask.{field.Field.Name}");
+                    field.Field.GenerateForHasBeenSetCheck(fg, Accessor.FromType(field.Field, "item."), $"checkMask.{field.Field.Name}");
                 }
                 if (this.HasLoquiBaseObject)
                 {
@@ -1194,7 +1194,7 @@ namespace Loqui.Generation
             {
                 foreach (var field in this.IterateFieldIndices())
                 {
-                    field.Field.GenerateForHasBeenSetMaskGetter(fg, new Accessor(field.Field, "item."), $"mask.{field.Field.Name}");
+                    field.Field.GenerateForHasBeenSetMaskGetter(fg, Accessor.FromType(field.Field, "item."), $"mask.{field.Field.Name}");
                 }
                 if (this.HasLoquiBaseObject)
                 {
@@ -1703,7 +1703,7 @@ namespace Loqui.Generation
                         {
                             item.Field.GenerateForCopy(
                                 fg,
-                                new Accessor(item.Field, $"{accessorPrefix}."),
+                                Accessor.FromType(item.Field, $"{accessorPrefix}."),
                                 rhsAccessorPrefix,
                                 deepCopy ? copyMaskAccessor : $"{copyMaskAccessor}?.{item.Field.Name}",
                                 protectedMembers: false,
@@ -1715,7 +1715,7 @@ namespace Loqui.Generation
                     {
                         item.Field.GenerateForCopy(
                             fg,
-                            new Accessor(item.Field, $"{accessorPrefix}."),
+                            Accessor.FromType(item.Field, $"{accessorPrefix}."),
                             rhsAccessorPrefix,
                             deepCopy ? copyMaskAccessor : $"{copyMaskAccessor}.{item.Field.Name}",
                             protectedMembers: false,
@@ -1917,7 +1917,7 @@ namespace Loqui.Generation
                         }
                         using (new DepthWrapper(fg, doIt: field.IntegrateField))
                         {
-                            field.GenerateGetNth(fg, new Accessor(field, "obj."));
+                            field.GenerateGetNth(fg, Accessor.FromType(field, "obj."));
                         }
                     }
 
@@ -2108,7 +2108,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"case {field.IndexEnumName}:");
                         using (new DepthWrapper(fg))
                         {
-                            field.GenerateSetNthHasBeenSet(fg, new Accessor(field, "obj."), "on");
+                            field.GenerateSetNthHasBeenSet(fg, Accessor.FromType(field, "obj."), "on");
                         }
                     }
 
@@ -2162,7 +2162,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                field.GenerateUnsetNth(fg, new Accessor(field, "obj."));
+                                field.GenerateUnsetNth(fg, Accessor.FromType(field, "obj."));
                             }
                         }
                     }
@@ -2489,8 +2489,8 @@ namespace Loqui.Generation
                     {
                         field.GenerateForEqualsMask(
                             fg,
-                            new Accessor(field, $"item."),
-                            new Accessor(field, "rhs."),
+                            Accessor.FromType(field, $"item."),
+                            Accessor.FromType(field, "rhs."),
                             $"ret.{field.Name}");
                     }
                 }
@@ -2680,8 +2680,8 @@ namespace Loqui.Generation
                     {
                         if (!HasKeyField() || field.KeyField)
                         {
-                            var lhsAccessor = new Accessor(field, "lhs.");
-                            var rhsAccessor = new Accessor(field, "rhs.");
+                            var lhsAccessor = Accessor.FromType(field, "lhs.");
+                            var rhsAccessor = Accessor.FromType(field, "rhs.");
                             if (field.IntegrateField)
                             {
                                 field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
@@ -2725,7 +2725,7 @@ namespace Loqui.Generation
                     fg.AppendLine("int ret = 0;");
                     foreach (var field in this.IterateFields())
                     {
-                        var itemAccessor = new Accessor(field, "item.");
+                        var itemAccessor = Accessor.FromType(field, "item.");
                         if (!HasKeyField() || field.KeyField)
                         {
                             field.GenerateForHash(fg, itemAccessor, "ret");
@@ -3119,7 +3119,7 @@ namespace Loqui.Generation
                 foreach (var field in this.IterateFields())
                 {
                     if (field.ReadOnly) continue;
-                    field.GenerateClear(fg, new Accessor(field, "item."));
+                    field.GenerateClear(fg, Accessor.FromType(field, "item."));
                 }
                 if (this.HasLoquiBaseObject)
                 {

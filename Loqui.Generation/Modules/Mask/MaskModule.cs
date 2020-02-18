@@ -479,7 +479,7 @@ namespace Loqui.Generation
                         }
                         foreach (var field in obj.IterateFields())
                         {
-                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field, new Accessor(field, "this."), nullCheck: true, indexed: false);
+                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field, Accessor.FromType(field, "this."), nullCheck: true, indexed: false);
                         }
                         fg.AppendLine("return true;");
                     }
@@ -586,7 +586,7 @@ namespace Loqui.Generation
                     {
                         foreach (var field in obj.IterateFields())
                         {
-                            GetMaskModule(field.GetType()).GenerateForTranslationMaskSet(fg, field, new Accessor(field, "this."), "defaultOn");
+                            GetMaskModule(field.GetType()).GenerateForTranslationMaskSet(fg, field, Accessor.FromType(field, "this."), "defaultOn");
                         }
 
                     }

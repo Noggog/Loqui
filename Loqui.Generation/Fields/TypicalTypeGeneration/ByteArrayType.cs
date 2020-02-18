@@ -75,7 +75,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, new Accessor(this, $"{rhsAccessorPrefix}."))})");
+                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, Accessor.FromType(this, $"{rhsAccessorPrefix}."))})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{accessor.DirectAccess} = {rhsAccessorPrefix}.{this.Name}{(getter ? null : ".Value")}.ToArray();");

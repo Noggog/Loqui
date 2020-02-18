@@ -259,7 +259,7 @@ namespace Loqui.Generation
                                             objGen: obj,
                                             typeGen: field,
                                             nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
-                                            itemAccessor: new Accessor(field, "item."),
+                                            itemAccessor: Accessor.FromType(field, "item."),
                                             translationMaskAccessor: "translationMask",
                                             errorMaskAccessor: $"errorMask");
                                     }
@@ -392,7 +392,7 @@ namespace Loqui.Generation
                     List<string> conditions = new List<string>();
                     if (field.Field.HasBeenSet)
                     {
-                        conditions.Add($"{field.Field.HasBeenSetAccessor(getter: true, accessor: new Accessor(field.Field, "item."))}");
+                        conditions.Add($"{field.Field.HasBeenSetAccessor(getter: true, accessor: Accessor.FromType(field.Field, "item."))}");
                     }
                     if (this.TranslationMaskParameter)
                     {
@@ -416,7 +416,7 @@ namespace Loqui.Generation
                             objGen: obj,
                             typeGen: field.Field,
                             writerAccessor: $"{XmlTranslationModule.XElementLine.GetParameterName(obj)}",
-                            itemAccessor: new Accessor(field.Field, "item."),
+                            itemAccessor: Accessor.FromType(field.Field, "item."),
                             errorMaskAccessor: $"errorMask",
                             translationMaskAccessor: "translationMask",
                             nameAccessor: $"nameof(item.{field.Field.Name})");
@@ -478,7 +478,7 @@ namespace Loqui.Generation
                                         objGen: obj,
                                         typeGen: field,
                                         nodeAccessor: XmlTranslationModule.XElementLine.GetParameterName(obj).Result,
-                                        itemAccessor: new Accessor(field, "item."),
+                                        itemAccessor: Accessor.FromType(field, "item."),
                                         translationMaskAccessor: "translationMask",
                                         errorMaskAccessor: $"errorMask");
                                 }
