@@ -42,11 +42,16 @@ namespace Loqui.Generation
             string accessor,
             bool protectedAccess = false)
         {
+            string process(string name)
+            {
+                if (string.IsNullOrWhiteSpace(name)) return string.Empty;
+                return $"{accessor}.{name}";
+            }
             Accessor ret = new Accessor();
-            ret.DirectAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedName : typeGen.Name)}";
+            ret.DirectAccess = process(protectedAccess ? typeGen.ProtectedName : typeGen.Name);
             if (typeGen.HasProperty)
             {
-                ret.PropertyAccess = $"{accessor}{(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property)}";
+                ret.PropertyAccess = process(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property);
             }
             return ret;
         }

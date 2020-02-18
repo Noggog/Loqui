@@ -291,7 +291,7 @@ namespace Loqui.Generation
 
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, Accessor.FromType(this, $"{rhsAccessorPrefix}."))})");
+                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, Accessor.FromType(this, rhsAccessorPrefix))})");
                 using (new BraceWrapper(fg))
                 {
                     GenerateSet();
