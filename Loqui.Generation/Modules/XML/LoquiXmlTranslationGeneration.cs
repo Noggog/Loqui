@@ -121,7 +121,7 @@ namespace Loqui.Generation
             TypeGeneration typeGen,
             Accessor nodeAccessor,
             Accessor itemAccessor,
-            Accessor indexAccessor,
+            Accessor? indexAccessor,
             Accessor errorMaskAccessor,
             Accessor translationMaskAccessor)
         {

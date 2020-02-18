@@ -64,6 +64,7 @@ namespace Loqui.Generation
 
         public static implicit operator Accessor(string str)
         {
+            if (str == null) return null;
             return new Accessor(str);
         }
     }
