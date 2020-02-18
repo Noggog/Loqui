@@ -70,7 +70,7 @@ namespace Loqui
         public static MaskItem<bool, M?>? EqualsHelper<T, M>(
             T? lhs,
             T? rhs,
-            Func<T, T, M> maskGetter,
+            Func<T, T, Include, M> maskGetter,
             Include include)
             where T : class
             where M : class, IMask<bool>
@@ -83,7 +83,7 @@ namespace Loqui
             {
                 return new MaskItem<bool, M?>(false, default);
             }
-            var mask = maskGetter(lhs, rhs);
+            var mask = maskGetter(lhs, rhs, include);
             var overall = mask.AllEqual((b) => b);
             if (!overall || include == Include.All)
             {

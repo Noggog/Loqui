@@ -1102,7 +1102,7 @@ namespace Loqui.Generation
                     {
                         args.Add(accessor.DirectAccess);
                         args.Add(rhsAccessor.DirectAccess);
-                        args.Add($"(loqLhs, loqRhs) => loqLhs.GetEqualsMask(loqRhs)");
+                        args.Add($"(loqLhs, loqRhs, incl) => loqLhs.GetEqualsMask(loqRhs, incl)");
                         args.Add("include");
                     }
                 }
