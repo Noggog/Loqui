@@ -2188,10 +2188,9 @@ namespace Loqui.Generation
                         {
                             return true;
                         }
-                        else if (t is ContainerType)
+                        else if (t is WrapperType wrapper)
                         {
-                            ContainerType listField = t as ContainerType;
-                            if (listField.SubTypeGeneration is LoquiType)
+                            if (wrapper.SubTypeGeneration is LoquiType)
                             {
                                 return true;
                             }
