@@ -392,7 +392,8 @@ namespace Loqui.Generation
             if (this.SubTypeGeneration is LoquiType loqui)
             {
                 string maskGetter = loqui.TargetObjectGeneration == null ? nameof(ILoquiObjectGetter.GetHasBeenSetIMask) : "GetHasBeenSetMask";
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
+                fg.AppendLine($"var {this.Name}Item = {accessor};");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{this.Name}Item.HasBeenSet" : "true")}, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
             }
             else
             {
