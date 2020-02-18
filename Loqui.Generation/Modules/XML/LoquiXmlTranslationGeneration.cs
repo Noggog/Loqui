@@ -136,7 +136,7 @@ namespace Loqui.Generation
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,
                     Do = indexAccessor != null,
-                    TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
+                    TranslationMaskAccessor = translationMaskAccessor == null ? "null" : $"{ translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                     ExtraArgs = new string[]
                     {
                         $"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}"

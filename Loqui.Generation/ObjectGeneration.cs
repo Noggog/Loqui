@@ -1695,32 +1695,21 @@ namespace Loqui.Generation
                 fg.AppendLine($"if ({(deepCopy ? item.Field.GetTranslationIfAccessor(copyMaskAccessor) : item.Field.SkipCheck(copyMaskAccessor, deepCopy))})");
                 using (new BraceWrapper(fg))
                 {
-                    if (item.Field.CopyNeedsTryCatch)
-                    {
-                        fg.AppendLine($"errorMask?.PushIndex((int){item.Field.IndexEnumName});");
-                        fg.AppendLine("try");
-                        using (new BraceWrapper(fg))
+                    MaskGenerationUtility.WrapErrorFieldIndexPush(
+                        fg,
+                        () =>
                         {
                             item.Field.GenerateForCopy(
                                 fg,
                                 Accessor.FromType(item.Field, accessorPrefix),
                                 Accessor.FromType(item.Field, rhsAccessorPrefix),
-                                deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: true),
+                                deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: item.Field.IsNullable()),
                                 protectedMembers: false,
                                 deepCopy: deepCopy);
-                        }
-                        GenerateExceptionCatcher(fg, item.Field, errMaskAccessor, $"{item.Field.IndexEnumName}");
-                    }
-                    else
-                    {
-                        item.Field.GenerateForCopy(
-                            fg,
-                            accessor: Accessor.FromType(item.Field, accessorPrefix),
-                            rhs: Accessor.FromType(item.Field, rhsAccessorPrefix),
-                            copyMaskAccessor: deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor),
-                            protectedMembers: false,
-                            deepCopy: deepCopy);
-                    }
+                        },
+                        errorMaskAccessor: "errorMask",
+                        indexAccessor: item.Field.HasIndex ? item.Field.IndexEnumInt : default(Accessor),
+                        doIt: item.Field.CopyNeedsTryCatch);
                 }
             }
         }
@@ -3257,21 +3246,6 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
-        }
-
-        public void GenerateExceptionCatcher(FileGeneration fg, TypeGeneration field, string errorMaskAccessor, string enumAccessor)
-        {
-            fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine($"when ({errorMaskAccessor} != null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{errorMaskAccessor}.ReportException(ex);");
-            }
-            fg.AppendLine("finally");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine("errorMask?.PopIndex();");
-            }
         }
         #endregion
 

@@ -20,15 +20,20 @@ namespace Loqui.Generation
                 toDo();
                 return;
             }
+            if (!string.IsNullOrWhiteSpace(indexAccessor.DirectAccess))
+            {
+                fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
+            }
             fg.AppendLine("try");
             using (new BraceWrapper(fg))
             {
-                if (!string.IsNullOrWhiteSpace(indexAccessor.DirectAccess))
-                {
-                    fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
-                }
                 toDo();
             }
+            GenerateExceptionCatcher(fg, errorMaskAccessor);
+        }
+
+        public static void GenerateExceptionCatcher(FileGeneration fg, Accessor errorMaskAccessor)
+        {
             fg.AppendLine("catch (Exception ex)");
             fg.AppendLine($"when ({errorMaskAccessor} != null)");
             using (new BraceWrapper(fg))
@@ -38,7 +43,7 @@ namespace Loqui.Generation
             fg.AppendLine("finally");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{errorMaskAccessor}?.PopIndex();");
+                fg.AppendLine("errorMask?.PopIndex();");
             }
         }
     }
