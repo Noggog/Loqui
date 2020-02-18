@@ -139,7 +139,7 @@ namespace Loqui.Generation
 
         public abstract string GenerateACopy(string rhsAccessor);
 
-        public abstract void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse);
+        public abstract void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse);
 
         public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier);
 

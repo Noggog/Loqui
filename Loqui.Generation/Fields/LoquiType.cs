@@ -973,7 +973,7 @@ namespace Loqui.Generation
             fg.AppendLine($"throw new ArgumentException(\"Cannot mark set status of a singleton: {this.Name}\");");
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
             if (this.SingletonType == SingletonLevel.Singleton)
             {
@@ -983,13 +983,13 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.CopyIn{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhsAccessorPrefix});");
+                    fg.AppendLine($"{accessor}.CopyIn{this.GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhs});");
                     fg.AppendLine("break;");
                 }
             }
             else
             {
-                base.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, internalUse);
+                base.GenerateSetNth(fg, accessor, rhs, internalUse);
             }
         }
 

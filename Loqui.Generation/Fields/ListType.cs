@@ -308,9 +308,9 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.ProtectedName}.SetTo({rhsAccessorPrefix});");
+            fg.AppendLine($"{accessor}.SetTo({rhs});");
             fg.AppendLine($"break;");
         }
 

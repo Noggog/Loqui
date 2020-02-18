@@ -371,12 +371,12 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
             using (var args = new ArgsWrapper(fg,
-                $"{accessorPrefix}.{this.Name}.SetTo"))
+                $"{accessor}.SetTo"))
             {
-                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName(getter: true)}>){rhsAccessorPrefix}");
+                args.Add($"(IEnumerable<{this.ValueTypeGen.TypeName(getter: true)}>){rhs}");
             }
             fg.AppendLine("break;");
         }

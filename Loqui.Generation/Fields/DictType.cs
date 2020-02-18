@@ -102,9 +102,9 @@ namespace Loqui.Generation
             subGenerator.GenerateForCopy(fg, accessor, rhsAccessorPrefix, copyMaskAccessor, protectedMembers, deepCopy);
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
-            subGenerator.GenerateSetNth(fg, accessorPrefix, rhsAccessorPrefix, internalUse);
+            subGenerator.GenerateSetNth(fg, accessor, rhs, internalUse);
         }
 
         public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)

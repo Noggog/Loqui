@@ -381,20 +381,20 @@ namespace Loqui.Generation
             return rhsAccessor;
         }
 
-        public override void GenerateSetNth(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool internalUse)
+        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
             if (!this.IntegrateField) return;
             if (this.HasProperty && this.PrefersProperty)
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessorPrefix}.{this.ProtectedProperty}.Set"))
+                    $"{accessor}.Set"))
                 {
-                    args.Add($"{rhsAccessorPrefix}");
+                    args.Add($"{rhs}");
                 }
             }
             else
             {
-                fg.AppendLine($"{accessorPrefix}.{this.Name} = {rhsAccessorPrefix};");
+                fg.AppendLine($"{accessor} = {rhs};");
             }
             fg.AppendLine($"break;");
         }

@@ -2011,8 +2011,8 @@ namespace Loqui.Generation
                         {
                             field.GenerateSetNth(
                                 fg,
-                                accessorPrefix: $"this",
-                                rhsAccessorPrefix: $"({field.TypeName(getter: false)})obj",
+                                accessor: $"this.{field.Name}",
+                                rhs: $"({field.TypeName(getter: false)})obj",
                                 internalUse: false);
                         }
                     }
@@ -3194,8 +3194,8 @@ namespace Loqui.Generation
                         {
                             field.GenerateSetNth(
                                 fg,
-                                accessorPrefix: $"obj",
-                                rhsAccessorPrefix: $"({field.TypeName(getter: false)})pair.Value",
+                                accessor: $"obj.{field.Name}",
+                                rhs: $"({field.TypeName(getter: false)})pair.Value",
                                 internalUse: true);
                         }
                     }
