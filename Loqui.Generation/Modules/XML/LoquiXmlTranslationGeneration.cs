@@ -103,10 +103,6 @@ namespace Loqui.Generation
             }
             else
             {
-                if (!typeGen.HasIndex)
-                {
-                    throw new NotImplementedException();
-                }
                 GenerateCopyInRet_Internal(
                     fg: fg,
                     objGen: objGen,
@@ -114,7 +110,7 @@ namespace Loqui.Generation
                     nodeAccessor: nodeAccessor,
                     itemAccessor: itemAccessor,
                     translationMaskAccessor: translationMaskAccessor,
-                    indexAccessor: $"(int){typeGen.IndexEnumName}",
+                    indexAccessor: typeGen.HasIndex ? $"(int){typeGen.IndexEnumName}" : null,
                     errorMaskAccessor: errorMaskAccessor);
             }
         }
@@ -139,6 +135,7 @@ namespace Loqui.Generation
                     MaskAccessor = errorMaskAccessor,
                     IndexAccessor = indexAccessor,
                     ItemAccessor = itemAccessor,
+                    Do = indexAccessor != null,
                     TranslationMaskAccessor = $"{translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                     ExtraArgs = new string[]
                     {
