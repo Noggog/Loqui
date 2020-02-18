@@ -40,11 +40,15 @@ namespace Loqui.Generation
             Add($"{str}: {str}");
         }
 
-        public void Add(Action<FileGeneration> generator)
+        public void Add(Action<FileGeneration> generator, bool removeSemicolon = true)
         {
             var gen = new FileGeneration();
             generator(gen);
             if (gen.Empty) return;
+            if (removeSemicolon)
+            {
+                gen[^1] = gen[^1].TrimEnd(';');
+            }
             args.Add(gen.ToArray());
         }
 
