@@ -85,6 +85,7 @@ namespace Loqui.Generation
                     ItemAccessor = itemAccessor,
                     TranslationMaskAccessor = null,
                     IndexAccessor = new Accessor(typeGen.IndexEnumInt),
+                    Do = typeGen.HasIndex,
                     ExtraArgs = extraArgs.ToArray()
                 });
         }
