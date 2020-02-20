@@ -10,7 +10,7 @@ namespace Loqui.Generation
     {
         FileGeneration fg;
         bool first;
-        public List<string> Checks = new List<string>();
+        public List<(string str, bool wrap)> Checks = new List<(string str, bool wrap)>();
         bool ands;
         public bool Empty => Checks.Count == 0;
 
@@ -21,14 +21,24 @@ namespace Loqui.Generation
             this.fg = fg;
         }
 
-        public void Add(string str)
+        public void Add(string str, bool wrapInParens = false)
         {
-            this.Checks.Add(str);
+            this.Checks.Add((str, wrapInParens));
+        }
+
+        private string Get(int index)
+        {
+            var item = Checks[index];
+            if (!item.wrap || Checks.Count <= 1)
+            {
+                return item.str;
+            }
+            return $"({item.str})";
         }
 
         public void Dispose()
         {
-            if (Checks.Count == 0) throw new ArgumentException();
+            if (Checks.Count == 0) return;
             using (var line = new LineWrapper(fg))
             {
                 if (!first)
@@ -36,7 +46,7 @@ namespace Loqui.Generation
                     fg.Append("else ");
                 }
                 fg.Append("if (");
-                fg.Append(Checks[0]);
+                fg.Append(Get(0));
                 if (Checks.Count == 1)
                 {
                     fg.Append(")");
@@ -57,7 +67,7 @@ namespace Loqui.Generation
                         {
                             fg.Append("|| ");
                         }
-                        fg.Append(Checks[i]);
+                        fg.Append(Get(i));
                         if (i == Checks.Count - 1)
                         {
                             fg.Append(")");
