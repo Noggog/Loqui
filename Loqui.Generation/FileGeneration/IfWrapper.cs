@@ -12,6 +12,7 @@ namespace Loqui.Generation
         bool first;
         public List<string> Checks = new List<string>();
         bool ands;
+        public bool Empty => Checks.Count == 0;
 
         public IfWrapper(FileGeneration fg, bool ANDs, bool first = true)
         {

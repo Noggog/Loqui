@@ -51,18 +51,6 @@ namespace Loqui.Generation
             }
         }
 
-        public void GenerateForErrorMaskToStringForField(FileGeneration fg, ObjectGeneration obj, TypeGeneration field)
-        {
-            if (field.IntegrateField)
-            {
-                fg.AppendLine($"if ({GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask")})");
-            }
-            using (new BraceWrapper(fg, doIt: field.IntegrateField))
-            {
-                GetMaskModule(field.GetType()).GenerateForErrorMaskToString(fg, field, field.Name, true);
-            }
-        }
-
         public void GenerateSetExceptionForField(FileGeneration fg, TypeGeneration field)
         {
             if (field.IntegrateField)
@@ -302,7 +290,7 @@ namespace Loqui.Generation
                         }
                         foreach (var item in obj.IterateFields())
                         {
-                            GetMaskModule(item.GetType()).GenerateForErrorMaskToString(fg, item, item.Name, true);
+                            GetMaskModule(item.GetType()).GenerateMaskToString(fg, item, item.Name, topLevel: true, printMask: false);
                         }
                     }
                 }
@@ -536,9 +524,9 @@ namespace Loqui.Generation
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
                         {
-                            foreach (var item in obj.IterateFields())
+                            foreach (var field in obj.IterateFields())
                             {
-                                this.GenerateForErrorMaskToStringForField(fg, obj, item);
+                                GetMaskModule(field.GetType()).GenerateMaskToString(fg, field, field.Name, topLevel: true, printMask: true);
                             }
                         }
                         fg.AppendLine($"fg.AppendLine(\"]\");");

@@ -86,11 +86,17 @@ namespace Loqui.Generation
                 && type.TargetObjectGeneration == null;
         }
 
-        public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
+        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
         {
             if (!field.IntegrateField) return;
-            LoquiType loqui = field as LoquiType;
-            fg.AppendLine($"{accessor}?.ToString(fg);");
+            if (printMask)
+            {
+                fg.AppendLine($"if ({GenerateBoolMaskCheck(field, "printMask")})");
+            }
+            using (new BraceWrapper(fg, printMask))
+            {
+                fg.AppendLine($"{accessor}?.ToString(fg);");
+            }
         }
 
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)

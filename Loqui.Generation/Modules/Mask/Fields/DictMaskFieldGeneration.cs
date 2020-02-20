@@ -157,66 +157,73 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
+        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
         {
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-            fg.AppendLine($"using (new DepthWrapper(fg))");
-            using (new BraceWrapper(fg))
+            if (printMask)
             {
-                DictType dictType = field as DictType;
-
-                fg.AppendLine($"if ({accessor} != null)");
+                fg.AppendLine($"if ({GenerateBoolMaskCheck(field, "printMask")})");
+            }
+            using (new BraceWrapper(fg, printMask))
+            {
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                fg.AppendLine($"using (new DepthWrapper(fg))");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if ({accessor}.Overall != null)");
+                    DictType dictType = field as DictType;
+
+                    fg.AppendLine($"if ({accessor} != null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
-                    }
-                    fg.AppendLine($"if ({accessor}.Specific != null)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"foreach (var subItem in {accessor}{(topLevel ? ".Specific" : string.Empty)})");
+                        fg.AppendLine($"if ({accessor}.Overall != null)");
                         using (new BraceWrapper(fg))
                         {
-                            var keyFieldGen = this.Module.GetMaskModule(dictType.KeyTypeGen.GetType());
-                            var valFieldGen = this.Module.GetMaskModule(dictType.ValueTypeGen.GetType());
-                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
+                        }
+                        fg.AppendLine($"if ({accessor}.Specific != null)");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"foreach (var subItem in {accessor}{(topLevel ? ".Specific" : string.Empty)})");
                             using (new BraceWrapper(fg))
                             {
-                                switch (dictType.Mode)
+                                var keyFieldGen = this.Module.GetMaskModule(dictType.KeyTypeGen.GetType());
+                                var valFieldGen = this.Module.GetMaskModule(dictType.ValueTypeGen.GetType());
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                                fg.AppendLine($"using (new DepthWrapper(fg))");
+                                using (new BraceWrapper(fg))
                                 {
-                                    case DictMode.KeyValue:
-                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Key => [\");");
-                                        fg.AppendLine($"using (new DepthWrapper(fg))");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem.Key", false);
-                                        }
-                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Value => [\");");
-                                        fg.AppendLine($"using (new DepthWrapper(fg))");
-                                        using (new BraceWrapper(fg))
-                                        {
-                                            valFieldGen.GenerateForErrorMaskToString(fg, dictType.ValueTypeGen, "subItem.Value", false);
-                                        }
-                                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                                        break;
-                                    case DictMode.KeyedValue:
-                                        keyFieldGen.GenerateForErrorMaskToString(fg, dictType.KeyTypeGen, "subItem", false);
-                                        break;
-                                    default:
-                                        break;
+                                    switch (dictType.Mode)
+                                    {
+                                        case DictMode.KeyValue:
+                                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Key => [\");");
+                                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                                            using (new BraceWrapper(fg))
+                                            {
+                                                keyFieldGen.GenerateMaskToString(fg, dictType.KeyTypeGen, "subItem.Key", topLevel: false, printMask: false);
+                                            }
+                                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"Value => [\");");
+                                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                                            using (new BraceWrapper(fg))
+                                            {
+                                                valFieldGen.GenerateMaskToString(fg, dictType.ValueTypeGen, "subItem.Value", topLevel: false, printMask: false);
+                                            }
+                                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                                            break;
+                                        case DictMode.KeyedValue:
+                                            keyFieldGen.GenerateMaskToString(fg, dictType.KeyTypeGen, "subItem", topLevel: false, printMask: false);
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                             }
-                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                         }
                     }
                 }
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
             }
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
         public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)

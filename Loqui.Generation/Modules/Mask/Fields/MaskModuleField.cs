@@ -13,10 +13,17 @@ namespace Loqui.Generation
             if (!field.IntegrateField) return;
             fg.AppendLine($"public {GetErrorMaskTypeStr(field)}? {field.Name};");
         }
-        public virtual void GenerateForErrorMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel)
+        public virtual void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
         {
             if (!field.IntegrateField) return;
-            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}}}\");");
+            if (printMask)
+            {
+                fg.AppendLine($"if ({GenerateBoolMaskCheck(field, "printMask")})");
+            }
+            using (new BraceWrapper(fg, printMask))
+            {
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}}}\");");
+            }
         }
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);
         public abstract void GenerateSetMask(FileGeneration fg, TypeGeneration field);
