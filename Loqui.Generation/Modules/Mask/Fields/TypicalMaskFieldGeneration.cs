@@ -40,10 +40,16 @@ namespace Loqui.Generation
             fg.AppendLine($"public bool {field.Name};");
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             if (!field.IntegrateField) return;
             fg.AppendLine($"if (!eval({accessor.DirectAccess}{(indexed ? ".Value" : null)})) return false;");
+        }
+
+        public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        {
+            if (!field.IntegrateField) return;
+            fg.AppendLine($"if (eval({accessor.DirectAccess}{(indexed ? ".Value" : null)})) return true;");
         }
 
         public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)

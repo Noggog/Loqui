@@ -99,7 +99,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             LoquiType loqui = field as LoquiType;
 
@@ -112,11 +112,33 @@ namespace Loqui.Generation
                 fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
                 if (!IsUnknownGeneric(loqui))
                 {
-                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && !{accessor.DirectAccess}.Specific.AllEqual(eval)) return false;");
+                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && !{accessor.DirectAccess}.Specific.All(eval)) return false;");
                 }
                 else
                 {
-                    fg.AppendLine($"if (!({accessor.DirectAccess}.Specific?.AllEqual(eval) ?? true)) return false;");
+                    fg.AppendLine($"if (!({accessor.DirectAccess}.Specific?.All(eval) ?? true)) return false;");
+                }
+            }
+        }
+
+        public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        {
+            LoquiType loqui = field as LoquiType;
+
+            if (nullCheck)
+            {
+                fg.AppendLine($"if ({field.Name} != null)");
+            }
+            using (new BraceWrapper(fg, doIt: nullCheck))
+            {
+                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
+                if (!IsUnknownGeneric(loqui))
+                {
+                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && {accessor.DirectAccess}.Specific.Any(eval)) return true;");
+                }
+                else
+                {
+                    fg.AppendLine($"if (({accessor.DirectAccess}.Specific?.Any(eval) ?? false)) return true;");
                 }
             }
         }

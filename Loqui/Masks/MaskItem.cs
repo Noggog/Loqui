@@ -143,7 +143,7 @@ namespace Loqui
         public static MaskItem<bool, M?>? Factory<M>(M mask, EqualsMaskHelper.Include include)
             where M : class, IMask<bool>
         {
-            var allEq = mask.AllEqual(b => b);
+            var allEq = mask.All(b => b);
             if (allEq)
             {
                 switch (include)

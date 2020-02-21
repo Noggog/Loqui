@@ -226,7 +226,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             DictType dictType = field as DictType;
 
@@ -252,7 +252,7 @@ namespace Loqui.Generation
                                     using (new BraceWrapper(fg))
                                     {
                                         fg.AppendLine($"if (!eval(item.Key.Overall)) return false;");
-                                        fg.AppendLine($"if (!item.Key.Specific?.AllEqual(eval) ?? false) return false;");
+                                        fg.AppendLine($"if (!item.Key.Specific?.All(eval) ?? false) return false;");
                                     }
                                 }
                                 else
@@ -265,7 +265,7 @@ namespace Loqui.Generation
                                     using (new BraceWrapper(fg))
                                     {
                                         fg.AppendLine($"if (!eval(item.Value.Overall)) return false;");
-                                        fg.AppendLine($"if (!item.Value.Specific?.AllEqual(eval) ?? false) return false;");
+                                        fg.AppendLine($"if (!item.Value.Specific?.All(eval) ?? false) return false;");
                                     }
                                 }
                                 else
@@ -275,7 +275,66 @@ namespace Loqui.Generation
                                 break;
                             case DictMode.KeyedValue:
                                 fg.AppendLine($"if (!eval(item.Overall)) return false;");
-                                fg.AppendLine($"if (!item.Specific?.AllEqual(eval) ?? false) return false;");
+                                fg.AppendLine($"if (!item.Specific?.All(eval) ?? false) return false;");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        {
+            DictType dictType = field as DictType;
+
+            if (nullCheck)
+            {
+                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+            }
+            using (new BraceWrapper(fg, doIt: nullCheck))
+            {
+                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
+                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        switch (dictType.Mode)
+                        {
+                            case DictMode.KeyValue:
+                                if (dictType.KeyTypeGen is LoquiType loquiKey)
+                                {
+                                    fg.AppendLine($"if (item.Key != null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"if (eval(item.Key.Overall)) return true;");
+                                        fg.AppendLine($"if (item.Key.Specific?.Any(eval) ?? false) return true;");
+                                    }
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"if (!eval(item.Key)) return false;");
+                                }
+                                if (dictType.ValueTypeGen is LoquiType loquiVal)
+                                {
+                                    fg.AppendLine($"if (item.Value != null)");
+                                    using (new BraceWrapper(fg))
+                                    {
+                                        fg.AppendLine($"if (eval(item.Value.Overall)) return true;");
+                                        fg.AppendLine($"if (item.Value.Specific?.Any(eval) ?? false) return true;");
+                                    }
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"if (eval(item.Value)) return true;");
+                                }
+                                break;
+                            case DictMode.KeyedValue:
+                                fg.AppendLine($"if (eval(item.Overall)) return true;");
+                                fg.AppendLine($"if (item.Specific?.Any(eval) ?? false) return true;");
                                 break;
                             default:
                                 break;

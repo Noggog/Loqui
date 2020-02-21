@@ -8,6 +8,7 @@ namespace Loqui
 {
     public interface IMask<T>
     {
-        bool AllEqual(Func<T, bool> eval);
+        bool All(Func<T, bool> eval);
+        bool Any(Func<T, bool> eval);
     }
 }

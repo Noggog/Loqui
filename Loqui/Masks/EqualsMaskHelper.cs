@@ -34,7 +34,7 @@ namespace Loqui
                 maskItem.Specific = default;
             }
             var mask = maskGetter(lhs, rhs);
-            maskItem.Overall = mask.AllEqual((b) => b);
+            maskItem.Overall = mask.All((b) => b);
             if (!maskItem.Overall || include == Include.All)
             {
                 maskItem.Specific = mask;
@@ -60,7 +60,7 @@ namespace Loqui
                 maskItem.Specific = default;
             }
             var mask = maskGetter(maskItem.Index, lhs, rhs);
-            maskItem.Overall = mask.AllEqual((b) => b);
+            maskItem.Overall = mask.All((b) => b);
             if (!maskItem.Overall || include == Include.All)
             {
                 maskItem.Specific = mask;
@@ -84,7 +84,7 @@ namespace Loqui
                 return new MaskItem<bool, M?>(false, default);
             }
             var mask = maskGetter(lhs, rhs, include);
-            var overall = mask.AllEqual((b) => b);
+            var overall = mask.All((b) => b);
             if (!overall || include == Include.All)
             {
                 return new MaskItem<bool, M?>(overall, mask);

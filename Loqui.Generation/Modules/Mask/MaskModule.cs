@@ -456,20 +456,37 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                using (new RegionWrapper(fg, "All Equal"))
+                using (new RegionWrapper(fg, "All"))
                 {
-                    fg.AppendLine($"public{obj.FunctionOverride()}bool AllEqual(Func<T, bool> eval)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool All(Func<T, bool> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
                         {
-                            fg.AppendLine($"if (!base.AllEqual(eval)) return false;");
+                            fg.AppendLine($"if (!base.All(eval)) return false;");
                         }
                         foreach (var field in obj.IterateFields())
                         {
-                            GetMaskModule(field.GetType()).GenerateForAllEqual(fg, field, Accessor.FromType(field, "this"), nullCheck: true, indexed: false);
+                            GetMaskModule(field.GetType()).GenerateForAll(fg, field, Accessor.FromType(field, "this"), nullCheck: true, indexed: false);
                         }
                         fg.AppendLine("return true;");
+                    }
+                }
+
+                using (new RegionWrapper(fg, "Any"))
+                {
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool Any(Func<T, bool> eval)");
+                    using (new BraceWrapper(fg))
+                    {
+                        if (obj.HasLoquiBaseObject)
+                        {
+                            fg.AppendLine($"if (base.Any(eval)) return true;");
+                        }
+                        foreach (var field in obj.IterateFields())
+                        {
+                            GetMaskModule(field.GetType()).GenerateForAny(fg, field, Accessor.FromType(field, "this"), nullCheck: true, indexed: false);
+                        }
+                        fg.AppendLine("return false;");
                     }
                 }
 

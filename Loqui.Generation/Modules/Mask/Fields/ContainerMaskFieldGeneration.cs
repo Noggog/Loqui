@@ -139,7 +139,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForAllEqual(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
         {
             ListType listType = field as ListType;
 
@@ -157,7 +157,31 @@ namespace Loqui.Generation
                     using (new BraceWrapper(fg))
                     {
                         var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                        subMask.GenerateForAllEqual(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
+                        subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
+                    }
+                }
+            }
+        }
+
+        public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+        {
+            ListType listType = field as ListType;
+
+            if (nullCheck)
+            {
+                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+            }
+            using (new BraceWrapper(fg, doIt: nullCheck))
+            {
+                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
+                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
                     }
                 }
             }
