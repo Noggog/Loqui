@@ -88,9 +88,10 @@ namespace Loqui.Xml
         public void Write(
             XElement node,
             string? name,
-            string item,
+            string? item,
             ErrorMaskBuilder? errorMask)
         {
+            if (item == null) return;
             this.Write(node, name, item);
         }
 
