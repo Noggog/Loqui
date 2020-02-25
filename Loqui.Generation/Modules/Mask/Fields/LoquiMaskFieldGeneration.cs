@@ -221,5 +221,11 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{accessor.DirectAccess} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
         }
+
+        public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
+        {
+            LoquiType loqui = field as LoquiType;
+            return $"MaskItem<{typeStr}, {loqui.GenerateMaskString(typeStr)}?>?";
+        }
     }
 }

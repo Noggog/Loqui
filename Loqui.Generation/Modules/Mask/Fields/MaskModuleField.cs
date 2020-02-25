@@ -6,6 +6,7 @@ namespace Loqui.Generation
     {
         public MaskModule Module;
         public abstract string GetErrorMaskTypeStr(TypeGeneration field);
+        public abstract string GetMaskTypeStr(TypeGeneration field, string typeStr);
         public abstract string GetTranslationMaskTypeStr(TypeGeneration field);
         public abstract void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr);
         public virtual void GenerateForErrorMask(FileGeneration fg, TypeGeneration field)

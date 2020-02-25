@@ -20,6 +20,11 @@ namespace Loqui.Generation
             return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}>";
         }
 
+        public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
+        {
+            return GetMaskString(field as ContainerType, typeStr);
+        }
+
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
         {
             fg.AppendLine($"public {GetMaskString(field as ContainerType, valueStr)}? {field.Name};");
