@@ -415,7 +415,7 @@ namespace Loqui.Generation
                         valStr = $"MaskItem<Exception?, {valLoqui.GenerateMaskString("Exception?")}?>";
                     }
                     var keyValStr = $"KeyValuePair<{keyStr}, {valStr}>";
-                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{keyValStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), new List<{keyValStr}>({accessor}.Specific.And({rhsAccessor}.Specific)));");
+                    fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{keyValStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), new List<{keyValStr}>(ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific)));");
                     break;
                 case DictMode.KeyedValue:
                     var loqui = dictType.ValueTypeGen as LoquiType;

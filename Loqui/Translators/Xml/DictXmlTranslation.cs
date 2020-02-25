@@ -105,7 +105,7 @@ namespace Loqui.Xml
             return keyTransl(
                 keyElem.Elements().First(),
                 out item,
-                errorMask: errorMask, 
+                errorMask: errorMask,
                 translationMask: translationMask);
         }
 
@@ -139,6 +139,18 @@ namespace Loqui.Xml
                 out item,
                 errorMask: errorMask,
                 translationMask: translationMask);
+        }
+
+        public bool ParseInto(
+            XElement node,
+            IDictionary<K, V> item,
+            int fieldIndex,
+            ErrorMaskBuilder? errorMask,
+            TranslationCrystal? translationMask,
+            XmlSubParseDelegate<K> keyTransl,
+            XmlSubParseDelegate<V> valTransl)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual bool ParseSingleItem(
@@ -224,16 +236,16 @@ namespace Loqui.Xml
                 translationMask: translationMask,
                 keyTransl: (XElement n, K item1, ErrorMaskBuilder? errorMask2, TranslationCrystal? transl2)
                     => keyTransl.Value.Write(
-                        node: n, 
+                        node: n,
                         name: "Item",
                         item: item1,
                         errorMask: errorMask2,
                         translationMask: transl2),
-                valTransl: (XElement n, V item1, ErrorMaskBuilder? errorMask2, TranslationCrystal? transl2) 
+                valTransl: (XElement n, V item1, ErrorMaskBuilder? errorMask2, TranslationCrystal? transl2)
                     => valTransl.Value.Write(
                         node: n,
-                        name: "Item", 
-                        item: item1, 
+                        name: "Item",
+                        item: item1,
                         errorMask: errorMask2,
                         translationMask: transl2));
         }
@@ -245,7 +257,8 @@ namespace Loqui.Xml
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask,
             XmlSubWriteDelegate<K> keyTransl,
-            XmlSubWriteDelegate<V> valTransl)
+            XmlSubWriteDelegate<V> valTransl,
+            int? fieldIndex = null)
         {
             var elem = new XElement(name);
             node.Add(elem);
@@ -290,14 +303,14 @@ namespace Loqui.Xml
             var keyElem = new XElement("Key");
             itemElem.Add(keyElem);
             keyTransl(
-                keyElem, 
+                keyElem,
                 item.Key,
                 errorMask: errorMask,
                 translationMask: translationMaskKey);
             var valElem = new XElement("Value");
             itemElem.Add(valElem);
             valTransl(
-                valElem, 
+                valElem,
                 item.Value,
                 errorMask: errorMask,
                 translationMask: translationMaskVal);
