@@ -17,7 +17,7 @@ namespace Loqui.Generation
 
         public static string GetMaskString(ContainerType listType, string valueStr)
         {
-            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}>";
+            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}?>";
         }
 
         public override string GetMaskTypeStr(TypeGeneration field, string typeStr)

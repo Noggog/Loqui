@@ -397,7 +397,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, Enumerable.Empty<(int, bool)>());");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, default);");
             }
         }
 
