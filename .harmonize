@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>0a5d14254db9189513a3a6b61a40e6ed878db794</Sha>
+         <Sha>1abdda1c8ee5d44e38b785712c24f7e888cf2c1b</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-16-2020 15:34:07</CommitDate>
-         <Description>ObjectExt.NullSame</Description>
+         <CommitDate>02-24-2020 18:01:19</CommitDate>
+         <Description>DictionaryExt.SetTo</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

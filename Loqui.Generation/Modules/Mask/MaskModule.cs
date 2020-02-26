@@ -9,6 +9,7 @@ namespace Loqui.Generation
 {
     public class MaskModule : GenerationModule
     {
+        public const string GenItem = "TItem";
         public const string ErrMaskNickname = "ErrMask";
         public const string CopyMaskNickname = "CopyMask";
         public const string TranslationMaskNickname = "TranslMask";
@@ -330,12 +331,12 @@ namespace Loqui.Generation
 
         private async Task GenerateNormalMask(ObjectGeneration obj, FileGeneration fg)
         {
-            using (var args = new ClassWrapper(fg, $"Mask<T>"))
+            using (var args = new ClassWrapper(fg, $"Mask<{GenItem}>"))
             {
-                args.Wheres.Add("where T : notnull");
-                args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.GetMaskString("T")}" : string.Empty;
-                args.Interfaces.Add("IMask<T>");
-                args.Interfaces.Add($"IEquatable<Mask<T>>");
+                args.Wheres.Add($"where {GenItem} : notnull");
+                args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.GetMaskString(GenItem)}" : string.Empty;
+                args.Interfaces.Add($"IMask<{GenItem}>");
+                args.Interfaces.Add($"IEquatable<Mask<{GenItem}>>");
                 args.New = obj.HasLoquiBaseObject;
             }
             using (new BraceWrapper(fg))
@@ -347,7 +348,7 @@ namespace Loqui.Generation
                         using (var args = new FunctionWrapper(fg,
                             $"public Mask"))
                         {
-                            args.Add($"T initialValue");
+                            args.Add($"{GenItem} initialValue");
                         }
                         if (obj.HasLoquiBaseObject)
                         {
@@ -357,7 +358,7 @@ namespace Loqui.Generation
                         {
                             foreach (var field in obj.IterateFields())
                             {
-                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: "initialValue");
+                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: GenItem, valueStr: "initialValue");
                             }
                         }
                         fg.AppendLine();
@@ -370,7 +371,7 @@ namespace Loqui.Generation
                         {
                             foreach (var field in obj.IterateFields(includeBaseClass: true))
                             {
-                                args.Add($"T {field.Name}");
+                                args.Add($"{GenItem} {field.Name}");
                             }
                         }
                         if (obj.HasLoquiBaseObject)
@@ -388,7 +389,7 @@ namespace Loqui.Generation
                         {
                             foreach (var field in obj.IterateFields())
                             {
-                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: "T", valueStr: field.Name);
+                                GetMaskModule(field.GetType()).GenerateForCtor(fg, field, typeStr: GenItem, valueStr: field.Name);
                             }
                         }
                     }
@@ -410,7 +411,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in obj.IterateFields())
                     {
-                        GetMaskModule(field.GetType()).GenerateForField(fg, field, "T");
+                        GetMaskModule(field.GetType()).GenerateForField(fg, field, GenItem);
                     }
                 }
 
@@ -419,12 +420,12 @@ namespace Loqui.Generation
                     fg.AppendLine("public override bool Equals(object obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!(obj is Mask<T> rhs)) return false;");
+                        fg.AppendLine($"if (!(obj is Mask<{GenItem}> rhs)) return false;");
                         fg.AppendLine($"return Equals(rhs);");
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals(Mask<T> rhs)");
+                    fg.AppendLine($"public bool Equals(Mask<{GenItem}> rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return false;");
@@ -458,7 +459,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "All"))
                 {
-                    fg.AppendLine($"public{obj.FunctionOverride()}bool All(Func<T, bool> eval)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool All(Func<{GenItem}, bool> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -475,7 +476,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Any"))
                 {
-                    fg.AppendLine($"public{obj.FunctionOverride()}bool Any(Func<T, bool> eval)");
+                    fg.AppendLine($"public{obj.FunctionOverride()}bool Any(Func<{GenItem}, bool> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -492,7 +493,7 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Translate"))
                 {
-                    fg.AppendLine($"public{obj.NewOverride()}Mask<R> Translate<R>(Func<T, R> eval)");
+                    fg.AppendLine($"public{obj.NewOverride()}Mask<R> Translate<R>(Func<{GenItem}, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"var ret = new {obj.GetMaskString("R")}();");
@@ -501,7 +502,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"protected void Translate_InternalFill<R>(Mask<R> obj, Func<T, R> eval)");
+                    fg.AppendLine($"protected void Translate_InternalFill<R>(Mask<R> obj, Func<{GenItem}, R> eval)");
                     using (new BraceWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
@@ -536,7 +537,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"public void ToString({nameof(FileGeneration)} fg, {obj.GetMaskString("bool")}? printMask = null)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString("T")})}} =>\");");
+                        fg.AppendLine($"fg.AppendLine($\"{{nameof({obj.GetMaskString(GenItem)})}} =>\");");
                         fg.AppendLine($"fg.AppendLine(\"[\");");
                         fg.AppendLine($"using (new DepthWrapper(fg))");
                         using (new BraceWrapper(fg))
