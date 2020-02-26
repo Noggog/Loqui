@@ -9,6 +9,11 @@ namespace Loqui.Generation
             return $"MaskItem<{typeStr}, IEnumerable<{GetSubMaskString(dictType, typeStr, getter)}>?>";
         }
 
+        public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
+        {
+            return GetMaskString(field as IDictType, typeStr, getter: false);
+        }
+
         public static string GetSubMaskString(IDictType dictType, string typeStr, bool getter)
         {
             LoquiType keyLoquiType = dictType.KeyTypeGen as LoquiType;

@@ -7,7 +7,7 @@ namespace Loqui.Generation
         public override void GenerateForField(FileGeneration fg, TypeGeneration field, string typeStr)
         {
             if (!field.IntegrateField) return;
-            fg.AppendLine($"public {typeStr} {field.Name};");
+            fg.AppendLine($"public {GetMaskTypeStr(field, typeStr)} {field.Name};");
         }
 
         public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
@@ -98,5 +98,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
         }
+
+        public override string GetMaskTypeStr(TypeGeneration field, string typeStr) => typeStr;
     }
 }
