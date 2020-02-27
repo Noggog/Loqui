@@ -11,6 +11,7 @@ namespace Loqui.Generation
     {
         protected bool isLoquiSingle;
         public TypeGeneration SubTypeGeneration;
+        public override bool CanBeNullable(bool getter) => false;
 
         public virtual string ItemTypeName(bool getter)
         {
