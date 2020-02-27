@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>462ea7694b54e70566b3bb0c33a0042f1e6fc4eb</Sha>
+         <Sha>9eaf52e7086186c97deb52e80f0cbefb137cd55c</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-26-2020 19:48:44</CommitDate>
-         <Description>MemorySlice nullable equality extension</Description>
+         <CommitDate>02-26-2020 21:08:05</CommitDate>
+         <Description>MemorySlice nullable implicit converter</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

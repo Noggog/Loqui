@@ -11,14 +11,20 @@ namespace Loqui.Generation
     public class ByteArrayType : ClassType
     {
         public int? Length;
-        public override Type Type(bool getter) => getter ? typeof(ReadOnlySpan<byte>) : typeof(byte[]);
+        public override Type Type(bool getter) => getter ? typeof(ReadOnlyMemorySlice<byte>) : typeof(byte[]);
         public override bool IsEnumerable => true;
         public override bool IsReference => true;
-        public override bool CanBeNullable(bool getter) => !getter;
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            return $"{(negate ? "!" : null)}MemoryExtensions.SequenceEqual({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+            if (this.HasBeenSet)
+            {
+                return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.Equal({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+            }
+            else
+            {
+                return $"{(negate ? "!" : null)}MemoryExtensions.SequenceEqual({accessor.DirectAccess}.Span, {rhsAccessor.DirectAccess}.Span)";
+            }
         }
 
         public override string GetNewForNonNullable()
@@ -57,7 +63,8 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({accessor}_IsSet)");
+                fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}Item))");
+                accessor = $"{this.Name}Item";
             }
             using (new BraceWrapper(fg, doIt: this.HasBeenSet))
             {
@@ -75,10 +82,10 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if({this.HasBeenSetAccessor(getter, rhs)})");
+                fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor.DirectAccess} = {rhs}{(getter ? null : ".Value")}.ToArray();");
+                    fg.AppendLine($"{accessor.DirectAccess} = {this.Name}rhs{(getter ? null : ".Value")}.ToArray();");
                 }
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
