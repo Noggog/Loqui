@@ -2609,7 +2609,7 @@ namespace Loqui.Generation
             {
                 using (new RegionWrapper(fg, "Equals and Hash"))
                 {
-                    fg.AppendLine("public override bool Equals(object obj)");
+                    fg.AppendLine("public override bool Equals(object? obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if (!(obj is {this.Interface(getter: true, internalInterface: true)} rhs)) return false;");
