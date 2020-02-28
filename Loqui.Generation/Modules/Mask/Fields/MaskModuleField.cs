@@ -23,7 +23,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg, printMask))
             {
-                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}($\"{field.Name} => {{{accessor}}}\");");
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}{(string.IsNullOrWhiteSpace(field.Name) ? null : $", \"{field.Name}\"")});");
             }
         }
         public abstract void GenerateSetException(FileGeneration fg, TypeGeneration field);

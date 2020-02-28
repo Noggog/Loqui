@@ -151,6 +151,52 @@ namespace Loqui
             }
         }
 
+        public void AppendItem(object item, string? name = null)
+        {
+            if (name == null)
+            {
+                AppendLine(item.ToString());
+            }
+            else
+            {
+                AppendLine($"{name} => {item.ToString()}");
+            }
+        }
+
+        public void AppendItem<T>(T? item, string? name = null)
+            where T : struct
+        {
+            if (item == null) return;
+            if (name == null)
+            {
+                AppendLine(item.ToString());
+            }
+            else
+            {
+                AppendLine($"{name} => {item.ToString()}");
+            }
+        }
+
+        public void AppendItem<T>(T? item, string? name = null)
+            where T : class
+        {
+            if (item == null) return;
+            if (name == null)
+            {
+                AppendLine(item.ToString());
+            }
+            else
+            {
+                AppendLine($"{name} => {item.ToString()}");
+            }
+        }
+
+        public void AppendItem(IPrintable? item, string? name = null)
+        {
+            if (item == null) return;
+            item.ToString(this, name);
+        }
+
         public void Generate(string path, bool onlyIfChanged = true)
         {
             Generate(

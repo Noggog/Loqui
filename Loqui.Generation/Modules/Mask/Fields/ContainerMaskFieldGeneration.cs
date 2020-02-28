@@ -102,11 +102,7 @@ namespace Loqui.Generation
                         ContainerType listType = field as ContainerType;
                         if (topLevel)
                         {
-                            fg.AppendLine($"if ({accessor}.Overall != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
-                            }
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}.Overall);");
                             fg.AppendLine($"if ({accessor}.Specific != null)");
                             using (new BraceWrapper(fg))
                             {
