@@ -14,7 +14,7 @@ namespace Loqui.Generation
             if (!field.IntegrateField) return;
             fg.AppendLine($"public {GetErrorMaskTypeStr(field)}? {field.Name};");
         }
-        public virtual void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
+        public virtual void GenerateMaskToString(FileGeneration fg, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
         {
             if (!field.IntegrateField) return;
             if (printMask)

@@ -86,16 +86,16 @@ namespace Loqui.Generation
                 && type.TargetObjectGeneration == null;
         }
 
-        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
+        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
         {
             if (!field.IntegrateField) return;
-            if (printMask)
+            using (var ifArg = new IfWrapper(fg, ANDs: true))
             {
-                fg.AppendLine($"if ({GenerateBoolMaskCheck(field, "printMask")})");
-            }
-            using (new BraceWrapper(fg, printMask))
-            {
-                fg.AppendLine($"{accessor}?.ToString(fg);");
+                if (printMask)
+                {
+                    ifArg.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
+                }
+                ifArg.Body = subFg => subFg.AppendLine($"{accessor}?.ToString(fg);");
             }
         }
 

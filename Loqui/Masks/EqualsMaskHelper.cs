@@ -94,12 +94,20 @@ namespace Loqui
 
         #region Enumerable
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>? CollectionEqualsHelper<T, M>(
-            this IEnumerable<T> lhs,
-            IEnumerable<T> rhs,
+            this IEnumerable<T>? lhs,
+            IEnumerable<T>? rhs,
             Func<T, T, M> maskGetter,
             Include include)
             where M : class, IMask<bool>
         {
+            if (lhs == null && rhs == null)
+            {
+                return include == Include.All ? new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>(true, default) : default;
+            }
+            if (lhs == null || rhs == null)
+            {
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>(false, default);
+            }
             int index = 0;
             var masks = lhs.SelectAgainst<T, MaskItemIndexed<bool, M?>>(
                 rhs,
@@ -135,11 +143,19 @@ namespace Loqui
         }
 
         public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>? CollectionEqualsHelper<T>(
-            this IEnumerable<T> lhs,
-            IEnumerable<T> rhs,
+            this IEnumerable<T>? lhs,
+            IEnumerable<T>? rhs,
             Func<T, T, bool> maskGetter,
             Include include)
         {
+            if (lhs == null && rhs == null)
+            {
+                return include == Include.All ? new MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>(true, default) : default;
+            }
+            if (lhs == null || rhs == null)
+            {
+                return new MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>(false, default);
+            }
             int index = 0;
             var masks = lhs.SelectAgainst<T, (int Index, bool EqualValues)>(
                 rhs,
@@ -173,62 +189,23 @@ namespace Loqui
         #endregion
 
         #region List
-        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>? CollectionEqualsHelper<T>(
-            this IReadOnlySetList<T> lhs,
-            IReadOnlySetList<T> rhs,
-            Func<T, T, bool> maskGetter,
-            Include include)
-        {
-            int index = 0;
-            var masks = lhs.SelectAgainst<T, (int Index, bool EqualValues)>(
-                rhs,
-                (l, r) =>
-                {
-                    return (index++, maskGetter(l, r));
-                },
-                out var countEqual)
-                .Where(i => include == Include.All || !i.EqualValues)
-                .ToArray();
-            var overall = countEqual
-                && lhs.HasBeenSet == rhs.HasBeenSet;
-            if (overall)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        overall = masks.All((b) => b.EqualValues);
-                        break;
-                    case Include.OnlyFailures:
-                        overall = !masks.Any();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            if (!overall || include == Include.All)
-            {
-                return new MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>(overall, masks);
-            }
-            return null;
-        }
-
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>? CollectionEqualsHelper<T, M>(
-            this IReadOnlyList<T> lhs,
-            IReadOnlyList<T> rhs,
+            this IReadOnlyList<T>? lhs,
+            IReadOnlyList<T>? rhs,
             Func<T, T, M> maskGetter,
             Include include)
             where M : class, IMask<bool>
         {
-            return CollectionEqualsHelper((IEnumerable<T>)lhs, (IEnumerable<T>)rhs, maskGetter, include);
+            return CollectionEqualsHelper(lhs as IEnumerable<T>, rhs as IEnumerable<T>, maskGetter, include);
         }
 
         public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>? CollectionEqualsHelper<T>(
-            this IReadOnlyList<T> lhs,
-            IReadOnlyList<T> rhs,
+            this IReadOnlyList<T>? lhs,
+            IReadOnlyList<T>? rhs,
             Func<T, T, bool> maskGetter,
             Include include)
         {
-            return CollectionEqualsHelper((IEnumerable<T>)lhs, (IEnumerable<T>)rhs, maskGetter, include);
+            return CollectionEqualsHelper(lhs as IEnumerable<T>, rhs as IEnumerable<T>, maskGetter, include);
         }
         #endregion
 
