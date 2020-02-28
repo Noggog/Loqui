@@ -108,38 +108,6 @@ namespace Loqui.Xml
                 })
                 .FirstOrDefault());
         }
-        
-        public void ParseInto(
-            XElement node,
-            int fieldIndex,
-            IHasItem<T> item,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal? translationMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(
-                        node,
-                        out var i,
-                        errorMask: errorMask,
-                        translationMask: translationMask))
-                    {
-                        item.Item = i;
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
 
         public bool Parse(
             XElement node,

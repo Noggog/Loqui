@@ -1,6 +1,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -32,11 +33,11 @@ namespace Loqui.Generation
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
-        public readonly BehaviorSetSubject<NotifyingType> NotifyingProperty = new BehaviorSetSubject<NotifyingType>();
-        public NotifyingType NotifyingType => NotifyingProperty.Value;
+        public readonly BehaviorSubject<(NotifyingType Item, bool HasBeenSet)> NotifyingProperty = new BehaviorSubject<(NotifyingType Item, bool HasBeenSet)>((default, default));
+        public NotifyingType NotifyingType => NotifyingProperty.Value.Item;
         public bool Notifying => NotifyingType != NotifyingType.None;
-        public readonly BehaviorSetSubject<bool> HasBeenSetProperty = new BehaviorSetSubject<bool>();
-        public virtual bool HasBeenSet => HasBeenSetProperty.Value;
+        public readonly BehaviorSubject<(bool Item, bool HasBeenSet)> HasBeenSetProperty = new BehaviorSubject<(bool Item, bool HasBeenSet)>((default, default));
+        public virtual bool HasBeenSet => HasBeenSetProperty.Value.Item;
         public virtual bool HasProperty => false;
         public bool PrefersProperty => HasProperty;
         public virtual bool CanBeNullable(bool getter) => true;
@@ -59,8 +60,14 @@ namespace Loqui.Generation
         {
             this.ObjectGen = obj;
             if (!setDefaults) return;
-            this.NotifyingProperty.SetIfNotSet(this.ObjectGen.NotifyingDefault, markAsSet: false);
-            this.HasBeenSetProperty.SetIfNotSet(this.ObjectGen.HasBeenSetDefault, markAsSet: false);
+            if (!this.NotifyingProperty.Value.HasBeenSet)
+            {
+                this.NotifyingProperty.OnNext((this.ObjectGen.NotifyingDefault, false));
+            }
+            if (!this.HasBeenSetProperty.Value.HasBeenSet)
+            {
+                this.HasBeenSetProperty.OnNext((this.ObjectGen.HasBeenSetDefault, false));
+            }
             this._derivative = this.ObjectGen.DerivativeDefault;
         }
 
@@ -85,8 +92,8 @@ namespace Loqui.Generation
             node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
-            node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext(i));
-            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext(i));
+            node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext((i, true)));
+            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             if (requireName && Namable && Name == null)

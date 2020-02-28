@@ -1,5 +1,4 @@
-﻿using CSharpExt.Rx;
-using Noggog;
+﻿using Noggog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -231,111 +230,6 @@ namespace Loqui
         #endregion
 
         #region Dict
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>>? DictEqualsHelper<K, T, M>(
-            this IReadOnlySetCache<T, K> lhs,
-            IReadOnlySetCache<T, K> rhs,
-            Func<K, T, T, M> maskGetter,
-            Include include)
-            where M : class, IMask<bool>
-        {
-            if (lhs.HasBeenSet != rhs.HasBeenSet)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        break;
-                    case Include.OnlyFailures:
-                        return null;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            var masks = lhs.SelectAgainst<K, T, MaskItemIndexed<K, bool, M?>>(
-                rhs, 
-                (k, l, r) =>
-                {
-                    var itemRet = new MaskItemIndexed<K, bool, M?>(k, false, default);
-                    EqualsHelper(itemRet, l, r, maskGetter, include);
-                    return itemRet;
-                },
-                out var countEqual)
-                .Where(i => include == Include.All || !i.Value.Overall)
-                .Select(kv => kv.Value)
-                .ToArray();
-            var overall = countEqual
-                && lhs.HasBeenSet == rhs.HasBeenSet;
-            if (overall)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        overall = masks.All((b) => b.Overall);
-                        break;
-                    case Include.OnlyFailures:
-                        overall = !masks.Any();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-
-            if (!overall || include == Include.All)
-            {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>>(overall, masks);
-            }
-            return null;
-        }
-
-        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>? DictEqualsHelper<K, T>(
-            this IReadOnlySetCache<T, K> lhs,
-            IReadOnlySetCache<T, K> rhs,
-            Func<K, T, T, bool> maskGetter,
-            Include include)
-        {
-            if (lhs.HasBeenSet != rhs.HasBeenSet)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        break;
-                    case Include.OnlyFailures:
-                        return null;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            var masks = lhs.SelectAgainst<K, T, bool>(
-                rhs,
-                (k, l, r) =>
-                {
-                    return maskGetter(k, l, r);
-                },
-                out var countEqual)
-                .Where(i => include == Include.All || !i.Value)
-                .ToArray();
-            var overall = countEqual
-                && lhs.HasBeenSet == rhs.HasBeenSet;
-            if (overall)
-            {
-                switch (include)
-                {
-                    case Include.All:
-                        overall = masks.All((b) => b.Value);
-                        break;
-                    case Include.OnlyFailures:
-                        overall = !masks.Any();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-            if (!overall || include == Include.All)
-            {
-                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>(overall, masks);
-            }
-            return null;
-        }
-
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>>? DictEqualsHelper<K, T, M>(
             this IReadOnlyDictionary<K, T> lhs,
             IReadOnlyDictionary<K, T> rhs,

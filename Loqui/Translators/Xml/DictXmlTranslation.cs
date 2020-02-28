@@ -334,37 +334,5 @@ namespace Loqui.Xml
                 }
             }
         }
-
-        public void Write<Mask>(
-            XElement node,
-            string name,
-            IHasItem<IEnumerable<KeyValuePair<K, V>>> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask,
-            XmlSubWriteDelegate<K> keyTransl,
-            XmlSubWriteDelegate<V> valTransl)
-            where Mask : IErrorMask
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node: node,
-                        name: name,
-                        items: item.Item,
-                        errorMask: errorMask,
-                        translationMask: translationMask,
-                        keyTransl: keyTransl,
-                        valTransl: valTransl);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
     }
 }

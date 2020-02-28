@@ -2,10 +2,10 @@
    <ParentRepos>
       <RepoListing>
          <Nickname>CSharpExt</Nickname>
-         <Sha>ec711159ac3fd0b0478e58dbe1bc800e967c7655</Sha>
+         <Sha>b1cd743e7103b25c93599e8820d777ba7d99bf06</Sha>
          <Path>../CSharpExt</Path>
-         <CommitDate>02-27-2020 21:39:42</CommitDate>
-         <Description>SetList removed</Description>
+         <CommitDate>02-27-2020 22:31:13</CommitDate>
+         <Description>Removed HasBeenSet concepts</Description>
          <Author>Justin Swanson</Author>
          <OriginHint>https://github.com/Noggog/CSharpExt.git</OriginHint>
       </RepoListing>

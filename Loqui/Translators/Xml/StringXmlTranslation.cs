@@ -49,29 +49,6 @@ namespace Loqui.Xml
                 errorMask: errorMask);
         }
 
-        public void ParseInto(XElement node, IHasItem<string> item, int fieldIndex, ErrorMaskBuilder? errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(node, out var val, errorMask))
-                    {
-                        item.Item = val;
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
         public void Write(
             XElement node,
             string? name,
@@ -109,46 +86,6 @@ namespace Loqui.Xml
                     name: name,
                     item: item);
             });
-        }
-
-        public void Write(
-            XElement node,
-            string? name,
-            IHasItemGetter<string> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node: node,
-                        name: name,
-                        item: item.Item);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
-            IHasBeenSetItemGetter<string> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask)
-        {
-            if (!item.HasBeenSet) return;
-            this.Write(
-                node: node,
-                name: name,
-                item: item.Item,
-                fieldIndex: fieldIndex,
-                errorMask: errorMask);
         }
 
         void IXmlTranslation<string>.Write(XElement node, string? name, string item, ErrorMaskBuilder? errorMask, TranslationCrystal? translationMask)
