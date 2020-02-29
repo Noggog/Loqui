@@ -11,10 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui", "Loqui\Loqui.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Generation", "Loqui.Generation\Loqui.Generation.csproj", "{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Presentation", "Loqui.Presentation\Loqui.Presentation.csproj", "{E579B2BE-E62D-4DA1-9038-2480BE2FE71F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Generation.Presentation", "Loqui.Generation.Presentation\Loqui.Generation.Presentation.csproj", "{7FED473A-533A-4B6F-A60A-43E3031728FA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests.Generated", "Loqui.Tests.Generated\Loqui.Tests.Generated.csproj", "{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests", "Loqui.Tests\Loqui.Tests.csproj", "{332070C5-35EB-4717-856F-884E89FA875B}"
@@ -39,14 +35,6 @@ Global
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E579B2BE-E62D-4DA1-9038-2480BE2FE71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E579B2BE-E62D-4DA1-9038-2480BE2FE71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E579B2BE-E62D-4DA1-9038-2480BE2FE71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E579B2BE-E62D-4DA1-9038-2480BE2FE71F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FED473A-533A-4B6F-A60A-43E3031728FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FED473A-533A-4B6F-A60A-43E3031728FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FED473A-533A-4B6F-A60A-43E3031728FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FED473A-533A-4B6F-A60A-43E3031728FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Release|Any CPU.ActiveCfg = Release|Any CPU
