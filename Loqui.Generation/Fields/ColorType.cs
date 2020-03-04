@@ -14,7 +14,6 @@ namespace Loqui.Generation
         public override IEnumerable<string> GetRequiredNamespaces()
         {
             yield return "System.Drawing";
-            yield return "Loqui.Presentation";
         }
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)

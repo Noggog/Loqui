@@ -24,50 +24,22 @@ namespace Loqui.Generation
             {
                 if (this.Notifying)
                 {
-                    if (this.HasBeenSet)
-                    {
-                        return $"IObservableSetList<{itemTypeName}>";
-                    }
-                    else
-                    {
-                        return $"IObservableList<{itemTypeName}>";
-                    }
+                    return $"IObservableList<{itemTypeName}>";
                 }
                 else
                 {
-                    if (this.HasBeenSet)
-                    {
-                        return $"IReadOnlySetList<{itemTypeName}>";
-                    }
-                    else
-                    {
-                        return $"IReadOnlyList<{itemTypeName}>";
-                    }
+                    return $"IReadOnlyList<{itemTypeName}>";
                 }
             }
             else
             {
                 if (this.Notifying)
                 {
-                    if (this.HasBeenSet)
-                    {
-                        return $"ISourceSetList<{itemTypeName}>";
-                    }
-                    else
-                    {
-                        return $"ISourceList<{itemTypeName}>";
-                    }
+                    return $"ISourceList<{itemTypeName}>";
                 }
                 else
                 {
-                    if (this.HasBeenSet)
-                    {
-                        return $"ISetList<{itemTypeName}>";
-                    }
-                    else
-                    {
-                        return $"IExtendedList<{itemTypeName}>";
-                    }
+                    return $"ExtendedList<{itemTypeName}>";
                 }
             }
         }
@@ -75,8 +47,13 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private readonly {GetActualItemClass()} _{this.Name} = new {GetActualItemClass(ctor: true)};");
-            fg.AppendLine($"public {this.Interface(getter: false, internalInterface: true)} {this.Name} => _{this.Name};");
+            fg.AppendLine($"private {this.TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} _{this.Name}{(this.HasBeenSet ? null : $" = new {GetActualItemClass(ctor: true)}")};");
+            fg.AppendLine($"public {this.TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} {this.Name}");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"get => this._{this.Name};");
+                fg.AppendLine($"{((ReadOnly || !this.HasBeenSet) ? "protected " : string.Empty)}set => this._{this.Name} = value;");
+            }
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
 
@@ -84,25 +61,11 @@ namespace Loqui.Generation
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
-                {
-                    return $"SourceSetList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
-                }
-                else
-                {
-                    return $"SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
-                }
+                return $"SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
             }
             else
             {
-                if (this.HasBeenSet)
-                {
-                    return $"SetList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
-                }
-                else
-                {
-                    return $"ExtendedList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
-                }
+                return $"ExtendedList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
             }
         }
 
@@ -110,13 +73,8 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Interface Members"))
             {
-                if (!this.ReadOnly)
-                {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{Interface(getter: false, internalInterface: true)} {this.ObjectGen.Interface(internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
-                }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
 
@@ -125,13 +83,13 @@ namespace Loqui.Generation
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)} {this.Name} {{ get; }}");
+                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; {(this.HasBeenSet ? "set; " : null)}}}");
                 }
             }
         }
@@ -140,11 +98,11 @@ namespace Loqui.Generation
         {
             if (accessor == null)
             {
-                return $"{this.Property}.HasBeenSet";
+                return $"({this.Property} != null)";
             }
             else
             {
-                return $"{accessor.PropertyAccess}.HasBeenSet";
+                return $"({accessor.PropertyOrDirectAccess} != null)";
             }
         }
 
@@ -201,25 +159,21 @@ namespace Loqui.Generation
                     if (deepCopy)
                     {
                         LoquiType loqui = this.SubTypeGeneration as LoquiType;
-                        using (var args = new ArgsWrapper(fg,
-                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                        WrapSet(fg, accessor, (f) =>
                         {
-                            args.Add($"items: {rhs}");
-                            args.Add((gen) =>
+                            f.AppendLine(rhs.ToString());
+                            f.AppendLine(".Select(r =>");
+                            using (new BraceWrapper(f) { AppendParenthesis = true })
                             {
-                                gen.AppendLine("converter: (r) =>");
-                                using (new BraceWrapper(gen))
-                                {
-                                    loqui.GenerateTypicalMakeCopy(
-                                        gen,
-                                        retAccessor: $"return ",
-                                        rhsAccessor: Accessor.FromType(loqui, "r"),
-                                        copyMaskAccessor: copyMaskAccessor,
-                                        deepCopy: deepCopy,
-                                        doTranslationMask: false);
-                                }
-                            });
-                        }
+                                loqui.GenerateTypicalMakeCopy(
+                                    f,
+                                    retAccessor: $"return ",
+                                    rhsAccessor: Accessor.FromType(loqui, "r"),
+                                    copyMaskAccessor: copyMaskAccessor,
+                                    deepCopy: deepCopy,
+                                    doTranslationMask: false);
+                            }
+                        });
                     }
                     else
                     {
@@ -267,25 +221,11 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    FileGeneration subFg = new FileGeneration();
-                    this.SubTypeGeneration.GenerateCopySetToConverter(subFg);
-                    if (subFg.Empty)
+                    WrapSet(fg, accessor, (f) =>
                     {
-                        using (var args = new ArgsWrapper(fg,
-                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
-                        {
-                            args.Add($"rhs.{this.Name}");
-                        }
-                    }
-                    else
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"{accessor.PropertyOrDirectAccess}.SetTo"))
-                        {
-                            args.Add($"rhs.{this.Name}");
-                            args.Add(subFg.ToArray());
-                        }
-                    }
+                        f.AppendLine($"rhs.{this.Name}");
+                        this.SubTypeGeneration.GenerateCopySetToConverter(f);
+                    });
                 }
             }
 
@@ -299,7 +239,7 @@ namespace Loqui.Generation
                 fg.AppendLine("else");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor.PropertyOrDirectAccess}.Unset();");
+                    GenerateClear(fg, accessor);
                 }
             }
             else
@@ -314,46 +254,36 @@ namespace Loqui.Generation
             fg.AppendLine($"break;");
         }
 
-        private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix, bool protectedUse)
+        public void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
         {
-            fg.AppendLine($"{accessorPrefix}.{this.Name}.SetTo({rhsAccessorPrefix}.{this.Name}.Select((s) =>");
-            using (new BraceWrapper(fg)
+            if (this.HasBeenSet)
             {
-                AppendParenthesis = true,
-                AppendComma = true
-            })
-            {
-                fg.AppendLine($"switch (copyMask?.{this.Name}.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                using (new BraceWrapper(fg))
+                fg.AppendLine($"{accessor.PropertyOrDirectAccess} = ");
+                using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine("return s;");
-                    }
-                    fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"return s.Copy(copyMask?.{this.Name}.Specific);");
-                    }
-                    fg.AppendLine($"default:");
-                    using (new DepthWrapper(fg))
-                    {
-                        fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
-                    }
+                    a(fg);
+                    fg.AppendLine($".ToExtendedList<{this.SubTypeGeneration.TypeName(getter: false)}>();");
+                }
+            }
+            else
+            {
+                using (var args = new ArgsWrapper(fg,
+                    $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                {
+                    args.Add(subFg => a(subFg));
                 }
             }
         }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+        public override void GenerateClear(FileGeneration fg, Accessor accessor)
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+                fg.AppendLine($"{accessor.PropertyAccess} = null;");
             }
             else
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+                fg.AppendLine($"{accessor.PropertyAccess}.Clear();");
             }
         }
 
@@ -383,7 +313,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {accessor.DirectAccess}.HasBeenSet) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
             }
         }
 
@@ -392,12 +322,23 @@ namespace Loqui.Generation
             if (this.SubTypeGeneration is LoquiType loqui)
             {
                 string maskGetter = loqui.TargetObjectGeneration == null ? nameof(ILoquiObjectGetter.GetHasBeenSetIMask) : "GetHasBeenSetMask";
-                fg.AppendLine($"var {this.Name}Item = {accessor};");
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{this.Name}Item.HasBeenSet" : "true")}, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
+                if (this.HasBeenSet)
+                {
+                    fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}Item))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}(true, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"var {this.Name}Item = {accessor};");
+                    fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{this.Name}Item.HasBeenSet" : "true")}, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.{maskGetter}())));");
+                }
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<(int, bool)>>({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, Enumerable.Empty<(int, bool)>());");
+                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? HasBeenSetAccessor(getter: true, accessor) : "true")}, default);");
             }
         }
 

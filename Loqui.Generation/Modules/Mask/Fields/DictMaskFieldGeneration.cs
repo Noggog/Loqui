@@ -162,7 +162,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
+        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
         {
             if (printMask)
             {

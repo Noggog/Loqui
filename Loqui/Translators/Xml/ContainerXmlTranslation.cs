@@ -14,38 +14,6 @@ namespace Loqui.Xml
     {
         public abstract string ElementName { get; }
 
-        public void ParseInto(
-            XElement node,
-            int fieldIndex,
-            ISetList<T> item,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal translationMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(
-                        node,
-                        out var enumer,
-                        errorMask,
-                        translationMask))
-                    {
-                        item.SetTo(enumer);
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
         public bool Parse(
             XElement node,
             [MaybeNullWhen(false)] out IEnumerable<T> enumer,
@@ -66,40 +34,6 @@ namespace Loqui.Xml
                 errorMask: errorMask,
                 transl: transl.Value.Parse,
                 translationMask: translationMask);
-        }
-
-        public void ParseInto(
-            XElement node,
-            int fieldIndex,
-            ISetList<T> item,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal? translationMask,
-            XmlSubParseDelegate<T> transl)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    if (Parse(
-                        node,
-                        out var enumer,
-                        errorMask,
-                        translationMask,
-                        transl))
-                    {
-                        item.SetTo(enumer);
-                    }
-                    else
-                    {
-                        item.Unset();
-                    }
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
         }
 
         public bool Parse(

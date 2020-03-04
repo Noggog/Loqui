@@ -13,6 +13,7 @@ namespace Loqui.Generation
         public List<(string str, bool wrap)> Checks = new List<(string str, bool wrap)>();
         bool ands;
         public bool Empty => Checks.Count == 0;
+        public Action<FileGeneration> Body;
 
         public IfWrapper(FileGeneration fg, bool ANDs, bool first = true)
         {
@@ -36,9 +37,8 @@ namespace Loqui.Generation
             return $"({item.str})";
         }
 
-        public void Dispose()
+        private void GenerateIf()
         {
-            if (Checks.Count == 0) return;
             using (var line = new LineWrapper(fg))
             {
                 if (!first)
@@ -73,6 +73,23 @@ namespace Loqui.Generation
                             fg.Append(")");
                         }
                     }
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (Checks.Count == 0)
+            {
+                Body?.Invoke(fg);
+                return;
+            }
+            GenerateIf();
+            if (Body != null)
+            {
+                using (new BraceWrapper(fg))
+                {
+                    Body(fg);
                 }
             }
         }

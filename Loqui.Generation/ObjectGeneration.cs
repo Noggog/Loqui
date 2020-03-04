@@ -1093,13 +1093,17 @@ namespace Loqui.Generation
                 }
                 foreach (var field in this.IterateFields())
                 {
-                    if (field.IntegrateField)
+                    if (!field.IntegrateField) continue;
+                    Accessor accessor = Accessor.FromType(field, "item");
+                    using (var ifArgs = new IfWrapper(fg, ANDs: true))
                     {
-                        fg.AppendLine($"if ({gen.MaskModule.GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask")})");
-                    }
-                    using (new BraceWrapper(fg, doIt: field.IntegrateField))
-                    {
-                        field.GenerateToString(fg, field.Name, Accessor.FromType(field, "item"), "fg");
+                        ifArgs.Add(gen.MaskModule.GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
+                        if (field.HasBeenSet && field.CanBeNullable(getter: true))
+                        {
+                            ifArgs.Add($"item.{field.Name}.TryGet(out var {field.Name}Item)");
+                            accessor = $"{field.Name}Item";
+                        }
+                        ifArgs.Body = (subFg) => field.GenerateToString(subFg, field.Name, accessor, "fg");
                     }
                 }
             }
@@ -2605,7 +2609,7 @@ namespace Loqui.Generation
             {
                 using (new RegionWrapper(fg, "Equals and Hash"))
                 {
-                    fg.AppendLine("public override bool Equals(object obj)");
+                    fg.AppendLine("public override bool Equals(object? obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"if (!(obj is {this.Interface(getter: true, internalInterface: true)} rhs)) return false;");

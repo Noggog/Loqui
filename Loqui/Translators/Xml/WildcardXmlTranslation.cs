@@ -74,33 +74,6 @@ namespace Loqui.Xml
         public void Write(
             XElement node,
             string name,
-            IHasItem<object> item,
-            int fieldIndex,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal? translationMask)
-        {
-            using (errorMask?.PushIndex(fieldIndex))
-            {
-                try
-                {
-                    this.Write(
-                        node: node,
-                        name: name,
-                        item: item.Item,
-                        errorMask: errorMask,
-                        translationMask: translationMask);
-                }
-                catch (Exception ex)
-                when (errorMask != null)
-                {
-                    errorMask.ReportException(ex);
-                }
-            }
-        }
-
-        public void Write(
-            XElement node,
-            string name,
             object item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask,

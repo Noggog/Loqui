@@ -156,7 +156,14 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}Item);");
+                        if (typeGen.HasBeenSet)
+                        {
+                            fg.AppendLine($"{itemAccessor.DirectAccess} = {typeGen.Name}Item.ToExtendedList();");
+                        }
+                        else
+                        {
+                            fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}Item);");
+                        }
                     }
                     fg.AppendLine("else");
                     using (new BraceWrapper(fg))

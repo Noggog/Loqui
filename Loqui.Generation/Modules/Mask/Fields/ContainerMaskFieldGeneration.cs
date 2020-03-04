@@ -17,7 +17,7 @@ namespace Loqui.Generation
 
         public static string GetMaskString(ContainerType listType, string valueStr)
         {
-            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}>";
+            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}?>";
         }
 
         public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
@@ -82,30 +82,27 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateMaskToString(FileGeneration fg, TypeGeneration field, string accessor, bool topLevel, bool printMask)
+        public override void GenerateMaskToString(FileGeneration mainFG, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
         {
-            if (printMask)
+            using (var args = new IfWrapper(mainFG, ANDs: true))
             {
-                fg.AppendLine($"if ({GenerateBoolMaskCheck(field, "printMask")})");
-            }
-            using (new BraceWrapper(fg, printMask))
-            {
-                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
-                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                fg.AppendLine($"using (new DepthWrapper(fg))");
-                using (new BraceWrapper(fg))
+                if (printMask)
                 {
-                    ContainerType listType = field as ContainerType;
-                    if (topLevel)
+                    args.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
+                }
+                args.Add($"{accessor}.TryGet(out var {field.Name}Item)");
+                accessor = $"{field.Name}Item";
+                args.Body = (fg) =>
+                {
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                    fg.AppendLine($"using (new DepthWrapper(fg))");
+                    using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if ({accessor} != null)");
-                        using (new BraceWrapper(fg))
+                        ContainerType listType = field as ContainerType;
+                        if (topLevel)
                         {
-                            fg.AppendLine($"if ({accessor}.Overall != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}({accessor}.Overall.ToString());");
-                            }
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}.Overall);");
                             fg.AppendLine($"if ({accessor}.Specific != null)");
                             using (new BraceWrapper(fg))
                             {
@@ -123,24 +120,24 @@ namespace Loqui.Generation
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        fg.AppendLine($"foreach (var subItem in {accessor})");
-                        using (new BraceWrapper(fg))
+                        else
                         {
-                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                            var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                            fg.AppendLine($"foreach (var subItem in {accessor})");
                             using (new BraceWrapper(fg))
                             {
-                                fieldGen.GenerateMaskToString(fg, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                                var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                                fg.AppendLine($"using (new DepthWrapper(fg))");
+                                using (new BraceWrapper(fg))
+                                {
+                                    fieldGen.GenerateMaskToString(fg, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
+                                }
+                                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                             }
-                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                         }
                     }
-                }
-                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                };
             }
         }
 
