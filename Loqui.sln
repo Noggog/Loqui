@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{FD3B4153-A327-4A82-A311-1F8E4006C12F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpExt", "..\CSharpExt\CSharpExt\CSharpExt.csproj", "{C56B9607-41CF-4F59-9EEF-F79D57309EDA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui", "Loqui\Loqui.csproj", "{6BDB8C9C-0FDB-431E-9EB2-A09C9C4A3E26}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Generation", "Loqui.Generation\Loqui.Generation.csproj", "{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests.Generated", "Loqui.Tests.Generated\Loqui.Tests.Generated.csproj", "{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loqui.Tests", "Loqui.Tests\Loqui.Tests.csproj", "{332070C5-35EB-4717-856F-884E89FA875B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Tests.Generator", "Loqui.Tests.Generator\Loqui.Tests.Generator.csproj", "{3C7CADC9-4967-4F6E-9F29-2B74C16CA413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loqui.Tests", "Loqui.Tests\Loqui.Tests.csproj", "{332070C5-35EB-4717-856F-884E89FA875B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C56B9607-41CF-4F59-9EEF-F79D57309EDA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6BDB8C9C-0FDB-431E-9EB2-A09C9C4A3E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6BDB8C9C-0FDB-431E-9EB2-A09C9C4A3E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDB8C9C-0FDB-431E-9EB2-A09C9C4A3E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,24 +23,13 @@ Global
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04173BF8-9F1D-4BCC-BAAC-5991DB14C532}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E1B2DAD-02D3-41FB-87A8-3F8ED5B21636}.Release|Any CPU.Build.0 = Release|Any CPU
 		{332070C5-35EB-4717-856F-884E89FA875B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{332070C5-35EB-4717-856F-884E89FA875B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332070C5-35EB-4717-856F-884E89FA875B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{332070C5-35EB-4717-856F-884E89FA875B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C7CADC9-4967-4F6E-9F29-2B74C16CA413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C7CADC9-4967-4F6E-9F29-2B74C16CA413}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C7CADC9-4967-4F6E-9F29-2B74C16CA413}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C7CADC9-4967-4F6E-9F29-2B74C16CA413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C56B9607-41CF-4F59-9EEF-F79D57309EDA} = {FD3B4153-A327-4A82-A311-1F8E4006C12F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AAA22CE1-509E-444D-BC63-1C3D2E5CD694}

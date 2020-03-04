@@ -25,10 +25,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
+    <PackageReference Include="Noggog.CSharpExt" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CSharpExt\CSharpExt\CSharpExt.csproj" />
     <ProjectReference Include="..\Loqui\Loqui.csproj" />
   </ItemGroup>
 

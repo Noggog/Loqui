@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Object name="TestObject_HasBeenSet_Derivative" notifyingDefault="False" hasBeenSetDefault="True" derivativeDefault="true" GUID="ba1e258f-950b-45ac-86e1-c07e69d7d85b" ID="14">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Loqui>

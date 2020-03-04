@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Object name="TestObject_Notifying_Derivative_RPC" notifyingDefault="True" hasBeenSetDefault="False" derivativeDefault="true" raisePropertyChangedDefault="true" GUID="c676bc18-14c3-4cec-bd74-5c241915897c" ID="21">
-    <Fields>
-      <FieldBatch name="TypicalFields" />
-    </Fields>
-  </Object>
-</Loqui>

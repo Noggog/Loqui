@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Loqui xmlns="http://tempuri.org/LoquiSource.xsd">
-  <Object name="ObjectToRef" notifyingDefault="True" hasBeenSetDefault="True" GUID="39bed53a-0f81-4fdc-8ce4-84563c3125cf" ID="3">
-    <Fields>
-      <Int32 name="KeyField" />
-      <Bool name="SomeField" />
-    </Fields>
-  </Object>
-</Loqui>
