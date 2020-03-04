@@ -97,6 +97,7 @@ namespace Loqui.Generation
             AddTypeAssociation<DateTimeType>("DateTime");
             AddTypeAssociation<ByteArrayType>("ByteArray");
             AddTypeAssociation<NothingType>("Nothing");
+            AddTypeAssociation<ColorType>("Color");
         }
 
         public void AddTypeAssociation<T>(string key, bool overrideExisting = false)

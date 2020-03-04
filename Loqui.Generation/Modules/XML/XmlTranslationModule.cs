@@ -9,6 +9,7 @@ using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Loqui.Internal;
+using System.Drawing;
 
 namespace Loqui.Generation
 {
@@ -109,6 +110,7 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
             this._typeGenerations[typeof(ByteArrayType)] = new ByteArrayXmlTranslationGeneration();
             this._typeGenerations[typeof(NothingType)] = new NothingXmlTranslationGeneration();
+            this._typeGenerations[typeof(ColorType)] = new PrimitiveXmlTranslationGeneration<Color>();
             this.MainAPI = new TranslationModuleAPI(
                 writerAPI: new MethodAPI(
                     majorAPI: new APILine[] { XElementLine },
