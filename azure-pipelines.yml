@@ -29,25 +29,16 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: "Test Release"
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'test'
+    projects: '**/*Tests.csproj'
 
-- task: NuGetCommand@2
-  displayName: 'Pack Loqui'
+- task: DotNetCoreCLI@2
+  displayName: "Pack"
   inputs:
-    command: pack
-    vstsFeed: DemoFeed
-    packagesToPack: Loqui/Loqui.csproj
-#    includeSymbols: true
-
-- task: NuGetCommand@2
-  displayName: 'Pack Loqui Gen'
-  inputs:
-    command: pack
-    packagesToPack: Loqui.Generation/Loqui.Generation.csproj
-#    includeSymbols: true
+      command: pack
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Loqui'

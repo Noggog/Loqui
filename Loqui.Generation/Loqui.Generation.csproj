@@ -17,6 +17,8 @@
   
   <PropertyGroup>
     <Nullable>disable</Nullable>
+    <Authors>Noggog</Authors>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
