@@ -18,7 +18,7 @@
   <PropertyGroup>
     <Nullable>disable</Nullable>
     <Authors>Noggog</Authors>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
-    <PackageReference Include="Noggog.CSharpExt" Version="1.0.2" />
+    <PackageReference Include="Noggog.CSharpExt" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
