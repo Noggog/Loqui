@@ -19,7 +19,7 @@
   <PropertyGroup>
     <Nullable>disable</Nullable>
     <Authors>Noggog</Authors>
-    <Version>1.0.4-prerelease-4</Version>
+    <Version>1.0.4</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
-    <PackageReference Include="Noggog.CSharpExt" Version="1.0.3" />
+    <PackageReference Include="Noggog.CSharpExt" Version="1.0.3.1" />
   </ItemGroup>
 
   <ItemGroup>
