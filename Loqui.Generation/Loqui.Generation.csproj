@@ -19,8 +19,10 @@
   <PropertyGroup>
     <Nullable>disable</Nullable>
     <Authors>Noggog</Authors>
-    <Version>1.0.4</Version>
+    <Company>Noggog</Company>
+    <Version>1.0.4.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Class generation that offers functionality like copy masks, defaulting masks, serialization, interface generation, and other tedious bits of class and interface definitions.</Description>
   </PropertyGroup>
 
   <ItemGroup>
