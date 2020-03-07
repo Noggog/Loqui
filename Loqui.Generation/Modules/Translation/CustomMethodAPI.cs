@@ -26,9 +26,9 @@ namespace Loqui.Generation
         {
         }
 
-        public bool Applies(ObjectGeneration obj)
+        public bool Applies(ObjectGeneration obj, TranslationDirection dir)
         {
-            return this.API?.TryResolve(obj, out var line) ?? true;
+            return this.API?.TryResolve(obj, dir, out var line) ?? true;
         }
 
         public static CustomMethodAPI FactoryPublic(
@@ -54,16 +54,16 @@ namespace Loqui.Generation
             };
         }
 
-        public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, out string result)
+        public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, TranslationDirection dir, out string result)
         {
-            var get = this.API.When(obj);
+            var get = this.API.When(obj, dir);
             if (!get)
             {
                 result = default;
                 return false;
             }
             var name = this.API.GetParameterName(obj);
-            if (this.API.When(baseGen))
+            if (this.API.When(baseGen, dir))
             {
                 result = $"{name}: {name}";
             }

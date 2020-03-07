@@ -12,10 +12,9 @@ namespace Loqui.Generation
     {
         public MethodAPI WriterAPI { get; private set; }
         public MethodAPI ReaderAPI { get; private set; }
-        public enum Direction { Reader, Writer }
-        private MethodAPI Get(Direction dir) => dir == Direction.Reader ? this.ReaderAPI : this.WriterAPI;
-        public IEnumerable<APIResult> PublicMembers(ObjectGeneration obj, Direction dir) => Get(dir).IterateAPI(obj).Where((a) => a.Public).Select((r) => r.API);
-        public string[] PassArgs(ObjectGeneration obj, Direction dir) =>
+        private MethodAPI Get(TranslationDirection dir) => dir == TranslationDirection.Reader ? this.ReaderAPI : this.WriterAPI;
+        public IEnumerable<APIResult> PublicMembers(ObjectGeneration obj, TranslationDirection dir) => Get(dir).IterateAPI(obj, dir).Where((a) => a.Public).Select((r) => r.API);
+        public string[] PassArgs(ObjectGeneration obj, TranslationDirection dir) =>
             ZipAccessors(
                 PublicMembers(obj, dir), 
                 PublicMembers(obj, dir))
@@ -24,14 +23,14 @@ namespace Loqui.Generation
                     api.lhs.GetParameterName(obj).Result,
                     api.rhs.GetParameterName(obj).Result))
             .ToArray();
-        public IEnumerable<CustomMethodAPI> InternalMembers(ObjectGeneration obj, Direction dir) => Get(dir).CustomAPI.Where((a) => !a.Public).Where(o => o.API.When(obj));
-        public string[] InternalFallbackArgs(ObjectGeneration obj, Direction dir) =>
+        public IEnumerable<CustomMethodAPI> InternalMembers(ObjectGeneration obj, TranslationDirection dir) => Get(dir).CustomAPI.Where((a) => !a.Public).Where(o => o.API.When(obj, dir));
+        public string[] InternalFallbackArgs(ObjectGeneration obj, TranslationDirection dir) =>
             InternalMembers(obj, dir).Select(custom =>
                 CombineResults(
                     custom.API.GetParameterName(obj),
                     custom.DefaultFallback))
             .ToArray();
-        public string[] InternalPassArgs(ObjectGeneration obj, Direction dir) =>
+        public string[] InternalPassArgs(ObjectGeneration obj, TranslationDirection dir) =>
             InternalMembers(obj, dir).Select(custom =>
                 CombineResults(
                     custom.API.GetParameterName(obj),
@@ -112,24 +111,24 @@ namespace Loqui.Generation
             }
         }
 
-        public IEnumerable<string> WrapAccessors(ObjectGeneration obj, Direction dir, IAPIItem[] accessors) =>
+        public IEnumerable<string> WrapAccessors(ObjectGeneration obj, TranslationDirection dir, IAPIItem[] accessors) =>
             ZipAccessors(
-                Get(dir).IterateAPI(obj).Where((a) => a.Public).Select(a => a.API),
+                Get(dir).IterateAPI(obj, dir).Where((a) => a.Public).Select(a => a.API),
                 accessors.Select(api => api.Resolve(obj)))
             .Select(api =>
                 CombineResults(
                     api.lhs.GetParameterName(obj),
                     api.rhs.GetParameterName(obj)));
 
-        public IEnumerable<string> WrapFinalAccessors(ObjectGeneration obj, Direction dir, IAPIItem[] accessors) =>
+        public IEnumerable<string> WrapFinalAccessors(ObjectGeneration obj, TranslationDirection dir, IAPIItem[] accessors) =>
             ZipAccessors(
-                Get(dir).IterateAPI(obj).Select(a => a.API),
+                Get(dir).IterateAPI(obj, dir).Select(a => a.API),
                 accessors
                     .Select(api => api.GetParameterName(obj))
                     .And(
                         this.Get(dir).CustomAPI
                         .Where(a => !a.Public)
-                        .Where(a => a.API.When(obj))
+                        .Where(a => a.API.When(obj, dir))
                         .Select(a => a.DefaultFallback)))
             .Select(api =>
                 CombineResults(

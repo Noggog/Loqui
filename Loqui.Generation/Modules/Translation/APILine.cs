@@ -7,35 +7,36 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
+    public delegate bool ApiWhen(ObjectGeneration objGen, TranslationDirection dir);
     public class APILine : IEquatable<APILine>, IAPIItem
     {
         public string NicknameKey { get; }
         public Func<ObjectGeneration, APIResult> Resolver { get; }
-        public Func<ObjectGeneration, bool> When { get; }
+        public ApiWhen When { get; }
 
         public APILine(
             string nicknameKey,
             Func<ObjectGeneration, string> resolver,
-            Func<ObjectGeneration, bool> when = null)
+            ApiWhen when = null)
         {
             this.NicknameKey = nicknameKey;
             this.Resolver = (obj) => new APIResult(this, resolver(obj));
-            this.When = when ?? ((obj) => true);
+            this.When = when ?? ((obj, input) => true);
         }
 
         public APILine(
             string nicknameKey,
             string resolutionString,
-            Func<ObjectGeneration, bool> when = null)
+            ApiWhen when = null)
         {
             this.NicknameKey = nicknameKey;
             this.Resolver = (obj) => new APIResult(this, resolutionString);
-            this.When = when ?? ((obj) => true);
+            this.When = when ?? ((obj, input) => true);
         }
 
-        public bool TryResolve(ObjectGeneration obj, out APIResult line)
+        public bool TryResolve(ObjectGeneration obj, TranslationDirection dir, out APIResult line)
         {
-            var get = this.When(obj);
+            var get = this.When(obj, dir);
             if (!get)
             {
                 line = default;
@@ -45,9 +46,9 @@ namespace Loqui.Generation
             return true;
         }
 
-        public bool TryGetParameterName(ObjectGeneration obj, out APIResult result)
+        public bool TryGetParameterName(ObjectGeneration obj, TranslationDirection dir, out APIResult result)
         {
-            var get = this.When(obj);
+            var get = this.When(obj, dir);
             if (!get)
             {
                 result = default;
@@ -57,9 +58,9 @@ namespace Loqui.Generation
             return true;
         }
 
-        public bool TryGetPassthrough(ObjectGeneration obj, out string result)
+        public bool TryGetPassthrough(ObjectGeneration obj, TranslationDirection dir, out string result)
         {
-            var get = this.When(obj);
+            var get = this.When(obj, dir);
             if (!get)
             {
                 result = default;

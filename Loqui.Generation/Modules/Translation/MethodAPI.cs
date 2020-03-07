@@ -30,18 +30,18 @@ namespace Loqui.Generation
             this.MajorAPI.AddRange(api);
         }
         
-        public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, params APILine[] customLines)
+        public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, TranslationDirection dir, params APILine[] customLines)
         {
             foreach (var item in this.MajorAPI)
             {
-                if (item.TryResolve(obj, out var line))
+                if (item.TryResolve(obj, dir, out var line))
                 {
                     yield return (line, true);
                 }
             }
             foreach (var item in this.CustomAPI)
             {
-                if (item.API.TryResolve(obj, out var line))
+                if (item.API.TryResolve(obj, dir, out var line))
                 {
                     yield return (line, item.Public);
                 }
@@ -49,12 +49,12 @@ namespace Loqui.Generation
             foreach (var item in customLines)
             {
                 if (item == null) continue;
-                if (!item.When(obj)) continue;
+                if (!item.When(obj, dir)) continue;
                 yield return (item.Resolver(obj), true);
             }
             foreach (var item in this.OptionalAPI)
             {
-                if (item.TryResolve(obj, out var line))
+                if (item.TryResolve(obj, dir, out var line))
                 {
                     yield return (line, true);
                 }

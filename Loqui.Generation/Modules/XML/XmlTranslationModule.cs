@@ -184,27 +184,27 @@ namespace Loqui.Generation
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
         }
 
         private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
-            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
         }
 
         private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj).Select(a => a.API).ToArray());
+            internalToDo(this.MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
         }
 
         private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
         {
             fg.AppendLine($"var {XmlTranslationModule.XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
-            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj).Select(a => a.API).ToArray());
+            internalToDo(this.MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
         }
 
         protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
@@ -313,7 +313,7 @@ namespace Loqui.Generation
                 args.Add($"XElement {XmlTranslationModule.XElementLine.GetParameterName(obj)}");
                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                 {
-                    if (!item.API.TryResolve(obj, out var line)) continue;
+                    if (!item.API.TryResolve(obj, TranslationDirection.Reader, out var line)) continue;
                     args.Add(line.Result);
                 }
                 args.Add($"ErrorMaskBuilder? errorMask");
@@ -340,7 +340,7 @@ namespace Loqui.Generation
                             }
                             foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                             {
-                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
                                 args.Add(passthrough);
                             }
                         }
@@ -678,7 +678,7 @@ namespace Loqui.Generation
                             args.Add("name: elem.Name.LocalName");
                             foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                             {
-                                if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                                if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
                                 args.Add(passthrough);
                             }
                             args.Add("errorMask: errorMask");
@@ -696,7 +696,7 @@ namespace Loqui.Generation
                         args.Add("name: elem.Name.LocalName");
                         foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                         {
-                            if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                            if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
                             args.Add(passthrough);
                         }
                         args.Add("errorMask: errorMask");
@@ -732,7 +732,7 @@ namespace Loqui.Generation
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}: elem");
                 foreach (var item in this.MainAPI.ReaderAPI.CustomAPI)
                 {
-                    if (!item.API.TryGetPassthrough(obj, out var passthrough)) continue;
+                    if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
                     args.Add(passthrough);
                 }
                 args.Add($"errorMask: errorMask");
