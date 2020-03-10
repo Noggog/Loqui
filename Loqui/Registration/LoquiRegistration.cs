@@ -140,23 +140,27 @@ namespace Loqui
 
         public static void Register(ILoquiRegistration reg)
         {
-            Registers.Add(reg.ObjectKey, reg);
-            NameRegisters.Add(reg.FullName, reg);
-            TypeRegister.Add(reg.ClassType, reg);
-            TypeRegister.Add(reg.SetterType, reg);
-            TypeRegister.Add(reg.GetterType, reg);
-            if (reg.InternalGetterType != null)
+            lock (TypeRegister)
             {
-                TypeRegister.Add(reg.InternalGetterType, reg);
-            }
-            if (reg.InternalSetterType != null)
-            {
-                TypeRegister.Add(reg.InternalSetterType, reg);
-            }
-            if (reg.GenericRegistrationType != null
-                && !reg.GenericRegistrationType.Equals(reg.GetType()))
-            {
-                GenericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+                if (TypeRegister.ContainsKey(reg.ClassType)) return;
+                Registers.Add(reg.ObjectKey, reg);
+                NameRegisters.Add(reg.FullName, reg);
+                TypeRegister.Add(reg.ClassType, reg);
+                TypeRegister.Add(reg.SetterType, reg);
+                TypeRegister.Add(reg.GetterType, reg);
+                if (reg.InternalGetterType != null)
+                {
+                    TypeRegister.Add(reg.InternalGetterType, reg);
+                }
+                if (reg.InternalSetterType != null)
+                {
+                    TypeRegister.Add(reg.InternalSetterType, reg);
+                }
+                if (reg.GenericRegistrationType != null
+                    && !reg.GenericRegistrationType.Equals(reg.GetType()))
+                {
+                    GenericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+                }
             }
         }
 
