@@ -1263,6 +1263,7 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
+                    this.CustomMainWriteMixInPreLoad(obj, fg);
                     using (var args = new ArgsWrapper(fg,
                         $"{this.TranslatorReference(obj, "item")}.Write"))
                     {
@@ -1394,6 +1395,10 @@ namespace Loqui.Generation
                 if (!gen.Loqui) continue;
                 gen.Add(this.TranslationItemInterface);
             }
+        }
+
+        public virtual void CustomMainWriteMixInPreLoad(ObjectGeneration obj, FileGeneration fg)
+        {
         }
     }
 }
