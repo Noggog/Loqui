@@ -485,7 +485,7 @@ namespace Loqui.Generation
                             break;
                         case SingletonLevel.Singleton:
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
+                            fg.AppendLine($"private {(this.ThisConstruction ? null : "readonly ")}{this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                             fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                             if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                             {
