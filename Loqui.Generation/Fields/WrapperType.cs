@@ -46,6 +46,7 @@ namespace Loqui.Generation
                 {
                     throw new NotImplementedException();
                 }
+                this.SubTypeGeneration.Parent = this;
             }
             else
             {

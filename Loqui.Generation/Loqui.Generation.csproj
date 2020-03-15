@@ -20,7 +20,7 @@
     <Nullable>disable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.1-dev-2</Version>
+    <Version>1.1-dev-3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Class generation that offers functionality like copy masks, defaulting masks, serialization, interface generation, and other tedious bits of class and interface definitions.</Description>
   </PropertyGroup>

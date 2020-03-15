@@ -52,6 +52,8 @@ namespace Loqui.Generation
         public bool InternalGetInterface { get; set; }
         public virtual bool IsIEquatable => true;
         public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
+        public TypeGeneration Parent;
+
         public TypeGeneration()
         {
         }
