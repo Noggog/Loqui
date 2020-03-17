@@ -109,6 +109,7 @@ namespace Loqui.Generation
                     await fieldsTask;
                     fieldCtorsGenerated.Complete();
                     await Task.WhenAll(toDo);
+                    await GenerateInitializer(fg);
                     fg.AppendLine("CustomCtor();");
                 }
                 fg.AppendLine("partial void CustomCtor();");

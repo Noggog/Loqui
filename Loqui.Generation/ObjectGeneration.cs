@@ -489,6 +489,27 @@ namespace Loqui.Generation
             }
         }
 
+        public async Task GenerateInitializer(FileGeneration fg)
+        {
+            foreach (var loqui in this.Fields
+                .WhereCastable<TypeGeneration, LoquiType>()
+                .Where(l => l.ThisConstruction))
+            {
+                switch (loqui.SingletonType)
+                {
+                    case SingletonLevel.None:
+                    case SingletonLevel.NotNull:
+                        fg.AppendLine($"_{loqui.Name} = new {loqui.DirectTypeName}(this);");
+                        break;
+                    case SingletonLevel.Singleton:
+                        fg.AppendLine($"{loqui.SingletonObjectName} = new {loqui.DirectTypeName}(this);");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private async Task GenerateInterfaces(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "Interface"))

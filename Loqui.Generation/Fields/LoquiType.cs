@@ -265,27 +265,6 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => true;
 
-        public override async Task GenerateForCtor(FileGeneration fg)
-        {
-            await base.GenerateForCtor(fg);
-
-            if (this.ThisConstruction)
-            {
-                switch (this.SingletonType)
-                {
-                    case SingletonLevel.None:
-                    case SingletonLevel.NotNull:
-                        fg.AppendLine($"_{this.Name} = new {this.DirectTypeName}(this);");
-                        break;
-                    case SingletonLevel.Singleton:
-                        fg.AppendLine($"{this.SingletonObjectName} = new {this.DirectTypeName}(this);");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
         public override void GenerateForClass(FileGeneration fg)
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
