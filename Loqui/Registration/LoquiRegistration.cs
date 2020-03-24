@@ -12,15 +12,15 @@ namespace Loqui
     public static class LoquiRegistration
     {
         public delegate object UntypedCopyFunction(object item, object copy);
-        static Dictionary<ObjectKey, ILoquiRegistration> Registers = new Dictionary<ObjectKey, ILoquiRegistration>();
-        static Dictionary<string, ILoquiRegistration?> NameRegisters = new Dictionary<string, ILoquiRegistration?>();
-        static Dictionary<Type, ILoquiRegistration?> TypeRegister = new Dictionary<Type, ILoquiRegistration?>();
-        static Dictionary<Type, Type> GenericRegisters = new Dictionary<Type, Type>();
-        static Dictionary<Type, object> CreateFuncRegister = new Dictionary<Type, object>();
-        static Dictionary<Type, object> CopyInFuncRegister = new Dictionary<Type, object>();
-        static Dictionary<(Type TSource, Type TResult), object> CopyFuncRegister = new Dictionary<(Type TSource, Type TResult), object>();
-        static Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> UntypedCopyFuncRegister = new Dictionary<(Type TSource, Type TResult), UntypedCopyFunction>();
-        static Dictionary<string, Type?> cache = new Dictionary<string, Type?>();
+        private readonly static Dictionary<ObjectKey, ILoquiRegistration> _registers = new Dictionary<ObjectKey, ILoquiRegistration>();
+        private readonly static Dictionary<string, ILoquiRegistration?> _nameRegisters = new Dictionary<string, ILoquiRegistration?>();
+        private readonly static Dictionary<Type, ILoquiRegistration?> _typeRegister = new Dictionary<Type, ILoquiRegistration?>();
+        private readonly static Dictionary<Type, Type> _genericRegisters = new Dictionary<Type, Type>();
+        private readonly static Dictionary<Type, object> _createFuncRegister = new Dictionary<Type, object>();
+        private readonly static Dictionary<Type, object> _copyInFuncRegister = new Dictionary<Type, object>();
+        private readonly static Dictionary<(Type TSource, Type TResult), object> _copyFuncRegister = new Dictionary<(Type TSource, Type TResult), object>();
+        private readonly static Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> _untypedCopyFuncRegister = new Dictionary<(Type TSource, Type TResult), UntypedCopyFunction>();
+        private readonly static Dictionary<string, Type?> _cache = new Dictionary<string, Type?>();
 
         static LoquiRegistration()
         {
@@ -40,7 +40,7 @@ namespace Loqui
 
         public static bool TryGetType(string name, [MaybeNullWhen(false)]out Type type)
         {
-            if (!cache.TryGetValue(name, out type!))
+            if (!_cache.TryGetValue(name, out type!))
             {
                 try
                 {
@@ -49,7 +49,7 @@ namespace Loqui
                 }
                 catch
                 {
-                    cache[name] = null;
+                    _cache[name] = null;
                     type = null!;
                 }
             }
@@ -140,33 +140,33 @@ namespace Loqui
 
         public static void Register(ILoquiRegistration reg)
         {
-            lock (TypeRegister)
+            lock (_typeRegister)
             {
-                if (TypeRegister.ContainsKey(reg.ClassType)) return;
-                Registers.Add(reg.ObjectKey, reg);
-                NameRegisters.Add(reg.FullName, reg);
-                TypeRegister.Add(reg.ClassType, reg);
-                TypeRegister.Add(reg.SetterType, reg);
-                TypeRegister.Add(reg.GetterType, reg);
+                if (_typeRegister.ContainsKey(reg.ClassType)) return;
+                _registers.Add(reg.ObjectKey, reg);
+                _nameRegisters.Add(reg.FullName, reg);
+                _typeRegister.Add(reg.ClassType, reg);
+                _typeRegister.Add(reg.SetterType, reg);
+                _typeRegister.Add(reg.GetterType, reg);
                 if (reg.InternalGetterType != null)
                 {
-                    TypeRegister.Add(reg.InternalGetterType, reg);
+                    _typeRegister.Add(reg.InternalGetterType, reg);
                 }
                 if (reg.InternalSetterType != null)
                 {
-                    TypeRegister.Add(reg.InternalSetterType, reg);
+                    _typeRegister.Add(reg.InternalSetterType, reg);
                 }
                 if (reg.GenericRegistrationType != null
                     && !reg.GenericRegistrationType.Equals(reg.GetType()))
                 {
-                    GenericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+                    _genericRegisters[reg.ClassType] = reg.GenericRegistrationType;
                 }
             }
         }
 
         public static bool IsLoquiType(Type t)
         {
-            return TypeRegister.ContainsKey(t);
+            return _typeRegister.ContainsKey(t);
         }
 
         public static ILoquiRegistration? GetRegister(Type t, bool returnNull = false)
@@ -178,14 +178,14 @@ namespace Loqui
 
         public static bool TryGetRegister(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (TypeRegister.TryGetValue(t, out regis!))
+            if (_typeRegister.TryGetValue(t, out regis!))
             {
                 return regis != null;
             }
             if (t.IsGenericType)
             {
                 Type genType = t.GetGenericTypeDefinition();
-                if (GenericRegisters.TryGetValue(genType, out var genRegisterType))
+                if (_genericRegisters.TryGetValue(genType, out var genRegisterType))
                 {
                     if (genRegisterType == null) return false;
                 }
@@ -193,15 +193,15 @@ namespace Loqui
                 {
                     if (!TryGetRegistration(t, out var tRegis)) return false;
                     if (tRegis.GenericRegistrationType == null) return false;
-                    GenericRegisters[t] = tRegis.GenericRegistrationType;
+                    _genericRegisters[t] = tRegis.GenericRegistrationType;
                 }
                 regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
-                TypeRegister[t] = regis;
+                _typeRegister[t] = regis;
             }
             else
             {
                 TryGetRegistration(t, out regis!);
-                TypeRegister[t] = regis;
+                _typeRegister[t] = regis;
             }
             return regis != null;
         }
@@ -251,7 +251,7 @@ namespace Loqui
 
         public static bool TryGetRegister(ObjectKey key, out ILoquiRegistration regis)
         {
-            return Registers.TryGetValue(key, out regis);
+            return _registers.TryGetValue(key, out regis);
         }
 
         public static ILoquiRegistration? GetRegisterByFullName(string str)
@@ -262,7 +262,7 @@ namespace Loqui
 
         public static bool TryGetRegisterByFullName(string str, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (NameRegisters.TryGetValue(str, out regis!))
+            if (_nameRegisters.TryGetValue(str, out regis!))
             {
                 return regis != null;
             }
@@ -278,22 +278,22 @@ namespace Loqui
             var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
             if (subTypes.Any((t) => t == null))
             {
-                NameRegisters[str] = null;
+                _nameRegisters[str] = null;
                 return false;
             }
             regis = GetGenericRegistration(genRegisterType, subTypes)!;
             if (regis != null)
             {
-                TypeRegister[regis.ClassType] = regis;
+                _typeRegister[regis.ClassType] = regis;
             }
-            NameRegisters[str] = regis;
+            _nameRegisters[str] = regis;
             return regis != null;
         }
 
         public static Func<IEnumerable<KeyValuePair<ushort, object>>, T>? GetCreateFunc<T>()
         {
             var t = typeof(T);
-            if (CreateFuncRegister.TryGetValue(t, out var createFunc))
+            if (_createFuncRegister.TryGetValue(t, out var createFunc))
             {
                 return createFunc as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
             }
@@ -311,14 +311,14 @@ namespace Loqui
                 delegateType: Expression.GetDelegateType(tArgs.ToArray()),
                 body: Expression.Call(methodInfo, param),
                 parameters: param).Compile();
-            CreateFuncRegister[t] = del;
+            _createFuncRegister[t] = del;
             return del as Func<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
         public static Action<IEnumerable<KeyValuePair<ushort, object>>, T>? GetCopyInFunc<T>()
         {
             var t = typeof(T);
-            if (CopyInFuncRegister.TryGetValue(t, out var createFunc))
+            if (_copyInFuncRegister.TryGetValue(t, out var createFunc))
             {
                 return createFunc as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
             }
@@ -342,7 +342,7 @@ namespace Loqui
                 delegateType: Expression.GetDelegateType(tArgs.ToArray()),
                 body: Expression.Call(methodInfo, fields, obj),
                 parameters: new ParameterExpression[] { fields, obj }).Compile();
-            CopyInFuncRegister[t] = del;
+            _copyInFuncRegister[t] = del;
             return del as Action<IEnumerable<KeyValuePair<ushort, object>>, T>;
         }
 
@@ -355,7 +355,7 @@ namespace Loqui
         public static Func<TSource, object, TResult>? GetCopyFunc<TResult, TSource>(Type tSource, Type tResult)
             where TSource : notnull
         {
-            if (CopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
+            if (_copyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
                 return copyFunc as Func<TSource, object, TResult>;
             }
@@ -389,13 +389,13 @@ namespace Loqui
                 {
                     return (TResult)untypedCopyFunc(item, copy);
                 });
-            CopyFuncRegister[(tSource, tResult)] = f;
+            _copyFuncRegister[(tSource, tResult)] = f;
             return f;
         }
 
         public static UntypedCopyFunction GetCopyFunc(Type tSource, Type tResult)
         {
-            if (UntypedCopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
+            if (_untypedCopyFuncRegister.TryGetValue((tSource, tResult), out var copyFunc))
             {
                 return copyFunc;
             }
@@ -422,7 +422,7 @@ namespace Loqui
                             copy
                         });
                 });
-            UntypedCopyFuncRegister[(tSource, tResult)] = f;
+            _untypedCopyFuncRegister[(tSource, tResult)] = f;
             return f;
         }
     }
