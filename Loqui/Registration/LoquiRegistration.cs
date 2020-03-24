@@ -12,6 +12,7 @@ namespace Loqui
     public static class LoquiRegistration
     {
         public delegate object UntypedCopyFunction(object item, object copy);
+        private readonly static object _registersLock = new object();
         private readonly static Dictionary<ObjectKey, ILoquiRegistration> _registers = new Dictionary<ObjectKey, ILoquiRegistration>();
         private readonly static Dictionary<string, ILoquiRegistration?> _nameRegisters = new Dictionary<string, ILoquiRegistration?>();
         private readonly static Dictionary<Type, ILoquiRegistration?> _typeRegister = new Dictionary<Type, ILoquiRegistration?>();
@@ -140,7 +141,7 @@ namespace Loqui
 
         public static void Register(ILoquiRegistration reg)
         {
-            lock (_typeRegister)
+            lock (_registersLock)
             {
                 if (_typeRegister.ContainsKey(reg.ClassType)) return;
                 _registers.Add(reg.ObjectKey, reg);
@@ -166,7 +167,10 @@ namespace Loqui
 
         public static bool IsLoquiType(Type t)
         {
-            return _typeRegister.ContainsKey(t);
+            lock (_registersLock)
+            {
+                return _typeRegister.ContainsKey(t);
+            }
         }
 
         public static ILoquiRegistration? GetRegister(Type t, bool returnNull = false)
@@ -178,32 +182,35 @@ namespace Loqui
 
         public static bool TryGetRegister(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (_typeRegister.TryGetValue(t, out regis!))
+            lock (_registersLock)
             {
-                return regis != null;
-            }
-            if (t.IsGenericType)
-            {
-                Type genType = t.GetGenericTypeDefinition();
-                if (_genericRegisters.TryGetValue(genType, out var genRegisterType))
+                if (_typeRegister.TryGetValue(t, out regis!))
                 {
-                    if (genRegisterType == null) return false;
+                    return regis != null;
+                }
+                if (t.IsGenericType)
+                {
+                    Type genType = t.GetGenericTypeDefinition();
+                    if (_genericRegisters.TryGetValue(genType, out var genRegisterType))
+                    {
+                        if (genRegisterType == null) return false;
+                    }
+                    else
+                    {
+                        if (!TryGetRegistration(t, out var tRegis)) return false;
+                        if (tRegis.GenericRegistrationType == null) return false;
+                        _genericRegisters[t] = tRegis.GenericRegistrationType;
+                    }
+                    regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
+                    _typeRegister[t] = regis;
                 }
                 else
                 {
-                    if (!TryGetRegistration(t, out var tRegis)) return false;
-                    if (tRegis.GenericRegistrationType == null) return false;
-                    _genericRegisters[t] = tRegis.GenericRegistrationType;
+                    TryGetRegistration(t, out regis!);
+                    _typeRegister[t] = regis;
                 }
-                regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
-                _typeRegister[t] = regis;
+                return regis != null;
             }
-            else
-            {
-                TryGetRegistration(t, out regis!);
-                _typeRegister[t] = regis;
-            }
-            return regis != null;
         }
 
         private static bool TryGetRegistration(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
@@ -251,7 +258,10 @@ namespace Loqui
 
         public static bool TryGetRegister(ObjectKey key, out ILoquiRegistration regis)
         {
-            return _registers.TryGetValue(key, out regis);
+            lock (_registersLock)
+            {
+                return _registers.TryGetValue(key, out regis);
+            }
         }
 
         public static ILoquiRegistration? GetRegisterByFullName(string str)
@@ -262,32 +272,35 @@ namespace Loqui
 
         public static bool TryGetRegisterByFullName(string str, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
-            if (_nameRegisters.TryGetValue(str, out regis!))
+            lock (_registersLock)
             {
+                if (_nameRegisters.TryGetValue(str, out regis!))
+                {
+                    return regis != null;
+                }
+                if (str == null) return false;
+                int genIndex = str.IndexOf("<");
+                int genEndIndex = str.LastIndexOf(">");
+                if (genIndex == -1 || genEndIndex == -1) return false;
+                if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
+                var genRegisterType = baseReg.GenericRegistrationType;
+                if (genRegisterType == null) throw new ArgumentException();
+                str = str.Substring(genIndex + 1, genEndIndex - genIndex - 1);
+                var subTypeStrings = str.Split(',');
+                var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
+                if (subTypes.Any((t) => t == null))
+                {
+                    _nameRegisters[str] = null;
+                    return false;
+                }
+                regis = GetGenericRegistration(genRegisterType, subTypes)!;
+                if (regis != null)
+                {
+                    _typeRegister[regis.ClassType] = regis;
+                }
+                _nameRegisters[str] = regis;
                 return regis != null;
             }
-            if (str == null) return false;
-            int genIndex = str.IndexOf("<");
-            int genEndIndex = str.LastIndexOf(">");
-            if (genIndex == -1 || genEndIndex == -1) return false;
-            if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
-            var genRegisterType = baseReg.GenericRegistrationType;
-            if (genRegisterType == null) throw new ArgumentException();
-            str = str.Substring(genIndex + 1, genEndIndex - genIndex - 1);
-            var subTypeStrings = str.Split(',');
-            var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
-            if (subTypes.Any((t) => t == null))
-            {
-                _nameRegisters[str] = null;
-                return false;
-            }
-            regis = GetGenericRegistration(genRegisterType, subTypes)!;
-            if (regis != null)
-            {
-                _typeRegister[regis.ClassType] = regis;
-            }
-            _nameRegisters[str] = regis;
-            return regis != null;
         }
 
         public static Func<IEnumerable<KeyValuePair<ushort, object>>, T>? GetCreateFunc<T>()
