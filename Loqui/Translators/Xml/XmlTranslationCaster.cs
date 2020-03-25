@@ -41,7 +41,7 @@ namespace Loqui.Xml
                 item = sourceItem!;
                 return item != null;
             }
-            item = default!;
+            item = default;
             return false;
         }
     }

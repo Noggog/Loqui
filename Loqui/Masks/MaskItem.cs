@@ -38,13 +38,6 @@ namespace Loqui
             return HashHelper.GetHashCode(this.Overall)
                 .CombineHashCode(this.Specific);
         }
-
-        [return: NotNullIfNotNull("val")]
-        public static MaskItem<TOverall, TSpecific>? WrapValue(TSpecific val)
-        {
-            if (val == null) return null;
-            return new MaskItem<TOverall, TSpecific>(default(TOverall), val);
-        }
     }
 
     public class MaskItemIndexed<TOverall, TSpecific> : MaskItem<TOverall, TSpecific>, IEquatable<MaskItemIndexed<TOverall, TSpecific>>

@@ -22,7 +22,7 @@ namespace Loqui.Xml
                 item = val.Value;
                 return true;
             }
-            item = null!;
+            item = null;
             return false;
         }
 
@@ -45,7 +45,7 @@ namespace Loqui.Xml
         {
             return this.Parse(
                 node: node,
-                item: out item!,
+                item: out item,
                 errorMask: errorMask);
         }
 
@@ -100,7 +100,7 @@ namespace Loqui.Xml
         {
             return this.Parse(
                 node: node,
-                item: out item!,
+                item: out item,
                 errorMask: errorMask);
         }
     }

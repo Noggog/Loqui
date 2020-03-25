@@ -25,7 +25,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"No XML Translator available for {typeof(T)}. {transl.Reason}"));
-                enumer = null!;
+                enumer = null;
                 return false;
             }
             return Parse(

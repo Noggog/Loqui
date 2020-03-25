@@ -4,6 +4,7 @@ using System.Linq;
 using Noggog;
 using System.Xml.Linq;
 using Loqui.Internal;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Loqui.Xml
 {
@@ -80,7 +81,7 @@ namespace Loqui.Xml
         private bool ParseKey(
             XElement root,
             XmlSubParseDelegate<K> keyTransl,
-            out K item,
+            [MaybeNullWhen(false)] out K item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
         {
@@ -89,7 +90,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException("Key field did not exist"));
-                item = default(K);
+                item = default;
                 return false;
             }
 
@@ -98,7 +99,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Key field has unexpected count: {keyCount}"));
-                item = default(K);
+                item = default;
                 return false;
             }
 
@@ -112,7 +113,7 @@ namespace Loqui.Xml
         private bool ParseValue(
             XElement root,
             XmlSubParseDelegate<V> valTransl,
-            out V item,
+            [MaybeNullWhen(false)] out V item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
         {
@@ -121,7 +122,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException("Value field did not exist"));
-                item = default(V);
+                item = default;
                 return false;
             }
 
@@ -130,7 +131,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Value field has unexpected count: {keyCount}"));
-                item = default(V);
+                item = default;
                 return false;
             }
 
@@ -157,12 +158,12 @@ namespace Loqui.Xml
             XElement root,
             XmlSubParseDelegate<K> keyTransl,
             XmlSubParseDelegate<V> valTransl,
-            out KeyValuePair<K, V> item,
+            [MaybeNullWhen(false)] out KeyValuePair<K, V> item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
         {
             bool gotKey = false;
-            K key = default(K);
+            K key = default;
 
             using (errorMask?.PushIndex(KEY_ERR_INDEX))
             {
@@ -195,7 +196,7 @@ namespace Loqui.Xml
                             && gotKey)
                     {
                         item = new KeyValuePair<K, V>(
-                            key,
+                            key!,
                             val);
                         return true;
                     }
@@ -207,7 +208,7 @@ namespace Loqui.Xml
                 }
             }
 
-            item = default(KeyValuePair<K, V>);
+            item = default;
             return false;
         }
 

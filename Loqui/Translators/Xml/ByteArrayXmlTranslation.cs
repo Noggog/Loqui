@@ -36,7 +36,7 @@ namespace Loqui.Xml
             if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? attr)
                 || attr.Value == null)
             {
-                val = default!;
+                val = default;
                 return false;
             }
             val = Parse(attr.Value);

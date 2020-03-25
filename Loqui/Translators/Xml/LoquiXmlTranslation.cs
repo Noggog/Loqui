@@ -13,7 +13,7 @@ using System.Xml.Linq;
 namespace Loqui.Xml
 {
     public class LoquiXmlTranslation<T> : IXmlTranslation<T>
-        where T : ILoquiObject
+        where T : class, ILoquiObject
     {
         public static readonly LoquiXmlTranslation<T> Instance = new LoquiXmlTranslation<T>();
         private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T))!.FullName);
@@ -135,7 +135,7 @@ namespace Loqui.Xml
                     var ex = new ArgumentException($"Unknown Loqui type: {node.Name.LocalName}");
                     if (errorMask == null) throw ex;
                     errorMask.ReportException(ex);
-                    item = default(T);
+                    item = default;
                     return false;
                 }
                 if (XmlTranslator.Instance.GetTranslator(register.ClassType).Value.Parse(
@@ -149,7 +149,7 @@ namespace Loqui.Xml
                 }
                 else
                 {
-                    item = default(T);
+                    item = default;
                     return false;
                 }
             }
@@ -166,7 +166,7 @@ namespace Loqui.Xml
             }
             else
             {
-                return default;
+                throw new ArgumentException("Could not parse");
             }
         }
 
@@ -225,7 +225,7 @@ namespace Loqui.Xml
 
         public bool TryCreate<T>(
             XElement node,
-            out T item,
+            [MaybeNullWhen(false)] out T item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
             where T : ILoquiObjectGetter

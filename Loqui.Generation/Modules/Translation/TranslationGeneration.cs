@@ -43,7 +43,7 @@ namespace Loqui.Generation
                             prefix = $"{param.ItemAccessor.DirectAccess}{param.ItemAccessor.AssignmentOperator}";
                         }
                         args = new ArgsWrapper(param.FG,
-                           $"{prefix}{param.TranslatorLine}.{(parseInto ? "ParseInto" : "Parse")}{(param.Generic == null ? null : $"<{param.Generic}>")}",
+                           $"{prefix}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{(param.Generic == null ? null : $"<{param.Generic}>")}",
                            suffixLine: (doIf ? ")" : null))
                         {
                             SemiColon = !doIf,
@@ -52,7 +52,7 @@ namespace Loqui.Generation
                     else if (param.AsyncMode == AsyncMode.Async)
                     {
                         args = new ArgsWrapper(param.FG,
-                            $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.Parse{(parseInto ? "Into" : null)}{param.Generic}",
+                            $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Loqui.Generation.Utility.Await()}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{param.Generic}",
                             suffixLine: Loqui.Generation.Utility.ConfigAwait())
                         {
                             SemiColon = !doIf
@@ -149,6 +149,7 @@ namespace Loqui.Generation
             public Accessor ItemAccessor;
             public Accessor IndexAccessor;
             public string TypeOverride;
+            public string FunctionNameOverride;
             public AsyncMode AsyncMode;
             public string DefaultOverride;
             public Action<FileGeneration> UnsetCall;

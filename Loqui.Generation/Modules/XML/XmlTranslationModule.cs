@@ -647,7 +647,7 @@ namespace Loqui.Generation
         {
             if (obj.Abstract)
             {
-                fg.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate(node, out {obj.Name} ret, errorMask, translationMask))");
+                fg.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate<{obj.Name}>(node, out var ret, errorMask, translationMask))");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"throw new ArgumentException($\"Unknown {obj.Name} subclass: {{node.Name.LocalName}}\");");

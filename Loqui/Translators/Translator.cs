@@ -153,12 +153,12 @@ namespace Loqui.Translators
         {
             if (!TryGetTranslator(t, out GetResponse<ObjTransl> not))
             {
-                transl = null!;
+                transl = null;
                 return false;
             }
             if (not.Failed)
             {
-                transl = null!;
+                transl = null;
                 return false;
             }
             transl = not.Value;

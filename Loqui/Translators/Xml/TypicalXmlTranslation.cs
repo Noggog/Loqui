@@ -29,7 +29,7 @@ namespace Loqui.Xml
             if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? attr)
                 || string.IsNullOrEmpty(attr.Value))
             {
-                item = default!;
+                item = default;
                 return false;
             }
             item = Parse(attr.Value);
@@ -68,7 +68,7 @@ namespace Loqui.Xml
                     errorMask.ReportException(ex);
                 }
             }
-            item = default!;
+            item = default;
             return false;
         }
 
@@ -137,7 +137,7 @@ namespace Loqui.Xml
         {
             return this.Parse(
                 node: node,
-                item: out item!);
+                item: out item);
         }
     }
 }

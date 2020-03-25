@@ -41,7 +41,7 @@ namespace Loqui
 
         public static bool TryGetType(string name, [MaybeNullWhen(false)]out Type type)
         {
-            if (!_cache.TryGetValue(name, out type!))
+            if (!_cache.TryGetValue(name, out type))
             {
                 try
                 {
@@ -51,7 +51,7 @@ namespace Loqui
                 catch
                 {
                     _cache[name] = null;
-                    type = null!;
+                    type = null;
                 }
             }
 
@@ -206,7 +206,7 @@ namespace Loqui
                 }
                 else
                 {
-                    TryGetRegistration(t, out regis!);
+                    TryGetRegistration(t, out regis);
                     _typeRegister[t] = regis;
                 }
                 return regis != null;
@@ -238,7 +238,7 @@ namespace Loqui
             }
             else
             {
-                regis = null!;
+                regis = null;
                 return false;
             }
         }

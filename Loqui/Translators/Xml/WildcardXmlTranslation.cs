@@ -33,7 +33,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Could not get name attribute for XML Translator."));
-                item = default!;
+                item = default;
                 return false;
             }
 
@@ -42,7 +42,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Could not get item node."));
-                item = default!;
+                item = default;
                 return false;
             }
 
@@ -50,7 +50,7 @@ namespace Loqui.Xml
             {
                 errorMask.ReportExceptionOrThrow(
                     new ArgumentException($"Could not match Element type {nameAttr.Value} to an XML Translator."));
-                item = default!;
+                item = default;
                 return false;
             }
             var xml = GetTranslator(t);
