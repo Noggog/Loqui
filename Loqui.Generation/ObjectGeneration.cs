@@ -526,6 +526,7 @@ namespace Loqui.Generation
                 using (var args = new ClassWrapper(fg, $"{this.MixInClassName}"))
                 {
                     args.Static = true;
+                    args.Partial = true;
                 }
                 using (new BraceWrapper(fg))
                 {
