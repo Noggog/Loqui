@@ -829,6 +829,11 @@ namespace Loqui.Generation
                         await mod.GenerateInRegistration(this, fg);
                     }
 
+                    foreach (var field in this.Fields)
+                    {
+                        field.GenerateInRegistration(fg);
+                    }
+
                     using (new RegionWrapper(fg, "Interface"))
                     {
                         fg.AppendLine($"ProtocolKey ILoquiRegistration.ProtocolKey => ProtocolKey;");

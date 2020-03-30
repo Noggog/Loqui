@@ -186,6 +186,10 @@ namespace Loqui.Generation
             fg.AppendLine($"return typeof({this.TypeName(getter: false)});");
         }
 
+        public virtual void GenerateInRegistration(FileGeneration fg)
+        { 
+        }
+
         public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);
 
         public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
