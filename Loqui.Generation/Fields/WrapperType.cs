@@ -26,11 +26,16 @@ namespace Loqui.Generation
         {
             await base.Load(node, requireName);
 
-            if (!node.Elements().Any())
+            var fieldsNode = node.Elements().FirstOrDefault(f => f.Name.LocalName.Equals("Fields"));
+            if (fieldsNode != null)
             {
-                throw new ArgumentException("List had no elements.");
+                node = fieldsNode;
             }
 
+            if (!node.Elements().Any())
+            {
+                throw new ArgumentException("Wrapper had no elements.");
+            }
             if (node.Elements().Any())
             {
                 var typeGen = await ObjectGen.LoadField(
