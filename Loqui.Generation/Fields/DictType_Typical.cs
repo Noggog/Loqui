@@ -426,7 +426,7 @@ namespace Loqui.Generation
 
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
-            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
+            fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)

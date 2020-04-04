@@ -68,7 +68,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg, doIt: this.HasBeenSet))
             {
-                fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
+                fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
             }
         }
 

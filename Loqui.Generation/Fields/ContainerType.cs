@@ -93,7 +93,7 @@ namespace Loqui.Generation
 
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
-            fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({accessor}).CombineHashCode({hashResultAccessor});");
+            fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
         }
     }
 }

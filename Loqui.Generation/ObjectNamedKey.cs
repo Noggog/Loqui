@@ -31,8 +31,10 @@ namespace Loqui.Generation
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode()
-                .CombineHashCode(this.ProtocolKey);
+            var hash = new HashCode();
+            hash.Add(this.Name);
+            hash.Add(this.ProtocolKey);
+            return hash.ToHashCode();
         }
 
         public override string ToString()

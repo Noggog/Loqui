@@ -1289,17 +1289,20 @@ namespace Loqui.Generation
 
         public override int GetHashCode()
         {
+            var hash = new HashCode();
+            hash.Add(this.RefType);
+
             var ret = this.RefType.GetHashCode();
             switch (this.RefType)
             {
                 case LoquiRefType.Direct:
-                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this.TargetObjectGeneration));
+                    hash.Add(this.TargetObjectGeneration);
                     break;
                 case LoquiRefType.Interface:
-                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this.GetterInterface, this.SetterInterface));
+                    hash.Add(HashCode.Combine(this.GetterInterface, this.SetterInterface));
                     break;
                 case LoquiRefType.Generic:
-                    ret = ret.CombineHashCode(HashHelper.GetHashCode(this._generic));
+                    hash.Add(this._generic);
                     break;
                 default:
                     throw new NotImplementedException();

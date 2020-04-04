@@ -443,16 +443,16 @@ namespace Loqui.Generation
                     fg.AppendLine("public override int GetHashCode()");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine("int ret = 0;");
+                        fg.AppendLine("var hash = new HashCode();");
                         foreach (var field in obj.IterateFields())
                         {
                             GetMaskModule(field.GetType()).GenerateForHashCode(fg, field, $"rhs.{field.Name}");
                         }
                         if (obj.HasLoquiBaseObject)
                         {
-                            fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                            fg.AppendLine($"hash.Add(base.GetHashCode());");
                         }
-                        fg.AppendLine("return ret;");
+                        fg.AppendLine("return hash.ToHashCode();");
                     }
                     fg.AppendLine();
                 }

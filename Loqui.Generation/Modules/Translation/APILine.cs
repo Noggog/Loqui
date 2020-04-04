@@ -86,7 +86,7 @@ namespace Loqui.Generation
 
         public override int GetHashCode()
         {
-            return HashHelper.GetHashCode(this.NicknameKey);
+            return HashCode.Combine(this.NicknameKey);
         }
     }
 }

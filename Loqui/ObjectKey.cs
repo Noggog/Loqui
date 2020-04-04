@@ -34,10 +34,11 @@ namespace Loqui
 
         public override int GetHashCode()
         {
-            return HashHelper.GetHashCode(
-                this.MessageID,
-                this.Version)
-                .CombineHashCode(this.ProtocolKey);
+            var hash = new HashCode();
+            hash.Add(MessageID);
+            hash.Add(Version);
+            hash.Add(ProtocolKey);
+            return hash.ToHashCode();
         }
 
         public override string ToString()

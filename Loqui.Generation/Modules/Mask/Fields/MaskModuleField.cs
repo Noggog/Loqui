@@ -43,7 +43,7 @@ namespace Loqui.Generation
         public virtual void GenerateForHashCode(FileGeneration fg, TypeGeneration field, string rhsAccessor)
         {
             if (!field.IntegrateField) return;
-            fg.AppendLine($"ret = ret.CombineHashCode(this.{field.Name}?.GetHashCode());");
+            fg.AppendLine($"hash.Add(this.{field.Name});");
         }
         public abstract void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed);
         public abstract void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field);

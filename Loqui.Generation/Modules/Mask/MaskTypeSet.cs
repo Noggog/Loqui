@@ -43,8 +43,10 @@ namespace Loqui.Generation
 
         public override int GetHashCode()
         {
-            return _loquiInterface.GetHashCode()
-                .CombineHashCode(_maskTypeSet.Select(m => m.GetHashCode()));
+            var hash = new HashCode();
+            hash.Add(_loquiInterface);
+            hash.Add(_maskTypeSet.Select(m => m.GetHashCode()));
+            return hash.ToHashCode();
         }
 
         public override bool Equals(object obj)

@@ -35,8 +35,10 @@ namespace Loqui
 
         public override int GetHashCode()
         {
-            return HashHelper.GetHashCode(this.Overall)
-                .CombineHashCode(this.Specific);
+            var hash = new HashCode();
+            hash.Add(Overall);
+            hash.Add(Specific);
+            return hash.ToHashCode();
         }
     }
 
@@ -62,9 +64,10 @@ namespace Loqui
 
         public override int GetHashCode()
         {
-            return HashHelper.CombineHashCode(
-                base.GetHashCode(),
-                this.Index.GetHashCode());
+            var hash = new HashCode();
+            hash.Add(base.GetHashCode());
+            hash.Add(this.Index);
+            return hash.ToHashCode();
         }
     }
 
@@ -90,9 +93,10 @@ namespace Loqui
 
         public override int GetHashCode()
         {
-            return HashHelper.CombineHashCode(
-                base.GetHashCode(),
-                HashHelper.GetHashCode(this.Index));
+            var hash = new HashCode();
+            hash.Add(base.GetHashCode());
+            hash.Add(this.Index);
+            return hash.ToHashCode();
         }
     }
 

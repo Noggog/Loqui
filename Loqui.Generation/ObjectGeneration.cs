@@ -2742,20 +2742,20 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("int ret = 0;");
+                    fg.AppendLine("var hash = new HashCode();");
                     foreach (var field in this.IterateFields())
                     {
                         var itemAccessor = Accessor.FromType(field, "item");
                         if (!HasKeyField() || field.KeyField)
                         {
-                            field.GenerateForHash(fg, itemAccessor, "ret");
+                            field.GenerateForHash(fg, itemAccessor, "hash");
                         }
                     }
                     if (this.HasLoquiBaseObject)
                     {
-                        fg.AppendLine($"ret = ret.CombineHashCode(base.GetHashCode());");
+                        fg.AppendLine($"hash.Add(base.GetHashCode());");
                     }
-                    fg.AppendLine("return ret;");
+                    fg.AppendLine("return hash.ToHashCode();");
                 }
                 fg.AppendLine();
 

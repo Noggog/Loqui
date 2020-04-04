@@ -489,7 +489,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg, doIt: this.HasBeenSet))
             {
-                fg.AppendLine($"{hashResultAccessor} = HashHelper.GetHashCode({(this.HasBeenSet ? $"{this.Name}item" : accessor)}).CombineHashCode({hashResultAccessor});");
+                fg.AppendLine($"{hashResultAccessor}.Add({(this.HasBeenSet ? $"{this.Name}item" : accessor)});");
             }
         }
 
