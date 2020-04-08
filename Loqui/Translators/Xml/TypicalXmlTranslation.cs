@@ -11,7 +11,6 @@ using System.Xml.Linq;
 namespace Loqui.Xml
 {
     public abstract class TypicalXmlTranslation<T> : IXmlTranslation<T>
-        where T : class
     {
         string IXmlTranslation<T>.ElementName => ElementName;
         public static readonly string RAW_ELEMENT_NAME = typeof(T).GetName().Replace("?", string.Empty);
@@ -19,7 +18,8 @@ namespace Loqui.Xml
 
         protected virtual string GetItemStr(T item)
         {
-            return item.ToString();
+            // Not sure why nullability override is needed here
+            return item!.ToString();
         }
 
         protected abstract T Parse(string str);
@@ -36,10 +36,11 @@ namespace Loqui.Xml
             return true;
         }
 
-        public T? ParseNullable(
+        [return: MaybeNull()]
+        public T ParseNullable(
             XElement node,
             ErrorMaskBuilder? errorMask,
-            T? defaultVal = default)
+            T defaultVal = default)
         {
             if (this.Parse(
                 node: node,
@@ -76,7 +77,7 @@ namespace Loqui.Xml
         {
             node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
-                item != null ? GetItemStr(item) : string.Empty);
+                GetItemStr(item));
         }
 
         private void Write(
