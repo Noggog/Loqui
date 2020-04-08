@@ -97,6 +97,7 @@ namespace Loqui.Generation
         
         protected override async Task GenerateCtor(FileGeneration fg)
         {
+            if (this.BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
             using (new RegionWrapper(fg, "Ctor"))
             {
                 fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}()");

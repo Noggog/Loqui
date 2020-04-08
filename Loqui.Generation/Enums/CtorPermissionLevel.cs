@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Loqui.Generation
 {
-    public enum PermissionLevel
+    public enum CtorPermissionLevel
     {
         @public,
         @private,
         @protected,
         @internal,
+        noGeneration
     }
 }

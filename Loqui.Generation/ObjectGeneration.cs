@@ -24,7 +24,7 @@ namespace Loqui.Generation
         public bool GenerateEquals { get; set; } = true;
         public bool GenerateToString { get; set; } = true;
         public bool GenerateNthReflections { get; set; }
-        public PermissionLevel BasicCtorPermission { get; set; } = PermissionLevel.@public;
+        public CtorPermissionLevel BasicCtorPermission { get; set; } = CtorPermissionLevel.@public;
         public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool HasBeenSetDefault { get; }
         public LoquiInterfaceType SetterInterfaceTypeDefault;
@@ -192,7 +192,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<bool>(Constants.GENERATE_CLASS, (i) => GenerateClass = i);
             Node.TransferAttribute<bool>(Constants.GENERATE_EQUALS, (i) => GenerateEquals = i);
             Node.TransferAttribute<bool>(Constants.GENERATE_TO_STRING, (i) => GenerateToString = i);
-            Node.TransferAttribute<PermissionLevel>(Constants.CTOR_PERMISSION, (i) => BasicCtorPermission = i);
+            Node.TransferAttribute<CtorPermissionLevel>(Constants.CTOR_PERMISSION, (i) => BasicCtorPermission = i);
             Node.TransferAttribute<ushort>(Constants.VERSION, (i) => Version = i);
             Node.TransferAttribute<bool>(Constants.FORCE_INTERNAL_INTERFACE, (i) => this.ForceInternalInterface = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.SET_INTERFACE_TYPE_DEFAULT, (i) => this.SetterInterfaceTypeDefault = i);
@@ -2783,16 +2783,6 @@ namespace Loqui.Generation
         public bool SupportsCopy()
         {
             return true;
-            switch (this.BasicCtorPermission)
-            {
-                case PermissionLevel.@public:
-                case PermissionLevel.@internal:
-                    return true;
-                case PermissionLevel.@private:
-                case PermissionLevel.@protected:
-                default:
-                    return false;
-            }
         }
 
         private async Task GenerateCreateNew(FileGeneration fg)

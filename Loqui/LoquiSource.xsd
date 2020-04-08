@@ -143,6 +143,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="CtorPermissionLevel" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="public" />
+      <xs:enumeration value="private" />
+      <xs:enumeration value="protected" />
+      <xs:enumeration value="internal" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:group name="FieldOptions">
     <xs:choice>
       <xs:element name="FieldBatch" type="FieldBatchPointer" />
@@ -326,7 +335,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="ctorPermission" type="PermissionLevel" >
+    <xs:attribute name="ctorPermission" type="CtorPermissionLevel" >
       <xs:annotation>
         <xs:documentation>
           Whether to expose the basic ctor to the public.
@@ -425,7 +434,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="ctorPermission" type="PermissionLevel" >
+    <xs:attribute name="ctorPermission" type="CtorPermissionLevel" >
       <xs:annotation>
         <xs:documentation>
           Whether to expose the basic ctor to the public.

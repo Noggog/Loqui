@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +23,8 @@ namespace Loqui.Generation
 
         protected override async Task GenerateCtor(FileGeneration fg)
         {
-            if (this.BasicCtorPermission == PermissionLevel.@public)
+            if (this.BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
+            if (this.BasicCtorPermission == CtorPermissionLevel.@public)
             {
                 fg.AppendLine($"public {this.Name}(");
                 List<string> lines = new List<string>();
