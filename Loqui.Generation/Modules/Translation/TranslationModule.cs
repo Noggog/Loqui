@@ -856,7 +856,7 @@ namespace Loqui.Generation
             if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)) return;
 
             using (var args = new FunctionWrapper(fg,
-                $"public {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
+                $"public virtual {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
             {
                 args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
                 foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
@@ -875,6 +875,41 @@ namespace Loqui.Generation
                 }
             }
             fg.AppendLine();
+
+            foreach (var baseObj in obj.BaseClassTrail())
+            {
+                using (var args = new FunctionWrapper(fg,
+                    $"public override {await this.ObjectReturn(baseObj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}"))
+                {
+                    args.Add($"{baseObj.Interface(getter: false, internalInterface: true)} item");
+                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(baseObj,
+                        TranslationDirection.Reader,
+                        this.DoErrorMasks ? new APILine(ErrorMaskKey, "ErrorMaskBuilder? errorMask") : null,
+                        new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask", (o, i) => this.TranslationMaskParameter)))
+                    {
+                        args.Add(API.Result);
+                    }
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{CopyInFromPrefix}{ModuleNickname}"))
+                    {
+                        args.Add($"item: ({obj.ObjectName})item");
+                        args.Add(this.MainAPI.PassArgs(obj, TranslationDirection.Reader));
+                        args.Add(this.MainAPI.InternalPassArgs(obj, TranslationDirection.Reader));
+                        if (this.DoErrorMasks)
+                        {
+                            args.AddPassArg($"errorMask");
+                        }
+                        if (this.TranslationMaskParameter)
+                        {
+                            args.AddPassArg($"translationMask");
+                        }
+                    }
+                }
+                fg.AppendLine();
+            }
         }
 
         private void FillWriterArgs(
