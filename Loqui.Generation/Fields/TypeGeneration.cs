@@ -98,7 +98,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
-            if (requireName && Namable && Name == null)
+            if (requireName && Namable && Name == null && this.IntegrateField)
             {
                 throw new ArgumentException("Type field needs a name.");
             }

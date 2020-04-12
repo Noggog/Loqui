@@ -136,15 +136,15 @@ namespace Loqui.Generation
         protected LoquiGenerator gen;
         public ProtocolGeneration ProtoGen;
         public HashSet<string> RequiredNamespaces = new HashSet<string>();
-        public List<GenerationInterface> GenerationInterfaces = new List<GenerationInterface>();
-        public List<TypeGeneration> Fields = new List<TypeGeneration>();
+        public ExtendedList<GenerationInterface> GenerationInterfaces = new ExtendedList<GenerationInterface>();
+        public ExtendedList<TypeGeneration> Fields = new ExtendedList<TypeGeneration>();
         public IEnumerable<TypeGeneration> AllFields => this.HasLoquiBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
         public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
 
         // Task Coordinators
-        protected TaskCompletionSource<List<ObjectGeneration>> _directlyInheritingObjectsTcs = new TaskCompletionSource<List<ObjectGeneration>>();
-        protected Task<List<ObjectGeneration>> _directlyInheritingObjects => _directlyInheritingObjectsTcs.Task;
+        protected TaskCompletionSource<ExtendedList<ObjectGeneration>> _directlyInheritingObjectsTcs = new TaskCompletionSource<ExtendedList<ObjectGeneration>>();
+        protected Task<ExtendedList<ObjectGeneration>> _directlyInheritingObjects => _directlyInheritingObjectsTcs.Task;
         public async Task<IEnumerable<ObjectGeneration>> InheritingObjects()
         {
             List<ObjectGeneration> ret = new List<ObjectGeneration>();
@@ -246,7 +246,7 @@ namespace Loqui.Generation
                 interf.Modify(this);
             }
 
-            List<ObjectGeneration> directlyInheritingObjs = new List<ObjectGeneration>();
+            var directlyInheritingObjs = new ExtendedList<ObjectGeneration>();
             await Task.WhenAll(
                 this.ProtoGen.Gen.ObjectGenerations.Select(
                     async (obj) =>
