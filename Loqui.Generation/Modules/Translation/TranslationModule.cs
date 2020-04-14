@@ -487,7 +487,7 @@ namespace Loqui.Generation
                     {
                         args.Add(item);
                     }
-                    foreach (var item in this.MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer))
+                    foreach (var item in this.MainAPI.InternalPassArgs(obj, TranslationDirection.Writer))
                     {
                         args.Add(item);
                     }
