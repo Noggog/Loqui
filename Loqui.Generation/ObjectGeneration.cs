@@ -2820,7 +2820,7 @@ namespace Loqui.Generation
             fg.AppendLine();
         }
 
-        private async Task GenerateToStringCode(FileGeneration fg)
+        public async Task GenerateToStringCode(FileGeneration fg)
         {
             using (new RegionWrapper(fg, "To String"))
             {
