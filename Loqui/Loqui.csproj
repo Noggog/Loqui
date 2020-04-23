@@ -8,6 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702; 1998</NoWarn>
     <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
+    <DocumentationFile>C:\Users\Levia\Documents\Repos\Loqui\Loqui\Loqui.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -19,7 +20,7 @@
     <Nullable>enable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <Description>Support wiring for Loqui generated classes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
@@ -35,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Noggog.CSharpExt" Version="1.0.6" />
+    <PackageReference Include="Noggog.CSharpExt" Version="1.0.10" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
   </ItemGroup>
 
