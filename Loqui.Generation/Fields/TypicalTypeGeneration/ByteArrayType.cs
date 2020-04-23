@@ -78,31 +78,43 @@ namespace Loqui.Generation
             Accessor rhs, 
             Accessor copyMaskAccessor,
             bool protectedMembers,
-            bool getter)
+            bool deepCopy)
         {
-            if (this.HasBeenSet)
+            fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
+            using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{accessor.DirectAccess} = {this.Name}rhs{(getter ? null : ".Value")}.ToArray();");
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    if (this.HasProperty && this.PrefersProperty)
+                MaskGenerationUtility.WrapErrorFieldIndexPush(
+                    fg,
+                    () =>
                     {
-                        fg.AppendLine($"{accessor.PropertyAccess}.Unset();");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{accessor.DirectAccess} = default;");
-                    }
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{accessor.DirectAccess} = {rhs}.ToArray();");
+                        if (this.HasBeenSet)
+                        {
+                            fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
+                            using (new BraceWrapper(fg))
+                            {
+                                fg.AppendLine($"{accessor.DirectAccess} = {this.Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");
+                            }
+                            fg.AppendLine("else");
+                            using (new BraceWrapper(fg))
+                            {
+                                if (this.HasProperty && this.PrefersProperty)
+                                {
+                                    fg.AppendLine($"{accessor.PropertyAccess}.Unset();");
+                                }
+                                else
+                                {
+                                    fg.AppendLine($"{accessor.DirectAccess} = default;");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            fg.AppendLine($"{accessor.DirectAccess} = {rhs}.ToArray();");
+                        }
+                    },
+                    errorMaskAccessor: "errorMask",
+                    indexAccessor: this.HasIndex ? this.IndexEnumInt : default(Accessor),
+                    doIt: this.CopyNeedsTryCatch);
             }
         }
 

@@ -36,7 +36,7 @@ namespace Loqui.Generation
         public override bool HasDefault => false;
         public override bool HasProperty => true;
 
-        public override string SkipCheck(string copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
+        public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
 
         public override string GetName(bool internalUse, bool property)
         {

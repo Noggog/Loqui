@@ -29,7 +29,11 @@ namespace Loqui.Generation
 
         public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
         {
-            fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
+            fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
+            }
         }
 
         public override string GetDuplicate(Accessor accessor)

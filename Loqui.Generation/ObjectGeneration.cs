@@ -1717,31 +1717,19 @@ namespace Loqui.Generation
                 }
             }
 
-            foreach (var item in this.IterateFieldIndices())
+            foreach (var item in this.IterateFieldIndices(nonIntegrated: true))
             {
-                if (!item.Field.Copy || !item.Field.IntegrateField) continue;
+                if (!item.Field.Copy) continue;
                 var internalField = item.Field.InternalGetInterface || item.Field.InternalSetInterface;
                 if (internalField != internalCopy) continue;
 
-                fg.AppendLine($"if ({(deepCopy ? item.Field.GetTranslationIfAccessor(copyMaskAccessor) : item.Field.SkipCheck(copyMaskAccessor, deepCopy))})");
-                using (new BraceWrapper(fg))
-                {
-                    MaskGenerationUtility.WrapErrorFieldIndexPush(
-                        fg,
-                        () =>
-                        {
-                            item.Field.GenerateForCopy(
-                                fg,
-                                Accessor.FromType(item.Field, accessorPrefix),
-                                Accessor.FromType(item.Field, rhsAccessorPrefix),
-                                deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: item.Field.IsNullable()),
-                                protectedMembers: false,
-                                deepCopy: deepCopy);
-                        },
-                        errorMaskAccessor: "errorMask",
-                        indexAccessor: item.Field.HasIndex ? item.Field.IndexEnumInt : default(Accessor),
-                        doIt: item.Field.CopyNeedsTryCatch);
-                }
+                item.Field.GenerateForCopy(
+                    fg,
+                    Accessor.FromType(item.Field, accessorPrefix),
+                    Accessor.FromType(item.Field, rhsAccessorPrefix),
+                    deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: item.Field.IsNullable()),
+                    protectedMembers: false,
+                    deepCopy: deepCopy);
             }
         }
 

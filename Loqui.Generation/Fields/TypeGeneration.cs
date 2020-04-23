@@ -92,7 +92,7 @@ namespace Loqui.Generation
             node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => this.SetPermission = i);
             this.ReadOnly = this.SetPermission != PermissionLevel.@public || Derivative;
             node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
-            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative);
+            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative && this.IntegrateField);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext((i, true)));
@@ -134,7 +134,7 @@ namespace Loqui.Generation
 
         public abstract bool CopyNeedsTryCatch { get; }
 
-        public abstract string SkipCheck(string copyMaskAccessor, bool deepCopy);
+        public abstract string SkipCheck(Accessor copyMaskAccessor, bool deepCopy);
 
         public abstract void GenerateForCopy(
             FileGeneration fg,

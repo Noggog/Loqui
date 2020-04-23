@@ -116,7 +116,7 @@ namespace Loqui.Generation
 
         }
 
-        public override string SkipCheck(string copyMaskAccessor, bool deepCopy)
+        public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
         {
             var loqui = this.SubTypeGeneration as LoquiType;
             if (!deepCopy
@@ -229,22 +229,34 @@ namespace Loqui.Generation
                 }
             }
 
-            if (this.HasBeenSet)
+            fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
+            using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, rhs)})");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateSet();
-                }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
-                {
-                    GenerateClear(fg, accessor);
-                }
-            }
-            else
-            {
-                GenerateSet();
+                MaskGenerationUtility.WrapErrorFieldIndexPush(
+                    fg,
+                    () =>
+                    {
+                        if (this.HasBeenSet)
+                        {
+                            fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, rhs)})");
+                            using (new BraceWrapper(fg))
+                            {
+                                GenerateSet();
+                            }
+                            fg.AppendLine("else");
+                            using (new BraceWrapper(fg))
+                            {
+                                GenerateClear(fg, accessor);
+                            }
+                        }
+                        else
+                        {
+                            GenerateSet();
+                        }
+                    },
+                    errorMaskAccessor: "errorMask",
+                    indexAccessor: this.HasIndex ? this.IndexEnumInt : default(Accessor),
+                    doIt: this.CopyNeedsTryCatch);
             }
         }
 
