@@ -92,7 +92,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override async Task GenerateInInterfaceGetter(ObjectGeneration obj, FileGeneration fg, bool internalInterface)
+        public override async Task GenerateInInterface(ObjectGeneration obj, FileGeneration fg, bool internalInterface, bool getter)
         {
         }
 

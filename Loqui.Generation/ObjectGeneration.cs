@@ -584,6 +584,14 @@ namespace Loqui.Generation
                 {
                     field.GenerateForInterface(fg, getter: false, internalInterface: false);
                 }
+
+                foreach (var mod in this.gen.GenerationModules)
+                {
+                    using (new RegionWrapper(fg, mod.RegionString))
+                    {
+                        await mod.GenerateInInterface(this, fg, internalInterface: false, getter: false);
+                    }
+                }
             }
             fg.AppendLine();
 
@@ -604,6 +612,14 @@ namespace Loqui.Generation
                     foreach (var field in this.IterateFields())
                     {
                         field.GenerateForInterface(fg, getter: false, internalInterface: true);
+                    }
+
+                    foreach (var mod in this.gen.GenerationModules)
+                    {
+                        using (new RegionWrapper(fg, mod.RegionString))
+                        {
+                            await mod.GenerateInInterface(this, fg, internalInterface: true, getter: false);
+                        }
                     }
                 }
                 fg.AppendLine();
@@ -667,7 +683,7 @@ namespace Loqui.Generation
                 {
                     using (new RegionWrapper(fg, mod.RegionString))
                     {
-                        await mod.GenerateInInterfaceGetter(this, fg, internalInterface: false);
+                        await mod.GenerateInInterface(this, fg, internalInterface: false, getter: true);
                     }
                 }
             }
@@ -704,7 +720,7 @@ namespace Loqui.Generation
                     {
                         using (new RegionWrapper(fg, mod.RegionString))
                         {
-                            await mod.GenerateInInterfaceGetter(this, fg, internalInterface: true);
+                            await mod.GenerateInInterface(this, fg, internalInterface: true, getter: true);
                         }
                     }
                     fg.AppendLine();
