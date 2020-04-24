@@ -110,6 +110,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="LoquiInterfaceDefinitionType" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Direct" />
+      <xs:enumeration value="IGetter" />
+      <xs:enumeration value="ISetter" />
+      <xs:enumeration value="Dual" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="SingletonLevel" final="restriction" >
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
@@ -469,7 +478,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="interfaceTypeDefault" type="LoquiInterfaceType" >
+    <xs:attribute name="interfaceTypeDefault" type="LoquiInterfaceDefinitionType" >
       <xs:annotation>
         <xs:documentation>
           Sets the default value of the Interface Type property on all of this objects contained fields.
@@ -572,7 +581,7 @@
     </xs:annotation>
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute name="type" type="LoquiInterfaceType">
+        <xs:attribute name="type" type="LoquiInterfaceDefinitionType">
           <xs:annotation>
             <xs:documentation>
               Where to place the interface

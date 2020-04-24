@@ -44,7 +44,7 @@ namespace Loqui.Generation
 
             if (this.NeedsReflectionGeneration)
             {
-                this.Interfaces.Add(LoquiInterfaceType.ISetter, nameof(ILoquiReflectionSetter));
+                this.Interfaces.Add(LoquiInterfaceDefinitionType.ISetter, nameof(ILoquiReflectionSetter));
             }
 
             if (ObjectNamedKey.TryFactory(this.BaseClassStr, this.ProtoGen.Protocol, out var baseClassObjKey))

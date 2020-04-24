@@ -224,7 +224,7 @@ namespace Loqui.Generation
 
             foreach (var interfNode in Node.Elements(XName.Get(Constants.INTERFACE, LoquiGenerator.Namespace)))
             {
-                Interfaces.Add(interfNode.GetAttribute<LoquiInterfaceType>(Constants.TYPE, LoquiInterfaceType.Direct), interfNode.Value);
+                Interfaces.Add(interfNode.GetAttribute<LoquiInterfaceDefinitionType>(Constants.TYPE, LoquiInterfaceDefinitionType.Dual), interfNode.Value);
             }
 
             var fieldsNode = Node.Element(XName.Get(Constants.FIELDS, LoquiGenerator.Namespace));

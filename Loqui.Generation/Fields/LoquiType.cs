@@ -521,17 +521,21 @@ namespace Loqui.Generation
             bool usingInterface = false;
             foreach (var interfNode in Node.Elements(XName.Get(Constants.INTERFACE, LoquiGenerator.Namespace)))
             {
-                switch (interfNode.GetAttribute<LoquiInterfaceType>(Constants.TYPE, LoquiInterfaceType.Direct))
+                switch (interfNode.GetAttribute<LoquiInterfaceDefinitionType>(Constants.TYPE, LoquiInterfaceDefinitionType.Dual))
                 {
-                    case LoquiInterfaceType.ISetter:
+                    case LoquiInterfaceDefinitionType.ISetter:
                         this.SetterInterface = interfNode.Value;
                         break;
-                    case LoquiInterfaceType.IGetter:
+                    case LoquiInterfaceDefinitionType.IGetter:
                         this.GetterInterface = interfNode.Value;
                         break;
-                    case LoquiInterfaceType.Direct:
+                    case LoquiInterfaceDefinitionType.Direct:
                         this.SetterInterface = interfNode.Value;
                         this.GetterInterface = interfNode.Value;
+                        break;
+                    case LoquiInterfaceDefinitionType.Dual:
+                        this.SetterInterface = interfNode.Value;
+                        this.GetterInterface = $"{interfNode.Value}Getter";
                         break;
                     default:
                         throw new NotImplementedException();

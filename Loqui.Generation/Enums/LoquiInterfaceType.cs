@@ -12,4 +12,12 @@ namespace Loqui.Generation
         ISetter,
         IGetter
     }
+
+    public enum LoquiInterfaceDefinitionType
+    {
+        Direct,
+        ISetter,
+        IGetter,
+        Dual
+    }
 }
