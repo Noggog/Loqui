@@ -20,7 +20,7 @@
     <Nullable>enable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.1.5</Version>
+    <Version>1.1.6</Version>
     <Description>Support wiring for Loqui generated classes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>

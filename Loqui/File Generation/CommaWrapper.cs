@@ -24,6 +24,19 @@ namespace Loqui
             this.items.Add(item);
         }
 
+        public void Add(params string[] items)
+        {
+            this.items.AddRange(items);
+        }
+
+        public void Add(Action<FileGeneration> generator)
+        {
+            var gen = new FileGeneration();
+            generator(gen);
+            if (gen.Empty) return;
+            Add(gen.ToArray());
+        }
+
         public void Dispose()
         {
             foreach (var item in this.items.IterateMarkLast())
