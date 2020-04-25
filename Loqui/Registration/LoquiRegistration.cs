@@ -39,6 +39,18 @@ namespace Loqui
             // Do nothing. Work is done in static ctor
         }
 
+        public static void SpinUp(params IProtocolRegistration[] registrations)
+        {
+            LoquiRegistrationSettings.AutomaticRegistration = false;
+            lock (_registersLock)
+            {
+                foreach (var regis in registrations)
+                {
+                    regis?.Register();
+                }
+            }
+        }
+
         public static bool TryGetType(string name, [MaybeNullWhen(false)]out Type type)
         {
             if (!_cache.TryGetValue(name, out type))
@@ -197,7 +209,7 @@ namespace Loqui
                     }
                     else
                     {
-                        if (!TryGetRegistration(t, out var tRegis)) return false;
+                        if (!TryLocateRegistration(t, out var tRegis)) return false;
                         if (tRegis.GenericRegistrationType == null) return false;
                         _genericRegisters[t] = tRegis.GenericRegistrationType;
                     }
@@ -206,14 +218,14 @@ namespace Loqui
                 }
                 else
                 {
-                    TryGetRegistration(t, out regis);
+                    TryLocateRegistration(t, out regis);
                     _typeRegister[t] = regis;
                 }
                 return regis != null;
             }
         }
 
-        private static bool TryGetRegistration(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
+        public static bool TryLocateRegistration(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
             if (t.GetInterface(nameof(ILoquiObject)) == null)
             {
