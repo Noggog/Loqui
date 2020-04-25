@@ -1821,6 +1821,38 @@ namespace Loqui.Generation
                     fg.AppendLine($"object {this.Interface(getter: true, internalInterface: false)}.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => this.Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
                 }
                 fg.AppendLine();
+
+                foreach (var associatedObj in this.Interfaces
+                    .Select(i => i.AssociatedObject)
+                    .NotNull()
+                    .Distinct())
+                {
+                    fg.AppendLine("[DebuggerStepThrough]");
+                    fg.AppendLine($"object {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance() => {associatedObj.CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance;");
+                    if (getterOnly)
+                    {
+                        fg.AppendLine("[DebuggerStepThrough]");
+                        fg.AppendLine($"object? {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => null;");
+                        if (associatedObj.GenerateComplexCopySystems)
+                        {
+                            fg.AppendLine("[DebuggerStepThrough]");
+                            fg.AppendLine($"object {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{associatedObj.GetGenericTypes(MaskType.Copy)}() => null;");
+                        }
+                    }
+                    else
+                    {
+                        fg.AppendLine("[DebuggerStepThrough]");
+                        fg.AppendLine($"object {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.ISetter)}Instance() => {associatedObj.CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)}.Instance;");
+                        if (associatedObj.GenerateComplexCopySystems)
+                        {
+                            fg.AppendLine("[DebuggerStepThrough]");
+                            fg.AppendLine($"object {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Copy)}Instance{associatedObj.GetGenericTypes(MaskType.Copy)}() => {associatedObj.CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Copy)}.Instance;");
+                        }
+                    }
+                    fg.AppendLine("[DebuggerStepThrough]");
+                    fg.AppendLine($"object {associatedObj.Interface(getter: true, internalInterface: false)}.Common{associatedObj.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance() => {associatedObj.CommonClassRouter(maskSets, LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.Instance;");
+                    fg.AppendLine();
+                }
             }
         }
 
@@ -3407,6 +3439,8 @@ namespace Loqui.Generation
             }
 
             await Task.WhenAll(this.gen.GenerationModules.Select((mod) => mod.Resolve(this)));
+
+            await Task.WhenAll(this.Interfaces.Select((interf) => interf.Resolve(this)));
         }
 
         private void AddBaseClassNamespaces(ObjectGeneration obj)
@@ -3959,6 +3993,15 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public bool IsObjectInterface(string str)
+        {
+            if (this.Interface(getter: true, internalInterface: true).Equals(str)) return true;
+            if (this.Interface(getter: true, internalInterface: false).Equals(str)) return true;
+            if (this.Interface(getter: false, internalInterface: true).Equals(str)) return true;
+            if (this.Interface(getter: false, internalInterface: false).Equals(str)) return true;
+            return false;
         }
 
         public string Interface(bool getter = false, bool internalInterface = false)
