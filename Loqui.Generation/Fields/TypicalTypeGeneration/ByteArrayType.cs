@@ -124,6 +124,7 @@ namespace Loqui.Generation
             // ToDo
             // Add internal interface support
             if (this.InternalSetInterface) return;
+            if (!this.Enabled) return;
             if (this.HasBeenSet)
             {
                 fg.AppendLine($"{identifier.DirectAccess} = default;");

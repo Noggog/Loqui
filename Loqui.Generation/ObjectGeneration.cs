@@ -738,7 +738,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in this.IterateFieldIndices(includeBaseClass: true))
                     {
-                        if (!field.Field.IntegrateField) continue;
+                        if (!field.Field.IntegrateField || !field.Field.Enabled) continue;
                         fg.AppendLine($"{field.Field.Name} = {field.PublicIndex},");
                     }
                 }
@@ -1739,6 +1739,7 @@ namespace Loqui.Generation
                 if (!item.Field.Copy) continue;
                 var internalField = item.Field.InternalGetInterface || item.Field.InternalSetInterface;
                 if (internalField != internalCopy) continue;
+                if (!item.Field.Enabled) continue;
 
                 item.Field.GenerateForCopy(
                     fg,
@@ -3706,9 +3707,12 @@ namespace Loqui.Generation
                 }
             }
             int i = this.StartingIndex;
+            int index = -1;
             for (int j = 0; j < this.Fields.Count; j++)
             {
+                index++;
                 var field = this.Fields[j];
+                if (!field.Enabled) continue;
                 if (!field.IntegrateField)
                 {
                     if (field is SetMarkerType set)
@@ -3737,17 +3741,17 @@ namespace Loqui.Generation
                         }
                         if (expandSets == SetMarkerType.ExpandSets.TrueAndInclude)
                         {
-                            yield return (-1, j, field);
+                            yield return (-1, index, field);
                         }
                     }
                     else if (nonIntegrated)
                     {
-                        yield return (-1, j, field);
+                        yield return (-1, index, field);
                     }
                 }
                 else
                 {
-                    yield return (i++, j, field);
+                    yield return (i++, index, field);
                 }
             }
         }

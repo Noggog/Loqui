@@ -25,6 +25,7 @@ namespace Loqui.Generation
         protected bool _derivative;
         public virtual bool Derivative => this._derivative;
         public virtual bool IntegrateField { get; set; } = true;
+        public bool Enabled = true;
         public bool ReadOnly;
         public PermissionLevel SetPermission = PermissionLevel.@public;
         public PermissionLevel GetPermission = PermissionLevel.@public;
