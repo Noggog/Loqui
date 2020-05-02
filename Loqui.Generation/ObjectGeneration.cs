@@ -3487,13 +3487,14 @@ namespace Loqui.Generation
 
             if (!modified) return;
 
-            using (var writer = new XmlTextWriter(
-                new FileStream(this.SourceXMLFile.FullName, FileMode.Create), Encoding.ASCII))
+            using (var xmlWriter = new XmlTextWriter(new FileStream(this.SourceXMLFile.FullName, FileMode.Create), Encoding.ASCII))
             {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 2;
-                doc.WriteTo(writer);
+                xmlWriter.Formatting = Formatting.Indented;
+                xmlWriter.Indentation = 2;
+                doc.WriteTo(xmlWriter);
             }
+            using var streamWriter = File.AppendText(this.SourceXMLFile.FullName);
+            streamWriter.Write(Environment.NewLine);
         }
 
         public string Mask_Specified(MaskType type, GenericSpecification specifications, bool addClassName = true)
