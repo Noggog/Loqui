@@ -12,7 +12,19 @@ namespace Loqui.Generation
         public LoquiInterfaceDefinitionType Type { get; private set; }
         public string Interface { get; private set; }
         public ObjectGeneration AssociatedObject;
-        public string GetterInterface => $"{Interface}Getter";
+        public string GetterInterface
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case LoquiInterfaceDefinitionType.IGetter:
+                        return Interface;
+                    default:
+                        return $"{Interface}Getter";
+                }
+            }
+        }
 
         public InterfaceDeclaration(LoquiInterfaceDefinitionType type, string interfaceStr)
         {
