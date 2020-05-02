@@ -292,7 +292,7 @@ namespace Loqui.Generation
         {
             if (this.Fields.Any((f) => f.Name?.Equals(typeGen.Name) ?? false))
             {
-                throw new ArgumentException("Cannot have two fields with the same name.");
+                throw new ArgumentException($"Cannot have two fields with the same name: {typeGen.Name}");
             }
             if (add)
             {
