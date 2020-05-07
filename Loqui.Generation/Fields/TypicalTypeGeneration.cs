@@ -208,7 +208,7 @@ namespace Loqui.Generation
                     }
                     else if (subFg.Count == 1)
                     {
-                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {GetDefault()};");
+                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {GetDefault(getter: false)};");
                     }
                     else
                     {
@@ -443,7 +443,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{identifier.DirectAccess} = {GetDefault()};");
+                fg.AppendLine($"{identifier.DirectAccess} = {GetDefault(getter: false)};");
             }
         }
 

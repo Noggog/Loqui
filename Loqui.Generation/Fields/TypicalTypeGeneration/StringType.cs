@@ -14,7 +14,7 @@ namespace Loqui.Generation
             return $"{(negate ? "!" : null)}string.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
         }
 
-        public override string GetDefault()
+        public override string GetDefault(bool getter)
         {
             if (this.HasBeenSet)
             {

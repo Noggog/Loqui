@@ -304,7 +304,7 @@ namespace Loqui.Generation
             return $"({translationCrystalAccessor}?.GetShouldTranslate({this.IndexEnumInt}) ?? true)";
         }
 
-        public virtual string GetDefault() => "default";
+        public virtual string GetDefault(bool getter) => "default";
 
         public abstract string GetDuplicate(Accessor accessor);
     }

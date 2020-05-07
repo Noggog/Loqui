@@ -15,11 +15,11 @@ namespace Loqui.Generation
             return $"{accessor.DirectAccess} {(negate ? "!" : "=")}= {rhsAccessor.DirectAccess}";
         }
 
-        public override string GetDefault()
+        public override string GetDefault(bool getter)
         {
             if (this.HasBeenSet)
             {
-                return $"default({this.TypeName(getter: true)}?)";
+                return $"default({this.TypeName(getter: getter)}?)";
             }
             else
             {
