@@ -854,7 +854,7 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args = new ArgsWrapper(fg,
-                        $"{retAccessor}{rhsAccessor.DirectAccess}.DeepCopy{this.GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
+                        $"{retAccessor}{rhsAccessor.DirectAccess}.DeepCopy{this.GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
                     {
                         args.AddPassArg("errorMask");
                         if (this.RefType == LoquiRefType.Direct)
@@ -1203,7 +1203,10 @@ namespace Loqui.Generation
                 }
                 else if (this.GenericSpecification.Mappings.TryGetValue(gen.Key, out var mapping))
                 {
-                    ret.Add(mapping);
+                    foreach (var mType in additionalMasks)
+                    {
+                        ret.Add(this.TargetObjectGeneration.MaskNickname(mapping, mType));
+                    }
                 }
                 else
                 {
