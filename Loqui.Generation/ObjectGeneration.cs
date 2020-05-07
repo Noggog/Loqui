@@ -1727,8 +1727,8 @@ namespace Loqui.Generation
                     : $"base.CopyIn{this.GetBaseGenericTypes(MaskType.Normal, MaskType.Copy)}";
                 using (var args = new ArgsWrapper(fg, funcStr))
                 {
-                    args.Add(accessorPrefix);
-                    args.Add(rhsAccessorPrefix);
+                    args.Add($"{(internalCopy ? null : $"({this.BaseClass.Interface(getter: false, internalInterface: false)})")}{accessorPrefix}");
+                    args.Add($"{(internalCopy ? null : $"({this.BaseClass.Interface(getter: true, internalInterface: false)})")}{rhsAccessorPrefix}");
                     args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
                 }
