@@ -2303,7 +2303,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
-                            if (!item.Field.IntegrateField) continue;
+                            if (!item.Field.IntegrateField || !item.Field.Enabled) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -2344,7 +2344,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
-                            if (!item.Field.IntegrateField) continue;
+                            if (!item.Field.IntegrateField || !item.Field.Enabled) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -2385,7 +2385,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
-                            if (!item.Field.IntegrateField) continue;
+                            if (!item.Field.IntegrateField || !item.Field.Enabled) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -2411,7 +2411,7 @@ namespace Loqui.Generation
                 {
                     foreach (var field in this.IterateFields())
                     {
-                        if (field.IntegrateField)
+                        if (field.IntegrateField && field.Enabled)
                         {
                             fg.AppendLine($"case {field.IndexEnumName}:");
                         }
@@ -2438,11 +2438,11 @@ namespace Loqui.Generation
                 {
                     foreach (var field in this.IterateFields())
                     {
-                        if (field.IntegrateField)
+                        if (field.IntegrateField && field.Enabled)
                         {
                             fg.AppendLine($"case {field.IndexEnumName}:");
                         }
-                        using (new DepthWrapper(fg, doIt: field.IntegrateField))
+                        using (new DepthWrapper(fg, doIt: field.IntegrateField && field.Enabled))
                         {
                             field.GenerateGetNthName(fg);
                         }
@@ -2485,7 +2485,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
-                            if (!item.Field.IntegrateField) continue;
+                            if (!item.Field.IntegrateField || !item.Field.Enabled) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -3315,7 +3315,7 @@ namespace Loqui.Generation
                     {
                         foreach (var item in falses)
                         {
-                            if (!item.Field.IntegrateField) continue;
+                            if (!item.Field.IntegrateField || !item.Field.Enabled) continue;
                             fg.AppendLine($"case {item.Field.IndexEnumName}:");
                         }
                         using (new DepthWrapper(fg))
@@ -3869,7 +3869,7 @@ namespace Loqui.Generation
 
         public override string ToString()
         {
-            return this.Name;
+            return $"{this.ProtoGen.Protocol.Namespace}.{this.Name}";
         }
 
         public void MarkFailure(Exception ex)

@@ -10,7 +10,7 @@ namespace Loqui.Generation
     public abstract class TranslationGeneration
     {
         public MaskModule MaskModule;
-        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField;
+        public virtual bool ShouldGenerateCopyIn(TypeGeneration typeGen) => typeGen.IntegrateField && typeGen.Enabled;
         public virtual bool ShouldGenerateWrite(TypeGeneration typeGen) => !typeGen.Derivative && typeGen.IntegrateField;
         public virtual bool IsAsync(TypeGeneration gen, bool read) => false;
 

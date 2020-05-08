@@ -27,7 +27,7 @@ namespace Loqui.Generation
             int i = 0;
             foreach (var field in this.SubFields)
             {
-                if (!field.IntegrateField && !nonIntegrated) continue;
+                if ((!field.IntegrateField && !nonIntegrated) || !field.Enabled) continue;
                 yield return (i++, field);
             }
         }

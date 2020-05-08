@@ -54,7 +54,7 @@ namespace Loqui.Generation
 
         public void GenerateSetExceptionForField(FileGeneration fg, TypeGeneration field)
         {
-            if (field.IntegrateField)
+            if (field.IntegrateField && field.Enabled)
             {
                 fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
                 using (new DepthWrapper(fg))
@@ -71,19 +71,17 @@ namespace Loqui.Generation
 
         public void GenerateGetMaskForField(FileGeneration fg, TypeGeneration field)
         {
-            if (field.IntegrateField)
+            if (!field.IntegrateField || !field.Enabled) return;
+            fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
+            using (new DepthWrapper(fg))
             {
-                fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine($"return {field.Name};");
-                }
+                fg.AppendLine($"return {field.Name};");
             }
         }
 
         public void GenerateSetSetNthMaskForField(FileGeneration fg, TypeGeneration field)
         {
-            if (field.IntegrateField)
+            if (field.IntegrateField && field.Enabled)
             {
                 fg.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
                 using (new DepthWrapper(fg))

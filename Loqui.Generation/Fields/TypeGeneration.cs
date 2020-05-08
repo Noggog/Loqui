@@ -171,19 +171,19 @@ namespace Loqui.Generation
 
         public virtual void GenerateGetNameIndex(FileGeneration fg)
         {
-            if (!this.IntegrateField) return;
+            if (!this.IntegrateField || !this.Enabled) return;
             fg.AppendLine($"return (ushort){this.ObjectGen.FieldIndexName}.{this.Name};");
         }
 
         public virtual void GenerateGetNthName(FileGeneration fg)
         {
-            if (!this.IntegrateField) return;
+            if (!this.IntegrateField || !this.Enabled) return;
             fg.AppendLine($"return \"{this.Name}\";");
         }
 
         public virtual void GenerateGetNthType(FileGeneration fg)
         {
-            if (!this.IntegrateField) return;
+            if (!this.IntegrateField || !this.Enabled) return;
             fg.AppendLine($"return typeof({this.TypeName(getter: false)});");
         }
 
