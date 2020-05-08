@@ -35,10 +35,10 @@ namespace Loqui.Generation
         
         public override bool CopyNeedsTryCatch => true;
 
-        public override string TypeName(bool getter) => $"ICache<{BackwardsTypeTuple(getter)}>";
+        public override string TypeName(bool getter, bool needsCovariance = false) => $"ICache<{BackwardsTypeTuple(getter, needsCovariance)}>";
 
         public string TypeTuple(bool getter) => $"{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}";
-        public string BackwardsTypeTuple(bool getter) => $"{ValueTypeGen.TypeName(getter)}, {KeyTypeGen.TypeName(getter)}";
+        public string BackwardsTypeTuple(bool getter, bool needsCovariance = false) => $"{ValueTypeGen.TypeName(getter, needsCovariance)}, {KeyTypeGen.TypeName(getter, needsCovariance)}";
 
         public override async Task Load(XElement node, bool requireName = true)
         {

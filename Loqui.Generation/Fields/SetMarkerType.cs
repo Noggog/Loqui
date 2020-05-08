@@ -11,7 +11,7 @@ namespace Loqui.Generation
     {
         public enum ExpandSets { False, FalseAndInclude, True, TrueAndInclude }
 
-        public override string TypeName(bool getter) => nameof(SetMarkerType);
+        public override string TypeName(bool getter, bool needsCovariance = false) => nameof(SetMarkerType);
         public override string ProtectedName => throw new ArgumentException();
         public override bool CopyNeedsTryCatch => throw new ArgumentException();
         public List<TypeGeneration> SubFields = new List<TypeGeneration>();

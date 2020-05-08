@@ -11,7 +11,7 @@ namespace Loqui.Generation
     public abstract class TypicalTypeGeneration : TypeGeneration
     {
         public abstract Type Type(bool getter);
-        public override string TypeName(bool getter) => Type(getter).GetName();
+        public override string TypeName(bool getter, bool needsCovariance = false) => Type(getter).GetName();
         public string DefaultValue;
         public override bool HasDefault => !string.IsNullOrWhiteSpace(DefaultValue);
         public override string ProtectedProperty => "_" + this.Name;

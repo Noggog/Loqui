@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName(bool getter) => Interface(getter, internalInterface: true);
+        public override string TypeName(bool getter, bool needsCovariance = false) => Interface(getter, internalInterface: true);
         public override bool CopyNeedsTryCatch => true;
         public override bool HasDefault => false;
 
@@ -18,7 +18,7 @@ namespace Loqui.Generation
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
+                itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
             }
             if (this.ReadOnly || getter)
             {
@@ -274,7 +274,7 @@ namespace Loqui.Generation
                 using (new DepthWrapper(fg))
                 {
                     a(fg);
-                    fg.AppendLine($".ToExtendedList<{this.SubTypeGeneration.TypeName(getter: false)}>();");
+                    fg.AppendLine($".ToExtendedList<{this.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>();");
                 }
             }
             else

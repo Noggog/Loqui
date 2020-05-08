@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public ObjectGeneration ObjectGen { get; private set; }
         public ProtocolGeneration ProtoGen => ObjectGen.ProtoGen;
         public bool KeyField { get; protected set; }
-        public abstract string TypeName(bool getter);
+        public abstract string TypeName(bool getter, bool needsCovariance = false);
         public virtual string Name { get; set; }
         public virtual string Property => $"{this.Name}_Property";
         public virtual string ProtectedProperty => $"_{this.Name}";

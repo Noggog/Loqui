@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
-        public override string TypeName(bool getter = false)
+        public override string TypeName(bool getter = false, bool needsCovariance = false)
         {
             return TypeName(getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
         }
@@ -61,7 +61,7 @@ namespace Loqui.Generation
             }
         }
 
-        public string TypeName(bool getter, bool internalInterface)
+        public string TypeNameInternal(bool getter, bool internalInterface)
         {
             switch (RefType)
             {
@@ -432,7 +432,7 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
+                        fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
                     }
                 }
                 else
@@ -887,7 +887,7 @@ namespace Loqui.Generation
                 case LoquiRefType.Interface:
                     if (deepCopy)
                     {
-                        fg.AppendLine($"{retAccessor}r.DeepCopy() as {this.TypeName(getter: false, internalInterface: true)};");
+                        fg.AppendLine($"{retAccessor}r.DeepCopy() as {this.TypeNameInternal(getter: false, internalInterface: true)};");
                     }
                     else
                     {
@@ -991,7 +991,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"{this.TypeName(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; }}");
             }
             else
             {

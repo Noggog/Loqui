@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public override bool CopyNeedsTryCatch => false;
         public override bool IsClass => false;
         public override bool HasDefault => true;
-        public override string TypeName(bool getter)
+        public override string TypeName(bool getter, bool needsCovariance = false)
         {
             if (getter)
             {
@@ -70,7 +70,7 @@ namespace Loqui.Generation
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SubTypeGeneration is LoquiType loqui)
             {
-                itemTypeName = loqui.TypeName(getter: getter, internalInterface: internalInterface);
+                itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
             }
             if (getter)
             {

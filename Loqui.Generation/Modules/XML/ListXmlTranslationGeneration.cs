@@ -45,10 +45,10 @@ namespace Loqui.Generation
                 throw new ArgumentException("Unsupported type generator: " + list.SubTypeGeneration);
             }
 
-            var typeName = list.SubTypeGeneration.TypeName(getter: true);
+            var typeName = list.SubTypeGeneration.TypeName(getter: true, needsCovariance: true);
             if (list.SubTypeGeneration is LoquiType loqui)
             {
-                typeName = loqui.TypeName(getter: true, internalInterface: true);
+                typeName = loqui.TypeNameInternal(getter: true, internalInterface: true);
             }
 
             using (var args = new ArgsWrapper(fg,
@@ -69,10 +69,10 @@ namespace Loqui.Generation
                 args.Add($"translationMask: {translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})");
                 args.Add((gen) =>
                 {
-                    var subTypeName = list.SubTypeGeneration.TypeName(getter: true);
+                    var subTypeName = list.SubTypeGeneration.TypeName(getter: true, needsCovariance: true);
                     if (list.SubTypeGeneration is LoquiType subLoqui)
                     {
-                        subTypeName = subLoqui.TypeName(getter: true, internalInterface: true);
+                        subTypeName = subLoqui.TypeNameInternal(getter: true, internalInterface: true);
                     }
                     gen.AppendLine($"transl: (XElement subNode, {subTypeName} subItem, ErrorMaskBuilder? listSubMask, {nameof(TranslationCrystal)}? listTranslMask) =>");
                     using (new BraceWrapper(gen))
@@ -146,7 +146,7 @@ namespace Loqui.Generation
                 {
                     using (var args = new FunctionWrapper(
                         fg,
-                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false)}>.Instance.Parse"))
+                        $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>.Instance.Parse"))
                     {
                         args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                         args.Add($"enumer: out var {typeGen.Name}Item");

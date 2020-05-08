@@ -17,7 +17,7 @@ namespace Loqui.Generation
         public override bool HasDefault => throw new ArgumentException();
 
         #region Type Generation Abstract
-        public override string TypeName(bool getter) => throw new NotImplementedException();
+        public override string TypeName(bool getter, bool needsCovariance = false) => throw new NotImplementedException();
 
         public override string ProtectedName => throw new NotImplementedException();
 

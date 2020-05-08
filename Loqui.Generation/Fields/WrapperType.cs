@@ -14,7 +14,7 @@ namespace Loqui.Generation
 
         public virtual string ItemTypeName(bool getter)
         {
-            return SubTypeGeneration.TypeName(getter);
+            return SubTypeGeneration.TypeName(getter, needsCovariance: true);
         }
 
         public override IEnumerable<string> GetRequiredNamespaces()

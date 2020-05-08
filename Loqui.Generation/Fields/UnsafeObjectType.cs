@@ -7,7 +7,7 @@ namespace Loqui.Generation
     public class UnsafeType : PrimitiveType
     {
         private string _typeName;
-        public override string TypeName(bool getter = false) => _typeName;
+        public override string TypeName(bool getter = false, bool needsCovariance = false) => _typeName;
         public override Type Type(bool getter) => throw new NotImplementedException();
 
         public override async Task Load(XElement root, bool requireName = true)

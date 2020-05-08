@@ -35,7 +35,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override string TypeName(bool getter) => $"Dictionary<{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}>";
+        public override string TypeName(bool getter, bool needsCovariance = false) => $"Dictionary<{KeyTypeGen.TypeName(getter, needsCovariance)}, {ValueTypeGen.TypeName(getter, needsCovariance)}>";
 
         public string TypeTuple(bool getter) => $"{KeyTypeGen.TypeName(getter)}, {ValueTypeGen.TypeName(getter)}";
 
