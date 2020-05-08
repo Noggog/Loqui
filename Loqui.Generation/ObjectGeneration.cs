@@ -3790,32 +3790,32 @@ namespace Loqui.Generation
             return OverrideType.None;
         }
 
-        public async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester)
+        public async Task<string> FunctionOverride(Func<ClassGeneration, Task<bool>> tester, bool prependSpace = true)
         {
             switch (await GetFunctionOverrideType(tester))
             {
                 case OverrideType.None:
-                    return " ";
+                    return prependSpace ? " " : string.Empty;
                 case OverrideType.HasBase:
-                    return " override ";
+                    return $"{(prependSpace ? " " : null)}override ";
                 case OverrideType.OnlyHasDerivative:
-                    return " virtual ";
+                    return $"{(prependSpace ? " " : null)}virtual ";
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public string FunctionOverride(bool doIt = true)
+        public string FunctionOverride(bool doIt = true, bool prependSpace = true)
         {
             if (!doIt) return " ";
             switch (GetFunctionOverrideType())
             {
                 case OverrideType.None:
-                    return " ";
+                    return prependSpace ? " " : string.Empty;
                 case OverrideType.HasBase:
-                    return " override ";
+                    return $"{(prependSpace ? " " : null)}override ";
                 case OverrideType.OnlyHasDerivative:
-                    return " virtual ";
+                    return $"{(prependSpace ? " " : null)}virtual ";
                 default:
                     throw new NotImplementedException();
             }
