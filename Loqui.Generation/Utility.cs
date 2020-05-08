@@ -8,6 +8,8 @@ namespace Loqui.Generation
 {
     public static class Utility
     {
+        public static int? TimeoutMS = null;
+
         public static string MemberNameSafety(string str)
         {
             var ret = str.Replace(".", string.Empty);

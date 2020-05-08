@@ -36,7 +36,6 @@ namespace Loqui.Generation
         public virtual string RegionString { get; }
         public GenerationModuleCollection SubModules = new GenerationModuleCollection();
         public string Name => RegionString ?? this.GetType().Name;
-        public int? TimeoutMS = 60000;
 
         public virtual Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
         {
@@ -51,103 +50,103 @@ namespace Loqui.Generation
         public virtual Task PreLoad(ObjectGeneration obj)
         {
             return SubModules.PreLoad(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} pre load taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} pre load taking a long time."));
         }
 
         public virtual Task LoadWrapup(ObjectGeneration obj)
         {
             return SubModules.LoadWrapup(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} load wrap up taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} load wrap up taking a long time."));
         }
 
         public virtual Task PostLoad(ObjectGeneration obj)
         {
             return SubModules.PostLoad(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} post load taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} post load taking a long time."));
         }
 
         public virtual Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node)
         {
             return SubModules.PostFieldLoad(obj, field, node)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name}.{field.Name} post load taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name}.{field.Name} post load taking a long time."));
         }
 
         public virtual Task Modify(LoquiGenerator gen)
         {
             return SubModules.Modify(gen)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} modify taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} modify taking a long time."));
         }
 
         public virtual Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInStaticCtor(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in static ctor taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in static ctor taking a long time."));
         }
 
         public virtual Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInClass(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in class taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in class taking a long time."));
         }
 
         public virtual Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInNonGenericClass(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in non-generic class taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in non-generic class taking a long time."));
         }
 
         public virtual Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInCtor(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in ctor taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in ctor taking a long time."));
         }
 
         public virtual Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
         {
             return SubModules.GenerateInCommon(obj, fg, maskTypes)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in common taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in common taking a long time."));
         }
 
         public virtual Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInCommonMixin(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in common mixin taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in common mixin taking a long time."));
         }
 
         public virtual Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInVoid(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in void taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in void taking a long time."));
         }
 
         public virtual Task GenerateInInterface(ObjectGeneration obj, FileGeneration fg, bool internalInterface, bool getter)
         {
             return SubModules.GenerateInInterface(obj, fg, internalInterface, getter)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in interface getter taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in interface getter taking a long time."));
         }
 
         public virtual Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
         {
             return SubModules.GenerateInRegistration(obj, fg)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in registration taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate in registration taking a long time."));
         }
 
         public virtual Task MiscellaneousGenerationActions(ObjectGeneration obj)
         {
             return SubModules.MiscellaneousGenerationActions(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate misc actions taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} generate misc actions taking a long time."));
         }
 
         public virtual Task Resolve(ObjectGeneration obj)
         {
             return SubModules.Resolve(obj)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} resolve taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} {obj.Name} resolve taking a long time."));
         }
 
         public virtual Task FinalizeGeneration(ProtocolGeneration proto)
         {
             return SubModules.FinalizeGeneration(proto)
-                .TimeoutButContinue(TimeoutMS, () => System.Console.WriteLine($"{this.Name} finalize taking a long time."));
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} finalize taking a long time."));
         }
     }
 }

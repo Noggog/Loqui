@@ -37,7 +37,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInVoid(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS, 
+                                    Utility.TimeoutMS, 
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} generate in void taking a long time."));
                         }
                     }));
@@ -51,7 +51,7 @@ namespace Loqui.Generation
                     {
                         return subGen.MiscellaneousGenerationActions(obj)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name} misc actions taking a long time."));
                     }));
         }
@@ -66,7 +66,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInClass(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen in class taking a long time."));
                         }
                     }));
@@ -82,7 +82,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInNonGenericClass(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen in non generic class taking a long time."));
                         }
                     }));
@@ -98,7 +98,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInCommon(obj, fg, maskTypes)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
                         }
                     }));
@@ -114,7 +114,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInCommonMixin(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen common taking a long time."));
                         }
                     }));
@@ -130,7 +130,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInCtor(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen ctor taking a long time."));
                         }
                     }));
@@ -146,7 +146,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInInterface(obj, fg, internalInterface, getter)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen interface getter taking a long time."));
                         }
                     }));
@@ -162,7 +162,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInRegistration(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} gen in registration taking a long time."));
                         }
                     }));
@@ -178,7 +178,7 @@ namespace Loqui.Generation
                         {
                             await subGen.GenerateInStaticCtor(obj, fg)
                                 .TimeoutButContinue(
-                                    TimeoutMS,
+                                    Utility.TimeoutMS,
                                     () => System.Console.WriteLine($"{subGen} {obj.Name} static ctor taking a long time."));
                         }
                     }));
@@ -198,7 +198,7 @@ namespace Loqui.Generation
                     {
                         return subGen.Modify(gen)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} modify taking a long time."));
                     }));
         }
@@ -211,7 +211,7 @@ namespace Loqui.Generation
                     {
                         return subGen.PostFieldLoad(obj, field, node)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name}.{field.Name} post field load taking a long time."));
                     }));
         }
@@ -224,7 +224,7 @@ namespace Loqui.Generation
                     {
                         return subGen.LoadWrapup(obj)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name} load wrap up taking a long time."));
                     }));
         }
@@ -237,7 +237,7 @@ namespace Loqui.Generation
                     {
                         return subGen.PostLoad(obj)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name} post load up taking a long time."));
                     }));
         }
@@ -250,7 +250,7 @@ namespace Loqui.Generation
                     {
                         return subGen.PreLoad(obj)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name} pre load taking a long time."));
                     }));
         }
@@ -269,7 +269,7 @@ namespace Loqui.Generation
                     {
                         return subGen.Resolve(obj)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} {obj.Name} resolve taking a long time."));
                     }));
         }
@@ -282,7 +282,7 @@ namespace Loqui.Generation
                     {
                         return subGen.FinalizeGeneration(proto)
                             .TimeoutButContinue(
-                                TimeoutMS,
+                                Utility.TimeoutMS,
                                 () => System.Console.WriteLine($"{subGen} finalize taking a long time."));
                     }));
         }

@@ -260,7 +260,7 @@ namespace Loqui.Generation
 
             await Task.WhenAll(
                 this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)
-                    .TimeoutButContinue(4000, () => System.Console.WriteLine($"{m.GetType()} {this.Name} post load taking a long time."))));
+                    .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{m.GetType()} {this.Name} post load taking a long time."))));
         }
 
         public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName, bool throwException = true, bool setDefaults = true, bool add = false)

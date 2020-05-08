@@ -162,7 +162,7 @@ namespace Loqui.Generation
                         try
                         {
                             await TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load)
-                                .TimeoutButContinue(4000, () => System.Console.WriteLine($"{obj.Name} loading taking a long time."));
+                                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{obj.Name} loading taking a long time."));
                         }
                         catch (Exception ex)
                         {
@@ -183,7 +183,7 @@ namespace Loqui.Generation
                         {
                             await Task.WhenAll(
                                 this.Gen.GenerationModules.Select((m) => m.PostLoad(obj)
-                                    .TimeoutButContinue(4000, () => System.Console.WriteLine($"{m.GetType()} {obj.Name} post load taking a long time."))));
+                                    .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{m.GetType()} {obj.Name} post load taking a long time."))));
                         }
                         catch (Exception ex)
                         {
