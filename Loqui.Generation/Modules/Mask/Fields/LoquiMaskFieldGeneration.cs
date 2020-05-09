@@ -51,7 +51,7 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (loqui.RefType == LoquiRefType.Direct)
             {
-                if (loqui.SingletonType == SingletonLevel.Singleton)
+                if (loqui.Singleton)
                 {
                     if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
                     fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Copy)}> {field.Name};");
@@ -201,7 +201,7 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (loqui.RefType == LoquiRefType.Direct)
             {
-                if (loqui.SingletonType == SingletonLevel.Singleton)
+                if (loqui.Singleton)
                 {
                     if (loqui.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
                     fg.AppendLine($"this.{field.Name} = new MaskItem<bool, {loqui.Mask(MaskType.Copy)}>({basicValueStr}, default);");

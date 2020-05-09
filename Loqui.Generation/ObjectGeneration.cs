@@ -495,16 +495,13 @@ namespace Loqui.Generation
                 .WhereCastable<TypeGeneration, LoquiType>()
                 .Where(l => l.ThisConstruction))
             {
-                switch (loqui.SingletonType)
+                if (loqui.Singleton)
                 {
-                    case SingletonLevel.None:
-                        fg.AppendLine($"_{loqui.Name} = new {loqui.DirectTypeName}(this);");
-                        break;
-                    case SingletonLevel.Singleton:
-                        fg.AppendLine($"{loqui.SingletonObjectName} = new {loqui.DirectTypeName}(this);");
-                        break;
-                    default:
-                        break;
+                    fg.AppendLine($"{loqui.SingletonObjectName} = new {loqui.DirectTypeName}(this);");
+                }
+                else
+                {
+                    fg.AppendLine($"_{loqui.Name} = new {loqui.DirectTypeName}(this);");
                 }
             }
         }
@@ -2465,7 +2462,7 @@ namespace Loqui.Generation
                     Func<TypeGeneration, bool> tester = (f) =>
                     {
                         if (!(f is LoquiType loqui)) return false;
-                        return loqui.SingletonType == SingletonLevel.Singleton;
+                        return loqui.Singleton;
                     };
                     var trues = IterateFieldIndices().Where((i) => tester(i.Field));
                     var falses = IterateFieldIndices().Where((i) => !tester(i.Field));

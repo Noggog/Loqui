@@ -96,17 +96,13 @@ namespace Loqui.Generation
         {
             get
             {
-                if (this.SingletonType == SingletonLevel.Singleton)
+                if (this.Singleton)
                 {
                     return SingletonObjectName;
                 }
-                else if (this.SingletonType == SingletonLevel.None)
-                {
-                    return base.Name;
-                }
                 else
                 {
-                    return base.ProtectedName;
+                    return base.Name;
                 }
             }
         }
@@ -146,7 +142,7 @@ namespace Loqui.Generation
             }
         }
         public string GenericTypes(bool getter) => GetGenericTypes(getter, MaskType.Normal);
-        public SingletonLevel SingletonType;
+        public bool Singleton { get; set; }
         public LoquiRefType RefType { get; private set; }
         public LoquiInterfaceType SetterInterfaceType;
         public LoquiInterfaceType GetterInterfaceType;
@@ -176,9 +172,9 @@ namespace Loqui.Generation
         public string RefName;
         public string SetterInterface;
         public string GetterInterface;
-        public override bool HasBeenSet => base.HasBeenSet && this.SingletonType == SingletonLevel.None;
+        public override bool HasBeenSet => base.HasBeenSet && !this.Singleton;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
-        public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.SingletonType == SingletonLevel.Singleton);
+        public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.Singleton);
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
         // Can probably be replaced with a more robust parameter configuration setup later
         public bool ThisConstruction;
@@ -195,7 +191,7 @@ namespace Loqui.Generation
 
         public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
         {
-            if (this.SingletonType == SingletonLevel.Singleton
+            if (this.Singleton
                 || deepCopy)
             {
                 return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
@@ -271,7 +267,7 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    if (this.SingletonType == SingletonLevel.Singleton)
+                    if (this.Singleton)
                     {
                         fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -279,16 +275,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        switch (this.SingletonType)
-                        {
-                            case SingletonLevel.None:
-                                fg.AppendLine($"private {this.TypeName()} _{this.Name};");
-                                break;
-                            case SingletonLevel.Singleton:
-                                throw new NotImplementedException();
-                            default:
-                                break;
-                        }
+                        fg.AppendLine($"private {this.TypeName()} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"public {this.TypeName()} {this.Name}");
                         using (new BraceWrapper(fg))
@@ -321,34 +308,28 @@ namespace Loqui.Generation
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
                 }
+                else if (this.Singleton)
+                {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
+                    if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
+                    {
+                        fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
+                    }
+                }
                 else
                 {
-                    switch (this.SingletonType)
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"private {this.TypeName()} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName()}();")}");
+                    fg.AppendLine($"public {this.TypeName()} {this.Name}");
+                    using (new BraceWrapper(fg))
                     {
-                        case SingletonLevel.None:
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.TypeName()} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName()}();")}");
-                            fg.AppendLine($"public {this.TypeName()} {this.Name}");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}({(this.ThisConstruction ? "this" : null)});");
-                            }
-                            if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
-                            {
-                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => _{this.Name};");
-                            }
-                            break;
-                        case SingletonLevel.Singleton:
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
-                            if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
-                            {
-                                fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
-                            }
-                            break;
-                        default:
-                            throw new NotImplementedException();
+                        fg.AppendLine($"get => _{this.Name};");
+                        fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value ?? new {this.DirectTypeName}({(this.ThisConstruction ? "this" : null)});");
+                    }
+                    if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
+                    {
+                        fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => _{this.Name};");
                     }
                 }
             }
@@ -358,7 +339,7 @@ namespace Loqui.Generation
                 {
                     if (this.PrefersProperty)
                     {
-                        if (this.SingletonType == SingletonLevel.Singleton)
+                        if (this.Singleton)
                         {
                             fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         }
@@ -368,7 +349,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this.{this.ProtectedProperty}.Item;");
-                            if (this.SingletonType != SingletonLevel.Singleton)
+                            if (!this.Singleton)
                             {
                                 fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedProperty}.Item = value;");
                             }
@@ -388,7 +369,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        if (this.SingletonType == SingletonLevel.Singleton)
+                        if (this.Singleton)
                         {
                             fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -396,17 +377,8 @@ namespace Loqui.Generation
                         }
                         else
                         {
-                            switch (this.SingletonType)
-                            {
-                                case SingletonLevel.None:
-                                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                    fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
-                                    break;
-                                case SingletonLevel.Singleton:
-                                    throw new NotImplementedException();
-                                default:
-                                    break;
-                            }
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
                             fg.AppendLine($"public {this.TypeName()}{this.NullChar} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
@@ -420,29 +392,25 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    switch (this.SingletonType)
+                    if (this.Singleton)
                     {
-                        case SingletonLevel.None:
-                            fg.AppendLine($"public {this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
-                            if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
-                            {
-                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {this.Name};");
-                            }
-                            break;
-                            break;
-                        case SingletonLevel.Singleton:
+                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        fg.AppendLine($"private {(this.ThisConstruction ? null : "readonly ")}{this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
+                        fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
+                        if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
+                        {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {(this.ThisConstruction ? null : "readonly ")}{this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
-                            fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
-                            if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
-                            {
-                                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {this.SingletonObjectName};");
-                            }
-                            break;
-                        default:
-                            throw new NotImplementedException();
+                            fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: false)}.{this.Name} => {this.SingletonObjectName};");
+                        }
+                    }
+                    else
+                    {
+                        fg.AppendLine($"public {this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
+                        if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
+                        {
+                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                            fg.AppendLine($"{this.TypeName(getter: true)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {this.Name};");
+                        }
                     }
                 }
             }
@@ -466,7 +434,7 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.SingletonType = node.GetAttribute(Constants.NULLABLE, SingletonLevel.None);
+            this.Singleton = node.GetAttribute(Constants.SINGLETON, false);
 
             XElement refNode = GetRefNode(node);
 
@@ -529,7 +497,7 @@ namespace Loqui.Generation
                     this._generic = genericName;
                     this.GenericDef = this.ObjectGen.Generics[this._generic];
                     this.GenericDef.Loqui = true;
-                    if (this.SingletonType == SingletonLevel.Singleton)
+                    if (this.Singleton)
                     {
                         throw new ArgumentException("Cannot be a generic and singleton.");
                     }
@@ -544,7 +512,7 @@ namespace Loqui.Generation
                 }
             }
 
-            this.ReadOnly = this.ReadOnly || this.SingletonType == SingletonLevel.Singleton;
+            this.ReadOnly = this.ReadOnly || this.Singleton;
             this.ThisConstruction = node.GetAttribute(Constants.THIS_CTOR, this.ThisConstruction);
         }
 
@@ -612,7 +580,7 @@ namespace Loqui.Generation
                             return;
                         }
 
-                        if (this.SingletonType == SingletonLevel.Singleton)
+                        if (this.Singleton)
                         {
                             this.GenerateCopyIn(
                                 fg,
@@ -910,7 +878,7 @@ namespace Loqui.Generation
 
         public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
-            if (this.SingletonType != SingletonLevel.Singleton)
+            if (this.Singleton)
             {
                 base.GenerateUnsetNth(fg, identifier);
                 return;
@@ -928,7 +896,7 @@ namespace Loqui.Generation
 
         public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
-            if (this.SingletonType != SingletonLevel.Singleton)
+            if (this.Singleton)
             {
                 base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
                 return;
@@ -938,7 +906,7 @@ namespace Loqui.Generation
 
         public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
-            if (this.SingletonType == SingletonLevel.Singleton)
+            if (this.Singleton)
             {
                 if (!internalUse && this.SetterInterfaceType == LoquiInterfaceType.IGetter)
                 {
@@ -964,7 +932,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.SingletonType == SingletonLevel.Singleton)
+                if (this.Singleton)
                 {
                     if (this.GetterInterfaceType != this.SetterInterfaceType)
                     {
@@ -989,23 +957,14 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            switch (this.SingletonType)
+            if (this.Singleton
+                || !this.HasBeenSet)
             {
-                case SingletonLevel.None:
-                    if (this.HasBeenSet)
-                    {
-                        fg.AppendLine($"{accessorPrefix} = null;");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{accessorPrefix}.Clear();");
-                    }
-                    break;
-                case SingletonLevel.Singleton:
-                    fg.AppendLine($"{accessorPrefix}.Clear();");
-                    break;
-                default:
-                    throw new NotImplementedException();
+                fg.AppendLine($"{accessorPrefix}.Clear();");
+            }
+            else
+            {
+                fg.AppendLine($"{accessorPrefix} = null;");
             }
         }
 

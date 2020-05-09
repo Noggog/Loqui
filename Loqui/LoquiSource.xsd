@@ -1245,7 +1245,7 @@
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="nullable" type="SingletonLevel" >
+        <xs:attribute name="singleton" type="xs:boolean" >
           <xs:annotation>
             <xs:documentation>
               Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.
@@ -1303,7 +1303,7 @@
             </xs:annotation>
           </xs:element>
         </xs:choice>
-        <xs:attribute name="nullable" type="SingletonLevel" >
+        <xs:attribute name="singleton" type="xs:boolean" >
           <xs:annotation>
             <xs:documentation>
               Designates the singleton level of a ref.  If not null, if ever set to null, it will create a new instance instead.  If singleton, it will instantiate one singleton instance that can never point to another instance.

@@ -10,24 +10,24 @@ namespace Loqui.Generation
 {
     public abstract class ClassType : TypicalTypeGeneration
     {
-        public SingletonLevel Singleton;
+        public bool Singleton { get; set; }
         public bool Readonly;
         public override string ProtectedName => $"_{this.Name}";
         public override bool IsClass => true;
-        public override bool IsNullable => this.HasBeenSet && this.Singleton != SingletonLevel.Singleton;
+        public override bool IsNullable => this.HasBeenSet && !this.Singleton;
 
         public abstract string GetNewForNonNullable();
 
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            this.Singleton = node.GetAttribute<SingletonLevel>(Constants.NULLABLE, this.Singleton);
-            this.ReadOnly = this.ReadOnly || this.Singleton == SingletonLevel.Singleton;
+            this.Singleton = node.GetAttribute(Constants.SINGLETON, this.Singleton);
+            this.ReadOnly = this.ReadOnly || this.Singleton;
         }
 
         protected override string GenerateDefaultValue()
         {
-            if (this.Singleton != SingletonLevel.None
+            if (this.Singleton
                 && string.IsNullOrWhiteSpace(this.DefaultValue))
             {
                 return GetNewForNonNullable();
@@ -83,12 +83,12 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton ? $" = {GetNewForNonNullable()}" : string.Empty)};");
                     fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");
-                        if (this.Singleton == SingletonLevel.None)
+                        if (!this.Singleton)
                         {
                             fg.AppendLine($"{SetPermissionStr}set => this.RaiseAndSetIfChanged(ref _{this.Name}, value, nameof({this.Name}));");
                         }
@@ -171,7 +171,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
-                    if (this.Singleton == SingletonLevel.Singleton)
+                    if (this.Singleton)
                     {
                         fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name} => {this.ProtectedName};");
                     }
