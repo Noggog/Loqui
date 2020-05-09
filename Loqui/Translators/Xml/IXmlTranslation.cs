@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using Loqui.Xml;
 using System;
 using System.Xml;

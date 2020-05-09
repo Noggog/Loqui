@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static Loqui.Generation.LoquiType;
 
 namespace Loqui.Generation

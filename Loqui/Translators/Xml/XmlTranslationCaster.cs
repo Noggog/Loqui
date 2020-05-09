@@ -1,4 +1,4 @@
-﻿using Loqui.Internal;
+using Loqui.Internal;
 using Loqui.Translators;
 using Noggog;
 using System;

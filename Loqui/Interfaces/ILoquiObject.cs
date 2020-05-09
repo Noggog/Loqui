@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using Noggog.Printing;
 using System;
 using System.Collections;

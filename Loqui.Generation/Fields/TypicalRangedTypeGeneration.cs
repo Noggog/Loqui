@@ -1,4 +1,4 @@
-﻿using Noggog;
+using Noggog;
 using System;
 using System.Threading.Tasks;
 using System.Xml.Linq;

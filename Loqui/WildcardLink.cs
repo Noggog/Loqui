@@ -1,4 +1,4 @@
-﻿using Loqui.Xml;
+using Loqui.Xml;
 using System;
 
 namespace Loqui

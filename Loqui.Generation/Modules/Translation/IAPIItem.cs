@@ -1,4 +1,4 @@
-﻿using Loqui.Generation;
+using Loqui.Generation;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
