@@ -14,6 +14,7 @@ namespace Loqui.Generation
         public bool Readonly;
         public override string ProtectedName => $"_{this.Name}";
         public override bool IsClass => true;
+        public override bool IsNullable => this.HasBeenSet && this.Singleton != SingletonLevel.Singleton;
 
         public abstract string GetNewForNonNullable();
 
@@ -169,10 +170,10 @@ namespace Loqui.Generation
                 else
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton == SingletonLevel.None ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
                     if (this.Singleton == SingletonLevel.Singleton)
                     {
-                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name} =>  {this.ProtectedName};");
+                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name} => {this.ProtectedName};");
                     }
                     else
                     {
@@ -180,14 +181,7 @@ namespace Loqui.Generation
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => {this.ProtectedName};");
-                            if (this.Singleton == SingletonLevel.None)
-                            {
-                                fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
-                            }
-                            else
-                            {
-                                fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedName} = value ?? {this.GetNewForNonNullable()};");
-                            }
+                            fg.AppendLine($"{SetPermissionStr}set => this._{this.Name} = value;");
                         }
                     }
                     if (this.TypeName(getter: true) != this.TypeName(getter: false))
@@ -197,11 +191,6 @@ namespace Loqui.Generation
                     }
                 }
             }
-        }
-
-        public override bool IsNullable()
-        {
-            return this.Singleton == SingletonLevel.None;
         }
 
         public override void GenerateClear(FileGeneration fg, Accessor identifier)

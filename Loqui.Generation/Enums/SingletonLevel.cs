@@ -9,7 +9,6 @@ namespace Loqui.Generation
     public enum SingletonLevel
     {
         None,
-        NotNull,
         Singleton
     }
 }

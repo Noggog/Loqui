@@ -54,6 +54,7 @@ namespace Loqui.Generation
         public virtual bool IsIEquatable => true;
         public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
         public TypeGeneration Parent;
+        public virtual bool IsNullable => this.HasBeenSet;
 
         public TypeGeneration()
         {
@@ -109,8 +110,6 @@ namespace Loqui.Generation
         {
             return $"{(negate ? "!" : null)}object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
         }
-
-        public abstract bool IsNullable();
 
         public void FinalizeField()
         {

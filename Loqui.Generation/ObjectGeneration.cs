@@ -498,7 +498,6 @@ namespace Loqui.Generation
                 switch (loqui.SingletonType)
                 {
                     case SingletonLevel.None:
-                    case SingletonLevel.NotNull:
                         fg.AppendLine($"_{loqui.Name} = new {loqui.DirectTypeName}(this);");
                         break;
                     case SingletonLevel.Singleton:

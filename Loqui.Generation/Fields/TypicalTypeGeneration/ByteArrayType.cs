@@ -46,13 +46,13 @@ namespace Loqui.Generation
             await base.Load(node, requireName);
             this.Length = node.GetAttribute<int?>("byteLength", null);
             if (this.Length == null
-                && this.Singleton != SingletonLevel.None)
+                && !this.HasBeenSet)
             {
                 throw new ArgumentException($"Cannot have a byte array with an undefined length that is not nullable. {this.ObjectGen.Name} {this.Name}");
             }
 
             if (this.Length != null
-                && this.Singleton == SingletonLevel.None)
+                && this.HasBeenSet)
             {
                 throw new ArgumentException($"Cannot have a byte array with a length that is nullable.  Doesn't apply. {this.ObjectGen.Name} {this.Name}");
             }

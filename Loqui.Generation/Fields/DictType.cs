@@ -167,11 +167,6 @@ namespace Loqui.Generation
             subGenerator.GenerateForHasBeenSetMaskGetter(fg, accessor, retAccessor);
         }
 
-        public override bool IsNullable()
-        {
-            return false;
-        }
-
         public override string GetDuplicate(Accessor accessor)
         {
             throw new NotImplementedException();

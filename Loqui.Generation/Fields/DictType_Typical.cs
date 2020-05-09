@@ -519,11 +519,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override bool IsNullable()
-        {
-            return false;
-        }
-
         public override string GetDuplicate(Accessor accessor)
         {
             throw new NotImplementedException();
