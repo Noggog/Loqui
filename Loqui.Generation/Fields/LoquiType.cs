@@ -400,14 +400,14 @@ namespace Loqui.Generation
                             {
                                 case SingletonLevel.None:
                                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                                    fg.AppendLine($"private {this.TypeName()}{(this.HasBeenSet ? "?" : null)} _{this.Name};");
+                                    fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
                                     break;
                                 case SingletonLevel.Singleton:
                                     throw new NotImplementedException();
                                 default:
                                     break;
                             }
-                            fg.AppendLine($"public {this.TypeName()}{(this.HasBeenSet ? "?" : null)} {this.Name}");
+                            fg.AppendLine($"public {this.TypeName()}{this.NullChar} {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => _{this.Name};");
@@ -415,7 +415,7 @@ namespace Loqui.Generation
                             }
                         }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
+                        fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
                     }
                 }
                 else
@@ -960,7 +960,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
             }
             else
             {

@@ -47,8 +47,8 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private {this.TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} _{this.Name}{(this.HasBeenSet ? null : $" = new {GetActualItemClass(ctor: true)}")};");
-            fg.AppendLine($"public {this.TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} {this.Name}");
+            fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.HasBeenSet ? null : $" = new {GetActualItemClass(ctor: true)}")};");
+            fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"get => this._{this.Name};");
@@ -74,7 +74,7 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
 
@@ -83,13 +83,13 @@ namespace Loqui.Generation
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; }}");
+                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{(this.HasBeenSet ? "?" : null)} {this.Name} {{ get; {(this.HasBeenSet ? "set; " : null)}}}");
+                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.HasBeenSet ? "set; " : null)}}}");
                 }
             }
         }

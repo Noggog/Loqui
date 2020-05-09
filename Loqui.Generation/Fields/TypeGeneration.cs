@@ -55,6 +55,7 @@ namespace Loqui.Generation
         public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
         public TypeGeneration Parent;
         public virtual bool IsNullable => this.HasBeenSet;
+        public string NullChar => this.IsNullable ? "?" : null;
 
         public TypeGeneration()
         {

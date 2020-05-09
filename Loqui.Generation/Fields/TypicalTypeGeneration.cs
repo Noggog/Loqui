@@ -91,19 +91,19 @@ namespace Loqui.Generation
             void GenerateTypicalHasBeenSetMembers(bool notifying)
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private {TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} _{this.Name};");
+                fg.AppendLine($"private {TypeName(getter: false)}{this.NullChar} _{this.Name};");
                 if (HasDefault)
                 {
                     fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                 }
-                fg.AppendLine($"public {this.TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} {this.Name}");
+                fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => this._{this.Name};");
                     fg.AppendLine($"{(ReadOnly ? "protected " : string.Empty)}set => this._{this.Name} = value;");
                 }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{this.TypeName(getter: true)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
+                fg.AppendLine($"{this.TypeName(getter: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
             }
 
             if (this.NotifyingType == NotifyingType.ReactiveUI)
@@ -223,7 +223,7 @@ namespace Loqui.Generation
             if (this.InternalSetInterface)
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{TypeName(getter: false)}{(this.HasBeenSet ? "?" : null)} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
+                fg.AppendLine($"{TypeName(getter: false)}{this.NullChar} {this.ObjectGen.Interface(getter: false, internalInterface: true)}.{this.Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => this.{this.Name};");
