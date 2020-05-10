@@ -29,7 +29,7 @@ namespace Loqui.Generation
 
         public override string GetNewForNonNullable()
         {
-            return $"new byte[{this.Length.Value}]";
+            return $"new byte[{this.Length ?? 0}]";
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
@@ -45,11 +45,6 @@ namespace Loqui.Generation
         {
             await base.Load(node, requireName);
             this.Length = node.GetAttribute<int?>("byteLength", null);
-            if (this.Length == null
-                && !this.HasBeenSet)
-            {
-                throw new ArgumentException($"Cannot have a byte array with an undefined length that is not nullable. {this.ObjectGen.Name} {this.Name}");
-            }
 
             if (this.Length != null
                 && this.HasBeenSet)
@@ -135,7 +130,7 @@ namespace Loqui.Generation
             }
             else
             {
-                throw new NotImplementedException();
+                fg.AppendLine($"{identifier.DirectAccess} = new byte[0];");
             }
         }
 

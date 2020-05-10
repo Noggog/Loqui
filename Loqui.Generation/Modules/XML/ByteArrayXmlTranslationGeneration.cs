@@ -29,6 +29,10 @@ namespace Loqui.Generation
             {
                 extraArgs.Add($"fallbackLength: {byteArray.Length}");
             }
+            else if (!byteArray.HasBeenSet)
+            {
+                extraArgs.Add($"fallbackLength: 0");
+            }
 
             TranslationGeneration.WrapParseCall(
                 new TranslationWrapParseArgs()
