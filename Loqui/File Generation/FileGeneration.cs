@@ -82,12 +82,12 @@ namespace Loqui
 #if DEBUG
             _LineAppended.OnNext(str);
 #endif
-            if (str.Length == 1 && str[0] == '\n')
+            if (str.StartsWith(Environment.NewLine))
             {
                 this._strings.Add("");
                 return;
             }
-            string[] split = str.Split('\n');
+            string[] split = str.Split(Environment.NewLine);
             split.First(
                 (s, first) =>
                 {
@@ -111,7 +111,7 @@ namespace Loqui
 
         public void AppendLine()
         {
-            Append("\n");
+            Append(Environment.NewLine);
         }
 
         public void AppendLines(IEnumerable<string> strs)
@@ -219,7 +219,7 @@ namespace Loqui
 
         public string GetString()
         {
-            return string.Join("\n", this._strings);
+            return string.Join(Environment.NewLine, this._strings);
         }
 
         public override string ToString()

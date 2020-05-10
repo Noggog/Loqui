@@ -585,13 +585,15 @@ namespace Loqui.Generation
 
             var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
             obj.GeneratedFiles[Path.GetFullPath(outputPath)] = ProjItemType.None;
-            using (var writer = new XmlTextWriter(outputPath, Encoding.ASCII))
+            using (var writer = new XmlTextWriter(outputPath, Encoding.Default))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;
                 XDocument doc = new XDocument(root);
                 doc.WriteTo(writer);
             }
+            using var streamWriter = File.AppendText(outputPath);
+            streamWriter.Write(Environment.NewLine);
         }
 
         public override async Task FinalizeGeneration(ProtocolGeneration proto)
@@ -626,13 +628,15 @@ namespace Loqui.Generation
 
             var outputPath = this.CommonXSDLocation(protoGen);
             protoGen.GeneratedFiles[outputPath.Path] = ProjItemType.None;
-            using (var writer = new XmlTextWriter(outputPath.Path, Encoding.ASCII))
+            using (var writer = new XmlTextWriter(outputPath.Path, Encoding.Default))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 3;
                 XDocument doc = new XDocument(root);
                 doc.WriteTo(writer);
             }
+            using var streamWriter = File.AppendText(outputPath.Path);
+            streamWriter.Write(Environment.NewLine);
         }
 
         protected virtual async Task PreCreateLoop(ObjectGeneration obj, FileGeneration fg)

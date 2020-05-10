@@ -14,7 +14,7 @@ namespace Loqui
 
         public void Dispose()
         {
-            this._fg.Append("\n");
+            this._fg.Append(Environment.NewLine);
         }
     }
 }
