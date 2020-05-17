@@ -9,5 +9,8 @@ namespace Loqui.Generation
     {
         Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, FileGeneration fg);
         bool DoTranslationInterface(ObjectGeneration obj);
+        void ReplaceTypeAssociation<Target, Replacement>()
+            where Target : TypeGeneration
+            where Replacement : TypeGeneration;
     }
 }

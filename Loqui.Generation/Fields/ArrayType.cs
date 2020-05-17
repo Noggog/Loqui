@@ -16,7 +16,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                return $"ReadOnlyMemorySlice<{this.ItemTypeName(getter)}>{(this.Nullable ? "?" : null)}";
+                return $"ReadOnlyMemorySlice<{this.ItemTypeName(getter)}>{this.NullChar}";
             }
             else
             {
@@ -24,12 +24,10 @@ namespace Loqui.Generation
             }
         }
 
-        public bool Nullable;
         public int? FixedSize;
 
         public override async Task Load(XElement node, bool requireName = true)
         {
-            this.Nullable = node.GetAttribute(Constants.NULLABLE, true);
             this.FixedSize = node.GetAttribute(Constants.FIXED_SIZE, default(int?));
             await base.Load(node, requireName);
         }
@@ -42,25 +40,33 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.HasBeenSet)
-                {
-                    throw new NotImplementedException();
-                }
                 if (!ctor)
                 {
                     return $"{this.ItemTypeName(getter: false)}[]";
                 }
-                if (this.Nullable)
+                if (this.HasBeenSet)
                 {
                     return $"default";
                 }
                 else if (this.FixedSize.HasValue)
                 {
-                    return $"{this.ItemTypeName(getter: false)}[{this.FixedSize}]";
+                    if (this.SubTypeGeneration is LoquiType loqui)
+                    {
+                        return $"ArrayExt.Create({this.FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
+                    }
+                    else if (this.SubTypeGeneration.IsNullable
+                        || this.SubTypeGeneration.CanBeNullable(getter: false))
+                    {
+                        return $"new {this.ItemTypeName(getter: false)}[{this.FixedSize}]";
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
                 else
                 {
-                    return $"{this.ItemTypeName(getter: false)}[0]";
+                    return $"new {this.ItemTypeName(getter: false)}[0]";
                 }
             }
         }
@@ -74,11 +80,11 @@ namespace Loqui.Generation
             }
             if (getter)
             {
-                return $"ReadOnlyMemorySlice<{itemTypeName}>{(this.Nullable ? "?" : null)}";
+                return $"ReadOnlyMemorySlice<{itemTypeName}{this.SubTypeGeneration.NullChar}>{this.NullChar}";
             }
             else
             {
-                return $"{itemTypeName}[]";
+                return $"{itemTypeName}{this.SubTypeGeneration.NullChar}[]";
             }
         }
 
@@ -90,15 +96,29 @@ namespace Loqui.Generation
             }
             else
             {
-                switch (this.SubTypeGeneration)
+                if (this.FixedSize.HasValue)
                 {
-                    case ClassType c:
-                    case LoquiType l:
+                    if (this.SubTypeGeneration.IsNullable
+                        && this.SubTypeGeneration.HasBeenSet)
+                    {
                         fg.AppendLine($"{accessorPrefix.DirectAccess}.ResetToNull();");
-                        break;
-                    default:
+                    }
+                    else if (this.SubTypeGeneration is StringType)
+                    {
+                        fg.AppendLine($"Array.Fill({accessorPrefix.DirectAccess}, string.Empty);");
+                    }
+                    else if (this.SubTypeGeneration is LoquiType loqui)
+                    {
+                        fg.AppendLine($"{accessorPrefix.DirectAccess}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
+                    }
+                    else
+                    {
                         fg.AppendLine($"{accessorPrefix.DirectAccess}.Reset();");
-                        break;
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"{accessorPrefix.DirectAccess}.Clear();");
                 }
             }
         }

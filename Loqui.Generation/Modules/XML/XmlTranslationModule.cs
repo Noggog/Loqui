@@ -70,7 +70,7 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(P3DoubleNullType)] = new PrimitiveXmlTranslationGeneration<P3Double?>();
             this._typeGenerations[typeof(P3DoubleType)] = new PrimitiveXmlTranslationGeneration<P3Double>();
             this._typeGenerations[typeof(PercentNullType)] = new PrimitiveXmlTranslationGeneration<Percent?>();
-            this._typeGenerations[typeof(PercentType)] = new PrimitiveXmlTranslationGeneration<Percent>();
+            this._typeGenerations[typeof(PercentType)] = new PercentXmlTranslationGeneration();
             this._typeGenerations[typeof(RangeDoubleNullType)] = new PrimitiveXmlTranslationGeneration<RangeDouble?>();
             this._typeGenerations[typeof(RangeDoubleType)] = new PrimitiveXmlTranslationGeneration<RangeDouble>();
             this._typeGenerations[typeof(StringType)] = new PrimitiveXmlTranslationGeneration<string>(nullable: true) { CanBeNotNullable = false };
@@ -751,6 +751,15 @@ namespace Loqui.Generation
                 FillPrivateElement(obj, fg);
             }
             await base.GenerateInCommon(obj, fg, maskTypes);
+        }
+
+        public override void ReplaceTypeAssociation<Target, Replacement>()
+        {
+            if (!this._typeGenerations.TryGetValue(typeof(Target), out var gen))
+            {
+                throw new ArgumentException();
+            }
+            this._typeGenerations[typeof(Replacement)] = gen;
         }
     }
 }

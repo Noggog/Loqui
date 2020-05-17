@@ -53,7 +53,7 @@ namespace Loqui.Generation
 
         public async Task Resolve(ObjectGeneration parent)
         {
-            foreach (var obj in parent.ProtoGen.Gen.ObjectGenerations)
+            foreach (var obj in parent.ProtoGen.ObjectGenerationsByID.Values)
             {
                 await obj.LoadingCompleteTask.Task;
                 if (obj.IsObjectInterface(Interface))

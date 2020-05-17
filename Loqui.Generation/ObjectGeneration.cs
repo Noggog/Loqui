@@ -3186,7 +3186,14 @@ namespace Loqui.Generation
                 foreach (var field in this.IterateFields())
                 {
                     if (field.ReadOnly) continue;
-                    field.GenerateClear(fg, Accessor.FromType(field, "item"));
+                    if  (field.CustomClear)
+                    {
+                        fg.AppendLine($"{field.Name}CustomClear(item);");
+                    }
+                    else
+                    {
+                        field.GenerateClear(fg, Accessor.FromType(field, "item"));
+                    }
                 }
                 if (this.HasLoquiBaseObject)
                 {
@@ -3211,6 +3218,16 @@ namespace Loqui.Generation
                     }
                 }
                 fg.AppendLine();
+            }
+
+            foreach (var field in this.Fields)
+            {
+                if (!field.CustomClear) continue;
+                using (var args = new ArgsWrapper(fg,
+                    $"void {field.Name}CustomClear"))
+                {
+                    args.Add($"{this.Interface(internalInterface: true)} item");
+                }
             }
         }
 

@@ -127,6 +127,11 @@ namespace Loqui.Generation
                 AddTypeAssociation<Replacement>(item.Key, overrideExisting: true);
             }
             typeDict[typeof(Target)] = typeof(Replacement);
+            foreach (var module in this.GenerationModules
+                .WhereCastable<IGenerationModule, ITranslationModule>())
+            {
+                module.ReplaceTypeAssociation<Target, Replacement>();
+            }
         }
 
         public ProtocolGeneration AddProtocol(ProtocolGeneration protoGen)

@@ -1435,5 +1435,9 @@ namespace Loqui.Generation
         public virtual void CustomMainWriteMixInPreLoad(ObjectGeneration obj, FileGeneration fg)
         {
         }
+
+        public abstract void ReplaceTypeAssociation<Target, Replacement>()
+            where Target : TypeGeneration
+            where Replacement : TypeGeneration;
     }
 }

@@ -56,9 +56,19 @@ namespace Loqui.Generation
         public TypeGeneration Parent;
         public virtual bool IsNullable => this.HasBeenSet;
         public string NullChar => this.IsNullable ? "?" : null;
+        public bool CustomClear { get; set; }
 
         public TypeGeneration()
         {
+            this.HasBeenSetProperty
+                .Subscribe(b =>
+                {
+                    if (b.Item && b.HasBeenSet && string.IsNullOrWhiteSpace(this.Name))
+                    {
+                        int wer = 23;
+                        wer++;
+                    }
+                });
         }
 
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
@@ -101,6 +111,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
+            node.TransferAttribute<bool>(Constants.CUSTOM_CLEAR, i => this.CustomClear = i);
             if (requireName && Namable && Name == null && this.IntegrateField)
             {
                 throw new ArgumentException("Type field needs a name.");

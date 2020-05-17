@@ -24,22 +24,22 @@ namespace Loqui.Generation
             {
                 if (this.Notifying)
                 {
-                    return $"IObservableList<{itemTypeName}>";
+                    return $"IObservableList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
                 else
                 {
-                    return $"IReadOnlyList<{itemTypeName}>";
+                    return $"IReadOnlyList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
             }
             else
             {
                 if (this.Notifying)
                 {
-                    return $"ISourceList<{itemTypeName}>";
+                    return $"ISourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
                 else
                 {
-                    return $"ExtendedList<{itemTypeName}>";
+                    return $"ExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.HasBeenSet ? null : $" = new {GetActualItemClass(ctor: true)}")};");
+            fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.HasBeenSet ? null : $" = {GetActualItemClass(ctor: true)}")};");
             fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
             using (new BraceWrapper(fg))
             {
@@ -61,11 +61,11 @@ namespace Loqui.Generation
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                return $"SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
+                return $"new SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
             }
             else
             {
-                return $"ExtendedList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
+                return $"new ExtendedList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
             }
         }
 

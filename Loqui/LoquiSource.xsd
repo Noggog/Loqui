@@ -191,7 +191,7 @@
       <xs:element name="RangeUInt32" type="RangedUInt32" />
       <xs:element name="RangeUInt64" type="RangedUInt64" />
       <xs:element name="RangeDouble" type="RangedFloat" />
-      <xs:element name="Percent" type="String" />
+      <xs:element name="Percent" type="Percent" />
       <xs:element name="Float" type="RangedFloat" />
       <xs:element name="UDouble" type="RangedFloat" />
       <xs:element name="Double" type="RangedFloat" />
@@ -262,7 +262,7 @@
       <xs:element name="RangeUInt32" type="NRangedUInt32" />
       <xs:element name="RangeUInt64" type="NRangedUInt64" />
       <xs:element name="RangeDouble" type="NRangedFloat" />
-      <xs:element name="Percent" type="NString" />
+      <xs:element name="Percent" type="NPercent" />
       <xs:element name="Float" type="NRangedFloat" />
       <xs:element name="UDouble" type="NRangedFloat" />
       <xs:element name="Double" type="NRangedFloat" />
@@ -819,6 +819,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="customClear" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to generate clear code
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="NField" >
@@ -1098,6 +1105,22 @@
   <xs:complexType name="NRangedFloat" >
     <xs:complexContent>
       <xs:extension base="RangedFloat">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Percent" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NPercent" >
+    <xs:complexContent>
+      <xs:extension base="Percent">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
@@ -1441,7 +1464,6 @@
       <xs:extension base="Field">
         <xs:group ref="FieldOptions" minOccurs="1" maxOccurs="1" />
         <xs:attribute name="fixedSize" type="xs:int" />
-        <xs:attribute name="nullable" type="xs:boolean" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

@@ -24,7 +24,6 @@ namespace Loqui.Generation
         public const string MAX = "max";
         public const string RANGE_THROW_EXCEPTION = "rangeThrowException";
         public const string TARGET_TYPE = "TargetType";
-        public const string NULLABLE = "nullable";
         public const string SINGLETON = "singleton";
         public const string REF = "Ref";
         public const string REF_DIRECT = "RefDirect";
@@ -70,5 +69,6 @@ namespace Loqui.Generation
         public const string TYPE = "type";
         public const string RX_BASE_OPTION = "rxBase";
         public const string FIXED_SIZE = "fixedSize";
+        public const string CUSTOM_CLEAR = "customClear";
     }
 }
