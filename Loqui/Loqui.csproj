@@ -20,7 +20,7 @@
     <Nullable>enable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.1.12</Version>
+    <Version>1.1.12.1</Version>
     <Description>Support wiring for Loqui generated classes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Noggog.CSharpExt" Version="1.0.15" />
+    <PackageReference Include="Noggog.CSharpExt" Version="1.0.18" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
   </ItemGroup>
 

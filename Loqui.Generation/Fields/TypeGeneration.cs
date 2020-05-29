@@ -58,19 +58,6 @@ namespace Loqui.Generation
         public string NullChar => this.IsNullable ? "?" : null;
         public bool CustomClear { get; set; }
 
-        public TypeGeneration()
-        {
-            this.HasBeenSetProperty
-                .Subscribe(b =>
-                {
-                    if (b.Item && b.HasBeenSet && string.IsNullOrWhiteSpace(this.Name))
-                    {
-                        int wer = 23;
-                        wer++;
-                    }
-                });
-        }
-
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
             this.ObjectGen = obj;

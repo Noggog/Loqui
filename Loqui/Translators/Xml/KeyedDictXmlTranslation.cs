@@ -139,7 +139,7 @@ namespace Loqui.Xml
         public virtual bool ParseSingleItem(
             XElement node,
             XmlSubParseDelegate<V> valTransl,
-            out V item,
+            [MaybeNullWhen(false)] out V item,
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
         {
