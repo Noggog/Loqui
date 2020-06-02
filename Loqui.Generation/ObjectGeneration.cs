@@ -232,12 +232,11 @@ namespace Loqui.Generation
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    var typeGen = await LoadField(fieldNode, requireName: true)
+                    var typeGen = await LoadField(
+                        fieldNode, 
+                        requireName: true,
+                        add: true)
                         .TimeoutButContinue(4000, () => System.Console.WriteLine($"{this.Name}.{fieldNode.Name} loading taking a long time."));
-                    if (typeGen.Succeeded)
-                    {
-                        Fields.Add(typeGen.Value);
-                    }
                 }
             }
 

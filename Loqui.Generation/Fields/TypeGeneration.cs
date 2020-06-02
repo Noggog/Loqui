@@ -22,8 +22,8 @@ namespace Loqui.Generation
         public string IndexEnumInt => $"(int){this.IndexEnumName}";
         public bool HasIndex => !string.IsNullOrWhiteSpace(this.Name) && this.IntegrateField;
         public virtual string ProtectedName => this.Name;
-        protected bool _derivative;
-        public virtual bool Derivative => this._derivative;
+        protected bool? _derivative;
+        public virtual bool Derivative => this._derivative ?? false;
         public virtual bool IntegrateField { get; set; } = true;
         public bool Enabled = true;
         public bool ReadOnly;
@@ -70,7 +70,10 @@ namespace Loqui.Generation
             {
                 this.HasBeenSetProperty.OnNext((this.ObjectGen.HasBeenSetDefault, false));
             }
-            this._derivative = this.ObjectGen.DerivativeDefault;
+            if (this._derivative == null)
+            {
+                this._derivative = this.ObjectGen.DerivativeDefault;
+            }
         }
 
         public virtual async Task Load(XElement node, bool requireName = true)
@@ -85,7 +88,7 @@ namespace Loqui.Generation
             Name = node.GetAttribute<string>(Constants.NAME);
             node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
             node.TransferAttribute<bool>(Constants.DERIVATIVE, i => this._derivative = i);
-            if (this._derivative)
+            if (this._derivative ?? false)
             {
                 this.SetPermission = PermissionLevel.@protected;
             }
@@ -112,7 +115,7 @@ namespace Loqui.Generation
 
         public void FinalizeField()
         {
-            if (this._derivative && !ReadOnly)
+            if ((this._derivative ?? false) && !ReadOnly)
             {
                 throw new ArgumentException("Cannot mark field as non-readonly if also derivative.  Being derivative implied being readonly.");
             }
