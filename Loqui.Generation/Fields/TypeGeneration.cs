@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Loqui.Generation
@@ -308,5 +309,10 @@ namespace Loqui.Generation
         public virtual string GetDefault(bool getter) => "default";
 
         public abstract string GetDuplicate(Accessor accessor);
+
+        public (int PublicIndex, int InternalIndex, TypeGeneration Field) GetIndexData()
+        {
+            return this.ObjectGen.IterateFieldIndices().First(i => i.Field == this);
+        }
     }
 }
