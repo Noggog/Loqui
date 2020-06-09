@@ -34,7 +34,7 @@ namespace Loqui.Generation
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
-        public override bool HasProperty => true;
+        public override bool HasProperty => false;
 
         public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
 

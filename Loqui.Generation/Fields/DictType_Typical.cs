@@ -176,11 +176,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
-        {
-            return $"{accessor.PropertyAccess ?? this.Property} != null";
-        }
-
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
@@ -199,14 +194,14 @@ namespace Loqui.Generation
                         if (!this.KeyIsLoqui && !this.ValueIsLoqui)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.PropertyAccess}.SetTo"))
+                                $"{accessor}.SetTo"))
                             {
                                 args.Add($"rhs.{this.Name}");
                             }
                             return;
                         }
                         using (var args = new ArgsWrapper(fg,
-                            $"{accessor.PropertyAccess}.SetToWithDefault"))
+                            $"{accessor}.SetToWithDefault"))
                         {
                             args.Add($"rhs.{this.Name}");
                             args.Add((gen) =>
@@ -473,7 +468,7 @@ namespace Loqui.Generation
         {
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>?>({accessor.PropertyAccess} != null, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>?>({accessor} != null, null);");
                 return;
             }
             LoquiType keyLoqui = this.KeyTypeGen as LoquiType;

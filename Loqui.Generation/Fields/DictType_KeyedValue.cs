@@ -121,7 +121,7 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
+                fg.AppendLine($"{identifier}.Unset();");
             }
             fg.AppendLine("break;");
         }
@@ -135,18 +135,6 @@ namespace Loqui.Generation
             else
             {
                 return this.Name;
-            }
-        }
-
-        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
-        {
-            if (accessor == null)
-            {
-                return $"{this.Property}.HasBeenSet";
-            }
-            else
-            {
-                return $"{accessor.PropertyAccess}.HasBeenSet";
             }
         }
 
@@ -274,7 +262,7 @@ namespace Loqui.Generation
                         if (this.HasBeenSet)
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                                $"{accessor}.SetTo"))
                             {
                                 args.Add($"rhs.{this.Name}");
                                 args.Add((gen) =>
@@ -314,7 +302,7 @@ namespace Loqui.Generation
                         else
                         {
                             using (var args = new ArgsWrapper(fg,
-                                $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                                $"{accessor}.SetTo"))
                             {
                                 args.Add((gen) =>
                                 {
@@ -402,11 +390,11 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+                fg.AppendLine($"{accessorPrefix}.Unset();");
             }
             else
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Clear();");
+                fg.AppendLine($"{accessorPrefix}.Clear();");
             }
         }
 
@@ -485,7 +473,7 @@ namespace Loqui.Generation
             fg.AppendLine($"using (new DepthWrapper(fg))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor.PropertyOrDirectAccess})");
+                fg.AppendLine($"foreach (var subItem in {accessor})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
@@ -504,14 +492,14 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor.PropertyOrDirectAccess}.HasBeenSet) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
             }
         }
 
         public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor.PropertyOrDirectAccess}.HasBeenSet" : "true")}, {accessor.PropertyOrDirectAccess}.Items.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}?>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
+            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, {accessor}.Items.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}?>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override string GetDuplicate(Accessor accessor)
