@@ -157,7 +157,14 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"IDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple(getter: false)}> {this.ObjectGen.Interface()}.{this.Name} => {member};");
                 }
-                fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                if (this.ValueIsLoqui)
+                {
+                    fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: true)}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member}.Covariant<{TypeTuple(getter: false)}, {this.ValueTypeGen.TypeName(getter: true)}>();");
+                }
+                else
+                {
+                    fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: true)}> {this.ObjectGen.Interface(getter: true)}.{this.Name} => {member};");
+                }
             }
         }
 
@@ -165,7 +172,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: false)}> {this.Name} {{ get; }}");
+                fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: true)}> {this.Name} {{ get; }}");
             }
             else
             {
@@ -179,14 +186,55 @@ namespace Loqui.Generation
         public override void GenerateForCopy(
             FileGeneration fg,
             Accessor accessor,
-            Accessor rhs, 
+            Accessor rhs,
             Accessor copyMaskAccessor,
-            bool protectedMembers, 
+            bool protectedMembers,
             bool deepCopy)
         {
             fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
             using (new BraceWrapper(fg))
             {
+                if (!this.KeyIsLoqui && !this.ValueIsLoqui)
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor}.SetTo"))
+                    {
+                        args.Add($"rhs.{this.Name}");
+                    }
+                    return;
+                }
+                if (deepCopy)
+                {
+                    if (this.KeyIsLoqui)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    using (var args = new ArgsWrapper(fg,
+                        $"{accessor}.SetTo"))
+                    {
+                        args.Add((gen) =>
+                        {
+                            gen.AppendLine($"rhs.{this.Name}");
+                            using (new DepthWrapper(gen))
+                            {
+                                gen.AppendLine(".Select((r) =>");
+                                using (new BraceWrapper(gen) { AppendParenthesis = true })
+                                {
+                                    (this.ValueTypeGen as LoquiType).GenerateTypicalMakeCopy(
+                                        gen,
+                                        retAccessor: $"var value = ",
+                                        rhsAccessor: new Accessor("r.Value"),
+                                        copyMaskAccessor: copyMaskAccessor,
+                                        deepCopy: deepCopy,
+                                        doTranslationMask: false);
+                                    gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName(getter: true)}, {this.ValueTypeGen.TypeName(getter: false)}>(r.Key, value);");
+                                }
+                            }
+                        });
+                    }
+                    return;
+                }
+                throw new NotImplementedException();
                 MaskGenerationUtility.WrapErrorFieldIndexPush(
                     fg,
                     () =>
@@ -201,66 +249,76 @@ namespace Loqui.Generation
                             return;
                         }
                         using (var args = new ArgsWrapper(fg,
-                            $"{accessor}.SetToWithDefault"))
+                            $"{accessor}.SetTo"))
                         {
-                            args.Add($"rhs.{this.Name}");
                             args.Add((gen) =>
                             {
-                                gen.AppendLine("(k, v, d) =>");
-                                using (new BraceWrapper(gen))
+                                gen.AppendLine($"rhs.{this.Name}");
+                                using (new DepthWrapper(gen))
                                 {
-                                    if (this.KeyIsLoqui)
+                                    gen.AppendLine(".Select((r) =>");
+                                    using (new BraceWrapper(gen) { AppendParenthesis = true })
                                     {
-                                        gen.AppendLine($"{this.KeyTypeGen.TypeName(getter: false)} key;");
-                                        gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
-                                        using (new BraceWrapper(gen))
+                                        if (this.KeyIsLoqui)
                                         {
-                                            gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
-                                            using (new DepthWrapper(gen))
+                                            throw new NotImplementedException();
+                                            gen.AppendLine($"{this.KeyTypeGen.TypeName(getter: false)} key;");
+                                            gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                                            using (new BraceWrapper(gen))
                                             {
-                                                gen.AppendLine($"key = k;");
-                                                gen.AppendLine($"break;");
-                                            }
-                                            gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
-                                            using (new DepthWrapper(gen))
-                                            {
-                                                gen.AppendLine($"key = k.Copy(copyMask: {copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Mask);");
-                                                gen.AppendLine($"break;");
-                                            }
-                                            gen.AppendLine($"default:");
-                                            using (new DepthWrapper(gen))
-                                            {
-                                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    gen.AppendLine($"key = r.Key;");
+                                                    gen.AppendLine($"break;");
+                                                }
+                                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    gen.AppendLine($"key = r.Key.Copy(copyMask: {copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Key." : string.Empty)}Mask);");
+                                                    gen.AppendLine($"break;");
+                                                }
+                                                gen.AppendLine($"default:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                                }
                                             }
                                         }
-                                    }
-                                    if (this.ValueIsLoqui)
-                                    {
-                                        gen.AppendLine($"{this.ValueTypeGen.TypeName(getter: false)} val;");
-                                        gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
-                                        using (new BraceWrapper(gen))
+                                        if (this.ValueTypeGen is LoquiType valLoqui)
                                         {
-                                            gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
-                                            using (new DepthWrapper(gen))
+                                            gen.AppendLine($"{this.ValueTypeGen.TypeName(getter: false)} val;");
+                                            gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
+                                            using (new BraceWrapper(gen))
                                             {
-                                                gen.AppendLine($"val = v;");
-                                                gen.AppendLine($"break;");
-                                            }
-                                            gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
-                                            using (new DepthWrapper(gen))
-                                            {
-                                                gen.AppendLine($"val = v.Copy({copyMaskAccessor}?.Specific.{(this.BothAreLoqui ? "Value." : string.Empty)}Mask, d);");
-                                                gen.AppendLine($"break;");
-                                            }
-                                            gen.AppendLine($"default:");
-                                            using (new DepthWrapper(gen))
-                                            {
-                                                gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    gen.AppendLine($"val = r.Value;");
+                                                    gen.AppendLine($"break;");
+                                                }
+                                                gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    valLoqui.GenerateTypicalMakeCopy(
+                                                        gen,
+                                                        retAccessor: $"val = ",
+                                                        rhsAccessor: new Accessor("r.Value"),
+                                                        copyMaskAccessor: copyMaskAccessor,
+                                                        deepCopy: deepCopy,
+                                                        doTranslationMask: false);
+                                                    gen.AppendLine($"break;");
+                                                }
+                                                gen.AppendLine($"default:");
+                                                using (new DepthWrapper(gen))
+                                                {
+                                                    gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{this.Name}.Overall}}. Cannot execute copy.\");");
+                                                }
                                             }
                                         }
-                                    }
 
-                                    gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName(getter: false)}, {this.ValueTypeGen.TypeName(getter: false)}>({(this.KeyIsLoqui ? "key" : "k")}, {(this.ValueIsLoqui ? "val" : "v")});");
+                                        gen.AppendLine($"return new KeyValuePair<{this.KeyTypeGen.TypeName(getter: false)}, {this.ValueTypeGen.TypeName(getter: false)}>({(this.KeyIsLoqui ? "key" : "r.Key")}, {(this.ValueIsLoqui ? "val" : "r.Value")});");
+                                    }
                                 }
                             });
                         }
@@ -370,57 +428,31 @@ namespace Loqui.Generation
             if (keyLoqui != null
                 && valLoqui != null)
             {
-                var keyMaskStr = $"MaskItem<bool, {keyLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
-                var valMaskStr = $"MaskItem<bool, {valLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
-                var maskStr = $"KeyValuePair<{keyMaskStr}, {valMaskStr}>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{keyMaskStr} keyItemRet;");
-                    fg.AppendLine($"{valMaskStr} valItemRet;");
-                    keyLoqui.GenerateForEqualsMask(fg, new Accessor("l.Key"), new Accessor("r.Key"), "keyItemRet");
-                    valLoqui.GenerateForEqualsMask(fg, new Accessor("l.Value"), new Accessor("r.Value"), "valItemRet");
-                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
-                }
-                fg.AppendLine($"), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Key.Overall && b.Value.Overall );");
+                throw new NotImplementedException();
             }
             else if (keyLoqui != null)
             {
-                var keyMaskStr = $"MaskItem<bool, {keyLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
-                var maskStr = $"KeyValuePair<{keyMaskStr}, bool>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{keyMaskStr} keyItemRet;");
-                    fg.AppendLine($"bool valItemRet = object.Equals(l.Value, r.Value);");
-                    keyLoqui.GenerateForEqualsMask(fg, new Accessor("l.Key"), new Accessor("r.Key"), "keyItemRet");
-                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
-                }
-                fg.AppendLine($"), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Key.Overall && b.Value);");
+                throw new NotImplementedException();
             }
             else if (valLoqui != null)
             {
-                var valMaskStr = $"MaskItem<bool, {valLoqui.TargetObjectGeneration.GetMaskString("bool")}>";
-                var maskStr = $"KeyValuePair<bool, {valMaskStr}>";
-                fg.AppendLine($"{retAccessor}.Specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, {maskStr}>({rhsAccessor}, ((l, r) =>");
-                using (new BraceWrapper(fg))
+                using (var args = new ArgsWrapper(fg,
+                    $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
                 {
-                    fg.AppendLine($"bool keyItemRet = object.Equals(l.Key, r.Key);");
-                    fg.AppendLine($"{valMaskStr} valItemRet;");
-                    valLoqui.GenerateForEqualsMask(fg, new Accessor("l.Value"), new Accessor("r.Value"), "valItemRet");
-                    fg.AppendLine($"return new {maskStr}(keyItemRet, valItemRet);");
+                    args.Add($"lhs: {accessor}");
+                    args.Add($"rhs: {rhsAccessor}");
+                    args.Add($"maskGetter: (k, l, r) => l.GetEqualsMask(r, include)");
+                    args.AddPassArg("include");
                 }
-                fg.AppendLine($"), out {retAccessor}.Overall);");
-                fg.AppendLine($"{retAccessor}.Overall = {retAccessor}.Overall && {retAccessor}.Specific.All((b) => b.Key && b.Value.Overall);");
             }
             else
             {
-                using (new BraceWrapper(fg))
+                using (var args = new ArgsWrapper(fg,
+                    $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
                 {
-                    fg.AppendLine($"var specific = {accessor}.SelectAgainst<KeyValuePair<{this.TypeTuple(getter: false)}>, KeyValuePair<bool, bool>>({rhsAccessor}, ((l, r) => new KeyValuePair<bool, bool>(object.Equals(l.Key, r.Key), object.Equals(l.Value, r.Value))), out var countEqual);");
-                    fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}(countEqual && specific.All((b) => b.Key && b.Value), specific);");
+                    args.Add($"lhs: {accessor}");
+                    args.Add($"rhs: {rhsAccessor}");
+                    args.AddPassArg("include");
                 }
             }
         }
@@ -468,7 +500,7 @@ namespace Loqui.Generation
         {
             if (!this.KeyIsLoqui && !this.ValueIsLoqui)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<bool, bool>>?>({accessor} != null, null);");
+                fg.AppendLine($"{retAccessor} = new MaskItem<bool, IEnumerable<KeyValuePair<{this.KeyTypeGen.TypeName(getter: true)}, bool>>?>({accessor} != null, null);");
                 return;
             }
             LoquiType keyLoqui = this.KeyTypeGen as LoquiType;
@@ -478,7 +510,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, MaskItem<bool, {valLoqui.GetMaskString("bool")}>>(");
+                    fg.AppendLine($"{this.HasBeenSetAccessor(getter: true, accessor: accessor)}, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, MaskItem<bool, {valLoqui.GetMaskString("bool")}>>(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"new MaskItem<bool, {keyLoqui.GetMaskString("bool")}>(true, i.Key.GetHasBeenSetMask()),");
@@ -491,7 +523,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, bool>(");
+                    fg.AppendLine($"{this.HasBeenSetAccessor(getter: true, accessor: accessor)}, {accessor}.Select((i) => new KeyValuePair<MaskItem<bool, {keyLoqui.GetMaskString("bool")}>, bool>(");
                     using (new DepthWrapper(fg))
                     {
                         fg.AppendLine($"new MaskItem<bool, {keyLoqui.GetMaskString("bool")}>(true, i.Key.GetHasBeenSetMask()),");
@@ -504,11 +536,13 @@ namespace Loqui.Generation
                 fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: false)}(");
                 using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine($"{accessor}.HasBeenSet, {accessor}.Select((i) => new KeyValuePair<bool, MaskItem<bool, {valLoqui.GetMaskString("bool")}>>(");
-                    using (new DepthWrapper(fg))
+                    using (var args = new ArgsWrapper(fg,
+                        $"{this.HasBeenSetAccessor(getter: true, accessor: accessor)}, {accessor}.Select((i) => new MaskItemIndexed<{KeyTypeGen.TypeName(getter: true)}, bool, {valLoqui.GetMaskString("bool")}?>",
+                        suffixLine: "))"))
                     {
-                        fg.AppendLine($"true,");
-                        fg.AppendLine($"new MaskItem<bool, {valLoqui.GetMaskString("bool")}>(true, i.Value.GetHasBeenSetMask()))));");
+                        args.Add($"i.Key");
+                        args.Add("true");
+                        args.Add($"i.Value.GetHasBeenSetMask()");
                     }
                 }
             }

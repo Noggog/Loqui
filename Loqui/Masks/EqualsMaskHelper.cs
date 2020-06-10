@@ -230,7 +230,7 @@ namespace Loqui
         #endregion
 
         #region Dict
-        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>>? DictEqualsHelper<K, T, M>(
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>?>? DictEqualsHelper<K, T, M>(
             this IReadOnlyDictionary<K, T> lhs,
             IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, M> maskGetter,
@@ -266,12 +266,12 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>>(overall, masks);
+                return new MaskItem<bool, IEnumerable<MaskItemIndexed<K, bool, M?>>?>(overall, masks);
             }
             return null;
         }
 
-        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>? DictEqualsHelper<K, T>(
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>?>? DictEqualsHelper<K, T>(
             this IReadOnlyDictionary<K, T> lhs,
             IReadOnlyDictionary<K, T> rhs,
             Func<K, T, T, bool> maskGetter,
@@ -303,7 +303,43 @@ namespace Loqui
             }
             if (!overall || include == Include.All)
             {
-                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>>(overall, masks);
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>?>(overall, masks);
+            }
+            return null;
+        }
+
+        public static MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>?>? DictEqualsHelper<K, T>(
+            this IReadOnlyDictionary<K, T> lhs,
+            IReadOnlyDictionary<K, T> rhs,
+            Include include)
+        {
+            var masks = lhs.SelectAgainst<K, T, bool>(
+                rhs,
+                (k, l, r) =>
+                {
+                    return EqualityComparer<T>.Default.Equals(l, r);
+                },
+                out var countEqual)
+                .Where(i => include == Include.All || !i.Value)
+                .ToArray();
+            var overall = countEqual;
+            if (overall)
+            {
+                switch (include)
+                {
+                    case Include.All:
+                        overall = masks.All((b) => b.Value);
+                        break;
+                    case Include.OnlyFailures:
+                        overall = !masks.Any();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            if (!overall || include == Include.All)
+            {
+                return new MaskItem<bool, IEnumerable<KeyValuePair<K, bool>>?>(overall, masks);
             }
             return null;
         }
