@@ -37,6 +37,10 @@ namespace Loqui.Generation
                 {
                     return $"ISourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
+                else if (this.SubTypeGeneration is ByteArrayType)
+                {
+                    return $"SliceList<byte>";
+                }
                 else
                 {
                     return $"ExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
@@ -62,6 +66,10 @@ namespace Loqui.Generation
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 return $"new SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
+            }
+            else if (this.SubTypeGeneration is ByteArrayType)
+            {
+                return $"new SliceList<byte>{(ctor ? "()" : null)}";
             }
             else
             {

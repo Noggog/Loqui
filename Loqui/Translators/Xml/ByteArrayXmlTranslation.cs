@@ -11,11 +11,11 @@ using System.Xml.Linq;
 
 namespace Loqui.Xml
 {
-    public class ByteArrayXmlTranslation : TypicalXmlTranslation<byte[]>
+    public class ByteArrayXmlTranslation : TypicalXmlTranslation<MemorySlice<byte>>
     {
         public readonly static ByteArrayXmlTranslation Instance = new ByteArrayXmlTranslation();
 
-        protected override string GetItemStr(byte[] item)
+        protected override string GetItemStr(MemorySlice<byte> item)
         {
             return item.ToHexString();
         }
@@ -25,13 +25,7 @@ namespace Loqui.Xml
             return item.ToHexString();
         }
 
-        protected override void WriteValue(XElement node, string? name, byte[] item)
-        {
-            if (item == null) return;
-            base.WriteValue(node, name, item);
-        }
-
-        public override bool Parse(XElement node, [MaybeNullWhen(false)] out byte[] val)
+        public override bool Parse(XElement node, [MaybeNullWhen(false)] out MemorySlice<byte> val)
         {
             if (!node.TryGetAttribute(XmlConstants.VALUE_ATTRIBUTE, out XAttribute? attr)
                 || attr.Value == null)
@@ -43,7 +37,7 @@ namespace Loqui.Xml
             return true;
         }
 
-        protected override byte[] Parse(string str)
+        protected override MemorySlice<byte> Parse(string str)
         {
             if (str.Length % 2 != 0)
             {
@@ -65,7 +59,7 @@ namespace Loqui.Xml
             }
         }
 
-        public byte[]? Parse(
+        public MemorySlice<byte>? Parse(
             XElement node,
             ErrorMaskBuilder? errorMask)
         {
@@ -78,7 +72,7 @@ namespace Loqui.Xml
             return null;
         }
 
-        public byte[] Parse(
+        public MemorySlice<byte> Parse(
             XElement node,
             ErrorMaskBuilder? errorMask,
             int fallbackLength)
@@ -94,7 +88,7 @@ namespace Loqui.Xml
 
         public void Write(
             XElement node,
-            string name,
+            string? name,
             ReadOnlySpan<byte> item,
             int fieldIndex,
             ErrorMaskBuilder? errorMask)
@@ -116,7 +110,19 @@ namespace Loqui.Xml
             }
         }
 
-        protected virtual void WriteValue(XElement node, string name, ReadOnlySpan<byte> item)
+        public void Write(
+            XElement node,
+            string? name,
+            ReadOnlySpan<byte> item,
+            ErrorMaskBuilder? errorMask)
+        {
+            this.Write(
+                node: node,
+                name: name,
+                item: item);
+        }
+
+        protected virtual void WriteValue(XElement node, string? name, ReadOnlySpan<byte> item)
         {
             node.SetAttributeValue(
                 XmlConstants.VALUE_ATTRIBUTE,
@@ -125,7 +131,7 @@ namespace Loqui.Xml
 
         private void Write(
             XElement node,
-            string name,
+            string? name,
             ReadOnlySpan<byte> item)
         {
             var elem = new XElement(name);

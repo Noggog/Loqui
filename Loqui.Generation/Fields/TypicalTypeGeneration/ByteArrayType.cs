@@ -11,7 +11,7 @@ namespace Loqui.Generation
     public class ByteArrayType : ClassType
     {
         public int? Length;
-        public override Type Type(bool getter) => getter ? typeof(ReadOnlyMemorySlice<byte>) : typeof(byte[]);
+        public override Type Type(bool getter) => getter ? typeof(ReadOnlyMemorySlice<byte>) : typeof(MemorySlice<byte>);
         public override bool IsEnumerable => true;
         public override bool IsReference => true;
 
@@ -137,6 +137,14 @@ namespace Loqui.Generation
         public override string GetDuplicate(Accessor accessor)
         {
             throw new NotImplementedException();
+        }
+
+        public override void GenerateCopySetToConverter(FileGeneration fg)
+        {
+            using (new DepthWrapper(fg))
+            {
+                fg.AppendLine(".Select(b => new MemorySlice<byte>(b.ToArray()))");
+            }
         }
     }
 }
