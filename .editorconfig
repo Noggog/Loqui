@@ -77,3 +77,6 @@ dotnet_diagnostic.CS8714.severity = error
 
 # CS8605: Unboxing a possibly null value.
 dotnet_diagnostic.CS8605.severity = error
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = silent
