@@ -62,30 +62,22 @@ namespace Loqui.Generation
             transl.Load(obj, field, node);
         }
 
-        public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
+        public override async IAsyncEnumerable<(LoquiInterfaceType Location, string Interface)> Interfaces(ObjectGeneration obj)
         {
             if (this.DoTranslationInterface(obj))
             {
-                return (LoquiInterfaceType.IGetter, TranslationItemInterface).Single().ToArray();
-            }
-            else
-            {
-                return EnumerableExt<(LoquiInterfaceType Location, string Interface)>.Empty.ToArray();
+                yield return (LoquiInterfaceType.IGetter, TranslationItemInterface);
             }
         }
 
-        public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
+        public override async IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
-            List<string> ret = new List<string>()
-            {
-                "System.Diagnostics",
-                "System.Diagnostics.CodeAnalysis"
-            };
+            yield return "System.Diagnostics";
+            yield return "System.Diagnostics.CodeAnalysis";
             if (await AsyncImport(obj))
             {
-                ret.Add("System.Threading.Tasks");
+                yield return "System.Threading.Tasks";
             }
-            return ret;
         }
 
         public override async Task Modify(LoquiGenerator gen)

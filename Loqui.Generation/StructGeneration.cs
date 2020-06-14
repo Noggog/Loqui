@@ -91,7 +91,7 @@ namespace Loqui.Generation
                     args.Type = ClassWrapper.ObjectType.@struct;
                     args.Interfaces.Add(this.Interface(getter: true));
                     args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
-                    args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
+                    args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());
                     args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
                 }
             }

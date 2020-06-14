@@ -10,8 +10,8 @@ namespace Loqui.Generation
     {
         string RegionString { get; }
         string Name { get; }
-        Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj);
-        Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj);
+        IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj);
+        IAsyncEnumerable<(LoquiInterfaceType Location, string Interface)> Interfaces(ObjectGeneration obj);
         Task PreLoad(ObjectGeneration obj);
         Task LoadWrapup(ObjectGeneration obj);
         Task PostLoad(ObjectGeneration obj);
@@ -37,12 +37,12 @@ namespace Loqui.Generation
         public GenerationModuleCollection SubModules = new GenerationModuleCollection();
         public string Name => RegionString ?? this.GetType().Name;
 
-        public virtual Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
+        public virtual IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
             return SubModules.RequiredUsingStatements(obj);
         }
 
-        public virtual Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
+        public virtual IAsyncEnumerable<(LoquiInterfaceType Location, string Interface)> Interfaces(ObjectGeneration obj)
         {
             return SubModules.Interfaces(obj);
         }

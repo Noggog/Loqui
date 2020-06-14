@@ -570,7 +570,7 @@ namespace Loqui.Generation
                 }
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.ISetter));
                 args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface(internalInterface: true)}>");
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter).ToListAsync());
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
             }
             using (new BraceWrapper(fg))
@@ -636,7 +636,7 @@ namespace Loqui.Generation
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true, internalInterface: false) : nameof(ILoquiObject));
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.IGetter));
                 args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true, internalInterface: true)}>");
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter).ToListAsync());
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
             }
 
@@ -2671,8 +2671,9 @@ namespace Loqui.Generation
         private async Task AddNamespaces(FileGeneration fg)
         {
             RequiredNamespaces.Add(
-                (await Task.WhenAll(this.gen.GenerationModules.Select((tr) => tr.RequiredUsingStatements(this))))
-                    .SelectMany(i => i));
+                await this.gen.GenerationModules.ToAsyncEnumerable()
+                    .SelectMany((tr) => tr.RequiredUsingStatements(this))
+                    .ToListAsync());
             RequiredNamespaces.Add(
                 (await Task.WhenAll(this.GenerationInterfaces.Select((tr) => tr.RequiredUsingStatements())))
                     .SelectMany(i => i));
@@ -4083,11 +4084,11 @@ namespace Loqui.Generation
             return $"I{this.Name}{(internalInterface && ((getter && this.HasInternalGetInterface) || (!getter && this.HasInternalSetInterface)) ? "Internal" : null)}{(getter ? "Getter" : null)}";
         }
 
-        public async Task<IEnumerable<string>> GetApplicableInterfaces(LoquiInterfaceType type)
+        public IAsyncEnumerable<string> GetApplicableInterfaces(LoquiInterfaceType type)
         {
-            return (await Task.WhenAll(this.gen.GenerationModules
-                .Select((tr) => tr.Interfaces(this))))
-                .SelectMany(i => i)
+            return this.gen.GenerationModules
+                .ToAsyncEnumerable()
+                .SelectMany((tr) => tr.Interfaces(this))
                 .Where(i => i.Location == type)
                 .Select(i => i.Interface);
         }

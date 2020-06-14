@@ -652,18 +652,18 @@ namespace Loqui.Generation
         {
         }
 
-        public override async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
+        public override async IAsyncEnumerable<(LoquiInterfaceType Location, string Interface)> Interfaces(ObjectGeneration obj)
         {
-            return Enumerable.Empty<(LoquiInterfaceType Location, string Interface)>();
+            yield break;
         }
 
         public override async Task Modify(LoquiGenerator gen)
         {
         }
 
-        public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
+        public override async IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
-            return Enumerable.Empty<string>();
+            yield break;
         }
 
         public void GenerateStandardDefault(FileGeneration fg, ObjectGeneration obj, string functionName, string indexAccessor, bool ret, params string[] otherParameters)

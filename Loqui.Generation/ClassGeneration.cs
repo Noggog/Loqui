@@ -87,7 +87,7 @@ namespace Loqui.Generation
                 args.Interfaces.Add(this.Interface(getter: false, internalInterface: true));
                 args.Interfaces.Add($"ILoquiObjectSetter<{this.ObjectName}>");
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());
                 args.Interfaces.Add(this.ProtoGen.Interfaces);
                 args.Interfaces.Add(this.gen.Interfaces);
                 args.Interfaces.Add($"IEquatable<{this.ObjectName}>");

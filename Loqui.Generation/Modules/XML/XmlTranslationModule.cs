@@ -168,17 +168,18 @@ namespace Loqui.Generation
             }
         }
 
-        public override async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
+        public override async IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
-            return new string[]
-                {
-                    "System.Xml",
-                    "System.Xml.Linq",
-                    "System.IO",
-                    "Noggog.Xml",
-                    "Loqui.Xml",
-                    "Loqui.Internal"
-                }.Concat((await base.RequiredUsingStatements(obj)));
+            yield return "System.Xml";
+            yield return "System.Xml.Linq";
+            yield return "System.IO";
+            yield return "Noggog.Xml";
+            yield return "Loqui.Xml";
+            yield return "Loqui.Internal";
+            await foreach (var item in base.RequiredUsingStatements(obj))
+            {
+                yield return item;
+            }
         }
 
         private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)

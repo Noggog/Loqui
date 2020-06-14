@@ -21,7 +21,7 @@
     <Nullable>disable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.2.40</Version>
+    <Version>1.2.41</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Class generation that offers functionality like copy masks, defaulting masks, serialization, interface generation, and other tedious bits of class and interface definitions.</Description>
   </PropertyGroup>
@@ -33,6 +33,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.5.0" />
     <PackageReference Include="Noggog.CSharpExt" Version="1.0.22" />
+    <PackageReference Include="System.Linq.Async" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>

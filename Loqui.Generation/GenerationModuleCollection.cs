@@ -184,10 +184,9 @@ namespace Loqui.Generation
                     }));
         }
 
-        public async Task<IEnumerable<(LoquiInterfaceType Location, string Interface)>> Interfaces(ObjectGeneration obj)
+        public IAsyncEnumerable<(LoquiInterfaceType Location, string Interface)> Interfaces(ObjectGeneration obj)
         {
-            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.Interfaces(obj))))
-                .SelectMany(i => i);
+            return this.subModules.ToAsyncEnumerable().SelectMany((subGen) => subGen.Interfaces(obj));
         }
 
         public Task Modify(LoquiGenerator gen)
@@ -255,10 +254,9 @@ namespace Loqui.Generation
                     }));
         }
 
-        public async Task<IEnumerable<string>> RequiredUsingStatements(ObjectGeneration obj)
+        public IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
         {
-            return (await Task.WhenAll(this.subModules.Select((subGen) => subGen.RequiredUsingStatements(obj))))
-                .SelectMany(i => i);
+            return this.subModules.ToAsyncEnumerable().SelectMany((subGen) => subGen.RequiredUsingStatements(obj));
         }
 
         public Task Resolve(ObjectGeneration obj)
