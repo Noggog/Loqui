@@ -2,6 +2,7 @@ using Noggog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reactive.Subjects;
 using System.Text;
@@ -151,20 +152,7 @@ namespace Loqui
             }
         }
 
-        public void AppendItem(object item, string? name = null)
-        {
-            if (name == null)
-            {
-                AppendLine(item.ToString());
-            }
-            else
-            {
-                AppendLine($"{name} => {item.ToString()}");
-            }
-        }
-
-        public void AppendItem<T>(T? item, string? name = null)
-            where T : struct
+        public void AppendItem<T>([MaybeNull] T item, string? name = null)
         {
             if (item == null) return;
             if (name == null)
@@ -173,21 +161,7 @@ namespace Loqui
             }
             else
             {
-                AppendLine($"{name} => {item.ToString()}");
-            }
-        }
-
-        public void AppendItem<T>(T? item, string? name = null)
-            where T : class
-        {
-            if (item == null) return;
-            if (name == null)
-            {
-                AppendLine(item.ToString());
-            }
-            else
-            {
-                AppendLine($"{name} => {item.ToString()}");
+                AppendLine($"{name} => {item}");
             }
         }
 
