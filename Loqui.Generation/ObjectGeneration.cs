@@ -2701,7 +2701,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals({this.ObjectName} obj)");
+                    fg.AppendLine($"public bool Equals({this.ObjectName}? obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj);");

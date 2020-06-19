@@ -331,7 +331,6 @@ namespace Loqui.Generation
         {
             using (var args = new ClassWrapper(fg, $"Mask<{GenItem}>"))
             {
-                args.Wheres.Add($"where {GenItem} : notnull");
                 args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.GetMaskString(GenItem)}" : string.Empty;
                 args.Interfaces.Add($"IMask<{GenItem}>");
                 args.Interfaces.Add($"IEquatable<Mask<{GenItem}>>");
@@ -423,7 +422,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals(Mask<{GenItem}> rhs)");
+                    fg.AppendLine($"public bool Equals(Mask<{GenItem}>? rhs)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine("if (rhs == null) return false;");
