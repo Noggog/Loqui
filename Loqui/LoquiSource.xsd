@@ -173,9 +173,9 @@
       <xs:element name="Int16" type="RangedInt16" />
       <xs:element name="Int32" type="RangedInt32" />
       <xs:element name="Int64" type="RangedInt64" />
-      <xs:element name="P2Int32" type="String" />
-      <xs:element name="P2Int16" type="String" />
-      <xs:element name="P2Float" type="String" />
+      <xs:element name="P2Int32" type="P2" />
+      <xs:element name="P2Int16" type="P2" />
+      <xs:element name="P2Float" type="P2" />
       <xs:element name="P3Float" type="String" />
       <xs:element name="P3Int16" type="String" />
       <xs:element name="P3Int32" type="String" />
@@ -240,12 +240,12 @@
       <xs:element name="Int16" type="NRangedInt16" />
       <xs:element name="Int32" type="NRangedInt32" />
       <xs:element name="Int64" type="NRangedInt64" />
-      <xs:element name="P2Int32" type="NString" />
-      <xs:element name="P2Int16" type="NString" />
+      <xs:element name="P2Int32" type="NP2" />
+      <xs:element name="P2Int16" type="NP2" />
       <xs:element name="P3Int16" type="NString" />
       <xs:element name="P3Int32" type="NString" />
       <xs:element name="P3UInt16" type="NString" />
-      <xs:element name="P2Float" type="NString" />
+      <xs:element name="P2Float" type="NP2" />
       <xs:element name="P3Float" type="NString" />
       <xs:element name="P3Double" type="NString" />
       <xs:element name="P4Double" type="NString" />
@@ -1106,6 +1106,21 @@
   <xs:complexType name="NRangedFloat" >
     <xs:complexContent>
       <xs:extension base="RangedFloat">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="P2" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NP2" >
+    <xs:complexContent>
+      <xs:extension base="P2">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:complexContent>
