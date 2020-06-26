@@ -4,16 +4,17 @@ namespace Loqui
 {
     public class BraceWrapper : IDisposable
     {
-        FileGeneration fg;
+        private readonly FileGeneration _fg;
+        private readonly bool _doIt;
+
         public bool AppendParenthesis;
         public bool AppendSemicolon;
         public bool AppendComma;
-        private bool doIt;
 
         public BraceWrapper(FileGeneration fg, bool doIt = true)
         {
-            this.fg = fg;
-            this.doIt = doIt;
+            this._fg = fg;
+            this._doIt = doIt;
             if (doIt)
             {
                 fg.AppendLine("{");
@@ -23,10 +24,10 @@ namespace Loqui
 
         public void Dispose()
         {
-            if (doIt)
+            if (_doIt)
             {
-                fg.Depth--;
-                fg.AppendLine("}"
+                _fg.Depth--;
+                _fg.AppendLine("}"
                     + (this.AppendParenthesis ? ")" : string.Empty)
                     + (this.AppendSemicolon ? ";" : string.Empty)
                     + (this.AppendComma ? "," : string.Empty));
