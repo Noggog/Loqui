@@ -12,7 +12,8 @@ namespace Loqui.Generation
 {
     public class LoquiGenerator
     {
-        Dictionary<ProtocolKey, ProtocolGeneration> targetData = new Dictionary<ProtocolKey, ProtocolGeneration>();
+        Dictionary<ProtocolKey, ProtocolGeneration> _protocols = new Dictionary<ProtocolKey, ProtocolGeneration>();
+        public IReadOnlyDictionary<ProtocolKey, ProtocolGeneration> Protocols => _protocols;
         private HashSet<DirectoryPath> addedTargetDirs = new HashSet<DirectoryPath>();
         Dictionary<string, Type> nameToTypeDict = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
         Dictionary<Type, Type> typeDict = new Dictionary<Type, Type>();
@@ -136,7 +137,7 @@ namespace Loqui.Generation
 
         public ProtocolGeneration AddProtocol(ProtocolGeneration protoGen)
         {
-            this.targetData[protoGen.Protocol] = protoGen;
+            this._protocols[protoGen.Protocol] = protoGen;
             return protoGen;
         }
 
@@ -154,12 +155,12 @@ namespace Loqui.Generation
 
         public bool TryGetProtocol(ProtocolKey protocol, out ProtocolGeneration protoGen)
         {
-            return this.targetData.TryGetValue(protocol, out protoGen);
+            return this._protocols.TryGetValue(protocol, out protoGen);
         }
 
         public async Task Generate()
         {
-            await Task.WhenAll(this.targetData.Values.Select((p) => p.LoadInitialObjects()));
+            await Task.WhenAll(this._protocols.Values.Select((p) => p.LoadInitialObjects()));
 
 
             await Task.WhenAll(this.GenerationModules.Select((m) => m.Modify(this)));
@@ -167,7 +168,7 @@ namespace Loqui.Generation
             ResolveIDs();
 
             await Task.WhenAll(
-                this.targetData.Values
+                this._protocols.Values
                     .Select((protoGen) => protoGen.Generate()
                         .TimeoutButContinue(
                             Utility.TimeoutMS,
@@ -178,7 +179,7 @@ namespace Loqui.Generation
 
         private void ResolveIDs()
         {
-            foreach (var proto in this.targetData.Values)
+            foreach (var proto in this._protocols.Values)
             {
                 HashSet<ushort> usedIDs = new HashSet<ushort>();
                 foreach (var obj in proto.ObjectGenerationsByID.Values)
