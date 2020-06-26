@@ -39,9 +39,8 @@ namespace Loqui
             // Do nothing. Work is done in static ctor
         }
 
-        public static void SpinUp(params IProtocolRegistration[] registrations)
+        public static void Register(params IProtocolRegistration[] registrations)
         {
-            LoquiRegistrationSettings.AutomaticRegistration = false;
             lock (_registersLock)
             {
                 foreach (var regis in registrations)
