@@ -284,5 +284,18 @@ namespace Loqui.Generation
                                 () => System.Console.WriteLine($"{subGen} finalize taking a long time."));
                     }));
         }
+
+        public Task PrepareGeneration(ProtocolGeneration proto)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    (subGen) =>
+                    {
+                        return subGen.PrepareGeneration(proto)
+                            .TimeoutButContinue(
+                                Utility.TimeoutMS,
+                                () => System.Console.WriteLine($"{subGen} prepare taking a long time."));
+                    }));
+        }
     }
 }

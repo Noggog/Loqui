@@ -28,6 +28,7 @@ namespace Loqui.Generation
         Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg);
         Task MiscellaneousGenerationActions(ObjectGeneration obj);
         Task Resolve(ObjectGeneration obj);
+        Task PrepareGeneration(ProtocolGeneration proto);
         Task FinalizeGeneration(ProtocolGeneration proto);
     }
 
@@ -147,6 +148,12 @@ namespace Loqui.Generation
         {
             return SubModules.FinalizeGeneration(proto)
                 .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} finalize taking a long time."));
+        }
+
+        public virtual Task PrepareGeneration(ProtocolGeneration proto)
+        {
+            return SubModules.PrepareGeneration(proto)
+                .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{this.Name} prepare taking a long time."));
         }
     }
 }

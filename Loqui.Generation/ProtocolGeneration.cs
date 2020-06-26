@@ -150,6 +150,9 @@ namespace Loqui.Generation
 
         public async Task Generate()
         {
+            await Task.WhenAll(this.Gen.GenerationModules.Select(
+                (mod) => mod.PrepareGeneration(this)));
+
             await Task.WhenAll(
                 this.ObjectGenerationsByID.Values
                     .SelectMany((obj) => this.Gen.GenerationModules
