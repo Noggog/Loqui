@@ -184,11 +184,16 @@ namespace Loqui
             }
         }
 
-        public static ILoquiRegistration? GetRegister(Type t, bool returnNull = false)
+        public static ILoquiRegistration GetRegister(Type t)
         {
             if (TryGetRegister(t, out var regis)) return regis;
-            if (returnNull) return null;
             throw new ArgumentException("Type was not a Loqui type: " + t);
+        }
+
+        public static ILoquiRegistration? TryGetRegister(Type t)
+        {
+            if (TryGetRegister(t, out var regis)) return regis;
+            return null;
         }
 
         public static bool TryGetRegister(Type t, [MaybeNullWhen(false)] out ILoquiRegistration regis)

@@ -18,7 +18,7 @@ namespace Loqui.Xml
         public static readonly LoquiXmlTranslation<T> Instance = new LoquiXmlTranslation<T>();
         private static readonly Lazy<string> _elementName = new Lazy<string>(() => LoquiRegistration.GetRegister(typeof(T))!.FullName);
         public string ElementName => _elementName.Value;
-        private static readonly ILoquiRegistration? Registration = LoquiRegistration.GetRegister(typeof(T), returnNull: true);
+        private static readonly ILoquiRegistration? Registration = LoquiRegistration.TryGetRegister(typeof(T));
         public delegate T CREATE_FUNC(XElement node, ErrorMaskBuilder? errorMaskBuilder, TranslationCrystal? translationMask);
         private static readonly Lazy<CREATE_FUNC> CREATE = new Lazy<CREATE_FUNC>(GetCreateFunc);
 
