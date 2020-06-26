@@ -267,7 +267,7 @@ namespace Loqui.Generation
 
         public void AddSearchableFolder(DirectoryInfo dir)
         {
-            if (dir == null) return;
+            if (dir == null || !dir.Exists) return;
             AddSpecificFolders(dir);
             foreach (var d in dir.GetDirectories())
             {
