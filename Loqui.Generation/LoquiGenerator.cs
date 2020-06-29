@@ -84,7 +84,7 @@ namespace Loqui.Generation
             AddTypeAssociation<DoubleType>("Double");
             AddTypeAssociation<LoquiType>("Ref");
             AddTypeAssociation<LoquiType>("RefDirect");
-            AddTypeAssociation<LoquiListType>("RefList");
+            AddTypeAssociation<ListType>("RefList");
             AddTypeAssociation<ListType>("List");
             AddTypeAssociation<ArrayType>("Array");
             AddTypeAssociation<DictType>("Dict");

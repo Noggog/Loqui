@@ -366,5 +366,22 @@ namespace Loqui.Generation
         {
             throw new NotImplementedException();
         }
+
+        public override async Task Load(XElement node, bool requireName = true)
+        {
+            if (node.Name.LocalName == "RefList")
+            {
+                LoadTypeGenerationFromNode(node, requireName);
+                SubTypeGeneration = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
+                SubTypeGeneration.SetObjectGeneration(this.ObjectGen, setDefaults: false);
+                await SubTypeGeneration.Load(node, false);
+                SubTypeGeneration.Name = null;
+                isLoquiSingle = SubTypeGeneration as LoquiType != null;
+            }
+            else
+            {
+                await base.Load(node, requireName);
+            }
+        }
     }
 }
