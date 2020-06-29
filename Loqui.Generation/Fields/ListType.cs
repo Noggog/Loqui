@@ -43,7 +43,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    return $"ExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
+                    return $"IExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
             }
         }
