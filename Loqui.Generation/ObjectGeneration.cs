@@ -231,11 +231,10 @@ namespace Loqui.Generation
             {
                 foreach (var fieldNode in fieldsNode.Elements())
                 {
-                    var typeGen = await LoadField(
+                    await LoadField(
                         fieldNode, 
                         requireName: true,
-                        add: true)
-                        .TimeoutButContinue(4000, () => System.Console.WriteLine($"{this.Name}.{fieldNode.Name} loading taking a long time."));
+                        add: true);
                 }
             }
 
@@ -257,8 +256,7 @@ namespace Loqui.Generation
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
             await Task.WhenAll(
-                this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)
-                    .TimeoutButContinue(Utility.TimeoutMS, () => System.Console.WriteLine($"{m.GetType()} {this.Name} post load taking a long time."))));
+                this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)));
         }
 
         public async Task<TryGet<TypeGeneration>> LoadField(XElement fieldNode, bool requireName, bool throwException = true, bool setDefaults = true, bool add = false)
