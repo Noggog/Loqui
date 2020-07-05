@@ -721,7 +721,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected override void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
+        protected override async Task GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
         {
             fg.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
             fg.AppendLine($"{XmlTranslationModule.XElementLine.GetParameterName(obj)}.Add(elem);");

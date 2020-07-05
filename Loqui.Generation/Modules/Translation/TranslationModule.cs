@@ -963,7 +963,7 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
-                GenerateWriteSnippet(obj, fg);
+                await GenerateWriteSnippet(obj, fg);
             }
             fg.AppendLine();
 
@@ -1062,7 +1062,7 @@ namespace Loqui.Generation
             }
         }
 
-        protected abstract void GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg);
+        protected abstract Task GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg);
 
         private async Task GenerateWriteMixIn(ObjectGeneration obj, FileGeneration fg)
         {
