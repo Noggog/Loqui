@@ -663,7 +663,7 @@ namespace Loqui.Generation
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
                     fg.AppendLine($"object Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.Translation)}Instance();");
                 }
-                fg.AppendLine($"static {nameof(ILoquiRegistration)} Registration => {this.RegistrationName}.Instance;");
+                fg.AppendLine($"static{NewOverride()}{nameof(ILoquiRegistration)} Registration => {this.RegistrationName}.Instance;");
                 foreach (var field in this.IterateFields())
                 {
                     using (new RegionWrapper(fg, field.Name) 
