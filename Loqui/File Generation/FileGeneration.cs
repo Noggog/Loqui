@@ -171,6 +171,12 @@ namespace Loqui
             item.ToString(this, name);
         }
 
+        public void RemoveAt(int index)
+        {
+            CheckIndex(index);
+            this._strings.RemoveAt(index);
+        }
+
         public void Generate(string path, bool onlyIfChanged = true)
         {
             Generate(
