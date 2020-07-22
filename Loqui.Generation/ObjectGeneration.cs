@@ -2500,8 +2500,7 @@ namespace Loqui.Generation
         public void GenerateGetterInterfaceImplementations(FileGeneration fg)
         {
             fg.AppendLine($"void {nameof(IPrintable)}.ToString(FileGeneration fg, string? name) => this.ToString(fg, name);");
-            fg.AppendLine($"IMask<bool> {nameof(ILoquiObjectGetter)}.GetHasBeenSetIMask() => this.GetHasBeenSetMask();");
-            fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsIMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
+            //fg.AppendLine($"IMask<bool> IEqualsMask.GetEqualsMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
             fg.AppendLine();
         }
 
@@ -2915,11 +2914,6 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
             }
-        }
-
-        private void GenerateGetHasBeenSetMask(FileGeneration fg)
-        {
-            fg.AppendLine($"IMask<bool> {nameof(ILoquiObjectGetter)}.{nameof(ILoquiObjectGetter.GetHasBeenSetIMask)}() => this.GetHasBeenSetMask();");
         }
 
         private async Task GenerateModules(FileGeneration fg)

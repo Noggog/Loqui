@@ -91,7 +91,7 @@ namespace Loqui.Generation
                 args.Interfaces.Add(this.ProtoGen.Interfaces);
                 args.Interfaces.Add(this.gen.Interfaces);
                 args.Interfaces.Add($"IEquatable<{this.ObjectName}>");
-                args.Interfaces.Add($"IEqualsMask");
+                //args.Interfaces.Add($"IEqualsMask");
             }
         }
         

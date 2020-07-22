@@ -21,14 +21,13 @@ namespace Loqui
         bool GetNthObjectHasBeenSet(ushort index);
     }
 
-    public interface ILoquiObjectGetter : ILoquiObject, IEqualsMask, IPrintable
+    public interface ILoquiObjectGetter : ILoquiObject, IPrintable
     {
-        IMask<bool> GetHasBeenSetIMask();
     }
 
     public interface IEqualsMask
     {
-        IMask<bool> GetEqualsIMask(object rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
+        IMask<bool> GetEqualsMask(object rhs, EqualsMaskHelper.Include include = EqualsMaskHelper.Include.OnlyFailures);
     }
 
     public interface ILoquiObjectSetter : ILoquiObjectGetter, IClearable
