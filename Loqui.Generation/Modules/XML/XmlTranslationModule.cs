@@ -391,9 +391,9 @@ namespace Loqui.Generation
                     if (!generator.ShouldGenerateWrite(field.Field)) continue;
 
                     List<string> conditions = new List<string>();
-                    if (field.Field.HasBeenSet)
+                    if (field.Field.Nullable)
                     {
-                        conditions.Add($"{field.Field.HasBeenSetAccessor(getter: true, accessor: Accessor.FromType(field.Field, "item"))}");
+                        conditions.Add($"{field.Field.NullableAccessor(getter: true, accessor: Accessor.FromType(field.Field, "item"))}");
                     }
                     if (this.TranslationMaskParameter)
                     {

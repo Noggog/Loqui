@@ -16,7 +16,7 @@ namespace Loqui.Generation
 
         public override string GetDefault(bool getter)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 return $"default({this.TypeName(getter: getter)}?)";
             }

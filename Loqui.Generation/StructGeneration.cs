@@ -12,7 +12,7 @@ namespace Loqui.Generation
         public override bool Abstract => false;
 
         public override NotifyingType NotifyingDefault => NotifyingType.None;
-        public override bool HasBeenSetDefault => false;
+        public override bool NullableDefault => false;
 
         public override string ProtectedKeyword => "private";
 
@@ -103,7 +103,7 @@ namespace Loqui.Generation
             foreach (var field in this.IterateFields())
             {
                 field.NotifyingProperty.OnNext((NotifyingType.None, true));
-                field.HasBeenSetProperty.OnNext((false, true));
+                field.NullableProperty.OnNext((false, true));
                 field.ReadOnly = true;
             }
         }

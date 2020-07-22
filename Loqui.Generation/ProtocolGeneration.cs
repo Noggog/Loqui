@@ -29,7 +29,7 @@ namespace Loqui.Generation
         public bool NthReflectionDefault;
         public string DefaultNamespace;
         public NotifyingType NotifyingDefault;
-        public bool HasBeenSetDefault;
+        public bool NullableDefault;
         public List<string> Interfaces = new List<string>();
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
@@ -44,7 +44,7 @@ namespace Loqui.Generation
             this.Protocol = protocol;
             this.Gen = gen;
             this.NotifyingDefault = gen.NotifyingDefault;
-            this.HasBeenSetDefault = gen.HasBeenSetDefault;
+            this.NullableDefault = gen.NullableDefault;
             this.GenerationFolder = defSearchableFolder;
             this.SetterInterfaceTypeDefault = gen.SetterInterfaceTypeDefault;
             this.GetterInterfaceTypeDefault = gen.GetterInterfaceTypeDefault;

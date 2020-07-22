@@ -25,7 +25,7 @@ namespace Loqui.Generation
         public bool GenerateNthReflections { get; set; }
         public CtorPermissionLevel BasicCtorPermission { get; set; } = CtorPermissionLevel.@public;
         public abstract NotifyingType NotifyingDefault { get; }
-        public abstract bool HasBeenSetDefault { get; }
+        public abstract bool NullableDefault { get; }
         public LoquiInterfaceType SetterInterfaceTypeDefault;
         public LoquiInterfaceType GetterInterfaceTypeDefault;
         public bool ObjectCentralized;
@@ -1129,7 +1129,7 @@ namespace Loqui.Generation
                     using (var ifArgs = new IfWrapper(fg, ANDs: true))
                     {
                         ifArgs.Add(gen.MaskModule.GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
-                        if (field.HasBeenSet && field.CanBeNullable(getter: true))
+                        if (field.Nullable && field.CanBeNullable(getter: true))
                         {
                             ifArgs.Add($"item.{field.Name}.TryGet(out var {field.Name}Item)");
                             accessor = $"{field.Name}Item";

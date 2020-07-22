@@ -33,7 +33,7 @@ namespace Loqui.Generation
         public RxBaseOption RxBaseOptionDefault;
         public bool DerivativeDefault;
         public NotifyingType NotifyingDefault;
-        public bool HasBeenSetDefault;
+        public bool NullableDefault;
         public bool ToStringDefault = true;
         public bool NthReflectionDefault = false;
         public ProtocolKey ProtocolDefault;

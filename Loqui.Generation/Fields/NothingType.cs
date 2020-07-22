@@ -27,7 +27,7 @@ namespace Loqui.Generation
         {
             await base.Load(node, requireName);
             this.NotifyingProperty.OnNext((NotifyingType.None, true));
-            this.HasBeenSetProperty.OnNext((false, true));
+            this.NullableProperty.OnNext((false, true));
         }
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
@@ -50,7 +50,7 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
         }
 

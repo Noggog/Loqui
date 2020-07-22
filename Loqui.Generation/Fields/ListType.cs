@@ -51,12 +51,12 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.HasBeenSet ? null : $" = {GetActualItemClass(ctor: true)}")};");
+            fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.Nullable ? null : $" = {GetActualItemClass(ctor: true)}")};");
             fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"get => this._{this.Name};");
-                fg.AppendLine($"{((ReadOnly || !this.HasBeenSet) ? "protected " : string.Empty)}set => this._{this.Name} = value;");
+                fg.AppendLine($"{((ReadOnly || !this.Nullable) ? "protected " : string.Empty)}set => this._{this.Name} = value;");
             }
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
@@ -97,12 +97,12 @@ namespace Loqui.Generation
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.HasBeenSet ? "set; " : null)}}}");
+                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.Nullable ? "set; " : null)}}}");
                 }
             }
         }
 
-        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
+        public override string NullableAccessor(bool getter, Accessor accessor = null)
         {
             if (accessor == null)
             {
@@ -117,11 +117,6 @@ namespace Loqui.Generation
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
             fg.AppendLine($"return {identifier.Access};");
-        }
-
-        private void GenerateHasBeenSetCopy()
-        {
-
         }
 
         public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
@@ -244,9 +239,9 @@ namespace Loqui.Generation
                     fg,
                     () =>
                     {
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
-                            fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: false, rhs)})");
+                            fg.AppendLine($"if ({this.NullableAccessor(getter: false, rhs)})");
                             using (new BraceWrapper(fg))
                             {
                                 GenerateSet();
@@ -276,7 +271,7 @@ namespace Loqui.Generation
 
         public void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{accessor} = ");
                 using (new DepthWrapper(fg))
@@ -297,7 +292,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessor)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{accessor} = null;");
             }
@@ -329,11 +324,11 @@ namespace Loqui.Generation
             fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {NullableAccessor(getter: true, accessor: accessor)}) return false;");
             }
         }
 

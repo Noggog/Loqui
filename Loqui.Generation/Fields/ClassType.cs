@@ -14,7 +14,7 @@ namespace Loqui.Generation
         public bool Readonly;
         public override string ProtectedName => $"_{this.Name}";
         public override bool IsClass => true;
-        public override bool IsNullable => this.HasBeenSet && !this.Singleton;
+        public override bool IsNullable => this.Nullable && !this.Singleton;
 
         public abstract string GetNewForNonNullable();
 
@@ -40,7 +40,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (!this.TrueReadOnly)
                     {
@@ -105,7 +105,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (this.CanBeNullable(false))
                     {
@@ -175,7 +175,7 @@ namespace Loqui.Generation
             if (this.InternalSetInterface) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     fg.AppendLine($"{identifier.Access}_Unset();");
                 }
@@ -185,7 +185,7 @@ namespace Loqui.Generation
                 }
                 return;
             }
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{identifier.Access} = default;");
             }

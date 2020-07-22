@@ -30,7 +30,7 @@ namespace Loqui.Generation
         {
             using (new BraceWrapper(fg, doIt: !this.XmlMod.TranslationMaskParameter))
             {
-                if (typeGen.HasBeenSet)
+                if (typeGen.Nullable)
                 {
                     fg.AppendLine($"if ({itemAccessor.Access}.TryGet(out var {typeGen.Name}Item))");
                     itemAccessor = $"{typeGen.Name}Item";
@@ -42,7 +42,7 @@ namespace Loqui.Generation
                     itemAccessor = $"{typeGen.Name}Item";
                 }
 
-                using (new BraceWrapper(fg, doIt: typeGen.HasBeenSet))
+                using (new BraceWrapper(fg, doIt: typeGen.Nullable))
                 {
                     var loquiGen = typeGen as LoquiType;
                     string line;

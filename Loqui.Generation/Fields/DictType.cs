@@ -98,9 +98,9 @@ namespace Loqui.Generation
             subGenerator.GenerateSetNth(fg, accessor, rhs, internalUse);
         }
 
-        public override string HasBeenSetAccessor(bool getter, Accessor accessor = null)
+        public override string NullableAccessor(bool getter, Accessor accessor = null)
         {
-            return subGenerator.HasBeenSetAccessor(getter, accessor);
+            return subGenerator.NullableAccessor(getter, accessor);
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
@@ -148,9 +148,9 @@ namespace Loqui.Generation
             subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            subGenerator.GenerateForHasBeenSetCheck(fg, accessor, checkMaskAccessor);
+            subGenerator.GenerateForNullableCheck(fg, accessor, checkMaskAccessor);
         }
 
         public override string GetDuplicate(Accessor accessor)

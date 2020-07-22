@@ -172,7 +172,7 @@ namespace Loqui.Generation
         public string RefName;
         public string SetterInterface;
         public string GetterInterface;
-        public override bool HasBeenSet => base.HasBeenSet && !this.Singleton;
+        public override bool Nullable => base.Nullable && !this.Singleton;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.Singleton);
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
@@ -265,7 +265,7 @@ namespace Loqui.Generation
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (this.Singleton)
                     {
@@ -335,7 +335,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (this.Singleton)
                     {
@@ -558,14 +558,14 @@ namespace Loqui.Generation
                             return;
                         }
 
-                        if (!this.HasBeenSet)
+                        if (!this.Nullable)
                         {
                             if (deepCopy)
                             {
                                 fg.AppendLine($"if ({this.GetTranslationIfAccessor(copyMaskAccessor)})");
                                 using (new BraceWrapper(fg))
                                 {
-                                    if (this.HasBeenSet)
+                                    if (this.Nullable)
                                     {
                                         fg.AppendLine($"if ({rhs} == null)");
                                         using (new BraceWrapper(fg))
@@ -915,7 +915,7 @@ namespace Loqui.Generation
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
             if (this.Singleton
-                || !this.HasBeenSet)
+                || !this.Nullable)
             {
                 fg.AppendLine($"{accessorPrefix}.Clear();");
             }
@@ -959,7 +959,7 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 using (var args = new ArgsWrapper(fg,
                     $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
@@ -992,10 +992,10 @@ namespace Loqui.Generation
             fg.AppendLine($"{accessor.Access}?.ToString({fgAccessor}, \"{name}\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            if (!this.HasBeenSet) return;
-            fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}.Overall.Value != {this.HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
+            if (!this.Nullable) return;
+            fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}.Overall.Value != {this.NullableAccessor(getter: true, accessor: accessor)}) return false;");
             if (this.TargetObjectGeneration != null)
             {
                 fg.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.Access} == null || !{accessor.Access}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");

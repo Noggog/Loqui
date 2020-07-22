@@ -29,7 +29,7 @@ namespace Loqui.Generation
             {
                 extraArgs.Add($"fallbackLength: {byteArray.Length}");
             }
-            else if (!byteArray.HasBeenSet)
+            else if (!byteArray.Nullable)
             {
                 extraArgs.Add($"fallbackLength: 0");
             }

@@ -73,7 +73,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            void GenerateTypicalHasBeenSetMembers(bool notifying)
+            void GenerateTypicalNullableMembers(bool notifying)
             {
                 fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name} {{ get; {(ReadOnly ? "protected " : string.Empty)}set; }}");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -82,11 +82,11 @@ namespace Loqui.Generation
 
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (!this.TrueReadOnly)
                     {
-                        GenerateTypicalHasBeenSetMembers(true);
+                        GenerateTypicalNullableMembers(true);
                     }
                     else
                     {
@@ -119,11 +119,11 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (!this.TrueReadOnly)
                     {
-                        GenerateTypicalHasBeenSetMembers(false);
+                        GenerateTypicalNullableMembers(false);
                     }
                     else
                     {
@@ -182,7 +182,7 @@ namespace Loqui.Generation
             }
             if (this.InternalGetInterface)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     if (this.CanBeNullable(getter: true))
                     {
@@ -201,20 +201,6 @@ namespace Loqui.Generation
             }
         }
 
-        protected string GetNotifyingProperty()
-        {
-            string item;
-            if (this.HasBeenSet)
-            {
-                item = "HasBeenSetItem";
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            return $"protected I{item}<{TypeName(getter: false)}> _{this.Name}";
-        }
-
         protected virtual string GenerateDefaultValue()
         {
             return this.DefaultValue;
@@ -225,8 +211,8 @@ namespace Loqui.Generation
             if (getter)
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
-                fg.AppendLine($"{TypeName(getter: true)}{(this.HasBeenSet && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; }}");
-                if (this.HasBeenSet && !this.CanBeNullable(getter))
+                fg.AppendLine($"{TypeName(getter: true)}{(this.Nullable && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; }}");
+                if (this.Nullable && !this.CanBeNullable(getter))
                 {
                     fg.AppendLine($"bool {this.Name}_IsSet {{ get; }}");
                 }
@@ -234,15 +220,15 @@ namespace Loqui.Generation
             else
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
-                fg.AppendLine($"new {TypeName(getter: false)}{(this.HasBeenSet && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; set; }}");
+                fg.AppendLine($"new {TypeName(getter: false)}{(this.Nullable && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; set; }}");
 
                 if (!CanBeNullable(false))
                 {
                     if (this.NotifyingType == NotifyingType.ReactiveUI)
                     {
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
-                            fg.AppendLine($"new bool {this.HasBeenSetAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
+                            fg.AppendLine($"new bool {this.NullableAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
                             fg.AppendLine($"void {this.Name}_Set({this.TypeName(getter: false)} value, bool hasBeenSet = true);");
                             fg.AppendLine($"void {this.Name}_Unset();");
                             fg.AppendLine();
@@ -250,9 +236,9 @@ namespace Loqui.Generation
                     }
                     else if (this.NotifyingType == NotifyingType.None)
                     {
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
-                            fg.AppendLine($"new bool {this.HasBeenSetAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
+                            fg.AppendLine($"new bool {this.NullableAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
                             fg.AppendLine($"void {this.Name}_Set({this.TypeName(getter: false)} value, bool hasBeenSet = true);");
                             fg.AppendLine($"void {this.Name}_Unset();");
                             fg.AppendLine();
@@ -278,7 +264,7 @@ namespace Loqui.Generation
                     fg,
                     () =>
                     {
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
                             fg.AppendLine($"if ({rhs}.TryGet(out var item{this.Name}))");
                             using (new BraceWrapper(fg))
@@ -322,7 +308,7 @@ namespace Loqui.Generation
             if (this.InternalSetInterface) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     fg.AppendLine($"{identifier.Access}_Unset();");
                 }
@@ -336,7 +322,7 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{identifier.Access} = {this.ObjectGen.Name}._{this.Name}_Default;");
             }
-            else if (this.HasBeenSet)
+            else if (this.Nullable)
             {
                 fg.AppendLine($"{identifier.Access} = default;");
             }
@@ -376,13 +362,15 @@ namespace Loqui.Generation
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
             if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
+            var doIf = this.Nullable && this.CanBeNullable(getter: true);
+            if (doIf)
             {
                 fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}item))");
+                accessor = $"{this.Name}item";
             }
-            using (new BraceWrapper(fg, doIt: this.HasBeenSet))
+            using (new BraceWrapper(fg, doIt: doIf))
             {
-                fg.AppendLine($"{hashResultAccessor}.Add({(this.HasBeenSet ? $"{this.Name}item" : accessor)});");
+                fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
             }
         }
 
@@ -395,12 +383,12 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}{(string.IsNullOrWhiteSpace(this.Name) ? null : $", \"{this.Name}\"")});");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
             if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {this.HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {this.NullableAccessor(getter: true, accessor: accessor)}) return false;");
             }
         }
     }

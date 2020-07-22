@@ -131,7 +131,7 @@ namespace Loqui.Generation
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     return $"SourceSetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
                 }
@@ -142,7 +142,7 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     return $"SetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{this.KeyAccessorString})";
                 }
@@ -159,7 +159,7 @@ namespace Loqui.Generation
             {
                 if (this.Notifying)
                 {
-                    if (this.HasBeenSet)
+                    if (this.Nullable)
                     {
                         return $"IObservableSetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
@@ -170,7 +170,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    if (this.HasBeenSet)
+                    if (this.Nullable)
                     {
                         throw new NotImplementedException();
                     }
@@ -184,7 +184,7 @@ namespace Loqui.Generation
             {
                 if (this.Notifying)
                 {
-                    if (this.HasBeenSet)
+                    if (this.Nullable)
                     {
                         return $"ISourceSetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
@@ -195,7 +195,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    if (this.HasBeenSet)
+                    if (this.Nullable)
                     {
                         return $"ISetCache<{this.BackwardsTypeTuple(getter)}>";
                     }
@@ -248,7 +248,7 @@ namespace Loqui.Generation
                     () =>
                     {
                         var loqui = this.ValueTypeGen as LoquiType;
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
                             using (var args = new ArgsWrapper(fg,
                                 $"{accessor}.SetTo"))
@@ -377,7 +377,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{accessorPrefix}.Unset();");
             }
@@ -404,16 +404,16 @@ namespace Loqui.Generation
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            if (!this.HasBeenSet)
+            if (!this.Nullable)
             {
                 this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
             }
             else
             {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)} == {this.HasBeenSetAccessor(getter: true, accessor: rhsAccessor)})");
+                fg.AppendLine($"if ({this.NullableAccessor(getter: true, accessor: accessor)} == {this.NullableAccessor(getter: true, accessor: rhsAccessor)})");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)})");
+                    fg.AppendLine($"if ({this.NullableAccessor(getter: true, accessor: accessor)})");
                     using (new BraceWrapper(fg))
                     {
                         this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
@@ -477,9 +477,9 @@ namespace Loqui.Generation
             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
         }
 
-        public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
             }

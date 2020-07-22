@@ -44,7 +44,7 @@ namespace Loqui.Generation
                 {
                     return $"{this.ItemTypeName(getter: false)}[]";
                 }
-                if (this.HasBeenSet)
+                if (this.Nullable)
                 {
                     return $"default";
                 }
@@ -90,7 +90,7 @@ namespace Loqui.Generation
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{accessorPrefix}.Unset();");
             }
@@ -99,7 +99,7 @@ namespace Loqui.Generation
                 if (this.FixedSize.HasValue)
                 {
                     if (this.SubTypeGeneration.IsNullable
-                        && this.SubTypeGeneration.HasBeenSet)
+                        && this.SubTypeGeneration.Nullable)
                     {
                         fg.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
                     }

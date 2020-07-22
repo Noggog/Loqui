@@ -35,8 +35,8 @@ namespace Loqui.Generation
         public readonly BehaviorSubject<(NotifyingType Item, bool HasBeenSet)> NotifyingProperty = new BehaviorSubject<(NotifyingType Item, bool HasBeenSet)>((default, default));
         public NotifyingType NotifyingType => NotifyingProperty.Value.Item;
         public bool Notifying => NotifyingType != NotifyingType.None;
-        public readonly BehaviorSubject<(bool Item, bool HasBeenSet)> HasBeenSetProperty = new BehaviorSubject<(bool Item, bool HasBeenSet)>((default, default));
-        public virtual bool HasBeenSet => HasBeenSetProperty.Value.Item;
+        public readonly BehaviorSubject<(bool Item, bool HasBeenSet)> NullableProperty = new BehaviorSubject<(bool Item, bool HasBeenSet)>((default, default));
+        public virtual bool Nullable => NullableProperty.Value.Item;
         public virtual bool CanBeNullable(bool getter) => true;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
@@ -50,7 +50,7 @@ namespace Loqui.Generation
         public virtual bool IsIEquatable => true;
         public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
         public TypeGeneration Parent;
-        public virtual bool IsNullable => this.HasBeenSet;
+        public virtual bool IsNullable => this.Nullable;
         public string NullChar => this.IsNullable ? "?" : null;
         public bool CustomClear { get; set; }
 
@@ -62,9 +62,9 @@ namespace Loqui.Generation
             {
                 this.NotifyingProperty.OnNext((this.ObjectGen.NotifyingDefault, false));
             }
-            if (!this.HasBeenSetProperty.Value.HasBeenSet)
+            if (!this.NullableProperty.Value.HasBeenSet)
             {
-                this.HasBeenSetProperty.OnNext((this.ObjectGen.HasBeenSetDefault, false));
+                this.NullableProperty.OnNext((this.ObjectGen.NullableDefault, false));
             }
             if (this._derivative == null)
             {
@@ -94,7 +94,7 @@ namespace Loqui.Generation
             this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative && this.IntegrateField);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext((i, true)));
-            node.TransferAttribute<bool>(Constants.HAS_BEEN_SET, i => this.HasBeenSetProperty.OnNext((i, true)));
+            node.TransferAttribute<bool>(Constants.NULLABLE, i => this.NullableProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             node.TransferAttribute<bool>(Constants.CUSTOM_CLEAR, i => this.CustomClear = i);
@@ -188,7 +188,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);
 
-        public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
+        public abstract void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
 
         public virtual string EqualsMaskAccessor(string accessor) => accessor;
 
@@ -215,7 +215,7 @@ namespace Loqui.Generation
             this.ObjectGen.RequiredNamespaces.Add(this.GetRequiredNamespaces());
         }
 
-        public virtual string HasBeenSetAccessor(bool getter, Accessor accessor = null)
+        public virtual string NullableAccessor(bool getter, Accessor accessor = null)
         {
             if (accessor == null)
             {

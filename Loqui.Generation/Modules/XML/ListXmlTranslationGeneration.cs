@@ -156,7 +156,7 @@ namespace Loqui.Generation
                     }
                     using (new BraceWrapper(fg))
                     {
-                        if (typeGen.HasBeenSet)
+                        if (typeGen.Nullable)
                         {
                             fg.AppendLine($"{itemAccessor.Access} = {typeGen.Name}Item.ToExtendedList();");
                         }

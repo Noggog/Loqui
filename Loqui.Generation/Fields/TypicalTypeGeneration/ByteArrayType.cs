@@ -17,7 +17,7 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.Equal({accessor.Access}, {rhsAccessor.Access})";
             }
@@ -47,7 +47,7 @@ namespace Loqui.Generation
             this.Length = node.GetAttribute<int?>("byteLength", null);
 
             if (this.Length != null
-                && this.HasBeenSet)
+                && this.Nullable)
             {
                 throw new ArgumentException($"Cannot have a byte array with a length that is nullable.  Doesn't apply. {this.ObjectGen.Name} {this.Name}");
             }
@@ -56,12 +56,12 @@ namespace Loqui.Generation
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
             if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}Item))");
                 accessor = $"{this.Name}Item";
             }
-            using (new BraceWrapper(fg, doIt: this.HasBeenSet))
+            using (new BraceWrapper(fg, doIt: this.Nullable))
             {
                 fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
             }
@@ -82,7 +82,7 @@ namespace Loqui.Generation
                     fg,
                     () =>
                     {
-                        if (this.HasBeenSet)
+                        if (this.Nullable)
                         {
                             fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
                             using (new BraceWrapper(fg))
@@ -113,7 +113,7 @@ namespace Loqui.Generation
             // Add internal interface support
             if (this.InternalSetInterface) return;
             if (!this.Enabled) return;
-            if (this.HasBeenSet)
+            if (this.Nullable)
             {
                 fg.AppendLine($"{identifier.Access} = default;");
             }
