@@ -153,8 +153,6 @@ namespace Loqui.Generation
 
         public abstract void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse);
 
-        public abstract void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier);
-
         public abstract void GenerateUnsetNth(FileGeneration fg, Accessor identifier);
 
         public abstract void GenerateGetNth(FileGeneration fg, Accessor identifier);
@@ -196,21 +194,6 @@ namespace Loqui.Generation
         public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);
 
         public abstract void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
-
-        public abstract void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor);
-
-        public virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg)
-        {
-            if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
-            {
-                fg.AppendLine($"return obj.{this.HasBeenSetAccessor(getter: true)};");
-            }
-            else
-            {
-                fg.AppendLine("return true;");
-            }
-        }
 
         public virtual string EqualsMaskAccessor(string accessor) => accessor;
 

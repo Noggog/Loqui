@@ -337,30 +337,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-            if (this.SubTypeGeneration is LoquiType loqui)
-            {
-                if (this.HasBeenSet)
-                {
-                    fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}Item))");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}(true, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.GetHasBeenSetMask())));");
-                    }
-                }
-                else
-                {
-                    fg.AppendLine($"var {this.Name}Item = {accessor};");
-                    fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? $"{this.Name}Item.HasBeenSet" : "true")}, {this.Name}Item.WithIndex().Select((i) => new MaskItemIndexed<bool, {loqui.GetMaskString("bool")}?>(i.Index, true, i.Item.GetHasBeenSetMask())));");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}({(this.HasBeenSet ? HasBeenSetAccessor(getter: true, accessor) : "true")}, default);");
-            }
-        }
-
         public override string GetDuplicate(Accessor accessor)
         {
             throw new NotImplementedException();

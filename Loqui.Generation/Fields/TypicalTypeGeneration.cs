@@ -448,17 +448,6 @@ namespace Loqui.Generation
             fg.AppendLine($"return {identifier.DirectAccess};");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            if (!this.IntegrateField) return;
-            if (!this.ReadOnly
-                && this.HasBeenSet)
-            {
-                fg.AppendLine($"{this.HasBeenSetAccessor(getter: false, accessor: identifier)} = {onIdentifier};");
-            }
-            fg.AppendLine("break;");
-        }
-
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
             if (!this.IntegrateField) return;
@@ -509,19 +498,6 @@ namespace Loqui.Generation
             if (this.HasBeenSet)
             {
                 fg.AppendLine($"if ({checkMaskAccessor}.HasValue && {checkMaskAccessor}.Value != {this.HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
-            }
-        }
-
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-            if (!this.IntegrateField) return;
-            if (this.HasBeenSet)
-            {
-                fg.AppendLine($"{retAccessor} = {this.HasBeenSetAccessor(getter: true, accessor: accessor)};");
-            }
-            else
-            {
-                fg.AppendLine($"{retAccessor} = true;");
             }
         }
     }

@@ -54,10 +54,6 @@ namespace Loqui.Generation
         {
         }
 
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-        }
-
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
         {
         }
@@ -71,10 +67,6 @@ namespace Loqui.Generation
         }
 
         public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
-        {
-        }
-
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
         {
         }
 

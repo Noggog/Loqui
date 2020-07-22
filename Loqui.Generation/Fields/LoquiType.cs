@@ -894,16 +894,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            if (this.Singleton)
-            {
-                base.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
-                return;
-            }
-            fg.AppendLine($"throw new ArgumentException(\"Cannot mark set status of a singleton: {this.Name}\");");
-        }
-
         public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
             if (this.Singleton)
@@ -1055,26 +1045,6 @@ namespace Loqui.Generation
             if (this.TargetObjectGeneration != null)
             {
                 fg.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.DirectAccess} == null || !{accessor.DirectAccess}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
-            }
-        }
-
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-            if (this.TargetObjectGeneration == null)
-            {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}>({(this.HasBeenSet ? $"{accessor.PropertyAccess}.HasBeenSet" : "true")}, null);");
-            }
-            else
-            {
-                if (this.HasBeenSet)
-                {
-                    fg.AppendLine($"var item{this.Name} = {accessor};");
-                    fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}?>(item{this.Name} != null, item{this.Name}?.GetHasBeenSetMask());");
-                }
-                else
-                {
-                    fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GetMaskString("bool")}?>(true, {accessor.DirectAccess}?.GetHasBeenSetMask());");
-                }
             }
         }
 

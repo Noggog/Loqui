@@ -530,8 +530,6 @@ namespace Loqui.Generation
                     await GenerateClearMixIn(fg);
                     await GenerateGetEqualsMaskMixIn(fg);
                     await GenerateToStringMixIn(fg);
-                    await GenerateHasBeenSetMixIn(fg);
-                    await GenerateGetHasBeenSetMaskMixIn(fg);
                     await GenerateEqualsMixIn(fg);
                     if (this.GenerateComplexCopySystems)
                     {
@@ -929,11 +927,7 @@ namespace Loqui.Generation
 
             if (this.GenerateNthReflections)
             {
-                GenerateSetNthObjectHasBeenSet(subGen, maskTypeCol);
-
                 GenerateUnsetNthObject(subGen, maskTypeCol);
-
-                GenerateGetNthObjectHasBeenSet(subGen, maskTypeCol);
 
                 GenerateGetNthObject(subGen, maskTypeCol);
             }
@@ -943,10 +937,6 @@ namespace Loqui.Generation
             GenerateGetEqualsMask(subGen, maskTypeCol);
 
             GenerateCommonToString(subGen, maskTypeCol);
-
-            GenerateHasBeenSetCheck(subGen, maskTypeCol);
-
-            GenerateHasBeenSetMaskGetter(subGen, maskTypeCol);
 
             GenerateFieldIndexConverters(subGen, this, maskTypeCol);
 
@@ -1145,109 +1135,6 @@ namespace Loqui.Generation
                             accessor = $"{field.Name}Item";
                         }
                         ifArgs.Body = (subFg) => field.GenerateToString(subFg, field.Name, accessor, "fg");
-                    }
-                }
-            }
-            fg.AppendLine();
-        }
-
-        private async Task GenerateHasBeenSetMixIn(FileGeneration fg)
-        {
-            using (var args = new FunctionWrapper(fg,
-                $"public static bool HasBeenSet{this.GetGenericTypes(MaskType.Normal)}"))
-            {
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
-                args.Add($"{this.GetMaskString("bool?")} checkMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"return {this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.HasBeenSet"))
-                {
-                    args.AddPassArg("item");
-                    args.AddPassArg("checkMask");
-                }
-            }
-            fg.AppendLine();
-        }
-
-        private void GenerateHasBeenSetCheck(FileGeneration fg, MaskTypeSet maskTypes)
-        {
-            if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
-            using (var args = new FunctionWrapper(fg,
-                $"public bool HasBeenSet"))
-            {
-                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
-                args.Add($"{this.GetMaskString("bool?")} checkMask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                foreach (var field in this.IterateFieldIndices())
-                {
-                    field.Field.GenerateForHasBeenSetCheck(fg, Accessor.FromType(field.Field, "item"), $"checkMask.{field.Field.Name}");
-                }
-                if (this.HasLoquiBaseObject)
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        "return base.HasBeenSet"))
-                    {
-                        args.AddPassArg("item");
-                        args.AddPassArg("checkMask");
-                    }
-                }
-                else
-                {
-                    fg.AppendLine("return true;");
-                }
-            }
-            fg.AppendLine();
-        }
-
-        private async Task GenerateGetHasBeenSetMaskMixIn(FileGeneration fg)
-        {
-            using (var args = new FunctionWrapper(fg,
-                $"public static {this.GetMaskString("bool")} GetHasBeenSetMask{this.GetGenericTypes(MaskType.Normal)}"))
-            {
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"var ret = new {this.GetMaskString("bool")}(false);");
-                using (var args = new ArgsWrapper(fg,
-                    $"{this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.FillHasBeenSetMask"))
-                {
-                    args.AddPassArg("item");
-                    args.Add("mask: ret");
-                }
-                fg.AppendLine("return ret;");
-            }
-            fg.AppendLine();
-        }
-
-        private void GenerateHasBeenSetMaskGetter(FileGeneration fg, MaskTypeSet maskTypes)
-        {
-            if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
-            using (var args = new FunctionWrapper(fg,
-                $"public void FillHasBeenSetMask"))
-            {
-                args.Add($"{this.Interface(getter: true, internalInterface: true)} item");
-                args.Add($"{this.GetMaskString("bool")} mask");
-            }
-            using (new BraceWrapper(fg))
-            {
-                foreach (var field in this.IterateFieldIndices())
-                {
-                    field.Field.GenerateForHasBeenSetMaskGetter(fg, Accessor.FromType(field.Field, "item"), $"mask.{field.Field.Name}");
-                }
-                if (this.HasLoquiBaseObject)
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        "base.FillHasBeenSetMask"))
-                    {
-                        args.Add($"item: item");
-                        args.Add($"mask: mask");
                     }
                 }
             }
@@ -1928,24 +1815,6 @@ namespace Loqui.Generation
                 }
                 fg.AppendLine();
 
-                using (new LineWrapper(fg))
-                {
-                    fg.Append($"protected{this.FunctionOverride()}bool GetNthObjectHasBeenSet(ushort index) => ");
-                    if (this is ClassGeneration)
-                    {
-                        fg.Append($"{this.CommonClassName(LoquiInterfaceType.IGetter)}.GetNthObjectHasBeenSet{this.GetGenericTypes(MaskType.Normal)}(index, this);");
-                    }
-                    else
-                    {
-                        fg.Append("true;");
-                    }
-                }
-                if (this.IsTopClass)
-                {
-                    fg.AppendLine($"bool {nameof(ILoquiReflectionGetter)}.GetNthObjectHasBeenSet(ushort index) => this.GetNthObjectHasBeenSet(index);");
-                }
-                fg.AppendLine();
-
                 fg.AppendLine($"protected{this.FunctionOverride()}void UnsetNthObject(ushort index) => {this.CommonClassName(LoquiInterfaceType.ISetter)}.UnsetNthObject{this.GetGenericTypes(MaskType.Normal)}(index, this);");
                 if (this.IsTopClass)
                 {
@@ -1959,16 +1828,6 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Loqui Interface"))
             {
-                fg.AppendLine($"protected{this.FunctionOverride()}void SetNthObjectHasBeenSet(ushort index, bool on)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"{this.CommonClassName(LoquiInterfaceType.ISetter)}.SetNthObjectHasBeenSet{this.GetGenericTypes(MaskType.Normal)}(index, on, this);");
-                }
-                if (this.IsTopClass)
-                {
-                    fg.AppendLine($"void {nameof(ILoquiReflectionSetter)}.SetNthObjectHasBeenSet(ushort index, bool on) => this.SetNthObjectHasBeenSet(index, on);");
-                }
-                fg.AppendLine();
             }
         }
 
@@ -2000,53 +1859,6 @@ namespace Loqui.Generation
                     }
 
                     GenerateStandardIndexDefault(fg, LoquiInterfaceType.IGetter, "GetNthObject", "index", true, true, "obj");
-                }
-            }
-            fg.AppendLine();
-        }
-
-        protected virtual void GenerateGetNthObjectHasBeenSet(FileGeneration fg, MaskTypeSet maskTypes)
-        {
-            if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
-            using (var args = new FunctionWrapper(fg,
-                $"public static bool GetNthObjectHasBeenSet"))
-            {
-                args.Add($"ushort index");
-                args.Add($"{this.Interface()} obj");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
-                fg.AppendLine("switch (enu)");
-                using (new BraceWrapper(fg))
-                {
-                    var nonNotifying = IterateFieldIndices()
-                        .Where((f) => !f.Field.HasBeenSet).ToList();
-                    if (nonNotifying.Count > 0)
-                    {
-                        foreach (var item in nonNotifying)
-                        {
-                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
-                        }
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine($"return true;");
-                        }
-                    }
-
-                    foreach (var field in this.IterateFields().Where((field) => field.HasBeenSet))
-                    {
-                        if (field.IntegrateField)
-                        {
-                            fg.AppendLine($"case {field.IndexEnumName}:");
-                        }
-                        using (new DepthWrapper(fg, doIt: field.IntegrateField))
-                        {
-                            field.GenerateGetNthObjectHasBeenSet(fg);
-                        }
-                    }
-
-                    GenerateStandardIndexDefault(fg, LoquiInterfaceType.IGetter, "GetNthObjectHasBeenSet", "index", true, true, "obj");
                 }
             }
             fg.AppendLine();
@@ -2096,101 +1908,6 @@ namespace Loqui.Generation
                     }
 
                     GenerateStandardIndexDefault(fg, LoquiInterfaceType.IGetter, "SetNthObject", "index", false, false, "obj");
-                }
-            }
-            fg.AppendLine();
-        }
-
-        protected virtual void GenerateSetNthObjectHasBeenSet(FileGeneration fg, MaskTypeSet maskTypes)
-        {
-            if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class)) return;
-            using (var args = new FunctionWrapper(fg,
-                $"public static void SetNthObjectHasBeenSet"))
-            {
-                args.Add($"ushort index");
-                args.Add($"bool on");
-                args.Add($"{this.Interface()} obj");
-            }
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{this.FieldIndexName} enu = ({this.FieldIndexName})index;");
-                fg.AppendLine("switch (enu)");
-                using (new BraceWrapper(fg))
-                {
-                    HashSet<int> coveredFields = new HashSet<int>();
-
-                    // Non integrated fields
-                    foreach (var field in this.IterateFieldIndices())
-                    {
-                        if (field.Field.IntegrateField) continue;
-                        coveredFields.Add(field.PublicIndex);
-                    }
-
-                    // Derivative fields
-                    var derivatives = IterateFieldIndices()
-                        .Where((f) => f.Field.Derivative && coveredFields.Add(f.PublicIndex)).ToList();
-                    if (derivatives.Count > 0)
-                    {
-                        foreach (var item in derivatives)
-                        {
-                            fg.AppendLine($"case {item.Field.IndexEnumName}:");
-                        }
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine("throw new ArgumentException($\"Tried to set at a derivative index {index}\");");
-                        }
-                    }
-
-                    // Non Has Been Set
-                    var nonHasBeenSetFields = IterateFieldIndices().
-                        Where((f) =>
-                            !f.Field.HasBeenSet
-                            && coveredFields.Add(f.PublicIndex))
-                        .ToList();
-                    if (nonHasBeenSetFields.Count > 0)
-                    {
-                        foreach (var field in nonHasBeenSetFields.Select((f) => f.Field))
-                        {
-                            if (field.Derivative) continue;
-                            fg.AppendLine($"case {field.IndexEnumName}:");
-                        }
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine("if (on) break;");
-                            fg.AppendLine("throw new ArgumentException(\"Tried to unset a field which does not have this functionality.\" + index);");
-                        }
-                    }
-
-                    // Protected
-                    var protectedFields = IterateFieldIndices().
-                        Where((f) =>
-                            f.Field.ReadOnly
-                            && coveredFields.Add(f.PublicIndex))
-                        .ToList();
-                    if (protectedFields.Count > 0)
-                    {
-                        foreach (var field in protectedFields.Select((f) => f.Field))
-                        {
-                            if (field.Derivative) continue;
-                            fg.AppendLine($"case {field.IndexEnumName}:");
-                        }
-                        using (new DepthWrapper(fg))
-                        {
-                            fg.AppendLine("throw new ArgumentException(\"Tried to set at a readonly index \" + index);");
-                        }
-                    }
-
-                    // Normal
-                    foreach (var field in this.IterateFieldIndices().Where((f) => coveredFields.Add(f.PublicIndex)).Select((f) => f.Field))
-                    {
-                        fg.AppendLine($"case {field.IndexEnumName}:");
-                        using (new DepthWrapper(fg))
-                        {
-                            field.GenerateSetNthHasBeenSet(fg, Accessor.FromType(field, "obj"), "on");
-                        }
-                    }
-
-                    GenerateStandardIndexDefault(fg, LoquiInterfaceType.ISetter, "SetNthObjectHasBeenSet", "index", false, true, "on", "obj");
                 }
             }
             fg.AppendLine();

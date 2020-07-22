@@ -58,11 +58,6 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             throw new NotImplementedException();
@@ -138,11 +133,6 @@ namespace Loqui.Generation
         }
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
         {
             throw new NotImplementedException();
         }

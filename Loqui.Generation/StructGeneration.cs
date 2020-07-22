@@ -116,19 +116,11 @@ namespace Loqui.Generation
         {
         }
 
-        protected override void GenerateGetNthObjectHasBeenSet(FileGeneration fg, MaskTypeSet maskCol)
-        {
-        }
-
         protected override async Task GenerateClearCommon(FileGeneration fg, MaskTypeSet maskCol)
         {
         }
 
         protected override async Task GenerateDeepCopyInExtensions(FileGeneration fg)
-        {
-        }
-
-        protected override void GenerateSetNthObjectHasBeenSet(FileGeneration fg, MaskTypeSet maskCol)
         {
         }
 

@@ -108,15 +108,6 @@ namespace Loqui.Generation
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Value.Add({(key ? "null" : exception)});");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            if (!this.ReadOnly)
-            {
-                fg.AppendLine($"{this.HasBeenSetAccessor(getter: false, accessor: identifier)} = {onIdentifier};");
-            }
-            fg.AppendLine("break;");
-        }
-
         public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.ReadOnly)
@@ -494,12 +485,6 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"if ({checkMaskAccessor}.Overall.HasValue && {checkMaskAccessor}.Overall.Value != {accessor}.HasBeenSet) return false;");
             }
-        }
-
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-            LoquiType loqui = this.ValueTypeGen as LoquiType;
-            fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}({(this.HasBeenSet ? $"{accessor}.HasBeenSet" : "true")}, {accessor}.Items.Select((i) => new MaskItemIndexed<{this.KeyTypeGen.TypeName(getter: true)}, bool, {loqui.GetMaskString("bool")}?>(i.{this.KeyAccessorString}, true, i.GetHasBeenSetMask())));");
         }
 
         public override string GetDuplicate(Accessor accessor)

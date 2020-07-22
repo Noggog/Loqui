@@ -20,15 +20,6 @@ namespace Loqui.Generation
             fg.AppendLine($"{errorMaskAccessor}?.{this.Name}.Specific.Value.Add({exception});");
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            if (!this.ReadOnly)
-            {
-                fg.AppendLine($"{identifier.PropertyAccess}.HasBeenSet = {onIdentifier};");
-            }
-            fg.AppendLine("break;");
-        }
-
         public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.ReadOnly)

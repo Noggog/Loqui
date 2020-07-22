@@ -71,11 +71,6 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateSetNthHasBeenSet(FileGeneration fg, Accessor identifier, string onIdentifier)
-        {
-            subGenerator.GenerateSetNthHasBeenSet(fg, identifier, onIdentifier);
-        }
-
         public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
         {
             subGenerator.GenerateUnsetNth(fg, identifier);
@@ -160,11 +155,6 @@ namespace Loqui.Generation
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
         {
             subGenerator.GenerateForHasBeenSetCheck(fg, accessor, checkMaskAccessor);
-        }
-
-        public override void GenerateForHasBeenSetMaskGetter(FileGeneration fg, Accessor accessor, string retAccessor)
-        {
-            subGenerator.GenerateForHasBeenSetMaskGetter(fg, accessor, retAccessor);
         }
 
         public override string GetDuplicate(Accessor accessor)
