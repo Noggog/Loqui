@@ -23,8 +23,6 @@ namespace Loqui.Generation
             _fieldMapping[typeof(LoquiType)] = new LoquiMaskFieldGeneration();
             _fieldMapping[typeof(ListType)] = new ContainerMaskFieldGeneration();
             _fieldMapping[typeof(DictType)] = new DictMaskFieldGeneration();
-            _fieldMapping[typeof(UnsafeType)] = new UnsafeMaskFieldGeneration();
-            _fieldMapping[typeof(WildcardType)] = new UnsafeMaskFieldGeneration();
         }
 
         public static string MaskNickname(MaskType type)

@@ -107,33 +107,7 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    if (this.PrefersProperty)
-                    {
-                        if (!this.TrueReadOnly)
-                        {
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{base.TypeName(getter: false)}> _{this.Name};");
-                            fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"get => this._{ this.Name}.Item;");
-                                fg.AppendLine($"{SetPermissionStr}set => this._{this.Name}.Set(value);");
-                            }
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => this.{this.Property};");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true)}.{this.Name} => this.{this.Name};");
-                            fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName(getter: false)}> {this.ObjectGen.Interface(getter: true)}.{this.Property} => HasBeenSetGetter.NotBeenSet_Instance;");
-                        }
-                    }
-                    else if (this.CanBeNullable(false))
+                    if (this.CanBeNullable(false))
                     {
                         if (!this.TrueReadOnly)
                         {
@@ -203,21 +177,17 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"{identifier.DirectAccess}_Unset();");
+                    fg.AppendLine($"{identifier.Access}_Unset();");
                 }
                 else
                 {
-                    fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default")};");
+                    fg.AppendLine($"{identifier.Access} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default")};");
                 }
                 return;
             }
-            if (this.HasProperty && this.PrefersProperty)
+            if (this.HasBeenSet)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
-            }
-            else if (this.HasBeenSet)
-            {
-                fg.AppendLine($"{identifier.DirectAccess} = default;");
+                fg.AppendLine($"{identifier.Access} = default;");
             }
             else
             {

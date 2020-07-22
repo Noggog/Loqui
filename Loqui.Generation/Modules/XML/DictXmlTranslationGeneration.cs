@@ -47,7 +47,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"node: {writerAccessor}");
                         args.Add($"name: {nameAccessor}");
-                        args.Add($"items: {itemAccessor.DirectAccess}");
+                        args.Add($"items: {itemAccessor.Access}");
                         if (typeGen.HasIndex)
                         {
                             args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");
@@ -103,7 +103,7 @@ namespace Loqui.Generation
                             {
                                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                                 args.Add($"name: {nameAccessor}");
-                                args.Add($"items: {itemAccessor.DirectAccess}.Items");
+                                args.Add($"items: {itemAccessor.Access}.Items");
                                 args.Add($"translationMask: {translationMaskAccessor}");
                                 args.Add("errorMask: errorMask");
                                 args.Add((gen) =>
@@ -185,7 +185,7 @@ namespace Loqui.Generation
             }
             else
             {
-                prefix = itemAccessor.DirectAccess;
+                prefix = itemAccessor.Access;
             }
 
             string funcStr;
@@ -206,7 +206,7 @@ namespace Loqui.Generation
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
                 if (!ret)
                 {
-                    args.Add($"item: {itemAccessor.DirectAccess}");
+                    args.Add($"item: {itemAccessor.Access}");
                 }
                 if (typeGen.HasIndex)
                 {

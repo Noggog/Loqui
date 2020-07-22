@@ -32,13 +32,13 @@ namespace Loqui.Generation
             {
                 if (typeGen.HasBeenSet)
                 {
-                    fg.AppendLine($"if ({itemAccessor.DirectAccess}.TryGet(out var {typeGen.Name}Item))");
+                    fg.AppendLine($"if ({itemAccessor.Access}.TryGet(out var {typeGen.Name}Item))");
                     itemAccessor = $"{typeGen.Name}Item";
                 }
                 else
                 {
                     // We want to cache retrievals, in case it's a wrapper being written
-                    fg.AppendLine($"var {typeGen.Name}Item = {itemAccessor.DirectAccess};");
+                    fg.AppendLine($"var {typeGen.Name}Item = {itemAccessor.Access};");
                     itemAccessor = $"{typeGen.Name}Item";
                 }
 
@@ -104,7 +104,7 @@ namespace Loqui.Generation
                     () =>
                     {
                         using (var args = new ArgsWrapper(fg,
-                            $"{itemAccessor.DirectAccess}.{this.XmlMod.CopyInFromPrefix}{this.XmlMod.ModuleNickname}{loquiGen.GetGenericTypes(getter: false, MaskType.Normal)}"))
+                            $"{itemAccessor.Access}.{this.XmlMod.CopyInFromPrefix}{this.XmlMod.ModuleNickname}{loquiGen.GetGenericTypes(getter: false, MaskType.Normal)}"))
                         {
                             args.Add($"node: {nodeAccessor}");
                             args.Add($"translationMask: {translationMaskAccessor}");

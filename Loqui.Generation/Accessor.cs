@@ -8,10 +8,8 @@ namespace Loqui.Generation
 {
     public class Accessor
     {
-        public string DirectAccess;
-        public string PropertyAccess;
-        public string PropertyOrDirectAccess => this.PropertyAccess ?? this.DirectAccess;
-        public bool DirectIsAssignment = true;
+        public string Access;
+        public bool IsAssignment = true;
 
         public Accessor()
         {
@@ -19,21 +17,21 @@ namespace Loqui.Generation
 
         public Accessor(string direct)
         {
-            this.DirectAccess = direct;
+            this.Access = direct;
         }
 
         public string Assign(string rhs)
         {
-            return $"{DirectAccess}{AssignmentOperator}{rhs}";
+            return $"{Access}{AssignmentOperator}{rhs}";
         }
 
-        public string AssignmentOperator => DirectIsAssignment ? " = " : ": ";
+        public string AssignmentOperator => IsAssignment ? " = " : ": ";
 
         public static Accessor ConstructorParam(string path)
         {
             return new Accessor(path)
             {
-                DirectIsAssignment = false,
+                IsAssignment = false,
             };
         }
 
@@ -49,17 +47,13 @@ namespace Loqui.Generation
                 return $"{accessor}{(nullable ? "?" : null)}.{name}";
             }
             Accessor ret = new Accessor();
-            ret.DirectAccess = process(protectedAccess ? typeGen.ProtectedName : typeGen.Name);
-            if (typeGen.HasProperty)
-            {
-                ret.PropertyAccess = process(protectedAccess ? typeGen.ProtectedProperty : typeGen.Property);
-            }
+            ret.Access = process(protectedAccess ? typeGen.ProtectedName : typeGen.Name);
             return ret;
         }
 
         public override string ToString()
         {
-            return this.DirectAccess;
+            return this.Access;
         }
 
         public static implicit operator Accessor(string str)

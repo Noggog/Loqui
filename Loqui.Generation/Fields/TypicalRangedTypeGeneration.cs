@@ -35,7 +35,7 @@ namespace Loqui.Generation
         {
             if (this.HasRange)
             {
-                return $"{accessor.DirectAccess}{InRangeCheckerString}";
+                return $"{accessor.Access}{InRangeCheckerString}";
             }
             return base.GetValueSetString(accessor);
         }

@@ -8,12 +8,8 @@ namespace Loqui.Generation
 {
     public abstract class ContainerType : WrapperType
     {
-        public override bool HasProperty => true;
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
-
-        public override string Property => $"{this.Name}";
-        public override string ProtectedName => $"{this.ProtectedProperty}";
 
         public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
         {
@@ -24,12 +20,12 @@ namespace Loqui.Generation
         {
             if (!this.ReadOnly)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
+                fg.AppendLine($"{identifier}.Unset();");
             }
             fg.AppendLine("break;");
         }
 
-        public override string GetName(bool internalUse, bool property = true)
+        public override string GetName(bool internalUse)
         {
             if (internalUse)
             {
@@ -48,12 +44,12 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.SequenceEqual({rhsAccessor.DirectAccess})";
+            return $"{(negate ? "!" : null)}{accessor.Access}.SequenceEqual({rhsAccessor.Access})";
         }
 
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
-            fg.AppendLine($"if (!{accessor.DirectAccess}.SequenceEqual({rhsAccessor.DirectAccess})) return false;");
+            fg.AppendLine($"if (!{accessor.Access}.SequenceEqual({rhsAccessor.Access})) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

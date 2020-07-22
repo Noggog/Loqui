@@ -106,17 +106,17 @@ namespace Loqui.Generation
         {
             if (accessor == null)
             {
-                return $"({this.Property} != null)";
+                return $"({this.Name} != null)";
             }
             else
             {
-                return $"({accessor.PropertyOrDirectAccess} != null)";
+                return $"({accessor} != null)";
             }
         }
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
-            fg.AppendLine($"return {identifier.DirectAccess};");
+            fg.AppendLine($"return {identifier.Access};");
         }
 
         private void GenerateHasBeenSetCopy()
@@ -187,7 +187,7 @@ namespace Loqui.Generation
                     {
                         LoquiType loqui = this.SubTypeGeneration as LoquiType;
                         using (var args = new ArgsWrapper(fg,
-                            $"{accessor.PropertyOrDirectAccess}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                            $"{accessor}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
                         {
                             args.Add($"items: {rhs}");
                             args.Add((gen) =>
@@ -278,7 +278,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{accessor.PropertyOrDirectAccess} = ");
+                fg.AppendLine($"{accessor} = ");
                 using (new DepthWrapper(fg))
                 {
                     a(fg);
@@ -288,7 +288,7 @@ namespace Loqui.Generation
             else
             {
                 using (var args = new ArgsWrapper(fg,
-                    $"{accessor.PropertyOrDirectAccess}.SetTo"))
+                    $"{accessor}.SetTo"))
                 {
                     args.Add(subFg => a(subFg));
                 }
@@ -299,11 +299,11 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{accessor.PropertyAccess} = null;");
+                fg.AppendLine($"{accessor} = null;");
             }
             else
             {
-                fg.AppendLine($"{accessor.PropertyAccess}.Clear();");
+                fg.AppendLine($"{accessor}.Clear();");
             }
         }
 
@@ -314,7 +314,7 @@ namespace Loqui.Generation
             fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor.DirectAccess})");
+                fg.AppendLine($"foreach (var subItem in {accessor.Access})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");

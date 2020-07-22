@@ -16,8 +16,6 @@ namespace Loqui.Generation
         public DictMode Mode => DictMode.KeyValue;
         public bool BothAreLoqui => KeyIsLoqui && ValueIsLoqui;
 
-        public override string Property => $"{this.Name}";
-        public override string ProtectedName => $"{this.ProtectedProperty}";
         public override bool CopyNeedsTryCatch => true;
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
@@ -113,7 +111,7 @@ namespace Loqui.Generation
             fg.AppendLine("break;");
         }
 
-        public override string GetName(bool internalUse, bool property = true)
+        public override string GetName(bool internalUse)
         {
             if (internalUse)
             {
@@ -127,18 +125,7 @@ namespace Loqui.Generation
 
         public override void GenerateForClass(FileGeneration fg)
         {
-            if (this.ValueTypeGen is WildcardType wild)
-            {
-                fg.AppendLine($"private readonly INotifyingDictionary<{TypeTuple(getter: false)}> _{this.Name} = new NotifyingDictionary<{TypeTuple(getter: false)}>(");
-                using (new DepthWrapper(fg))
-                {
-                    fg.AppendLine("valConv: (o) => WildcardLink.Validate(o));");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{this.Name} = new Dictionary<{TypeTuple(getter: false)}>();");
-            }
+            fg.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{this.Name} = new Dictionary<{TypeTuple(getter: false)}>();");
             fg.AppendLine($"public IDictionary<{TypeTuple(getter: false)}> {this.Name} => _{this.Name};");
 
             var member = "_" + this.Name;
@@ -359,12 +346,12 @@ namespace Loqui.Generation
 
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
-            fg.AppendLine($"return {identifier.DirectAccess};");
+            fg.AppendLine($"return {identifier.Access};");
         }
 
         public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
         {
-            fg.AppendLine($"{accessorPrefix.DirectAccess}.Clear();");
+            fg.AppendLine($"{accessorPrefix.Access}.Clear();");
         }
 
         public override string GenerateACopy(string rhsAccessor)
@@ -374,42 +361,17 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.SequenceEqual({rhsAccessor.DirectAccess})";
+            return $"{(negate ? "!" : null)}{accessor.Access}.SequenceEqual({rhsAccessor.Access})";
         }
 
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
         {
-            fg.AppendLine($"if (!{accessor.DirectAccess}.SequenceEqual({rhsAccessor.DirectAccess})) return false;");
+            fg.AppendLine($"if (!{accessor.Access}.SequenceEqual({rhsAccessor.Access})) return false;");
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
-            if (!this.HasProperty)
-            {
-                this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
-            }
-            else
-            {
-                fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)} == {this.HasBeenSetAccessor(getter: true, accessor: rhsAccessor)})");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"if ({this.HasBeenSetAccessor(getter: true, accessor: accessor)})");
-                    using (new BraceWrapper(fg))
-                    {
-                        this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
-                    }
-                    fg.AppendLine($"else");
-                    using (new BraceWrapper(fg))
-                    {
-                        this.GenerateForEqualsMask(fg, $"ret.{this.Name}", true);
-                    }
-                }
-                fg.AppendLine($"else");
-                using (new BraceWrapper(fg))
-                {
-                    this.GenerateForEqualsMask(fg, $"ret.{this.Name}", false);
-                }
-            }
+            this.GenerateForEqualsMaskCheck(fg, $"item.{this.Name}", $"rhs.{this.Name}", $"ret.{this.Name}");
         }
 
         public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
@@ -466,7 +428,7 @@ namespace Loqui.Generation
             fg.AppendLine($"using (new DepthWrapper(fg))");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"foreach (var subItem in {accessor.DirectAccess})");
+                fg.AppendLine($"foreach (var subItem in {accessor.Access})");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");

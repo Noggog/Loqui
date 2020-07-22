@@ -20,7 +20,7 @@ namespace Loqui.Generation
                 toDo();
                 return;
             }
-            if (!string.IsNullOrWhiteSpace(indexAccessor.DirectAccess))
+            if (!string.IsNullOrWhiteSpace(indexAccessor.Access))
             {
                 fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
             }

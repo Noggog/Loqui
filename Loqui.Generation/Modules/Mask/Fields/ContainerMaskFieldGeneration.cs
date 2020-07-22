@@ -147,15 +147,15 @@ namespace Loqui.Generation
 
             if (nullCheck)
             {
-                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+                fg.AppendLine($"if ({accessor.Access} != null)");
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
-                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                fg.AppendLine($"if (!eval({accessor.Access}.Overall)) return false;");
+                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                     using (new BraceWrapper(fg))
                     {
                         var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
@@ -171,15 +171,15 @@ namespace Loqui.Generation
 
             if (nullCheck)
             {
-                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+                fg.AppendLine($"if ({accessor.Access} != null)");
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
-                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                fg.AppendLine($"if (eval({accessor.Access}.Overall)) return true;");
+                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                     using (new BraceWrapper(fg))
                     {
                         var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
@@ -319,11 +319,11 @@ namespace Loqui.Generation
             if (listType.SubTypeGeneration is LoquiType loqui
                 && loqui.SupportsMask(MaskType.Translation))
             {
-                fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {loqui.Mask(MaskType.Translation)}?>({onAccessor}, null);");
+                fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {loqui.Mask(MaskType.Translation)}?>({onAccessor}, null);");
             }
             else
             {
-                fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
+                fg.AppendLine($"{accessor.Access} = {onAccessor};");
             }
         }
     }

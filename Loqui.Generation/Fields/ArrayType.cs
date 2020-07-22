@@ -92,7 +92,7 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{accessorPrefix.PropertyAccess}.Unset();");
+                fg.AppendLine($"{accessorPrefix}.Unset();");
             }
             else
             {
@@ -101,24 +101,24 @@ namespace Loqui.Generation
                     if (this.SubTypeGeneration.IsNullable
                         && this.SubTypeGeneration.HasBeenSet)
                     {
-                        fg.AppendLine($"{accessorPrefix.DirectAccess}.ResetToNull();");
+                        fg.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
                     }
                     else if (this.SubTypeGeneration is StringType)
                     {
-                        fg.AppendLine($"Array.Fill({accessorPrefix.DirectAccess}, string.Empty);");
+                        fg.AppendLine($"Array.Fill({accessorPrefix.Access}, string.Empty);");
                     }
                     else if (this.SubTypeGeneration is LoquiType loqui)
                     {
-                        fg.AppendLine($"{accessorPrefix.DirectAccess}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
+                        fg.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
                     }
                     else
                     {
-                        fg.AppendLine($"{accessorPrefix.DirectAccess}.Reset();");
+                        fg.AppendLine($"{accessorPrefix.Access}.Reset();");
                     }
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix.DirectAccess}.Clear();");
+                    fg.AppendLine($"{accessorPrefix.Access}.Clear();");
                 }
             }
         }
@@ -127,11 +127,11 @@ namespace Loqui.Generation
         {
             if (this.SubTypeGeneration.IsIEquatable)
             {
-                fg.AppendLine($"if (!MemoryExtensions.SequenceEqual({accessor.DirectAccess}.Span, {rhsAccessor.DirectAccess}.Span)) return false;");
+                fg.AppendLine($"if (!MemoryExtensions.SequenceEqual({accessor.Access}.Span, {rhsAccessor.Access}.Span)) return false;");
             }
             else
             {
-                fg.AppendLine($"if (!{accessor.DirectAccess}.SequenceEqual({rhsAccessor.DirectAccess})) return false;");
+                fg.AppendLine($"if (!{accessor.Access}.SequenceEqual({rhsAccessor.Access})) return false;");
             }
         }
 

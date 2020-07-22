@@ -11,7 +11,7 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {
-            return $"{accessor.DirectAccess} {(negate ? "!" : "=")}= {rhsAccessor.DirectAccess}";
+            return $"{accessor.Access} {(negate ? "!" : "=")}= {rhsAccessor.Access}";
         }
 
         public override string GetDefault(bool getter)
@@ -31,7 +31,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
+                fg.AppendLine($"{accessor.Access} = {rhs};");
             }
         }
 

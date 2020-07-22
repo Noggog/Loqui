@@ -104,8 +104,6 @@ namespace Loqui.Generation
             this._typeGenerations[typeof(FilePathNullType)] = new PrimitiveXmlTranslationGeneration<FilePath?>();
             this._typeGenerations[typeof(DirectoryPathType)] = new PrimitiveXmlTranslationGeneration<DirectoryPath>();
             this._typeGenerations[typeof(DirectoryPathNullType)] = new PrimitiveXmlTranslationGeneration<DirectoryPath?>();
-            this._typeGenerations[typeof(UnsafeType)] = new UnsafeXmlTranslationGeneration();
-            this._typeGenerations[typeof(WildcardType)] = new UnsafeXmlTranslationGeneration();
             this._typeGenerations[typeof(ListType)] = new ListXmlTranslationGeneration();
             this._typeGenerations[typeof(DictType)] = new DictXmlTranslationGeneration();
             this._typeGenerations[typeof(ByteArrayType)] = new ByteArrayXmlTranslationGeneration();

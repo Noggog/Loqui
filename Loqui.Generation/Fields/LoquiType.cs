@@ -337,58 +337,25 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    if (this.PrefersProperty)
+                    if (this.Singleton)
                     {
-                        if (this.Singleton)
-                        {
-                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
-                        }
-                        fg.AppendLine(GetNotifyingProperty() + ";");
+                        fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName()} {this.Name}");
-                        using (new BraceWrapper(fg))
-                        {
-                            fg.AppendLine($"get => this.{this.ProtectedProperty}.Item;");
-                            if (!this.Singleton)
-                            {
-                                fg.AppendLine($"{SetPermissionStr}set => this.{this.ProtectedProperty}.Item = value;");
-                            }
-                        }
-                        if (this.ReadOnly)
-                        {
-                            fg.AppendLine($"public IHasBeenSetItemGetter<{this.TypeName()}> {this.Property} => this.{this.ProtectedProperty};");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"public IHasBeenSetItem<{this.TypeName()}> {this.Property} => {this.ProtectedProperty};");
-                        }
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeName()} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"IHasBeenSetItemGetter<{this.TypeName()}> {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Property} => this.{this.GetName(true, true)};");
+                        fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                     }
                     else
                     {
-                        if (this.Singleton)
-                        {
-                            fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
-                        }
-                        else
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
-                            fg.AppendLine($"public {this.TypeName()}{this.NullChar} {this.Name}");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"get => _{this.Name};");
-                                fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value;");
-                            }
-                        }
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
+                        fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
+                        fg.AppendLine($"public {this.TypeName()}{this.NullChar} {this.Name}");
+                        using (new BraceWrapper(fg))
+                        {
+                            fg.AppendLine($"get => _{this.Name};");
+                            fg.AppendLine($"{SetPermissionStr}set => _{this.Name} = value;");
+                        }
                     }
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.ProtectedName};");
                 }
                 else
                 {
@@ -576,7 +543,7 @@ namespace Loqui.Generation
                     {
                         if (_TargetObjectGeneration is StructGeneration)
                         {
-                            fg.AppendLine($"{accessor.DirectAccess} = new {this.TargetObjectGeneration.Name}({rhs});");
+                            fg.AppendLine($"{accessor.Access} = new {this.TargetObjectGeneration.Name}({rhs});");
                             return;
                         }
 
@@ -603,13 +570,13 @@ namespace Loqui.Generation
                                         fg.AppendLine($"if ({rhs} == null)");
                                         using (new BraceWrapper(fg))
                                         {
-                                            fg.AppendLine($"{accessor.DirectAccess} = null;");
+                                            fg.AppendLine($"{accessor.Access} = null;");
                                         }
                                         fg.AppendLine($"else");
                                         using (new BraceWrapper(fg))
                                         {
                                             using (var args = new ArgsWrapper(fg,
-                                                $"{accessor.DirectAccess} = {rhs}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                                $"{accessor.Access} = {rhs}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                             {
                                                 if (deepCopy)
                                                 {
@@ -626,7 +593,7 @@ namespace Loqui.Generation
                                     else
                                     {
                                         using (var args = new ArgsWrapper(fg,
-                                            $"{accessor.DirectAccess} = {rhs}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                            $"{accessor.Access} = {rhs}.DeepCopy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             if (deepCopy)
                                             {
@@ -651,11 +618,11 @@ namespace Loqui.Generation
                                     {
                                         if (this.GetterInterfaceType == LoquiInterfaceType.IGetter)
                                         {
-                                            fg.AppendLine($"{accessor.DirectAccess} = Utility.GetGetterInterfaceReference<{this.TypeName()}>({rhs});");
+                                            fg.AppendLine($"{accessor.Access} = Utility.GetGetterInterfaceReference<{this.TypeName()}>({rhs});");
                                         }
                                         else
                                         {
-                                            fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
+                                            fg.AppendLine($"{accessor.Access} = {rhs};");
                                         }
                                         fg.AppendLine("break;");
                                     }
@@ -679,13 +646,13 @@ namespace Loqui.Generation
                                         fg.AppendLine($"if ({rhs} == null)");
                                         using (new BraceWrapper(fg))
                                         {
-                                            fg.AppendLine($"{accessor.DirectAccess} = null;");
+                                            fg.AppendLine($"{accessor.Access} = null;");
                                         }
                                         fg.AppendLine($"else");
                                         using (new BraceWrapper(fg))
                                         {
                                             using (var args = new ArgsWrapper(fg,
-                                                $"{accessor.DirectAccess} = {rhs}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
+                                                $"{accessor.Access} = {rhs}.Copy{(this.SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                             {
                                                 args.Add($"{copyMaskAccessor}?.Specific");
                                             }
@@ -719,7 +686,7 @@ namespace Loqui.Generation
                                         }
                                         else
                                         {
-                                            fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
+                                            fg.AppendLine($"{accessor.Access} = {rhs};");
                                             fg.AppendLine("break;");
                                         }
                                     }
@@ -742,7 +709,7 @@ namespace Loqui.Generation
                                     {
                                         GenerateTypicalMakeCopy(
                                             fg,
-                                            retAccessor: $"{accessor.DirectAccess} = ",
+                                            retAccessor: $"{accessor.Access} = ",
                                             rhsAccessor: rhs,
                                             copyMaskAccessor: copyMaskAccessor,
                                             deepCopy: deepCopy,
@@ -760,7 +727,7 @@ namespace Loqui.Generation
                             {
                                 GenerateTypicalMakeCopy(
                                     fg,
-                                    retAccessor: $"{accessor.DirectAccess} = ",
+                                    retAccessor: $"{accessor.Access} = ",
                                     rhsAccessor: new Accessor($"rhs{this.Name}"),
                                     copyMaskAccessor: copyMaskAccessor,
                                     deepCopy: deepCopy,
@@ -770,7 +737,7 @@ namespace Loqui.Generation
                         fg.AppendLine("else");
                         using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"{accessor.DirectAccess} = default;");
+                            fg.AppendLine($"{accessor.Access} = default;");
                         }
                     },
                     errorMaskAccessor: "errorMask",
@@ -791,7 +758,7 @@ namespace Loqui.Generation
             {
                 case LoquiRefType.Direct:
                     using (var args = new ArgsWrapper(fg,
-                        $"{retAccessor}{rhsAccessor.DirectAccess}.DeepCopy{this.GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
+                        $"{retAccessor}{rhsAccessor.Access}.DeepCopy{this.GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
                     {
                         args.AddPassArg("errorMask");
                         if (this.RefType == LoquiRefType.Direct)
@@ -818,7 +785,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.DirectAccess}, null);");
+                        fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.Access}, null);");
                     }
                     break;
                 case LoquiRefType.Interface:
@@ -828,7 +795,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{this.TypeName()}>(r.GetType())({rhsAccessor.DirectAccess}, null);");
+                        fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{this.TypeName()}>(r.GetType())({rhsAccessor.Access}, null);");
                     }
                     break;
                 default:
@@ -846,8 +813,8 @@ namespace Loqui.Generation
             if (this.RefType == LoquiRefType.Direct)
             {
                 var funcStr = deepCopy
-                    ? $"{accessor.DirectAccess}.DeepCopyIn"
-                    : $"{accessor.DirectAccess}.CopyIn";
+                    ? $"{accessor.Access}.DeepCopyIn"
+                    : $"{accessor.Access}.CopyIn";
                 using (var args = new ArgsWrapper(fg, funcStr))
                 {
                     args.Add($"rhs: {rhs}");
@@ -889,7 +856,7 @@ namespace Loqui.Generation
             }
             else
             {
-                fg.AppendLine($"{this.TargetObjectGeneration.CommonClassName(LoquiInterfaceType.ISetter)}.Clear({identifier.DirectAccess});");
+                fg.AppendLine($"{this.TargetObjectGeneration.CommonClassName(LoquiInterfaceType.ISetter)}.Clear({identifier.Access});");
                 fg.AppendLine("break;");
             }
         }
@@ -987,33 +954,20 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
         {
-            return $"{(negate ? "!" : null)}object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+            return $"{(negate ? "!" : null)}object.Equals({accessor.Access}, {rhsAccessor.Access})";
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             if (this.HasBeenSet)
             {
-                if (this.PrefersProperty)
+                using (var args = new ArgsWrapper(fg,
+                    $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
                 {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{retAccessor} = {accessor.PropertyOrDirectAccess}.{nameof(EqualsMaskHelper.EqualsHelper)}"))
-                    {
-                        args.Add(rhsAccessor.PropertyOrDirectAccess);
-                        args.Add($"(loqLhs, loqRhs) => {this.TargetObjectGeneration.CommonClassName(LoquiInterfaceType.IGetter)}.GetEqualsMask(loqLhs, loqRhs)");
-                        args.Add("include");
-                    }
-                }
-                else
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
-                    {
-                        args.Add(accessor.DirectAccess);
-                        args.Add(rhsAccessor.DirectAccess);
-                        args.Add($"(loqLhs, loqRhs, incl) => loqLhs.GetEqualsMask(loqRhs, incl)");
-                        args.Add("include");
-                    }
+                    args.Add(accessor.Access);
+                    args.Add(rhsAccessor.Access);
+                    args.Add($"(loqLhs, loqRhs, incl) => loqLhs.GetEqualsMask(loqRhs, incl)");
+                    args.Add("include");
                 }
             }
             else
@@ -1023,19 +977,19 @@ namespace Loqui.Generation
                     fg.AppendLine($"{retAccessor} = new MaskItem<bool, {this.GenerateMaskString("bool")}>();");
                     using (new BraceWrapper(fg) { AppendSemicolon = true })
                     {
-                        fg.AppendLine($"Overall = object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})");
+                        fg.AppendLine($"Overall = object.Equals({accessor.Access}, {rhsAccessor.Access})");
                     }
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({accessor.DirectAccess}.GetEqualsMask({rhsAccessor.DirectAccess}, include), include);");
+                    fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({accessor.Access}.GetEqualsMask({rhsAccessor.Access}, include), include);");
                 }
             }
         }
 
         public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
         {
-            fg.AppendLine($"{accessor.DirectAccess}?.ToString({fgAccessor}, \"{name}\");");
+            fg.AppendLine($"{accessor.Access}?.ToString({fgAccessor}, \"{name}\");");
         }
 
         public override void GenerateForHasBeenSetCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
@@ -1044,7 +998,7 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}.Overall.Value != {this.HasBeenSetAccessor(getter: true, accessor: accessor)}) return false;");
             if (this.TargetObjectGeneration != null)
             {
-                fg.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.DirectAccess} == null || !{accessor.DirectAccess}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
+                fg.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.Access} == null || !{accessor.Access}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
             }
         }
 

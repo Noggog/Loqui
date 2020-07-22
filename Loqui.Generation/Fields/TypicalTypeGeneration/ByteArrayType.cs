@@ -19,11 +19,11 @@ namespace Loqui.Generation
         {
             if (this.HasBeenSet)
             {
-                return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.Equal({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+                return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.Equal({accessor.Access}, {rhsAccessor.Access})";
             }
             else
             {
-                return $"{(negate ? "!" : null)}MemoryExtensions.SequenceEqual({accessor.DirectAccess}.Span, {rhsAccessor.DirectAccess}.Span)";
+                return $"{(negate ? "!" : null)}MemoryExtensions.SequenceEqual({accessor.Access}.Span, {rhsAccessor.Access}.Span)";
             }
         }
 
@@ -38,7 +38,7 @@ namespace Loqui.Generation
             // ToDo
             // Add Internal interface support
             if (this.InternalGetInterface) return;
-            fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{nameof(SpanExt)}.{nameof(SpanExt.ToHexString)}({accessor.DirectAccess})}}\");");
+            fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{nameof(SpanExt)}.{nameof(SpanExt.ToHexString)}({accessor.Access})}}\");");
         }
 
         public override async Task Load(XElement node, bool requireName = true)
@@ -87,24 +87,17 @@ namespace Loqui.Generation
                             fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
                             using (new BraceWrapper(fg))
                             {
-                                fg.AppendLine($"{accessor.DirectAccess} = {this.Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");
+                                fg.AppendLine($"{accessor.Access} = {this.Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");
                             }
                             fg.AppendLine("else");
                             using (new BraceWrapper(fg))
                             {
-                                if (this.HasProperty && this.PrefersProperty)
-                                {
-                                    fg.AppendLine($"{accessor.PropertyAccess}.Unset();");
-                                }
-                                else
-                                {
-                                    fg.AppendLine($"{accessor.DirectAccess} = default;");
-                                }
+                                fg.AppendLine($"{accessor.Access} = default;");
                             }
                         }
                         else
                         {
-                            fg.AppendLine($"{accessor.DirectAccess} = {rhs}.ToArray();");
+                            fg.AppendLine($"{accessor.Access} = {rhs}.ToArray();");
                         }
                     },
                     errorMaskAccessor: "errorMask",
@@ -122,15 +115,15 @@ namespace Loqui.Generation
             if (!this.Enabled) return;
             if (this.HasBeenSet)
             {
-                fg.AppendLine($"{identifier.DirectAccess} = default;");
+                fg.AppendLine($"{identifier.Access} = default;");
             }
             else if (this.Length.HasValue)
             {
-                fg.AppendLine($"{identifier.DirectAccess} = new byte[{Length.Value}];");
+                fg.AppendLine($"{identifier.Access} = new byte[{Length.Value}];");
             }
             else
             {
-                fg.AppendLine($"{identifier.DirectAccess} = new byte[0];");
+                fg.AppendLine($"{identifier.Access} = new byte[0];");
             }
         }
 

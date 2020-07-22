@@ -9,7 +9,7 @@ namespace Loqui.Generation
 
         public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            return $"{(negate ? "!" : null)}{accessor.DirectAccess}.Equals({rhsAccessor.DirectAccess})";
+            return $"{(negate ? "!" : null)}{accessor.Access}.Equals({rhsAccessor.Access})";
         }
     }
 }

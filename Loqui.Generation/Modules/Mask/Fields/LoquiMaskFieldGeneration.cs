@@ -109,14 +109,14 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
+                fg.AppendLine($"if (!eval({accessor.Access}.Overall)) return false;");
                 if (!IsUnknownGeneric(loqui))
                 {
-                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && !{accessor.DirectAccess}.Specific.All(eval)) return false;");
+                    fg.AppendLine($"if ({accessor.Access}.Specific != null && !{accessor.Access}.Specific.All(eval)) return false;");
                 }
                 else
                 {
-                    fg.AppendLine($"if (!({accessor.DirectAccess}.Specific?.All(eval) ?? true)) return false;");
+                    fg.AppendLine($"if (!({accessor.Access}.Specific?.All(eval) ?? true)) return false;");
                 }
             }
         }
@@ -131,14 +131,14 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
+                fg.AppendLine($"if (eval({accessor.Access}.Overall)) return true;");
                 if (!IsUnknownGeneric(loqui))
                 {
-                    fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null && {accessor.DirectAccess}.Specific.Any(eval)) return true;");
+                    fg.AppendLine($"if ({accessor.Access}.Specific != null && {accessor.Access}.Specific.Any(eval)) return true;");
                 }
                 else
                 {
-                    fg.AppendLine($"if (({accessor.DirectAccess}.Specific?.Any(eval) ?? false)) return true;");
+                    fg.AppendLine($"if (({accessor.Access}.Specific?.Any(eval) ?? false)) return true;");
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace Loqui.Generation
 
         public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
         {
-            fg.AppendLine($"{accessor.DirectAccess} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
+            fg.AppendLine($"{accessor.Access} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
         }
 
         public override string GetMaskTypeStr(TypeGeneration field, string typeStr)

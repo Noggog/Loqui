@@ -26,7 +26,7 @@ namespace Loqui.Generation
 
         protected virtual string GetWriteAccessor(Accessor itemAccessor)
         {
-            return itemAccessor.DirectAccess;
+            return itemAccessor.Access;
         }
 
         public override void GenerateWrite(
@@ -158,11 +158,11 @@ namespace Loqui.Generation
                     {
                         if (typeGen.HasBeenSet)
                         {
-                            fg.AppendLine($"{itemAccessor.DirectAccess} = {typeGen.Name}Item.ToExtendedList();");
+                            fg.AppendLine($"{itemAccessor.Access} = {typeGen.Name}Item.ToExtendedList();");
                         }
                         else
                         {
-                            fg.AppendLine($"{itemAccessor.DirectAccess}.SetTo({typeGen.Name}Item);");
+                            fg.AppendLine($"{itemAccessor.Access}.SetTo({typeGen.Name}Item);");
                         }
                     }
                     fg.AppendLine("else");

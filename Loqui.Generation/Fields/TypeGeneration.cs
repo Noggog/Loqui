@@ -15,9 +15,6 @@ namespace Loqui.Generation
         public bool KeyField { get; protected set; }
         public abstract string TypeName(bool getter, bool needsCovariance = false);
         public virtual string Name { get; set; }
-        public virtual string Property => $"{this.Name}_Property";
-        public virtual string ProtectedProperty => $"_{this.Name}";
-        public virtual string PropertyOrName => $"{(this.HasProperty ? Property : Name)}";
         public string IndexEnumName => $"{this.ObjectGen.FieldIndexName}.{this.Name}";
         public string ObjectCentralizationEnumName => IndexEnumName;
         public string IndexEnumInt => $"(int){this.IndexEnumName}";
@@ -40,8 +37,6 @@ namespace Loqui.Generation
         public bool Notifying => NotifyingType != NotifyingType.None;
         public readonly BehaviorSubject<(bool Item, bool HasBeenSet)> HasBeenSetProperty = new BehaviorSubject<(bool Item, bool HasBeenSet)>((default, default));
         public virtual bool HasBeenSet => HasBeenSetProperty.Value.Item;
-        public virtual bool HasProperty => false;
-        public bool PrefersProperty => HasProperty;
         public virtual bool CanBeNullable(bool getter) => true;
         public Dictionary<object, object> CustomData = new Dictionary<object, object>();
         public XElement Node;
@@ -111,7 +106,7 @@ namespace Loqui.Generation
 
         public virtual string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
         {
-            return $"{(negate ? "!" : null)}object.Equals({accessor.DirectAccess}, {rhsAccessor.DirectAccess})";
+            return $"{(negate ? "!" : null)}object.Equals({accessor.Access}, {rhsAccessor.Access})";
         }
 
         public void FinalizeField()
@@ -197,29 +192,15 @@ namespace Loqui.Generation
 
         public virtual string EqualsMaskAccessor(string accessor) => accessor;
 
-        public virtual string GetName(bool internalUse, bool property)
+        public virtual string GetName(bool internalUse)
         {
             if (internalUse)
             {
-                if (property)
-                {
-                    return this.ProtectedProperty;
-                }
-                else
-                {
-                    return this.ProtectedName;
-                }
+                return this.ProtectedName;
             }
             else
             {
-                if (property)
-                {
-                    return this.Property;
-                }
-                else
-                {
-                    return this.Name;
-                }
+                return this.Name;
             }
         }
 
@@ -238,11 +219,7 @@ namespace Loqui.Generation
         {
             if (accessor == null)
             {
-                if (this.PrefersProperty)
-                {
-                    return $"{this.Property}.HasBeenSet";
-                }
-                else if (this.CanBeNullable(getter))
+                if (this.CanBeNullable(getter))
                 {
                     return $"({this.Name} != null)";
                 }
@@ -253,17 +230,13 @@ namespace Loqui.Generation
             }
             else
             {
-                if (this.PrefersProperty)
+                if (this.CanBeNullable(getter))
                 {
-                    return $"{accessor.PropertyAccess}.HasBeenSet";
-                }
-                else if (this.CanBeNullable(getter))
-                {
-                    return $"({accessor.DirectAccess} != null)";
+                    return $"({accessor.Access} != null)";
                 }
                 else
                 {
-                    return $"{accessor.DirectAccess}_IsSet";
+                    return $"{accessor.Access}_IsSet";
                 }
             }
         }

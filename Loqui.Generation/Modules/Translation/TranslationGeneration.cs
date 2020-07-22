@@ -19,8 +19,7 @@ namespace Loqui.Generation
             Accessor itemAccessor)
         {
             return itemAccessor != null
-                && typeGen.PrefersProperty
-                && itemAccessor.PropertyAccess != null;
+                && !itemAccessor.IsAssignment;
         }
 
         public static void WrapParseCall(TranslationWrapParseArgs param)
@@ -40,7 +39,7 @@ namespace Loqui.Generation
                         }
                         else if (!parseInto)
                         {
-                            prefix = $"{param.ItemAccessor.DirectAccess}{param.ItemAccessor.AssignmentOperator}";
+                            prefix = $"{param.ItemAccessor.Access}{param.ItemAccessor.AssignmentOperator}";
                         }
                         args = new ArgsWrapper(param.FG,
                            $"{prefix}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{(param.Generic == null ? null : $"<{param.Generic}>")}",
@@ -73,7 +72,7 @@ namespace Loqui.Generation
                         }
                         if (parseInto)
                         {
-                            args.Add($"item: {param.ItemAccessor.PropertyAccess}");
+                            args.Add($"item: {param.ItemAccessor.Access}");
                             if (param.IndexAccessor != null && !param.SkipErrorMask)
                             {
                                 args.Add($"fieldIndex: {param.IndexAccessor}");
@@ -102,7 +101,7 @@ namespace Loqui.Generation
                         {
                             using (new BraceWrapper(param.FG))
                             {
-                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.TypeGen.Name}Parse;");
+                                param.FG.AppendLine($"{param.ItemAccessor.Access} = {param.TypeGen.Name}Parse;");
                             }
                         }
                         else
@@ -110,7 +109,7 @@ namespace Loqui.Generation
                             param.FG.AppendLine($"if ({param.TypeGen.Name}Parse.Succeeded)");
                             using (new BraceWrapper(param.FG))
                             {
-                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.TypeGen.Name}Parse.Value;");
+                                param.FG.AppendLine($"{param.ItemAccessor.Access} = {param.TypeGen.Name}Parse.Value;");
                             }
                         }
                         param.FG.AppendLine("else");
@@ -122,7 +121,7 @@ namespace Loqui.Generation
                             }
                             else
                             {
-                                param.FG.AppendLine($"{param.ItemAccessor.DirectAccess} = {param.DefaultOverride ?? $"default({param.TypeGen.TypeName(getter: false)})"};");
+                                param.FG.AppendLine($"{param.ItemAccessor.Access} = {param.DefaultOverride ?? $"default({param.TypeGen.TypeName(getter: false)})"};");
                             }
                         }
                     }

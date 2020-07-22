@@ -24,14 +24,7 @@ namespace Loqui.Generation
 
         protected virtual string ItemWriteAccess(TypeGeneration typeGen, Accessor itemAccessor)
         {
-            if (typeGen.PrefersProperty)
-            {
-                return itemAccessor.PropertyOrDirectAccess;
-            }
-            else
-            {
-                return $"{itemAccessor.DirectAccess}{(typeGen.HasBeenSet && typeGen.CanBeNullable(true) && CanBeNotNullable ? ".Value" : null)}";
-            }
+            return $"{itemAccessor.Access}{(typeGen.HasBeenSet && typeGen.CanBeNullable(true) && CanBeNotNullable ? ".Value" : null)}";
         }
 
         public override string GetTranslatorInstance(TypeGeneration typeGen, bool getter)

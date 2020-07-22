@@ -92,8 +92,6 @@ namespace Loqui.Generation
             AddTypeAssociation<StringType>("String");
             AddTypeAssociation<FilePathType>("FilePath");
             AddTypeAssociation<DirectoryPathType>("DirectoryPath");
-            AddTypeAssociation<UnsafeType>("UnsafeObject");
-            AddTypeAssociation<WildcardType>("Wildcard");
             AddTypeAssociation<FieldBatchPointerType>("FieldBatch");
             AddTypeAssociation<DateTimeType>("DateTime");
             AddTypeAssociation<ByteArrayType>("ByteArray");

@@ -246,15 +246,15 @@ namespace Loqui.Generation
 
             if (nullCheck)
             {
-                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+                fg.AppendLine($"if ({accessor.Access} != null)");
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (!eval({accessor.DirectAccess}.Overall)) return false;");
-                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                fg.AppendLine($"if (!eval({accessor.Access}.Overall)) return false;");
+                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                     using (new BraceWrapper(fg))
                     {
                         switch (dictType.Mode)
@@ -292,15 +292,15 @@ namespace Loqui.Generation
 
             if (nullCheck)
             {
-                fg.AppendLine($"if ({accessor.DirectAccess} != null)");
+                fg.AppendLine($"if ({accessor.Access} != null)");
             }
             using (new BraceWrapper(fg, doIt: nullCheck))
             {
-                fg.AppendLine($"if (eval({accessor.DirectAccess}.Overall)) return true;");
-                fg.AppendLine($"if ({accessor.DirectAccess}.Specific != null)");
+                fg.AppendLine($"if (eval({accessor.Access}.Overall)) return true;");
+                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"foreach (var item in {accessor.DirectAccess}.Specific)");
+                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                     using (new BraceWrapper(fg))
                     {
                         switch (dictType.Mode)
@@ -489,20 +489,20 @@ namespace Loqui.Generation
                 case DictMode.KeyValue:
                     if (keyLoquiType == null && valueLoquiType == null)
                     {
-                        fg.AppendLine($"{accessor.DirectAccess} = {onAccessor};");
+                        fg.AppendLine($"{accessor.Access} = {onAccessor};");
                     }
                     else if (keyLoquiType != null && valueLoquiType != null)
                     {
-                        fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}?>>({onAccessor}, null);");
+                        fg.AppendLine($"{accessor.Access} = new MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}?>>({onAccessor}, null);");
                     }
                     else
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}?>({onAccessor}, null);");
+                        fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}?>({onAccessor}, null);");
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"{accessor.DirectAccess} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?>({onAccessor}, null);");
+                    fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?>({onAccessor}, null);");
                     break;
                 default:
                     break;

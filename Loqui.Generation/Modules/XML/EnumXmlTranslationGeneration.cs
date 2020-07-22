@@ -33,7 +33,7 @@ namespace Loqui.Generation
             {
                 args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
                 args.Add($"name: {nameAccessor}");
-                args.Add($"item: {itemAccessor.DirectAccess}");
+                args.Add($"item: {itemAccessor.Access}");
                 if (typeGen.HasIndex)
                 {
                     args.Add($"fieldIndex: (int){typeGen.IndexEnumName}");

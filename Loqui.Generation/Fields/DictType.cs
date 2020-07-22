@@ -24,23 +24,19 @@ namespace Loqui.Generation
         private IDictType subDictGenerator;
         public DictMode Mode => subDictGenerator.Mode;
         public override bool CopyNeedsTryCatch => subGenerator.CopyNeedsTryCatch;
-
         public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
         public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
-
-        public override string Property => subGenerator.Property;
         public override string ProtectedName => subGenerator.ProtectedName;
         public override string TypeName(bool getter, bool needsCovariance = false) => subGenerator.TypeName(getter, needsCovariance);
         public override bool IsEnumerable => true;
         public override bool IsClass => true;
         public override bool HasDefault => false;
-        public override bool HasProperty => false;
 
         public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
 
-        public override string GetName(bool internalUse, bool property)
+        public override string GetName(bool internalUse)
         {
-            return subGenerator.GetName(internalUse, property);
+            return subGenerator.GetName(internalUse);
         }
 
         public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)

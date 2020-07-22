@@ -14,25 +14,10 @@ namespace Loqui.Generation
         public override string TypeName(bool getter, bool needsCovariance = false) => Type(getter).GetName();
         public string DefaultValue;
         public override bool HasDefault => !string.IsNullOrWhiteSpace(DefaultValue);
-        public override string ProtectedProperty => "_" + this.Name;
-        public override string ProtectedName
-        {
-            get
-            {
-                if (this.HasProperty)
-                {
-                    return $"{this.ProtectedProperty}.Item";
-                }
-                else
-                {
-                    return $"{this.Name}";
-                }
-            }
-        }
+        public override string ProtectedName => $"{this.Name}";
         public event Action<FileGeneration> PreSetEvent;
         public event Action<FileGeneration> PostSetEvent;
-
-        public override bool CopyNeedsTryCatch => this.HasProperty;
+        public override bool CopyNeedsTryCatch => false;
 
         public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
         {
@@ -84,7 +69,7 @@ namespace Loqui.Generation
             }
         }
 
-        public virtual string GetValueSetString(Accessor accessor) => accessor.DirectAccess;
+        public virtual string GetValueSetString(Accessor accessor) => accessor.Access;
 
         public override void GenerateForClass(FileGeneration fg)
         {
@@ -138,31 +123,7 @@ namespace Loqui.Generation
                 {
                     if (!this.TrueReadOnly)
                     {
-                        if (this.PrefersProperty)
-                        {
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"protected readonly IHasBeenSetItem<{TypeName(getter: false)}> _{this.Name};");
-                            fg.AppendLine($"public IHasBeenSetItem<{this.TypeName(getter: false)}> {this.Property} => _{this.Name};");
-                            if (HasDefault)
-                            {
-                                fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
-                            }
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"get => this._{this.Name}.Item;");
-                                WrapSetAccessor(fg,
-                                    linePrefix: $"{SetPermissionStr}set",
-                                    toDo: subGen => subGen.AppendLine($"this._{this.Name}.Set({GetValueSetString("value")});"));
-                            }
-                            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                            fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
-                        }
-                        else
-                        {
-                            GenerateTypicalHasBeenSetMembers(false);
-                        }
+                        GenerateTypicalHasBeenSetMembers(false);
                     }
                     else
                     {
@@ -291,17 +252,10 @@ namespace Loqui.Generation
                     {
                         if (this.HasBeenSet)
                         {
-                            if (this.PrefersProperty)
-                            {
-                                fg.AppendLine($"new IHasBeenSetItem{(this.ReadOnly ? "Getter" : string.Empty)}<{TypeName(getter: false)}> {this.Property} {{ get; }}");
-                            }
-                            else
-                            {
-                                fg.AppendLine($"new bool {this.HasBeenSetAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
-                                fg.AppendLine($"void {this.Name}_Set({this.TypeName(getter: false)} value, bool hasBeenSet = true);");
-                                fg.AppendLine($"void {this.Name}_Unset();");
-                                fg.AppendLine();
-                            }
+                            fg.AppendLine($"new bool {this.HasBeenSetAccessor(getter: false, accessor: new Accessor(this.Name))} {{ get; set; }}");
+                            fg.AppendLine($"void {this.Name}_Set({this.TypeName(getter: false)} value, bool hasBeenSet = true);");
+                            fg.AppendLine($"void {this.Name}_Unset();");
+                            fg.AppendLine();
                         }
                     }
                 }
@@ -324,51 +278,22 @@ namespace Loqui.Generation
                     fg,
                     () =>
                     {
-                        if (this.PrefersProperty)
+                        if (this.HasBeenSet)
                         {
-                            if (this.HasBeenSet)
+                            fg.AppendLine($"if ({rhs}.TryGet(out var item{this.Name}))");
+                            using (new BraceWrapper(fg))
                             {
-                                using (var args = new ArgsWrapper(fg,
-                                    $"{accessor}.SetTo"))
-                                {
-                                    args.Add($"rhs: {rhs}");
-                                }
+                                fg.AppendLine($"{accessor.Access} = item{this.Name};");
                             }
-                            else
+                            fg.AppendLine("else");
+                            using (new BraceWrapper(fg))
                             {
-                                using (var args = new ArgsWrapper(fg,
-                                    $"{accessor.PropertyAccess}.Set"))
-                                {
-                                    args.Add($"value: {rhs}");
-                                }
+                                fg.AppendLine($"{accessor.Access} = default;");
                             }
                         }
                         else
                         {
-                            if (this.HasBeenSet)
-                            {
-                                fg.AppendLine($"if ({rhs}.TryGet(out var item{this.Name}))");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"{accessor.DirectAccess} = item{this.Name};");
-                                }
-                                fg.AppendLine("else");
-                                using (new BraceWrapper(fg))
-                                {
-                                    if (this.HasProperty && this.PrefersProperty)
-                                    {
-                                        fg.AppendLine($"{accessor.PropertyAccess}.Unset();");
-                                    }
-                                    else
-                                    {
-                                        fg.AppendLine($"{accessor.DirectAccess} = default;");
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                fg.AppendLine($"{accessor.DirectAccess} = {rhs};");
-                            }
+                            fg.AppendLine($"{accessor.Access} = {rhs};");
                         }
                     },
                     errorMaskAccessor: "errorMask",
@@ -385,18 +310,7 @@ namespace Loqui.Generation
         public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
         {
             if (!this.IntegrateField) return;
-            if (this.HasProperty && this.PrefersProperty)
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"{accessor}.Set"))
-                {
-                    args.Add($"{rhs}");
-                }
-            }
-            else
-            {
-                fg.AppendLine($"{accessor} = {rhs};");
-            }
+            fg.AppendLine($"{accessor} = {rhs};");
             fg.AppendLine($"break;");
         }
 
@@ -410,29 +324,25 @@ namespace Loqui.Generation
             {
                 if (this.HasBeenSet)
                 {
-                    fg.AppendLine($"{identifier.DirectAccess}_Unset();");
+                    fg.AppendLine($"{identifier.Access}_Unset();");
                 }
                 else
                 {
-                    fg.AppendLine($"{identifier.DirectAccess} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default")};");
+                    fg.AppendLine($"{identifier.Access} = {(this.HasDefault ? $"{this.ObjectGen.Name}._{this.Name}_Default" : $"default")};");
                 }
                 return;
             }
-            if (this.HasProperty && this.PrefersProperty)
+            if (this.HasDefault)
             {
-                fg.AppendLine($"{identifier.PropertyAccess}.Unset();");
-            }
-            else if (this.HasDefault)
-            {
-                fg.AppendLine($"{identifier.DirectAccess} = {this.ObjectGen.Name}._{this.Name}_Default;");
+                fg.AppendLine($"{identifier.Access} = {this.ObjectGen.Name}._{this.Name}_Default;");
             }
             else if (this.HasBeenSet)
             {
-                fg.AppendLine($"{identifier.DirectAccess} = default;");
+                fg.AppendLine($"{identifier.Access} = default;");
             }
             else
             {
-                fg.AppendLine($"{identifier.DirectAccess} = {GetDefault(getter: false)};");
+                fg.AppendLine($"{identifier.Access} = {GetDefault(getter: false)};");
             }
         }
 
@@ -445,7 +355,7 @@ namespace Loqui.Generation
         public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"return {identifier.DirectAccess};");
+            fg.AppendLine($"return {identifier.Access};");
         }
 
         public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
@@ -460,14 +370,7 @@ namespace Loqui.Generation
             // ToDo
             // Add Internal interface support
             if (this.InternalGetInterface) return;
-            if (this.HasBeenSet && this.HasProperty && this.PrefersProperty)
-            {
-                    fg.AppendLine($"{retAccessor} = {accessor.PropertyAccess}.Equals({rhsAccessor.PropertyAccess}, (l, r) => {GenerateEqualsSnippet("l", "r")});");
-            }
-            else
-            {
-                fg.AppendLine($"{retAccessor} = {GenerateEqualsSnippet(accessor.DirectAccess, rhsAccessor.DirectAccess)};");
-            }
+            fg.AppendLine($"{retAccessor} = {GenerateEqualsSnippet(accessor.Access, rhsAccessor.Access)};");
         }
 
         public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
