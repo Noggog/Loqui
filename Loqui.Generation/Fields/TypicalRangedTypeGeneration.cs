@@ -29,7 +29,7 @@ namespace Loqui.Generation
             RangeThrowException = node.GetAttribute<bool>(Constants.RANGE_THROW_EXCEPTION, false);
         }
 
-        protected string InRangeCheckerString => $"{(this.IsNullable() ? "?" : string.Empty)}.{(this.RangeThrowException ? "" : "Put")}InRange({RangeMemberName}.Min, {RangeMemberName}.Max)";
+        protected string InRangeCheckerString => $"{(TypeExt.IsNullable(this.GetType()) ? "?" : string.Empty)}.{(this.RangeThrowException ? "" : "Put")}InRange({RangeMemberName}.Min, {RangeMemberName}.Max)";
 
         public override string GetValueSetString(Accessor accessor)
         {

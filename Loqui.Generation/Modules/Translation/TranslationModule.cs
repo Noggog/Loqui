@@ -153,51 +153,6 @@ namespace Loqui.Generation
             var asyncImport = await this.AsyncImport(obj);
             var errorLabel = await ErrorLabel(obj);
 
-            if (obj.CanAssume())
-            {
-                fg.AppendLine("[DebuggerStepThrough]");
-                using (var args = new FunctionWrapper(fg,
-                    $"public static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}"))
-                {
-                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal)));
-                    args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
-                    foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader))
-                    {
-                        if (Public)
-                        {
-                            args.Add(API.Result);
-                        }
-                    }
-                    if (this.TranslationMaskParameter)
-                    {
-                        args.Add(GetTranslationMaskParameter().Resolver(obj).Result);
-                    }
-                }
-                using (new BraceWrapper(fg))
-                {
-                    using (var args = new ArgsWrapper(fg,
-                        $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{ModuleNickname}",
-                        suffixLine: Utility.ConfigAwait(asyncImport)))
-                    {
-                        args.AddPassArg("item");
-                        args.Add(this.MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                        foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader))
-                        {
-                            args.Add(customArgs);
-                        }
-                        if (this.DoErrorMasks)
-                        {
-                            args.Add("errorMask: null");
-                        }
-                        if (this.TranslationMaskParameter)
-                        {
-                            args.Add($"translationMask: translationMask?.GetCrystal()");
-                        }
-                    }
-                }
-                fg.AppendLine();
-            }
-
             if (this.DoErrorMasks)
             {
                 fg.AppendLine("[DebuggerStepThrough]");
@@ -575,48 +530,6 @@ namespace Loqui.Generation
             {
                 var asyncImport = await this.AsyncImport(obj);
                 var errorLabel = await ErrorLabel(obj);
-                if (obj.CanAssume())
-                {
-                    fg.AppendLine("[DebuggerStepThrough]");
-                    using (var args = new FunctionWrapper(fg,
-                        $"public static{obj.NewOverride()}{await this.ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes())}"))
-                    {
-                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
-                        foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader))
-                        {
-                            if (Public)
-                            {
-                                args.Add(API.Result);
-                            }
-                        }
-                        if (this.TranslationMaskParameter)
-                        {
-                            args.Add(GetTranslationMaskParameter().Resolver(obj).Result);
-                        }
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        using (var args = new ArgsWrapper(fg,
-                            $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{ModuleNickname}",
-                            suffixLine: Utility.ConfigAwait(asyncImport)))
-                        {
-                            args.Add(this.MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                            foreach (var customArgs in this.MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader))
-                            {
-                                args.Add(customArgs);
-                            }
-                            if (this.DoErrorMasks)
-                            {
-                                args.Add("errorMask: null");
-                            }
-                            if (this.TranslationMaskParameter)
-                            {
-                                args.Add($"translationMask: translationMask?.GetCrystal()");
-                            }
-                        }
-                    }
-                    fg.AppendLine();
-                }
 
                 if (this.DoErrorMasks)
                 {

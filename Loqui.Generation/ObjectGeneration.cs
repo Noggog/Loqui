@@ -1765,7 +1765,7 @@ namespace Loqui.Generation
                     fg,
                     Accessor.FromType(item.Field, accessorPrefix),
                     Accessor.FromType(item.Field, rhsAccessorPrefix),
-                    deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: item.Field.IsNullable()),
+                    deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: TypeExt.IsNullable(item.Field.GetType())),
                     protectedMembers: false,
                     deepCopy: deepCopy);
             }
