@@ -22,7 +22,7 @@ namespace Loqui
             if (lhsAgg != null && rhsAgg != null)
             {
                 return new AggregateException(
-                    lhsAgg.InnerExceptions.And(rhsAgg.InnerExceptions));
+                    lhsAgg.InnerExceptions.Select(i => i).And(rhsAgg.InnerExceptions));
             }
             if (lhsAgg != null)
             {

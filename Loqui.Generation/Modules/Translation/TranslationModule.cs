@@ -17,7 +17,7 @@ namespace Loqui.Generation
         public override string RegionString => $"{ModuleNickname} Translation";
         public abstract string Namespace { get; }
         public abstract bool GenerateAbstractCreates { get; }
-        public IEnumerable<TranslationModuleAPI> AllAPI => MainAPI.And(MinorAPIs);
+        public IEnumerable<TranslationModuleAPI> AllAPI => MainAPI.AsEnumerable().And(MinorAPIs);
         public TranslationModuleAPI MainAPI;
         protected List<TranslationModuleAPI> MinorAPIs = new List<TranslationModuleAPI>();
         public bool TranslationMaskParameter = true;

@@ -672,7 +672,7 @@ namespace Loqui.Generation
             {
                 if (obj.HasLoquiBaseObject)
                 {
-                    fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.AsEnumerable().And(otherParameters))});");
                     if (!ret)
                     {
                         fg.AppendLine("break;");

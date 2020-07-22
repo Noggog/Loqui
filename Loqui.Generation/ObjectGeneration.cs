@@ -2587,7 +2587,7 @@ namespace Loqui.Generation
             {
                 if (this.HasLoquiBaseObject)
                 {
-                    fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.RegistrationName}.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                    fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.RegistrationName}.{functionName}({string.Join(", ", indexAccessor.AsEnumerable().And(otherParameters))});");
                     if (!ret)
                     {
                         fg.AppendLine("break;");
@@ -2616,11 +2616,11 @@ namespace Loqui.Generation
                 {
                     if (common)
                     {
-                        fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.CommonClassName(loquiInterface)}.{functionName}{this.BaseGenericTypes}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                        fg.AppendLine($"{(ret ? "return " : string.Empty)}{BaseClass.CommonClassName(loquiInterface)}.{functionName}{this.BaseGenericTypes}({string.Join(", ", indexAccessor.AsEnumerable().And(otherParameters))});");
                     }
                     else
                     {
-                        fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.And(otherParameters))});");
+                        fg.AppendLine($"{(ret ? "return " : string.Empty)}base.{functionName}({string.Join(", ", indexAccessor.AsEnumerable().And(otherParameters))});");
                     }
                     if (!ret)
                     {
@@ -3979,7 +3979,7 @@ namespace Loqui.Generation
 
         public string GetGenericTypes(MaskType maskType, params string[] extraGenerics)
         {
-            return GenerateGenericClause(GetGenericTypeStrings(maskType.Single().ToArray()).And(extraGenerics).ToArray());
+            return GenerateGenericClause(GetGenericTypeStrings(maskType.AsEnumerable().ToArray()).And(extraGenerics).ToArray());
         }
 
         public string GetGenericTypesNickname(string nickName, params MaskType[] maskTypes)
