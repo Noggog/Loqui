@@ -245,7 +245,7 @@ namespace Loqui.Generation
 
             foreach (var minorAPI in this.MinorAPIs)
             {
-                if (!minorAPI.When?.Invoke(obj) ?? false) continue;
+                if (!minorAPI.When?.Invoke(obj, TranslationDirection.Reader) ?? false) continue;
                 if (obj.CanAssume())
                 {
                     using (var args = new FunctionWrapper(fg,
@@ -628,7 +628,7 @@ namespace Loqui.Generation
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
-                    if (!minorAPI.When?.Invoke(obj) ?? false) continue;
+                    if (!minorAPI.When?.Invoke(obj, TranslationDirection.Reader) ?? false) continue;
                     if (obj.CanAssume())
                     {
                         using (var args = new FunctionWrapper(fg,
@@ -1041,7 +1041,7 @@ namespace Loqui.Generation
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
-                    if (!minorAPI.When?.Invoke(obj) ?? false) continue;
+                    if (!minorAPI.When?.Invoke(obj, TranslationDirection.Writer) ?? false) continue;
                     using (var args = new FunctionWrapper(fg,
                         $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                     {
@@ -1230,7 +1230,7 @@ namespace Loqui.Generation
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
-                    if (!minorAPI.When?.Invoke(obj) ?? false) continue;
+                    if (!minorAPI.When?.Invoke(obj, TranslationDirection.Writer) ?? false) continue;
                     using (var args = new FunctionWrapper(fg,
                         $"public static void {WriteToPrefix}{ModuleNickname}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}"))
                     {

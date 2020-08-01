@@ -38,9 +38,9 @@ namespace Loqui.Generation
             .ToArray();
         public TranslationFunnel Funnel;
 
-        public Func<ObjectGeneration, bool> When { get; set; }
+        public Func<ObjectGeneration, TranslationDirection, bool> When { get; set; }
 
-        public TranslationModuleAPI(MethodAPI api, Func<ObjectGeneration, bool> when = null)
+        public TranslationModuleAPI(MethodAPI api, Func<ObjectGeneration, TranslationDirection, bool> when = null)
         {
             this.WriterAPI = api;
             this.ReaderAPI = api;
@@ -50,7 +50,7 @@ namespace Loqui.Generation
         public TranslationModuleAPI(
             MethodAPI writerAPI,
             MethodAPI readerAPI,
-            Func<ObjectGeneration, bool> when = null)
+            Func<ObjectGeneration, TranslationDirection, bool> when = null)
         {
             this.WriterAPI = writerAPI;
             this.ReaderAPI = readerAPI;
