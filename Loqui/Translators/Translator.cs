@@ -129,7 +129,7 @@ namespace Loqui.Translators
 
         protected virtual GetResponse<ObjTransl> SetTranslator_Internal(ObjTransl transl, Type t)
         {
-            var resp = typeDict.TryCreateValue(
+            var resp = typeDict.GetOrAdd(
                 t,
                 () =>
                 {

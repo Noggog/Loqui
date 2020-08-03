@@ -142,7 +142,7 @@ namespace Loqui.Generation
                     }
 
                     this.ObjectGenerationsByName.Add(name, objGen);
-                    this.Gen.ObjectGenerationsByDir.TryCreateValue(objGen.TargetDir.FullName).Add(objGen);
+                    this.Gen.ObjectGenerationsByDir.GetOrAdd(objGen.TargetDir.FullName).Add(objGen);
                     this.Gen.ObjectGenerationsByObjectNameKey[new ObjectNamedKey(this.Protocol, objGen.Name)] = objGen;
                 }
             }

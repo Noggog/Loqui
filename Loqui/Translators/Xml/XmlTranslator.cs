@@ -32,7 +32,7 @@ namespace Loqui.Xml
                 var regis = LoquiRegistration.GetRegisterByFullName(elementName);
                 if (regis != null)
                 {
-                    t = elementNameTypeDict.TryCreateValue(elementName, () => regis.ClassType)!;
+                    t = elementNameTypeDict.GetOrAdd(elementName, () => regis.ClassType)!;
                     return t != null;
                 }
                 else
@@ -47,7 +47,7 @@ namespace Loqui.Xml
         {
             var resp = base.SetTranslator_Internal(transl, t);
             if (string.IsNullOrEmpty(transl.ElementName)) return resp;
-            elementNameTypeDict.TryCreateValue(transl.ElementName, () => t);
+            elementNameTypeDict.GetOrAdd(transl.ElementName, () => t);
             return resp;
         }
     }
