@@ -40,4 +40,8 @@
     <PackageReference Include="System.Reactive" Version="4.4.1" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="RD /S /Q &quot;%25USERPROFILE%25\.nuget\packages\loqui&quot;" />
+  </Target>
+
 </Project>

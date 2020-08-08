@@ -40,4 +40,8 @@
     <ProjectReference Include="..\Loqui\Loqui.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="RD /S /Q &quot;%25USERPROFILE%25\.nuget\packages\loqui.generation&quot;" />
+  </Target>
+
 </Project>
