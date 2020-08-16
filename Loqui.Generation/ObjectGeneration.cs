@@ -1298,6 +1298,7 @@ namespace Loqui.Generation
                         args.AddPassArg($"rhs");
                         args.Add("errorMask: default");
                         args.Add($"copyMask: default");
+                        args.Add($"deepCopy: false");
                     }
                 }
                 fg.AppendLine();
@@ -1322,6 +1323,7 @@ namespace Loqui.Generation
                         args.AddPassArg($"rhs");
                         args.Add("errorMask: default");
                         args.Add($"copyMask: copyMask?.GetCrystal()");
+                        args.Add($"deepCopy: false");
                     }
                 }
                 fg.AppendLine();
@@ -1346,6 +1348,7 @@ namespace Loqui.Generation
                     args.AddPassArg($"rhs");
                     args.Add("errorMask: errorMaskBuilder");
                     args.Add($"copyMask: copyMask?.GetCrystal()");
+                    args.Add($"deepCopy: false");
                 }
                 fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
             }
@@ -1369,6 +1372,7 @@ namespace Loqui.Generation
                     args.AddPassArg($"rhs");
                     args.AddPassArg($"errorMask");
                     args.AddPassArg($"copyMask");
+                    args.Add($"deepCopy: false");
                 }
             }
             fg.AppendLine();
@@ -1506,7 +1510,7 @@ namespace Loqui.Generation
         {
             if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)) return;
 
-            using (new RegionWrapper(fg, "Deep Copy Fields From"))
+            using (new RegionWrapper(fg, "DeepCopyIn"))
             {
                 if (this.HasInternalGetInterface || this.HasInternalSetInterface)
                 {
@@ -1518,6 +1522,7 @@ namespace Loqui.Generation
                         args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                         args.Add($"ErrorMaskBuilder? errorMask");
                         args.Add($"TranslationCrystal? copyMask");
+                        args.Add($"bool deepCopy");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -1538,6 +1543,7 @@ namespace Loqui.Generation
                                 args.Add($"({this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true)})rhs");
                                 args.AddPassArg("errorMask");
                                 args.AddPassArg("copyMask");
+                                args.AddPassArg("deepCopy");
                             }
                         }
                     }
@@ -1552,6 +1558,7 @@ namespace Loqui.Generation
                     args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
                     args.Add($"ErrorMaskBuilder? errorMask");
                     args.Add($"TranslationCrystal? copyMask");
+                    args.Add($"bool deepCopy");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -1578,6 +1585,7 @@ namespace Loqui.Generation
                             args.Add($"{baseClass.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                             args.Add($"ErrorMaskBuilder? errorMask");
                             args.Add($"TranslationCrystal? copyMask");
+                            args.Add($"bool deepCopy");
                         }
                         using (new BraceWrapper(fg))
                         {
@@ -1588,6 +1596,7 @@ namespace Loqui.Generation
                                 args.Add($"rhs: ({this.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)})rhs");
                                 args.AddPassArg("errorMask");
                                 args.AddPassArg("copyMask");
+                                args.AddPassArg("deepCopy");
                             }
                         }
                     }
@@ -1601,6 +1610,7 @@ namespace Loqui.Generation
                         args.Add($"{baseClass.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
                         args.Add($"ErrorMaskBuilder? errorMask");
                         args.Add($"TranslationCrystal? copyMask");
+                        args.Add($"bool deepCopy");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -1611,6 +1621,7 @@ namespace Loqui.Generation
                             args.Add($"rhs: ({this.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true)})rhs");
                             args.AddPassArg("errorMask");
                             args.AddPassArg("copyMask");
+                            args.AddPassArg("deepCopy");
                         }
                     }
                     fg.AppendLine();
@@ -1638,6 +1649,7 @@ namespace Loqui.Generation
                     args.Add($"{(internalCopy ? null : $"({this.BaseClass.Interface(getter: true, internalInterface: false)})")}{rhsAccessorPrefix}");
                     args.Add(errMaskAccessor);
                     args.Add(copyMaskAccessor);
+                    args.AddPassArg("deepCopy");
                 }
             }
 
@@ -2734,10 +2746,13 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"ret.DeepCopyIn{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
+                    $"{this.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
-                    args.Add("item");
-                    args.Add("copyMask: copyMask");
+                    args.Add("item: ret");
+                    args.Add("rhs: item");
+                    args.Add("errorMask: null");
+                    args.Add($"copyMask: copyMask?.GetCrystal()");
+                    args.Add($"deepCopy: true");
                 }
                 fg.AppendLine("return ret;");
             }
@@ -2753,14 +2768,18 @@ namespace Loqui.Generation
             }
             using (new BraceWrapper(fg))
             {
+                fg.AppendLine($"var errorMaskBuilder = new ErrorMaskBuilder();");
                 fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"ret.DeepCopyIn{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Error, MaskType.Translation)}"))
+                    $"{this.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
+                    args.Add("ret");
                     args.Add("item");
-                    args.Add("errorMask: out errorMask");
-                    args.Add("copyMask: copyMask");
+                    args.Add("errorMask: errorMaskBuilder");
+                    args.Add("copyMask: copyMask?.GetCrystal()");
+                    args.Add("deepCopy: true");
                 }
+                fg.AppendLine($"errorMask = {this.Mask(MaskType.Error)}.Factory(errorMaskBuilder);");
                 fg.AppendLine("return ret;");
             }
             fg.AppendLine();
@@ -2777,11 +2796,13 @@ namespace Loqui.Generation
             {
                 fg.AppendLine($"{this.ObjectName} ret = ({this.ObjectName}){this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{this.GetGenericTypes(MaskType.Normal)}();");
                 using (var args = new ArgsWrapper(fg,
-                    $"ret.DeepCopyIn{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
+                    $"{this.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
-                    args.Add("item");
-                    args.Add("errorMask: errorMask");
-                    args.Add("copyMask: copyMask");
+                    args.Add("item: ret");
+                    args.Add("rhs: item");
+                    args.AddPassArg("errorMask");
+                    args.AddPassArg("copyMask");
+                    args.Add($"deepCopy: true");
                 }
                 fg.AppendLine("return ret;");
             }
