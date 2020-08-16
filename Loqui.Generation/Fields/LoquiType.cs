@@ -174,7 +174,6 @@ namespace Loqui.Generation
         public string GetterInterface;
         public override bool Nullable => base.Nullable && !this.Singleton;
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
-        public override bool Copy => base.Copy && !(this.SetterInterfaceType == LoquiInterfaceType.IGetter && this.Singleton);
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
         // Can probably be replaced with a more robust parameter configuration setup later
         public bool ThisConstruction;

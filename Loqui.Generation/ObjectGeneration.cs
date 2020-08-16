@@ -1655,18 +1655,25 @@ namespace Loqui.Generation
 
             foreach (var item in this.IterateFieldIndices(nonIntegrated: true))
             {
-                if (!item.Field.Copy) continue;
+                if (item.Field.CopyLevel == CopyLevel.None) continue;
                 var internalField = item.Field.InternalGetInterface || item.Field.InternalSetInterface;
                 if (internalField != internalCopy) continue;
                 if (!item.Field.Enabled) continue;
 
-                item.Field.GenerateForCopy(
-                    fg,
-                    Accessor.FromType(item.Field, accessorPrefix),
-                    Accessor.FromType(item.Field, rhsAccessorPrefix),
-                    deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: TypeExt.IsNullable(item.Field.GetType())),
-                    protectedMembers: false,
-                    deepCopy: deepCopy);
+                if (item.Field.CopyLevel == CopyLevel.DeepCopyOnly)
+                {
+                    fg.AppendLine("if (deepCopy)");
+                }
+                using (new BraceWrapper(fg, doIt: item.Field.CopyLevel == CopyLevel.DeepCopyOnly))
+                {
+                    item.Field.GenerateForCopy(
+                        fg,
+                        Accessor.FromType(item.Field, accessorPrefix),
+                        Accessor.FromType(item.Field, rhsAccessorPrefix),
+                        deepCopy ? copyMaskAccessor : Accessor.FromType(item.Field, copyMaskAccessor, nullable: TypeExt.IsNullable(item.Field.GetType())),
+                        protectedMembers: false,
+                        deepCopy: deepCopy);
+                }
             }
         }
 

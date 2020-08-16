@@ -27,8 +27,8 @@ namespace Loqui.Generation
         public bool ReadOnly;
         public PermissionLevel SetPermission = PermissionLevel.@public;
         public PermissionLevel GetPermission = PermissionLevel.@public;
-        private bool _copy;
-        public virtual bool Copy => _copy;
+        private CopyLevel _copy = CopyLevel.All;
+        public virtual CopyLevel CopyLevel => _copy;
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
@@ -91,7 +91,11 @@ namespace Loqui.Generation
             node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => this.SetPermission = i);
             this.ReadOnly = this.SetPermission != PermissionLevel.@public || Derivative;
             node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => this.GetPermission = i);
-            this._copy = node.GetAttribute<bool>(Constants.COPY, !this.Derivative && this.IntegrateField);
+            if (this.Derivative || !this.IntegrateField)
+            {
+                this._copy = Generation.CopyLevel.None;
+            }
+            this._copy = node.GetAttribute<CopyLevel>(Constants.COPY, _copy);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.NULLABLE, i => this.NullableProperty.OnNext((i, true)));

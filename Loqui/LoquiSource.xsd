@@ -88,6 +88,14 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="CopyOption" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="DeepCopyOnly" />
+      <xs:enumeration value="All" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="RxBaseOption" final="restriction" >
     <xs:restriction base="xs:string">
       <xs:enumeration value="LoquiNotifyingObject" />
@@ -764,7 +772,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="copy" type="xs:boolean" >
+    <xs:attribute name="copy" type="CopyOption" >
       <xs:annotation>
         <xs:documentation>
           Whether to copy the field in the generated copy function.
