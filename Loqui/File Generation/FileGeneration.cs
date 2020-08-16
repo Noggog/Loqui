@@ -80,9 +80,7 @@ namespace Loqui
 
         public void Append(string str)
         {
-#if DEBUG
             _LineAppended.OnNext(str);
-#endif
             if (str.StartsWith(Environment.NewLine))
             {
                 this._strings.Add("");
