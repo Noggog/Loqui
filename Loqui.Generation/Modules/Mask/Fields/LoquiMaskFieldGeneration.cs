@@ -72,7 +72,7 @@ namespace Loqui.Generation
             LoquiType loqui = field as LoquiType;
             if (loqui.RefType == LoquiRefType.Direct)
             {
-                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}?> {field.Name};");
+                fg.AppendLine($"public {loqui.Mask(MaskType.Translation)}? {field.Name};");
             }
             else
             {
@@ -193,7 +193,7 @@ namespace Loqui.Generation
 
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
         {
-            return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+            return $"({field.Name} != null || DefaultOn, {field.Name}?.GetCrystal())";
         }
 
         public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
@@ -219,7 +219,7 @@ namespace Loqui.Generation
 
         public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
         {
-            fg.AppendLine($"{accessor.Access} = new {this.GetTranslationMaskTypeStr(field)}({onAccessor}, null);");
+            // Nothing
         }
 
         public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
