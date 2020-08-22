@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702; 1998</NoWarn>
     <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
     <DocumentationFile>Loqui.xml</DocumentationFile>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,7 +21,7 @@
     <Nullable>enable</Nullable>
     <Authors>Noggog</Authors>
     <Company>Noggog</Company>
-    <Version>1.2.1</Version>
+    <Version>1.2.2-dev</Version>
     <Description>Support wiring for Loqui generated classes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
