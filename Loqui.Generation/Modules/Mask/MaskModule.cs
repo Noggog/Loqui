@@ -629,15 +629,12 @@ namespace Loqui.Generation
                     fg.AppendLine();
                 }
 
-                if (!obj.HasLoquiBaseObject)
+                fg.AppendLine($"public static implicit operator {obj.Mask(MaskType.Translation, addClassName: false)}(bool defaultOn)");
+                using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"public static implicit operator {obj.Mask(MaskType.Translation, addClassName: false)}(bool defaultOn)");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"return new {obj.Mask(MaskType.Translation, addClassName: false)}(defaultOn);");
-                    }
-                    fg.AppendLine();
+                    fg.AppendLine($"return new {obj.Mask(MaskType.Translation, addClassName: false)}(defaultOn);");
                 }
+                fg.AppendLine();
             }
         }
 
