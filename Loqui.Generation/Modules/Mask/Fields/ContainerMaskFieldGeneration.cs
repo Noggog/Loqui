@@ -74,7 +74,7 @@ namespace Loqui.Generation
             if (listType.SubTypeGeneration is LoquiType loqui
                 && loqui.SupportsMask(MaskType.Translation))
             {
-                fg.AppendLine($"public MaskItem<bool, {loqui.Mask(MaskType.Translation)}?> {field.Name};");
+                fg.AppendLine($"public {loqui.Mask(MaskType.Translation)}? {field.Name};");
             }
             else
             {
@@ -305,7 +305,7 @@ namespace Loqui.Generation
             if (contType.SubTypeGeneration is LoquiType loquiType
                 && loquiType.SupportsMask(MaskType.Translation))
             {
-                return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+                return $"({field.Name} != null || DefaultOn, {field.Name}?.GetCrystal())";
             }
             else
             {
@@ -319,7 +319,7 @@ namespace Loqui.Generation
             if (listType.SubTypeGeneration is LoquiType loqui
                 && loqui.SupportsMask(MaskType.Translation))
             {
-                fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {loqui.Mask(MaskType.Translation)}?>({onAccessor}, null);");
+                // Nothing
             }
             else
             {
