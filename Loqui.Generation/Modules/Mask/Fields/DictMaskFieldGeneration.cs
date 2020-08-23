@@ -154,16 +154,16 @@ namespace Loqui.Generation
                     }
                     else if (keyLoquiType != null && valueLoquiType != null)
                     {
-                        fg.AppendLine($"public MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>?> {field.Name};");
+                        fg.AppendLine($"public KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}>? {field.Name};");
                     }
                     else
                     {
                         LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"public MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}?> {field.Name};");
+                        fg.AppendLine($"public {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}? {field.Name};");
                     }
                     break;
                 case DictMode.KeyedValue:
-                    fg.AppendLine($"public MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?> {field.Name};");
+                    fg.AppendLine($"public {valueLoquiType.Mask(MaskType.Translation)}? {field.Name};");
                     break;
                 default:
                     break;
@@ -439,7 +439,7 @@ namespace Loqui.Generation
             var dictType = field as DictType;
             if (dictType.ValueTypeGen is LoquiType loquiType)
             {
-                return $"({field.Name}?.Overall ?? true, {field.Name}?.Specific?.GetCrystal())";
+                return $"({field.Name} != null || DefaultOn, {field.Name}?.GetCrystal())";
             }
             else
             {
@@ -491,18 +491,6 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"{accessor.Access} = {onAccessor};");
                     }
-                    else if (keyLoquiType != null && valueLoquiType != null)
-                    {
-                        fg.AppendLine($"{accessor.Access} = new MaskItem<bool, KeyValuePair<{keyLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}, {valueLoquiType.TargetObjectGeneration.Mask(MaskType.Translation)}?>>({onAccessor}, null);");
-                    }
-                    else
-                    {
-                        LoquiType loqui = keyLoquiType ?? valueLoquiType;
-                        fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {loqui.TargetObjectGeneration.Mask(MaskType.Translation)}?>({onAccessor}, null);");
-                    }
-                    break;
-                case DictMode.KeyedValue:
-                    fg.AppendLine($"{accessor.Access} = new MaskItem<bool, {valueLoquiType.Mask(MaskType.Translation)}?>({onAccessor}, null);");
                     break;
                 default:
                     break;
