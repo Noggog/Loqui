@@ -127,14 +127,6 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="SingletonLevel" final="restriction" >
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="None" />
-      <xs:enumeration value="NotNull" />
-      <xs:enumeration value="Singleton" />
-    </xs:restriction>
-  </xs:simpleType>
-
   <xs:simpleType name="Variance" final="restriction" >
     <xs:restriction base="xs:string">
       <xs:enumeration value="None" />
@@ -848,7 +840,6 @@
   <xs:complexType name="ClassField" >
     <xs:complexContent>
       <xs:extension base="Field">
-        <xs:attribute name="nullable" type="SingletonLevel" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -857,7 +848,6 @@
     <xs:complexContent>
       <xs:extension base="Field">
         <xs:attribute name="name" type="xs:string" use="required" />
-        <xs:attribute name="nullable" type="SingletonLevel" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
