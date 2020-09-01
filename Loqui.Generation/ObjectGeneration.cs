@@ -2423,7 +2423,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateEqualsSection(FileGeneration fg)
+        public void GenerateEqualsSection(FileGeneration fg)
         {
             // Generate equals and hash
             if (GenerateEquals)
@@ -2438,7 +2438,7 @@ namespace Loqui.Generation
                     }
                     fg.AppendLine();
 
-                    fg.AppendLine($"public bool Equals({this.ObjectName}? obj)");
+                    fg.AppendLine($"public bool Equals({this.Interface(getter: true, internalInterface: true)}? obj)");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj);");
@@ -2488,7 +2488,7 @@ namespace Loqui.Generation
                     fg.AppendLine("if (lhs == null || rhs == null) return false;");
                     if (this.HasLoquiBaseObject)
                     {
-                        fg.AppendLine($"if (!base.Equals(rhs)) return false;");
+                        fg.AppendLine($"if (!base.Equals(({this.BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({this.BaseClass.Interface(getter: true, internalInterface: true)})rhs)) return false;");
                     }
                     foreach (var field in this.IterateFields())
                     {

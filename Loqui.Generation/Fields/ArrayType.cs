@@ -127,11 +127,15 @@ namespace Loqui.Generation
         {
             if (this.SubTypeGeneration.IsIEquatable)
             {
+                if (this.Nullable)
+                {
+                    fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
+                }
                 fg.AppendLine($"if (!MemoryExtensions.SequenceEqual({accessor.Access}.Span, {rhsAccessor.Access}.Span)) return false;");
             }
             else
             {
-                fg.AppendLine($"if (!{accessor.Access}.SequenceEqual({rhsAccessor.Access})) return false;");
+                fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
             }
         }
 
