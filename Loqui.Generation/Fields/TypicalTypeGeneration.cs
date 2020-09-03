@@ -158,7 +158,7 @@ namespace Loqui.Generation
                     }
                     else if (subFg.Count == 1)
                     {
-                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {GetDefault(getter: false)};");
+                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {(HasDefault ? $"_{this.Name}_Default" : GetDefault(getter: false))};");
                     }
                     else
                     {
