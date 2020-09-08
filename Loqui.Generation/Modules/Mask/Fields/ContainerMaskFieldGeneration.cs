@@ -1,3 +1,4 @@
+using Loqui.Internal;
 using System;
 
 namespace Loqui.Generation
@@ -305,7 +306,7 @@ namespace Loqui.Generation
             if (contType.SubTypeGeneration is LoquiType loquiType
                 && loquiType.SupportsMask(MaskType.Translation))
             {
-                return $"({field.Name} != null || DefaultOn, {field.Name}?.GetCrystal())";
+                return $"({field.Name} == null ? DefaultOn : !{field.Name}.GetCrystal().{nameof(TranslationCrystal.CopyNothing)}, {field.Name}?.GetCrystal())";
             }
             else
             {

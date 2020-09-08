@@ -26,5 +26,7 @@ namespace Loqui.Internal
             if (Crystal.Length <= index) return null;
             return Crystal[index].SubCrystal;
         }
+
+        public bool CopyNothing => Crystal.All(c => !c.On && (c.SubCrystal?.CopyNothing ?? true));
     }
 }
