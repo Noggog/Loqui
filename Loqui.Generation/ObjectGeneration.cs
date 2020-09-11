@@ -813,28 +813,31 @@ namespace Loqui.Generation
                     fg.AppendLine($"public static readonly Type? GenericRegistrationType = {(this.Generics.Count > 0 ? $"typeof({this.RegistrationName}{this.EmptyGenerics()})" : "null")};");
                     fg.AppendLine();
 
-                    GenerateGetNameIndex(fg);
-
-                    GenerateNthObjectIsEnumerable(fg);
-
-                    GenerateNthObjectIsLoqui(fg);
-
-                    GenerateGetNthIsSingleton(fg);
-
-                    GenerateGetNthName(fg);
-
-                    GenerateNthObjectIsDerivative(fg);
-
-                    GenerateIsProtected(fg);
-
-                    if (this.Generics.Count == 0)
+                    if (GenerateNthReflections)
                     {
-                        GenerateGetNthType(fg, false);
-                    }
-                    else
-                    {
-                        fg.AppendLine("public static Type GetNthType(ushort index) => throw new ArgumentException(\"Cannot get nth type for a generic object here.  Use generic registration instead.\");");
-                        fg.AppendLine();
+                        GenerateGetNameIndex(fg);
+
+                        GenerateNthObjectIsEnumerable(fg);
+
+                        GenerateNthObjectIsLoqui(fg);
+
+                        GenerateGetNthIsSingleton(fg);
+
+                        GenerateGetNthName(fg);
+
+                        GenerateNthObjectIsDerivative(fg);
+
+                        GenerateIsProtected(fg);
+
+                        if (this.Generics.Count == 0)
+                        {
+                            GenerateGetNthType(fg, false);
+                        }
+                        else
+                        {
+                            fg.AppendLine("public static Type GetNthType(ushort index) => throw new ArgumentException(\"Cannot get nth type for a generic object here.  Use generic registration instead.\");");
+                            fg.AppendLine();
+                        }
                     }
 
                     foreach (var mod in this.gen.GenerationModules)
@@ -866,15 +869,28 @@ namespace Loqui.Generation
                         fg.AppendLine($"string ILoquiRegistration.Namespace => Namespace;");
                         fg.AppendLine($"byte ILoquiRegistration.GenericCount => GenericCount;");
                         fg.AppendLine($"Type? ILoquiRegistration.GenericRegistrationType => GenericRegistrationType;");
-                        fg.AppendLine($"ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);");
-                        fg.AppendLine($"bool ILoquiRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);");
-                        fg.AppendLine($"bool ILoquiRegistration.GetNthIsLoqui(ushort index) => GetNthIsLoqui(index);");
-                        fg.AppendLine($"bool ILoquiRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);");
-                        fg.AppendLine($"string ILoquiRegistration.GetNthName(ushort index) => GetNthName(index);");
-                        fg.AppendLine($"bool ILoquiRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);");
-                        fg.AppendLine($"bool ILoquiRegistration.IsProtected(ushort index) => IsProtected(index);");
-                        fg.AppendLine($"Type ILoquiRegistration.GetNthType(ushort index) => GetNthType(index);");
-
+                        if (GenerateNthReflections)
+                        {
+                            fg.AppendLine($"ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => GetNameIndex(name);");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsEnumerable(ushort index) => GetNthIsEnumerable(index);");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsLoqui(ushort index) => GetNthIsLoqui(index);");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsSingleton(ushort index) => GetNthIsSingleton(index);");
+                            fg.AppendLine($"string ILoquiRegistration.GetNthName(ushort index) => GetNthName(index);");
+                            fg.AppendLine($"bool ILoquiRegistration.IsNthDerivative(ushort index) => IsNthDerivative(index);");
+                            fg.AppendLine($"bool ILoquiRegistration.IsProtected(ushort index) => IsProtected(index);");
+                            fg.AppendLine($"Type ILoquiRegistration.GetNthType(ushort index) => GetNthType(index);");
+                        }
+                        else
+                        {
+                            fg.AppendLine($"ushort? ILoquiRegistration.GetNameIndex(StringCaseAgnostic name) => throw new NotImplementedException();");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsEnumerable(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsLoqui(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"bool ILoquiRegistration.GetNthIsSingleton(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"string ILoquiRegistration.GetNthName(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"bool ILoquiRegistration.IsNthDerivative(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"bool ILoquiRegistration.IsProtected(ushort index) => throw new NotImplementedException();");
+                            fg.AppendLine($"Type ILoquiRegistration.GetNthType(ushort index) => throw new NotImplementedException();");
+                        }
                     }
                 }
 
