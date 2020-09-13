@@ -71,7 +71,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override string Interface(bool getter, bool internalInterface)
+        public override string ListTypeName(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SubTypeGeneration is LoquiType loqui)

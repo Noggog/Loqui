@@ -9,11 +9,11 @@ namespace Loqui.Generation
 {
     public class ListType : ContainerType
     {
-        public override string TypeName(bool getter, bool needsCovariance = false) => Interface(getter, internalInterface: true);
+        public override string TypeName(bool getter, bool needsCovariance = false) => ListTypeName(getter, internalInterface: true);
         public override bool CopyNeedsTryCatch => true;
         public override bool HasDefault => false;
 
-        public virtual string Interface(bool getter, bool internalInterface)
+        public virtual string ListTypeName(bool getter, bool internalInterface)
         {
             string itemTypeName = this.ItemTypeName(getter: getter);
             if (this.SubTypeGeneration is LoquiType loqui)
@@ -35,7 +35,7 @@ namespace Loqui.Generation
             {
                 if (this.Notifying)
                 {
-                    return $"ISourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
+                    return $"SourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
                 else if (this.SubTypeGeneration is ByteArrayType)
                 {
@@ -43,7 +43,7 @@ namespace Loqui.Generation
                 }
                 else
                 {
-                    return $"IExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
+                    return $"ExtendedList<{itemTypeName}{SubTypeGeneration.NullChar}>";
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, "Interface Members"))
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+                fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
             }
         }
 
@@ -91,13 +91,13 @@ namespace Loqui.Generation
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
-                fg.AppendLine($"{Interface(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
+                fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
-                    fg.AppendLine($"new {Interface(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.Nullable ? "set; " : null)}}}");
+                    fg.AppendLine($"new {ListTypeName(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.Nullable ? "set; " : null)}}}");
                 }
             }
         }
