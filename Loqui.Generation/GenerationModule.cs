@@ -19,6 +19,7 @@ namespace Loqui.Generation
         Task Modify(LoquiGenerator gen);
         Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInClass(ObjectGeneration obj, FileGeneration fg);
+        Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type);
         Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg);
         Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes);
@@ -136,6 +137,11 @@ namespace Loqui.Generation
         public virtual Task PrepareGeneration(ProtocolGeneration proto)
         {
             return SubModules.PrepareGeneration(proto);
+        }
+
+        public virtual Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type)
+        {
+            return SubModules.GenerateInField(obj, typeGeneration, fg, type);
         }
     }
 }

@@ -2,7 +2,6 @@ using Loqui.Internal;
 using Noggog;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -431,6 +430,10 @@ namespace Loqui.Generation
             using (new RegionWrapper(fg, field.Name) { AppendExtraLine = false })
             {
                 field.GenerateForClass(fg);
+                foreach (var module in this.gen.GenerationModules)
+                {
+                    module.GenerateInField(this, field, fg, LoquiInterfaceType.Direct);
+                }
             }
         }
 
@@ -2692,17 +2695,14 @@ namespace Loqui.Generation
 
         private async Task GenerateModules(FileGeneration fg)
         {
-            if (this.gen.GenerationModules.Count > 0)
+            foreach (var transl in gen.GenerationModules)
             {
-                foreach (var transl in gen.GenerationModules)
+                using (new RegionWrapper(fg, transl.RegionString))
                 {
-                    using (new RegionWrapper(fg, transl.RegionString))
+                    await transl.GenerateInClass(this, fg);
+                    if (!this.IsGeneric)
                     {
-                        await transl.GenerateInClass(this, fg);
-                        if (!this.IsGeneric)
-                        {
-                            await transl.GenerateInNonGenericClass(this, fg);
-                        }
+                        await transl.GenerateInNonGenericClass(this, fg);
                     }
                 }
             }

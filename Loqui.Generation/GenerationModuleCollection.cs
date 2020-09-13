@@ -241,5 +241,15 @@ namespace Loqui.Generation
                         return subGen.PrepareGeneration(proto);
                     }));
         }
+
+        public Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    (subGen) =>
+                    {
+                        return subGen.GenerateInField(obj, typeGeneration, fg, type);
+                    }));
+        }
     }
 }
