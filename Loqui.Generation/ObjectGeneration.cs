@@ -184,6 +184,7 @@ namespace Loqui.Generation
             RequiredNamespaces.Add("Loqui");
             RequiredNamespaces.Add("Loqui.Internal");
             RequiredNamespaces.Add("Noggog");
+            RequiredNamespaces.Add("System.Diagnostics");
         }
 
         public virtual async Task Load()
