@@ -2458,7 +2458,7 @@ namespace Loqui.Generation
                     .SelectMany(i => i));
             using (new RegionWrapper(fg, "Usings"))
             {
-                foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces))
+                foreach (var nameSpace in RequiredNamespaces.Union(gen.Namespaces).OrderBy(x => x))
                 {
                     fg.AppendLine($"using {nameSpace};");
                 }
