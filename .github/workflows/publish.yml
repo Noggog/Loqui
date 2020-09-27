@@ -17,5 +17,17 @@ jobs:
       run: dotnet build --no-restore -c Release /p:Version=${{ github.event.release.tag_name }} -p:PackageReleaseNotes="See https://github.com/Noggog/Loqui/releases/tag/${{ github.event.release.tag_name }}"
     - name: Test
       run: dotnet test -c Release --no-build
+    - name: Publish Loqui to Github
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: Loqui/bin/Release/Loqui.${{ github.event.release.tag_name }}.nupkg
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.event.release.tag_name }}
+    - name: Publish Loqui Generation to Github
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: Loqui.Generation/bin/Release/Loqui.Generation.${{ github.event.release.tag_name }}.nupkg
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.event.release.tag_name }}
     - name: Publish to Nuget.org
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --no-symbols true
