@@ -71,5 +71,6 @@ namespace Loqui.Generation
         public const string RX_BASE_OPTION = "rxBase";
         public const string FIXED_SIZE = "fixedSize";
         public const string CUSTOM_CLEAR = "customClear";
+        public const string ALWAYS_COPY = "alwaysCopy";
     }
 }

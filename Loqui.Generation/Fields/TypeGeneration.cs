@@ -29,6 +29,7 @@ namespace Loqui.Generation
         public PermissionLevel GetPermission = PermissionLevel.@public;
         private CopyLevel _copy = CopyLevel.All;
         public virtual CopyLevel CopyLevel => _copy;
+        public bool AlwaysCopy { get; set; }
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
         public abstract bool IsEnumerable { get; }
@@ -102,6 +103,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             node.TransferAttribute<bool>(Constants.CUSTOM_CLEAR, i => this.CustomClear = i);
+            node.TransferAttribute<bool>(Constants.ALWAYS_COPY, i => this.AlwaysCopy = i);
             if (requireName && Namable && Name == null && this.IntegrateField)
             {
                 throw new ArgumentException("Type field needs a name.");

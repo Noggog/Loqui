@@ -771,6 +771,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="alwaysCopy" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to disregard translation masks and always be marked for copy 
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="notifying" type="NotifyingOption" >
       <xs:annotation>
         <xs:documentation>
