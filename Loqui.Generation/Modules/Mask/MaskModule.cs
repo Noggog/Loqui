@@ -566,6 +566,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine("private TranslationCrystal? _crystal;");
                         fg.AppendLine("public readonly bool DefaultOn;");
+                        fg.AppendLine("public bool OnOverall;");
                     }
 
                     foreach (var field in obj.IterateFields())
@@ -576,12 +577,17 @@ namespace Loqui.Generation
 
                 using (new RegionWrapper(fg, "Ctors"))
                 {
-                    fg.AppendLine($"public {obj.Mask_BasicName(MaskType.Translation)}(bool defaultOn)");
+                    using (var args = new FunctionWrapper(fg,
+                        $"public {obj.Mask_BasicName(MaskType.Translation)}"))
+                    {
+                        args.Add("bool defaultOn");
+                        args.Add("bool onOverall = true");
+                    }
                     using (new DepthWrapper(fg))
                     {
                         if (obj.HasLoquiBaseObject)
                         {
-                            fg.AppendLine(": base(defaultOn)");
+                            fg.AppendLine(": base(defaultOn, onOverall)");
                         }
                     }
                     using (new BraceWrapper(fg))
@@ -589,6 +595,7 @@ namespace Loqui.Generation
                         if (!obj.HasLoquiBaseObject)
                         {
                             fg.AppendLine("this.DefaultOn = defaultOn;");
+                            fg.AppendLine("this.OnOverall = onOverall;");
                         }
                         foreach (var field in obj.IterateFields())
                         {
@@ -632,7 +639,7 @@ namespace Loqui.Generation
                 fg.AppendLine($"public static implicit operator {obj.Mask(MaskType.Translation, addClassName: false)}(bool defaultOn)");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"return new {obj.Mask(MaskType.Translation, addClassName: false)}(defaultOn);");
+                    fg.AppendLine($"return new {obj.Mask(MaskType.Translation, addClassName: false)}(defaultOn: defaultOn, onOverall: defaultOn);");
                 }
                 fg.AppendLine();
             }

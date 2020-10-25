@@ -193,7 +193,7 @@ namespace Loqui.Generation
 
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
         {
-            return $"({field.Name} != null || DefaultOn, {field.Name}?.GetCrystal())";
+            return $"({field.Name} != null ? {field.Name}.OnOverall : DefaultOn, {field.Name}?.GetCrystal())";
         }
 
         public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
