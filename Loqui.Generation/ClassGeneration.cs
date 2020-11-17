@@ -61,7 +61,7 @@ namespace Loqui.Generation
                     baseClass._derivativeClasses.Add(this);
                 }
             }
-            this.WiredBaseClassTCS.TryComplete();
+            this.WiredBaseClassTCS.SetResult();
 
             await base.Load();
         }
@@ -107,7 +107,7 @@ namespace Loqui.Generation
                     var fieldsTask = Task.WhenAll(this.IterateFields().Select(field => field.GenerateForCtor(fg)));
                     toDo.Add(fieldsTask);
                     await fieldsTask;
-                    fieldCtorsGenerated.Complete();
+                    fieldCtorsGenerated.SetResult();
                     await Task.WhenAll(toDo);
                     await GenerateInitializer(fg);
                     fg.AppendLine("CustomCtor();");

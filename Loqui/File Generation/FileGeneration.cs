@@ -78,8 +78,9 @@ namespace Loqui
             }
         }
 
-        public void Append(string str)
+        public void Append(string? str)
         {
+            if (str == null) str = string.Empty;
             _LineAppended.OnNext(str);
             if (str.StartsWith(Environment.NewLine))
             {
@@ -113,7 +114,7 @@ namespace Loqui
             Append(Environment.NewLine);
         }
 
-        public void AppendLines(IEnumerable<string> strs)
+        public void AppendLines(IEnumerable<string?> strs)
         {
             foreach (var str in strs)
             {
@@ -121,7 +122,7 @@ namespace Loqui
             }
         }
 
-        public void AppendLines(IEnumerable<string> strs, string delimeter)
+        public void AppendLines(IEnumerable<string?> strs, string delimeter)
         {
             foreach (var str in strs.IterateMarkLast())
             {
@@ -137,7 +138,7 @@ namespace Loqui
             }
         }
 
-        public void AppendLine(string str, bool extraLine = false)
+        public void AppendLine(string? str, bool extraLine = false)
         {
             using (new LineWrapper(this))
             {
