@@ -834,6 +834,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="override" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to mark this field as an override
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="NField" >

@@ -276,7 +276,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"private {this.TypeName()} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName()} {this.Name}");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => _{this.Name};");
@@ -320,7 +320,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"private {this.TypeName()} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName()}();")}");
-                    fg.AppendLine($"public {this.TypeName()} {this.Name}");
+                    fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => _{this.Name};");
@@ -346,7 +346,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
-                        fg.AppendLine($"public {this.TypeName()}{this.NullChar} {this.Name}");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName()}{this.NullChar} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => _{this.Name};");
@@ -362,7 +362,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {(this.ThisConstruction ? null : "readonly ")}{this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
-                        fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                         if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                         {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -371,7 +371,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        fg.AppendLine($"public {this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
                         if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                         {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");

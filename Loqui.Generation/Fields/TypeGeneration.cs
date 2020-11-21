@@ -54,6 +54,8 @@ namespace Loqui.Generation
         public virtual bool IsNullable => this.Nullable;
         public string NullChar => this.IsNullable ? "?" : null;
         public bool CustomClear { get; set; }
+        public bool Override { get; set; }
+        public string OverrideStr => Override ? string.Empty : "override ";
 
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
@@ -104,6 +106,7 @@ namespace Loqui.Generation
             node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => this.InternalGetInterface = i);
             node.TransferAttribute<bool>(Constants.CUSTOM_CLEAR, i => this.CustomClear = i);
             node.TransferAttribute<bool>(Constants.ALWAYS_COPY, i => this.AlwaysCopy = i);
+            node.TransferAttribute<bool>(Constants.OVERRIDE, i => this.Override = i);
             if (requireName && Namable && Name == null && this.IntegrateField)
             {
                 throw new ArgumentException("Type field needs a name.");

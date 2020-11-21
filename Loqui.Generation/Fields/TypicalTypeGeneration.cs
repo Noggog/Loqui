@@ -107,7 +107,7 @@ namespace Loqui.Generation
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                     }
-                    fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
+                    fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => this._{this.Name};");
@@ -158,7 +158,7 @@ namespace Loqui.Generation
                     }
                     else if (subFg.Count == 1)
                     {
-                        fg.AppendLine($"public {TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {(HasDefault ? $"_{this.Name}_Default" : GetDefault(getter: false))};");
+                        fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {this.Name} {{ get; {subFg[0]}; }} = {(HasDefault ? $"_{this.Name}_Default" : GetDefault(getter: false))};");
                     }
                     else
                     {

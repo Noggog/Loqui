@@ -46,7 +46,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => this._{ this.Name};");
@@ -84,7 +84,7 @@ namespace Loqui.Generation
                 else
                 {
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton ? $" = {GetNewForNonNullable()}" : string.Empty)};");
-                    fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                    fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
                         fg.AppendLine($"get => {this.ProtectedName};");
@@ -113,7 +113,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"protected {this.TypeName(getter: false)}? _{this.Name};");
-                            fg.AppendLine($"public {this.TypeName(getter: false)}? {this.Name}");
+                            fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)}? {this.Name}");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"get => this._{ this.Name};");
@@ -147,11 +147,11 @@ namespace Loqui.Generation
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
                     if (this.Singleton)
                     {
-                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name} => {this.ProtectedName};");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name} => {this.ProtectedName};");
                     }
                     else
                     {
-                        fg.AppendLine($"public {this.TypeName(getter: false)} {this.Name}");
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"get => {this.ProtectedName};");
