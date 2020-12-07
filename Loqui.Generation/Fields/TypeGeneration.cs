@@ -55,7 +55,7 @@ namespace Loqui.Generation
         public string NullChar => this.IsNullable ? "?" : null;
         public bool CustomClear { get; set; }
         public bool Override { get; set; }
-        public string OverrideStr => Override ? string.Empty : "override ";
+        public string OverrideStr => Override ? "override " : string.Empty;
 
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
