@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+#if NET_5
+using TaskCompletionSource = TaskCompletionSource;
+#else
+using TaskCompletionSource = Noggog.TaskCompletionSource;
+#endif
 
 namespace Loqui.Generation
 {
