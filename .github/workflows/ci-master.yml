@@ -24,6 +24,8 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: |
+        dotnet clean -c Release && dotnet nuget locals all --clear
+        dotnet build -c Release --no-restore
     - name: Test
       run: dotnet test --no-build -c Release 

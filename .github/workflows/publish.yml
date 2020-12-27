@@ -20,7 +20,9 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore -c Release /p:Version=${{ github.event.release.tag_name }} -p:PackageReleaseNotes="See https://github.com/Noggog/Loqui/releases/tag/${{ github.event.release.tag_name }}"
+      run: |
+        dotnet clean -c Release && dotnet nuget locals all --clear
+        dotnet build --no-restore -c Release /p:Version=${{ github.event.release.tag_name }} -p:PackageReleaseNotes="See https://github.com/Noggog/Loqui/releases/tag/${{ github.event.release.tag_name }}"
     - name: Test
       run: dotnet test -c Release --no-build
     - name: Publish Loqui to Github
