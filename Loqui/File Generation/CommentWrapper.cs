@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,46 +23,52 @@ namespace Loqui
             Parameters[name] = fg;
         }
 
-        public void Dispose()
+        public void Apply(FileGeneration fg)
         {
+            if (fg == null) return;
             if (Summary.Count > 0)
             {
-                _fg.AppendLine("/// <summary>");
+                fg.AppendLine("/// <summary>");
                 foreach (var line in Summary)
                 {
-                    _fg.AppendLine($"/// {line}");
+                    fg.AppendLine($"/// {line}");
                 }
-                _fg.AppendLine("/// </summary>");
+                fg.AppendLine("/// </summary>");
             }
             foreach (var param in Parameters)
             {
                 if (param.Value.Count > 1)
                 {
-                    _fg.AppendLine("/// <param name=\"{param.Key}\">");
+                    fg.AppendLine("/// <param name=\"{param.Key}\">");
                     foreach (var line in param.Value)
                     {
-                        _fg.AppendLine($"/// {line}");
+                        fg.AppendLine($"/// {line}");
                     }
-                    _fg.AppendLine("/// </param>");
+                    fg.AppendLine("/// </param>");
                 }
                 else
                 {
-                    _fg.AppendLine($"/// <param name=\"{param.Key}\">{param.Value[0]}</param>");
+                    fg.AppendLine($"/// <param name=\"{param.Key}\">{param.Value[0]}</param>");
                 }
             }
             if (Return.Count == 1)
             {
-                _fg.AppendLine($"/// <returns>{Return[0]}</returns>");
+                fg.AppendLine($"/// <returns>{Return[0]}</returns>");
             }
             else if (Return.Count > 0)
             {
-                _fg.AppendLine("/// <returns>");
+                fg.AppendLine("/// <returns>");
                 foreach (var line in Return)
                 {
-                    _fg.AppendLine($"/// {line}");
+                    fg.AppendLine($"/// {line}");
                 }
-                _fg.AppendLine("/// </returns>");
+                fg.AppendLine("/// </returns>");
             }
+        }
+
+        public void Dispose()
+        {
+            Apply(_fg);
         }
     }
 }

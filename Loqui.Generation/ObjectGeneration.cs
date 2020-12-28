@@ -166,6 +166,8 @@ namespace Loqui.Generation
         private TaskCompletionSource<MaskTypeSetCollection> _MaskTypeSetCollection = new TaskCompletionSource<MaskTypeSetCollection>();
         public Task<MaskTypeSetCollection> MaskTypeSetCollection => _MaskTypeSetCollection.Task;
 
+        public CommentCollection Comments;
+
         public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
         {
             this.gen = gen;
@@ -447,6 +449,10 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Class"))
             {
+                if (Comments != null)
+                {
+                    Comments.Comments.Apply(fg);
+                }
                 await GenerateClassLine(fg);
 
                 using (new DepthWrapper(fg))
@@ -569,6 +575,10 @@ namespace Loqui.Generation
                 internalInterface: false);
 
             // Interface
+            if (Comments != null)
+            {
+                (Comments.SetterInterface ?? Comments.Comments).Apply(fg);
+            }
             using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
@@ -639,6 +649,10 @@ namespace Loqui.Generation
                 internalInterface: false);
 
             // Getter
+            if (Comments != null)
+            {
+                (Comments.GetterInterface ?? Comments.Comments).Apply(fg);
+            }
             using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
