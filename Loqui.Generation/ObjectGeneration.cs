@@ -263,6 +263,15 @@ namespace Loqui.Generation
                     }));
             this._directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
+            if (directlyInheritingObjs.Count > 0)
+            {
+                if (Comments == null)
+                {
+                    Comments = new CommentCollection();
+                }
+                Comments.Comments.Summary.AppendLine($"Implemented by: [{string.Join(", ", directlyInheritingObjs.Select(x => x.ObjectName))}]");
+            }
+
             await Task.WhenAll(
                 this.gen.GenerationModules.Select((m) => m.LoadWrapup(this)));
         }
