@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-#if NET_5
-using TaskCompletionSource = TaskCompletionSource;
+#if NET5_0
+using TaskCompletionSource = System.Threading.Tasks.TaskCompletionSource;
 #else
 using TaskCompletionSource = Noggog.TaskCompletionSource;
 #endif
