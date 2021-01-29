@@ -30,6 +30,7 @@ namespace Loqui.Generation
         public string DefaultNamespace;
         public NotifyingType NotifyingDefault;
         public bool NullableDefault;
+        public bool DoGeneration = true;
         public List<string> Interfaces = new List<string>();
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
         private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
@@ -192,6 +193,8 @@ namespace Loqui.Generation
                             throw;
                         }
                     }));
+
+            if (!DoGeneration) return;
 
             await Task.WhenAll(this.ObjectGenerationsByID.Values
                 .Select(async (obj) =>
