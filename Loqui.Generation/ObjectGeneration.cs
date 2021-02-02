@@ -132,7 +132,7 @@ namespace Loqui.Generation
         public string CommonClassName(LoquiInterfaceType interfaceType, params MaskType[] types) => $"{Name}{CommonNameAdditions(interfaceType, types)}Common";
         public string CommonClass(LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"{this.CommonClassName(interfaceType, types)}{(commonGen == CommonGenerics.Class ? this.GetGenericTypes(types.Length == 0 ? new MaskType[] { MaskType.Normal } : types) : null)}";
         public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) =>
-            $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(types, getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance({(commonGen == CommonGenerics.Class ? string.Join(", ", this.Generics.WithIndex().Select(x => $"typeof({x.Item.Key})")) : null)})!)";
+            $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(types, getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance({(commonGen == CommonGenerics.Class ? string.Join(", ", this.Generics.Select(x => $"typeof({x.Key})")) : null)})!)";
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryInfo TargetDir { get; private set; }
@@ -678,9 +678,9 @@ namespace Loqui.Generation
                 if (this.IsTopClass)
                 {
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-                    fg.AppendLine($"object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance({string.Join(", ", this.Generics.WithIndex().Select(x => $"Type type{x.Index}"))});");
+                    fg.AppendLine($"object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance({string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))});");
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-                    fg.AppendLine($"object? Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal)}Instance({string.Join(", ", this.Generics.WithIndex().Select(x => $"Type type{x.Index}"))});");
+                    fg.AppendLine($"object? Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal)}Instance({string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))});");
                     if (this.GenerateComplexCopySystems)
                     {
                         fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
@@ -1735,8 +1735,8 @@ namespace Loqui.Generation
                 // ToDo
                 // Eventually detect and generate all applicable combinations
 
-                var typeInParams = $"{string.Join(", ", this.Generics.WithIndex().Select(x => $"Type type{x.Index}"))}";
-                var typeOutParams = $"{string.Join(", ", this.Generics.WithIndex().Select(x => $"type{x.Index}"))}";
+                var typeInParams = $"{string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))}";
+                var typeOutParams = $"{string.Join(", ", this.Generics.Select((_, i) => $"type{i}"))}";
 
                 string AddGenericWrap(string instance)
                 {
