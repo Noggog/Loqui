@@ -595,7 +595,7 @@ namespace Loqui.Generation
                 args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
                 if (this.HasLoquiBaseObject)
                 {
-                    args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes, internalInterface: false));
+                    args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes, internalInterface: true));
                 }
                 args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.ISetter));
                 args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface(internalInterface: true)}>");
