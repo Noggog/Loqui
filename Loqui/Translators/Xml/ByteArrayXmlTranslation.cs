@@ -134,7 +134,7 @@ namespace Loqui.Xml
             string? name,
             ReadOnlySpan<byte> item)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             node.Add(elem);
             WriteValue(elem, name, item);
         }

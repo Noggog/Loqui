@@ -32,8 +32,8 @@ namespace Loqui.Translators
             this.enumTranslation = enumTranslation;
 
             var nullCasterType = genericCaster.MakeGenericType(typeof(Object));
-            var nullTranslation = Activator.CreateInstance(nullTranslator);
-            this.NullTranslationItem = GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation }));
+            var nullTranslation = Activator.CreateInstance(nullTranslator)!;
+            this.NullTranslationItem = GetResponse<ObjTransl>.Succeed((ObjTransl)Activator.CreateInstance(nullCasterType, new object[] { nullTranslation })!);
 
             var genInterfType = typeof(ObjTransl).GetGenericTypeDefinition();
             foreach (var kv in TypeExt.GetInheritingFromGenericInterface(genInterfType))
@@ -120,7 +120,7 @@ namespace Loqui.Translators
 
         public ObjTransl GetCaster(Type xmlType, Type targetType)
         {
-            object xmlTransl = Activator.CreateInstance(xmlType);
+            object xmlTransl = Activator.CreateInstance(xmlType)!;
             var xmlConverterGenType = genericCaster.MakeGenericType(targetType);
             var ret = Activator.CreateInstance(xmlConverterGenType, args: new object[] { xmlTransl }) as ObjTransl;
             if (ret == null) throw new ArgumentException();

@@ -106,7 +106,7 @@ namespace Loqui.Xml
                     if (!param[2].ParameterType.Equals(typeof(TranslationCrystal))) return false;
                     return true;
                 })
-                .FirstOrDefault());
+                .First());
         }
 
         public bool Parse(

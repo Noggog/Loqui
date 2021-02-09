@@ -19,7 +19,7 @@ namespace Loqui
             this.Version = version;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is ObjectKey)) return false;
             return Equals((ObjectKey)obj);

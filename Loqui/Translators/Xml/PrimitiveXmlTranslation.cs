@@ -16,7 +16,7 @@ namespace Loqui.Xml
 
         protected virtual string GetItemStr(T item)
         {
-            return item.ToString();
+            return item!.ToString()!;
         }
 
         protected abstract bool Parse(string str, out T value, ErrorMaskBuilder? errorMask);

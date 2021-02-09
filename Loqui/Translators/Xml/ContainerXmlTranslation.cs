@@ -106,7 +106,7 @@ namespace Loqui.Xml
             TranslationCrystal? translationMask,
             XmlSubWriteDelegate<T> transl)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             node.Add(elem);
             int i = 0;
             var subCrystal = translationMask?.GetSubCrystal(0);

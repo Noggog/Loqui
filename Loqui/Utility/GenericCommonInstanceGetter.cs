@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +18,7 @@ namespace Loqui.Internal
             var t = genType.MakeGenericType(desiredType).GetFields(BindingFlags.Public | BindingFlags.Static)
                 .Where(f => f.Name == "Instance")
                 .First();
-            obj = t.GetValue(null);
+            obj = t.GetValue(null)!;
             _instanceTracker[desiredType] = obj;
             return obj;
         }

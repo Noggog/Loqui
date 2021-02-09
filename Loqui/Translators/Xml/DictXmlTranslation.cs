@@ -261,7 +261,7 @@ namespace Loqui.Xml
             XmlSubWriteDelegate<V> valTransl,
             int? fieldIndex = null)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             node.Add(elem);
             int i = 0;
             var keyTranslMask = translationMask?.GetSubCrystal(0);

@@ -65,7 +65,7 @@ namespace Loqui.Xml
             TranslationCrystal? translationMask)
         {
             var xml = GetTranslator(item.GetType());
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             elem.SetAttributeValue(XmlConstants.TYPE_ATTRIBUTE, xml.ElementName);
             node.Add(elem);
             xml.Write(elem, "Item", item, errorMask, translationMask);

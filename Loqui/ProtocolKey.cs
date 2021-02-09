@@ -11,7 +11,7 @@ namespace Loqui
             this.Namespace = nameSpace;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is ProtocolKey rhs)) return false;
             return Equals(rhs);

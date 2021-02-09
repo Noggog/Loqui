@@ -21,13 +21,14 @@ namespace Loqui
             this.Specific = specific;
         }
 
-        public bool Equals(MaskItem<TOverall, TSpecific> other)
+        public bool Equals(MaskItem<TOverall, TSpecific>? other)
         {
+            if (other == null) return false;
             return EqualityComparer<TOverall>.Default.Equals(this.Overall, other.Overall)
                 && EqualityComparer<TSpecific>.Default.Equals(this.Specific, other.Specific);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is MaskItem<TOverall, TSpecific>)) return false;
             return Equals((MaskItem<TOverall, TSpecific>)obj);
@@ -56,7 +57,7 @@ namespace Loqui
             this.Index = index;
         }
 
-        public bool Equals(MaskItemIndexed<TOverall, TSpecific> other)
+        public bool Equals(MaskItemIndexed<TOverall, TSpecific>? other)
         {
             if (!base.Equals(other)) return false;
             return this.Index == other.Index;
@@ -85,7 +86,7 @@ namespace Loqui
             this.Index = index;
         }
 
-        public bool Equals(MaskItemIndexed<TKey, TOverall, TSpecific> other)
+        public bool Equals(MaskItemIndexed<TKey, TOverall, TSpecific>? other)
         {
             if (!base.Equals(other)) return false;
             return object.Equals(this.Index, other.Index);

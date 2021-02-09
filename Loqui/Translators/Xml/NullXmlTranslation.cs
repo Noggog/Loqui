@@ -33,7 +33,7 @@ namespace Loqui.Xml
             TranslationCrystal? translationMask)
         {
             node.Add(
-                new XElement(name));
+                new XElement(name!));
         }
     }
 }

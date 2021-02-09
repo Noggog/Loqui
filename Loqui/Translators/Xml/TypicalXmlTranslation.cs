@@ -19,7 +19,7 @@ namespace Loqui.Xml
         protected virtual string GetItemStr(T item)
         {
             // Not sure why nullability override is needed here
-            return item!.ToString();
+            return item!.ToString()!;
         }
 
         protected abstract T Parse(string str);
@@ -85,7 +85,7 @@ namespace Loqui.Xml
             string? name,
             T item)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             node.Add(elem);
             WriteValue(elem, name, item);
         }

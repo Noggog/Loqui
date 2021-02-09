@@ -185,7 +185,7 @@ namespace Loqui.Xml
             TranslationCrystal? translationMask,
             XmlSubWriteDelegate<V> valTransl)
         {
-            var elem = new XElement(name);
+            var elem = new XElement(name!);
             node.Add(elem);
             int i = 0;
             foreach (var item in items)

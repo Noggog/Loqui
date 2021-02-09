@@ -192,7 +192,7 @@ namespace Loqui
                 var existStr = File.ReadAllText(file.FullName);
                 if (str.Equals(existStr)) return;
             }
-            file.Directory.Create();
+            file.Directory?.Create();
             File.WriteAllText(file.FullName, str);
         }
 

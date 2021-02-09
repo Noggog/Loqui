@@ -50,7 +50,7 @@ namespace Loqui
             }
         }
 
-        public static bool TryGetType(string name, [MaybeNullWhen(false)]out Type type)
+        public static bool TryGetType(string name, [MaybeNullWhen(false)] out Type type)
         {
             if (!_cache.TryGetValue(name, out type))
             {
@@ -141,10 +141,10 @@ namespace Loqui
             if (children.Length == 0) return Type.GetType(typeStr);
 
             typeStr += "`" + children.Length;
-            Type mainType = Type.GetType(typeStr);
+            Type? mainType = Type.GetType(typeStr);
             if (mainType == null) return null;
 
-            Type?[] subTypes = children.Select((child) => Parse(child)).ToArray();
+            Type[] subTypes = children.Select((child) => Parse(child)!).ToArray();
             if (subTypes.Any((t) => t == null)) return null;
 
             return mainType.MakeGenericType(subTypes);
@@ -215,7 +215,8 @@ namespace Loqui
                     {
                         if (!TryLocateRegistration(t, out var tRegis)) return false;
                         if (tRegis.GenericRegistrationType == null) return false;
-                        _genericRegisters[t] = tRegis.GenericRegistrationType;
+                        genRegisterType = tRegis.GenericRegistrationType;
+                        _genericRegisters[t] = genRegisterType;
                     }
                     regis = GetGenericRegistration(genRegisterType, t.GetGenericArguments())!;
                     _typeRegister[t] = regis;
@@ -259,10 +260,10 @@ namespace Loqui
             }
         }
 
-        private static ILoquiRegistration? GetGenericRegistration(Type genRegisterType, Type?[] subTypes)
+        private static ILoquiRegistration? GetGenericRegistration(Type genRegisterType, Type[] subTypes)
         {
             var customGenRegisterType = genRegisterType.MakeGenericType(subTypes);
-            var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public);
+            var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public)!;
             return instanceProp.GetValue(null) as ILoquiRegistration;
         }
 
@@ -272,7 +273,7 @@ namespace Loqui
             throw new ArgumentException("Object Key was not a defined Loqui type: " + key);
         }
 
-        public static bool TryGetRegister(ObjectKey key, out ILoquiRegistration regis)
+        public static bool TryGetRegister(ObjectKey key, [MaybeNullWhen(false)] out ILoquiRegistration regis)
         {
             lock (_registersLock)
             {
@@ -303,7 +304,7 @@ namespace Loqui
                 if (genRegisterType == null) throw new ArgumentException();
                 str = str.Substring(genIndex + 1, genEndIndex - genIndex - 1);
                 var subTypeStrings = str.Split(',');
-                var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())).ToArray();
+                var subTypes = subTypeStrings.Select((tStr) => TypeExt.FindType(tStr.Trim())!).ToArray();
                 if (subTypes.Any((t) => t == null))
                 {
                     _nameRegisters[str] = null;
@@ -328,7 +329,7 @@ namespace Loqui
             }
             var methodInfo = t.GetMethod(
                 Constants.CREATE_FUNC_NAME,
-                Constants.CREATE_FUNC_PARAM_ARRAY);
+                Constants.CREATE_FUNC_PARAM_ARRAY)!;
             var param = Expression.Parameter(Constants.CREATE_FUNC_PARAM, "fields");
             var tArgs = new List<Type>();
             foreach (var p in methodInfo.GetParameters())
@@ -358,7 +359,7 @@ namespace Loqui
                 {
                     Constants.CREATE_FUNC_PARAM,
                     t,
-                });
+                })!;
             var fields = Expression.Parameter(Constants.CREATE_FUNC_PARAM, "fields");
             var obj = Expression.Parameter(t, "obj");
             var tArgs = new List<Type>();
@@ -449,7 +450,7 @@ namespace Loqui
                         {
                             item,
                             copy
-                        });
+                        })!;
                 });
             _untypedCopyFuncRegister[(tSource, tResult)] = f;
             return f;
