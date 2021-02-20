@@ -157,6 +157,9 @@ namespace Loqui
                 if (_typeRegister.ContainsKey(reg.ClassType)) return;
                 _registers.Add(reg.ObjectKey, reg);
                 _nameRegisters.Add(reg.FullName, reg);
+                var prefixStrs = reg.FullName.Split('.');
+                _nameRegisters.Add(String.Join(".", prefixStrs[0..^1].And(reg.SetterType.Name)), reg);
+                _nameRegisters.Add(String.Join(".", prefixStrs[0..^1].And(reg.GetterType.Name)), reg);
                 _typeRegister.Add(reg.ClassType, reg);
                 _typeRegister.Add(reg.SetterType, reg);
                 _typeRegister.Add(reg.GetterType, reg);
