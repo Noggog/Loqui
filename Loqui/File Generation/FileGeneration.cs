@@ -13,7 +13,15 @@ namespace Loqui
     {
         public int Depth;
         private readonly List<string> _strings = new List<string>();
-        public string DepthStr { get; }
+        public string DepthStr
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(' ', this.Depth * _depthCount);
+                return sb.ToString();
+            }
+        }
         public bool Empty
         {
             get
@@ -27,6 +35,7 @@ namespace Loqui
         // Debug inspection members
         private static readonly Subject<string> _LineAppended = new Subject<string>();
         public static IObservable<string> LineAppended => _LineAppended;
+        private readonly int _depthCount;
 
         public int Count => this._strings.Count - 1;
 
@@ -58,10 +67,8 @@ namespace Loqui
 
         public FileGeneration(int depthCount)
         {
+            _depthCount = depthCount;
             this.AppendLine();
-            StringBuilder sb = new StringBuilder();
-            sb.Append(' ', this.Depth * depthCount);
-            DepthStr = sb.ToString();
         }
 
         public void Insert(int index, string str)
