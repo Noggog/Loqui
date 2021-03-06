@@ -51,7 +51,12 @@ namespace Loqui
             }
         }
 
-        public FileGeneration(int depthCount = 4)
+        public FileGeneration()
+            : this(depthCount: 4)
+        {
+        }
+
+        public FileGeneration(int depthCount)
         {
             this.AppendLine();
             StringBuilder sb = new StringBuilder();
