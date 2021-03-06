@@ -36,9 +36,9 @@ namespace Loqui.Xml
             ErrorMaskBuilder? errorMask,
             TranslationCrystal? translationMask)
         {
-            if (Source.Parse(root, out T sourceItem, errorMask, translationMask))
+            if (Source.Parse(root, out var sourceItem, errorMask, translationMask))
             {
-                item = sourceItem!;
+                item = sourceItem;
                 return item != null;
             }
             item = default;

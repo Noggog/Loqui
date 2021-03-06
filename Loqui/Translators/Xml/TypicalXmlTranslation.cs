@@ -40,7 +40,7 @@ namespace Loqui.Xml
         public T ParseNullable(
             XElement node,
             ErrorMaskBuilder? errorMask,
-            T defaultVal = default)
+            T? defaultVal = default)
         {
             if (this.Parse(
                 node: node,
@@ -61,7 +61,7 @@ namespace Loqui.Xml
             {
                 try
                 {
-                    return Parse(node, out item!);
+                    return Parse(node, out item);
                 }
                 catch (Exception ex)
                 when (errorMask != null)

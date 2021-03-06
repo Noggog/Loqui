@@ -163,7 +163,7 @@ namespace Loqui.Xml
             TranslationCrystal? translationMask)
         {
             bool gotKey = false;
-            K key = default;
+            K? key = default;
 
             using (errorMask?.PushIndex(KEY_ERR_INDEX))
             {
