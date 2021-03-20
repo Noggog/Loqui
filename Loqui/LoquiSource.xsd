@@ -359,6 +359,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="generateEquals" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to generate the equals/hashcode content.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="GUID" type="xs:string" >
       <xs:annotation>
         <xs:documentation>
@@ -441,6 +448,13 @@
       <xs:annotation>
         <xs:documentation>
           Whether to generate the ToString method.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="generateEquals" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          Whether to generate the equals/hashcode content.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
