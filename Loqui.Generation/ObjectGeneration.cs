@@ -2498,20 +2498,20 @@ namespace Loqui.Generation
             // Generate equals and hash
             if (GenerateEquals)
             {
-                using (new RegionWrapper(fg, "Equals and Hash"))
+                using (new RegionWrapper(fg, "Equals and Hash")) 
                 {
                     fg.AppendLine("public override bool Equals(object? obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"if (!(obj is {this.Interface(getter: true, internalInterface: true)} rhs)) return false;");
-                        fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, rhs);");
+                        fg.AppendLine($"if (obj is not {this.Interface(getter: true, internalInterface: true)} rhs) return false;");
+                        fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, rhs, crystal: null);");
                     }
                     fg.AppendLine();
 
                     fg.AppendLine($"public bool Equals({this.Interface(getter: true, internalInterface: true)}? obj)");
                     using (new BraceWrapper(fg))
                     {
-                        fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj);");
+                        fg.AppendLine($"return {this.CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj, crystal: null);");
                     }
                     fg.AppendLine();
 
@@ -2523,23 +2523,69 @@ namespace Loqui.Generation
 
         private async Task GenerateEqualsMixIn(FileGeneration fg)
         {
-            using (var args = new FunctionWrapper(fg,
-                $"public static bool Equals{this.GetGenericTypes(MaskType.Normal)}"))
+            if (this.IsGeneric)
             {
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
-                args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
-                args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
-            }
-            using (new BraceWrapper(fg))
-            {
-                using (var args = new ArgsWrapper(fg,
-                    $"return {this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
+                using (var args = new FunctionWrapper(fg,
+                    $"public static bool Equals{this.GetGenericTypes(MaskType.Normal)}"))
                 {
-                    args.Add("lhs: item");
-                    args.Add("rhs: rhs");
+                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
+                    args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
                 }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"return {this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
+                    {
+                        args.Add("lhs: item");
+                        args.AddPassArg("rhs");
+                        args.Add("crystal: null");
+                    }
+                }
+                fg.AppendLine();
+
+                using (var args = new FunctionWrapper(fg,
+                    $"public static bool Equals{this.GetGenericTypes(MaskType.Normal, MaskType.Translation)}"))
+                {
+                    args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, MaskType.Normal, MaskType.Translation));
+                    args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
+                    args.Add($"{this.Mask(MaskType.Translation)} equalsMask");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"return {this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
+                    {
+                        args.Add("lhs: item");
+                        args.AddPassArg("rhs");
+                        args.Add("crystal: equalsMask.GetCrystal()");
+                    }
+                }
+                fg.AppendLine();
             }
-            fg.AppendLine();
+            else
+            {
+                using (var args = new FunctionWrapper(fg,
+                    $"public static bool Equals{this.GetGenericTypes(MaskType.Normal)}"))
+                {
+                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
+                    args.Add($"this {this.Interface(getter: true, internalInterface: true)} item");
+                    args.Add($"{this.Interface(getter: true, internalInterface: true)} rhs");
+                    args.Add($"{this.Mask(MaskType.Translation)}? equalsMask = null");
+                }
+                using (new BraceWrapper(fg))
+                {
+                    using (var args = new ArgsWrapper(fg,
+                        $"return {this.CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
+                    {
+                        args.Add("lhs: item");
+                        args.AddPassArg("rhs");
+                        args.Add("crystal: equalsMask?.GetCrystal()");
+                    }
+                }
+                fg.AppendLine();
+            }
         }
 
         private void GenerateEqualsCommon(FileGeneration fg, MaskTypeSet maskTypes)
@@ -2551,6 +2597,7 @@ namespace Loqui.Generation
                 {
                     args.Add($"{this.Interface(getter: true, internalInterface: true)}? lhs");
                     args.Add($"{this.Interface(getter: true, internalInterface: true)}? rhs");
+                    args.Add($"{nameof(TranslationCrystal)}? crystal");
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -2558,7 +2605,7 @@ namespace Loqui.Generation
                     fg.AppendLine("if (lhs == null || rhs == null) return false;");
                     if (this.HasLoquiBaseObject)
                     {
-                        fg.AppendLine($"if (!base.Equals(({this.BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({this.BaseClass.Interface(getter: true, internalInterface: true)})rhs)) return false;");
+                        fg.AppendLine($"if (!base.Equals(({this.BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({this.BaseClass.Interface(getter: true, internalInterface: true)})rhs, crystal)) return false;");
                     }
                     foreach (var field in this.IterateFields())
                     {
@@ -2568,11 +2615,11 @@ namespace Loqui.Generation
                             var rhsAccessor = Accessor.FromType(field, "rhs");
                             if (field.IntegrateField)
                             {
-                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
+                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor, "crystal");
                             }
                             else
                             {
-                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor);
+                                field.GenerateForEquals(fg, lhsAccessor, rhsAccessor, "crystal");
                             }
                         }
                     }
@@ -2587,6 +2634,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"{baseObj.Interface(getter: true, internalInterface: true)}? lhs");
                         args.Add($"{baseObj.Interface(getter: true, internalInterface: true)}? rhs");
+                        args.Add($"{nameof(TranslationCrystal)}? crystal");
                     }
                     using (new BraceWrapper(fg))
                     {
@@ -2595,6 +2643,7 @@ namespace Loqui.Generation
                         {
                             args.Add($"lhs: ({this.Interface(getter: true, internalInterface: true)}?)lhs");
                             args.Add($"rhs: rhs as {this.Interface(getter: true, internalInterface: true)}");
+                            args.AddPassArg($"crystal");
                         }
                     }
                     fg.AppendLine();

@@ -163,7 +163,7 @@ namespace Loqui.Generation
 
         public abstract void GenerateClear(FileGeneration fg, Accessor accessorPrefix);
 
-        public abstract void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor);
+        public abstract void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor);
 
         public abstract void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor);
 

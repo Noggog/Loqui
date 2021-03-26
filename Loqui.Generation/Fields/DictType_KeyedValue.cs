@@ -400,9 +400,13 @@ namespace Loqui.Generation
             return $"{(negate ? "!" : null)}{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})";
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
-            fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+            }
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

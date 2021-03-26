@@ -123,19 +123,23 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
-            if (this.SubTypeGeneration.IsIEquatable)
+            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
+            using (new BraceWrapper(fg))
             {
-                if (this.Nullable)
+                if (this.SubTypeGeneration.IsIEquatable)
                 {
-                    fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
+                    if (this.Nullable)
+                    {
+                        fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
+                    }
+                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<string>({accessor.Access}.Span!, {rhsAccessor.Access}.Span!)) return false;");
                 }
-                fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<string>({accessor.Access}.Span!, {rhsAccessor.Access}.Span!)) return false;");
-            }
-            else
-            {
-                fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
+                else
+                {
+                    fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
+                }
             }
         }
 

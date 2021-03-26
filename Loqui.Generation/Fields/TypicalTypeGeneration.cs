@@ -347,10 +347,14 @@ namespace Loqui.Generation
             fg.AppendLine($"return {identifier.Access};");
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
             if (!this.IntegrateField) return;
-            fg.AppendLine($"if ({GenerateEqualsSnippet(accessor, rhsAccessor, negate: true)}) return false;");
+            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if ({GenerateEqualsSnippet(accessor, rhsAccessor, negate: true)}) return false;");
+            }
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

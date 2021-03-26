@@ -12,9 +12,13 @@ namespace Loqui.Generation
             return $"{(negate ? "!" : null)}{accessor.Access}.EqualsWithin({rhsAccessor.Access})";
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
-            fg.AppendLine($"if (!{accessor.Access}.EqualsWithin({rhsAccessor.Access})) return false;");
+            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"if (!{accessor.Access}.EqualsWithin({rhsAccessor.Access})) return false;");
+            }
         }
     }
 }

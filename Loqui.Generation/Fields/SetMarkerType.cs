@@ -69,7 +69,7 @@ namespace Loqui.Generation
             throw new NotImplementedException();
         }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
             throw new NotImplementedException();
         }
