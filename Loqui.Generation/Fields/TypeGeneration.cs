@@ -57,6 +57,37 @@ namespace Loqui.Generation
         public bool Override { get; set; }
         public string OverrideStr => Override ? "override " : string.Empty;
 
+        public readonly FileGeneration Summary = new();
+        public readonly SortedSet<string> Aspects = new();
+
+        private string _aspectsLine = null;
+
+        protected string AspectsLine
+        {
+            get
+            {
+                if (_aspectsLine != null)
+                    return _aspectsLine;
+
+                _aspectsLine = "Aspects: " + Aspects.ToString();
+                return _aspectsLine;
+            }
+        }
+
+        protected void ApplyComment(FileGeneration fg)
+        {
+            if (Aspects.Count > 0 || Summary.Count > 0)
+            {
+                fg.AppendLine("/// <summary>");
+                foreach (var line in Summary)
+                {
+                    fg.AppendLine($"/// {line}");
+                }
+                fg.AppendLine($"/// {AspectsLine}");
+                fg.AppendLine("/// </summary>");
+            }
+        }
+
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
             this.ObjectGen = obj;

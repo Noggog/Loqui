@@ -127,6 +127,7 @@ namespace Loqui.Generation
         public override void GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{this.Name} = new Dictionary<{TypeTuple(getter: false)}>();");
+            ApplyComment(fg);
             fg.AppendLine($"public IDictionary<{TypeTuple(getter: false)}> {this.Name} => _{this.Name};");
 
             var member = "_" + this.Name;
@@ -151,12 +152,14 @@ namespace Loqui.Generation
         {
             if (getter)
             {
+                ApplyComment(fg);
                 fg.AppendLine($"IReadOnlyDictionary<{this.TypeTuple(getter: true)}> {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
+                    ApplyComment(fg);
                     fg.AppendLine($"new IDictionary{(this.ReadOnly ? "Getter" : string.Empty)}<{this.TypeTuple(getter: false)}> {this.Name} {{ get; }}");
                 }
             }

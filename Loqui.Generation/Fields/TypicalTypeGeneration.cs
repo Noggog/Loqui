@@ -75,6 +75,7 @@ namespace Loqui.Generation
         {
             void GenerateTypicalNullableMembers(bool notifying)
             {
+                ApplyComment(fg);
                 fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name} {{ get; {(ReadOnly ? "protected " : string.Empty)}set; }}");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"{this.TypeName(getter: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
@@ -90,6 +91,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
+                        ApplyComment(fg);
                         fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
                         fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
@@ -100,11 +102,13 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name} = _{this.Name}_Default;");
+                        ApplyComment(fg);
                         fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
                     else
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        ApplyComment(fg);
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
                     }
                     fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {this.Name}");
@@ -127,6 +131,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
+                        ApplyComment(fg);
                         fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
                         fg.AppendLine($"{this.TypeName(getter: false)} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => this.{this.Name};");
                     }
@@ -135,6 +140,7 @@ namespace Loqui.Generation
                 {
                     if (HasDefault)
                     {
+                        ApplyComment(fg);
                         fg.AppendLine($"public readonly static {TypeName(getter: false)} _{this.Name}_Default = {this.DefaultValue};");
                     }
                     var subFg = new FileGeneration();
@@ -149,6 +155,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {TypeName(getter: false)} _{this.Name};");
+                        ApplyComment(fg);
                         fg.AppendLine($"public {TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
@@ -211,6 +218,7 @@ namespace Loqui.Generation
             if (getter)
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
+                ApplyComment(fg);
                 fg.AppendLine($"{TypeName(getter: true)}{(this.Nullable && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; }}");
                 if (this.Nullable && !this.CanBeNullable(getter))
                 {
@@ -220,6 +228,7 @@ namespace Loqui.Generation
             else
             {
                 if (!ApplicableInterfaceField(getter, internalInterface)) return;
+                ApplyComment(fg);
                 fg.AppendLine($"new {TypeName(getter: false)}{(this.Nullable && this.CanBeNullable(getter) ? "?" : null)} {this.Name} {{ get; set; }}");
 
                 if (!CanBeNullable(false))
