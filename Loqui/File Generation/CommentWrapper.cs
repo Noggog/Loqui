@@ -39,7 +39,7 @@ namespace Loqui
             {
                 if (param.Value.Count > 1)
                 {
-                    fg.AppendLine("/// <param name=\"{param.Key}\">");
+                    fg.AppendLine($"/// <param name=\"{param.Key}\">");
                     foreach (var line in param.Value)
                     {
                         fg.AppendLine($"/// {line}");
