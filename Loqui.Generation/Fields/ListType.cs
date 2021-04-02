@@ -52,6 +52,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.Nullable ? null : $" = {GetActualItemClass(ctor: true)}")};");
+            ApplyComment(fg);
             fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
             using (new BraceWrapper(fg))
             {
@@ -91,12 +92,14 @@ namespace Loqui.Generation
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
             if (getter)
             {
+                ApplyComment(fg);
                 fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
             }
             else
             {
                 if (!this.ReadOnly)
                 {
+                    ApplyComment(fg);
                     fg.AppendLine($"new {ListTypeName(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.Nullable ? "set; " : null)}}}");
                 }
             }

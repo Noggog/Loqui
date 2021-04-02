@@ -46,6 +46,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"protected {this.TypeName(getter: false)} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                        ApplyComment(fg);
                         fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
@@ -57,6 +58,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
+                        ApplyComment(fg);
                         fg.AppendLine($"public readonly {this.TypeName(getter: false)} {this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     }
@@ -84,6 +86,7 @@ namespace Loqui.Generation
                 else
                 {
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.Singleton ? $" = {GetNewForNonNullable()}" : string.Empty)};");
+                    ApplyComment(fg);
                     fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -113,6 +116,7 @@ namespace Loqui.Generation
                         {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                             fg.AppendLine($"protected {this.TypeName(getter: false)}? _{this.Name};");
+                            ApplyComment(fg);
                             fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)}? {this.Name}");
                             using (new BraceWrapper(fg))
                             {
@@ -132,6 +136,7 @@ namespace Loqui.Generation
                         }
                         else
                         {
+                            ApplyComment(fg);
                             fg.AppendLine($"public readonly {this.TypeName(getter: false)}? {this.Name};");
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         }
@@ -145,6 +150,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"private {this.TypeName(getter: false)} _{this.Name}{(this.IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
+                    ApplyComment(fg);
                     if (this.Singleton)
                     {
                         fg.AppendLine($"public {OverrideStr}{this.TypeName(getter: false)} {this.Name} => {this.ProtectedName};");

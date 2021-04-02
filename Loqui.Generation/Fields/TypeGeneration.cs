@@ -57,6 +57,14 @@ namespace Loqui.Generation
         public bool Override { get; set; }
         public string OverrideStr => Override ? "override " : string.Empty;
 
+        public CommentWrapper Comments;
+
+        protected void ApplyComment(FileGeneration fg)
+        {
+            if (Comments is not null)
+                Comments.Apply(fg);
+        }
+
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
             this.ObjectGen = obj;
@@ -83,6 +91,7 @@ namespace Loqui.Generation
 
         protected void LoadTypeGenerationFromNode(XElement node, bool requireName = true)
         {
+            // TODO load comments.
             node.TransferAttribute<bool>(Constants.HIDDEN_FIELD, i => this.IntegrateField = !i);
             Name = node.GetAttribute<string>(Constants.NAME);
             node.TransferAttribute<bool>(Constants.KEY_FIELD, i => this.KeyField = i);
