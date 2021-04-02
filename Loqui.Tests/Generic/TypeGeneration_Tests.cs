@@ -91,7 +91,21 @@ namespace Loqui.Tests
         {
             var thing = Thing;
             if (commentString is not null)
-                (thing.Comments ??= new(null)).Summary.AppendLine(commentString);
+                (thing.Comments ??= new()).Comments.Summary.AppendLine(commentString);
+            return thing;
+        }
+
+        private T ThingWithInterfaceComments(string commentString, bool getter)
+        {
+            var thing = Thing;
+            if (commentString is null) return thing;
+
+            var comments = (thing.Comments ??= new());
+            if (getter)
+                (comments.GetterInterface ??= new(null!)).Summary.AppendLine(commentString);
+            else
+                (comments.SetterInterface ??= new(null!)).Summary.AppendLine(commentString);
+
             return thing;
         }
 
@@ -119,7 +133,7 @@ namespace Loqui.Tests
         [MemberData(nameof(InterfaceCommentsData))]
         public async void TestInterfaceComments(string commentString, string[] expected, bool getter)
         {
-            var thing = ThingWithComments(commentString);
+            var thing = ThingWithInterfaceComments(commentString, getter);
             var fg = new FileGeneration();
 
             thing.GenerateForInterface(fg, getter, false);
