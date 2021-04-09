@@ -211,7 +211,7 @@ namespace Loqui.Generation
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"private readonly {this.DictInterface(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false)};");
-            ApplyClassComments(fg);
+            Comments?.Apply(fg, LoquiInterfaceType.Direct);
             fg.AppendLine($"public {this.DictInterface(getter: false)} {this.Name} => _{this.Name};");
 
             var member = $"_{this.Name}";
@@ -230,7 +230,7 @@ namespace Loqui.Generation
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
         {
             if (!ApplicableInterfaceField(getter: getter, internalInterface: internalInterface)) return;
-            ApplyInterfaceComments(fg, getter, internalInterface);
+            Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
             fg.AppendLine($"{(getter ? null : "new ")}{DictInterface(getter: getter)} {this.Name} {{ get; }}");
         }
 

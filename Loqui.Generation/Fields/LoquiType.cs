@@ -270,14 +270,14 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                     }
                     else
                     {
                         fg.AppendLine($"private {this.TypeName()} _{this.Name};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
@@ -315,7 +315,7 @@ namespace Loqui.Generation
                     fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName} = new {this.DirectTypeName}();");
                     if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                     {
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                     }
                 }
@@ -323,7 +323,7 @@ namespace Loqui.Generation
                 {
                     fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     fg.AppendLine($"private {this.TypeName()} _{this.Name}{(this.ThisConstruction ? null : $" = new {this.TypeName()}();")}");
-                    ApplyClassComments(fg);
+                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
                     fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name}");
                     using (new BraceWrapper(fg))
                     {
@@ -344,14 +344,14 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"private readonly {this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                     }
                     else
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {this.TypeName()}{this.NullChar} _{this.Name};");
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {OverrideStr}{this.TypeName()}{this.NullChar} {this.Name}");
                         using (new BraceWrapper(fg))
                         {
@@ -368,7 +368,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                         fg.AppendLine($"private {(this.ThisConstruction ? null : "readonly ")}{this.DirectTypeName} {this.SingletonObjectName}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}()")};");
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} => {this.SingletonObjectName};");
                         if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                         {
@@ -378,7 +378,7 @@ namespace Loqui.Generation
                     }
                     else
                     {
-                        ApplyClassComments(fg);
+                        Comments?.Apply(fg, LoquiInterfaceType.Direct);
                         fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
                         if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                         {
@@ -895,7 +895,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                ApplyInterfaceComments(fg, getter, internalInterface);
+                Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
                 fg.AppendLine($"{this.TypeNameInternal(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
             }
             else
@@ -904,7 +904,7 @@ namespace Loqui.Generation
                 {
                     if (this.GetterInterfaceType != this.SetterInterfaceType)
                     {
-                        ApplyInterfaceComments(fg, getter, internalInterface);
+                        Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
                         fg.AppendLine($"new {this.TypeName(getter: false)} {this.Name} {{ get; }}");
                     }
                 }

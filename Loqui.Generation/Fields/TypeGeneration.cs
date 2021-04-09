@@ -59,19 +59,6 @@ namespace Loqui.Generation
 
         public CommentCollection Comments;
 
-        protected void ApplyClassComments(FileGeneration fg)
-        {
-            Comments?.Comments.Apply(fg);
-        }
-
-        protected void ApplyInterfaceComments(FileGeneration fg, bool getter, bool internalInterface)
-        {
-            if (getter)
-                Comments?.GetterInterface?.Apply(fg);
-            else
-                Comments?.SetterInterface?.Apply(fg);
-        }
-
         public void SetObjectGeneration(ObjectGeneration obj, bool setDefaults)
         {
             this.ObjectGen = obj;

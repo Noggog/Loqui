@@ -16,5 +16,23 @@ namespace Loqui.Generation
         {
             Comments = new CommentWrapper(null);
         }
+
+        public void Apply(FileGeneration fg, LoquiInterfaceType type)
+        {
+            switch (type)
+            {
+                case LoquiInterfaceType.Direct:
+                    Comments.Apply(fg);
+                    break;
+                case LoquiInterfaceType.ISetter:
+                    (SetterInterface ?? Comments).Apply(fg);
+                    break;
+                case LoquiInterfaceType.IGetter:
+                    (GetterInterface ?? Comments).Apply(fg);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
