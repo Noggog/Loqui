@@ -265,11 +265,7 @@ namespace Loqui.Generation
 
             if (directlyInheritingObjs.Count > 0)
             {
-                if (Comments == null)
-                {
-                    Comments = new CommentCollection();
-                }
-                Comments.Comments.Summary.AppendLine($"Implemented by: [{string.Join(", ", directlyInheritingObjs.Select(x => x.ObjectName))}]");
+                (Comments ??= new()).Comments.Summary.AppendLine($"Implemented by: [{string.Join(", ", directlyInheritingObjs.Select(x => x.ObjectName))}]");
             }
 
             await Task.WhenAll(
@@ -458,10 +454,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Class"))
             {
-                if (Comments != null)
-                {
-                    Comments.Comments.Apply(fg);
-                }
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
                 await GenerateClassLine(fg);
 
                 using (new DepthWrapper(fg))
@@ -583,11 +576,10 @@ namespace Loqui.Generation
                 getter: false,
                 internalInterface: false);
 
+            var interfaceType = LoquiInterfaceType.ISetter;
+
             // Interface
-            if (Comments != null)
-            {
-                (Comments.SetterInterface ?? Comments.Comments).Apply(fg);
-            }
+            Comments?.Apply(fg, interfaceType);
             using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
@@ -597,10 +589,10 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(this.BaseClass.Interface(this.BaseGenericTypes, internalInterface: true));
                 }
-                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.ISetter));
+                args.Interfaces.Add(this.Interfaces.Get(interfaceType));
                 args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface(internalInterface: true)}>");
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.ISetter).ToListAsync());
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(interfaceType).ToListAsync());
+                args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
             }
             using (new BraceWrapper(fg))
             {
@@ -629,7 +621,7 @@ namespace Loqui.Generation
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault(b => b.HasInternalSetInterface)?.Interface(internalInterface: true);
                     args.Interfaces.Add(this.Interface(internalInterface: false));
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
-                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, Generics));
+                    args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -657,20 +649,19 @@ namespace Loqui.Generation
                 getter: true,
                 internalInterface: false);
 
+            var interfaceType = LoquiInterfaceType.IGetter;
+
             // Getter
-            if (Comments != null)
-            {
-                (Comments.GetterInterface ?? Comments.Comments).Apply(fg);
-            }
+            Comments?.Apply(fg, interfaceType);
             using (var args = new ClassWrapper(fg, interfaceLine))
             {
                 args.Type = ClassWrapper.ObjectType.@interface;
                 args.Partial = true;
                 args.BaseClass = (this.HasLoquiBaseObject ? this.BaseClass.Interface(this.BaseGenericTypes, getter: true, internalInterface: false) : nameof(ILoquiObject));
-                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.IGetter));
+                args.Interfaces.Add(this.Interfaces.Get(interfaceType));
                 args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true, internalInterface: true)}>");
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.IGetter).ToListAsync());
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
+                args.Interfaces.Add(await this.GetApplicableInterfaces(interfaceType).ToListAsync());
+                args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
             }
 
             using (new BraceWrapper(fg))
@@ -678,7 +669,7 @@ namespace Loqui.Generation
                 if (this.IsTopClass)
                 {
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-                    fg.AppendLine($"object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter)}Instance({string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))});");
+                    fg.AppendLine($"object Common{this.CommonNameAdditions(interfaceType)}Instance({string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))});");
                     fg.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
                     fg.AppendLine($"object? Common{this.CommonNameAdditions(LoquiInterfaceType.ISetter, MaskType.Normal)}Instance({string.Join(", ", this.Generics.Select((_, i) => $"Type type{i}"))});");
                     if (this.GenerateComplexCopySystems)
@@ -731,7 +722,7 @@ namespace Loqui.Generation
                     args.Partial = true;
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault()?.Interface(internalInterface: true, getter: true);
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
-                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter, Generics));
+                    args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
                 }
                 using (new BraceWrapper(fg))
                 {
