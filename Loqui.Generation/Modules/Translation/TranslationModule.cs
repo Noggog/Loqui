@@ -525,6 +525,8 @@ namespace Loqui.Generation
 
         protected virtual bool GenerateMainCreate(ObjectGeneration obj) => true;
 
+        protected virtual bool GenerateMainWrite(ObjectGeneration obj) => true;
+
         private async Task GenerateCreate(ObjectGeneration obj, FileGeneration fg)
         {
             using (new RegionWrapper(fg, $"{this.ModuleNickname} Create"))
@@ -980,9 +982,11 @@ namespace Loqui.Generation
 
         private async Task GenerateWriteMixIn(ObjectGeneration obj, FileGeneration fg)
         {
-            if (this.DoErrorMasks)
+            if (GenerateMainWrite(obj))
             {
-                using (var args = new FunctionWrapper(fg,
+                if (this.DoErrorMasks)
+                {
+                    using (var args = new FunctionWrapper(fg,
                     $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -1120,15 +1124,18 @@ namespace Loqui.Generation
                             });
                         }
                         fg.AppendLine();
+                        }
                     }
                 }
             }
 
             if (obj.IsTopClass)
             {
-                if (this.DoErrorMasks)
+                if (GenerateMainWrite(obj))
                 {
-                    using (var args = new FunctionWrapper(fg,
+                    if (this.DoErrorMasks)
+                    {
+                        using (var args = new FunctionWrapper(fg,
                             $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal));
@@ -1225,9 +1232,10 @@ namespace Loqui.Generation
                         {
                             args.Add("translationMask: translationMask?.GetCrystal()");
                         }
+                        }
                     }
+                    fg.AppendLine();
                 }
-                fg.AppendLine();
 
                 foreach (var minorAPI in this.MinorAPIs)
                 {
