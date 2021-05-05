@@ -57,7 +57,7 @@ namespace Loqui.Generation
             using (new BraceWrapper(fg))
             {
                 fg.AppendLine($"get => this._{this.Name};");
-                fg.AppendLine($"{((ReadOnly || !this.Nullable) ? "protected " : string.Empty)}set => this._{this.Name} = value;");
+                fg.AppendLine($"{((ReadOnly || !this.Nullable) ? "init" : "set")} => this._{this.Name} = value;");
             }
             GenerateInterfaceMembers(fg, $"_{this.Name}");
         }
