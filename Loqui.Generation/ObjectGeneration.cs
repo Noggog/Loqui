@@ -135,8 +135,8 @@ namespace Loqui.Generation
             $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(types, getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance({(commonGen == CommonGenerics.Class ? string.Join(", ", this.Generics.Select(x => $"typeof({x.Key})")) : null)})!)";
         public string MixInClassName => $"{Name}MixIn";
 
-        public DirectoryInfo TargetDir { get; private set; }
-        public FileInfo SourceXMLFile { get; private set; }
+        public DirectoryPath TargetDir { get; private set; }
+        public FilePath SourceXMLFile { get; private set; }
         protected LoquiGenerator gen;
         public ProtocolGeneration ProtoGen;
         public HashSet<string> RequiredNamespaces = new HashSet<string>();
@@ -168,11 +168,11 @@ namespace Loqui.Generation
 
         public CommentCollection Comments;
 
-        public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
+        public ObjectGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FilePath sourceFile)
         {
             this.gen = gen;
             this.ProtoGen = protoGen;
-            this.TargetDir = sourceFile.Directory;
+            this.TargetDir = sourceFile.Directory ?? throw new ArgumentException();
             this.SourceXMLFile = sourceFile;
             this.SetterInterfaceTypeDefault = this.ProtoGen.SetterInterfaceTypeDefault;
             this.GetterInterfaceTypeDefault = this.ProtoGen.GetterInterfaceTypeDefault;
@@ -365,7 +365,7 @@ namespace Loqui.Generation
             await GenerateTranslations(fg);
             await GenerateNonGenericClass(fg);
 
-            var fileName = Path.Combine(TargetDir.FullName, FileName);
+            var fileName = Path.Combine(TargetDir.Path, FileName);
             var file = new FileInfo(fileName);
             this.GeneratedFiles[Path.GetFullPath(fileName)] = ProjItemType.Compile;
             fg.Generate(file);
@@ -3340,7 +3340,7 @@ namespace Loqui.Generation
         public void RegenerateAndStampSourceXML()
         {
             XDocument doc;
-            using (var stream = new FileStream(this.SourceXMLFile.FullName, FileMode.Open))
+            using (var stream = new FileStream(this.SourceXMLFile.Path, FileMode.Open))
             {
                 doc = XDocument.Load(stream);
             }
@@ -3371,13 +3371,13 @@ namespace Loqui.Generation
 
             if (!modified) return;
 
-            using (var xmlWriter = new XmlTextWriter(new FileStream(this.SourceXMLFile.FullName, FileMode.Create), Encoding.ASCII))
+            using (var xmlWriter = new XmlTextWriter(new FileStream(this.SourceXMLFile.Path, FileMode.Create), Encoding.ASCII))
             {
                 xmlWriter.Formatting = Formatting.Indented;
                 xmlWriter.Indentation = 2;
                 doc.WriteTo(xmlWriter);
             }
-            using var streamWriter = File.AppendText(this.SourceXMLFile.FullName);
+            using var streamWriter = File.AppendText(this.SourceXMLFile.Path);
             streamWriter.Write(Environment.NewLine);
         }
 

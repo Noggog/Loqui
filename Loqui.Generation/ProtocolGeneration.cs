@@ -57,7 +57,7 @@ namespace Loqui.Generation
             this.AddSearchableFolder(defSearchableFolder);
         }
 
-        private async Task LoadInitialObjects(IEnumerable<System.Tuple<XDocument, FileInfo>> xmlDocs)
+        private async Task LoadInitialObjects(IEnumerable<(XDocument Doc, FilePath Path)> xmlDocs)
         {
             List<ObjectGeneration> unassignedObjects = new List<ObjectGeneration>();
 
@@ -88,11 +88,11 @@ namespace Loqui.Generation
                     ObjectGeneration objGen;
                     if (obj.Name.LocalName.Equals("Object"))
                     {
-                        objGen = new ClassGeneration(Gen, this, xmlDocTuple.Item2);
+                        objGen = new ClassGeneration(Gen, this, xmlDocTuple.Path);
                     }
                     else
                     {
-                        objGen = new StructGeneration(Gen, this, xmlDocTuple.Item2);
+                        objGen = new StructGeneration(Gen, this, xmlDocTuple.Path);
                     }
                     objGen.Node = obj;
                     if (!string.IsNullOrWhiteSpace(namespaceStr))
@@ -143,7 +143,7 @@ namespace Loqui.Generation
                     }
 
                     this.ObjectGenerationsByName.Add(name, objGen);
-                    this.Gen.ObjectGenerationsByDir.GetOrAdd(objGen.TargetDir.FullName).Add(objGen);
+                    this.Gen.ObjectGenerationsByDir.GetOrAdd(objGen.TargetDir.Path).Add(objGen);
                     this.Gen.ObjectGenerationsByObjectNameKey[new ObjectNamedKey(this.Protocol, objGen.Name)] = objGen;
                 }
             }
@@ -283,21 +283,21 @@ namespace Loqui.Generation
 
         public async Task LoadInitialObjects()
         {
-            await this.LoadInitialObjects(this.sourceFolders.SelectMany((dir) => dir.EnumerateFileInfos())
+            await this.LoadInitialObjects(this.sourceFolders.SelectMany((dir) => dir.EnumerateFiles())
                 .Where((f) => ".XML".Equals(f.Extension, StringComparison.CurrentCultureIgnoreCase))
                 .Select(
                 (f) =>
                 {
                     XDocument doc;
-                    using (var stream = new FileStream(f.FullName, FileMode.Open))
+                    using (var stream = new FileStream(f.Path, FileMode.Open))
                     {
                         doc = XDocument.Load(stream);
                     }
-                    return new System.Tuple<XDocument, FileInfo>(doc, f);
+                    return (Doc: doc, File: f);
                 })
                 .Where((t) =>
                 {
-                    var loquiNode = t.Item1.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
+                    var loquiNode = t.Doc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
                     if (loquiNode == null) return false;
                     var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
                     string protoNamespace;
@@ -374,23 +374,23 @@ namespace Loqui.Generation
             Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
             generatedItems.Set(this.ObjectGenerationsByID.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
             generatedItems.Set(GeneratedFiles);
-            HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.FullName)));
+            HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.Path)));
 
             // Find which objects are present
             foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))
             {
                 XAttribute includeAttr = subNode.Attribute("Include");
                 if (includeAttr == null) continue;
-                generatedItems.Remove(Path.Combine(projFile.Directory.Path, includeAttr.Value));
+                generatedItems.Remove(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
             }
 
             // Add missing object nodes
             foreach (var objGens in generatedItems)
             {
-                if (objGens.Key.Directory.IsSubfolderOf(projFile.Directory)
+                if (objGens.Key.Directory.Value.IsSubfolderOf(projFile.Directory.Value)
                     || objGens.Key.Directory.Equals(projFile.Directory))
                 {
-                    string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Path);
+                    string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path);
                     filePath = filePath.TrimStart('\\');
                     List<XElement> nodes;
                     XElement includeNode;
@@ -424,7 +424,7 @@ namespace Loqui.Generation
             {
                 XAttribute includeAttr = subMode.Attribute("Include");
                 if (includeAttr == null) continue;
-                FilePath file = new FilePath(Path.Combine(projFile.Directory.Path, includeAttr.Value));
+                FilePath file = new FilePath(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
                 if (sourceXMLs.Contains(file)) continue;
                 if (!this.Gen.TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
                 if (file.Name.Equals(objGen.SourceXMLFile.Name)) continue;

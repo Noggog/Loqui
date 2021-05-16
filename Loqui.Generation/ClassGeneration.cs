@@ -19,7 +19,7 @@ namespace Loqui.Generation
         private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
         public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
 
-        public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
+        public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FilePath sourceFile)
             : base(gen, protoGen, sourceFile)
         {
         }

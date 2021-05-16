@@ -249,7 +249,8 @@ namespace Loqui.Generation
 
         public bool TryGetMatchingObjectGeneration(FilePath file, out ObjectGeneration objGen)
         {
-            if (this.ObjectGenerationsByDir.TryGetValue(file.Directory, out List<ObjectGeneration> objs))
+            if (file.Directory.TryGet(out var dir) 
+                && this.ObjectGenerationsByDir.TryGetValue(dir, out List<ObjectGeneration> objs))
             {
                 objGen = objs.Where((obj) => file.Name.String.StartsWith(obj.Name))
                     .OrderByDescending((obj) => obj.Name.Length)

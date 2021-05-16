@@ -16,7 +16,7 @@ namespace Loqui.Generation
 
         public override string ProtectedKeyword => "private";
 
-        public StructGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FileInfo sourceFile)
+        public StructGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FilePath sourceFile)
             : base(gen, protoGen, sourceFile)
         {
         }

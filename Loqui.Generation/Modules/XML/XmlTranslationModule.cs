@@ -19,7 +19,7 @@ namespace Loqui.Generation
         public override string Namespace => "Loqui.Generation";
         public readonly static XNamespace XSDNamespace = "http://www.w3.org/2001/XMLSchema";
         public bool ShouldGenerateXSD = true;
-        public FilePath ObjectXSDLocation(ObjectGeneration obj) => new FilePath(Path.Combine(obj.TargetDir.FullName, this.ObjectXSDName(obj)));
+        public FilePath ObjectXSDLocation(ObjectGeneration obj) => new FilePath(Path.Combine(obj.TargetDir.Path, this.ObjectXSDName(obj)));
         public string ObjectXSDName(ObjectGeneration obj) => $"{obj.Name}.xsd";
         public FilePath CommonXSDLocation(ProtocolGeneration proto) => new FilePath(Path.Combine(proto.GenerationFolder.FullName, "Common.xsd"));
         public string ObjectNamespace(ObjectGeneration obj) => $"{obj.ProtoGen.Protocol.Namespace}";
@@ -582,7 +582,7 @@ namespace Loqui.Generation
                 elem.Add(new XAttribute("maxOccurs", 1));
             }
 
-            var outputPath = Path.Combine(obj.TargetDir.FullName, $"{obj.Name}.xsd");
+            var outputPath = Path.Combine(obj.TargetDir.Path, $"{obj.Name}.xsd");
             obj.GeneratedFiles[Path.GetFullPath(outputPath)] = ProjItemType.None;
             using (var writer = new XmlTextWriter(outputPath, Encoding.Default))
             {
