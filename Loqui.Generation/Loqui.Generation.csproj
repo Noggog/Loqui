@@ -36,8 +36,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
-    <PackageReference Include="Noggog.CSharpExt" Version="2.16.0" />
-    <PackageReference Include="NuGetizer" Version="0.6.2">
+    <PackageReference Include="Noggog.CSharpExt" Version="2.17.0" />
+    <PackageReference Include="NuGetizer" Version="0.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
