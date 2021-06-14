@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Abstractions;
 using System.Reactive.Subjects;
 using System.Text;
 
@@ -183,24 +184,18 @@ namespace Loqui
             this._strings.RemoveAt(index);
         }
 
-        public void Generate(string path, bool onlyIfChanged = true)
+        public void Generate(FilePath file, bool onlyIfChanged = true, IFileSystem? fileSystem = null)
         {
-            Generate(
-                new FileInfo(path),
-                onlyIfChanged);
-        }
-
-        public void Generate(FileInfo file, bool onlyIfChanged = true)
-        {
+            fileSystem ??= IFileSystemExt.DefaultFilesystem;
             var str = GetString();
-            file.Refresh();
-            if (onlyIfChanged && file.Exists)
+            if (onlyIfChanged && fileSystem.File.Exists(file))
             {
-                var existStr = File.ReadAllText(file.FullName);
+                var existStr = fileSystem.File.ReadAllText(file.Path);
                 if (str.Equals(existStr)) return;
             }
-            file.Directory?.Create();
-            File.WriteAllText(file.FullName, str);
+
+            fileSystem.Directory.CreateDirectory(file.Directory);
+            fileSystem.File.WriteAllText(file.Path, str);
         }
 
         public string GetString()
