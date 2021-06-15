@@ -5,13 +5,18 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Abstractions;
+#if NETSTANDARD2_0
+#else
 using System.Reactive.Subjects;
+#endif
 using System.Text;
 
 namespace Loqui
 {
     public class FileGeneration : IEnumerable<string>
     {
+        private static readonly string[] NewLineArr = new[] { Environment.NewLine };
+        
         public int Depth;
         private readonly List<string> _strings = new List<string>();
         public string DepthStr
@@ -33,9 +38,12 @@ namespace Loqui
             }
         }
 
+#if NETSTANDARD2_0
+#else
         // Debug inspection members
         private static readonly Subject<string> _LineAppended = new Subject<string>();
         public static IObservable<string> LineAppended => _LineAppended;
+#endif
         private readonly int _depthCount;
 
         public int Count => this._strings.Count - 1;
@@ -89,13 +97,16 @@ namespace Loqui
         public void Append(string? str)
         {
             if (str == null) str = string.Empty;
+#if NETSTANDARD2_0
+#else
             _LineAppended.OnNext(str);
+#endif
             if (str.StartsWith(Environment.NewLine))
             {
                 this._strings.Add("");
                 return;
             }
-            string[] split = str.Split(Environment.NewLine);
+            string[] split = str.Split(NewLineArr, StringSplitOptions.None);
             split.First(
                 (s, first) =>
                 {

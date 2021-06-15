@@ -47,7 +47,7 @@ namespace Loqui.Generation
             if (gen.Empty) return;
             if (removeSemicolon)
             {
-                gen[^1] = gen[^1].TrimEnd(';');
+                gen[gen.Count - 1] = gen[gen.Count - 1].TrimEnd(';');
             }
             args.Add(gen.ToArray());
         }
