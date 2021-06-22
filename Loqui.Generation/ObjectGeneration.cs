@@ -2592,8 +2592,7 @@ namespace Loqui.Generation
                 }
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine("if (lhs == null && rhs == null) return false;");
-                    fg.AppendLine("if (lhs == null || rhs == null) return false;");
+                    fg.AppendLine("if (!EqualsMaskHelper.RefEquality(lhs, rhs, out var isEqual)) return isEqual;");
                     if (this.HasLoquiBaseObject)
                     {
                         fg.AppendLine($"if (!base.Equals(({this.BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({this.BaseClass.Interface(getter: true, internalInterface: true)})rhs, crystal)) return false;");

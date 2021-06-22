@@ -964,9 +964,34 @@ namespace Loqui.Generation
             }
         }
 
-        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
+        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
         {
-            return $"{(negate ? "!" : null)}object.Equals({accessor.Access}, {rhsAccessor.Access})";
+            if (!this.IntegrateField) return;
+            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
+            using (new BraceWrapper(fg))
+            {
+                if (this.GenericSpecification.Specifications.Count == 0)
+                {
+                    fg.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{this.Name}, out var rhs{this.Name}, out var is{this.Name}Equal))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (!{TargetObjectGeneration.CommonClassInstance($"lhs{this.Name}", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(lhs{this.Name}, rhs{this.Name}, crystal?.GetSubCrystal({this.IndexEnumInt}))) return false;");
+                    }
+                    fg.AppendLine($"else if (!is{this.Name}Equal) return false;");
+
+                }
+                else
+                {
+                    // ToDo
+                    // Upgrade to pass along translation crystal
+                    fg.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{this.Name}, out var rhs{this.Name}, out var is{this.Name}Equal))");
+                    using (new BraceWrapper(fg))
+                    {
+                        fg.AppendLine($"if (!object.Equals(lhs{this.Name}, rhs{this.Name})) return false;");
+                    }
+                    fg.AppendLine($"else if (!is{this.Name}Equal) return false;");
+                }
+            }
         }
 
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)

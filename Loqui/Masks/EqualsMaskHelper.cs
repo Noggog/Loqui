@@ -1,6 +1,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -89,6 +90,60 @@ namespace Loqui
                 return new MaskItem<bool, M?>(overall, mask);
             }
             return null;
+        }
+
+        public static bool RefEquality<T>([NotNullWhen(true)] T? lhs, [NotNullWhen(true)] T? rhs, out bool isEqual)
+            where T : class
+        {
+            if (lhs == null && rhs == null)
+            {
+                isEqual = true;
+                return false;
+            }
+            if (lhs == null || rhs == null)
+            {
+                isEqual = false;
+                return false;
+            }
+            if (object.ReferenceEquals(lhs, rhs))
+            {
+                isEqual = true;
+                return false;
+            }
+
+            isEqual = false;
+            return true;
+        }
+
+        public static bool RefEquality<T>(T? lhs, T? rhs, [MaybeNullWhen(false)] out T lhsOut, [MaybeNullWhen(false)] out T rhsOut, out bool isEqual)
+            where T : class
+        {
+            if (lhs == null && rhs == null)
+            {
+                isEqual = true;
+                lhsOut = default;
+                rhsOut = default;
+                return false;
+            }
+            if (lhs == null || rhs == null)
+            {
+                isEqual = false;
+                lhsOut = default;
+                rhsOut = default;
+                return false;
+            }
+            if (object.ReferenceEquals(lhs, rhs))
+            {
+                isEqual = true;
+                lhsOut = default;
+                rhsOut = default;
+                return false;
+            }
+
+            lhsOut = lhs;
+            rhsOut = rhs;
+            isEqual = false;
+            return true;
         }
 
         #region Enumerable
