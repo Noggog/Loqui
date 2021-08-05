@@ -85,15 +85,7 @@ namespace Loqui.Generation
                     .And(objNode.Elements(XName.Get("Struct", LoquiGenerator.Namespace))))
                 {
                     if (obj.GetAttribute<DisabledLevel>("disable", DisabledLevel.Enabled) == DisabledLevel.OmitEntirely) continue;
-                    ObjectGeneration objGen;
-                    if (obj.Name.LocalName.Equals("Object"))
-                    {
-                        objGen = new ClassGeneration(Gen, this, xmlDocTuple.Path);
-                    }
-                    else
-                    {
-                        objGen = new StructGeneration(Gen, this, xmlDocTuple.Path);
-                    }
+                    var objGen = GetGeneration(Gen, this, xmlDocTuple.Path, classGen: obj.Name.LocalName.Equals("Object"));
                     objGen.Node = obj;
                     if (!string.IsNullOrWhiteSpace(namespaceStr))
                     {
@@ -475,6 +467,19 @@ namespace Loqui.Generation
         public override string ToString()
         {
             return $"ProtocolGeneration ({this.Protocol.Namespace})";
+        }
+
+        public virtual ObjectGeneration GetGeneration(
+            LoquiGenerator gen,
+            ProtocolGeneration protoGen,
+            FilePath sourceFile,
+            bool classGen)
+        {
+            if (classGen)
+            {
+                return new ClassGeneration(gen, protoGen, sourceFile);
+            }
+            return new StructGeneration(gen, protoGen, sourceFile);
         }
     }
 }

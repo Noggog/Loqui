@@ -2579,7 +2579,7 @@ namespace Loqui.Generation
             }
         }
 
-        private void GenerateEqualsCommon(FileGeneration fg, MaskTypeSet maskTypes)
+        protected virtual void GenerateEqualsCommon(FileGeneration fg, MaskTypeSet maskTypes)
         {
             if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
             using (new RegionWrapper(fg, "Equals and Hash"))
