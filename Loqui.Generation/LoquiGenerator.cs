@@ -249,7 +249,7 @@ namespace Loqui.Generation
 
         public bool TryGetMatchingObjectGeneration(FilePath file, out ObjectGeneration objGen)
         {
-            if (file.Directory.TryGet(out var dir) 
+            if (file.Directory is {} dir 
                 && this.ObjectGenerationsByDir.TryGetValue(dir, out List<ObjectGeneration> objs))
             {
                 objGen = objs.Where((obj) => file.Name.String.StartsWith(obj.Name))

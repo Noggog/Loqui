@@ -32,7 +32,7 @@ namespace Loqui.Generation
             {
                 if (typeGen.Nullable)
                 {
-                    fg.AppendLine($"if ({itemAccessor.Access}.TryGet(out var {typeGen.Name}Item))");
+                    fg.AppendLine($"if ({itemAccessor.Access} is {{}} {typeGen.Name}Item)");
                     itemAccessor = $"{typeGen.Name}Item";
                 }
                 else

@@ -679,7 +679,7 @@ namespace Loqui.Generation
                             return;
                         }
 
-                        fg.AppendLine($"if({rhs}.TryGet(out var rhs{this.Name}))");
+                        fg.AppendLine($"if({rhs} is {{}} rhs{this.Name})");
                         using (new BraceWrapper(fg))
                         {
                             if (this.ObjectGen.GenerateComplexCopySystems)

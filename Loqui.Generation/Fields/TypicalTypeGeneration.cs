@@ -279,7 +279,7 @@ namespace Loqui.Generation
                     {
                         if (this.Nullable)
                         {
-                            fg.AppendLine($"if ({rhs}.TryGet(out var item{this.Name}))");
+                            fg.AppendLine($"if ({rhs} is {{}} item{this.Name})");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"{accessor.Access} = item{this.Name};");
@@ -382,7 +382,7 @@ namespace Loqui.Generation
             var doIf = this.Nullable && this.CanBeNullable(getter: true);
             if (doIf)
             {
-                fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}item))");
+                fg.AppendLine($"if ({accessor} is {{}} {this.Name}item)");
                 accessor = $"{this.Name}item";
             }
             using (new BraceWrapper(fg, doIt: doIf))

@@ -91,7 +91,7 @@ namespace Loqui.Generation
                 {
                     args.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
                 }
-                args.Add($"{accessor}.TryGet(out var {field.Name}Item)");
+                args.Add($"{accessor} is {{}} {field.Name}Item");
                 accessor = $"{field.Name}Item";
                 args.Body = (fg) =>
                 {

@@ -58,7 +58,7 @@ namespace Loqui.Generation
             if (!this.IntegrateField) return;
             if (this.Nullable)
             {
-                fg.AppendLine($"if ({accessor}.TryGet(out var {this.Name}Item))");
+                fg.AppendLine($"if ({accessor} is {{}} {this.Name}Item)");
                 accessor = $"{this.Name}Item";
             }
             using (new BraceWrapper(fg, doIt: this.Nullable))
@@ -87,7 +87,7 @@ namespace Loqui.Generation
                     {
                         if (this.Nullable)
                         {
-                            fg.AppendLine($"if(rhs.{this.Name}.TryGet(out var {this.Name}rhs))");
+                            fg.AppendLine($"if(rhs.{this.Name} is {{}} {this.Name}rhs)");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"{accessor.Access} = {this.Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");

@@ -1171,7 +1171,7 @@ namespace Loqui.Generation
                         ifArgs.Add(gen.MaskModule.GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
                         if (field.Nullable && field.CanBeNullable(getter: true))
                         {
-                            ifArgs.Add($"item.{field.Name}.TryGet(out var {field.Name}Item)");
+                            ifArgs.Add($"item.{field.Name} is {{}} {field.Name}Item");
                             accessor = $"{field.Name}Item";
                         }
                         ifArgs.Body = (subFg) => field.GenerateToString(subFg, field.Name, accessor, "fg");
