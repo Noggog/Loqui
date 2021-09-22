@@ -23,6 +23,7 @@ namespace Loqui
         private readonly Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> _untypedCopyFuncRegister = new();
         private readonly Dictionary<string, Type?> _cache = new();
 
+        public IReadOnlyCollection<ILoquiRegistration> Registrations => _registers.Values;
 
         public void Register(params IProtocolRegistration[] registrations)
         {
