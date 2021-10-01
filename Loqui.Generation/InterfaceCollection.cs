@@ -9,7 +9,7 @@ namespace Loqui.Generation
 {
     public class InterfaceDeclaration : IEquatable<InterfaceDeclaration>
     {
-        public LoquiInterfaceDefinitionType Type { get; private set; }
+        public LoquiInterfaceDefinitionType Type { get; }
         public string Interface { get; private set; }
         public ObjectGeneration AssociatedObject;
         public string GetterInterface
@@ -75,7 +75,7 @@ namespace Loqui.Generation
 
     public class InterfaceCollection : IEnumerable<InterfaceDeclaration>
     {
-        private readonly HashSet<InterfaceDeclaration> _interfaces = new HashSet<InterfaceDeclaration>();
+        private readonly HashSet<InterfaceDeclaration> _interfaces = new();
 
         public void Add(LoquiInterfaceDefinitionType type, string interfaceStr)
         {

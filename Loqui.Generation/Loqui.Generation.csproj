@@ -49,6 +49,14 @@
     <ProjectReference Include="..\Loqui\Loqui.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="AttributeCollection.cs">
+      <CodeLanguage>cs</CodeLanguage>
+      <DefaultPackFolder>content</DefaultPackFolder>
+      <BuildAction>Compile</BuildAction>
+    </Compile>
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="RD /S /Q &quot;%25USERPROFILE%25\.nuget\packages\loqui.generation&quot;" />
   </Target>

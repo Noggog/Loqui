@@ -49,10 +49,11 @@ namespace Loqui.Generation
         public bool HasNewGenerics => this.HasLoquiBaseObject && this.Generics.Any((g) => !this.BaseGenerics.ContainsKey(g.Key));
         public bool IsTopClass => BaseClass == null;
         public bool ForceInternalInterface = false;
-        public InterfaceCollection Interfaces = new InterfaceCollection();
-        public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
+        public InterfaceCollection Interfaces = new();
+        public AttributeCollection Attributes = new();
+        public Dictionary<string, GenericDefinition> Generics = new();
         public string EmptyGenerics(params MaskType[] maskType) => GetEmptyGenerics(maskType);
-        public Dictionary<string, string> BaseGenerics = new Dictionary<string, string>();
+        public Dictionary<string, string> BaseGenerics = new();
         public virtual string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null, bool doIt = true) => " ";
         public virtual string ProtectedKeyword => "protected";
         public ushort? ID;
@@ -593,6 +594,8 @@ namespace Loqui.Generation
                 args.Interfaces.Add($"{nameof(ILoquiObjectSetter)}<{this.Interface(internalInterface: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(interfaceType).ToListAsync());
                 args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
+                args.Attributes.AddRange(Attributes.Get(LoquiInterfaceType.ISetter));
+                
             }
             using (new BraceWrapper(fg))
             {
@@ -622,6 +625,7 @@ namespace Loqui.Generation
                     args.Interfaces.Add(this.Interface(internalInterface: false));
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: true));
                     args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
+                    args.Attributes.AddRange(Attributes.Get(LoquiInterfaceType.ISetter));
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -662,6 +666,7 @@ namespace Loqui.Generation
                 args.Interfaces.Add($"{nameof(ILoquiObject)}<{this.Interface(getter: true, internalInterface: true)}>");
                 args.Interfaces.Add(await this.GetApplicableInterfaces(interfaceType).ToListAsync());
                 args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
+                args.Attributes.AddRange(Attributes.Get(LoquiInterfaceType.IGetter));
             }
 
             using (new BraceWrapper(fg))
@@ -723,6 +728,7 @@ namespace Loqui.Generation
                     args.BaseClass = this.BaseClassTrail().FirstOrDefault()?.Interface(internalInterface: true, getter: true);
                     args.Interfaces.Add(this.Interface(getter: true, internalInterface: false));
                     args.Wheres.AddRange(GenerateWhereClauses(interfaceType, Generics));
+                    args.Attributes.AddRange(Attributes.Get(LoquiInterfaceType.IGetter));
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -1021,6 +1027,7 @@ namespace Loqui.Generation
                 {
                     args.BaseClass = $"{this.BaseClass.CommonClassName(interfaceType, maskTypes)}{(classGen ? this.BaseClass.GetGenericTypes(maskTypes) : null)}";
                 }
+                args.Attributes.AddRange(Attributes.Get(LoquiInterfaceType.Direct));
             }
             using (new BraceWrapper(fg))
             {
