@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -119,7 +120,7 @@ namespace Loqui.Internal
     {
         public static IDisposable PushIndex(this ErrorMaskBuilder? errorMask, int fieldIndex)
         {
-            if (errorMask == null) return Noggog.IDisposableExt.Nothing;
+            if (errorMask == null) return Disposable.Empty;
             errorMask.PushIndexInternal(fieldIndex);
             return errorMask;
         }
