@@ -231,7 +231,7 @@ namespace Loqui
             PropertyInfo? getRegistrationProperty(Type type)
             {
                 return type.GetMembers(BindingFlags.Public | BindingFlags.Static)
-                    .Where((m) => m.Name.Equals(nameof(ILoquiObject.Registration))
+                    .Where((m) => m.Name.Equals($"Static{nameof(ILoquiObject.Registration)}")
                         && m.MemberType == MemberTypes.Property)
                     .Select((m) => m as PropertyInfo)
                     .Where((m) => m != null)
