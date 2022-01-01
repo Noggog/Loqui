@@ -1748,7 +1748,7 @@ namespace Loqui.Generation
 
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
-                fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} Registration => {this.RegistrationName}.Instance;");
+                fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} StaticRegistration => {this.RegistrationName}.Instance;");
                 fg.AppendLine("[DebuggerStepThrough]");
                 fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter, MaskType.Normal)}Instance({typeInParams}) => {AddGenericWrap($"{CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance")};");
                 if (!getterOnly)
