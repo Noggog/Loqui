@@ -19,6 +19,7 @@ namespace Loqui.Generation
         public const string GET_PERMISSION_DEFAULT = "getPermissionDefault";
         public const string COPY = "copy";
         public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
+        public const string GENERATE_INTERFACE_MEMBERS = "generateInterfaceMembers";
         public const string NOTIFYING = "notifying";
         public const string NULLABLE = "nullable";
         public const string MIN = "min";

@@ -816,7 +816,14 @@
     <xs:attribute name="generateClassMembers" type="xs:boolean" >
       <xs:annotation>
         <xs:documentation>
-          If false, only the interface member will be defined.  The actual class member will be left up to the user to implement.
+          If false, the actual class member will be left up to the user to implement.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="generateInterfaceMembers" type="xs:boolean" >
+      <xs:annotation>
+        <xs:documentation>
+          If false, the interface members will be left up to the user to implement.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

@@ -32,6 +32,7 @@ namespace Loqui.Generation
         public bool AlwaysCopy { get; set; }
         public bool TrueReadOnly => this.ObjectGen is StructGeneration;
         public bool GenerateClassMembers = true;
+        public bool GenerateInterfaceMembers = true;
         public abstract bool IsEnumerable { get; }
         public readonly BehaviorSubject<(NotifyingType Item, bool HasBeenSet)> NotifyingProperty = new BehaviorSubject<(NotifyingType Item, bool HasBeenSet)>((default, default));
         public NotifyingType NotifyingType => NotifyingProperty.Value.Item;
@@ -103,6 +104,7 @@ namespace Loqui.Generation
             }
             this._copy = node.GetAttribute<CopyLevel>(Constants.COPY, _copy);
             node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => this.GenerateClassMembers = i);
+            node.TransferAttribute<bool>(Constants.GENERATE_INTERFACE_MEMBERS, i => this.GenerateInterfaceMembers = i);
             node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => this.NotifyingProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.NULLABLE, i => this.NullableProperty.OnNext((i, true)));
             node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => this.InternalSetInterface = i);
