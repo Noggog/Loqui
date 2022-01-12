@@ -3676,10 +3676,10 @@ namespace Loqui.Generation
             }
         }
 
-        public string FunctionOverride(bool doIt = true, bool prependSpace = true)
+        public string FunctionOverride(bool doIt = true, bool prependSpace = true, OverrideType? overrideType = null)
         {
             if (!doIt) return " ";
-            switch (GetFunctionOverrideType())
+            switch (overrideType ?? GetFunctionOverrideType())
             {
                 case OverrideType.None:
                     return prependSpace ? " " : string.Empty;
@@ -3690,6 +3690,16 @@ namespace Loqui.Generation
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public async Task<string> FunctionOverride(bool doItOverride, Func<ClassGeneration, Task<bool>> tester, bool prependSpace = true)
+        {
+            if (doItOverride)
+            {
+                return FunctionOverride(prependSpace: prependSpace, overrideType: OverrideType.HasBase);
+            }
+
+            return await FunctionOverride(tester, prependSpace: prependSpace);
         }
 
         public virtual string Virtual(bool doIt = true)
