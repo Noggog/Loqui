@@ -340,7 +340,7 @@ namespace Loqui.Generation
 
         public override string GetDuplicate(Accessor accessor)
         {
-            throw new NotImplementedException();
+            return $"{accessor}.{Name}Select(x => {SubTypeGeneration.GetDuplicate("x")}).ToExtendedList()";
         }
 
         public override async Task Load(XElement node, bool requireName = true)
