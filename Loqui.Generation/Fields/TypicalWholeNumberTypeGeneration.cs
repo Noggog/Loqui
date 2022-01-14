@@ -21,7 +21,7 @@ namespace Loqui.Generation
             if (string.IsNullOrWhiteSpace(this.Min))
             {
                 min = int.MinValue;
-                this.Min = "int.MinValue";
+                this.Min = $"{TypeName(getter: false)}.MinValue";
             }
             else if (!int.TryParse(this.Min, out min))
             {
@@ -31,7 +31,7 @@ namespace Loqui.Generation
             if (string.IsNullOrWhiteSpace(this.Max))
             {
                 max = int.MaxValue;
-                this.Max = "int.MaxValue";
+                this.Max = $"{TypeName(getter: false)}.MaxValue";
             }
             else if (!int.TryParse(this.Max, out max))
             {
