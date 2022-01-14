@@ -1226,5 +1226,10 @@ namespace Loqui.Generation
                     throw new NotImplementedException();
             }
         }
+
+        public override string GetDuplicate(Accessor accessor)
+        {
+            return $"{accessor}.DeepCopy()";
+        }
     }
 }
