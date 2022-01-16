@@ -351,8 +351,10 @@ namespace Loqui.Generation
                 SubTypeGeneration = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
                 SubTypeGeneration.SetObjectGeneration(this.ObjectGen, setDefaults: false);
                 await SubTypeGeneration.Load(node, false);
+                NullableProperty.OnNext(SubTypeGeneration.NullableProperty.Value);
+                SubTypeGeneration.NullableProperty.OnNext((false, false));
                 SubTypeGeneration.Name = null;
-                isLoquiSingle = SubTypeGeneration as LoquiType != null;
+                isLoquiSingle = SubTypeGeneration is LoquiType;
             }
             else
             {
