@@ -93,7 +93,7 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            using (new NamespaceWrapper(fg, obj.InternalNamespace))
+            using (new NamespaceWrapper(fg, obj.InternalNamespace, fileScoped: false))
             {
                 using (var args = new ClassWrapper(fg, TranslationWriteClass(obj)))
                 {
@@ -129,7 +129,7 @@ namespace Loqui.Generation
                 fg.AppendLine();
             }
 
-            using (new NamespaceWrapper(fg, obj.Namespace))
+            using (new NamespaceWrapper(fg, obj.Namespace, fileScoped: false))
             {
                 using (new RegionWrapper(fg, $"{this.ModuleNickname} Write Mixins"))
                 {

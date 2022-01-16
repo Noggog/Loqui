@@ -1,31 +1,35 @@
 using System;
 
-namespace Loqui.Generation
-{
-    public class NamespaceWrapper : IDisposable
-    {
-        FileGeneration fg;
-        bool doThings;
+namespace Loqui.Generation;
 
-        public NamespaceWrapper(FileGeneration fg, string str)
+public class NamespaceWrapper : IDisposable
+{
+    private readonly FileGeneration _fg;
+    private readonly bool _doThings;
+    private readonly bool _fileScoped;
+
+    public NamespaceWrapper(FileGeneration fg, string str, bool fileScoped = true)
+    {
+        _fileScoped = fileScoped;
+        _fg = fg;
+        _doThings = !string.IsNullOrWhiteSpace(str);
+        if (_doThings)
         {
-            this.fg = fg;
-            doThings = !string.IsNullOrWhiteSpace(str);
-            if (doThings)
+            fg.AppendLine($"namespace {str}{(_fileScoped ? ";" : null)}");
+            if (!_fileScoped)
             {
-                fg.AppendLine($"namespace {str}");
                 fg.AppendLine("{");
                 fg.Depth++;
             }
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (_doThings && !_fileScoped)
         {
-            if (doThings)
-            {
-                fg.Depth--;
-                fg.AppendLine("}");
-            }
+            _fg.Depth--;
+            _fg.AppendLine("}");
         }
     }
 }

@@ -331,7 +331,7 @@ namespace Loqui.Generation
             await AddNamespaces(fg);
             fg.AppendLine("#nullable enable");
 
-            using (new NamespaceWrapper(fg, this.Namespace))
+            using (new NamespaceWrapper(fg, this.Namespace, fileScoped: false))
             {
                 if (GenerateClass)
                 {
@@ -344,7 +344,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            using (new NamespaceWrapper(fg, this.InternalNamespace))
+            using (new NamespaceWrapper(fg, this.InternalNamespace, fileScoped: false))
             {
                 GenerateEnumIndex(fg);
                 await GenerateRegistration(fg);
@@ -353,7 +353,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            using (new NamespaceWrapper(fg, this.Namespace))
+            using (new NamespaceWrapper(fg, this.Namespace, fileScoped: false))
             {
                 fg.AppendLine($"public partial class {this.ObjectName}");
                 using (new BraceWrapper(fg))
@@ -3234,7 +3234,7 @@ namespace Loqui.Generation
 
             if (subGen.Count == 0) return;
 
-            using var ns = new NamespaceWrapper(fg, this.Namespace);
+            using var ns = new NamespaceWrapper(fg, this.Namespace, fileScoped: false);
             using (var args = new ClassWrapper(fg, this.Name))
             {
                 args.Static = true;
