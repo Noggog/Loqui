@@ -45,7 +45,7 @@ namespace Loqui.Generation
             var gen = new FileGeneration();
             generator(gen);
             if (gen.Empty) return;
-            if (removeSemicolon)
+            if (removeSemicolon && gen.Count != 0)
             {
                 gen[gen.Count - 1] = gen[gen.Count - 1].TrimEnd(';');
             }
