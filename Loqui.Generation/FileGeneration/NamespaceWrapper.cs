@@ -16,7 +16,11 @@ public class NamespaceWrapper : IDisposable
         if (_doThings)
         {
             fg.AppendLine($"namespace {str}{(_fileScoped ? ";" : null)}");
-            if (!_fileScoped)
+            if (_fileScoped)
+            {
+                _fg.AppendLine();
+            }
+            else
             {
                 fg.AppendLine("{");
                 fg.Depth++;
@@ -26,7 +30,8 @@ public class NamespaceWrapper : IDisposable
 
     public void Dispose()
     {
-        if (_doThings && !_fileScoped)
+        if (!_doThings) return;
+        if (!_fileScoped)
         {
             _fg.Depth--;
             _fg.AppendLine("}");
