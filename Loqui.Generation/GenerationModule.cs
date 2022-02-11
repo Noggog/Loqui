@@ -31,12 +31,13 @@ namespace Loqui.Generation
         Task Resolve(ObjectGeneration obj);
         Task PrepareGeneration(ProtocolGeneration proto);
         Task FinalizeGeneration(ProtocolGeneration proto);
+        Task FinalizeGeneration(IEnumerable<ProtocolGeneration> proto);
     }
 
     public abstract class GenerationModule : IGenerationModule
     {
         public virtual string RegionString { get; }
-        public GenerationModuleCollection SubModules = new GenerationModuleCollection();
+        public GenerationModuleCollection SubModules = new();
         public string Name => RegionString ?? this.GetType().Name;
 
         public virtual IAsyncEnumerable<string> RequiredUsingStatements(ObjectGeneration obj)
@@ -137,6 +138,11 @@ namespace Loqui.Generation
         public virtual Task PrepareGeneration(ProtocolGeneration proto)
         {
             return SubModules.PrepareGeneration(proto);
+        }
+
+        public virtual Task FinalizeGeneration(IEnumerable<ProtocolGeneration> proto)
+        {
+            return SubModules.FinalizeGeneration(proto);
         }
 
         public virtual Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type)

@@ -232,6 +232,16 @@ namespace Loqui.Generation
                     }));
         }
 
+        public Task FinalizeGeneration(IEnumerable<ProtocolGeneration> proto)
+        {
+            return Task.WhenAll(
+                this.subModules.Select(
+                    (subGen) =>
+                    {
+                        return subGen.FinalizeGeneration(proto);
+                    }));
+        }
+
         public Task PrepareGeneration(ProtocolGeneration proto)
         {
             return Task.WhenAll(

@@ -13,9 +13,9 @@ namespace Loqui.Generation
     public class ProtocolGeneration
     {
         public ProtocolKey Protocol;
-        public Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new Dictionary<Guid, ObjectGeneration>();
-        public Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new Dictionary<string, ObjectGeneration>(StringComparer.OrdinalIgnoreCase);
-        public Dictionary<string, FieldBatch> FieldBatchesByName = new Dictionary<string, FieldBatch>(StringComparer.OrdinalIgnoreCase);
+        public readonly Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new();
+        public readonly Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new(StringComparer.OrdinalIgnoreCase);
+        public readonly Dictionary<string, FieldBatch> FieldBatchesByName = new(StringComparer.OrdinalIgnoreCase);
         public bool Empty => ObjectGenerationsByID.Count == 0;
         public LoquiGenerator Gen { get; private set; }
         public DirectoryInfo GenerationFolder { get; private set; }
@@ -31,11 +31,11 @@ namespace Loqui.Generation
         public NotifyingType NotifyingDefault;
         public bool NullableDefault;
         public bool DoGeneration = true;
-        public List<string> Interfaces = new List<string>();
+        public readonly List<string> Interfaces = new();
         public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
-        private HashSet<DirectoryPath> sourceFolders = new HashSet<DirectoryPath>();
-        List<FilePath> projectsToModify = new List<FilePath>();
-        public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
+        private readonly HashSet<DirectoryPath> sourceFolders = new();
+        private readonly List<FilePath> projectsToModify = new();
+        public readonly Dictionary<FilePath, ProjItemType> GeneratedFiles = new();
 
         public ProtocolGeneration(
             LoquiGenerator gen,
