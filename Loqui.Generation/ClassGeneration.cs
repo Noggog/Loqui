@@ -61,7 +61,11 @@ namespace Loqui.Generation
                     baseClass._derivativeClasses.Add(this);
                 }
             }
-            this.WiredBaseClassTCS.SetResult();
+#if NETSTANDARD2_0
+            this.WiredBaseClassTCS.TrySetResult(true);
+#else
+            this.WiredBaseClassTCS.TrySetResult();
+#endif
 
             await base.Load();
         }
