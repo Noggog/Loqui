@@ -28,9 +28,17 @@ namespace Loqui.Generation
         public override async Task Load(XElement node, bool requireName = true)
         {
             await base.Load(node, requireName);
-            EnumName = node.GetAttribute<string>(
+            if (node.TryGetAttribute<string>(
                 Constants.ENUM_NAME,
-                throwException: true);
+                out var item,
+                throwException: true))
+            {
+                EnumName = item;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"{Constants.ENUM_NAME} on {Name} was not specified");
+            }
         }
     }
 }
