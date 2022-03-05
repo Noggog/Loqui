@@ -1525,6 +1525,24 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="Array2d" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:group ref="FieldOptions" minOccurs="1" maxOccurs="1" />
+        <xs:attribute name="fixedWidth" type="xs:int" />
+        <xs:attribute name="fixedHeight" type="xs:int" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NArray2d" >
+    <xs:complexContent>
+      <xs:extension base="Array">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="Dict" >
     <xs:complexContent>
       <xs:extension base="Field">

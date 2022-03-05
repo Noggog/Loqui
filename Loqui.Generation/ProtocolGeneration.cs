@@ -379,7 +379,7 @@ namespace Loqui.Generation
             // Add missing object nodes
             foreach (var objGens in generatedItems)
             {
-                if (objGens.Key.Directory.Value.IsSubfolderOf(projFile.Directory.Value)
+                if (objGens.Key.Directory.Value.IsUnderneath(projFile.Directory.Value)
                     || objGens.Key.Directory.Equals(projFile.Directory))
                 {
                     string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path);
