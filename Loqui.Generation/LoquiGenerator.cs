@@ -61,6 +61,7 @@ namespace Loqui.Generation
             AddTypeAssociation<UInt64Type>("UInt64");
             AddTypeAssociation<P2Int32Type>("P2Int32");
             AddTypeAssociation<P2Int16Type>("P2Int16");
+            AddTypeAssociation<P3UInt8Type>("P3UInt8");
             AddTypeAssociation<P3UInt16Type>("P3UInt16");
             AddTypeAssociation<P3IntType>("P3Int32");
             AddTypeAssociation<P3Int16Type>("P3Int16");

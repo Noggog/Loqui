@@ -179,6 +179,7 @@
       <xs:element name="P3Float" type="String" />
       <xs:element name="P3Int16" type="String" />
       <xs:element name="P3Int32" type="String" />
+      <xs:element name="P3UInt8" type="String" />
       <xs:element name="P3UInt16" type="String" />
       <xs:element name="P3Double" type="String" />
       <xs:element name="Bool" type="Bool" />
@@ -244,6 +245,7 @@
       <xs:element name="P2Int16" type="NP2" />
       <xs:element name="P3Int16" type="NString" />
       <xs:element name="P3Int32" type="NString" />
+      <xs:element name="P3UInt8" type="NString" />
       <xs:element name="P3UInt16" type="NString" />
       <xs:element name="P2Float" type="NP2" />
       <xs:element name="P3Float" type="NString" />
