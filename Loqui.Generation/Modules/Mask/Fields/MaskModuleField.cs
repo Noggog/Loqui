@@ -5,6 +5,7 @@ namespace Loqui.Generation
     public abstract class MaskModuleField
     {
         public MaskModule Module;
+        public virtual string IndexStr => throw new NotImplementedException();
         public abstract string GetErrorMaskTypeStr(TypeGeneration field);
         public abstract string GetMaskTypeStr(TypeGeneration field, string typeStr);
         public abstract string GetTranslationMaskTypeStr(TypeGeneration field);
@@ -50,11 +51,11 @@ namespace Loqui.Generation
         public abstract void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
         public abstract string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor);
         public abstract void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr);
-        public virtual string GetMaskString(TypeGeneration field, string valueStr, bool indexed)
+        public virtual string GetMaskString(TypeGeneration field, string valueStr, string? indexed)
         {
-            if (indexed)
+            if (indexed != null)
             {
-                return $"(int Index, {valueStr} Value)";
+                return $"({indexed} Index, {valueStr} Value)";
             }
             else
             {

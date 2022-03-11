@@ -79,7 +79,8 @@ namespace Loqui.Generation
 
         public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
         {
-            fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(this, "bool")}();");
+            var maskType = ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(GetType()) as ContainerMaskFieldGeneration;
+            fg.AppendLine($"{retAccessor} = new {maskType.GetMaskString(this, "bool")}();");
             fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
         }
 

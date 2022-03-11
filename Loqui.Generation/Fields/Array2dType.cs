@@ -46,6 +46,38 @@ public class Array2dType : ListType
         return $"new Array2d<{ItemTypeName(getter: false)}>{(ctor ? $"({FixedSize.Value.X}, {FixedSize.Value.Y})" : null)}";
     }
 
+    public override void GenerateClear(FileGeneration fg, Accessor accessor)
+    {
+        if (this.Nullable)
+        {
+            fg.AppendLine($"{accessor} = null;");
+        }
+        else
+        {
+            fg.AppendLine($"{accessor}.SetAllTo(default);");
+        }
+    }
+
+    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    {
+        string funcStr;
+        if (this.SubTypeGeneration is LoquiType loqui)
+        {
+            funcStr = $"(loqLhs, loqRhs) => {(loqui.TargetObjectGeneration == null ? "(IMask<bool>)" : null)}loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsMask) : "GetEqualsMask")}(loqRhs, include)";
+        }
+        else
+        {
+            funcStr = $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
+        }
+        using (var args = new ArgsWrapper(fg,
+                   $"ret.{this.Name} = item.{this.Name}.Array2dEqualsHelper"))
+        {
+            args.Add($"rhs.{this.Name}");
+            args.Add(funcStr);
+            args.Add($"include");
+        }
+    }
+
     public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
     {
         if (this.Nullable)

@@ -1,129 +1,114 @@
 using Loqui.Internal;
-using System;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class ContainerMaskFieldGeneration : MaskModuleField
 {
-    public class ContainerMaskFieldGeneration : MaskModuleField
+    public override string IndexStr => "int";
+
+    public virtual string GetItemString(ContainerType type, string valueStr)
     {
-        public static string GetItemString(ContainerType listType, string valueStr)
-        {
-            var maskType = listType.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(listType.SubTypeGeneration.GetType());
-            return maskType.GetMaskString(listType.SubTypeGeneration, valueStr, indexed: true);
-        }
+        var maskType = type.ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(type.SubTypeGeneration.GetType());
+        return maskType.GetMaskString(type.SubTypeGeneration, valueStr, indexed: IndexStr);
+    }
 
-        public static string GetListString(ContainerType listType, string valueStr)
-        {
-            return $"IEnumerable<{GetItemString(listType, valueStr)}>";
-        }
+    public virtual string GetListString(ContainerType listType, string valueStr)
+    {
+        return $"IEnumerable<{GetItemString(listType, valueStr)}>";
+    }
 
-        public static string GetMaskString(ContainerType listType, string valueStr)
-        {
-            return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}?>";
-        }
+    public virtual string GetMaskString(ContainerType listType, string valueStr)
+    {
+        return $"MaskItem<{valueStr}, {GetListString(listType, valueStr)}?>";
+    }
 
-        public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
-        {
-            return GetMaskString(field as ContainerType, typeStr);
-        }
+    public override string GetMaskTypeStr(TypeGeneration field, string typeStr)
+    {
+        return GetMaskString(field as ContainerType, typeStr);
+    }
 
-        public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
-        {
-            fg.AppendLine($"public {GetMaskString(field as ContainerType, valueStr)}? {field.Name};");
-        }
+    public override void GenerateForField(FileGeneration fg, TypeGeneration field, string valueStr)
+    {
+        fg.AppendLine($"public {GetMaskString(field as ContainerType, valueStr)}? {field.Name};");
+    }
 
-        public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
-        {
-            fg.AppendLine($"this.{field.Name} = new {GetErrorMaskTypeStr(field)}(ex, null);");
-        }
+    public override void GenerateSetException(FileGeneration fg, TypeGeneration field)
+    {
+        fg.AppendLine($"this.{field.Name} = new {GetErrorMaskTypeStr(field)}(ex, null);");
+    }
 
-        public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
-        {
-            fg.AppendLine($"this.{field.Name} = ({GetErrorMaskTypeStr(field)})obj;");
-        }
+    public override void GenerateSetMask(FileGeneration fg, TypeGeneration field)
+    {
+        fg.AppendLine($"this.{field.Name} = ({GetErrorMaskTypeStr(field)})obj;");
+    }
 
-        public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+    public override void GenerateForCopyMask(FileGeneration fg, TypeGeneration field)
+    {
+        ListType listType = field as ListType;
+        if (listType.SubTypeGeneration is LoquiType loqui
+            && loqui.SupportsMask(MaskType.Copy))
         {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Copy))
+            fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}?> {field.Name};");
+        }
+        else
+        {
+            fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
+        }
+    }
+
+    public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
+    {
+        ListType listType = field as ListType;
+        if (listType.SubTypeGeneration is LoquiType loqui
+            && loqui.SupportsMask(MaskType.Copy))
+        {
+            fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}?>({deepCopyStr}, default);");
+        }
+        else
+        {
+            fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
+        }
+    }
+
+    public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
+    {
+        ListType listType = field as ListType;
+        if (listType.SubTypeGeneration is LoquiType loqui
+            && loqui.SupportsMask(MaskType.Translation))
+        {
+            fg.AppendLine($"public {loqui.Mask(MaskType.Translation)}? {field.Name};");
+        }
+        else
+        {
+            fg.AppendLine($"public bool {field.Name};");
+        }
+    }
+
+    public override void GenerateMaskToString(FileGeneration mainFG, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
+    {
+        using (var args = new IfWrapper(mainFG, ANDs: true))
+        {
+            if (printMask)
             {
-                fg.AppendLine($"public MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}?> {field.Name};");
+                args.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
             }
-            else
+            args.Add($"{accessor} is {{}} {field.Name}Item");
+            accessor = $"{field.Name}Item";
+            args.Body = (fg) =>
             {
-                fg.AppendLine($"public {nameof(CopyOption)} {field.Name};");
-            }
-        }
-
-        public override void GenerateForCopyMaskCtor(FileGeneration fg, TypeGeneration field, string basicValueStr, string deepCopyStr)
-        {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Copy))
-            {
-                fg.AppendLine($"this.{field.Name} = new MaskItem<{nameof(CopyOption)}, {loqui.Mask(MaskType.Copy)}?>({deepCopyStr}, default);");
-            }
-            else
-            {
-                fg.AppendLine($"this.{field.Name} = {deepCopyStr};");
-            }
-        }
-
-        public override void GenerateForTranslationMask(FileGeneration fg, TypeGeneration field)
-        {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Translation))
-            {
-                fg.AppendLine($"public {loqui.Mask(MaskType.Translation)}? {field.Name};");
-            }
-            else
-            {
-                fg.AppendLine($"public bool {field.Name};");
-            }
-        }
-
-        public override void GenerateMaskToString(FileGeneration mainFG, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
-        {
-            using (var args = new IfWrapper(mainFG, ANDs: true))
-            {
-                if (printMask)
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
+                fg.AppendLine($"using (new DepthWrapper(fg))");
+                using (new BraceWrapper(fg))
                 {
-                    args.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
-                }
-                args.Add($"{accessor} is {{}} {field.Name}Item");
-                accessor = $"{field.Name}Item";
-                args.Body = (fg) =>
-                {
-                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{field.Name} =>\");");
-                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                    using (new BraceWrapper(fg))
+                    ContainerType listType = field as ContainerType;
+                    if (topLevel)
                     {
-                        ContainerType listType = field as ContainerType;
-                        if (topLevel)
+                        fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}.Overall);");
+                        fg.AppendLine($"if ({accessor}.Specific != null)");
+                        using (new BraceWrapper(fg))
                         {
-                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendItem)}({accessor}.Overall);");
-                            fg.AppendLine($"if ({accessor}.Specific != null)");
-                            using (new BraceWrapper(fg))
-                            {
-                                fg.AppendLine($"foreach (var subItem in {accessor}.Specific)");
-                                using (new BraceWrapper(fg))
-                                {
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                                    var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                                    fg.AppendLine($"using (new DepthWrapper(fg))");
-                                    using (new BraceWrapper(fg))
-                                    {
-                                        fieldGen.GenerateMaskToString(fg, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
-                                    }
-                                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            fg.AppendLine($"foreach (var subItem in {accessor})");
+                            fg.AppendLine($"foreach (var subItem in {accessor}.Specific)");
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
@@ -137,195 +122,210 @@ namespace Loqui.Generation
                             }
                         }
                     }
-                    fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
-                };
-            }
-        }
-
-        public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
-        {
-            ListType listType = field as ListType;
-
-            if (nullCheck)
-            {
-                fg.AppendLine($"if ({accessor.Access} != null)");
-            }
-            using (new BraceWrapper(fg, doIt: nullCheck))
-            {
-                fg.AppendLine($"if (!eval({accessor.Access}.Overall)) return false;");
-                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
-                    using (new BraceWrapper(fg))
-                    {
-                        var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                        subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
-                    }
-                }
-            }
-        }
-
-        public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
-        {
-            ListType listType = field as ListType;
-
-            if (nullCheck)
-            {
-                fg.AppendLine($"if ({accessor.Access} != null)");
-            }
-            using (new BraceWrapper(fg, doIt: nullCheck))
-            {
-                fg.AppendLine($"if (eval({accessor.Access}.Overall)) return true;");
-                fg.AppendLine($"if ({accessor.Access}.Specific != null)");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
-                    using (new BraceWrapper(fg))
-                    {
-                        var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                        subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
-                    }
-                }
-            }
-        }
-
-        public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
-        {
-            ListType listType = field as ListType;
-
-            fg.AppendLine($"if ({field.Name} != null)");
-            using (new BraceWrapper(fg))
-            {
-                fg.AppendLine($"{retAccessor} = new {ContainerMaskFieldGeneration.GetMaskString(listType, "R")}(eval({rhsAccessor}.Overall), Enumerable.Empty<{GetItemString(listType, "R")}>());");
-                fg.AppendLine($"if ({field.Name}.Specific != null)");
-                using (new BraceWrapper(fg))
-                {
-                    if (listType.SubTypeGeneration is LoquiType loqui)
-                    {
-                        var submaskString = $"MaskItemIndexed<R, {loqui.GetMaskString("R")}?>";
-                        fg.AppendLine($"var l = new List<{submaskString}>();");
-                        fg.AppendLine($"{retAccessor}.Specific = l;");
-                        fg.AppendLine($"foreach (var item in {field.Name}.Specific.WithIndex())");
-                        using (new BraceWrapper(fg))
-                        {
-                            var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                            fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
-                                retAccessor: $"{submaskString}? mask",
-                                rhsAccessor: $"item.Item{(indexed ? ".Value" : null)}",
-                                indexed: true);
-                            fg.AppendLine("if (mask == null) continue;");
-                            fg.AppendLine($"l.Add(mask);");
-                        }
-                    }
                     else
                     {
-                        fg.AppendLine($"var l = new List<(int Index, R Item)>();");
-                        fg.AppendLine($"{retAccessor}.Specific = l;");
-                        fg.AppendLine($"foreach (var item in {field.Name}.Specific.WithIndex())");
+                        fg.AppendLine($"foreach (var subItem in {accessor})");
                         using (new BraceWrapper(fg))
                         {
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
                             var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                            fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
-                                retAccessor: $"R mask",
-                                rhsAccessor: $"item.Item{(indexed ? ".Value" : null)}",
-                                indexed: true);
-                            fg.AppendLine($"l.Add((item.Index, mask));");
+                            fg.AppendLine($"using (new DepthWrapper(fg))");
+                            using (new BraceWrapper(fg))
+                            {
+                                fieldGen.GenerateMaskToString(fg, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
+                            }
+                            fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
                         }
+                    }
+                }
+                fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+            };
+        }
+    }
+
+    public override void GenerateForAll(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+    {
+        ListType listType = field as ListType;
+
+        if (nullCheck)
+        {
+            fg.AppendLine($"if ({accessor.Access} != null)");
+        }
+        using (new BraceWrapper(fg, doIt: nullCheck))
+        {
+            fg.AppendLine($"if (!eval({accessor.Access}.Overall)) return false;");
+            fg.AppendLine($"if ({accessor.Access}.Specific != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
+                using (new BraceWrapper(fg))
+                {
+                    var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                    subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
+                }
+            }
+        }
+    }
+
+    public override void GenerateForAny(FileGeneration fg, TypeGeneration field, Accessor accessor, bool nullCheck, bool indexed)
+    {
+        ListType listType = field as ListType;
+
+        if (nullCheck)
+        {
+            fg.AppendLine($"if ({accessor.Access} != null)");
+        }
+        using (new BraceWrapper(fg, doIt: nullCheck))
+        {
+            fg.AppendLine($"if (eval({accessor.Access}.Overall)) return true;");
+            fg.AppendLine($"if ({accessor.Access}.Specific != null)");
+            using (new BraceWrapper(fg))
+            {
+                fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
+                using (new BraceWrapper(fg))
+                {
+                    var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                    subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
+                }
+            }
+        }
+    }
+
+    public override void GenerateForTranslate(FileGeneration fg, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
+    {
+        ListType listType = field as ListType;
+
+        fg.AppendLine($"if ({field.Name} != null)");
+        using (new BraceWrapper(fg))
+        {
+            fg.AppendLine($"{retAccessor} = new {GetMaskString(listType, "R")}(eval({rhsAccessor}.Overall), Enumerable.Empty<{GetItemString(listType, "R")}>());");
+            fg.AppendLine($"if ({field.Name}.Specific != null)");
+            using (new BraceWrapper(fg))
+            {
+                if (listType.SubTypeGeneration is LoquiType loqui)
+                {
+                    var submaskString = $"MaskItemIndexed<R, {loqui.GetMaskString("R")}?>";
+                    fg.AppendLine($"var l = new List<{submaskString}>();");
+                    fg.AppendLine($"{retAccessor}.Specific = l;");
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
+                            retAccessor: $"{submaskString}? mask",
+                            rhsAccessor: $"item",
+                            indexed: true);
+                        fg.AppendLine("if (mask == null) continue;");
+                        fg.AppendLine($"l.Add(mask);");
+                    }
+                }
+                else
+                {
+                    fg.AppendLine($"var l = new List<({IndexStr} Index, R Item)>();");
+                    fg.AppendLine($"{retAccessor}.Specific = l;");
+                    fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
+                    using (new BraceWrapper(fg))
+                    {
+                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
+                            retAccessor: $"R mask",
+                            rhsAccessor: $"item",
+                            indexed: true);
+                        fg.AppendLine($"l.Add((item.Index, mask));");
                     }
                 }
             }
         }
+    }
             
-        public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+    public override void GenerateForErrorMaskCombine(FileGeneration fg, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)
+    {
+        ContainerType cont = field as ContainerType;
+        LoquiType loquiType = cont.SubTypeGeneration as LoquiType;
+        string itemStr;
+        if (loquiType == null)
         {
-            ContainerType cont = field as ContainerType;
-            LoquiType loquiType = cont.SubTypeGeneration as LoquiType;
-            string itemStr;
-            if (loquiType == null)
-            {
-                itemStr = GetItemString(cont, "Exception");
-            }
-            else
-            {
-                itemStr = $"MaskItem<Exception?, {loquiType.Mask(MaskType.Error)}?>";
-            }
-            fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{itemStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
+            itemStr = GetItemString(cont, "Exception");
         }
-
-        public override string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor)
+        else
         {
-            return $"{boolMaskAccessor}?.{field.Name}?.Overall ?? true";
+            itemStr = $"MaskItem<Exception?, {loquiType.Mask(MaskType.Error)}?>";
         }
+        fg.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{itemStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
+    }
 
-        public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
+    public override string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor)
+    {
+        return $"{boolMaskAccessor}?.{field.Name}?.Overall ?? true";
+    }
+
+    public override void GenerateForCtor(FileGeneration fg, TypeGeneration field, string typeStr, string valueStr)
+    {
+        fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, typeStr)}({valueStr}, Enumerable.Empty<{GetItemString(field as ContainerType, typeStr)}>());");
+    }
+
+    public override string GetErrorMaskTypeStr(TypeGeneration field)
+    {
+        var contType = field as ContainerType;
+        LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
+        string itemStr;
+        if (loquiType == null)
         {
-            fg.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, typeStr)}({valueStr}, Enumerable.Empty<{GetItemString(field as ContainerType, typeStr)}>());");
+            itemStr = GetItemString(contType, "Exception");
         }
-
-        public override string GetErrorMaskTypeStr(TypeGeneration field)
+        else
         {
-            var contType = field as ContainerType;
-            LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
-            string itemStr;
-            if (loquiType == null)
-            {
-                itemStr = GetItemString(contType, "Exception");
-            }
-            else
-            {
-                itemStr = $"MaskItem<Exception?, {loquiType.Mask(MaskType.Error)}?>";
-            }
-            return $"MaskItem<Exception?, IEnumerable<{itemStr}>?>";
+            itemStr = $"MaskItem<Exception?, {loquiType.Mask(MaskType.Error)}?>";
         }
+        return $"MaskItem<Exception?, IEnumerable<{itemStr}>?>";
+    }
 
-        public override string GetTranslationMaskTypeStr(TypeGeneration field)
+    public override string GetTranslationMaskTypeStr(TypeGeneration field)
+    {
+        var contType = field as ContainerType;
+        LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
+        string itemStr;
+        if (loquiType == null)
         {
-            var contType = field as ContainerType;
-            LoquiType loquiType = contType.SubTypeGeneration as LoquiType;
-            string itemStr;
-            if (loquiType == null)
-            {
-                itemStr = GetItemString(contType, "bool");
-            }
-            else
-            {
-                itemStr = $"MaskItem<bool, {loquiType.Mask(MaskType.Translation)}>";
-            }
-            return $"MaskItem<bool, IEnumerable<{itemStr}>>";
+            itemStr = GetItemString(contType, "bool");
         }
-
-        public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+        else
         {
-            fg.AppendLine($"this.{field.Name}.Specific = null;");
+            itemStr = $"MaskItem<bool, {loquiType.Mask(MaskType.Translation)}>";
         }
+        return $"MaskItem<bool, IEnumerable<{itemStr}>>";
+    }
 
-        public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+    public override void GenerateForClearEnumerable(FileGeneration fg, TypeGeneration field)
+    {
+        fg.AppendLine($"this.{field.Name}.Specific = null;");
+    }
+
+    public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
+    {
+        var contType = field as ContainerType;
+        if (contType.SubTypeGeneration is LoquiType loquiType
+            && loquiType.SupportsMask(MaskType.Translation))
         {
-            var contType = field as ContainerType;
-            if (contType.SubTypeGeneration is LoquiType loquiType
-                && loquiType.SupportsMask(MaskType.Translation))
-            {
-                return $"({field.Name} == null ? DefaultOn : !{field.Name}.GetCrystal().{nameof(TranslationCrystal.CopyNothing)}, {field.Name}?.GetCrystal())";
-            }
-            else
-            {
-                return $"({field.Name}, null)";
-            }
+            return $"({field.Name} == null ? DefaultOn : !{field.Name}.GetCrystal().{nameof(TranslationCrystal.CopyNothing)}, {field.Name}?.GetCrystal())";
         }
-
-        public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+        else
         {
-            ListType listType = field as ListType;
-            if (listType.SubTypeGeneration is LoquiType loqui
-                && loqui.SupportsMask(MaskType.Translation))
-            {
-                // Nothing
-            }
-            else
-            {
-                fg.AppendLine($"{accessor.Access} = {onAccessor};");
-            }
+            return $"({field.Name}, null)";
+        }
+    }
+
+    public override void GenerateForTranslationMaskSet(FileGeneration fg, TypeGeneration field, Accessor accessor, string onAccessor)
+    {
+        ListType listType = field as ListType;
+        if (listType.SubTypeGeneration is LoquiType loqui
+            && loqui.SupportsMask(MaskType.Translation))
+        {
+            // Nothing
+        }
+        else
+        {
+            fg.AppendLine($"{accessor.Access} = {onAccessor};");
         }
     }
 }

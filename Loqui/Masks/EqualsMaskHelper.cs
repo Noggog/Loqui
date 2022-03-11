@@ -240,6 +240,58 @@ namespace Loqui
             }
             return null;
         }
+
+        public static MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>? Array2dEqualsHelper<T>(
+            this IReadOnlyArray2d<T>? lhs,
+            IReadOnlyArray2d<T>? rhs,
+            Func<T, T, bool> maskGetter,
+            Include include)
+        {
+            if (lhs == null && rhs == null)
+            {
+                return include == Include.All ? new MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>(true, default) : default;
+            }
+            if (lhs == null || rhs == null)
+            {
+                return new MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>(false, default);
+            }
+
+            if (lhs.Width != rhs.Width
+                || lhs.Height != rhs.Height)
+            {
+                return new MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>(false, default);
+            }
+            
+            int index = 0;
+            var masks = lhs.SelectAgainst<KeyValuePair<P2Int, T>, (P2Int Index, bool EqualValues)>(
+                    rhs,
+                    (l, r) =>
+                    {
+                        return (l.Key, maskGetter(l.Value, r.Value));
+                    }, out var countEqual)
+                .Where(i => include == Include.All || !i.EqualValues)
+                .ToArray();
+            var overall = countEqual;
+            if (overall)
+            {
+                switch (include)
+                {
+                    case Include.All:
+                        overall = masks.All((b) => b.EqualValues);
+                        break;
+                    case Include.OnlyFailures:
+                        overall = !masks.Any();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            if (!overall || include == Include.All)
+            {
+                return new MaskItem<bool, IEnumerable<(P2Int, bool)>?>(overall, masks);
+            }
+            return null;
+        }
         #endregion
 
         #region List

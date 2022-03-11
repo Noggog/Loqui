@@ -185,10 +185,10 @@ namespace Loqui.Generation
         {
         }
 
-        public override string GetMaskString(TypeGeneration field, string valueStr, bool indexed)
+        public override string GetMaskString(TypeGeneration field, string valueStr, string? indexed)
         {
             var loqui = field as LoquiType;
-            return $"MaskItem{(indexed ? "Indexed" : null)}<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}?>";
+            return $"MaskItem{(indexed != null ? "Indexed" : null)}<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}?>";
         }
 
         public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)
