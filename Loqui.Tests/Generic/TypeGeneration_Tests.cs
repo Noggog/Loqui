@@ -2,6 +2,7 @@ using Loqui.Generation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit;
 
@@ -111,12 +112,12 @@ namespace Loqui.Tests
 
         [Theory]
         [MemberData(nameof(CommentData))]
-        public async void TestClassComments(string commentString, string[] expected)
+        public async Task TestClassComments(string commentString, string[] expected)
         {
             var thing = ThingWithComments(commentString);
             var fg = new FileGeneration();
 
-            thing.GenerateForClass(fg);
+            await thing.GenerateForClass(fg);
 
             Assert.Equal(expected, fg.Where(x => x.StartsWith("//")).ToArray());
         }
@@ -131,7 +132,7 @@ namespace Loqui.Tests
 
         [Theory]
         [MemberData(nameof(InterfaceCommentsData))]
-        public async void TestInterfaceComments(string commentString, string[] expected, bool getter)
+        public async Task TestInterfaceComments(string commentString, string[] expected, bool getter)
         {
             var thing = ThingWithInterfaceComments(commentString, getter);
             var fg = new FileGeneration();

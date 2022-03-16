@@ -260,7 +260,7 @@ namespace Loqui.Generation
 
         public override bool CopyNeedsTryCatch => true;
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {

@@ -140,7 +140,7 @@ namespace Loqui.Generation
         {
         }
 
-        public abstract void GenerateForClass(FileGeneration fg);
+        public abstract Task GenerateForClass(FileGeneration fg);
 
         public abstract void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface);
 

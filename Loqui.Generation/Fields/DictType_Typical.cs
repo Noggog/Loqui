@@ -124,7 +124,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{this.Name} = new Dictionary<{TypeTuple(getter: false)}>();");
             Comments?.Apply(fg, LoquiInterfaceType.Direct);

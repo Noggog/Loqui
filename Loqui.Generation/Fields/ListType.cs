@@ -45,7 +45,7 @@ public class ListType : ContainerType
         }
     }
 
-    public override void GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(FileGeneration fg)
     {
         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
         fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.Nullable ? null : $" = {GetActualItemClass(ctor: true)}")};");

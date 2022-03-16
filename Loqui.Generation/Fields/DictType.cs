@@ -72,9 +72,9 @@ namespace Loqui.Generation
             subGenerator.GenerateUnsetNth(fg, identifier);
         }
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override Task GenerateForClass(FileGeneration fg)
         {
-            subGenerator.GenerateForClass(fg);
+            return subGenerator.GenerateForClass(fg);
         }
 
         public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)

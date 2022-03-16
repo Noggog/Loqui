@@ -71,7 +71,7 @@ namespace Loqui.Generation
 
         public virtual string GetValueSetString(Accessor accessor) => accessor.Access;
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
             void GenerateTypicalNullableMembers(bool notifying)
             {

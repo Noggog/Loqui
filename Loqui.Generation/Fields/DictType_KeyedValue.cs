@@ -207,7 +207,7 @@ namespace Loqui.Generation
             }
         }
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"private readonly {this.DictInterface(getter: false)} _{this.Name} = new {GetActualItemClass(getter: false)};");

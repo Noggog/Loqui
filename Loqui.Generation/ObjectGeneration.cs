@@ -438,15 +438,15 @@ namespace Loqui.Generation
             }
         }
 
-        public void GenerateForField(FileGeneration fg, TypeGeneration field)
+        public async Task GenerateForField(FileGeneration fg, TypeGeneration field)
         {
             if (!field.GenerateClassMembers) return;
             using (new RegionWrapper(fg, field.Name) { AppendExtraLine = false })
             {
-                field.GenerateForClass(fg);
+                await field.GenerateForClass(fg);
                 foreach (var module in this.gen.GenerationModules)
                 {
-                    module.GenerateInField(this, field, fg, LoquiInterfaceType.Direct);
+                    await module.GenerateInField(this, field, fg, LoquiInterfaceType.Direct);
                 }
             }
         }
@@ -474,7 +474,7 @@ namespace Loqui.Generation
                     // Generate fields
                     foreach (var field in this.IterateFieldIndices())
                     {
-                        GenerateForField(fg, field.Field);
+                        await GenerateForField(fg, field.Field);
                     }
                     fg.AppendLine();
 

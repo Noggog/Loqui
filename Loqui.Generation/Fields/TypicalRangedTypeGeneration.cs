@@ -40,9 +40,9 @@ namespace Loqui.Generation
             return base.GetValueSetString(accessor);
         }
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
-            base.GenerateForClass(fg);
+            await base.GenerateForClass(fg);
             if (this.HasRange)
             {
                 fg.AppendLine($"public static {this.RangeTypeName(getter: false)} {RangeMemberName} = new {this.RangeTypeName(getter: false)}({Min}, {Max});");

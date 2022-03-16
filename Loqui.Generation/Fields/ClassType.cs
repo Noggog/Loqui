@@ -35,7 +35,7 @@ namespace Loqui.Generation
             return base.GenerateDefaultValue();
         }
 
-        public override void GenerateForClass(FileGeneration fg)
+        public override async Task GenerateForClass(FileGeneration fg)
         {
             if (!this.IntegrateField) return;
             if (this.NotifyingType == NotifyingType.ReactiveUI)
