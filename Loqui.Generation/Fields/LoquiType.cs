@@ -176,7 +176,13 @@ namespace Loqui.Generation
         public bool CanStronglyType => this.RefType != LoquiRefType.Interface;
         // Adds "this" to constructor parameters as it is a common pattern to tie child to parent
         // Can probably be replaced with a more robust parameter configuration setup later
-        public bool ThisConstruction;
+        private bool? _thisConstruction;
+
+        public bool ThisConstruction
+        {
+            get => _thisConstruction ?? false;
+            set => _thisConstruction = value;
+        }
         public bool HasInternalGetInterface => this.TargetObjectGeneration?.HasInternalGetInterface ?? false;
         public bool HasInternalSetInterface => this.TargetObjectGeneration?.HasInternalSetInterface ?? false;
 
@@ -262,6 +268,12 @@ namespace Loqui.Generation
 
         public override async Task GenerateForClass(FileGeneration fg)
         {
+            if (_TargetObjectGeneration != null)
+            {
+                await _TargetObjectGeneration.LoadingCompleteTask.Task;
+                _thisConstruction = _thisConstruction ?? _TargetObjectGeneration.Abstract && !this.Nullable;
+            }
+
             if (this.NotifyingType == NotifyingType.ReactiveUI)
             {
                 if (this.Nullable)
@@ -379,7 +391,16 @@ namespace Loqui.Generation
                     else
                     {
                         Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                        fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{(this.ThisConstruction ? null : $" = new {this.DirectTypeName}();")}");
+                        string? construction;
+                        if (ThisConstruction)
+                        {
+                            construction = null;
+                        }
+                        else
+                        {
+                            construction = $" = new {this.DirectTypeName}();";
+                        }
+                        fg.AppendLine($"public {OverrideStr}{this.TypeName()} {this.Name} {{ get; {SetPermissionStr}set; }}{construction}");
                         if (this.GetterInterfaceType != LoquiInterfaceType.Direct)
                         {
                             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
@@ -487,7 +508,7 @@ namespace Loqui.Generation
             }
 
             this.ReadOnly = this.ReadOnly || this.Singleton;
-            this.ThisConstruction = node.GetAttribute(Constants.THIS_CTOR, this.ThisConstruction);
+            this._thisConstruction = node.GetAttribute(Constants.THIS_CTOR, _thisConstruction);
         }
 
         public bool ParseRefNode(XElement refNode)
