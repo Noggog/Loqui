@@ -134,7 +134,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
                     }
-                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<string>({accessor.Access}.Span!, {rhsAccessor.Access}.Span!)) return false;");
+                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}.Span!, {rhsAccessor.Access}.Span!)) return false;");
                 }
                 else
                 {
