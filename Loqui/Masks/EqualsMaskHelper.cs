@@ -263,15 +263,25 @@ namespace Loqui
             }
             
             int index = 0;
-            var masks = lhs.SelectAgainst<KeyValuePair<P2Int, T>, (P2Int Index, bool EqualValues)>(
-                    rhs,
-                    (l, r) =>
+            var overall = true;
+            List<(P2Int Index, bool EqualValues) > masks = new();
+            for (int y = 0; y < lhs.Height; y++)
+            {
+                for (int x = 0; x < lhs.Width; x++)
+                {
+                    var lhsVal = lhs[x, y];
+                    var rhsVal = rhs[x, y];
+                    var val = (Index: new P2Int(x, y), EqualValues: maskGetter(lhsVal, rhsVal));
+                    if (include == Include.All || !val.EqualValues)
                     {
-                        return (l.Key, maskGetter(l.Value, r.Value));
-                    }, out var countEqual)
-                .Where(i => include == Include.All || !i.EqualValues)
-                .ToArray();
-            var overall = countEqual;
+                        masks.Add(val);
+                    }
+                    else
+                    {
+                        overall = false;
+                    }
+                }
+            }
             if (overall)
             {
                 switch (include)
