@@ -210,10 +210,8 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                     $"public static {await this.ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
                 {
-                    if (obj.IsTopClass)
-                    {
-                        args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal));
-                    }
+                    args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal));
+                    
                     args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
                     foreach (var (API, Public) in this.MainAPI.ReaderAPI.IterateAPI(obj,
                         TranslationDirection.Reader,

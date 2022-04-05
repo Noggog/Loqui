@@ -426,6 +426,10 @@ namespace Loqui.Generation
                         case LoquiInterfaceType.Direct:
                         case LoquiInterfaceType.ISetter:
                             wheres.Add($"{nameof(ILoquiObjectSetter)}<{gen.Key}>");
+                            if (gen.Value.Loqui)
+                            {
+                                wheres.Add("TGetter");
+                            }
                             break;
                         default:
                             throw new NotImplementedException();
@@ -1568,7 +1572,10 @@ namespace Loqui.Generation
                     using (var args = new FunctionWrapper(fg,
                         $"public{this.Virtual()}void DeepCopyIn{this.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                     {
-                        args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                        if (IsTopClass)
+                        {
+                            args.Wheres.AddRange(this.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                        }
                         args.Add($"{this.Interface(getter: false, internalInterface: true)} item");
                         args.Add($"{this.Interface(this.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                         args.Add($"ErrorMaskBuilder? errorMask");
@@ -1631,7 +1638,10 @@ namespace Loqui.Generation
                         using (var args = new FunctionWrapper(fg,
                             $"public override void DeepCopyIn{baseClass.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                         {
-                            args.Wheres.AddRange(baseClass.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                            if (IsTopClass)
+                            {
+                                args.Wheres.AddRange(baseClass.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                            }
                             args.Add($"{baseClass.Interface(getter: false, internalInterface: true)} item");
                             args.Add($"{baseClass.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true, internalInterface: true)} rhs");
                             args.Add($"ErrorMaskBuilder? errorMask");
@@ -1656,7 +1666,10 @@ namespace Loqui.Generation
                     using (var args = new FunctionWrapper(fg,
                         $"public override void DeepCopyIn{baseClass.GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                     {
-                        args.Wheres.AddRange(baseClass.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                        if (IsTopClass)
+                        {
+                            args.Wheres.AddRange(baseClass.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                        }
                         args.Add($"{baseClass.Interface(getter: false)} item");
                         args.Add($"{baseClass.Interface(baseClass.GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
                         args.Add($"ErrorMaskBuilder? errorMask");
@@ -2725,7 +2738,10 @@ namespace Loqui.Generation
             using (var args = new FunctionWrapper(fg,
                 $"public{this.FunctionOverride()}object GetNew{this.GetGenericTypesNickname("_Setter", MaskType.Normal)}"))
             {
-                args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, nickname: "_Setter"));
+                if (IsTopClass)
+                {
+                    args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.ISetter, nickname: "_Setter"));
+                }
             }
             using (new BraceWrapper(fg))
             {
@@ -3771,20 +3787,19 @@ namespace Loqui.Generation
                             return GenerateWhereClauses(type)
                                 .Select(where =>
                                 {
-                                    if (maskTypes.Contains(MaskType.NormalGetter))
-                                    {
-                                        where += ", TGetter";
-                                        if (!where.Contains("ILoquiObjectSetter<T>"))
-                                        {
-                                            where += ", ILoquiObjectSetter<T>";
-                                        }
-                                    }
                                     return where;
                                 });
                         case MaskType.NormalGetter:
                             return GenerateWhereClauses(
                                 LoquiInterfaceType.IGetter,
-                                this.Generics.Select(kv => new KeyValuePair<string, GenericDefinition>(MaskNickname(kv.Key, MaskType.NormalGetter), kv.Value)));
+                                this.Generics.SelectMany(kv =>
+                                {
+                                    if (!kv.Value.Loqui && maskTypes.Contains(MaskType.Normal))
+                                    {
+                                        return Enumerable.Empty<KeyValuePair<string, GenericDefinition>>();
+                                    }
+                                    return new KeyValuePair<string, GenericDefinition>(MaskNickname(kv.Key, MaskType.NormalGetter), kv.Value).AsEnumerable();
+                                }));
                         default:
                             break;
                     }
@@ -3827,7 +3842,21 @@ namespace Loqui.Generation
                         case MaskType.Normal:
                             return Generics.Select((g) => g.Key);
                         case MaskType.NormalGetter:
-                            return Generics.Select((g) => MaskNickname(g.Key, MaskType.NormalGetter));
+                            return Generics.SelectMany((g) =>
+                            {
+                                if (g.Value.Loqui)
+                                {
+                                    return MaskNickname(g.Key, MaskType.NormalGetter).AsEnumerable();
+                                }
+                                if (maskTypes.Contains(MaskType.Normal))
+                                {
+                                    return Enumerable.Empty<string>();
+                                }
+                                else
+                                {
+                                    return g.Key.AsEnumerable();
+                                }
+                            });
                         case MaskType.Error:
                         case MaskType.Copy:
                         case MaskType.Translation:
