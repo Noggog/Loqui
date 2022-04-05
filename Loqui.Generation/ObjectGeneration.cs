@@ -944,7 +944,10 @@ namespace Loqui.Generation
                         fg.AppendLine($"public static readonly {this.RegistrationName}{this.GetGenericTypes(MaskType.Normal)} GenericInstance = new {this.RegistrationName}{this.GetGenericTypes(MaskType.Normal)}();");
                         fg.AppendLine();
 
-                        GenerateGetNthType(fg, true);
+                        if (GenerateNthReflections)
+                        {
+                            GenerateGetNthType(fg, true);
+                        }
                     }
                 }
             }
