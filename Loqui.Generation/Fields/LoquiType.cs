@@ -394,7 +394,14 @@ namespace Loqui.Generation
                         string? construction;
                         if (ThisConstruction)
                         {
-                            construction = null;
+                            if (Nullable)
+                            {
+                                construction = null;
+                            }
+                            else
+                            {
+                                construction = " = default!;";
+                            }
                         }
                         else
                         {
