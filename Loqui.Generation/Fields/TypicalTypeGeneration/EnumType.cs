@@ -1,6 +1,7 @@
 using Noggog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -15,6 +16,7 @@ namespace Loqui.Generation
         public string NoNullTypeName => $"{EnumName}";
         public override Type Type(bool getter) => throw new NotImplementedException();
         public override bool IsIEquatable => false;
+        public bool IsGeneric => ObjectGen.Generics.Keys.Contains(EnumName);
 
         public EnumType()
         {
@@ -23,6 +25,15 @@ namespace Loqui.Generation
         public EnumType(bool nullable)
         {
             this.Nullable = nullable;
+        }
+
+        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
+        {
+            if (!IsGeneric)
+            {
+                return base.GenerateEqualsSnippet(accessor, rhsAccessor, negate);
+            }
+            return $"{(negate ? "!" : null)}EqualityComparer<{EnumName}>.Default.Equals({accessor}, {rhsAccessor})";
         }
 
         public override async Task Load(XElement node, bool requireName = true)
