@@ -948,7 +948,6 @@ namespace Loqui.Generation
             if (TargetObjectGeneration != null)
             {
                 yield return TargetObjectGeneration.Namespace;
-                yield return TargetObjectGeneration.InternalNamespace;
             }
         }
 

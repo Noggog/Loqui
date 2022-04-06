@@ -93,7 +93,7 @@ namespace Loqui.Generation
 
         public override async Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
         {
-            using (new NamespaceWrapper(fg, obj.InternalNamespace, fileScoped: false))
+            using (new NamespaceWrapper(fg, obj.Namespace, fileScoped: false))
             {
                 using (var args = new ClassWrapper(fg, TranslationWriteClass(obj)))
                 {
@@ -115,6 +115,7 @@ namespace Loqui.Generation
 
                 using (var args = new ClassWrapper(fg, TranslationCreateClass(obj)))
                 {
+                    args.Public = PermissionLevel.@internal;
                     args.Partial = true;
                     args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
                     args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.ISetter, obj.Generics));

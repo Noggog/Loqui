@@ -246,7 +246,7 @@ namespace Loqui.Generation
                         foreach (var obj in this.ObjectGenerationsByID.Values
                             .OrderBy((o) => o.ID))
                         {
-                            fg.AppendLine($"LoquiRegistration.Register({obj.InternalNamespace}.{obj.RegistrationName}.Instance);");
+                            fg.AppendLine($"LoquiRegistration.Register({obj.Namespace}.{obj.RegistrationName}.Instance);");
                         }
                     }
                 }

@@ -20,7 +20,6 @@ namespace Loqui.Generation
     {
         public string Name;
         public string Namespace;
-        public string InternalNamespace => $"{Namespace}.Internals";
         public string FullName => $"{Namespace}.{Name}";
         public abstract bool Abstract { get; }
         public DisabledLevel Disabled { get; set; }
@@ -221,7 +220,6 @@ namespace Loqui.Generation
                     }
                 }
             }
-            RequiredNamespaces.Add(InternalNamespace);
 
             foreach (var genNode in Node.Elements(XName.Get(Constants.GENERIC, LoquiGenerator.Namespace)))
             {
@@ -344,7 +342,7 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            using (new NamespaceWrapper(fg, this.InternalNamespace, fileScoped: false))
+            using (new NamespaceWrapper(fg, this.Namespace, fileScoped: false))
             {
                 GenerateEnumIndex(fg);
                 await GenerateRegistration(fg);
@@ -766,7 +764,7 @@ namespace Loqui.Generation
         {
             using (new RegionWrapper(fg, "Field Index"))
             {
-                fg.AppendLine($"public enum {this.FieldIndexName}");
+                fg.AppendLine($"internal enum {this.FieldIndexName}");
                 using (new BraceWrapper(fg))
                 {
                     foreach (var field in this.IterateFieldIndices(includeBaseClass: true))
@@ -786,7 +784,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(nameof(ILoquiRegistration));
                     args.Partial = true;
-                    args.Public = PermissionLevel.@public;
+                    args.Public = PermissionLevel.@internal;
                 }
                 using (new BraceWrapper(fg))
                 {
@@ -936,6 +934,7 @@ namespace Loqui.Generation
                     fg.AppendLine();
                     using (var args = new ClassWrapper(fg, $"{this.RegistrationName}{this.GetGenericTypes(MaskType.Normal)}"))
                     {
+                        args.Public = PermissionLevel.@internal;
                         args.Interfaces.Add(this.RegistrationName);
                         args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.Direct, Generics));
                     }
@@ -1029,6 +1028,7 @@ namespace Loqui.Generation
             var className = $"{this.CommonClassName(interfaceType, maskTypes)}{(classGen ? this.GetGenericTypes(maskTypes) : null)}";
             using (var args = new ClassWrapper(fg, className))
             {
+                args.Public = PermissionLevel.@internal;
                 if (classGen)
                 {
                     args.Wheres.AddRange(this.GenericTypeMaskWheres(interfaceType, maskTypes));
@@ -1768,7 +1768,7 @@ namespace Loqui.Generation
 
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"ILoquiRegistration ILoquiObject.Registration => {this.RegistrationName}.Instance;");
-                fg.AppendLine($"public{NewOverride()}static {this.RegistrationName} StaticRegistration => {this.RegistrationName}.Instance;");
+                fg.AppendLine($"public{NewOverride()}static {nameof(ILoquiRegistration)} StaticRegistration => {this.RegistrationName}.Instance;");
                 fg.AppendLine("[DebuggerStepThrough]");
                 fg.AppendLine($"protected{this.FunctionOverride()}object Common{this.CommonNameAdditions(LoquiInterfaceType.IGetter, MaskType.Normal)}Instance({typeInParams}) => {AddGenericWrap($"{CommonClassRouter(maskSets, LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.Normal)}.Instance")};");
                 if (!getterOnly)
@@ -3362,7 +3362,6 @@ namespace Loqui.Generation
         {
             if (!obj.HasLoquiBaseObject) return;
             this.RequiredNamespaces.Add(obj.BaseClass.Namespace);
-            this.RequiredNamespaces.Add(obj.BaseClass.InternalNamespace);
             AddBaseClassNamespaces(obj.BaseClass);
         }
 
