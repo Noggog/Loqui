@@ -53,7 +53,15 @@ namespace Loqui.Generation
             fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+                if (SubTypeGeneration is LoquiType subLoq
+                    && subLoq.TargetObjectGeneration != null)
+                {
+                    fg.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {subLoq.TargetObjectGeneration.CommonClassSpeccedInstance("l", LoquiInterfaceType.IGetter, CommonGenerics.Class, subLoq.GenericSpecification)}.Equals(l, r, {maskAccessor}?.GetSubCrystal({this.IndexEnumInt})))) return false;");
+                }
+                else
+                {
+                    fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+                }
             }
         }
 
