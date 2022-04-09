@@ -131,20 +131,28 @@ namespace Loqui.Generation
         }
         public string CommonClassName(LoquiInterfaceType interfaceType, params MaskType[] types) => $"{Name}{CommonNameAdditions(interfaceType, types)}Common";
         public string CommonClass(LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) => $"{this.CommonClassName(interfaceType, types)}{(commonGen == CommonGenerics.Class ? this.GetGenericTypes(types.Length == 0 ? new MaskType[] { MaskType.Normal } : types) : null)}";
+        public string CommonClass(LoquiInterfaceType interfaceType, CommonGenerics commonGen, GenericSpecification spec, params MaskType[] types) => $"{this.CommonClassName(interfaceType, types)}{(commonGen == CommonGenerics.Class ? this.GetGenericTypes(types.Length == 0 ? new MaskType[] { MaskType.Normal } : types, spec) : null)}";
         public string CommonClassInstance(Accessor accessor, LoquiInterfaceType interfaceType, CommonGenerics commonGen, params MaskType[] types) =>
             $"(({this.CommonClass(interfaceType, commonGen, types)})(({this.Interface(types, getter: true, internalInterface: false)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance({(commonGen == CommonGenerics.Class ? string.Join(", ", this.Generics.Select(x => $"typeof({x.Key})")) : null)})!)";
+
+        public string CommonClassSpeccedInstance(Accessor accessor, LoquiInterfaceType interfaceType,
+            CommonGenerics commonGen, GenericSpecification specs, params MaskType[] types)
+        {
+            return 
+                $"(({this.CommonClass(interfaceType, commonGen, specs, types)})(({this.Interface(types, getter: true, internalInterface: false, specification: specs)}){accessor}).Common{CommonNameAdditions(interfaceType, types)}Instance({(commonGen == CommonGenerics.Class ? string.Join(", ", this.Generics.Select(x => $"typeof({specs.Swap(x.Key)})")) : null)})!)";
+        }
         public string MixInClassName => $"{Name}MixIn";
 
         public DirectoryPath TargetDir { get; private set; }
         public FilePath SourceXMLFile { get; private set; }
         protected LoquiGenerator gen;
         public ProtocolGeneration ProtoGen;
-        public HashSet<string> RequiredNamespaces = new HashSet<string>();
-        public ExtendedList<GenerationInterface> GenerationInterfaces = new ExtendedList<GenerationInterface>();
-        public ExtendedList<TypeGeneration> Fields = new ExtendedList<TypeGeneration>();
+        public HashSet<string> RequiredNamespaces = new();
+        public ExtendedList<GenerationInterface> GenerationInterfaces = new();
+        public ExtendedList<TypeGeneration> Fields = new();
         public IEnumerable<TypeGeneration> AllFields => this.HasLoquiBaseObject ? this.Fields.And(this.BaseClass?.AllFields) : this.Fields;
-        public Dictionary<FilePath, ProjItemType> GeneratedFiles = new Dictionary<FilePath, ProjItemType>();
-        public Dictionary<object, object> CustomData = new Dictionary<object, object>();
+        public Dictionary<FilePath, ProjItemType> GeneratedFiles = new();
+        public Dictionary<object, object> CustomData = new();
 
         // Task Coordinators
         protected TaskCompletionSource<ExtendedList<ObjectGeneration>> _directlyInheritingObjectsTcs = new TaskCompletionSource<ExtendedList<ObjectGeneration>>();
@@ -3834,7 +3842,7 @@ namespace Loqui.Generation
                 }).ToArray();
         }
 
-        public IEnumerable<IEnumerable<string>> GetGenericTypeStrings(params MaskType[] maskTypes)
+        public IEnumerable<IEnumerable<string>> GetGenericTypeStrings(MaskType[] maskTypes, GenericSpecification specification = null)
         {
             return maskTypes.Select(
                 (maskType) =>
@@ -3842,7 +3850,7 @@ namespace Loqui.Generation
                     switch (maskType)
                     {
                         case MaskType.Normal:
-                            return Generics.Select((g) => g.Key);
+                            return Generics.Select((g) => g.Key).Select(specification.Swap);
                         case MaskType.NormalGetter:
                             return Generics.SelectMany((g) =>
                             {
@@ -3858,11 +3866,11 @@ namespace Loqui.Generation
                                 {
                                     return g.Key.AsEnumerable();
                                 }
-                            });
+                            }).Select(specification.Swap);
                         case MaskType.Error:
                         case MaskType.Copy:
                         case MaskType.Translation:
-                            return GenericTypes_Nickname(maskType);
+                            return GenericTypes_Nickname(maskType).Select(specification.Swap);
                         default:
                             throw new NotImplementedException();
                     }
@@ -3871,12 +3879,27 @@ namespace Loqui.Generation
 
         public string GetGenericTypes(params MaskType[] maskTypes)
         {
-            return GenerateGenericClause(GetGenericTypeStrings(maskTypes).ToArray());
+            return GenerateGenericClause(GetGenericTypeStrings(maskTypes, null).ToArray());
+        }
+
+        public string GetGenericTypes(MaskType[] maskTypes, GenericSpecification specification)
+        {
+            return GenerateGenericClause(GetGenericTypeStrings(maskTypes, specification).ToArray());
+        }
+
+        public string GetGenericTypes(MaskType maskType, GenericSpecification specification = null)
+        {
+            return GenerateGenericClause(GetGenericTypeStrings(maskType.AsEnumerable().ToArray(), specification).ToArray());
         }
 
         public string GetGenericTypes(MaskType maskType, params string[] extraGenerics)
         {
-            return GenerateGenericClause(GetGenericTypeStrings(maskType.AsEnumerable().ToArray()).And(extraGenerics).ToArray());
+            return GenerateGenericClause(GetGenericTypeStrings(maskType.AsEnumerable().ToArray(), null).And(extraGenerics).ToArray());
+        }
+
+        public string GetGenericTypes(MaskType maskType, GenericSpecification specification, params string[] extraGenerics)
+        {
+            return GenerateGenericClause(GetGenericTypeStrings(maskType.AsEnumerable().ToArray(), specification).And(extraGenerics).ToArray());
         }
 
         public string GetGenericTypesNickname(string nickName, params MaskType[] maskTypes)
@@ -3945,10 +3968,10 @@ namespace Loqui.Generation
             return false;
         }
 
-        public string Interface(bool getter = false, bool internalInterface = false)
+        public string Interface(bool getter = false, bool internalInterface = false, GenericSpecification specification = null)
         {
             return Interface(
-                genericTypes: this.GetGenericTypes(MaskType.Normal),
+                genericTypes: this.GetGenericTypes(MaskType.Normal, specification),
                 getter: getter,
                 internalInterface: internalInterface);
         }
@@ -3961,12 +3984,12 @@ namespace Loqui.Generation
             return $"{ret}{genericTypes}";
         }
 
-        public string Interface(MaskType[] maskTypes, bool getter = false, bool internalInterface = false)
+        public string Interface(MaskType[] maskTypes, bool getter = false, bool internalInterface = false, GenericSpecification specification = null)
         {
             if (maskTypes.Contains(MaskType.NormalGetter))
             {
                 return Interface(
-                    this.GetGenericTypes(MaskType.NormalGetter),
+                    this.GetGenericTypes(MaskType.NormalGetter, specification),
                     getter: getter,
                     internalInterface: internalInterface);
             }
@@ -3974,7 +3997,8 @@ namespace Loqui.Generation
             {
                 return Interface(
                     getter: getter,
-                    internalInterface: internalInterface);
+                    internalInterface: internalInterface,
+                    specification: specification);
             }
         }
 
