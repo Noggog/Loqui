@@ -22,6 +22,7 @@ namespace Loqui
         private readonly Dictionary<(Type TSource, Type TResult), object> _copyFuncRegister = new();
         private readonly Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> _untypedCopyFuncRegister = new();
         private readonly Dictionary<string, Type?> _cache = new();
+        private readonly HashSet<IProtocolRegistration> _registeredProtocols = new();
 
         public IReadOnlyCollection<ILoquiRegistration> Registrations => _registers.Values;
 
@@ -31,6 +32,7 @@ namespace Loqui
             {
                 foreach (var regis in registrations)
                 {
+                    if (!_registeredProtocols.Add(regis)) continue;
                     regis?.Register();
                 }
             }
