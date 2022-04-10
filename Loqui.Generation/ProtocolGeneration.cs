@@ -216,10 +216,7 @@ namespace Loqui.Generation
 
         private void GenerateDefFile()
         {
-            HashSet<string> namespaces = new HashSet<string>
-            {
-                "Loqui"
-            };
+            var namespaces = new HashSet<string>();
             foreach (var obj in this.ObjectGenerationsByID.Values)
             {
                 namespaces.Add(obj.Namespace);
@@ -232,23 +229,30 @@ namespace Loqui.Generation
             }
             fg.AppendLine();
 
-            fg.AppendLine("namespace Loqui");
+            fg.AppendLine("namespace Loqui;");
+            fg.AppendLine();
+
+            fg.AppendLine($"internal class {this.ProtocolDefinitionName} : IProtocolRegistration");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public class {this.ProtocolDefinitionName} : IProtocolRegistration");
+                fg.AppendLine($"public static readonly ProtocolKey ProtocolKey = new(\"{this.Protocol.Namespace}\");");
+                fg.AppendLine("void IProtocolRegistration.Register() => Register();");
+                fg.AppendLine("public static void Register()");
                 using (new BraceWrapper(fg))
                 {
-                    fg.AppendLine($"public readonly static ProtocolKey ProtocolKey = new ProtocolKey(\"{this.Protocol.Namespace}\");");
-                    fg.AppendLine("void IProtocolRegistration.Register() => Register();");
-                    fg.AppendLine("public static void Register()");
-                    using (new BraceWrapper(fg))
+                    fg.AppendLine("LoquiRegistration.Register(");
+                    using (new DepthWrapper(fg))
                     {
-                        foreach (var obj in this.ObjectGenerationsByID.Values
-                            .OrderBy((o) => o.ID))
+                        using (var comma = new CommaWrapper(fg))
                         {
-                            fg.AppendLine($"LoquiRegistration.Register({obj.Namespace}.{obj.RegistrationName}.Instance);");
+                            foreach (var obj in this.ObjectGenerationsByID.Values
+                                .OrderBy((o) => o.ID))
+                            {
+                                comma.Add($"{obj.RegistrationName}.Instance");
+                            }
                         }
                     }
+                    fg.AppendLine(");");
                 }
             }
 

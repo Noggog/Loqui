@@ -45,6 +45,11 @@ namespace Loqui
             StaticRegister.Register(reg);
         }
 
+        public static void Register(params ILoquiRegistration[] reg)
+        {
+            StaticRegister.Register(reg);
+        }
+
         public static bool IsLoquiType(Type t)
         {
             return StaticRegister.IsLoquiType(t);

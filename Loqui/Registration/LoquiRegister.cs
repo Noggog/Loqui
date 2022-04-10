@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -138,32 +138,48 @@ namespace Loqui
             return mainType.MakeGenericType(subTypes);
         }
 
+        private void RegisterInternal(ILoquiRegistration reg)
+        {
+            if (_typeRegister.ContainsKey(reg.ClassType)) return;
+            _registers.Add(reg.ObjectKey, reg);
+            _nameRegisters.Add(reg.FullName, reg);
+            var prefixStrs = reg.FullName.Split('.');
+            var strs = prefixStrs.Take(prefixStrs.Length - 1);
+            _nameRegisters.Add(String.Join(".", strs.And(reg.SetterType.Name)), reg);
+            _nameRegisters.Add(String.Join(".", strs.And(reg.GetterType.Name)), reg);
+            _typeRegister.Add(reg.ClassType, reg);
+            _typeRegister.Add(reg.SetterType, reg);
+            _typeRegister.Add(reg.GetterType, reg);
+            if (reg.InternalGetterType != null)
+            {
+                _typeRegister.Add(reg.InternalGetterType, reg);
+            }
+            if (reg.InternalSetterType != null)
+            {
+                _typeRegister.Add(reg.InternalSetterType, reg);
+            }
+            if (reg.GenericRegistrationType != null
+                && !reg.GenericRegistrationType.Equals(reg.GetType()))
+            {
+                _genericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+            }
+        }
+
         public void Register(ILoquiRegistration reg)
         {
             lock (_registersLock)
             {
-                if (_typeRegister.ContainsKey(reg.ClassType)) return;
-                _registers.Add(reg.ObjectKey, reg);
-                _nameRegisters.Add(reg.FullName, reg);
-                var prefixStrs = reg.FullName.Split('.');
-                var strs = prefixStrs.Take(prefixStrs.Length - 1);
-                _nameRegisters.Add(String.Join(".", strs.And(reg.SetterType.Name)), reg);
-                _nameRegisters.Add(String.Join(".", strs.And(reg.GetterType.Name)), reg);
-                _typeRegister.Add(reg.ClassType, reg);
-                _typeRegister.Add(reg.SetterType, reg);
-                _typeRegister.Add(reg.GetterType, reg);
-                if (reg.InternalGetterType != null)
+                RegisterInternal(reg);
+            }
+        }
+
+        public void Register(params ILoquiRegistration[] registrations)
+        {
+            lock (_registersLock)
+            {
+                foreach (var reg in registrations)
                 {
-                    _typeRegister.Add(reg.InternalGetterType, reg);
-                }
-                if (reg.InternalSetterType != null)
-                {
-                    _typeRegister.Add(reg.InternalSetterType, reg);
-                }
-                if (reg.GenericRegistrationType != null
-                    && !reg.GenericRegistrationType.Equals(reg.GetType()))
-                {
-                    _genericRegisters[reg.ClassType] = reg.GenericRegistrationType;
+                    RegisterInternal(reg);
                 }
             }
         }
