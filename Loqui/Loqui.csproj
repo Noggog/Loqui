@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="RD /S /Q &quot;%25USERPROFILE%25\.nuget\packages\loqui&quot;" />
+    <Exec Command="RD /S /Q &quot;%25USERPROFILE%25\.nuget\packages\loqui&quot;" Condition="!$([MSBuild]::IsOSUnixLike())" />
   </Target>
 
 </Project>
