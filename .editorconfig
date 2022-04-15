@@ -17,3 +17,6 @@ dotnet_diagnostic.LindhartAnalyserMissingAwaitWarning.severity = error
 
 dotnet_diagnostic.ASYNC0004.severity = silent
 dotnet_diagnostic.ASYNC0001.severity = silent
+ 
+# CLASS0001: Seal classes that do not have any virtual or abstract methods, properties, events, or indexers
+dotnet_diagnostic.CLASS0001.severity = silent 
