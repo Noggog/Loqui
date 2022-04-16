@@ -80,7 +80,7 @@ namespace Loqui.Generation
             }
             if (getter)
             {
-                return $"ReadOnlyMemorySlice<{itemTypeName}{this.SubTypeGeneration.NullChar}>{this.NullChar}";
+                return $"ReadOnlyMemorySlice<{itemTypeName}{this.SubTypeGeneration.NullChar}>";
             }
             else
             {
@@ -92,7 +92,7 @@ namespace Loqui.Generation
         {
             if (this.Nullable)
             {
-                fg.AppendLine($"{accessorPrefix}.Unset();");
+                fg.AppendLine($"{accessorPrefix} = null;");
             }
             else
             {
@@ -134,7 +134,7 @@ namespace Loqui.Generation
                     {
                         fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
                     }
-                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}.Span!, {rhsAccessor.Access}.Span!)) return false;");
+                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
                 }
                 else
                 {
@@ -146,7 +146,8 @@ namespace Loqui.Generation
         public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
         {
             string funcStr;
-            if (this.SubTypeGeneration is LoquiType loqui)
+            var loqui = this.SubTypeGeneration as LoquiType;
+            if (loqui != null)
             {
                 funcStr = $"(loqLhs, loqRhs) => loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsMask) : "GetEqualsMask")}(loqRhs, include)";
             }
@@ -155,11 +156,55 @@ namespace Loqui.Generation
                 funcStr = $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
             }
             using (var args = new ArgsWrapper(fg,
-                $"ret.{this.Name} = item.{this.Name}.SpanEqualsHelper"))
+                $"ret.{this.Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
             {
+                args.Add($"item.{this.Name}");
                 args.Add($"rhs.{this.Name}");
                 args.Add(funcStr);
                 args.Add($"include");
+            }
+        }
+
+        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+        {
+            if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
+            {
+                if (!this.AlwaysCopy)
+                {
+                    fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
+                }
+                using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+                {
+                    if (Nullable)
+                    {
+                        fg.AppendLine($"{accessor} = {rhs}?.ToArray();");
+                    }
+                    else
+                    {
+                        fg.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
+                    }
+                }
+            }
+            else
+            {
+                base.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
+            }
+        }
+
+        public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
+        {
+            if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
+            {
+                fg.AppendLine($"{accessor} = ");
+                using (new DepthWrapper(fg))
+                {
+                    a(fg);
+                    fg.AppendLine($"{NullChar}.ToArray();");
+                }
+            }
+            else
+            {
+                base.WrapSet(fg, accessor, a);
             }
         }
     }

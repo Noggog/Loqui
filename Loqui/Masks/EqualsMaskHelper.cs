@@ -327,6 +327,25 @@ namespace Loqui
 
         #region Span
         public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>? SpanEqualsHelper<T, M>(
+            this ReadOnlyMemorySlice<T>? lhs,
+            ReadOnlyMemorySlice<T>? rhs,
+            Func<T, T, M> maskGetter,
+            Include include)
+            where M : class, IMask<bool>
+        {
+            return CollectionEqualsHelper(lhs, rhs, maskGetter, include);
+        }
+
+        public static MaskItem<bool, IEnumerable<(int Index, bool EqualValues)>?>? SpanEqualsHelper<T>(
+            this ReadOnlyMemorySlice<T>? lhs,
+            ReadOnlyMemorySlice<T>? rhs,
+            Func<T, T, bool> maskGetter,
+            Include include)
+        {
+            return CollectionEqualsHelper(lhs, rhs, maskGetter, include);
+        }
+
+        public static MaskItem<bool, IEnumerable<MaskItemIndexed<bool, M?>>?>? SpanEqualsHelper<T, M>(
             this ReadOnlyMemorySlice<T> lhs,
             ReadOnlyMemorySlice<T> rhs,
             Func<T, T, M> maskGetter,
