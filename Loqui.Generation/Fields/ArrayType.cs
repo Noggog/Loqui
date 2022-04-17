@@ -16,7 +16,7 @@ namespace Loqui.Generation
         {
             if (getter)
             {
-                return $"ReadOnlyMemorySlice<{this.ItemTypeName(getter)}>{this.NullChar}";
+                return $"ReadOnlyMemorySlice<{this.ItemTypeName(getter)}>";
             }
             else
             {
@@ -206,6 +206,12 @@ namespace Loqui.Generation
             {
                 base.WrapSet(fg, accessor, a);
             }
+        }
+
+        public override string GetDefault(bool getter)
+        {
+            if (getter && Nullable) return $"default({TypeName(getter)}{NullChar})";
+            return base.GetDefault(getter);
         }
     }
 }
