@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Translators;
 
-namespace Loqui.Translators
+public interface ITranslation<T>
 {
-    public interface ITranslation<T>
-    {
-    }
 }

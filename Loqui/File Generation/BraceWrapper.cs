@@ -1,37 +1,34 @@
-using System;
+namespace Loqui;
 
-namespace Loqui
+public class BraceWrapper : IDisposable
 {
-    public class BraceWrapper : IDisposable
+    private readonly FileGeneration _fg;
+    private readonly bool _doIt;
+
+    public bool AppendParenthesis;
+    public bool AppendSemicolon;
+    public bool AppendComma;
+
+    public BraceWrapper(FileGeneration fg, bool doIt = true)
     {
-        private readonly FileGeneration _fg;
-        private readonly bool _doIt;
-
-        public bool AppendParenthesis;
-        public bool AppendSemicolon;
-        public bool AppendComma;
-
-        public BraceWrapper(FileGeneration fg, bool doIt = true)
+        _fg = fg;
+        _doIt = doIt;
+        if (doIt)
         {
-            this._fg = fg;
-            this._doIt = doIt;
-            if (doIt)
-            {
-                fg.AppendLine("{");
-                fg.Depth++;
-            }
+            fg.AppendLine("{");
+            fg.Depth++;
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (_doIt)
         {
-            if (_doIt)
-            {
-                _fg.Depth--;
-                _fg.AppendLine("}"
-                    + (this.AppendParenthesis ? ")" : string.Empty)
-                    + (this.AppendSemicolon ? ";" : string.Empty)
-                    + (this.AppendComma ? "," : string.Empty));
-            }
+            _fg.Depth--;
+            _fg.AppendLine("}"
+                           + (AppendParenthesis ? ")" : string.Empty)
+                           + (AppendSemicolon ? ";" : string.Empty)
+                           + (AppendComma ? "," : string.Empty));
         }
     }
 }

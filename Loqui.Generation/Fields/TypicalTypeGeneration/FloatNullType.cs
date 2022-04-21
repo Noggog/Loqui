@@ -1,11 +1,9 @@
 using Noggog;
-using System;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class FloatNullType : TypicalFloatNumberTypeGeneration
 {
-    public class FloatNullType : TypicalFloatNumberTypeGeneration
-    {
-        public override Type Type(bool getter) => typeof(float?);
-        public override string RangeTypeName(bool getter) => nameof(RangeFloat);
-    }
+    public override Type Type(bool getter) => typeof(float?);
+    public override string RangeTypeName(bool getter) => nameof(RangeFloat);
 }

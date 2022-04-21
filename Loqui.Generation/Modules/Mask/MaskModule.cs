@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Noggog;
 
 namespace Loqui.Generation;
@@ -710,7 +706,7 @@ public class MaskModule : GenerationModule
     {
         lock (_fieldMapping)
         {
-            if (!this._fieldMapping.TryGetValue(t, out var fieldGen))
+            if (!_fieldMapping.TryGetValue(t, out var fieldGen))
             {
                 foreach (var kv in _fieldMapping.ToList())
                 {

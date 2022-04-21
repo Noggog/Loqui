@@ -1,12 +1,9 @@
 using Loqui.Generation;
-using Xunit;
 
-namespace Loqui.Tests
+namespace Loqui.Tests;
+
+public abstract class PrimitiveType_Tests<T> : TypicalTypeGeneration_Tests<T>
+    where T : PrimitiveType, new()
 {
-    public abstract class PrimitiveType_Tests<T> : TypicalTypeGeneration_Tests<T>
-        where T : PrimitiveType, new()
-    {
-
-    }
 
 }

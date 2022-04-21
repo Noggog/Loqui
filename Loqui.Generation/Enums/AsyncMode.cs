@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public enum AsyncMode
 {
-    public enum AsyncMode
-    {
-        Off,
-        Direct,
-        Async
-    }
+    Off,
+    Direct,
+    Async
 }

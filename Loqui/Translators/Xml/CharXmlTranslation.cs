@@ -1,22 +1,19 @@
 using Loqui.Internal;
-using Noggog;
-using System;
 
-namespace Loqui.Xml
+namespace Loqui.Xml;
+
+public class CharXmlTranslation : PrimitiveXmlTranslation<char>
 {
-    public class CharXmlTranslation : PrimitiveXmlTranslation<char>
-    {
-        public readonly static CharXmlTranslation Instance = new CharXmlTranslation();
+    public readonly static CharXmlTranslation Instance = new CharXmlTranslation();
 
-        protected override bool Parse(string str, out char value, ErrorMaskBuilder? errorMask)
+    protected override bool Parse(string str, out char value, ErrorMaskBuilder? errorMask)
+    {
+        if (char.TryParse(str, out value))
         {
-            if (char.TryParse(str, out value))
-            {
-                return true;
-            }
-            errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {ElementName}"));
-            return false;
+            return true;
         }
+        errorMask.ReportExceptionOrThrow(
+            new ArgumentException($"Could not convert to {ElementName}"));
+        return false;
     }
 }

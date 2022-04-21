@@ -112,7 +112,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                             using (new BraceWrapper(fg))
                             {
                                 fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                                var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                                var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                                 fg.AppendLine($"using (new DepthWrapper(fg))");
                                 using (new BraceWrapper(fg))
                                 {
@@ -128,7 +128,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                         using (new BraceWrapper(fg))
                         {
                             fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                            var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                            var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                             fg.AppendLine($"using (new DepthWrapper(fg))");
                             using (new BraceWrapper(fg))
                             {
@@ -160,7 +160,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                 fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                 using (new BraceWrapper(fg))
                 {
-                    var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                    var subMask = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                     subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
                 }
             }
@@ -184,7 +184,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                 fg.AppendLine($"foreach (var item in {accessor.Access}.Specific)");
                 using (new BraceWrapper(fg))
                 {
-                    var subMask = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                    var subMask = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                     subMask.GenerateForAll(fg, listType.SubTypeGeneration, new Accessor("item"), nullCheck: false, indexed: true);
                 }
             }
@@ -210,7 +210,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                     fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
                     using (new BraceWrapper(fg))
                     {
-                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                         fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
                             retAccessor: $"{submaskString}? mask",
                             rhsAccessor: $"item",
@@ -226,7 +226,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                     fg.AppendLine($"foreach (var item in {field.Name}.Specific)");
                     using (new BraceWrapper(fg))
                     {
-                        var fieldGen = this.Module.GetMaskModule(listType.SubTypeGeneration.GetType());
+                        var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
                         fieldGen.GenerateForTranslate(fg, listType.SubTypeGeneration,
                             retAccessor: $"R mask",
                             rhsAccessor: $"item",

@@ -1,210 +1,209 @@
 using Xunit;
 
-namespace Loqui.Tests
+namespace Loqui.Tests;
+
+public class Comment_Tests
 {
-    public class Comment_Tests
+    [Fact]
+    public void EmptyComments()
     {
-        [Fact]
-        public void EmptyComments()
+        var commentWrapper = new CommentWrapper(null);
+
+        var fg = new FileGeneration();
+
+        commentWrapper.Apply(fg);
+
+        Assert.True(fg.Empty);
+    }
+
+    [Fact]
+    public void NoTargetEmpty()
+    {
+        var commentWrapper = new CommentWrapper(null);
+
+        commentWrapper.Apply(null);
+
+        Assert.True(true);
+    }
+
+    [Fact]
+    public void NoTargetOneSummaryLine()
+    {
+        var commentWrapper = new CommentWrapper(null);
+
+        commentWrapper.Summary.AppendLine("An awesome summary.");
+
+        commentWrapper.Apply(null);
+
+        Assert.True(true);
+    }
+
+    [Fact]
+    public void OneSummaryLine()
+    {
+        var commentWrapper = new CommentWrapper(null);
+
+        commentWrapper.Summary.AppendLine("An awesome summary.");
+
+        var fg = new FileGeneration();
+
+        commentWrapper.Apply(fg);
+
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <summary>",
+            "/// An awesome summary.",
+            "/// </summary>",
+        };
 
-            var fg = new FileGeneration();
+        Assert.Equal(expected, fg);
+    }
 
-            commentWrapper.Apply(fg);
+    [Fact]
+    public void OneParameter()
+    {
+        var commentWrapper = new CommentWrapper(null);
 
-            Assert.True(fg.Empty);
-        }
+        commentWrapper.AddParameter("name", "The name of the thing");
 
-        [Fact]
-        public void NoTargetEmpty()
+        var fg = new FileGeneration();
+
+        commentWrapper.Apply(fg);
+
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <param name=\"name\">The name of the thing</param>",
+        };
 
-            commentWrapper.Apply(null);
+        Assert.Equal(expected, fg);
+    }
 
-            Assert.True(true);
-        }
+    [Fact]
+    public void TwoParameters()
+    {
+        var commentWrapper = new CommentWrapper(null);
 
-        [Fact]
-        public void NoTargetOneSummaryLine()
+        commentWrapper.AddParameter("name", "The name of the thing");
+        commentWrapper.AddParameter("thing", "The thing of the thing");
+
+        var fg = new FileGeneration();
+
+        commentWrapper.Apply(fg);
+
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <param name=\"name\">The name of the thing</param>",
+            "/// <param name=\"thing\">The thing of the thing</param>",
+        };
 
-            commentWrapper.Summary.AppendLine("An awesome summary.");
+        Assert.Equal(expected, fg);
+    }
 
-            commentWrapper.Apply(null);
+    [Fact]
+    public void MultiLineParameter()
+    {
+        var commentWrapper = new CommentWrapper(null);
 
-            Assert.True(true);
-        }
+        var description = new FileGeneration();
+        description.AppendLine("The name of");
+        description.AppendLine("the thing");
 
-        [Fact]
-        public void OneSummaryLine()
+        commentWrapper.Parameters["name"] = description;
+
+        var fg = new FileGeneration();
+
+        commentWrapper.Apply(fg);
+
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <param name=\"name\">",
+            "/// The name of",
+            "/// the thing",
+            "/// </param>",
+        };
 
-            commentWrapper.Summary.AppendLine("An awesome summary.");
+        Assert.Equal(expected, fg);
+    }
 
-            var fg = new FileGeneration();
+    [Fact]
+    public void Returns()
+    {
+        var commentWrapper = new CommentWrapper(null);
 
-            commentWrapper.Apply(fg);
+        commentWrapper.Return.AppendLine("Awesomeness");
 
-            var expected = new string[]
-            {
-                "/// <summary>",
-                "/// An awesome summary.",
-                "/// </summary>",
-            };
+        var fg = new FileGeneration();
 
-            Assert.Equal(expected, fg);
-        }
+        commentWrapper.Apply(fg);
 
-        [Fact]
-        public void OneParameter()
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <returns>Awesomeness</returns>",
+        };
 
-            commentWrapper.AddParameter("name", "The name of the thing");
+        Assert.Equal(expected, fg);
+    }
 
-            var fg = new FileGeneration();
+    [Fact]
+    public void MultiLineReturns()
+    {
+        var commentWrapper = new CommentWrapper(null);
 
-            commentWrapper.Apply(fg);
+        commentWrapper.Return.AppendLine("Awesomeness,");
+        commentWrapper.Return.AppendLine("sheer awesomeness!");
 
-            var expected = new string[]
-            {
-                "/// <param name=\"name\">The name of the thing</param>",
-            };
+        var fg = new FileGeneration();
 
-            Assert.Equal(expected, fg);
-        }
+        commentWrapper.Apply(fg);
 
-        [Fact]
-        public void TwoParameters()
+        var expected = new string[]
         {
-            var commentWrapper = new CommentWrapper(null);
+            "/// <returns>",
+            "/// Awesomeness,",
+            "/// sheer awesomeness!",
+            "/// </returns>",
+        };
 
-            commentWrapper.AddParameter("name", "The name of the thing");
-            commentWrapper.AddParameter("thing", "The thing of the thing");
+        Assert.Equal(expected, fg);
+    }
 
-            var fg = new FileGeneration();
+    [Fact]
+    public void WriteOnDispose()
+    {
+        var fg = new FileGeneration();
 
-            commentWrapper.Apply(fg);
-
-            var expected = new string[]
-            {
-                "/// <param name=\"name\">The name of the thing</param>",
-                "/// <param name=\"thing\">The thing of the thing</param>",
-            };
-
-            Assert.Equal(expected, fg);
-        }
-
-        [Fact]
-        public void MultiLineParameter()
+        using (var commentWrapper = new CommentWrapper(fg))
         {
-            var commentWrapper = new CommentWrapper(null);
-
+            commentWrapper.Return.AppendLine("Awesomeness,");
             var description = new FileGeneration();
             description.AppendLine("The name of");
             description.AppendLine("the thing");
 
             commentWrapper.Parameters["name"] = description;
 
-            var fg = new FileGeneration();
-
-            commentWrapper.Apply(fg);
-
-            var expected = new string[]
-            {
-                "/// <param name=\"name\">",
-                "/// The name of",
-                "/// the thing",
-                "/// </param>",
-            };
-
-            Assert.Equal(expected, fg);
-        }
-
-        [Fact]
-        public void Returns()
-        {
-            var commentWrapper = new CommentWrapper(null);
-
-            commentWrapper.Return.AppendLine("Awesomeness");
-
-            var fg = new FileGeneration();
-
-            commentWrapper.Apply(fg);
-
-            var expected = new string[]
-            {
-                "/// <returns>Awesomeness</returns>",
-            };
-
-            Assert.Equal(expected, fg);
-        }
-
-        [Fact]
-        public void MultiLineReturns()
-        {
-            var commentWrapper = new CommentWrapper(null);
-
-            commentWrapper.Return.AppendLine("Awesomeness,");
+            commentWrapper.Summary.AppendLine("An awesome summary.");
             commentWrapper.Return.AppendLine("sheer awesomeness!");
 
-            var fg = new FileGeneration();
-
-            commentWrapper.Apply(fg);
-
-            var expected = new string[]
-            {
-                "/// <returns>",
-                "/// Awesomeness,",
-                "/// sheer awesomeness!",
-                "/// </returns>",
-            };
-
-            Assert.Equal(expected, fg);
+            commentWrapper.AddParameter("thing", "The thing of the thing");
         }
 
-        [Fact]
-        public void WriteOnDispose()
+        var expected = new string[]
         {
-            var fg = new FileGeneration();
+            "/// <summary>",
+            "/// An awesome summary.",
+            "/// </summary>",
+            "/// <param name=\"name\">",
+            "/// The name of",
+            "/// the thing",
+            "/// </param>",
+            "/// <param name=\"thing\">The thing of the thing</param>",
+            "/// <returns>",
+            "/// Awesomeness,",
+            "/// sheer awesomeness!",
+            "/// </returns>",
+        };
 
-            using (var commentWrapper = new CommentWrapper(fg))
-            {
-                commentWrapper.Return.AppendLine("Awesomeness,");
-                var description = new FileGeneration();
-                description.AppendLine("The name of");
-                description.AppendLine("the thing");
-
-                commentWrapper.Parameters["name"] = description;
-
-                commentWrapper.Summary.AppendLine("An awesome summary.");
-                commentWrapper.Return.AppendLine("sheer awesomeness!");
-
-                commentWrapper.AddParameter("thing", "The thing of the thing");
-            }
-
-            var expected = new string[]
-            {
-                "/// <summary>",
-                "/// An awesome summary.",
-                "/// </summary>",
-                "/// <param name=\"name\">",
-                "/// The name of",
-                "/// the thing",
-                "/// </param>",
-                "/// <param name=\"thing\">The thing of the thing</param>",
-                "/// <returns>",
-                "/// Awesomeness,",
-                "/// sheer awesomeness!",
-                "/// </returns>",
-            };
-
-            Assert.Equal(expected, fg);
-        }
-
+        Assert.Equal(expected, fg);
     }
+
 }

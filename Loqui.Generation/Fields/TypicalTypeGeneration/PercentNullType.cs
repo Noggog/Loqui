@@ -1,10 +1,8 @@
 using Noggog;
-using System;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class PercentNullType : DoubleType
 {
-    public class PercentNullType : DoubleType
-    {
-        public override Type Type(bool getter) => typeof(Percent?);
-    }
+    public override Type Type(bool getter) => typeof(Percent?);
 }

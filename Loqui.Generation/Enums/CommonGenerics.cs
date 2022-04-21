@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public enum CommonGenerics
 {
-    public enum CommonGenerics
-    {
-        Class,
-        Functions
-    }
+    Class,
+    Functions
 }

@@ -1,9 +1,6 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class Int64NullType : TypicalWholeNumberTypeGeneration
 {
-    public class Int64NullType : TypicalWholeNumberTypeGeneration
-    {
-        public override Type Type(bool getter) => typeof(Int64?);
-    }
+    public override Type Type(bool getter) => typeof(Int64?);
 }

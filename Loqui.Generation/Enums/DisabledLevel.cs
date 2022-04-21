@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public enum DisabledLevel
 {
-    public enum DisabledLevel
-    {
-        Enabled,
-        SkipGeneration,
-        OmitEntirely,
-    }
+    Enabled,
+    SkipGeneration,
+    OmitEntirely,
 }

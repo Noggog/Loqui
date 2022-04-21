@@ -1,145 +1,139 @@
 using Noggog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class FieldBatchPointerType : TypeGeneration
 {
-    public class FieldBatchPointerType : TypeGeneration
+    public string BatchName { get; private set; }
+    public string ProtocolID { get; private set; }
+    public override bool IsEnumerable => throw new ArgumentException();
+    public override bool IsClass => throw new ArgumentException();
+    public override bool HasDefault => throw new ArgumentException();
+
+    #region Type Generation Abstract
+    public override string TypeName(bool getter, bool needsCovariance = false) => throw new NotImplementedException();
+
+    public override string ProtectedName => throw new NotImplementedException();
+
+    public override bool CopyNeedsTryCatch => throw new NotImplementedException();
+
+    public override string GenerateACopy(string rhsAccessor)
     {
-        public string BatchName { get; private set; }
-        public string ProtocolID { get; private set; }
-        public override bool IsEnumerable => throw new ArgumentException();
-        public override bool IsClass => throw new ArgumentException();
-        public override bool HasDefault => throw new ArgumentException();
+        throw new NotImplementedException();
+    }
 
-        #region Type Generation Abstract
-        public override string TypeName(bool getter, bool needsCovariance = false) => throw new NotImplementedException();
+    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override string ProtectedName => throw new NotImplementedException();
+    public override async Task GenerateForClass(FileGeneration fg)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override bool CopyNeedsTryCatch => throw new NotImplementedException();
+    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override string GenerateACopy(string rhsAccessor)
+    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+
+    public override async Task Load(XElement node, bool requireName = true)
+    {
+        _derivative = false;
+        BatchName = node.GetAttribute<string>("name", throwException: true);
+        ProtocolID = node.GetAttribute("protocol", throwException: false);
+    }
+
+    public override async Task Resolve()
+    {
+        await base.Resolve();
+        var protoID = ProtocolID ?? ObjectGen.ProtoGen.Protocol.Namespace;
+        if (!ObjectGen.ProtoGen.Gen.TryGetProtocol(new ProtocolKey(protoID), out var protoGen))
         {
-            throw new NotImplementedException();
+            throw new ArgumentException($"Protocol did not exist {protoID}.");
         }
-
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+        if (!protoGen.FieldBatchesByName.TryGetValue(BatchName, out var batch))
         {
-            throw new NotImplementedException();
+            throw new ArgumentException($"Field batch did not exist {BatchName} in protocol {protoGen.Protocol.Namespace}");
         }
-
-        public override async Task GenerateForClass(FileGeneration fg)
+        var index = ObjectGen.IterateFields().ToList().IndexOf(this);
+        if (index == -1)
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Could not find self in object's field list.");
         }
-
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+        foreach (var generic in batch.Generics)
         {
-            throw new NotImplementedException();
+            ObjectGen.Generics[generic.Key] = generic.Value;
         }
-
-        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+        foreach (var field in batch.Fields)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        public override async Task Load(XElement node, bool requireName = true)
-        {
-            this._derivative = false;
-            this.BatchName = node.GetAttribute<string>("name", throwException: true);
-            this.ProtocolID = node.GetAttribute("protocol", throwException: false);
-        }
-
-        public override async Task Resolve()
-        {
-            await base.Resolve();
-            var protoID = this.ProtocolID ?? this.ObjectGen.ProtoGen.Protocol.Namespace;
-            if (!this.ObjectGen.ProtoGen.Gen.TryGetProtocol(new ProtocolKey(protoID), out var protoGen))
+            var typeGen = await ObjectGen.LoadField(field.Node, requireName: true);
+            if (typeGen.Succeeded)
             {
-                throw new ArgumentException($"Protocol did not exist {protoID}.");
-            }
-            if (!protoGen.FieldBatchesByName.TryGetValue(this.BatchName, out var batch))
-            {
-                throw new ArgumentException($"Field batch did not exist {this.BatchName} in protocol {protoGen.Protocol.Namespace}");
-            }
-            var index = this.ObjectGen.IterateFields().ToList().IndexOf(this);
-            if (index == -1)
-            {
-                throw new ArgumentException("Could not find self in object's field list.");
-            }
-            foreach (var generic in batch.Generics)
-            {
-                this.ObjectGen.Generics[generic.Key] = generic.Value;
-            }
-            foreach (var field in batch.Fields)
-            {
-                var typeGen = await this.ObjectGen.LoadField(field.Node, requireName: true);
-                if (typeGen.Succeeded)
-                {
-                    this.ObjectGen.Fields.Insert(index++, typeGen.Value);
-                    await typeGen.Value.Resolve();
-                }
-            }
-            if (!this.ObjectGen.Fields.Remove(this))
-            {
-                throw new ArgumentException("Could not remove self from object's field list.");
+                ObjectGen.Fields.Insert(index++, typeGen.Value);
+                await typeGen.Value.Resolve();
             }
         }
-
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+        if (!ObjectGen.Fields.Remove(this))
         {
-            throw new NotImplementedException();
+            throw new ArgumentException("Could not remove self from object's field list.");
         }
+    }
 
-        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    {
+        throw new NotImplementedException();
+    }
 
-        public override string GetDuplicate(Accessor accessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override string GetDuplicate(Accessor accessor)
+    {
+        throw new NotImplementedException();
     }
 }

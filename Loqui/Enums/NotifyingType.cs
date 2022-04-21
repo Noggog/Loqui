@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui;
 
-namespace Loqui
+public enum NotifyingType
 {
-    public enum NotifyingType
-    {
-        None,
-        ReactiveUI
-    }
+    None,
+    ReactiveUI
 }

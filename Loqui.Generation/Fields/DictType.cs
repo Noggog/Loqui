@@ -1,161 +1,158 @@
-using System;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public interface IDictType
 {
-    public interface IDictType
+    TypeGeneration KeyTypeGen { get; }
+    TypeGeneration ValueTypeGen { get; }
+    DictMode Mode { get; }
+    void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key);
+}
+
+public enum DictMode
+{
+    KeyValue,
+    KeyedValue
+}
+
+public class DictType : TypeGeneration, IDictType
+{
+    private TypeGeneration subGenerator;
+    private IDictType subDictGenerator;
+    public DictMode Mode => subDictGenerator.Mode;
+    public override bool CopyNeedsTryCatch => subGenerator.CopyNeedsTryCatch;
+    public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
+    public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
+    public override string ProtectedName => subGenerator.ProtectedName;
+    public override string TypeName(bool getter, bool needsCovariance = false) => subGenerator.TypeName(getter, needsCovariance);
+    public override bool IsEnumerable => true;
+    public override bool IsClass => true;
+    public override bool HasDefault => false;
+
+    public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
+
+    public override string GetName(bool internalUse)
     {
-        TypeGeneration KeyTypeGen { get; }
-        TypeGeneration ValueTypeGen { get; }
-        DictMode Mode { get; }
-        void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key);
+        return subGenerator.GetName(internalUse);
     }
 
-    public enum DictMode
+    public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
     {
-        KeyValue,
-        KeyedValue
+        subDictGenerator.AddMaskException(fg, errorMaskMemberAccessor, exception, key);
     }
 
-    public class DictType : TypeGeneration, IDictType
+    public override async Task Load(XElement node, bool requireName = true)
     {
-        private TypeGeneration subGenerator;
-        private IDictType subDictGenerator;
-        public DictMode Mode => subDictGenerator.Mode;
-        public override bool CopyNeedsTryCatch => subGenerator.CopyNeedsTryCatch;
-        public TypeGeneration KeyTypeGen => subDictGenerator.KeyTypeGen;
-        public TypeGeneration ValueTypeGen => subDictGenerator.ValueTypeGen;
-        public override string ProtectedName => subGenerator.ProtectedName;
-        public override string TypeName(bool getter, bool needsCovariance = false) => subGenerator.TypeName(getter, needsCovariance);
-        public override bool IsEnumerable => true;
-        public override bool IsClass => true;
-        public override bool HasDefault => false;
+        await base.Load(node, requireName);
 
-        public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy) => subGenerator.SkipCheck(copyMaskAccessor, deepCopy);
-
-        public override string GetName(bool internalUse)
+        var keyedValueNode = node.Element(XName.Get("KeyedValue", LoquiGenerator.Namespace));
+        if (keyedValueNode != null)
         {
-            return subGenerator.GetName(internalUse);
+            var dictType = new DictType_KeyedValue();
+            dictType.SetObjectGeneration(ObjectGen, setDefaults: false);
+            subGenerator = dictType;
+            await subGenerator.Load(node, requireName);
+            subDictGenerator = dictType;
         }
-
-        public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
+        else
         {
-            subDictGenerator.AddMaskException(fg, errorMaskMemberAccessor, exception, key);
+            var dictType = new DictType_Typical();
+            dictType.SetObjectGeneration(ObjectGen, setDefaults: false);
+            subGenerator = dictType;
+            await subGenerator.Load(node, requireName);
+            subDictGenerator = dictType;
         }
+    }
 
-        public override async Task Load(XElement node, bool requireName = true)
-        {
-            await base.Load(node, requireName);
+    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    {
+        subGenerator.GenerateUnsetNth(fg, identifier);
+    }
 
-            var keyedValueNode = node.Element(XName.Get("KeyedValue", LoquiGenerator.Namespace));
-            if (keyedValueNode != null)
-            {
-                var dictType = new DictType_KeyedValue();
-                dictType.SetObjectGeneration(this.ObjectGen, setDefaults: false);
-                subGenerator = dictType;
-                await subGenerator.Load(node, requireName);
-                subDictGenerator = dictType;
-            }
-            else
-            {
-                var dictType = new DictType_Typical();
-                dictType.SetObjectGeneration(this.ObjectGen, setDefaults: false);
-                subGenerator = dictType;
-                await subGenerator.Load(node, requireName);
-                subDictGenerator = dictType;
-            }
-        }
+    public override Task GenerateForClass(FileGeneration fg)
+    {
+        return subGenerator.GenerateForClass(fg);
+    }
 
-        public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
-        {
-            subGenerator.GenerateUnsetNth(fg, identifier);
-        }
+    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    {
+        subGenerator.GenerateForInterface(fg, getter, internalInterface);
+    }
 
-        public override Task GenerateForClass(FileGeneration fg)
-        {
-            return subGenerator.GenerateForClass(fg);
-        }
+    public override void GenerateForCopy(
+        FileGeneration fg,
+        Accessor accessor,
+        Accessor rhs, 
+        Accessor copyMaskAccessor,
+        bool protectedMembers,
+        bool deepCopy)
+    {
+        subGenerator.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
+    }
 
-        public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
-        {
-            subGenerator.GenerateForInterface(fg, getter, internalInterface);
-        }
+    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    {
+        subGenerator.GenerateSetNth(fg, accessor, rhs, internalUse);
+    }
 
-        public override void GenerateForCopy(
-            FileGeneration fg,
-            Accessor accessor,
-            Accessor rhs, 
-            Accessor copyMaskAccessor,
-            bool protectedMembers,
-            bool deepCopy)
-        {
-            subGenerator.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
-        }
+    public override string NullableAccessor(bool getter, Accessor accessor = null)
+    {
+        return subGenerator.NullableAccessor(getter, accessor);
+    }
 
-        public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
-        {
-            subGenerator.GenerateSetNth(fg, accessor, rhs, internalUse);
-        }
+    public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
+    {
+        subGenerator.GenerateGetNth(fg, identifier);
+    }
 
-        public override string NullableAccessor(bool getter, Accessor accessor = null)
-        {
-            return subGenerator.NullableAccessor(getter, accessor);
-        }
+    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    {
+        subGenerator.GenerateClear(fg, accessorPrefix);
+    }
 
-        public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
-        {
-            subGenerator.GenerateGetNth(fg, identifier);
-        }
+    public override string GenerateACopy(string rhsAccessor)
+    {
+        return subGenerator.GenerateACopy(rhsAccessor);
+    }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
-        {
-            subGenerator.GenerateClear(fg, accessorPrefix);
-        }
+    public override async Task Resolve()
+    {
+        await subGenerator.Resolve();
+    }
 
-        public override string GenerateACopy(string rhsAccessor)
-        {
-            return subGenerator.GenerateACopy(rhsAccessor);
-        }
+    public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
+    {
+        return subGenerator.GenerateEqualsSnippet(accessor, rhsAccessor, negate);
+    }
 
-        public override async Task Resolve()
-        {
-            await subGenerator.Resolve();
-        }
+    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    {
+        subGenerator.GenerateForEquals(fg, accessor, rhsAccessor, maskAccessor);
+    }
 
-        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate = false)
-        {
-            return subGenerator.GenerateEqualsSnippet(accessor, rhsAccessor, negate);
-        }
+    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    {
+        subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
+    }
 
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
-        {
-            subGenerator.GenerateForEquals(fg, accessor, rhsAccessor, maskAccessor);
-        }
+    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    {
+        subGenerator.GenerateForHash(fg, accessor, hashResultAccessor);
+    }
 
-        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
-        {
-            subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
-        }
+    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    {
+        subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
+    }
 
-        public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
-        {
-            subGenerator.GenerateForHash(fg, accessor, hashResultAccessor);
-        }
+    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    {
+        subGenerator.GenerateForNullableCheck(fg, accessor, checkMaskAccessor);
+    }
 
-        public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
-        {
-            subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
-        }
-
-        public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
-        {
-            subGenerator.GenerateForNullableCheck(fg, accessor, checkMaskAccessor);
-        }
-
-        public override string GetDuplicate(Accessor accessor)
-        {
-            throw new NotImplementedException();
-        }
+    public override string GetDuplicate(Accessor accessor)
+    {
+        throw new NotImplementedException();
     }
 }

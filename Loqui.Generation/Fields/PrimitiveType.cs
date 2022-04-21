@@ -1,46 +1,41 @@
-using System;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public abstract class PrimitiveType : TypicalTypeGeneration
 {
-    public abstract class PrimitiveType : TypicalTypeGeneration
+    public override bool IsEnumerable => false;
+    public override bool IsClass => false;
+
+    public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
     {
-        public override bool IsEnumerable => false;
-        public override bool IsClass => false;
+        return $"{accessor.Access} {(negate ? "!" : "=")}= {rhsAccessor.Access}";
+    }
 
-        public override string GenerateEqualsSnippet(Accessor accessor, Accessor rhsAccessor, bool negate)
+    public override string GetDefault(bool getter)
+    {
+        if (Nullable)
         {
-            return $"{accessor.Access} {(negate ? "!" : "=")}= {rhsAccessor.Access}";
+            return $"default({TypeName(getter: getter)}?)";
         }
+        else
+        {
+            return "default";
+        }
+    }
 
-        public override string GetDefault(bool getter)
+    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    {
+        if (!AlwaysCopy)
         {
-            if (this.Nullable)
-            {
-                return $"default({this.TypeName(getter: getter)}?)";
-            }
-            else
-            {
-                return "default";
-            }
+            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
+        using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+        {
+            fg.AppendLine($"{accessor.Access} = {rhs};");
+        }
+    }
 
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
-        {
-            if (!this.AlwaysCopy)
-            {
-                fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
-            }
-            using (new BraceWrapper(fg, doIt: !AlwaysCopy))
-            {
-                fg.AppendLine($"{accessor.Access} = {rhs};");
-            }
-        }
-
-        public override string GetDuplicate(Accessor accessor)
-        {
-            return $"{accessor}";
-        }
+    public override string GetDuplicate(Accessor accessor)
+    {
+        return $"{accessor}";
     }
 }

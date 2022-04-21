@@ -1,19 +1,13 @@
 using Loqui.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Loqui
+namespace Loqui;
+
+public interface ITranslationMask
 {
-    public interface ITranslationMask
-    {
-        TranslationCrystal? GetCrystal();
-    }
+    TranslationCrystal? GetCrystal();
+}
 
-    public class TranslationMaskStub : ITranslationMask
-    {
-        public TranslationCrystal? GetCrystal() => null;
-    }
+public class TranslationMaskStub : ITranslationMask
+{
+    public TranslationCrystal? GetCrystal() => null;
 }

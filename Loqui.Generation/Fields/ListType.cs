@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Loqui.Generation;
@@ -12,14 +10,14 @@ public class ListType : ContainerType
 
     public virtual string ListTypeName(bool getter, bool internalInterface)
     {
-        string itemTypeName = this.ItemTypeName(getter: getter);
-        if (this.SubTypeGeneration is LoquiType loqui)
+        string itemTypeName = ItemTypeName(getter: getter);
+        if (SubTypeGeneration is LoquiType loqui)
         {
             itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
         }
-        if (this.ReadOnly || getter)
+        if (ReadOnly || getter)
         {
-            if (this.Notifying)
+            if (Notifying)
             {
                 return $"IObservableList<{itemTypeName}{SubTypeGeneration.NullChar}>";
             }
@@ -30,11 +28,11 @@ public class ListType : ContainerType
         }
         else
         {
-            if (this.Notifying)
+            if (Notifying)
             {
                 return $"SourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
             }
-            else if (this.SubTypeGeneration is ByteArrayType)
+            else if (SubTypeGeneration is ByteArrayType)
             {
                 return $"SliceList<byte>";
             }
@@ -48,24 +46,24 @@ public class ListType : ContainerType
     public override async Task GenerateForClass(FileGeneration fg)
     {
         fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-        fg.AppendLine($"private {this.TypeName(getter: false)}{this.NullChar} _{this.Name}{(this.Nullable ? null : $" = {GetActualItemClass(ctor: true)}")};");
+        fg.AppendLine($"private {TypeName(getter: false)}{NullChar} _{Name}{(Nullable ? null : $" = {GetActualItemClass(ctor: true)}")};");
         Comments?.Apply(fg, LoquiInterfaceType.Direct);
-        fg.AppendLine($"public {this.TypeName(getter: false)}{this.NullChar} {this.Name}");
+        fg.AppendLine($"public {TypeName(getter: false)}{NullChar} {Name}");
         using (new BraceWrapper(fg))
         {
-            fg.AppendLine($"get => this._{this.Name};");
-            fg.AppendLine($"{((ReadOnly || !this.Nullable) ? "init" : "set")} => this._{this.Name} = value;");
+            fg.AppendLine($"get => this._{Name};");
+            fg.AppendLine($"{((ReadOnly || !Nullable) ? "init" : "set")} => this._{Name} = value;");
         }
-        GenerateInterfaceMembers(fg, $"_{this.Name}");
+        GenerateInterfaceMembers(fg, $"_{Name}");
     }
 
     protected virtual string GetActualItemClass(bool ctor = false)
     {
-        if (this.NotifyingType == NotifyingType.ReactiveUI)
+        if (NotifyingType == NotifyingType.ReactiveUI)
         {
             return $"new SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
         }
-        else if (this.SubTypeGeneration is ByteArrayType)
+        else if (SubTypeGeneration is ByteArrayType)
         {
             return $"new SliceList<byte>{(ctor ? "()" : null)}";
         }
@@ -80,7 +78,7 @@ public class ListType : ContainerType
         using (new RegionWrapper(fg, "Interface Members"))
         {
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{this.NullChar} {this.ObjectGen.Interface(getter: true, internalInterface: this.InternalGetInterface)}.{this.Name} => {member};");
+            fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {member};");
         }
     }
 
@@ -90,12 +88,12 @@ public class ListType : ContainerType
         if (getter)
         {
             Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-            fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{this.NullChar} {this.Name} {{ get; }}");
+            fg.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{NullChar} {Name} {{ get; }}");
         }
-        else if (!this.ReadOnly)
+        else if (!ReadOnly)
         {
             Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-            fg.AppendLine($"new {ListTypeName(getter: false, internalInterface: true)}{this.NullChar} {this.Name} {{ get; {(this.Nullable ? "set; " : null)}}}");
+            fg.AppendLine($"new {ListTypeName(getter: false, internalInterface: true)}{NullChar} {Name} {{ get; {(Nullable ? "set; " : null)}}}");
         }
     }
 
@@ -103,7 +101,7 @@ public class ListType : ContainerType
     {
         if (accessor == null)
         {
-            return $"({this.Name} != null)";
+            return $"({Name} != null)";
         }
         else
         {
@@ -118,28 +116,28 @@ public class ListType : ContainerType
 
     public override string SkipCheck(Accessor copyMaskAccessor, bool deepCopy)
     {
-        var loqui = this.SubTypeGeneration as LoquiType;
+        var loqui = SubTypeGeneration as LoquiType;
         if (!deepCopy
             && loqui != null
             && loqui.SupportsMask(MaskType.Copy))
         {
-            return $"{copyMaskAccessor}?.{this.Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+            return $"{copyMaskAccessor}?.{Name}.Overall != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
         }
         else if (deepCopy
                  && loqui != null
                  && loqui.SupportsMask(MaskType.Translation))
         {
-            return $"{copyMaskAccessor}?.{this.Name}.Overall ?? true";
+            return $"{copyMaskAccessor}?.{Name}.Overall ?? true";
         }
         else
         {
             if (deepCopy)
             {
-                return $"{copyMaskAccessor}?.{this.Name} ?? true";
+                return $"{copyMaskAccessor}?.{Name} ?? true";
             }
             else
             {
-                return $"{copyMaskAccessor}?.{this.Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
+                return $"{copyMaskAccessor}?.{Name} != {nameof(CopyOption)}.{nameof(CopyOption.Skip)}";
             }
         }
     }
@@ -154,11 +152,11 @@ public class ListType : ContainerType
     {
         void GenerateSet()
         {
-            if (this.isLoquiSingle)
+            if (isLoquiSingle)
             {
                 if (deepCopy)
                 {
-                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                    LoquiType loqui = SubTypeGeneration as LoquiType;
                     WrapSet(fg, accessor, (f) =>
                     {
                         f.AppendLine(rhs.ToString());
@@ -177,9 +175,9 @@ public class ListType : ContainerType
                 }
                 else
                 {
-                    LoquiType loqui = this.SubTypeGeneration as LoquiType;
+                    LoquiType loqui = SubTypeGeneration as LoquiType;
                     using (var args = new ArgsWrapper(fg,
-                               $"{accessor}.SetTo<{this.SubTypeGeneration.TypeName(getter: false)}, {this.SubTypeGeneration.TypeName(getter: false)}>"))
+                               $"{accessor}.SetTo<{SubTypeGeneration.TypeName(getter: false)}, {SubTypeGeneration.TypeName(getter: false)}>"))
                     {
                         args.Add($"items: {rhs}");
                         args.Add((gen) =>
@@ -188,7 +186,7 @@ public class ListType : ContainerType
                             using (new BraceWrapper(gen))
                             {
                                 var supportsCopy = loqui.SupportsMask(MaskType.Copy);
-                                var accessorStr = $"copyMask?.{this.Name}{(supportsCopy ? ".Overall" : string.Empty)}";
+                                var accessorStr = $"copyMask?.{Name}{(supportsCopy ? ".Overall" : string.Empty)}";
                                 gen.AppendLine($"switch ({accessorStr} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
                                 using (new BraceWrapper(gen))
                                 {
@@ -223,15 +221,15 @@ public class ListType : ContainerType
             {
                 WrapSet(fg, accessor, (f) =>
                 {
-                    f.AppendLine($"rhs.{this.Name}");
-                    this.SubTypeGeneration.GenerateCopySetToConverter(f);
+                    f.AppendLine($"rhs.{Name}");
+                    SubTypeGeneration.GenerateCopySetToConverter(f);
                 });
             }
         }
 
-        if (!this.AlwaysCopy)
+        if (!AlwaysCopy)
         {
-            fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
+            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
         using (new BraceWrapper(fg, doIt: !AlwaysCopy))
         {
@@ -239,9 +237,9 @@ public class ListType : ContainerType
                 fg,
                 () =>
                 {
-                    if (this.Nullable)
+                    if (Nullable)
                     {
-                        fg.AppendLine($"if ({this.NullableAccessor(getter: false, rhs)})");
+                        fg.AppendLine($"if ({NullableAccessor(getter: false, rhs)})");
                         using (new BraceWrapper(fg))
                         {
                             GenerateSet();
@@ -258,8 +256,8 @@ public class ListType : ContainerType
                     }
                 },
                 errorMaskAccessor: "errorMask",
-                indexAccessor: this.HasIndex ? this.IndexEnumInt : default(Accessor),
-                doIt: this.CopyNeedsTryCatch);
+                indexAccessor: HasIndex ? IndexEnumInt : default(Accessor),
+                doIt: CopyNeedsTryCatch);
         }
     }
 
@@ -271,13 +269,13 @@ public class ListType : ContainerType
 
     public virtual void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
     {
-        if (this.Nullable)
+        if (Nullable)
         {
             fg.AppendLine($"{accessor} = ");
             using (new DepthWrapper(fg))
             {
                 a(fg);
-                fg.AppendLine($".ToExtendedList<{this.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>();");
+                fg.AppendLine($".ToExtendedList<{SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>();");
             }
         }
         else
@@ -292,7 +290,7 @@ public class ListType : ContainerType
 
     public override void GenerateClear(FileGeneration fg, Accessor accessor)
     {
-        if (this.Nullable)
+        if (Nullable)
         {
             fg.AppendLine($"{accessor} = null;");
         }
@@ -316,7 +314,7 @@ public class ListType : ContainerType
                 fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
                 using (new BraceWrapper(fg))
                 {
-                    this.SubTypeGeneration.GenerateToString(fg, "Item", new Accessor("subItem"), fgAccessor);
+                    SubTypeGeneration.GenerateToString(fg, "Item", new Accessor("subItem"), fgAccessor);
                 }
                 fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
             }
@@ -326,7 +324,7 @@ public class ListType : ContainerType
 
     public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
     {
-        if (this.Nullable)
+        if (Nullable)
         {
             fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}!.Overall.Value != {NullableAccessor(getter: true, accessor: accessor)}) return false;");
         }
@@ -342,8 +340,8 @@ public class ListType : ContainerType
         if (node.Name.LocalName == "RefList")
         {
             LoadTypeGenerationFromNode(node, requireName);
-            SubTypeGeneration = this.ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
-            SubTypeGeneration.SetObjectGeneration(this.ObjectGen, setDefaults: false);
+            SubTypeGeneration = ObjectGen.ProtoGen.Gen.GetTypeGeneration<LoquiType>();
+            SubTypeGeneration.SetObjectGeneration(ObjectGen, setDefaults: false);
             await SubTypeGeneration.Load(node, false);
             NullableProperty.OnNext(SubTypeGeneration.NullableProperty.Value);
             SubTypeGeneration.NullableProperty.OnNext((false, false));

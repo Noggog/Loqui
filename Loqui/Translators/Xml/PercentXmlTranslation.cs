@@ -1,22 +1,20 @@
 using Loqui.Internal;
 using Noggog;
-using System;
 
-namespace Loqui.Xml
+namespace Loqui.Xml;
+
+public class PercentXmlTranslation : PrimitiveXmlTranslation<Percent>
 {
-    public class PercentXmlTranslation : PrimitiveXmlTranslation<Percent>
-    {
-        public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
+    public readonly static PercentXmlTranslation Instance = new PercentXmlTranslation();
 
-        protected override bool Parse(string str, out Percent value, ErrorMaskBuilder? errorMask)
+    protected override bool Parse(string str, out Percent value, ErrorMaskBuilder? errorMask)
+    {
+        if (Percent.TryParse(str, out value))
         {
-            if (Percent.TryParse(str, out value))
-            {
-                return true;
-            }
-            errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {ElementName}"));
-            return false;
+            return true;
         }
+        errorMask.ReportExceptionOrThrow(
+            new ArgumentException($"Could not convert to {ElementName}"));
+        return false;
     }
 }

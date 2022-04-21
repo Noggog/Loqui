@@ -1,287 +1,282 @@
 using Noggog;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml.Linq;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Text;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class ProtocolGeneration
 {
-    public class ProtocolGeneration
+    public ProtocolKey Protocol;
+    public readonly Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new();
+    public readonly Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new(StringComparer.OrdinalIgnoreCase);
+    public readonly Dictionary<string, FieldBatch> FieldBatchesByName = new(StringComparer.OrdinalIgnoreCase);
+    public bool Empty => ObjectGenerationsByID.Count == 0;
+    public LoquiGenerator Gen { get; private set; }
+    public DirectoryInfo GenerationFolder { get; private set; }
+    public DirectoryInfo DefFileLocation => GenerationFolder;
+    public LoquiInterfaceType SetterInterfaceTypeDefault;
+    public LoquiInterfaceType GetterInterfaceTypeDefault;
+    public PermissionLevel SetPermissionDefault;
+    public RxBaseOption RxBaseOptionDefault;
+    public bool DerivativeDefault;
+    public bool ToStringDefault;
+    public bool NthReflectionDefault;
+    public string DefaultNamespace;
+    public NotifyingType NotifyingDefault;
+    public bool NullableDefault;
+    public bool DoGeneration = true;
+    public readonly List<string> Interfaces = new();
+    public string ProtocolDefinitionName => $"ProtocolDefinition_{Protocol.Namespace}";
+    private readonly HashSet<DirectoryPath> sourceFolders = new();
+    private readonly List<FilePath> projectsToModify = new();
+    public readonly Dictionary<FilePath, ProjItemType> GeneratedFiles = new();
+
+    public ProtocolGeneration(
+        LoquiGenerator gen,
+        ProtocolKey protocol,
+        DirectoryInfo defSearchableFolder)
     {
-        public ProtocolKey Protocol;
-        public readonly Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new();
-        public readonly Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new(StringComparer.OrdinalIgnoreCase);
-        public readonly Dictionary<string, FieldBatch> FieldBatchesByName = new(StringComparer.OrdinalIgnoreCase);
-        public bool Empty => ObjectGenerationsByID.Count == 0;
-        public LoquiGenerator Gen { get; private set; }
-        public DirectoryInfo GenerationFolder { get; private set; }
-        public DirectoryInfo DefFileLocation => this.GenerationFolder;
-        public LoquiInterfaceType SetterInterfaceTypeDefault;
-        public LoquiInterfaceType GetterInterfaceTypeDefault;
-        public PermissionLevel SetPermissionDefault;
-        public RxBaseOption RxBaseOptionDefault;
-        public bool DerivativeDefault;
-        public bool ToStringDefault;
-        public bool NthReflectionDefault;
-        public string DefaultNamespace;
-        public NotifyingType NotifyingDefault;
-        public bool NullableDefault;
-        public bool DoGeneration = true;
-        public readonly List<string> Interfaces = new();
-        public string ProtocolDefinitionName => $"ProtocolDefinition_{this.Protocol.Namespace}";
-        private readonly HashSet<DirectoryPath> sourceFolders = new();
-        private readonly List<FilePath> projectsToModify = new();
-        public readonly Dictionary<FilePath, ProjItemType> GeneratedFiles = new();
+        Protocol = protocol;
+        Gen = gen;
+        NotifyingDefault = gen.NotifyingDefault;
+        NullableDefault = gen.NullableDefault;
+        GenerationFolder = defSearchableFolder;
+        SetterInterfaceTypeDefault = gen.SetterInterfaceTypeDefault;
+        GetterInterfaceTypeDefault = gen.GetterInterfaceTypeDefault;
+        SetPermissionDefault = gen.SetPermissionDefault;
+        RxBaseOptionDefault = gen.RxBaseOptionDefault;
+        NthReflectionDefault = gen.NthReflectionDefault;
+        ToStringDefault = gen.ToStringDefault;
+        DerivativeDefault = gen.DerivativeDefault;
+        AddSearchableFolder(defSearchableFolder);
+    }
 
-        public ProtocolGeneration(
-            LoquiGenerator gen,
-            ProtocolKey protocol,
-            DirectoryInfo defSearchableFolder)
+    private async Task LoadInitialObjects(IEnumerable<(XDocument Doc, FilePath Path)> xmlDocs)
+    {
+        List<ObjectGeneration> unassignedObjects = new List<ObjectGeneration>();
+
+        // Parse IDs
+        foreach (var xmlDocTuple in xmlDocs)
         {
-            this.Protocol = protocol;
-            this.Gen = gen;
-            this.NotifyingDefault = gen.NotifyingDefault;
-            this.NullableDefault = gen.NullableDefault;
-            this.GenerationFolder = defSearchableFolder;
-            this.SetterInterfaceTypeDefault = gen.SetterInterfaceTypeDefault;
-            this.GetterInterfaceTypeDefault = gen.GetterInterfaceTypeDefault;
-            this.SetPermissionDefault = gen.SetPermissionDefault;
-            this.RxBaseOptionDefault = gen.RxBaseOptionDefault;
-            this.NthReflectionDefault = gen.NthReflectionDefault;
-            this.ToStringDefault = gen.ToStringDefault;
-            this.DerivativeDefault = gen.DerivativeDefault;
-            this.AddSearchableFolder(defSearchableFolder);
-        }
+            var xmlDoc = xmlDocTuple.Item1;
+            XElement objNode = xmlDoc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
 
-        private async Task LoadInitialObjects(IEnumerable<(XDocument Doc, FilePath Path)> xmlDocs)
-        {
-            List<ObjectGeneration> unassignedObjects = new List<ObjectGeneration>();
-
-            // Parse IDs
-            foreach (var xmlDocTuple in xmlDocs)
+            string namespaceStr = DefaultNamespace ?? Gen.DefaultNamespace;
+            XElement namespaceNode = objNode.Element(XName.Get("Namespace", LoquiGenerator.Namespace));
+            if (namespaceNode != null)
             {
-                var xmlDoc = xmlDocTuple.Item1;
-                XElement objNode = xmlDoc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
+                namespaceStr = namespaceNode.Value;
+            }
 
-                string namespaceStr = this.DefaultNamespace ?? this.Gen.DefaultNamespace;
-                XElement namespaceNode = objNode.Element(XName.Get("Namespace", LoquiGenerator.Namespace));
-                if (namespaceNode != null)
+            foreach (var batch in objNode.Elements(XName.Get("FieldBatch", LoquiGenerator.Namespace)))
+            {
+                var fieldBatch = new FieldBatch(Gen);
+                fieldBatch.Load(batch);
+                FieldBatchesByName[fieldBatch.Name] = fieldBatch;
+            }
+
+            foreach (var obj in objNode.Elements(XName.Get("Object", LoquiGenerator.Namespace))
+                         .And(objNode.Elements(XName.Get("Struct", LoquiGenerator.Namespace))))
+            {
+                if (obj.GetAttribute<DisabledLevel>("disable", DisabledLevel.Enabled) == DisabledLevel.OmitEntirely) continue;
+                var objGen = GetGeneration(Gen, this, xmlDocTuple.Path, classGen: obj.Name.LocalName.Equals("Object"));
+                objGen.Node = obj;
+                if (!string.IsNullOrWhiteSpace(namespaceStr))
                 {
-                    namespaceStr = namespaceNode.Value;
+                    objGen.Namespace = namespaceStr;
                 }
 
-                foreach (var batch in objNode.Elements(XName.Get("FieldBatch", LoquiGenerator.Namespace)))
+                var guid = obj.GetAttribute("GUID");
+                if (string.IsNullOrWhiteSpace(guid))
                 {
-                    var fieldBatch = new FieldBatch(this.Gen);
-                    fieldBatch.Load(batch);
-                    this.FieldBatchesByName[fieldBatch.Name] = fieldBatch;
+                    objGen.GUID = Guid.NewGuid();
+                }
+                else
+                {
+                    objGen.GUID = new Guid(guid);
                 }
 
-                foreach (var obj in objNode.Elements(XName.Get("Object", LoquiGenerator.Namespace))
-                    .And(objNode.Elements(XName.Get("Struct", LoquiGenerator.Namespace))))
+                if (obj.TryGetAttribute<ushort>("ID", out ushort id))
                 {
-                    if (obj.GetAttribute<DisabledLevel>("disable", DisabledLevel.Enabled) == DisabledLevel.OmitEntirely) continue;
-                    var objGen = GetGeneration(Gen, this, xmlDocTuple.Path, classGen: obj.Name.LocalName.Equals("Object"));
-                    objGen.Node = obj;
-                    if (!string.IsNullOrWhiteSpace(namespaceStr))
-                    {
-                        objGen.Namespace = namespaceStr;
-                    }
-
-                    var guid = obj.GetAttribute("GUID");
-                    if (string.IsNullOrWhiteSpace(guid))
-                    {
-                        objGen.GUID = Guid.NewGuid();
-                    }
-                    else
-                    {
-                        objGen.GUID = new Guid(guid);
-                    }
-
-                    if (obj.TryGetAttribute<ushort>("ID", out ushort id))
-                    {
-                        objGen.ID = id;
-                    }
-
-                    if (this.ObjectGenerationsByID.ContainsKey(objGen.GUID))
-                    {
-                        throw new ArgumentException($"Two objects in the same protocol cannot have the same ID: {objGen.GUID}");
-                    }
-                    this.ObjectGenerationsByID.Add(objGen.GUID, objGen);
-
-                    var nameNode = obj.Attribute("name");
-                    if (nameNode == null)
-                    {
-                        throw new ArgumentException("Object must have a name");
-                    }
-
-                    string name = nameNode.Value;
-                    if (this.ObjectGenerationsByName.ContainsKey(name))
-                    {
-                        throw new ArgumentException($"Two objects in the same protocol cannot have the same name: {name}");
-                    }
-                    objGen.Name = name;
-
-                    foreach (var interf in Gen.GenerationInterfaces)
-                    {
-                        if (obj.GetAttribute(interf.KeyString, false))
-                        {
-                            objGen.GenerationInterfaces.Add(interf);
-                        }
-                    }
-
-                    this.ObjectGenerationsByName.Add(name, objGen);
-                    this.Gen.ObjectGenerationsByDir.GetOrAdd(objGen.TargetDir.Path).Add(objGen);
-                    this.Gen.ObjectGenerationsByObjectNameKey[new ObjectNamedKey(this.Protocol, objGen.Name)] = objGen;
+                    objGen.ID = id;
                 }
+
+                if (ObjectGenerationsByID.ContainsKey(objGen.GUID))
+                {
+                    throw new ArgumentException($"Two objects in the same protocol cannot have the same ID: {objGen.GUID}");
+                }
+                ObjectGenerationsByID.Add(objGen.GUID, objGen);
+
+                var nameNode = obj.Attribute("name");
+                if (nameNode == null)
+                {
+                    throw new ArgumentException("Object must have a name");
+                }
+
+                string name = nameNode.Value;
+                if (ObjectGenerationsByName.ContainsKey(name))
+                {
+                    throw new ArgumentException($"Two objects in the same protocol cannot have the same name: {name}");
+                }
+                objGen.Name = name;
+
+                foreach (var interf in Gen.GenerationInterfaces)
+                {
+                    if (obj.GetAttribute(interf.KeyString, false))
+                    {
+                        objGen.GenerationInterfaces.Add(interf);
+                    }
+                }
+
+                ObjectGenerationsByName.Add(name, objGen);
+                Gen.ObjectGenerationsByDir.GetOrAdd(objGen.TargetDir.Path).Add(objGen);
+                Gen.ObjectGenerationsByObjectNameKey[new ObjectNamedKey(Protocol, objGen.Name)] = objGen;
             }
         }
+    }
 
-        public async Task Generate()
-        {
-            await Task.WhenAll(this.Gen.GenerationModules.Select(
-                (mod) => mod.PrepareGeneration(this)));
+    public async Task Generate()
+    {
+        await Task.WhenAll(Gen.GenerationModules.Select(
+            (mod) => mod.PrepareGeneration(this)));
 
-            await Task.WhenAll(
-                this.ObjectGenerationsByID.Values
-                    .SelectMany((obj) => this.Gen.GenerationModules
-                        .Select((m) => m.PreLoad(obj))));
+        await Task.WhenAll(
+            ObjectGenerationsByID.Values
+                .SelectMany((obj) => Gen.GenerationModules
+                    .Select((m) => m.PreLoad(obj))));
 
-            await Task.WhenAll(
-                ObjectGenerationsByID.Values
-                    .Select(async (obj) =>
-                    {
-                        try
-                        {
-                            await TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load);
-                        }
-                        catch (Exception ex)
-                        {
-                            MarkFailure(ex);
-                            throw;
-                        }
-                    }));
-
-            await Task.WhenAll(
-                this.ObjectGenerationsByID.Values
-                    .Select((obj) => obj.Resolve()));
-
-            await Task.WhenAll(
-                ObjectGenerationsByID.Values
-                    .Select(async (obj) =>
-                    {
-                        try
-                        {
-                            await Task.WhenAll(
-                                this.Gen.GenerationModules.Select((m) => m.PostLoad(obj)));
-                        }
-                        catch (Exception ex)
-                        {
-                            MarkFailure(ex);
-                            throw;
-                        }
-                    }));
-
-            if (!DoGeneration) return;
-
-            await Task.WhenAll(this.ObjectGenerationsByID.Values
+        await Task.WhenAll(
+            ObjectGenerationsByID.Values
                 .Select(async (obj) =>
                 {
-                    await obj.Generate();
-                    obj.RegenerateAndStampSourceXML();
+                    try
+                    {
+                        await TaskExt.DoThenComplete(obj.LoadingCompleteTask, obj.Load);
+                    }
+                    catch (Exception ex)
+                    {
+                        MarkFailure(ex);
+                        throw;
+                    }
                 }));
 
-            GenerateDefFile();
+        await Task.WhenAll(
+            ObjectGenerationsByID.Values
+                .Select((obj) => obj.Resolve()));
 
-            await Task.WhenAll(this.Gen.GenerationModules.Select(
-                (mod) => mod.FinalizeGeneration(this)));
+        await Task.WhenAll(
+            ObjectGenerationsByID.Values
+                .Select(async (obj) =>
+                {
+                    try
+                    {
+                        await Task.WhenAll(
+                            Gen.GenerationModules.Select((m) => m.PostLoad(obj)));
+                    }
+                    catch (Exception ex)
+                    {
+                        MarkFailure(ex);
+                        throw;
+                    }
+                }));
 
-            foreach (var file in this.projectsToModify)
+        if (!DoGeneration) return;
+
+        await Task.WhenAll(ObjectGenerationsByID.Values
+            .Select(async (obj) =>
             {
-                ModifyProject(file);
-            }
+                await obj.Generate();
+                obj.RegenerateAndStampSourceXML();
+            }));
+
+        GenerateDefFile();
+
+        await Task.WhenAll(Gen.GenerationModules.Select(
+            (mod) => mod.FinalizeGeneration(this)));
+
+        foreach (var file in projectsToModify)
+        {
+            ModifyProject(file);
+        }
+    }
+
+    private void MarkFailure(Exception ex)
+    {
+        foreach (var obj in ObjectGenerationsByID.Values)
+        {
+            obj.MarkFailure(ex);
+        }
+    }
+
+    private void GenerateDefFile()
+    {
+        var namespaces = new HashSet<string>();
+        foreach (var obj in ObjectGenerationsByID.Values)
+        {
+            namespaces.Add(obj.Namespace);
         }
 
-        private void MarkFailure(Exception ex)
+        FileGeneration fg = new FileGeneration();
+        foreach (var nameS in namespaces)
         {
-            foreach (var obj in this.ObjectGenerationsByID.Values)
-            {
-                obj.MarkFailure(ex);
-            }
+            fg.AppendLine($"using {nameS};");
         }
+        fg.AppendLine();
 
-        private void GenerateDefFile()
+        fg.AppendLine("namespace Loqui;");
+        fg.AppendLine();
+
+        fg.AppendLine($"internal class {ProtocolDefinitionName} : IProtocolRegistration");
+        using (new BraceWrapper(fg))
         {
-            var namespaces = new HashSet<string>();
-            foreach (var obj in this.ObjectGenerationsByID.Values)
-            {
-                namespaces.Add(obj.Namespace);
-            }
-
-            FileGeneration fg = new FileGeneration();
-            foreach (var nameS in namespaces)
-            {
-                fg.AppendLine($"using {nameS};");
-            }
-            fg.AppendLine();
-
-            fg.AppendLine("namespace Loqui;");
-            fg.AppendLine();
-
-            fg.AppendLine($"internal class {this.ProtocolDefinitionName} : IProtocolRegistration");
+            fg.AppendLine($"public static readonly ProtocolKey ProtocolKey = new(\"{Protocol.Namespace}\");");
+            fg.AppendLine("void IProtocolRegistration.Register() => Register();");
+            fg.AppendLine("public static void Register()");
             using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"public static readonly ProtocolKey ProtocolKey = new(\"{this.Protocol.Namespace}\");");
-                fg.AppendLine("void IProtocolRegistration.Register() => Register();");
-                fg.AppendLine("public static void Register()");
-                using (new BraceWrapper(fg))
+                fg.AppendLine("LoquiRegistration.Register(");
+                using (new DepthWrapper(fg))
                 {
-                    fg.AppendLine("LoquiRegistration.Register(");
-                    using (new DepthWrapper(fg))
+                    using (var comma = new CommaWrapper(fg))
                     {
-                        using (var comma = new CommaWrapper(fg))
+                        foreach (var obj in ObjectGenerationsByID.Values
+                                     .OrderBy((o) => o.ID))
                         {
-                            foreach (var obj in this.ObjectGenerationsByID.Values
-                                .OrderBy((o) => o.ID))
-                            {
-                                comma.Add($"{obj.RegistrationName}.Instance");
-                            }
+                            comma.Add($"{obj.RegistrationName}.Instance");
                         }
                     }
-                    fg.AppendLine(");");
                 }
-            }
-
-            fg.Generate(
-                new FileInfo(
-                    DefFileLocation.FullName
-                    + $"/{this.ProtocolDefinitionName}.cs"));
-        }
-
-        public void AddSearchableFolder(DirectoryInfo dir)
-        {
-            if (dir == null || !dir.Exists) return;
-            AddSpecificFolders(dir);
-            foreach (var d in dir.GetDirectories())
-            {
-                AddSearchableFolder(d);
+                fg.AppendLine(");");
             }
         }
 
-        public void AddSpecificFolders(params DirectoryPath[] dirs)
-        {
-            this.sourceFolders.Add(dirs);
-        }
+        fg.Generate(
+            new FileInfo(
+                DefFileLocation.FullName
+                + $"/{ProtocolDefinitionName}.cs"));
+    }
 
-        public async Task LoadInitialObjects()
+    public void AddSearchableFolder(DirectoryInfo dir)
+    {
+        if (dir == null || !dir.Exists) return;
+        AddSpecificFolders(dir);
+        foreach (var d in dir.GetDirectories())
         {
-            await this.LoadInitialObjects(this.sourceFolders.SelectMany((dir) => dir.EnumerateFiles())
-                .Where((f) => ".XML".Equals(f.Extension, StringComparison.CurrentCultureIgnoreCase))
-                .Select(
+            AddSearchableFolder(d);
+        }
+    }
+
+    public void AddSpecificFolders(params DirectoryPath[] dirs)
+    {
+        sourceFolders.Add(dirs);
+    }
+
+    public async Task LoadInitialObjects()
+    {
+        await LoadInitialObjects(sourceFolders.SelectMany((dir) => dir.EnumerateFiles())
+            .Where((f) => ".XML".Equals(f.Extension, StringComparison.CurrentCultureIgnoreCase))
+            .Select(
                 (f) =>
                 {
                     XDocument doc;
@@ -291,199 +286,198 @@ namespace Loqui.Generation
                     }
                     return (Doc: doc, File: f);
                 })
-                .Where((t) =>
+            .Where((t) =>
+            {
+                var loquiNode = t.Doc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
+                if (loquiNode == null) return false;
+                var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
+                string protoNamespace;
+                if (protoNode == null
+                    && !string.IsNullOrWhiteSpace(Gen.ProtocolDefault.Namespace))
                 {
-                    var loquiNode = t.Doc.Element(XName.Get("Loqui", LoquiGenerator.Namespace));
-                    if (loquiNode == null) return false;
-                    var protoNode = loquiNode.Element(XName.Get("Protocol", LoquiGenerator.Namespace));
-                    string protoNamespace;
-                    if (protoNode == null
-                        && !string.IsNullOrWhiteSpace(this.Gen.ProtocolDefault.Namespace))
-                    {
-                        protoNamespace = this.Gen.ProtocolDefault.Namespace;
-                    }
-                    else
-                    {
-                        protoNamespace = protoNode.GetAttribute("Namespace");
-                    }
-
-                    return protoNamespace == null || this.Protocol.Namespace.Equals(protoNamespace);
-                }));
-        }
-
-        public void AddProjectToModify(FileInfo projFile)
-        {
-            this.projectsToModify.Add(projFile);
-        }
-
-        private void ModifyProject(FilePath projFile)
-        {
-            XDocument doc;
-            using (var stream = new FileStream(projFile.Path, FileMode.Open))
-            {
-                doc = XDocument.Load(stream);
-            }
-            bool modified = false;
-            var nameSpace = doc.Root.Name.Namespace.NamespaceName;
-            var projNode = doc.Element(XName.Get("Project", nameSpace));
-            List<XElement> includeNodes = projNode.Elements(XName.Get("ItemGroup", nameSpace)).ToList();
-            List<XElement> compileGroupNodes = includeNodes
-                .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("Compile")))
-                .ToList();
-            List<XElement> noneGroupNodes = includeNodes
-                .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("None")))
-                .ToList();
-            var compileNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", nameSpace)))
-                .ToList();
-            var noneNodes = compileGroupNodes
-                .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("None", nameSpace)))
-                .ToList();
-
-            XElement compileIncludeNode;
-            if (compileGroupNodes.Count == 0)
-            {
-                compileIncludeNode = new XElement("ItemGroup", nameSpace);
-                projNode.Add(compileIncludeNode);
-                compileGroupNodes.Add(compileIncludeNode);
-            }
-            else
-            {
-                compileIncludeNode = compileGroupNodes.First();
-            }
-
-            Lazy<XElement> noneIncludeNode = new Lazy<XElement>(() =>
-            {
-                if (noneGroupNodes.Count == 0)
-                {
-                    var ret = new XElement("ItemGroup", nameSpace);
-                    projNode.Add(ret);
-                    noneGroupNodes.Add(ret);
-                    return ret;
+                    protoNamespace = Gen.ProtocolDefault.Namespace;
                 }
                 else
                 {
-                    return noneGroupNodes.First();
+                    protoNamespace = protoNode.GetAttribute("Namespace");
                 }
-            });
 
-            Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
-            generatedItems.Set(this.ObjectGenerationsByID.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
-            generatedItems.Set(GeneratedFiles);
-            HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(this.ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.Path)));
+                return protoNamespace == null || Protocol.Namespace.Equals(protoNamespace);
+            }));
+    }
 
-            // Find which objects are present
-            foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))
+    public void AddProjectToModify(FileInfo projFile)
+    {
+        projectsToModify.Add(projFile);
+    }
+
+    private void ModifyProject(FilePath projFile)
+    {
+        XDocument doc;
+        using (var stream = new FileStream(projFile.Path, FileMode.Open))
+        {
+            doc = XDocument.Load(stream);
+        }
+        bool modified = false;
+        var nameSpace = doc.Root.Name.Namespace.NamespaceName;
+        var projNode = doc.Element(XName.Get("Project", nameSpace));
+        List<XElement> includeNodes = projNode.Elements(XName.Get("ItemGroup", nameSpace)).ToList();
+        List<XElement> compileGroupNodes = includeNodes
+            .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("Compile")))
+            .ToList();
+        List<XElement> noneGroupNodes = includeNodes
+            .Where((group) => group.Elements().Any((e) => e.Name.LocalName.Equals("None")))
+            .ToList();
+        var compileNodes = compileGroupNodes
+            .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("Compile", nameSpace)))
+            .ToList();
+        var noneNodes = compileGroupNodes
+            .SelectMany((itemGroup) => itemGroup.Elements(XName.Get("None", nameSpace)))
+            .ToList();
+
+        XElement compileIncludeNode;
+        if (compileGroupNodes.Count == 0)
+        {
+            compileIncludeNode = new XElement("ItemGroup", nameSpace);
+            projNode.Add(compileIncludeNode);
+            compileGroupNodes.Add(compileIncludeNode);
+        }
+        else
+        {
+            compileIncludeNode = compileGroupNodes.First();
+        }
+
+        Lazy<XElement> noneIncludeNode = new Lazy<XElement>(() =>
+        {
+            if (noneGroupNodes.Count == 0)
             {
-                XAttribute includeAttr = subNode.Attribute("Include");
-                if (includeAttr == null) continue;
-                generatedItems.Remove(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
+                var ret = new XElement("ItemGroup", nameSpace);
+                projNode.Add(ret);
+                noneGroupNodes.Add(ret);
+                return ret;
             }
-
-            // Add missing object nodes
-            foreach (var objGens in generatedItems)
+            else
             {
-                if (objGens.Key.Directory.Value.IsUnderneath(projFile.Directory.Value)
-                    || objGens.Key.Directory.Equals(projFile.Directory))
+                return noneGroupNodes.First();
+            }
+        });
+
+        Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
+        generatedItems.Set(ObjectGenerationsByID.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
+        generatedItems.Set(GeneratedFiles);
+        HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.Path)));
+
+        // Find which objects are present
+        foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))
+        {
+            XAttribute includeAttr = subNode.Attribute("Include");
+            if (includeAttr == null) continue;
+            generatedItems.Remove(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
+        }
+
+        // Add missing object nodes
+        foreach (var objGens in generatedItems)
+        {
+            if (objGens.Key.Directory.Value.IsUnderneath(projFile.Directory.Value)
+                || objGens.Key.Directory.Equals(projFile.Directory))
+            {
+                string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path);
+                filePath = filePath.TrimStart('\\');
+                List<XElement> nodes;
+                XElement includeNode;
+                string nodeName;
+                switch (objGens.Value)
                 {
-                    string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path);
-                    filePath = filePath.TrimStart('\\');
-                    List<XElement> nodes;
-                    XElement includeNode;
-                    string nodeName;
-                    switch (objGens.Value)
-                    {
-                        case ProjItemType.None:
-                            nodes = noneNodes;
-                            includeNode = noneIncludeNode.Value;
-                            nodeName = "None";
-                            break;
-                        case ProjItemType.Compile:
-                            nodes = compileNodes;
-                            includeNode = compileIncludeNode;
-                            nodeName = "Compile";
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    var compileElem = new XElement(XName.Get(nodeName, nameSpace),
-                        new XAttribute("Include", filePath));
-                    nodes.Add(compileElem);
-                    includeNode.Add(compileElem);
-                    modified = true;
+                    case ProjItemType.None:
+                        nodes = noneNodes;
+                        includeNode = noneIncludeNode.Value;
+                        nodeName = "None";
+                        break;
+                    case ProjItemType.Compile:
+                        nodes = compileNodes;
+                        includeNode = compileIncludeNode;
+                        nodeName = "Compile";
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
-            }
-
-            // Add dependent files underneath
-            var depName = XName.Get("DependentUpon", nameSpace);
-            foreach (var subMode in includeNodes.SelectMany((n) => n.Elements()))
-            {
-                XAttribute includeAttr = subMode.Attribute("Include");
-                if (includeAttr == null) continue;
-                FilePath file = new FilePath(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
-                if (sourceXMLs.Contains(file)) continue;
-                if (!this.Gen.TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
-                if (file.Name.Equals(objGen.SourceXMLFile.Name)) continue;
-                if (subMode.Element(depName) != null) continue;
-
-                var depElem = new XElement(depName)
-                {
-                    Value = objGen.SourceXMLFile.Name
-                };
-                subMode.Add(depElem);
+                var compileElem = new XElement(XName.Get(nodeName, nameSpace),
+                    new XAttribute("Include", filePath));
+                nodes.Add(compileElem);
+                includeNode.Add(compileElem);
                 modified = true;
             }
-
-            // Add Protocol Definition
-            bool found = false;
-            foreach (var compile in compileNodes)
-            {
-                XAttribute includeAttr = compile.Attribute("Include");
-                if (includeAttr == null) continue;
-                if (includeAttr.Value.ToLower().Contains(this.ProtocolDefinitionName.ToLower()))
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                var defFile = new FilePath($"{DefFileLocation.FullName}/{this.ProtocolDefinitionName}.cs");
-                var relativePath = defFile.GetRelativePathTo(projFile);
-                var compileElem = new XElement(XName.Get("Compile", nameSpace),
-                    new XAttribute("Include", relativePath));
-                compileNodes.Add(compileElem);
-                compileIncludeNode.Add(compileElem);
-                modified = true;
-            }
-
-            if (!modified) return;
-
-            using (XmlTextWriter writer = new XmlTextWriter(
-                new FileStream(projFile.Path, FileMode.Create), Encoding.ASCII))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 2;
-                doc.WriteTo(writer);
-            }
         }
 
-        public override string ToString()
+        // Add dependent files underneath
+        var depName = XName.Get("DependentUpon", nameSpace);
+        foreach (var subMode in includeNodes.SelectMany((n) => n.Elements()))
         {
-            return $"ProtocolGeneration ({this.Protocol.Namespace})";
+            XAttribute includeAttr = subMode.Attribute("Include");
+            if (includeAttr == null) continue;
+            FilePath file = new FilePath(Path.Combine(projFile.Directory.Value.Path, includeAttr.Value));
+            if (sourceXMLs.Contains(file)) continue;
+            if (!Gen.TryGetMatchingObjectGeneration(file, out ObjectGeneration objGen)) continue;
+            if (file.Name.Equals(objGen.SourceXMLFile.Name)) continue;
+            if (subMode.Element(depName) != null) continue;
+
+            var depElem = new XElement(depName)
+            {
+                Value = objGen.SourceXMLFile.Name
+            };
+            subMode.Add(depElem);
+            modified = true;
         }
 
-        public virtual ObjectGeneration GetGeneration(
-            LoquiGenerator gen,
-            ProtocolGeneration protoGen,
-            FilePath sourceFile,
-            bool classGen)
+        // Add Protocol Definition
+        bool found = false;
+        foreach (var compile in compileNodes)
         {
-            if (classGen)
+            XAttribute includeAttr = compile.Attribute("Include");
+            if (includeAttr == null) continue;
+            if (includeAttr.Value.ToLower().Contains(ProtocolDefinitionName.ToLower()))
             {
-                return new ClassGeneration(gen, protoGen, sourceFile);
+                found = true;
+                break;
             }
-            return new StructGeneration(gen, protoGen, sourceFile);
         }
+        if (!found)
+        {
+            var defFile = new FilePath($"{DefFileLocation.FullName}/{ProtocolDefinitionName}.cs");
+            var relativePath = defFile.GetRelativePathTo(projFile);
+            var compileElem = new XElement(XName.Get("Compile", nameSpace),
+                new XAttribute("Include", relativePath));
+            compileNodes.Add(compileElem);
+            compileIncludeNode.Add(compileElem);
+            modified = true;
+        }
+
+        if (!modified) return;
+
+        using (XmlTextWriter writer = new XmlTextWriter(
+                   new FileStream(projFile.Path, FileMode.Create), Encoding.ASCII))
+        {
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 2;
+            doc.WriteTo(writer);
+        }
+    }
+
+    public override string ToString()
+    {
+        return $"ProtocolGeneration ({Protocol.Namespace})";
+    }
+
+    public virtual ObjectGeneration GetGeneration(
+        LoquiGenerator gen,
+        ProtocolGeneration protoGen,
+        FilePath sourceFile,
+        bool classGen)
+    {
+        if (classGen)
+        {
+            return new ClassGeneration(gen, protoGen, sourceFile);
+        }
+        return new StructGeneration(gen, protoGen, sourceFile);
     }
 }

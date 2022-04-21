@@ -1,77 +1,71 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Noggog;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class PropertyCtorWrapper : IDisposable
 {
-    public class PropertyCtorWrapper : IDisposable
+    FileGeneration fg;
+    List<string[]> args = new List<string[]>();
+
+    public PropertyCtorWrapper(FileGeneration fg)
     {
-        FileGeneration fg;
-        List<string[]> args = new List<string[]>();
+        this.fg = fg;
+    }
 
-        public PropertyCtorWrapper(FileGeneration fg)
+    public void Add(params string[] lines)
+    {
+        foreach (var line in lines)
         {
-            this.fg = fg;
+            args.Add(new string[] { line });
         }
+    }
 
-        public void Add(params string[] lines)
+    public void AddPassArg(string str)
+    {
+        Add($"{str}: {str}");
+    }
+
+    public void Add(Action<FileGeneration> generator, bool removeSemicolon = true)
+    {
+        var gen = new FileGeneration();
+        generator(gen);
+        if (gen.Empty) return;
+        if (removeSemicolon)
         {
-            foreach (var line in lines)
-            {
-                args.Add(new string[] { line });
-            }
+            gen[gen.Count - 1] = gen[gen.Count - 1].TrimEnd(';');
         }
+        args.Add(gen.ToArray());
+    }
 
-        public void AddPassArg(string str)
-        {
-            Add($"{str}: {str}");
-        }
+    public async Task Add(Func<FileGeneration, Task> generator)
+    {
+        var gen = new FileGeneration();
+        await generator(gen);
+        if (gen.Empty) return;
+        args.Add(gen.ToArray());
+    }
 
-        public void Add(Action<FileGeneration> generator, bool removeSemicolon = true)
+    public void Dispose()
+    {
+        using (new BraceWrapper(fg) { AppendSemicolon = true })
         {
-            var gen = new FileGeneration();
-            generator(gen);
-            if (gen.Empty) return;
-            if (removeSemicolon)
-            {
-                gen[gen.Count - 1] = gen[gen.Count - 1].TrimEnd(';');
-            }
-            args.Add(gen.ToArray());
-        }
-
-        public async Task Add(Func<FileGeneration, Task> generator)
-        {
-            var gen = new FileGeneration();
-            await generator(gen);
-            if (gen.Empty) return;
-            args.Add(gen.ToArray());
-        }
-
-        public void Dispose()
-        {
-            using (new BraceWrapper(fg) { AppendSemicolon = true })
-            {
-                args.Last(
-                    each: (arg) =>
-                    {
-                        arg.Last(
-                            each: (item, last) =>
-                            {
-                                fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
-                            });
-                    },
-                    last: (arg) =>
-                    {
-                        arg.Last(
-                            each: (item, last) =>
-                            {
-                                fg.AppendLine($"{item}");
-                            });
-                    });
-            }
+            args.Last(
+                each: (arg) =>
+                {
+                    arg.Last(
+                        each: (item, last) =>
+                        {
+                            fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                        });
+                },
+                last: (arg) =>
+                {
+                    arg.Last(
+                        each: (item, last) =>
+                        {
+                            fg.AppendLine($"{item}");
+                        });
+                });
         }
     }
 }

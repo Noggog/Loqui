@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public enum PermissionLevel
 {
-    public enum PermissionLevel
-    {
-        @public,
-        @private,
-        @protected,
-        @internal,
-    }
+    @public,
+    @private,
+    @protected,
+    @internal,
 }

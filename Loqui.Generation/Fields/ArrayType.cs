@@ -1,217 +1,212 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Noggog;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class ArrayType : ListType
 {
-    public class ArrayType : ListType
+    public override bool CopyNeedsTryCatch => false;
+    public override bool IsClass => false;
+    public override bool HasDefault => true;
+    public override string TypeName(bool getter, bool needsCovariance = false)
     {
-        public override bool CopyNeedsTryCatch => false;
-        public override bool IsClass => false;
-        public override bool HasDefault => true;
-        public override string TypeName(bool getter, bool needsCovariance = false)
+        if (getter)
         {
-            if (getter)
-            {
-                return $"ReadOnlyMemorySlice<{this.ItemTypeName(getter)}>";
-            }
-            else
-            {
-                return $"{this.ItemTypeName(getter)}[]";
-            }
+            return $"ReadOnlyMemorySlice<{ItemTypeName(getter)}>";
         }
-
-        public int? FixedSize;
-
-        public override async Task Load(XElement node, bool requireName = true)
+        else
         {
-            this.FixedSize = node.GetAttribute(Constants.FIXED_SIZE, default(int?));
-            await base.Load(node, requireName);
+            return $"{ItemTypeName(getter)}[]";
         }
+    }
 
-        protected override string GetActualItemClass(bool ctor = false)
+    public int? FixedSize;
+
+    public override async Task Load(XElement node, bool requireName = true)
+    {
+        FixedSize = node.GetAttribute(Constants.FIXED_SIZE, default(int?));
+        await base.Load(node, requireName);
+    }
+
+    protected override string GetActualItemClass(bool ctor = false)
+    {
+        if (NotifyingType == NotifyingType.ReactiveUI)
         {
-            if (this.NotifyingType == NotifyingType.ReactiveUI)
+            throw new NotImplementedException();
+        }
+        else
+        {
+            if (!ctor)
             {
-                throw new NotImplementedException();
+                return $"{ItemTypeName(getter: false)}[]";
             }
-            else
+            if (Nullable)
             {
-                if (!ctor)
+                return $"default";
+            }
+            else if (FixedSize.HasValue)
+            {
+                if (SubTypeGeneration is LoquiType loqui)
                 {
-                    return $"{this.ItemTypeName(getter: false)}[]";
+                    return $"ArrayExt.Create({FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
                 }
-                if (this.Nullable)
+                else if (SubTypeGeneration.IsNullable
+                         || SubTypeGeneration.CanBeNullable(getter: false))
                 {
-                    return $"default";
-                }
-                else if (this.FixedSize.HasValue)
-                {
-                    if (this.SubTypeGeneration is LoquiType loqui)
-                    {
-                        return $"ArrayExt.Create({this.FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
-                    }
-                    else if (this.SubTypeGeneration.IsNullable
-                        || this.SubTypeGeneration.CanBeNullable(getter: false))
-                    {
-                        return $"new {this.ItemTypeName(getter: false)}[{this.FixedSize}]";
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
+                    return $"new {ItemTypeName(getter: false)}[{FixedSize}]";
                 }
                 else
                 {
-                    return $"new {this.ItemTypeName(getter: false)}[0]";
+                    throw new NotImplementedException();
                 }
             }
-        }
-
-        public override string ListTypeName(bool getter, bool internalInterface)
-        {
-            string itemTypeName = this.ItemTypeName(getter: getter);
-            if (this.SubTypeGeneration is LoquiType loqui)
-            {
-                itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
-            }
-            if (getter)
-            {
-                return $"ReadOnlyMemorySlice<{itemTypeName}{this.SubTypeGeneration.NullChar}>";
-            }
             else
             {
-                return $"{itemTypeName}{this.SubTypeGeneration.NullChar}[]";
+                return $"new {ItemTypeName(getter: false)}[0]";
             }
         }
+    }
 
-        public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override string ListTypeName(bool getter, bool internalInterface)
+    {
+        string itemTypeName = ItemTypeName(getter: getter);
+        if (SubTypeGeneration is LoquiType loqui)
         {
-            if (this.Nullable)
+            itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
+        }
+        if (getter)
+        {
+            return $"ReadOnlyMemorySlice<{itemTypeName}{SubTypeGeneration.NullChar}>";
+        }
+        else
+        {
+            return $"{itemTypeName}{SubTypeGeneration.NullChar}[]";
+        }
+    }
+
+    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    {
+        if (Nullable)
+        {
+            fg.AppendLine($"{accessorPrefix} = null;");
+        }
+        else
+        {
+            if (FixedSize.HasValue)
             {
-                fg.AppendLine($"{accessorPrefix} = null;");
-            }
-            else
-            {
-                if (this.FixedSize.HasValue)
+                if (SubTypeGeneration.IsNullable
+                    && SubTypeGeneration.Nullable)
                 {
-                    if (this.SubTypeGeneration.IsNullable
-                        && this.SubTypeGeneration.Nullable)
-                    {
-                        fg.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
-                    }
-                    else if (this.SubTypeGeneration is StringType)
-                    {
-                        fg.AppendLine($"Array.Fill({accessorPrefix.Access}, string.Empty);");
-                    }
-                    else if (this.SubTypeGeneration is LoquiType loqui)
-                    {
-                        fg.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{accessorPrefix.Access}.Reset();");
-                    }
+                    fg.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
+                }
+                else if (SubTypeGeneration is StringType)
+                {
+                    fg.AppendLine($"Array.Fill({accessorPrefix.Access}, string.Empty);");
+                }
+                else if (SubTypeGeneration is LoquiType loqui)
+                {
+                    fg.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix.Access}.Clear();");
+                    fg.AppendLine($"{accessorPrefix.Access}.Reset();");
                 }
             }
-        }
-
-        public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
-        {
-            fg.AppendLine($"if ({this.GetTranslationIfAccessor(maskAccessor)})");
-            using (new BraceWrapper(fg))
+            else
             {
-                if (this.SubTypeGeneration.IsIEquatable)
+                fg.AppendLine($"{accessorPrefix.Access}.Clear();");
+            }
+        }
+    }
+
+    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    {
+        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (new BraceWrapper(fg))
+        {
+            if (SubTypeGeneration.IsIEquatable)
+            {
+                if (Nullable)
                 {
-                    if (this.Nullable)
-                    {
-                        fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
-                    }
-                    fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
+                    fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
+                }
+                fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
+            }
+            else
+            {
+                fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
+            }
+        }
+    }
+
+    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    {
+        string funcStr;
+        var loqui = SubTypeGeneration as LoquiType;
+        if (loqui != null)
+        {
+            funcStr = $"(loqLhs, loqRhs) => loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsMask) : "GetEqualsMask")}(loqRhs, include)";
+        }
+        else
+        {
+            funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
+        }
+        using (var args = new ArgsWrapper(fg,
+                   $"ret.{Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
+        {
+            args.Add($"item.{Name}");
+            args.Add($"rhs.{Name}");
+            args.Add(funcStr);
+            args.Add($"include");
+        }
+    }
+
+    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    {
+        if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
+        {
+            if (!AlwaysCopy)
+            {
+                fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+            }
+            using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+            {
+                if (Nullable)
+                {
+                    fg.AppendLine($"{accessor} = {rhs}?.ToArray();");
                 }
                 else
                 {
-                    fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
+                    fg.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
                 }
             }
         }
-
-        public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+        else
         {
-            string funcStr;
-            var loqui = this.SubTypeGeneration as LoquiType;
-            if (loqui != null)
+            base.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
+        }
+    }
+
+    public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
+    {
+        if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
+        {
+            fg.AppendLine($"{accessor} = ");
+            using (new DepthWrapper(fg))
             {
-                funcStr = $"(loqLhs, loqRhs) => loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsMask) : "GetEqualsMask")}(loqRhs, include)";
-            }
-            else
-            {
-                funcStr = $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
-            }
-            using (var args = new ArgsWrapper(fg,
-                $"ret.{this.Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
-            {
-                args.Add($"item.{this.Name}");
-                args.Add($"rhs.{this.Name}");
-                args.Add(funcStr);
-                args.Add($"include");
+                a(fg);
+                fg.AppendLine($"{NullChar}.ToArray();");
             }
         }
-
-        public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+        else
         {
-            if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
-            {
-                if (!this.AlwaysCopy)
-                {
-                    fg.AppendLine($"if ({(deepCopy ? this.GetTranslationIfAccessor(copyMaskAccessor) : this.SkipCheck(copyMaskAccessor, deepCopy))})");
-                }
-                using (new BraceWrapper(fg, doIt: !AlwaysCopy))
-                {
-                    if (Nullable)
-                    {
-                        fg.AppendLine($"{accessor} = {rhs}?.ToArray();");
-                    }
-                    else
-                    {
-                        fg.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
-                    }
-                }
-            }
-            else
-            {
-                base.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
-            }
+            base.WrapSet(fg, accessor, a);
         }
+    }
 
-        public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
-        {
-            if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
-            {
-                fg.AppendLine($"{accessor} = ");
-                using (new DepthWrapper(fg))
-                {
-                    a(fg);
-                    fg.AppendLine($"{NullChar}.ToArray();");
-                }
-            }
-            else
-            {
-                base.WrapSet(fg, accessor, a);
-            }
-        }
-
-        public override string GetDefault(bool getter)
-        {
-            if (getter && Nullable) return $"default({TypeName(getter)}{NullChar})";
-            return base.GetDefault(getter);
-        }
+    public override string GetDefault(bool getter)
+    {
+        if (getter && Nullable) return $"default({TypeName(getter)}{NullChar})";
+        return base.GetDefault(getter);
     }
 }

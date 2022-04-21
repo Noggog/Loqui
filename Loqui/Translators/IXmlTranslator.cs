@@ -1,18 +1,14 @@
 using Loqui.Internal;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
 
-namespace Loqui.Xml
+namespace Loqui.Xml;
+
+public interface IXmlWriteTranslator
 {
-    public interface IXmlWriteTranslator
-    {
-        void Write(
-            XElement node,
-            object item,
-            ErrorMaskBuilder? errorMask,
-            TranslationCrystal? translationMask,
-            string? name);
-    }
+    void Write(
+        XElement node,
+        object item,
+        ErrorMaskBuilder? errorMask,
+        TranslationCrystal? translationMask,
+        string? name);
 }

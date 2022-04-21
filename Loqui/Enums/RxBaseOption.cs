@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Loqui;
 
-namespace Loqui
+public enum RxBaseOption
 {
-    public enum RxBaseOption
-    {
-        LoquiNotifyingObject,
-        ViewModel
-    }
+    LoquiNotifyingObject,
+    ViewModel
 }

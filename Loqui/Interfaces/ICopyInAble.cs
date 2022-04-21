@@ -1,9 +1,6 @@
-using System;
+namespace Loqui;
 
-namespace Loqui
+public interface ICopyInAble
 {
-    public interface ICopyInAble
-    {
-        void CopyFieldsFrom(object rhs, object def);
-    }
+    void CopyFieldsFrom(object rhs, object def);
 }

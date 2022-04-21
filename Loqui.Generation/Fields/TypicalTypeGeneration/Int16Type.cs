@@ -1,9 +1,6 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class Int16Type : TypicalWholeNumberTypeGeneration
 {
-    public class Int16Type : TypicalWholeNumberTypeGeneration
-    {
-        public override Type Type(bool getter) => typeof(Int16);
-    }
+    public override Type Type(bool getter) => typeof(Int16);
 }

@@ -1,77 +1,70 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class CustomMethodAPI
 {
-    public class CustomMethodAPI
+    public bool Public { get; private set; }
+    public APILine API { get; private set; }
+    public APIResult DefaultFallback { get; private set; }
+
+    public CustomMethodAPI(
+        bool isPublic,
+        APILine api,
+        string defaultFallback = null)
     {
-        public bool Public { get; private set; }
-        public APILine API { get; private set; }
-        public APIResult DefaultFallback { get; private set; }
+        Public = isPublic;
+        API = api;
+        DefaultFallback = new APIResult(api, defaultFallback);
+    }
 
-        public CustomMethodAPI(
-            bool isPublic,
-            APILine api,
-            string defaultFallback = null)
-        {
-            this.Public = isPublic;
-            this.API = api;
-            this.DefaultFallback = new APIResult(api, defaultFallback);
-        }
+    public CustomMethodAPI()
+    {
+    }
 
-        public CustomMethodAPI()
-        {
-        }
+    public bool Applies(ObjectGeneration obj, TranslationDirection dir)
+    {
+        return API?.TryResolve(obj, dir, out var line) ?? true;
+    }
 
-        public bool Applies(ObjectGeneration obj, TranslationDirection dir)
+    public static CustomMethodAPI FactoryPublic(
+        APILine api)
+    {
+        return new CustomMethodAPI()
         {
-            return this.API?.TryResolve(obj, dir, out var line) ?? true;
-        }
+            Public = true,
+            API = api,
+            DefaultFallback = null
+        };
+    }
 
-        public static CustomMethodAPI FactoryPublic(
-            APILine api)
+    public static CustomMethodAPI FactoryPrivate(
+        APILine api,
+        string defaultFallback)
+    {
+        return new CustomMethodAPI()
         {
-            return new CustomMethodAPI()
-            {
-                Public = true,
-                API = api,
-                DefaultFallback = null
-            };
-        }
+            Public = false,
+            API = api,
+            DefaultFallback = new APIResult(api, defaultFallback)
+        };
+    }
 
-        public static CustomMethodAPI FactoryPrivate(
-            APILine api,
-            string defaultFallback)
+    public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, TranslationDirection dir, out string result)
+    {
+        var get = API.When(obj, dir);
+        if (!get)
         {
-            return new CustomMethodAPI()
-            {
-                Public = false,
-                API = api,
-                DefaultFallback = new APIResult(api, defaultFallback)
-            };
+            result = default;
+            return false;
         }
-
-        public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, TranslationDirection dir, out string result)
+        var name = API.GetParameterName(obj);
+        if (API.When(baseGen, dir))
         {
-            var get = this.API.When(obj, dir);
-            if (!get)
-            {
-                result = default;
-                return false;
-            }
-            var name = this.API.GetParameterName(obj);
-            if (this.API.When(baseGen, dir))
-            {
-                result = $"{name}: {name}";
-            }
-            else
-            {
-                result = $"{name}: {this.DefaultFallback}";
-            }
-            return true;
+            result = $"{name}: {name}";
         }
+        else
+        {
+            result = $"{name}: {DefaultFallback}";
+        }
+        return true;
     }
 }

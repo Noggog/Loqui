@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Noggog;
 
@@ -27,12 +25,12 @@ public class Array2dType : ListType
     
     public override string ListTypeName(bool getter, bool internalInterface)
     {
-        string itemTypeName = this.ItemTypeName(getter: getter);
-        if (this.SubTypeGeneration is LoquiType loqui)
+        string itemTypeName = ItemTypeName(getter: getter);
+        if (SubTypeGeneration is LoquiType loqui)
         {
             itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
         }
-        if (this.ReadOnly || getter)
+        if (ReadOnly || getter)
         {
             return $"IReadOnlyArray2d<{itemTypeName}{SubTypeGeneration.NullChar}>";
         }
@@ -48,7 +46,7 @@ public class Array2dType : ListType
 
     public override void GenerateClear(FileGeneration fg, Accessor accessor)
     {
-        if (this.Nullable)
+        if (Nullable)
         {
             fg.AppendLine($"{accessor} = null;");
         }
@@ -61,18 +59,18 @@ public class Array2dType : ListType
     public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         string funcStr;
-        if (this.SubTypeGeneration is LoquiType loqui)
+        if (SubTypeGeneration is LoquiType loqui)
         {
             funcStr = $"(loqLhs, loqRhs) => {(loqui.TargetObjectGeneration == null ? "(IMask<bool>)" : null)}loqLhs.{(loqui.TargetObjectGeneration == null ? nameof(IEqualsMask.GetEqualsMask) : "GetEqualsMask")}(loqRhs, include)";
         }
         else
         {
-            funcStr = $"(l, r) => {this.SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
+            funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
         using (var args = new ArgsWrapper(fg,
-                   $"ret.{this.Name} = item.{this.Name}.Array2dEqualsHelper"))
+                   $"ret.{Name} = item.{Name}.Array2dEqualsHelper"))
         {
-            args.Add($"rhs.{this.Name}");
+            args.Add($"rhs.{Name}");
             args.Add(funcStr);
             args.Add($"include");
         }
@@ -80,7 +78,7 @@ public class Array2dType : ListType
 
     public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
     {
-        if (this.Nullable)
+        if (Nullable)
         {
             fg.AppendLine($"{accessor} = ");
             using (new DepthWrapper(fg))

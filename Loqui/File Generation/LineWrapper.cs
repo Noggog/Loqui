@@ -1,20 +1,17 @@
-using System;
+namespace Loqui;
 
-namespace Loqui
+public class LineWrapper : IDisposable
 {
-    public class LineWrapper : IDisposable
+    readonly FileGeneration _fg; 
+
+    public LineWrapper(FileGeneration fg)
     {
-        readonly FileGeneration _fg; 
+        _fg = fg;
+        _fg.Append(_fg.DepthStr);
+    }
 
-        public LineWrapper(FileGeneration fg)
-        {
-            this._fg = fg;
-            this._fg.Append(this._fg.DepthStr);
-        }
-
-        public void Dispose()
-        {
-            this._fg.Append(Environment.NewLine);
-        }
+    public void Dispose()
+    {
+        _fg.Append(Environment.NewLine);
     }
 }

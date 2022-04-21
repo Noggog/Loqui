@@ -1,5 +1,3 @@
-using System;
-
 namespace Loqui.Generation;
 
 public class NamespaceWrapper : IDisposable

@@ -1,9 +1,6 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class DateTimeNullType : PrimitiveType
 {
-    public class DateTimeNullType : PrimitiveType
-    {
-        public override Type Type(bool getter) => typeof(DateTime?);
-    }
+    public override Type Type(bool getter) => typeof(DateTime?);
 }

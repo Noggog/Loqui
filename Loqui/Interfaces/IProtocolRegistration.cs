@@ -1,9 +1,6 @@
-using System;
+namespace Loqui;
 
-namespace Loqui
+public interface IProtocolRegistration
 {
-    public interface IProtocolRegistration
-    {
-        void Register();
-    }
+    void Register();
 }

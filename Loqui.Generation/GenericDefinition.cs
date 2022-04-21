@@ -1,121 +1,116 @@
 using Noggog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class GenericDefinition
 {
-    public class GenericDefinition
+    public bool MustBeClass;
+    public bool Loqui;
+    public ObjectGeneration BaseObjectGeneration;
+    private readonly HashSet<string> _whereSet = new HashSet<string>();
+    private readonly List<string> _whereList = new List<string>();
+    public IEnumerable<string> Wheres => _whereList;
+    public string Name;
+    public bool Override;
+    public Variance GetterVariance = Variance.Out;
+    public Variance SetterVariance = Variance.None;
+
+    public string GetterName => VarianceName(GetterVariance);
+    public string SetterName => VarianceName(SetterVariance);
+
+    private string VarianceName(Variance variance)
     {
-        public bool MustBeClass;
-        public bool Loqui;
-        public ObjectGeneration BaseObjectGeneration;
-        private readonly HashSet<string> _whereSet = new HashSet<string>();
-        private readonly List<string> _whereList = new List<string>();
-        public IEnumerable<string> Wheres => _whereList;
-        public string Name;
-        public bool Override;
-        public Variance GetterVariance = Variance.Out;
-        public Variance SetterVariance = Variance.None;
-
-        public string GetterName => VarianceName(this.GetterVariance);
-        public string SetterName => VarianceName(this.SetterVariance);
-
-        private string VarianceName(Variance variance)
+        switch (variance)
         {
-            switch (variance)
-            {
-                case Variance.None:
-                    return this.Name;
-                case Variance.In:
-                    return $"in {this.Name}";
-                case Variance.Out:
-                    return $"out {this.Name}";
-                default:
-                    throw new NotImplementedException();
-            }
+            case Variance.None:
+                return Name;
+            case Variance.In:
+                return $"in {Name}";
+            case Variance.Out:
+                return $"out {Name}";
+            default:
+                throw new NotImplementedException();
         }
+    }
 
-        public void Add(string where)
+    public void Add(string where)
+    {
+        if (_whereSet.Add(where))
         {
-            if (_whereSet.Add(where))
-            {
-                _whereList.Add(where);
-            }
+            _whereList.Add(where);
         }
+    }
 
-        public void Add(IEnumerable<string> wheres)
+    public void Add(IEnumerable<string> wheres)
+    {
+        foreach (var where in wheres)
         {
-            foreach (var where in wheres)
-            {
-                Add(where);
-            }
+            Add(where);
         }
+    }
 
-        public void Load(XElement node)
+    public void Load(XElement node)
+    {
+        Loqui = node.GetAttribute<bool>("isLoqui", defaultVal: false);
+        Name = node.GetAttribute(Constants.NAME);
+        MustBeClass = node.GetAttribute<bool>(Constants.IS_CLASS);
+        GetterVariance = node.GetAttribute<Variance>(Constants.GETTER_VARIANCE, GetterVariance);
+        SetterVariance = node.GetAttribute<Variance>(Constants.SETTER_VARIANCE, SetterVariance);
+        Override = node.GetAttribute<bool>(Constants.OVERRIDE, Override);
+        var baseClass = node.Element(XName.Get(Constants.BASE_CLASS, LoquiGenerator.Namespace));
+        if (baseClass != null)
         {
-            this.Loqui = node.GetAttribute<bool>("isLoqui", defaultVal: false);
-            this.Name = node.GetAttribute(Constants.NAME);
-            this.MustBeClass = node.GetAttribute<bool>(Constants.IS_CLASS);
-            this.GetterVariance = node.GetAttribute<Variance>(Constants.GETTER_VARIANCE, this.GetterVariance);
-            this.SetterVariance = node.GetAttribute<Variance>(Constants.SETTER_VARIANCE, this.SetterVariance);
-            this.Override = node.GetAttribute<bool>(Constants.OVERRIDE, this.Override);
-            var baseClass = node.Element(XName.Get(Constants.BASE_CLASS, LoquiGenerator.Namespace));
-            if (baseClass != null)
-            {
-                this.Add(baseClass.Value);
-            }
-            foreach (var where in node.Elements(XName.Get(Constants.WHERE, LoquiGenerator.Namespace)))
-            {
-                this.Add(where.Value);
-            }
+            Add(baseClass.Value);
         }
+        foreach (var where in node.Elements(XName.Get(Constants.WHERE, LoquiGenerator.Namespace)))
+        {
+            Add(where.Value);
+        }
+    }
 
-        public void Resolve(ObjectGeneration obj)
+    public void Resolve(ObjectGeneration obj)
+    {
+        if (!Wheres.Any()) return;
+        if (!Loqui)
         {
-            if (!this.Wheres.Any()) return;
-            if (!this.Loqui)
-            {
-                var loquiElem = this.Wheres.FirstOrDefault((i) =>
-                    i.Equals(nameof(ILoquiObjectGetter))
-                    || i.Equals(nameof(ILoquiObject)));
-                this.Loqui = loquiElem != null;
-            }
-            if (!ObjectNamedKey.TryFactory(this.Wheres.First(), obj.ProtoGen.Protocol, out var objGenKey)) return;
-            if (!obj.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) return;
-            this.BaseObjectGeneration = baseObjGen;
-            this.Loqui = true;
+            var loquiElem = Wheres.FirstOrDefault((i) =>
+                i.Equals(nameof(ILoquiObjectGetter))
+                || i.Equals(nameof(ILoquiObject)));
+            Loqui = loquiElem != null;
         }
+        if (!ObjectNamedKey.TryFactory(Wheres.First(), obj.ProtoGen.Protocol, out var objGenKey)) return;
+        if (!obj.ProtoGen.Gen.ObjectGenerationsByObjectNameKey.TryGetValue(objGenKey, out var baseObjGen)) return;
+        BaseObjectGeneration = baseObjGen;
+        Loqui = true;
+    }
 
-        public IEnumerable<string> GetWheres(LoquiInterfaceType type)
+    public IEnumerable<string> GetWheres(LoquiInterfaceType type)
+    {
+        if (BaseObjectGeneration != null)
         {
-            if (this.BaseObjectGeneration != null)
-            {
-                yield return this.BaseObjectGeneration.GetTypeName(type);
-            }
-            foreach (var item in _whereList.Skip(BaseObjectGeneration == null ? 0 : 1))
-            {
-                yield return item;
-            }
+            yield return BaseObjectGeneration.GetTypeName(type);
         }
+        foreach (var item in _whereList.Skip(BaseObjectGeneration == null ? 0 : 1))
+        {
+            yield return item;
+        }
+    }
 
-        public GenericDefinition Copy()
+    public GenericDefinition Copy()
+    {
+        var ret = new GenericDefinition()
         {
-            var ret = new GenericDefinition()
-            {
-                MustBeClass = this.MustBeClass
-            };
-            ret.Name = this.Name;
-            ret.MustBeClass = this.MustBeClass;
-            ret.GetterVariance = this.GetterVariance;
-            ret.SetterVariance = this.SetterVariance;
-            ret.BaseObjectGeneration = this.BaseObjectGeneration;
-            ret.Loqui = this.Loqui;
-            ret._whereSet.Add(this._whereSet);
-            ret._whereList.AddRange(this._whereList);
-            return ret;
-        }
+            MustBeClass = MustBeClass
+        };
+        ret.Name = Name;
+        ret.MustBeClass = MustBeClass;
+        ret.GetterVariance = GetterVariance;
+        ret.SetterVariance = SetterVariance;
+        ret.BaseObjectGeneration = BaseObjectGeneration;
+        ret.Loqui = Loqui;
+        ret._whereSet.Add(_whereSet);
+        ret._whereList.AddRange(_whereList);
+        return ret;
     }
 }

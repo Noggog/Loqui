@@ -1,28 +1,25 @@
 using Loqui.Internal;
-using Noggog;
-using System;
 
-namespace Loqui.Xml
+namespace Loqui.Xml;
+
+public class FloatXmlTranslation : PrimitiveXmlTranslation<float>
 {
-    public class FloatXmlTranslation : PrimitiveXmlTranslation<float>
+    public readonly static FloatXmlTranslation Instance = new FloatXmlTranslation();
+    public override string ElementName => "Float";
+
+    protected override string GetItemStr(float item)
     {
-        public readonly static FloatXmlTranslation Instance = new FloatXmlTranslation();
-        public override string ElementName => "Float";
+        return item.ToString("G9");
+    }
 
-        protected override string GetItemStr(float item)
+    protected override bool Parse(string str, out float value, ErrorMaskBuilder? errorMask)
+    {
+        if (float.TryParse(str, out value))
         {
-            return item.ToString("G9");
+            return true;
         }
-
-        protected override bool Parse(string str, out float value, ErrorMaskBuilder? errorMask)
-        {
-            if (float.TryParse(str, out value))
-            {
-                return true;
-            }
-            errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {ElementName}"));
-            return false;
-        }
+        errorMask.ReportExceptionOrThrow(
+            new ArgumentException($"Could not convert to {ElementName}"));
+        return false;
     }
 }

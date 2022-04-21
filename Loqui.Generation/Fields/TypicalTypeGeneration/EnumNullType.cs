@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class EnumNullType : EnumType
 {
-    public class EnumNullType : EnumType
+    public EnumNullType()
+        : base(true)
     {
-        public EnumNullType()
-            : base(true)
-        {
-        }
     }
 }

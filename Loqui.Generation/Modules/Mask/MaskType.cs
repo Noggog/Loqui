@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public enum MaskType
 {
-    public enum MaskType
-    {
-        Normal,
-        NormalGetter,
-        Error,
-        Copy,
-        Translation,
-    }
+    Normal,
+    NormalGetter,
+    Error,
+    Copy,
+    Translation,
 }

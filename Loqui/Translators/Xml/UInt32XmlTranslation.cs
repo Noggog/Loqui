@@ -1,22 +1,19 @@
 using Loqui.Internal;
-using Noggog;
-using System;
 
-namespace Loqui.Xml
+namespace Loqui.Xml;
+
+public class UInt32XmlTranslation : PrimitiveXmlTranslation<uint>
 {
-    public class UInt32XmlTranslation : PrimitiveXmlTranslation<uint>
-    {
-        public readonly static UInt32XmlTranslation Instance = new UInt32XmlTranslation();
+    public readonly static UInt32XmlTranslation Instance = new UInt32XmlTranslation();
 
-        protected override bool Parse(string str, out uint value, ErrorMaskBuilder? errorMask)
+    protected override bool Parse(string str, out uint value, ErrorMaskBuilder? errorMask)
+    {
+        if (uint.TryParse(str, out value))
         {
-            if (uint.TryParse(str, out value))
-            {
-                return true;
-            }
-            errorMask.ReportExceptionOrThrow(
-                new ArgumentException($"Could not convert to {ElementName}"));
-            return false;
+            return true;
         }
+        errorMask.ReportExceptionOrThrow(
+            new ArgumentException($"Could not convert to {ElementName}"));
+        return false;
     }
 }

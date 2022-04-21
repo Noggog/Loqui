@@ -1,9 +1,6 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class UInt16NullType : TypicalWholeNumberTypeGeneration
 {
-    public class UInt16NullType : TypicalWholeNumberTypeGeneration
-    {
-        public override Type Type(bool getter) => typeof(UInt16?);
-    }
+    public override Type Type(bool getter) => typeof(UInt16?);
 }

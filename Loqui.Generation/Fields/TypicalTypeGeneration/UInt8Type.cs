@@ -1,11 +1,9 @@
 using Noggog;
-using System;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class UInt8Type : TypicalWholeNumberTypeGeneration
 {
-    public class UInt8Type : TypicalWholeNumberTypeGeneration
-    {
-        public override Type Type(bool getter) => typeof(Byte);
-        public override string RangeTypeName(bool getter) => nameof(RangeUInt8);
-    }
+    public override Type Type(bool getter) => typeof(Byte);
+    public override string RangeTypeName(bool getter) => nameof(RangeUInt8);
 }

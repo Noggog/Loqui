@@ -1,62 +1,56 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public abstract class WrapperType : TypeGeneration
 {
-    public abstract class WrapperType : TypeGeneration
+    protected bool isLoquiSingle;
+    public TypeGeneration SubTypeGeneration;
+
+    public virtual string ItemTypeName(bool getter)
     {
-        protected bool isLoquiSingle;
-        public TypeGeneration SubTypeGeneration;
+        return SubTypeGeneration.TypeName(getter, needsCovariance: true);
+    }
 
-        public virtual string ItemTypeName(bool getter)
+    public override IEnumerable<string> GetRequiredNamespaces()
+    {
+        return SubTypeGeneration.GetRequiredNamespaces();
+    }
+
+    public override async Task Load(XElement node, bool requireName = true)
+    {
+        await base.Load(node, requireName);
+
+        var fieldsNode = node.Elements().FirstOrDefault(f => f.Name.LocalName.Equals("Fields"));
+        if (fieldsNode != null)
         {
-            return SubTypeGeneration.TypeName(getter, needsCovariance: true);
+            node = fieldsNode;
         }
 
-        public override IEnumerable<string> GetRequiredNamespaces()
+        if (!node.Elements().Any())
         {
-            return this.SubTypeGeneration.GetRequiredNamespaces();
+            throw new ArgumentException("Wrapper had no elements.");
         }
-
-        public override async Task Load(XElement node, bool requireName = true)
+        if (node.Elements().Any())
         {
-            await base.Load(node, requireName);
-
-            var fieldsNode = node.Elements().FirstOrDefault(f => f.Name.LocalName.Equals("Fields"));
-            if (fieldsNode != null)
+            var typeGen = await ObjectGen.LoadField(
+                node.Elements().First(),
+                requireName: false,
+                setDefaults: false);
+            if (typeGen.Succeeded)
             {
-                node = fieldsNode;
-            }
-
-            if (!node.Elements().Any())
-            {
-                throw new ArgumentException("Wrapper had no elements.");
-            }
-            if (node.Elements().Any())
-            {
-                var typeGen = await ObjectGen.LoadField(
-                    node.Elements().First(),
-                    requireName: false,
-                    setDefaults: false);
-                if (typeGen.Succeeded)
-                {
-                    this.SubTypeGeneration = typeGen.Value;
-                    isLoquiSingle = this.SubTypeGeneration as LoquiType != null;
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-                this.SubTypeGeneration.Parent = this;
+                SubTypeGeneration = typeGen.Value;
+                isLoquiSingle = SubTypeGeneration as LoquiType != null;
             }
             else
             {
                 throw new NotImplementedException();
             }
+            SubTypeGeneration.Parent = this;
+        }
+        else
+        {
+            throw new NotImplementedException();
         }
     }
 }

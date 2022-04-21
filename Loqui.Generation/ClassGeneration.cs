@@ -1,186 +1,180 @@
 using Noggog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Loqui.Generation
+namespace Loqui.Generation;
+
+public class ClassGeneration : ObjectGeneration
 {
-    public class ClassGeneration : ObjectGeneration
+    private bool _abstract;
+    public override bool Abstract => _abstract;
+    private NotifyingType _notifyingDefault;
+    public override NotifyingType NotifyingDefault => _notifyingDefault;
+    private bool _nullableDefault;
+    public override bool NullableDefault => _nullableDefault;
+    public string BaseClassStr { get; set; }
+    private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
+    public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
+
+    public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FilePath sourceFile)
+        : base(gen, protoGen, sourceFile)
     {
-        private bool _abstract;
-        public override bool Abstract => _abstract;
-        private NotifyingType _notifyingDefault;
-        public override NotifyingType NotifyingDefault => _notifyingDefault;
-        private bool _nullableDefault;
-        public override bool NullableDefault => _nullableDefault;
-        public string BaseClassStr { get; set; }
-        private List<ClassGeneration> _derivativeClasses = new List<ClassGeneration>();
-        public bool HasDerivativeClasses => _derivativeClasses.Count > 0;
+    }
 
-        public ClassGeneration(LoquiGenerator gen, ProtocolGeneration protoGen, FilePath sourceFile)
-            : base(gen, protoGen, sourceFile)
+    public override string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null, bool doIt = true)
+    {
+        if (!doIt || !HasLoquiBaseObject) return " ";
+        if (baseObjFilter == null) return " new ";
+        foreach (var baseClass in BaseClassTrail())
         {
+            if (baseObjFilter(baseClass)) return " new ";
+        }
+        return " ";
+    }
+
+    public override async Task Load()
+    {
+        BaseClassStr = Node.GetAttribute("baseClass");
+        _abstract = Node.GetAttribute<bool>("abstract", false);
+        _notifyingDefault = Node.GetAttribute<NotifyingType>("notifyingDefault", ProtoGen.NotifyingDefault);
+        _nullableDefault = Node.GetAttribute<bool>("nullableDefault", ProtoGen.NullableDefault);
+
+        if (NeedsReflectionGeneration)
+        {
+            Interfaces.Add(LoquiInterfaceDefinitionType.ISetter, nameof(ILoquiReflectionSetter));
         }
 
-        public override string NewOverride(Func<ObjectGeneration, bool> baseObjFilter = null, bool doIt = true)
+        if (ObjectNamedKey.TryFactory(BaseClassStr, ProtoGen.Protocol, out var baseClassObjKey))
         {
-            if (!doIt || !HasLoquiBaseObject) return " ";
-            if (baseObjFilter == null) return " new ";
-            foreach (var baseClass in this.BaseClassTrail())
+            if (!gen.ObjectGenerationsByObjectNameKey.TryGetValue(baseClassObjKey, out ObjectGeneration baseObj)
+                || !(baseObj is ClassGeneration))
             {
-                if (baseObjFilter(baseClass)) return " new ";
+                throw new ArgumentException($"Could not resolve base class object: {BaseClassStr}");
             }
-            return " ";
+            else
+            {
+                ClassGeneration baseClass = baseObj as ClassGeneration;
+                BaseClass = baseClass;
+                baseClass._derivativeClasses.Add(this);
+            }
         }
-
-        public override async Task Load()
-        {
-            BaseClassStr = Node.GetAttribute("baseClass");
-            _abstract = Node.GetAttribute<bool>("abstract", false);
-            _notifyingDefault = Node.GetAttribute<NotifyingType>("notifyingDefault", this.ProtoGen.NotifyingDefault);
-            _nullableDefault = Node.GetAttribute<bool>("nullableDefault", this.ProtoGen.NullableDefault);
-
-            if (this.NeedsReflectionGeneration)
-            {
-                this.Interfaces.Add(LoquiInterfaceDefinitionType.ISetter, nameof(ILoquiReflectionSetter));
-            }
-
-            if (ObjectNamedKey.TryFactory(this.BaseClassStr, this.ProtoGen.Protocol, out var baseClassObjKey))
-            {
-                if (!this.gen.ObjectGenerationsByObjectNameKey.TryGetValue(baseClassObjKey, out ObjectGeneration baseObj)
-                    || !(baseObj is ClassGeneration))
-                {
-                    throw new ArgumentException($"Could not resolve base class object: {this.BaseClassStr}");
-                }
-                else
-                {
-                    ClassGeneration baseClass = baseObj as ClassGeneration;
-                    this.BaseClass = baseClass;
-                    baseClass._derivativeClasses.Add(this);
-                }
-            }
 #if NETSTANDARD2_0
-            this.WiredBaseClassTCS.TrySetResult(true);
+        WiredBaseClassTCS.TrySetResult(true);
 #else
-            this.WiredBaseClassTCS.TrySetResult();
+            WiredBaseClassTCS.TrySetResult();
 #endif
 
-            await base.Load();
-        }
+        await base.Load();
+    }
 
-        protected override async Task GenerateClassLine(FileGeneration fg)
+    protected override async Task GenerateClassLine(FileGeneration fg)
+    {
+        using (var args = new ClassWrapper(fg, ObjectName))
         {
-            using (var args = new ClassWrapper(fg, this.ObjectName))
+            args.Abstract = Abstract;
+            args.Partial = true;
+            if (HasLoquiBaseObject && HasNonLoquiBaseObject)
             {
-                args.Abstract = this.Abstract;
-                args.Partial = true;
-                if (HasLoquiBaseObject && this.HasNonLoquiBaseObject)
-                {
-                    throw new ArgumentException("Cannot define both a loqui and non-loqui base class");
-                }
-                if (HasLoquiBaseObject)
-                {
-                    args.BaseClass = this.BaseClassName;
-                }
-                else if (HasNonLoquiBaseObject && this.SetBaseClass)
-                {
-                    args.BaseClass = this.NonLoquiBaseClass;
-                }
-                args.Interfaces.Add(this.Interface(getter: false, internalInterface: true));
-                args.Interfaces.Add($"ILoquiObjectSetter<{this.ObjectName}>");
-                args.Interfaces.Add(this.Interfaces.Get(LoquiInterfaceType.Direct));
-                args.Interfaces.Add(await this.GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());
-                args.Interfaces.Add(this.ProtoGen.Interfaces);
-                args.Interfaces.Add(this.gen.Interfaces);
-                args.Interfaces.Add($"IEquatable<{this.Interface(getter: true, internalInterface: true)}>");
+                throw new ArgumentException("Cannot define both a loqui and non-loqui base class");
             }
+            if (HasLoquiBaseObject)
+            {
+                args.BaseClass = BaseClassName;
+            }
+            else if (HasNonLoquiBaseObject && SetBaseClass)
+            {
+                args.BaseClass = NonLoquiBaseClass;
+            }
+            args.Interfaces.Add(Interface(getter: false, internalInterface: true));
+            args.Interfaces.Add($"ILoquiObjectSetter<{ObjectName}>");
+            args.Interfaces.Add(Interfaces.Get(LoquiInterfaceType.Direct));
+            args.Interfaces.Add(await GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());
+            args.Interfaces.Add(ProtoGen.Interfaces);
+            args.Interfaces.Add(gen.Interfaces);
+            args.Interfaces.Add($"IEquatable<{Interface(getter: true, internalInterface: true)}>");
         }
+    }
         
-        protected override async Task GenerateCtor(FileGeneration fg)
+    protected override async Task GenerateCtor(FileGeneration fg)
+    {
+        if (BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
+        using (new RegionWrapper(fg, "Ctor"))
         {
-            if (this.BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
-            using (new RegionWrapper(fg, "Ctor"))
+            fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}()");
+            using (new BraceWrapper(fg))
             {
-                fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {this.Name}()");
-                using (new BraceWrapper(fg))
-                {
-                    List<Task> toDo = new List<Task>();
-                    toDo.AddRange(this.gen.GenerationModules.Select(mod => mod.GenerateInCtor(this, fg)));
-                    var fieldsTask = Task.WhenAll(this.IterateFields().Select(field => field.GenerateForCtor(fg)));
-                    toDo.Add(fieldsTask);
-                    await fieldsTask;
-                    fieldCtorsGenerated.SetResult();
-                    await Task.WhenAll(toDo);
-                    await GenerateInitializer(fg);
-                    fg.AppendLine("CustomCtor();");
-                }
-                fg.AppendLine("partial void CustomCtor();");
+                List<Task> toDo = new List<Task>();
+                toDo.AddRange(gen.GenerationModules.Select(mod => mod.GenerateInCtor(this, fg)));
+                var fieldsTask = Task.WhenAll(IterateFields().Select(field => field.GenerateForCtor(fg)));
+                toDo.Add(fieldsTask);
+                await fieldsTask;
+                fieldCtorsGenerated.SetResult();
+                await Task.WhenAll(toDo);
+                await GenerateInitializer(fg);
+                fg.AppendLine("CustomCtor();");
             }
+            fg.AppendLine("partial void CustomCtor();");
         }
+    }
 
-        public override async Task<OverrideType> GetFunctionOverrideType(Func<ClassGeneration, Task<bool>> tester = null)
+    public override async Task<OverrideType> GetFunctionOverrideType(Func<ClassGeneration, Task<bool>> tester = null)
+    {
+        if (HasLoquiBaseObject)
         {
-            if (this.HasLoquiBaseObject)
+            foreach (var baseObj in BaseClassTrail())
             {
-                foreach (var baseObj in this.BaseClassTrail())
-                {
-                    if (tester == null || await tester(baseObj))
-                    {
-                        return OverrideType.HasBase;
-                    }
-                }
-            }
-            if (this.HasDerivativeClasses)
-            {
-                foreach (var derivClass in this.GetDerivativeClasses())
-                {
-                    if (tester == null || await tester(derivClass))
-                    {
-                        return OverrideType.OnlyHasDerivative;
-                    }
-                }
-            }
-            return OverrideType.None;
-        }
-
-        public override OverrideType GetFunctionOverrideType()
-        {
-            if (this.HasLoquiBaseObject)
-            {
-                foreach (var baseObj in this.BaseClassTrail())
+                if (tester == null || await tester(baseObj))
                 {
                     return OverrideType.HasBase;
                 }
             }
-            if (this.HasDerivativeClasses)
+        }
+        if (HasDerivativeClasses)
+        {
+            foreach (var derivClass in GetDerivativeClasses())
             {
-                foreach (var derivClass in this.GetDerivativeClasses())
+                if (tester == null || await tester(derivClass))
                 {
                     return OverrideType.OnlyHasDerivative;
                 }
             }
-            return OverrideType.None;
         }
+        return OverrideType.None;
+    }
 
-        public IEnumerable<ClassGeneration> GetDerivativeClasses()
+    public override OverrideType GetFunctionOverrideType()
+    {
+        if (HasLoquiBaseObject)
         {
-            foreach (var item in _derivativeClasses)
+            foreach (var baseObj in BaseClassTrail())
             {
-                yield return item;
-                foreach (var subItem in item.GetDerivativeClasses())
-                {
-                    yield return subItem;
-                }
+                return OverrideType.HasBase;
             }
         }
-
-        public override string Virtual(bool doIt = true)
+        if (HasDerivativeClasses)
         {
-            if (!doIt) return " ";
-            if (this.HasDerivativeClasses) return " virtual "; 
-            return " ";
+            foreach (var derivClass in GetDerivativeClasses())
+            {
+                return OverrideType.OnlyHasDerivative;
+            }
         }
+        return OverrideType.None;
+    }
+
+    public IEnumerable<ClassGeneration> GetDerivativeClasses()
+    {
+        foreach (var item in _derivativeClasses)
+        {
+            yield return item;
+            foreach (var subItem in item.GetDerivativeClasses())
+            {
+                yield return subItem;
+            }
+        }
+    }
+
+    public override string Virtual(bool doIt = true)
+    {
+        if (!doIt) return " ";
+        if (HasDerivativeClasses) return " virtual "; 
+        return " ";
     }
 }

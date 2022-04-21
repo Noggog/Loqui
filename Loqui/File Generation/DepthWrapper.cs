@@ -1,30 +1,27 @@
-using System;
+namespace Loqui;
 
-namespace Loqui
+public class DepthWrapper : IDisposable
 {
-    public class DepthWrapper : IDisposable
+    FileGeneration fg;
+    bool doIt;
+
+    public DepthWrapper(
+        FileGeneration fg,
+        bool doIt = true)
     {
-        FileGeneration fg;
-        bool doIt;
-
-        public DepthWrapper(
-            FileGeneration fg,
-            bool doIt = true)
+        this.fg = fg;
+        this.doIt = doIt;
+        if (doIt)
         {
-            this.fg = fg;
-            this.doIt = doIt;
-            if (doIt)
-            {
-                this.fg.Depth++;
-            }
+            this.fg.Depth++;
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (doIt)
         {
-            if (doIt)
-            {
-                this.fg.Depth--;
-            }
+            fg.Depth--;
         }
     }
 }

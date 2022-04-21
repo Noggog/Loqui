@@ -1,96 +1,89 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class IfWrapper : IDisposable
 {
-    public class IfWrapper : IDisposable
+    FileGeneration fg;
+    bool first;
+    public List<(string str, bool wrap)> Checks = new List<(string str, bool wrap)>();
+    bool ands;
+    public bool Empty => Checks.Count == 0;
+    public Action<FileGeneration> Body;
+
+    public IfWrapper(FileGeneration fg, bool ANDs, bool first = true)
     {
-        FileGeneration fg;
-        bool first;
-        public List<(string str, bool wrap)> Checks = new List<(string str, bool wrap)>();
-        bool ands;
-        public bool Empty => Checks.Count == 0;
-        public Action<FileGeneration> Body;
+        ands = ANDs;
+        this.first = first;
+        this.fg = fg;
+    }
 
-        public IfWrapper(FileGeneration fg, bool ANDs, bool first = true)
+    public void Add(string str, bool wrapInParens = false)
+    {
+        Checks.Add((str, wrapInParens));
+    }
+
+    private string Get(int index)
+    {
+        var item = Checks[index];
+        if (!item.wrap || Checks.Count <= 1)
         {
-            this.ands = ANDs;
-            this.first = first;
-            this.fg = fg;
+            return item.str;
         }
+        return $"({item.str})";
+    }
 
-        public void Add(string str, bool wrapInParens = false)
+    private void GenerateIf()
+    {
+        using (var line = new LineWrapper(fg))
         {
-            this.Checks.Add((str, wrapInParens));
-        }
-
-        private string Get(int index)
-        {
-            var item = Checks[index];
-            if (!item.wrap || Checks.Count <= 1)
+            if (!first)
             {
-                return item.str;
+                fg.Append("else ");
             }
-            return $"({item.str})";
-        }
-
-        private void GenerateIf()
-        {
-            using (var line = new LineWrapper(fg))
+            fg.Append("if (");
+            fg.Append(Get(0));
+            if (Checks.Count == 1)
             {
-                if (!first)
-                {
-                    fg.Append("else ");
-                }
-                fg.Append("if (");
-                fg.Append(Get(0));
-                if (Checks.Count == 1)
-                {
-                    fg.Append(")");
-                    return;
-                }
+                fg.Append(")");
+                return;
             }
-            using (new DepthWrapper(fg))
+        }
+        using (new DepthWrapper(fg))
+        {
+            for (int i = 1; i < Checks.Count; i++)
             {
-                for (int i = 1; i < Checks.Count; i++)
+                using (new LineWrapper(fg))
                 {
-                    using (new LineWrapper(fg))
+                    if (ands)
                     {
-                        if (this.ands)
-                        {
-                            fg.Append("&& ");
-                        }
-                        else
-                        {
-                            fg.Append("|| ");
-                        }
-                        fg.Append(Get(i));
-                        if (i == Checks.Count - 1)
-                        {
-                            fg.Append(")");
-                        }
+                        fg.Append("&& ");
+                    }
+                    else
+                    {
+                        fg.Append("|| ");
+                    }
+                    fg.Append(Get(i));
+                    if (i == Checks.Count - 1)
+                    {
+                        fg.Append(")");
                     }
                 }
             }
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (Checks.Count == 0)
         {
-            if (Checks.Count == 0)
+            Body?.Invoke(fg);
+            return;
+        }
+        GenerateIf();
+        if (Body != null)
+        {
+            using (new BraceWrapper(fg))
             {
-                Body?.Invoke(fg);
-                return;
-            }
-            GenerateIf();
-            if (Body != null)
-            {
-                using (new BraceWrapper(fg))
-                {
-                    Body(fg);
-                }
+                Body(fg);
             }
         }
     }

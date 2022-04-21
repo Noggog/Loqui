@@ -1,15 +1,12 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class XmlWriteGenerationParameters
 {
-    public class XmlWriteGenerationParameters
-    {
-        public XmlTranslationModule XmlGen;
-        public ObjectGeneration Object;
-        public FileGeneration FG;
-        public object Field;
-        public string Accessor;
-        public string Name;
-        public string ErrorMaskAccessor;
-    }
+    public XmlTranslationModule XmlGen;
+    public ObjectGeneration Object;
+    public FileGeneration FG;
+    public object Field;
+    public string Accessor;
+    public string Name;
+    public string ErrorMaskAccessor;
 }

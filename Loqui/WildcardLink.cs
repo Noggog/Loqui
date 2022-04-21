@@ -1,17 +1,15 @@
 using Loqui.Xml;
-using System;
 
-namespace Loqui
+namespace Loqui;
+
+public static class WildcardLink
 {
-    public static class WildcardLink
+    public static object Validate(object o)
     {
-        public static object Validate(object o)
+        if (!WildcardXmlTranslation.Instance.Validate(o.GetType()))
         {
-            if (!WildcardXmlTranslation.Instance.Validate(o.GetType()))
-            {
-                throw new ArgumentException($"Type not supported by wildcard systems {o.GetType()}");
-            }
-            return o;
+            throw new ArgumentException($"Type not supported by wildcard systems {o.GetType()}");
         }
+        return o;
     }
 }

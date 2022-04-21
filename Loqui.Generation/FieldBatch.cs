@@ -1,55 +1,49 @@
 using Noggog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Loqui.Generation
-{
-    public class FieldBatch
-    {
-        protected LoquiGenerator gen;
-        public string Name { get; private set; }
-        public List<(XElement Node, TypeGeneration TypeGen)> Fields = new List<(XElement, TypeGeneration)>();
-        public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
+namespace Loqui.Generation;
 
-        public FieldBatch(LoquiGenerator gen)
+public class FieldBatch
+{
+    protected LoquiGenerator gen;
+    public string Name { get; private set; }
+    public List<(XElement Node, TypeGeneration TypeGen)> Fields = new List<(XElement, TypeGeneration)>();
+    public Dictionary<string, GenericDefinition> Generics = new Dictionary<string, GenericDefinition>();
+
+    public FieldBatch(LoquiGenerator gen)
+    {
+        this.gen = gen;
+    }
+
+    public void Load(XElement node)
+    {
+        Name = node.GetAttribute("name", throwException: true);
+        foreach (var generic in node.Elements(XName.Get("Generic", LoquiGenerator.Namespace)))
         {
-            this.gen = gen;
+            var gen = new GenericDefinition()
+            {
+                Loqui = generic.GetAttribute<bool>("isLoqui", defaultVal: false)
+            };
+            var genName = generic.GetAttribute("name");
+            foreach (var where in generic.Elements(XName.Get("Where", LoquiGenerator.Namespace)))
+            {
+                gen.Add(where.Value);
+            }
+            Generics[genName] = gen;
         }
 
-        public void Load(XElement node)
+        XElement fieldsNode = node.Element(XName.Get("Fields", LoquiGenerator.Namespace));
+        if (fieldsNode != null)
         {
-            this.Name = node.GetAttribute("name", throwException: true);
-            foreach (var generic in node.Elements(XName.Get("Generic", LoquiGenerator.Namespace)))
+            foreach (XElement fieldNode in fieldsNode.Elements())
             {
-                var gen = new GenericDefinition()
-                {
-                    Loqui = generic.GetAttribute<bool>("isLoqui", defaultVal: false)
-                };
-                var genName = generic.GetAttribute("name");
-                foreach (var where in generic.Elements(XName.Get("Where", LoquiGenerator.Namespace)))
-                {
-                    gen.Add(where.Value);
-                }
-                this.Generics[genName] = gen;
-            }
+                if (fieldNode.NodeType == System.Xml.XmlNodeType.Comment) continue;
 
-            XElement fieldsNode = node.Element(XName.Get("Fields", LoquiGenerator.Namespace));
-            if (fieldsNode != null)
-            {
-                foreach (XElement fieldNode in fieldsNode.Elements())
+                if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out var typeGen))
                 {
-                    if (fieldNode.NodeType == System.Xml.XmlNodeType.Comment) continue;
-
-                    if (!gen.TryGetTypeGeneration(fieldNode.Name.LocalName, out var typeGen))
-                    {
-                        throw new ArgumentException("Unknown field type: " + fieldNode.Name);
-                    }
-                    this.Fields.Add((fieldNode, typeGen));
+                    throw new ArgumentException("Unknown field type: " + fieldNode.Name);
                 }
+                Fields.Add((fieldNode, typeGen));
             }
         }
     }

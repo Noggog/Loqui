@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Loqui;
 
-namespace Loqui
+public enum Variance
 {
-    public enum Variance
-    {
-        None,
-        In,
-        Out
-    }
+    None,
+    In,
+    Out
 }

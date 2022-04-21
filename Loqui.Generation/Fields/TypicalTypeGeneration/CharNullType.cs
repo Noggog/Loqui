@@ -1,9 +1,6 @@
-using System;
+namespace Loqui.Generation;
 
-namespace Loqui.Generation
+public class CharNullType : PrimitiveType
 {
-    public class CharNullType : PrimitiveType
-    {
-        public override Type Type(bool getter) => typeof(char?);
-    }
+    public override Type Type(bool getter) => typeof(char?);
 }
