@@ -24,7 +24,6 @@ public class LoquiGenerator
     public PermissionLevel SetPermissionDefault;
     public RxBaseOption RxBaseOptionDefault;
     public bool DerivativeDefault;
-    public NotifyingType NotifyingDefault;
     public bool NullableDefault;
     public bool ToStringDefault = true;
     public bool NthReflectionDefault = false;
@@ -37,7 +36,6 @@ public class LoquiGenerator
         {
             AddTypicalTypeAssociations();
             Add(MaskModule);
-            Add(new ReactiveModule());
         }
     }
 

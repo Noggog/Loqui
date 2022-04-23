@@ -125,27 +125,13 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     protected virtual string GetActualItemClass(bool getter)
     {
-        if (NotifyingType == NotifyingType.ReactiveUI)
+        if (Nullable)
         {
-            if (Nullable)
-            {
-                return $"SourceSetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
-            }
-            else
-            {
-                return $"SourceCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
-            }
+            return $"SetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
         }
         else
         {
-            if (Nullable)
-            {
-                return $"SetCache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
-            }
-            else
-            {
-                return $"Cache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
-            }
+            return $"Cache<{BackwardsTypeTuple(getter: false)}>((item) => item.{KeyAccessorString})";
         }
     }
 
@@ -153,52 +139,24 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
     {
         if (ReadOnly || getter)
         {
-            if (Notifying)
+            if (Nullable)
             {
-                if (Nullable)
-                {
-                    return $"IObservableSetCache<{BackwardsTypeTuple(getter)}>";
-                }
-                else
-                {
-                    return $"IObservableCache<{BackwardsTypeTuple(getter)}>";
-                }
+                throw new NotImplementedException();
             }
             else
             {
-                if (Nullable)
-                {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    return $"IReadOnlyCache<{BackwardsTypeTuple(getter)}>";
-                }
+                return $"IReadOnlyCache<{BackwardsTypeTuple(getter)}>";
             }
         }
         else
         {
-            if (Notifying)
+            if (Nullable)
             {
-                if (Nullable)
-                {
-                    return $"ISourceSetCache<{BackwardsTypeTuple(getter)}>";
-                }
-                else
-                {
-                    return $"ISourceCache<{BackwardsTypeTuple(getter)}>";
-                }
+                return $"ISetCache<{BackwardsTypeTuple(getter)}>";
             }
             else
             {
-                if (Nullable)
-                {
-                    return $"ISetCache<{BackwardsTypeTuple(getter)}>";
-                }
-                else
-                {
-                    return $"ICache<{BackwardsTypeTuple(getter)}>";
-                }
+                return $"ICache<{BackwardsTypeTuple(getter)}>";
             }
         }
     }

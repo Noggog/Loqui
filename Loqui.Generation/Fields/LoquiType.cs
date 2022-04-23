@@ -270,145 +270,68 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             _thisConstruction = _thisConstruction ?? _TargetObjectGeneration.Abstract && !Nullable;
         }
 
-        if (NotifyingType == NotifyingType.ReactiveUI)
+        if (Nullable)
         {
-            if (Nullable)
+            if (Singleton)
             {
-                if (Singleton)
-                {
-                    fg.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
-                }
-                else
-                {
-                    fg.AppendLine($"private {TypeName()} _{Name};");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {OverrideStr}{TypeName()} {Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => _{Name};");
-                        fg.AppendLine($"{SetPermissionStr}set => {Name}_Set(value);");
-                    }
-
-                    using (var args = new FunctionWrapper(fg,
-                               $"public void {Name}_Set"))
-                    {
-                        args.Add($"{TypeName()} value");
-                        args.Add($"bool hasBeenSet = true");
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"if (value == null) value = new {TypeName()}({(ThisConstruction ? "this" : null)});");
-                        fg.AppendLine($"this.RaiseAndSetIfChanged(ref _{Name}, value, _hasBeenSetTracker, hasBeenSet, (int){ObjectCentralizationEnumName}, nameof({Name}), zzz);");
-                    }
-
-                    using (var args = new FunctionWrapper(fg,
-                               $"public void {Name}_Unset"))
-                    {
-                    }
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"this.{Name}_Set({(HasDefault ? $"_{Name}_Default" : $"default({TypeName()})")}, false);");
-                    }
-                }
+                fg.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{ProtectedName};");
-            }
-            else if (Singleton)
-            {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName} = new {DirectTypeName}();");
-                if (GetterInterfaceType != LoquiInterfaceType.Direct)
-                {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
-                }
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                fg.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
             }
             else
             {
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private {TypeName()} _{Name}{(ThisConstruction ? null : $" = new {TypeName()}();")}");
+                fg.AppendLine($"private {TypeName()}{NullChar} _{Name};");
                 Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public {OverrideStr}{TypeName()} {Name}");
+                fg.AppendLine($"public {OverrideStr}{TypeName()}{NullChar} {Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => _{Name};");
-                    fg.AppendLine($"{SetPermissionStr}set => _{Name} = value ?? new {DirectTypeName}({(ThisConstruction ? "this" : null)});");
-                }
-                if (GetterInterfaceType != LoquiInterfaceType.Direct)
-                {
-                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => _{Name};");
+                    fg.AppendLine($"{SetPermissionStr}set => _{Name} = value;");
                 }
             }
+            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+            fg.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{ProtectedName};");
         }
         else
         {
-            if (Nullable)
+            if (Singleton)
             {
-                if (Singleton)
-                {
-                    fg.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
-                }
-                else
-                {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"private {TypeName()}{NullChar} _{Name};");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {OverrideStr}{TypeName()}{NullChar} {Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => _{Name};");
-                        fg.AppendLine($"{SetPermissionStr}set => _{Name} = value;");
-                    }
-                }
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{ProtectedName};");
+                fg.AppendLine($"private {(ThisConstruction ? null : "readonly ")}{DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} => {SingletonObjectName};");
+                if (GetterInterfaceType != LoquiInterfaceType.Direct)
+                {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: false)}.{Name} => {SingletonObjectName};");
+                }
             }
             else
             {
-                if (Singleton)
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                string? construction;
+                if (ThisConstruction)
                 {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"private {(ThisConstruction ? null : "readonly ")}{DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} => {SingletonObjectName};");
-                    if (GetterInterfaceType != LoquiInterfaceType.Direct)
+                    if (Nullable)
                     {
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: false)}.{Name} => {SingletonObjectName};");
+                        construction = null;
+                    }
+                    else
+                    {
+                        construction = " = default!;";
                     }
                 }
                 else
                 {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    string? construction;
-                    if (ThisConstruction)
-                    {
-                        if (Nullable)
-                        {
-                            construction = null;
-                        }
-                        else
-                        {
-                            construction = " = default!;";
-                        }
-                    }
-                    else
-                    {
-                        construction = $" = new {DirectTypeName}();";
-                    }
-                    fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} {{ get; {SetPermissionStr}set; }}{construction}");
-                    if (GetterInterfaceType != LoquiInterfaceType.Direct)
-                    {
-                        fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                        fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {Name};");
-                    }
+                    construction = $" = new {DirectTypeName}();";
+                }
+                fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} {{ get; {SetPermissionStr}set; }}{construction}");
+                if (GetterInterfaceType != LoquiInterfaceType.Direct)
+                {
+                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {Name};");
                 }
             }
         }

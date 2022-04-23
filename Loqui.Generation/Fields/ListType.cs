@@ -17,22 +17,11 @@ public class ListType : ContainerType
         }
         if (ReadOnly || getter)
         {
-            if (Notifying)
-            {
-                return $"IObservableList<{itemTypeName}{SubTypeGeneration.NullChar}>";
-            }
-            else
-            {
-                return $"IReadOnlyList<{itemTypeName}{SubTypeGeneration.NullChar}>";
-            }
+            return $"IReadOnlyList<{itemTypeName}{SubTypeGeneration.NullChar}>";
         }
         else
         {
-            if (Notifying)
-            {
-                return $"SourceList<{itemTypeName}{SubTypeGeneration.NullChar}>";
-            }
-            else if (SubTypeGeneration is ByteArrayType)
+            if (SubTypeGeneration is ByteArrayType)
             {
                 return $"SliceList<byte>";
             }
@@ -59,11 +48,7 @@ public class ListType : ContainerType
 
     protected virtual string GetActualItemClass(bool ctor = false)
     {
-        if (NotifyingType == NotifyingType.ReactiveUI)
-        {
-            return $"new SourceList<{ItemTypeName(getter: false)}>{(ctor ? "()" : null)}";
-        }
-        else if (SubTypeGeneration is ByteArrayType)
+        if (SubTypeGeneration is ByteArrayType)
         {
             return $"new SliceList<byte>{(ctor ? "()" : null)}";
         }

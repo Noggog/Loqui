@@ -14,7 +14,6 @@ public static class Constants
     public const string COPY = "copy";
     public const string GENERATE_CLASS_MEMBERS = "generateClassMembers";
     public const string GENERATE_INTERFACE_MEMBERS = "generateInterfaceMembers";
-    public const string NOTIFYING = "notifying";
     public const string NULLABLE = "nullable";
     public const string MIN = "min";
     public const string MAX = "max";

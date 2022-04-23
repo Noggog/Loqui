@@ -21,7 +21,6 @@ public class NothingType : TypeGeneration
     public override async Task Load(XElement node, bool requireName = true)
     {
         await base.Load(node, requireName);
-        NotifyingProperty.OnNext((NotifyingType.None, true));
         NullableProperty.OnNext((false, true));
     }
 

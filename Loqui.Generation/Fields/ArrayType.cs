@@ -30,40 +30,33 @@ public class ArrayType : ListType
 
     protected override string GetActualItemClass(bool ctor = false)
     {
-        if (NotifyingType == NotifyingType.ReactiveUI)
+        if (!ctor)
         {
-            throw new NotImplementedException();
+            return $"{ItemTypeName(getter: false)}[]";
         }
-        else
+        if (Nullable)
         {
-            if (!ctor)
+            return $"default";
+        }
+        else if (FixedSize.HasValue)
+        {
+            if (SubTypeGeneration is LoquiType loqui)
             {
-                return $"{ItemTypeName(getter: false)}[]";
+                return $"ArrayExt.Create({FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
             }
-            if (Nullable)
+            else if (SubTypeGeneration.IsNullable
+                     || SubTypeGeneration.CanBeNullable(getter: false))
             {
-                return $"default";
-            }
-            else if (FixedSize.HasValue)
-            {
-                if (SubTypeGeneration is LoquiType loqui)
-                {
-                    return $"ArrayExt.Create({FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
-                }
-                else if (SubTypeGeneration.IsNullable
-                         || SubTypeGeneration.CanBeNullable(getter: false))
-                {
-                    return $"new {ItemTypeName(getter: false)}[{FixedSize}]";
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                return $"new {ItemTypeName(getter: false)}[{FixedSize}]";
             }
             else
             {
-                return $"new {ItemTypeName(getter: false)}[0]";
+                throw new NotImplementedException();
             }
+        }
+        else
+        {
+            return $"new {ItemTypeName(getter: false)}[0]";
         }
     }
 

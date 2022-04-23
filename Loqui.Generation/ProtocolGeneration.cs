@@ -23,7 +23,6 @@ public class ProtocolGeneration
     public bool ToStringDefault;
     public bool NthReflectionDefault;
     public string DefaultNamespace;
-    public NotifyingType NotifyingDefault;
     public bool NullableDefault;
     public bool DoGeneration = true;
     public readonly List<string> Interfaces = new();
@@ -39,7 +38,6 @@ public class ProtocolGeneration
     {
         Protocol = protocol;
         Gen = gen;
-        NotifyingDefault = gen.NotifyingDefault;
         NullableDefault = gen.NullableDefault;
         GenerationFolder = defSearchableFolder;
         SetterInterfaceTypeDefault = gen.SetterInterfaceTypeDefault;

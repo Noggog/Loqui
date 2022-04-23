@@ -6,8 +6,6 @@ public class ClassGeneration : ObjectGeneration
 {
     private bool _abstract;
     public override bool Abstract => _abstract;
-    private NotifyingType _notifyingDefault;
-    public override NotifyingType NotifyingDefault => _notifyingDefault;
     private bool _nullableDefault;
     public override bool NullableDefault => _nullableDefault;
     public string BaseClassStr { get; set; }
@@ -34,7 +32,6 @@ public class ClassGeneration : ObjectGeneration
     {
         BaseClassStr = Node.GetAttribute("baseClass");
         _abstract = Node.GetAttribute<bool>("abstract", false);
-        _notifyingDefault = Node.GetAttribute<NotifyingType>("notifyingDefault", ProtoGen.NotifyingDefault);
         _nullableDefault = Node.GetAttribute<bool>("nullableDefault", ProtoGen.NullableDefault);
 
         if (NeedsReflectionGeneration)

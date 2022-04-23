@@ -30,9 +30,6 @@ public abstract class TypeGeneration
     public bool GenerateClassMembers = true;
     public bool GenerateInterfaceMembers = true;
     public abstract bool IsEnumerable { get; }
-    public readonly BehaviorSubject<(NotifyingType Item, bool HasBeenSet)> NotifyingProperty = new BehaviorSubject<(NotifyingType Item, bool HasBeenSet)>((default, default));
-    public NotifyingType NotifyingType => NotifyingProperty.Value.Item;
-    public bool Notifying => NotifyingType != NotifyingType.None;
     public readonly BehaviorSubject<(bool Item, bool HasBeenSet)> NullableProperty = new BehaviorSubject<(bool Item, bool HasBeenSet)>((default, default));
     public virtual bool Nullable => NullableProperty.Value.Item;
     public virtual bool CanBeNullable(bool getter) => true;
@@ -60,10 +57,6 @@ public abstract class TypeGeneration
     {
         ObjectGen = obj;
         if (!setDefaults) return;
-        if (!NotifyingProperty.Value.HasBeenSet)
-        {
-            NotifyingProperty.OnNext((ObjectGen.NotifyingDefault, false));
-        }
         if (!NullableProperty.Value.HasBeenSet)
         {
             NullableProperty.OnNext((ObjectGen.NullableDefault, false));
@@ -101,7 +94,6 @@ public abstract class TypeGeneration
         _copy = node.GetAttribute<CopyLevel>(Constants.COPY, _copy);
         node.TransferAttribute<bool>(Constants.GENERATE_CLASS_MEMBERS, i => GenerateClassMembers = i);
         node.TransferAttribute<bool>(Constants.GENERATE_INTERFACE_MEMBERS, i => GenerateInterfaceMembers = i);
-        node.TransferAttribute<NotifyingType>(Constants.NOTIFYING, i => NotifyingProperty.OnNext((i, true)));
         node.TransferAttribute<bool>(Constants.NULLABLE, i => NullableProperty.OnNext((i, true)));
         node.TransferAttribute<bool>(Constants.INTERNAL_SET_INTERFACE, i => InternalSetInterface = i);
         node.TransferAttribute<bool>(Constants.INTERNAL_GET_INTERFACE, i => InternalGetInterface = i);

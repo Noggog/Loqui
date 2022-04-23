@@ -6,7 +6,6 @@ public class StructGeneration : ObjectGeneration
 {
     public override bool Abstract => false;
 
-    public override NotifyingType NotifyingDefault => NotifyingType.None;
     public override bool NullableDefault => false;
 
     public override string ProtectedKeyword => "private";
@@ -97,7 +96,6 @@ public class StructGeneration : ObjectGeneration
         await base.Load();
         foreach (var field in IterateFields())
         {
-            field.NotifyingProperty.OnNext((NotifyingType.None, true));
             field.NullableProperty.OnNext((false, true));
             field.ReadOnly = true;
         }

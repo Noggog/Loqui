@@ -23,7 +23,6 @@ namespace Loqui.Generation
         public bool GenerateToString { get; set; } = true;
         public bool GenerateNthReflections { get; set; }
         public CtorPermissionLevel BasicCtorPermission { get; set; } = CtorPermissionLevel.@public;
-        public abstract NotifyingType NotifyingDefault { get; }
         public abstract bool NullableDefault { get; }
         public LoquiInterfaceType SetterInterfaceTypeDefault;
         public LoquiInterfaceType GetterInterfaceTypeDefault;

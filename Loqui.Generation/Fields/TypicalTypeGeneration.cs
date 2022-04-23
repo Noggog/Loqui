@@ -77,101 +77,58 @@ public abstract class TypicalTypeGeneration : TypeGeneration
             fg.AppendLine($"{TypeName(getter: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
         }
 
-        if (NotifyingType == NotifyingType.ReactiveUI)
+        if (HasDefault)
         {
-            if (Nullable)
+            Comments?.Apply(fg, LoquiInterfaceType.Direct);
+            fg.AppendLine($"public readonly static {TypeName(getter: false)} {DefaultValueMemberName} = {DefaultValue};");
+        }
+        if (Nullable)
+        {
+            if (!TrueReadOnly)
             {
-                if (!TrueReadOnly)
-                {
-                    GenerateTypicalNullableMembers(true);
-                }
-                else
-                {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public readonly {TypeName(getter: false)} {Name};");
-                    fg.AppendLine($"{TypeName(getter: false)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
-                }
+                GenerateTypicalNullableMembers(false);
             }
             else
             {
-                if (HasDefault)
-                {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"private {TypeName(getter: false)} _{Name} = {DefaultValueMemberName};");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public readonly static {TypeName(getter: false)} {DefaultValueMemberName} = {DefaultValue};");
-                }
-                else
-                {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"private {TypeName(getter: false)} _{Name};");
-                }
-                fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name}");
-                using (new BraceWrapper(fg))
-                {
-                    fg.AppendLine($"get => this._{Name};");
-                    WrapSetAccessor(fg,
-                        linePrefix: $"{SetPermissionStr}set",
-                        toDo: subGen => subGen.AppendLine($"this.RaiseAndSetIfChanged(ref this._{Name}, {GetValueSetString("value")}, nameof({Name}));"));
-                }
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                fg.AppendLine($"public readonly {TypeName(getter: false)} {Name};");
+                fg.AppendLine($"{TypeName(getter: false)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
             }
         }
         else
         {
-            if (HasDefault)
+            var subFg = new FileGeneration();
+            WrapSetAccessor(subFg,
+                linePrefix: $"{SetPermissionStr}set",
+                toDo: subGen =>
+                {
+                    if (subGen.Count == 0) return;
+                    subGen.AppendLine($"this._{Name} = value;");
+                });
+            if (subFg.Count > 1)
+            {
+                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                fg.AppendLine($"private {TypeName(getter: false)} _{Name};");
+                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                fg.AppendLine($"public {TypeName(getter: false)} {Name}");
+                using (new BraceWrapper(fg))
+                {
+                    fg.AppendLine($"get => this._{Name};");
+                    fg.AppendLines(subFg);
+                }
+            }
+            else if (subFg.Count == 1)
             {
                 Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public readonly static {TypeName(getter: false)} {DefaultValueMemberName} = {DefaultValue};");
-            }
-            if (Nullable)
-            {
-                if (!TrueReadOnly)
-                {
-                    GenerateTypicalNullableMembers(false);
-                }
-                else
-                {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public readonly {TypeName(getter: false)} {Name};");
-                    fg.AppendLine($"{TypeName(getter: false)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
-                }
+                fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name} {{ get; {subFg[0]}; }} = {(HasDefault ? DefaultValueMemberName : GetDefault(getter: false))};");
             }
             else
             {
-                var subFg = new FileGeneration();
-                WrapSetAccessor(subFg,
-                    linePrefix: $"{SetPermissionStr}set",
-                    toDo: subGen =>
-                    {
-                        if (subGen.Count == 0) return;
-                        subGen.AppendLine($"this._{Name} = value;");
-                    });
-                if (subFg.Count > 1)
-                {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"private {TypeName(getter: false)} _{Name};");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {TypeName(getter: false)} {Name}");
-                    using (new BraceWrapper(fg))
-                    {
-                        fg.AppendLine($"get => this._{Name};");
-                        fg.AppendLines(subFg);
-                    }
-                }
-                else if (subFg.Count == 1)
-                {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name} {{ get; {subFg[0]}; }} = {(HasDefault ? DefaultValueMemberName : GetDefault(getter: false))};");
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
-                if (!InternalGetInterface && TypeName(getter: true) != TypeName(getter: false))
-                {
-                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
-                }
+                throw new ArgumentException();
+            }
+            if (!InternalGetInterface && TypeName(getter: true) != TypeName(getter: false))
+            {
+                fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
             }
         }
         if (InternalSetInterface)
@@ -230,25 +187,12 @@ public abstract class TypicalTypeGeneration : TypeGeneration
 
             if (!CanBeNullable(false))
             {
-                if (NotifyingType == NotifyingType.ReactiveUI)
+                if (Nullable)
                 {
-                    if (Nullable)
-                    {
-                        fg.AppendLine($"new bool {NullableAccessor(getter: false, accessor: new Accessor(Name))} {{ get; set; }}");
-                        fg.AppendLine($"void {Name}_Set({TypeName(getter: false)} value, bool hasBeenSet = true);");
-                        fg.AppendLine($"void {Name}_Unset();");
-                        fg.AppendLine();
-                    }
-                }
-                else if (NotifyingType == NotifyingType.None)
-                {
-                    if (Nullable)
-                    {
-                        fg.AppendLine($"new bool {NullableAccessor(getter: false, accessor: new Accessor(Name))} {{ get; set; }}");
-                        fg.AppendLine($"void {Name}_Set({TypeName(getter: false)} value, bool hasBeenSet = true);");
-                        fg.AppendLine($"void {Name}_Unset();");
-                        fg.AppendLine();
-                    }
+                    fg.AppendLine($"new bool {NullableAccessor(getter: false, accessor: new Accessor(Name))} {{ get; set; }}");
+                    fg.AppendLine($"void {Name}_Set({TypeName(getter: false)} value, bool hasBeenSet = true);");
+                    fg.AppendLine($"void {Name}_Unset();");
+                    fg.AppendLine();
                 }
             }
         }
@@ -315,18 +259,6 @@ public abstract class TypicalTypeGeneration : TypeGeneration
         // ToDo
         // Add internal interface support
         if (InternalSetInterface) return;
-        if (NotifyingType == NotifyingType.ReactiveUI)
-        {
-            if (Nullable)
-            {
-                fg.AppendLine($"{identifier.Access}_Unset();");
-            }
-            else
-            {
-                fg.AppendLine($"{identifier.Access} = {(HasDefault ? $"{ObjectGen.Name}.{DefaultValueMemberName}" : $"default")};");
-            }
-            return;
-        }
         if (HasDefault)
         {
             fg.AppendLine($"{identifier.Access} = {ObjectGen.ObjectName}.{DefaultValueMemberName};");
