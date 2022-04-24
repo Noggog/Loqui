@@ -72,7 +72,7 @@ public abstract class TypicalTypeGeneration : TypeGeneration
         void GenerateTypicalNullableMembers(bool notifying)
         {
             Comments?.Apply(fg, LoquiInterfaceType.Direct);
-            fg.AppendLine($"public {TypeName(getter: false)}{NullChar} {Name} {{ get; {(ReadOnly ? "protected " : string.Empty)}set; }}{(HasDefault ? $" = {DefaultValueMemberName};" : null)}");
+            fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)}{NullChar} {Name} {{ get; {(ReadOnly ? "protected " : string.Empty)}set; }}{(HasDefault ? $" = {DefaultValueMemberName};" : null)}");
             fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             fg.AppendLine($"{TypeName(getter: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{Name};");
         }
@@ -110,7 +110,7 @@ public abstract class TypicalTypeGeneration : TypeGeneration
                 fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 fg.AppendLine($"private {TypeName(getter: false)} _{Name};");
                 Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public {TypeName(getter: false)} {Name}");
+                fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name}");
                 using (new BraceWrapper(fg))
                 {
                     fg.AppendLine($"get => this._{Name};");
