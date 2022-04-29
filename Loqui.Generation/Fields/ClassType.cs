@@ -30,7 +30,7 @@ public abstract class ClassType : TypicalTypeGeneration
         return base.GenerateDefaultValue();
     }
 
-    public override async Task GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
         if (!IntegrateField) return;
         if (Nullable)
@@ -39,31 +39,31 @@ public abstract class ClassType : TypicalTypeGeneration
             {
                 if (!TrueReadOnly)
                 {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"protected {TypeName(getter: false)}? _{Name};");
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)}? {Name}");
-                    using (new BraceWrapper(fg))
+                    sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    sb.AppendLine($"protected {TypeName(getter: false)}? _{Name};");
+                    Comments?.Apply(sb, LoquiInterfaceType.Direct);
+                    sb.AppendLine($"public {OverrideStr}{TypeName(getter: false)}? {Name}");
+                    using (sb.CurlyBrace())
                     {
-                        fg.AppendLine($"get => this._{ Name};");
-                        fg.AppendLine($"{SetPermissionStr}set => this._{Name} = value;");
+                        sb.AppendLine($"get => this._{ Name};");
+                        sb.AppendLine($"{SetPermissionStr}set => this._{Name} = value;");
                     }
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                     if (CanBeNullable(getter: true))
                     {
-                        fg.AppendLine($"{TypeName(getter: true)}? {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
+                        sb.AppendLine($"{TypeName(getter: true)}? {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
                     }
                     else
                     {
-                        fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
-                        fg.AppendLine($"bool {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name}_IsSet => this.{Name} != null;");
+                        sb.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
+                        sb.AppendLine($"bool {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name}_IsSet => this.{Name} != null;");
                     }
                 }
                 else
                 {
-                    Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                    fg.AppendLine($"public readonly {TypeName(getter: false)}? {Name};");
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    Comments?.Apply(sb, LoquiInterfaceType.Direct);
+                    sb.AppendLine($"public readonly {TypeName(getter: false)}? {Name};");
+                    sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
                 }
             }
             else
@@ -73,31 +73,31 @@ public abstract class ClassType : TypicalTypeGeneration
         }
         else
         {
-            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"private {TypeName(getter: false)} _{Name}{(IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
-            Comments?.Apply(fg, LoquiInterfaceType.Direct);
+            sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+            sb.AppendLine($"private {TypeName(getter: false)} _{Name}{(IsNullable ? string.Empty : $" = {GetNewForNonNullable()}")};");
+            Comments?.Apply(sb, LoquiInterfaceType.Direct);
             if (Singleton)
             {
-                fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name} => {ProtectedName};");
+                sb.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name} => {ProtectedName};");
             }
             else
             {
-                fg.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name}");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name}");
+                using (sb.CurlyBrace())
                 {
-                    fg.AppendLine($"get => {ProtectedName};");
-                    fg.AppendLine($"{SetPermissionStr}set => this._{Name} = value;");
+                    sb.AppendLine($"get => {ProtectedName};");
+                    sb.AppendLine($"{SetPermissionStr}set => this._{Name} = value;");
                 }
             }
             if (TypeName(getter: true) != TypeName(getter: false))
             {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
+                sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                sb.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, InternalGetInterface)}.{Name} => this.{Name};");
             }
         }
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor identifier)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor identifier)
     {
         if (ReadOnly || !IntegrateField) return;
         // ToDo
@@ -105,7 +105,7 @@ public abstract class ClassType : TypicalTypeGeneration
         if (InternalSetInterface) return;
         if (Nullable)
         {
-            fg.AppendLine($"{identifier.Access} = default;");
+            sb.AppendLine($"{identifier.Access} = default;");
         }
         else
         {

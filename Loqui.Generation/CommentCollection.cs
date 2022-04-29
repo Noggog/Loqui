@@ -11,18 +11,18 @@ public class CommentCollection
         Comments = new CommentWrapper(null);
     }
 
-    public void Apply(FileGeneration fg, LoquiInterfaceType type)
+    public void Apply(StructuredStringBuilder sb, LoquiInterfaceType type)
     {
         switch (type)
         {
             case LoquiInterfaceType.Direct:
-                Comments.Apply(fg);
+                Comments.Apply(sb);
                 break;
             case LoquiInterfaceType.ISetter:
-                (SetterInterface ?? Comments).Apply(fg);
+                (SetterInterface ?? Comments).Apply(sb);
                 break;
             case LoquiInterfaceType.IGetter:
-                (GetterInterface ?? Comments).Apply(fg);
+                (GetterInterface ?? Comments).Apply(sb);
                 break;
             default:
                 break;

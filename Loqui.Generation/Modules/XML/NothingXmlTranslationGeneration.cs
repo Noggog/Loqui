@@ -10,7 +10,7 @@ public class NothingXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor, 
@@ -26,7 +26,7 @@ public class NothingXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor, 

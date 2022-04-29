@@ -15,12 +15,12 @@ public class StructGeneration : ObjectGeneration
     {
     }
 
-    protected override async Task GenerateCtor(FileGeneration fg)
+    protected override async Task GenerateCtor(StructuredStringBuilder sb)
     {
         if (BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
         if (BasicCtorPermission == CtorPermissionLevel.@public)
         {
-            fg.AppendLine($"public {Name}(");
+            sb.AppendLine($"public {Name}(");
             List<string> lines = new List<string>();
             foreach (var field in IterateFields())
             {
@@ -28,58 +28,58 @@ public class StructGeneration : ObjectGeneration
             }
             for (int i = 0; i < lines.Count; i++)
             {
-                using (new DepthWrapper(fg))
+                using (new DepthWrapper(sb))
                 {
-                    using (new LineWrapper(fg))
+                    using (new LineWrapper(sb))
                     {
-                        fg.Append(lines[i]);
+                        sb.Append(lines[i]);
                         if (i != lines.Count - 1)
                         {
-                            fg.Append(",");
+                            sb.Append(",");
                         }
                         else
                         {
-                            fg.Append(")");
+                            sb.Append(")");
                         }
                     }
                 }
             }
 
-            using (new BraceWrapper(fg))
+            using (sb.CurlyBrace())
             {
                 foreach (var field in IterateFields())
                 {
-                    fg.AppendLine($"this.{field.Name} = {field.Name};");
+                    sb.AppendLine($"this.{field.Name} = {field.Name};");
                 }
                 foreach (var mod in gen.GenerationModules)
                 {
-                    await mod.GenerateInCtor(this, fg);
+                    await mod.GenerateInCtor(this, sb);
                 }
-                fg.AppendLine("CustomCtor();");
+                sb.AppendLine("CustomCtor();");
             }
-            fg.AppendLine();
+            sb.AppendLine();
         }
 
-        fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}({Interface(getter: true)} rhs)");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}({Interface(getter: true)} rhs)");
+        using (sb.CurlyBrace())
         {
             foreach (var field in IterateFields())
             {
-                fg.AppendLine($"this.{field.Name} = {field.GenerateACopy("rhs." + field.Name)};");
+                sb.AppendLine($"this.{field.Name} = {field.GenerateACopy("rhs." + field.Name)};");
             }
         }
-        fg.AppendLine();
+        sb.AppendLine();
 
-        fg.AppendLine("partial void CustomCtor();");
-        fg.AppendLine();
+        sb.AppendLine("partial void CustomCtor();");
+        sb.AppendLine();
     }
 
-    protected override async Task GenerateClassLine(FileGeneration fg)
+    protected override async Task GenerateClassLine(StructuredStringBuilder sb)
     {
         // Generate class header and interfaces
-        using (new LineWrapper(fg))
+        using (new LineWrapper(sb))
         {
-            using (var args = new ClassWrapper(fg, $"{Name}{GetGenericTypes(MaskType.Normal)}"))
+            using (var args = new ClassWrapper(sb, $"{Name}{GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Partial = true;
                 args.Type = ClassWrapper.ObjectType.@struct;
@@ -101,23 +101,23 @@ public class StructGeneration : ObjectGeneration
         }
     }
 
-    protected override async Task GenerateLoquiReflectionSetterInterface(FileGeneration fg)
+    protected override async Task GenerateLoquiReflectionSetterInterface(StructuredStringBuilder sb)
     {
     }
 
-    protected override async Task GenerateSetterInterface(FileGeneration fg)
+    protected override async Task GenerateSetterInterface(StructuredStringBuilder sb)
     {
     }
 
-    protected override async Task GenerateClearCommon(FileGeneration fg, MaskTypeSet maskCol)
+    protected override async Task GenerateClearCommon(StructuredStringBuilder sb, MaskTypeSet maskCol)
     {
     }
 
-    protected override async Task GenerateDeepCopyInExtensions(FileGeneration fg)
+    protected override async Task GenerateDeepCopyInExtensions(StructuredStringBuilder sb)
     {
     }
 
-    public void GenerateCopyCtor(FileGeneration fg, string accessor, string rhs)
+    public void GenerateCopyCtor(StructuredStringBuilder sb, string accessor, string rhs)
     {
     }
 }

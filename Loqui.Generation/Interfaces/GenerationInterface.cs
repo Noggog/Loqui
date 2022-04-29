@@ -10,6 +10,6 @@ public abstract class GenerationInterface
     public abstract Task<IEnumerable<string>> RequiredUsingStatements();
     public abstract Task<IEnumerable<string>> Interfaces(ObjectGeneration obj);
     public abstract void Modify(ObjectGeneration obj);
-    public abstract void GenerateInClass(ObjectGeneration obj, FileGeneration fg);
-    public abstract void Generate(ObjectGeneration obj, FileGeneration fg);
+    public abstract void GenerateInClass(ObjectGeneration obj, StructuredStringBuilder sb);
+    public abstract void Generate(ObjectGeneration obj, StructuredStringBuilder sb);
 }

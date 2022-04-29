@@ -4,19 +4,19 @@ namespace Loqui.Generation;
 
 public class ArgsWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     List<string[]> args = new List<string[]>();
     public bool SemiColon = true;
     string initialLine;
     string suffixLine;
 
     public ArgsWrapper(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         string initialLine = null,
         string suffixLine = null,
         bool semiColon = true)
     {
-        this.fg = fg;
+        this.sb = sb;
         SemiColon = semiColon;
         this.initialLine = initialLine;
         this.suffixLine = suffixLine;
@@ -35,9 +35,9 @@ public class ArgsWrapper : IDisposable
         Add($"{str}: {str}");
     }
 
-    public void Add(Action<FileGeneration> generator, bool removeSemicolon = true)
+    public void Add(Action<StructuredStringBuilder> generator, bool removeSemicolon = true)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         generator(gen);
         if (gen.Empty) return;
         if (removeSemicolon && gen.Count != 0)
@@ -47,9 +47,9 @@ public class ArgsWrapper : IDisposable
         args.Add(gen.ToArray());
     }
 
-    public async Task Add(Func<FileGeneration, Task> generator)
+    public async Task Add(Func<StructuredStringBuilder, Task> generator)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         await generator(gen);
         if (gen.Empty) return;
         args.Add(gen.ToArray());
@@ -61,28 +61,28 @@ public class ArgsWrapper : IDisposable
         {
             if (args.Count == 0)
             {
-                fg.AppendLine($"{initialLine}(){suffixLine}{(SemiColon ? ";" : string.Empty)}");
+                sb.AppendLine($"{initialLine}(){suffixLine}{(SemiColon ? ";" : string.Empty)}");
                 return;
             }
             else if (args.Count == 1
                      && args[0].Length == 1)
             {
-                fg.AppendLine($"{initialLine}({args[0][0]}){suffixLine}{(SemiColon ? ";" : string.Empty)}");
+                sb.AppendLine($"{initialLine}({args[0][0]}){suffixLine}{(SemiColon ? ";" : string.Empty)}");
                 return;
             }
             else
             {
-                fg.AppendLine($"{initialLine}(");
+                sb.AppendLine($"{initialLine}(");
             }
         }
-        fg.Depth++;
+        sb.Depth++;
         args.Last(
             each: (arg) =>
             {
                 arg.Last(
                     each: (item, last) =>
                     {
-                        fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                        sb.AppendLine($"{item}{(last ? "," : string.Empty)}");
                     });
             },
             last: (arg) =>
@@ -90,9 +90,9 @@ public class ArgsWrapper : IDisposable
                 arg.Last(
                     each: (item, last) =>
                     {
-                        fg.AppendLine($"{item}{(last ? $"){suffixLine}{(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
+                        sb.AppendLine($"{item}{(last ? $"){suffixLine}{(SemiColon ? ";" : string.Empty)}" : string.Empty)}");
                     });
             });
-        fg.Depth--;
+        sb.Depth--;
     }
 }

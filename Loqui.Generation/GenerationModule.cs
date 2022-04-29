@@ -13,16 +13,16 @@ public interface IGenerationModule
     Task PostLoad(ObjectGeneration obj);
     Task PostFieldLoad(ObjectGeneration obj, TypeGeneration field, XElement node);
     Task Modify(LoquiGenerator gen);
-    Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInClass(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type);
-    Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes);
-    Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg);
-    Task GenerateInInterface(ObjectGeneration obj, FileGeneration fg, bool internalInterface, bool getter);
-    Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg);
+    Task GenerateInStaticCtor(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInClass(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, StructuredStringBuilder sb, LoquiInterfaceType type);
+    Task GenerateInNonGenericClass(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInCtor(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInCommon(ObjectGeneration obj, StructuredStringBuilder sb, MaskTypeSet maskTypes);
+    Task GenerateInCommonMixin(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateInInterface(ObjectGeneration obj, StructuredStringBuilder sb, bool internalInterface, bool getter);
+    Task GenerateInRegistration(ObjectGeneration obj, StructuredStringBuilder sb);
     Task MiscellaneousGenerationActions(ObjectGeneration obj);
     Task Resolve(ObjectGeneration obj);
     Task PrepareGeneration(ProtocolGeneration proto);
@@ -71,49 +71,49 @@ public abstract class GenerationModule : IGenerationModule
         return SubModules.Modify(gen);
     }
 
-    public virtual Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInStaticCtor(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInStaticCtor(obj, fg);
+        return SubModules.GenerateInStaticCtor(obj, sb);
     }
 
-    public virtual Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInClass(obj, fg);
+        return SubModules.GenerateInClass(obj, sb);
     }
 
-    public virtual Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInNonGenericClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInNonGenericClass(obj, fg);
+        return SubModules.GenerateInNonGenericClass(obj, sb);
     }
 
-    public virtual Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInCtor(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInCtor(obj, fg);
+        return SubModules.GenerateInCtor(obj, sb);
     }
 
-    public virtual Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
+    public virtual Task GenerateInCommon(ObjectGeneration obj, StructuredStringBuilder sb, MaskTypeSet maskTypes)
     {
-        return SubModules.GenerateInCommon(obj, fg, maskTypes);
+        return SubModules.GenerateInCommon(obj, sb, maskTypes);
     }
 
-    public virtual Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInCommonMixin(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInCommonMixin(obj, fg);
+        return SubModules.GenerateInCommonMixin(obj, sb);
     }
 
-    public virtual Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInVoid(obj, fg);
+        return SubModules.GenerateInVoid(obj, sb);
     }
 
-    public virtual Task GenerateInInterface(ObjectGeneration obj, FileGeneration fg, bool internalInterface, bool getter)
+    public virtual Task GenerateInInterface(ObjectGeneration obj, StructuredStringBuilder sb, bool internalInterface, bool getter)
     {
-        return SubModules.GenerateInInterface(obj, fg, internalInterface, getter);
+        return SubModules.GenerateInInterface(obj, sb, internalInterface, getter);
     }
 
-    public virtual Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
+    public virtual Task GenerateInRegistration(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        return SubModules.GenerateInRegistration(obj, fg);
+        return SubModules.GenerateInRegistration(obj, sb);
     }
 
     public virtual Task MiscellaneousGenerationActions(ObjectGeneration obj)
@@ -141,8 +141,8 @@ public abstract class GenerationModule : IGenerationModule
         return SubModules.FinalizeGeneration(proto);
     }
 
-    public virtual Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type)
+    public virtual Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, StructuredStringBuilder sb, LoquiInterfaceType type)
     {
-        return SubModules.GenerateInField(obj, typeGeneration, fg, type);
+        return SubModules.GenerateInField(obj, typeGeneration, sb, type);
     }
 }

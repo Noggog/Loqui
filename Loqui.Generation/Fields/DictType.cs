@@ -7,7 +7,7 @@ public interface IDictType
     TypeGeneration KeyTypeGen { get; }
     TypeGeneration ValueTypeGen { get; }
     DictMode Mode { get; }
-    void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key);
+    void AddMaskException(StructuredStringBuilder sb, string errorMaskMemberAccessor, string exception, bool key);
 }
 
 public enum DictMode
@@ -37,9 +37,9 @@ public class DictType : TypeGeneration, IDictType
         return subGenerator.GetName(internalUse);
     }
 
-    public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
+    public void AddMaskException(StructuredStringBuilder sb, string errorMaskMemberAccessor, string exception, bool key)
     {
-        subDictGenerator.AddMaskException(fg, errorMaskMemberAccessor, exception, key);
+        subDictGenerator.AddMaskException(sb, errorMaskMemberAccessor, exception, key);
     }
 
     public override async Task Load(XElement node, bool requireName = true)
@@ -65,35 +65,35 @@ public class DictType : TypeGeneration, IDictType
         }
     }
 
-    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier)
     {
-        subGenerator.GenerateUnsetNth(fg, identifier);
+        subGenerator.GenerateUnsetNth(sb, identifier);
     }
 
-    public override Task GenerateForClass(FileGeneration fg)
+    public override Task GenerateForClass(StructuredStringBuilder sb)
     {
-        return subGenerator.GenerateForClass(fg);
+        return subGenerator.GenerateForClass(sb);
     }
 
-    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    public override void GenerateForInterface(StructuredStringBuilder sb, bool getter, bool internalInterface)
     {
-        subGenerator.GenerateForInterface(fg, getter, internalInterface);
+        subGenerator.GenerateForInterface(sb, getter, internalInterface);
     }
 
     public override void GenerateForCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs, 
         Accessor copyMaskAccessor,
         bool protectedMembers,
         bool deepCopy)
     {
-        subGenerator.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
+        subGenerator.GenerateForCopy(sb, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
     }
 
-    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
-        subGenerator.GenerateSetNth(fg, accessor, rhs, internalUse);
+        subGenerator.GenerateSetNth(sb, accessor, rhs, internalUse);
     }
 
     public override string NullableAccessor(bool getter, Accessor accessor = null)
@@ -101,14 +101,14 @@ public class DictType : TypeGeneration, IDictType
         return subGenerator.NullableAccessor(getter, accessor);
     }
 
-    public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateGetNth(StructuredStringBuilder sb, Accessor identifier)
     {
-        subGenerator.GenerateGetNth(fg, identifier);
+        subGenerator.GenerateGetNth(sb, identifier);
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix)
     {
-        subGenerator.GenerateClear(fg, accessorPrefix);
+        subGenerator.GenerateClear(sb, accessorPrefix);
     }
 
     public override string GenerateACopy(string rhsAccessor)
@@ -126,29 +126,29 @@ public class DictType : TypeGeneration, IDictType
         return subGenerator.GenerateEqualsSnippet(accessor, rhsAccessor, negate);
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
-        subGenerator.GenerateForEquals(fg, accessor, rhsAccessor, maskAccessor);
+        subGenerator.GenerateForEquals(sb, accessor, rhsAccessor, maskAccessor);
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
-        subGenerator.GenerateForEqualsMask(fg, accessor, rhsAccessor, retAccessor);
+        subGenerator.GenerateForEqualsMask(sb, accessor, rhsAccessor, retAccessor);
     }
 
-    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    public override void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor)
     {
-        subGenerator.GenerateForHash(fg, accessor, hashResultAccessor);
+        subGenerator.GenerateForHash(sb, accessor, hashResultAccessor);
     }
 
-    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
-        subGenerator.GenerateToString(fg, name, accessor, fgAccessor);
+        subGenerator.GenerateToString(sb, name, accessor, sbAccessor);
     }
 
-    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)
     {
-        subGenerator.GenerateForNullableCheck(fg, accessor, checkMaskAccessor);
+        subGenerator.GenerateForNullableCheck(sb, accessor, checkMaskAccessor);
     }
 
     public override string GetDuplicate(Accessor accessor)

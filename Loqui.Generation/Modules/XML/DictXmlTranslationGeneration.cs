@@ -14,7 +14,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -37,7 +37,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
                 }
 
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                 {
                     args.Add($"node: {writerAccessor}");
@@ -56,10 +56,10 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     args.Add((gen) =>
                     {
                         gen.AppendLine($"keyTransl: (XElement subNode, {dictType.KeyTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder? dictSubMask, {nameof(TranslationCrystal)}? dictSubTranslMask) =>");
-                        using (new BraceWrapper(gen))
+                        using (new CurlyBrace(gen))
                         {
                             keyTransl.GenerateWrite(
-                                fg: gen,
+                                sb: gen,
                                 objGen: objGen,
                                 typeGen: dictType.KeyTypeGen,
                                 writerAccessor: "subNode",
@@ -72,10 +72,10 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     args.Add((gen) =>
                     {
                         gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder? dictSubMask, {nameof(TranslationCrystal)}? dictSubTranslMask) =>");
-                        using (new BraceWrapper(gen))
+                        using (new CurlyBrace(gen))
                         {
                             valTransl.GenerateWrite(
-                                fg: gen,
+                                sb: gen,
                                 objGen: objGen,
                                 typeGen: dictType.ValueTypeGen,
                                 writerAccessor: "subNode",
@@ -89,11 +89,11 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                 break;
             case DictMode.KeyedValue:
                 MaskGenerationUtility.WrapErrorFieldIndexPush(
-                    fg: fg,
+                    sb: sb,
                     toDo: () =>
                     {
                         using (var args = new ArgsWrapper(
-                                   fg,
+                                   sb,
                                    $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                         {
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -104,10 +104,10 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                             args.Add((gen) =>
                             {
                                 gen.AppendLine($"valTransl: (XElement subNode, {dictType.ValueTypeGen.TypeName(getter: true)} subItem, ErrorMaskBuilder? dictSubMask, {nameof(TranslationCrystal)}? dictTranslMask) =>");
-                                using (new BraceWrapper(gen))
+                                using (new CurlyBrace(gen))
                                 {
                                     valTransl.GenerateWrite(
-                                        fg: gen,
+                                        sb: gen,
                                         objGen: objGen,
                                         typeGen: dictType.ValueTypeGen,
                                         writerAccessor: "subNode",
@@ -128,7 +128,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -137,7 +137,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
         Accessor translationMaskAccessor)
     {
         GenerateCopyIn_Internal(
-            fg: fg,
+            sb: sb,
             objGen: objGen,
             typeGen: typeGen,
             nodeAccessor: nodeAccessor,
@@ -148,7 +148,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     private void GenerateCopyIn_Internal(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -196,7 +196,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                 throw new NotImplementedException();
         }
 
-        using (var args = new ArgsWrapper(fg, funcStr))
+        using (var args = new ArgsWrapper(sb, funcStr))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
             if (!ret)

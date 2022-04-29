@@ -215,28 +215,28 @@ public class ProtocolGeneration
             namespaces.Add(obj.Namespace);
         }
 
-        FileGeneration fg = new FileGeneration();
+        StructuredStringBuilder sb = new StructuredStringBuilder();
         foreach (var nameS in namespaces)
         {
-            fg.AppendLine($"using {nameS};");
+            sb.AppendLine($"using {nameS};");
         }
-        fg.AppendLine();
+        sb.AppendLine();
 
-        fg.AppendLine("namespace Loqui;");
-        fg.AppendLine();
+        sb.AppendLine("namespace Loqui;");
+        sb.AppendLine();
 
-        fg.AppendLine($"internal class {ProtocolDefinitionName} : IProtocolRegistration");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"internal class {ProtocolDefinitionName} : IProtocolRegistration");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"public static readonly ProtocolKey ProtocolKey = new(\"{Protocol.Namespace}\");");
-            fg.AppendLine("void IProtocolRegistration.Register() => Register();");
-            fg.AppendLine("public static void Register()");
-            using (new BraceWrapper(fg))
+            sb.AppendLine($"public static readonly ProtocolKey ProtocolKey = new(\"{Protocol.Namespace}\");");
+            sb.AppendLine("void IProtocolRegistration.Register() => Register();");
+            sb.AppendLine("public static void Register()");
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine("LoquiRegistration.Register(");
-                using (new DepthWrapper(fg))
+                sb.AppendLine("LoquiRegistration.Register(");
+                using (new DepthWrapper(sb))
                 {
-                    using (var comma = new CommaWrapper(fg))
+                    using (var comma = new CommaWrapper(sb))
                     {
                         foreach (var obj in ObjectGenerationsByID.Values
                                      .OrderBy((o) => o.ID))
@@ -245,11 +245,11 @@ public class ProtocolGeneration
                         }
                     }
                 }
-                fg.AppendLine(");");
+                sb.AppendLine(");");
             }
         }
 
-        fg.Generate(
+        sb.Generate(
             new FileInfo(
                 DefFileLocation.FullName
                 + $"/{ProtocolDefinitionName}.cs"));

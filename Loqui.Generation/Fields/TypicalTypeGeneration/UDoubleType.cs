@@ -11,12 +11,12 @@ public class UDoubleType : TypicalDoubleNumberTypeGeneration
         return $"{(negate ? "!" : null)}{accessor.Access}.EqualsWithin({rhsAccessor.Access})";
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
-        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"if (!{accessor.Access}.EqualsWithin({rhsAccessor.Access})) return false;");
+            sb.AppendLine($"if (!{accessor.Access}.EqualsWithin({rhsAccessor.Access})) return false;");
         }
     }
 }

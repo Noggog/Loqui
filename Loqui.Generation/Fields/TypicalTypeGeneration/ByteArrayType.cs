@@ -27,13 +27,13 @@ public class ByteArrayType : ClassType
         return $"new byte[{Length ?? 0}]";
     }
 
-    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
         if (!IntegrateField) return;
         // ToDo
         // Add Internal interface support
         if (InternalGetInterface) return;
-        fg.AppendLine($"{fgAccessor}.AppendLine($\"{name} => {{{nameof(SpanExt)}.{nameof(SpanExt.ToHexString)}({accessor.Access})}}\");");
+        sb.AppendLine($"{sbAccessor}.AppendLine($\"{name} => {{{nameof(SpanExt)}.{nameof(SpanExt.ToHexString)}({accessor.Access})}}\");");
     }
 
     public override async Task Load(XElement node, bool requireName = true)
@@ -48,22 +48,22 @@ public class ByteArrayType : ClassType
         }
     }
         
-    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    public override void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor)
     {
         if (!IntegrateField) return;
         if (Nullable)
         {
-            fg.AppendLine($"if ({accessor} is {{}} {Name}Item)");
+            sb.AppendLine($"if ({accessor} is {{}} {Name}Item)");
             accessor = $"{Name}Item";
         }
-        using (new BraceWrapper(fg, doIt: Nullable))
+        using (sb.CurlyBrace(doIt: Nullable))
         {
-            fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
+            sb.AppendLine($"{hashResultAccessor}.Add({accessor});");
         }
     }
 
     public override void GenerateForCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs, 
         Accessor copyMaskAccessor,
@@ -72,30 +72,30 @@ public class ByteArrayType : ClassType
     {
         if (!AlwaysCopy)
         {
-            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+            sb.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
-        using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+        using (sb.CurlyBrace(doIt: !AlwaysCopy))
         {
             MaskGenerationUtility.WrapErrorFieldIndexPush(
-                fg,
+                sb,
                 () =>
                 {
                     if (Nullable)
                     {
-                        fg.AppendLine($"if(rhs.{Name} is {{}} {Name}rhs)");
-                        using (new BraceWrapper(fg))
+                        sb.AppendLine($"if(rhs.{Name} is {{}} {Name}rhs)");
+                        using (sb.CurlyBrace())
                         {
-                            fg.AppendLine($"{accessor.Access} = {Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");
+                            sb.AppendLine($"{accessor.Access} = {Name}rhs{(deepCopy ? null : ".Value")}.ToArray();");
                         }
-                        fg.AppendLine("else");
-                        using (new BraceWrapper(fg))
+                        sb.AppendLine("else");
+                        using (sb.CurlyBrace())
                         {
-                            fg.AppendLine($"{accessor.Access} = default;");
+                            sb.AppendLine($"{accessor.Access} = default;");
                         }
                     }
                     else
                     {
-                        fg.AppendLine($"{accessor.Access} = {rhs}.ToArray();");
+                        sb.AppendLine($"{accessor.Access} = {rhs}.ToArray();");
                     }
                 },
                 errorMaskAccessor: "errorMask",
@@ -104,7 +104,7 @@ public class ByteArrayType : ClassType
         }
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor identifier)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor identifier)
     {
         if (ReadOnly || !IntegrateField) return;
         // ToDo
@@ -113,15 +113,15 @@ public class ByteArrayType : ClassType
         if (!Enabled) return;
         if (Nullable)
         {
-            fg.AppendLine($"{identifier.Access} = default;");
+            sb.AppendLine($"{identifier.Access} = default;");
         }
         else if (Length.HasValue)
         {
-            fg.AppendLine($"{identifier.Access} = new byte[{Length.Value}];");
+            sb.AppendLine($"{identifier.Access} = new byte[{Length.Value}];");
         }
         else
         {
-            fg.AppendLine($"{identifier.Access} = new byte[0];");
+            sb.AppendLine($"{identifier.Access} = new byte[0];");
         }
     }
 
@@ -130,11 +130,11 @@ public class ByteArrayType : ClassType
         throw new NotImplementedException();
     }
 
-    public override void GenerateCopySetToConverter(FileGeneration fg)
+    public override void GenerateCopySetToConverter(StructuredStringBuilder sb)
     {
-        using (new DepthWrapper(fg))
+        using (new DepthWrapper(sb))
         {
-            fg.AppendLine(".Select(b => new MemorySlice<byte>(b.ToArray()))");
+            sb.AppendLine(".Select(b => new MemorySlice<byte>(b.ToArray()))");
         }
     }
 }

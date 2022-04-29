@@ -31,7 +31,7 @@ public class ErrorMaskPlaceholder : IErrorMask<ErrorMaskPlaceholder>
         throw new NotImplementedException();
     }
 
-    public void ToString(FileGeneration fg, string? name)
+    public void ToString(StructuredStringBuilder sb, string? name)
     {
         throw new NotImplementedException();
     }

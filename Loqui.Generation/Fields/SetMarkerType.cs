@@ -49,77 +49,77 @@ public class SetMarkerType : TypeGeneration
         throw new NotImplementedException();
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    public override void GenerateForCopy(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateGetNameIndex(FileGeneration fg)
+    public override void GenerateGetNameIndex(StructuredStringBuilder sb)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateGetNthName(FileGeneration fg)
+    public override void GenerateGetNthName(StructuredStringBuilder sb)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateGetNthType(FileGeneration fg)
+    public override void GenerateGetNthType(StructuredStringBuilder sb)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    public override void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    public override void GenerateForInterface(StructuredStringBuilder sb, bool getter, bool internalInterface)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateGetNth(StructuredStringBuilder sb, Accessor identifier)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
         throw new NotImplementedException();
     }
 
-    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier)
     {
         throw new NotImplementedException();
     }

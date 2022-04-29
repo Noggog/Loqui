@@ -12,7 +12,7 @@ public abstract class XmlTranslationGeneration : TranslationGeneration
         TypeGeneration typeGen);
 
     public abstract void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -22,7 +22,7 @@ public abstract class XmlTranslationGeneration : TranslationGeneration
         Accessor translationMaskAccessor);
 
     public abstract void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,

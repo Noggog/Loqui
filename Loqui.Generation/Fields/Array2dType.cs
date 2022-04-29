@@ -44,19 +44,19 @@ public class Array2dType : ListType
         return $"new Array2d<{ItemTypeName(getter: false)}>{(ctor ? $"({FixedSize.Value.X}, {FixedSize.Value.Y})" : null)}";
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessor)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessor)
     {
         if (Nullable)
         {
-            fg.AppendLine($"{accessor} = null;");
+            sb.AppendLine($"{accessor} = null;");
         }
         else
         {
-            fg.AppendLine($"{accessor}.SetAllTo(default);");
+            sb.AppendLine($"{accessor}.SetAllTo(default);");
         }
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         string funcStr;
         if (SubTypeGeneration is LoquiType loqui)
@@ -67,7 +67,7 @@ public class Array2dType : ListType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"ret.{Name} = item.{Name}.Array2dEqualsHelper"))
         {
             args.Add($"rhs.{Name}");
@@ -76,20 +76,20 @@ public class Array2dType : ListType
         }
     }
 
-    public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
+    public override void WrapSet(StructuredStringBuilder sb, Accessor accessor, Action<StructuredStringBuilder> a)
     {
         if (Nullable)
         {
-            fg.AppendLine($"{accessor} = ");
-            using (new DepthWrapper(fg))
+            sb.AppendLine($"{accessor} = ");
+            using (new DepthWrapper(sb))
             {
-                a(fg);
-                fg.AppendLine($".ShallowClone();");
+                a(sb);
+                sb.AppendLine($".ShallowClone();");
             }
         }
         else
         {
-            using (var args = new ArgsWrapper(fg,
+            using (var args = new ArgsWrapper(sb,
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));

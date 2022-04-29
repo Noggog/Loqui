@@ -99,29 +99,29 @@ public class MaskItemIndexed<TKey, TOverall, TSpecific> : MaskItem<TOverall, TSp
 
 public static class MaskItemExt
 {
-    public static void ToString<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, FileGeneration fg)
+    public static void ToString<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, StructuredStringBuilder sb)
     {
         if (maskItem == null) return;
         if (maskItem.Overall != null)
         {
             if (maskItem.Overall is IPrintable printable)
             {
-                printable.ToString(fg, null);
+                printable.ToString(sb, null);
             }
             else
             {
-                fg.AppendLine(maskItem.Overall.ToString());
+                sb.AppendLine(maskItem.Overall.ToString());
             }
         }
         if (maskItem.Specific != null)
         {
             if (maskItem.Specific is IPrintable printable)
             {
-                printable.ToString(fg, null);
+                printable.ToString(sb, null);
             }
             else
             {
-                fg.AppendLine(maskItem.Specific.ToString());
+                sb.AppendLine(maskItem.Specific.ToString());
             }
         }
     }

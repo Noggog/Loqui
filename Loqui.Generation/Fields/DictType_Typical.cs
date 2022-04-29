@@ -91,22 +91,22 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
     }
 
-    public void AddMaskException(FileGeneration fg, string errorMaskMemberAccessor, string exception, bool key)
+    public void AddMaskException(StructuredStringBuilder sb, string errorMaskMemberAccessor, string exception, bool key)
     {
         LoquiType keyLoquiType = KeyTypeGen as LoquiType;
         LoquiType valueLoquiType = ValueTypeGen as LoquiType;
         var item2 = $"KeyValuePair<{(keyLoquiType == null ? "Exception" : keyLoquiType.TargetObjectGeneration.GetMaskString("Exception"))}, {(valueLoquiType == null ? "Exception" : valueLoquiType.TargetObjectGeneration.GetMaskString("Exception"))}>";
 
-        fg.AppendLine($"{errorMaskMemberAccessor}?.{Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
+        sb.AppendLine($"{errorMaskMemberAccessor}?.{Name}.Value.Add(new {item2}({(key ? exception : "null")}, {(key ? "null" : exception)}));");
     }
 
-    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier)
     {
         if (!ReadOnly)
         {
-            fg.AppendLine($"{identifier}.{GetName(false)}.Clear();");
+            sb.AppendLine($"{identifier}.{GetName(false)}.Clear();");
         }
-        fg.AppendLine("break;");
+        sb.AppendLine("break;");
     }
 
     public override string GetName(bool internalUse)
@@ -121,49 +121,49 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
     }
 
-    public override async Task GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
-        fg.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{Name} = new Dictionary<{TypeTuple(getter: false)}>();");
-        Comments?.Apply(fg, LoquiInterfaceType.Direct);
-        fg.AppendLine($"public IDictionary<{TypeTuple(getter: false)}> {Name} => _{Name};");
+        sb.AppendLine($"private readonly Dictionary<{TypeTuple(getter: false)}> _{Name} = new Dictionary<{TypeTuple(getter: false)}>();");
+        Comments?.Apply(sb, LoquiInterfaceType.Direct);
+        sb.AppendLine($"public IDictionary<{TypeTuple(getter: false)}> {Name} => _{Name};");
 
         var member = "_" + Name;
-        using (new RegionWrapper(fg, "Interface Members"))
+        using (new RegionWrapper(sb, "Interface Members"))
         {
             if (!ReadOnly)
             {
-                fg.AppendLine($"IDictionary{(ReadOnly ? "Getter" : string.Empty)}<{TypeTuple(getter: false)}> {ObjectGen.Interface()}.{Name} => {member};");
+                sb.AppendLine($"IDictionary{(ReadOnly ? "Getter" : string.Empty)}<{TypeTuple(getter: false)}> {ObjectGen.Interface()}.{Name} => {member};");
             }
             if (ValueIsLoqui)
             {
-                fg.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {ObjectGen.Interface(getter: true)}.{Name} => {member}.Covariant<{TypeTuple(getter: false)}, {ValueTypeGen.TypeName(getter: true)}>();");
+                sb.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {ObjectGen.Interface(getter: true)}.{Name} => {member}.Covariant<{TypeTuple(getter: false)}, {ValueTypeGen.TypeName(getter: true)}>();");
             }
             else
             {
-                fg.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {ObjectGen.Interface(getter: true)}.{Name} => {member};");
+                sb.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {ObjectGen.Interface(getter: true)}.{Name} => {member};");
             }
         }
     }
 
-    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    public override void GenerateForInterface(StructuredStringBuilder sb, bool getter, bool internalInterface)
     {
         if (getter)
         {
-            Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-            fg.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {Name} {{ get; }}");
+            Comments?.Apply(sb, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
+            sb.AppendLine($"IReadOnlyDictionary<{TypeTuple(getter: true)}> {Name} {{ get; }}");
         }
         else
         {
             if (!ReadOnly)
             {
-                Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-                fg.AppendLine($"new IDictionary{(ReadOnly ? "Getter" : string.Empty)}<{TypeTuple(getter: false)}> {Name} {{ get; }}");
+                Comments?.Apply(sb, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
+                sb.AppendLine($"new IDictionary{(ReadOnly ? "Getter" : string.Empty)}<{TypeTuple(getter: false)}> {Name} {{ get; }}");
             }
         }
     }
 
     public override void GenerateForCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs,
         Accessor copyMaskAccessor,
@@ -172,13 +172,13 @@ public class DictType_Typical : TypeGeneration, IDictType
     {
         if (!AlwaysCopy)
         {
-            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+            sb.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
-        using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+        using (sb.CurlyBrace(doIt: !AlwaysCopy))
         {
             if (!KeyIsLoqui && !ValueIsLoqui)
             {
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"{accessor}.SetTo"))
                 {
                     args.Add($"rhs.{Name}");
@@ -191,7 +191,7 @@ public class DictType_Typical : TypeGeneration, IDictType
                 {
                     throw new NotImplementedException();
                 }
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"{accessor}.SetTo"))
                 {
                     args.Add((gen) =>
@@ -200,7 +200,7 @@ public class DictType_Typical : TypeGeneration, IDictType
                         using (new DepthWrapper(gen))
                         {
                             gen.AppendLine(".Select((r) =>");
-                            using (new BraceWrapper(gen) { AppendParenthesis = true })
+                            using (new CurlyBrace(gen) { AppendParenthesis = true })
                             {
                                 (ValueTypeGen as LoquiType).GenerateTypicalMakeCopy(
                                     gen,
@@ -218,19 +218,19 @@ public class DictType_Typical : TypeGeneration, IDictType
             }
             throw new NotImplementedException();
             MaskGenerationUtility.WrapErrorFieldIndexPush(
-                fg,
+                sb,
                 () =>
                 {
                     if (!KeyIsLoqui && !ValueIsLoqui)
                     {
-                        using (var args = new ArgsWrapper(fg,
+                        using (var args = new ArgsWrapper(sb,
                                    $"{accessor}.SetTo"))
                         {
                             args.Add($"rhs.{Name}");
                         }
                         return;
                     }
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(sb,
                                $"{accessor}.SetTo"))
                     {
                         args.Add((gen) =>
@@ -239,14 +239,14 @@ public class DictType_Typical : TypeGeneration, IDictType
                             using (new DepthWrapper(gen))
                             {
                                 gen.AppendLine(".Select((r) =>");
-                                using (new BraceWrapper(gen) { AppendParenthesis = true })
+                                using (new CurlyBrace(gen) { AppendParenthesis = true })
                                 {
                                     if (KeyIsLoqui)
                                     {
                                         throw new NotImplementedException();
                                         gen.AppendLine($"{KeyTypeGen.TypeName(getter: false)} key;");
                                         gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(BothAreLoqui ? "Key." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
-                                        using (new BraceWrapper(gen))
+                                        using (new CurlyBrace(gen))
                                         {
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
                                             using (new DepthWrapper(gen))
@@ -271,7 +271,7 @@ public class DictType_Typical : TypeGeneration, IDictType
                                     {
                                         gen.AppendLine($"{ValueTypeGen.TypeName(getter: false)} val;");
                                         gen.AppendLine($"switch ({copyMaskAccessor}?.Specific.{(BothAreLoqui ? "Value." : string.Empty)}Type ?? {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)})");
-                                        using (new BraceWrapper(gen))
+                                        using (new CurlyBrace(gen))
                                         {
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
                                             using (new DepthWrapper(gen))
@@ -311,51 +311,51 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
     }
 
-    private void GenerateCopy(FileGeneration fg, string accessorPrefix, string rhsAccessorPrefix)
+    private void GenerateCopy(StructuredStringBuilder sb, string accessorPrefix, string rhsAccessorPrefix)
     {
-        fg.AppendLine($"{accessorPrefix}.{Name}.SetTo(");
-        using (new DepthWrapper(fg))
+        sb.AppendLine($"{accessorPrefix}.{Name}.SetTo(");
+        using (new DepthWrapper(sb))
         {
-            fg.AppendLine($"{rhsAccessorPrefix}.{Name}.Select(");
-            using (new DepthWrapper(fg))
+            sb.AppendLine($"{rhsAccessorPrefix}.{Name}.Select(");
+            using (new DepthWrapper(sb))
             {
-                fg.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
-                using (new DepthWrapper(fg))
+                sb.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
+                using (new DepthWrapper(sb))
                 {
-                    fg.AppendLine($"i.Key{(KeyIsLoqui ? ".CopyFieldsFrom()" : string.Empty) },");
-                    fg.AppendLine($"i.Value{(ValueIsLoqui ? ".CopyFieldsFrom()" : string.Empty)})),");
+                    sb.AppendLine($"i.Key{(KeyIsLoqui ? ".CopyFieldsFrom()" : string.Empty) },");
+                    sb.AppendLine($"i.Value{(ValueIsLoqui ? ".CopyFieldsFrom()" : string.Empty)})),");
                 }
             }
         }
     }
 
-    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
-        fg.AppendLine($"{accessor}.SetTo(");
-        using (new DepthWrapper(fg))
+        sb.AppendLine($"{accessor}.SetTo(");
+        using (new DepthWrapper(sb))
         {
-            fg.AppendLine($"({rhs}).Select(");
-            using (new DepthWrapper(fg))
+            sb.AppendLine($"({rhs}).Select(");
+            using (new DepthWrapper(sb))
             {
-                fg.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
-                using (new DepthWrapper(fg))
+                sb.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
+                using (new DepthWrapper(sb))
                 {
-                    fg.AppendLine($"i.Key{(KeyIsLoqui ? ".Copy()" : string.Empty) },");
-                    fg.AppendLine($"i.Value{(ValueIsLoqui ? ".Copy()" : string.Empty)})),");
+                    sb.AppendLine($"i.Key{(KeyIsLoqui ? ".Copy()" : string.Empty) },");
+                    sb.AppendLine($"i.Value{(ValueIsLoqui ? ".Copy()" : string.Empty)})),");
                 }
             }
         }
-        fg.AppendLine($"break;");
+        sb.AppendLine($"break;");
     }
 
-    public override void GenerateGetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateGetNth(StructuredStringBuilder sb, Accessor identifier)
     {
-        fg.AppendLine($"return {identifier.Access};");
+        sb.AppendLine($"return {identifier.Access};");
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix)
     {
-        fg.AppendLine($"{accessorPrefix.Access}.Clear();");
+        sb.AppendLine($"{accessorPrefix.Access}.Clear();");
     }
 
     public override string GenerateACopy(string rhsAccessor)
@@ -368,21 +368,21 @@ public class DictType_Typical : TypeGeneration, IDictType
         return $"{(negate ? "!" : null)}{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})";
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
-        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+            sb.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
         }
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
-        GenerateForEqualsMaskCheck(fg, $"item.{Name}", $"rhs.{Name}", $"ret.{Name}");
+        GenerateForEqualsMaskCheck(sb, $"item.{Name}", $"rhs.{Name}", $"ret.{Name}");
     }
 
-    public void GenerateForEqualsMaskCheck(FileGeneration fg, string accessor, string rhsAccessor, string retAccessor)
+    public void GenerateForEqualsMaskCheck(StructuredStringBuilder sb, string accessor, string rhsAccessor, string retAccessor)
     {
         LoquiType keyLoqui = KeyTypeGen as LoquiType;
         LoquiType valLoqui = ValueTypeGen as LoquiType;
@@ -397,7 +397,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else if (valLoqui != null)
         {
-            using (var args = new ArgsWrapper(fg,
+            using (var args = new ArgsWrapper(sb,
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
@@ -408,7 +408,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else
         {
-            using (var args = new ArgsWrapper(fg,
+            using (var args = new ArgsWrapper(sb,
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
@@ -418,43 +418,43 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
     }
 
-    public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+    public void GenerateForEqualsMask(StructuredStringBuilder sb, string retAccessor, bool on)
     {
-        fg.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}();");
-        fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
+        sb.AppendLine($"{retAccessor} = new {DictMaskFieldGeneration.GetMaskString(this, "bool", getter: true)}();");
+        sb.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
     }
 
-    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    public override void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor)
     {
-        fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
+        sb.AppendLine($"{hashResultAccessor}.Add({accessor});");
     }
 
-    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
-        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"{name} =>\");");
-        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"[\");");
-        fg.AppendLine($"using (new DepthWrapper(fg))");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
+        sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
+        sb.AppendLine($"using (new DepthWrapper(sb))");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"foreach (var subItem in {accessor.Access})");
-            using (new BraceWrapper(fg))
+            sb.AppendLine($"foreach (var subItem in {accessor.Access})");
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"[\");");
-                fg.AppendLine($"using (new DepthWrapper({fgAccessor}))");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
+                sb.AppendLine($"using (new DepthWrapper({sbAccessor}))");
+                using (sb.CurlyBrace())
                 {
-                    KeyTypeGen.GenerateToString(fg, "Key", new Accessor("subItem.Key"), fgAccessor);
-                    ValueTypeGen.GenerateToString(fg, "Value", new Accessor("subItem.Value"), fgAccessor);
+                    KeyTypeGen.GenerateToString(sb, "Key", new Accessor("subItem.Key"), sbAccessor);
+                    ValueTypeGen.GenerateToString(sb, "Value", new Accessor("subItem.Value"), sbAccessor);
                 }
-                fg.AppendLine($"{fgAccessor}.{nameof(FileGeneration.AppendLine)}(\"]\");");
+                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
             }
         }
-        fg.AppendLine($"fg.{nameof(FileGeneration.AppendLine)}(\"]\");");
+        sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
     }
 
-    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)
     {
-        fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false) return false;");
+        sb.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false) return false;");
     }
 
     public override string GetDuplicate(Accessor accessor)

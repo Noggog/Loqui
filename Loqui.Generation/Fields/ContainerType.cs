@@ -7,18 +7,18 @@ public abstract class ContainerType : WrapperType
     public override bool IsEnumerable => true;
     public override bool IsClass => true;
 
-    public void AddMaskException(FileGeneration fg, string errorMaskAccessor, string exception)
+    public void AddMaskException(StructuredStringBuilder sb, string errorMaskAccessor, string exception)
     {
-        fg.AppendLine($"{errorMaskAccessor}?.{Name}.Specific.Value.Add({exception});");
+        sb.AppendLine($"{errorMaskAccessor}?.{Name}.Specific.Value.Add({exception});");
     }
 
-    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier)
     {
         if (!ReadOnly)
         {
-            fg.AppendLine($"{identifier}.Unset();");
+            sb.AppendLine($"{identifier}.Unset();");
         }
-        fg.AppendLine("break;");
+        sb.AppendLine("break;");
     }
 
     public override string GetName(bool internalUse)
@@ -43,24 +43,24 @@ public abstract class ContainerType : WrapperType
         return $"{(negate ? "!" : null)}{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})";
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
-        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
         {
             if (SubTypeGeneration is LoquiType subLoq
                 && subLoq.TargetObjectGeneration != null)
             {
-                fg.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {subLoq.TargetObjectGeneration.CommonClassSpeccedInstance("l", LoquiInterfaceType.IGetter, CommonGenerics.Class, subLoq.GenericSpecification)}.Equals(l, r, {maskAccessor}?.GetSubCrystal({IndexEnumInt})))) return false;");
+                sb.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {subLoq.TargetObjectGeneration.CommonClassSpeccedInstance("l", LoquiInterfaceType.IGetter, CommonGenerics.Class, subLoq.GenericSpecification)}.Equals(l, r, {maskAccessor}?.GetSubCrystal({IndexEnumInt})))) return false;");
             }
             else
             {
-                fg.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+                sb.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
             }
         }
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         string funcStr;
         if (SubTypeGeneration is LoquiType loqui)
@@ -71,7 +71,7 @@ public abstract class ContainerType : WrapperType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"ret.{Name} = item.{Name}.CollectionEqualsHelper"))
         {
             args.Add($"rhs.{Name}");
@@ -80,15 +80,15 @@ public abstract class ContainerType : WrapperType
         }
     }
 
-    public void GenerateForEqualsMask(FileGeneration fg, string retAccessor, bool on)
+    public void GenerateForEqualsMask(StructuredStringBuilder sb, string retAccessor, bool on)
     {
         var maskType = ObjectGen.ProtoGen.Gen.MaskModule.GetMaskModule(GetType()) as ContainerMaskFieldGeneration;
-        fg.AppendLine($"{retAccessor} = new {maskType.GetMaskString(this, "bool")}();");
-        fg.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
+        sb.AppendLine($"{retAccessor} = new {maskType.GetMaskString(this, "bool")}();");
+        sb.AppendLine($"{retAccessor}.Overall = {(on ? "true" : "false")};");
     }
 
-    public override void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor)
+    public override void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor)
     {
-        fg.AppendLine($"{hashResultAccessor}.Add({accessor});");
+        sb.AppendLine($"{hashResultAccessor}.Add({accessor});");
     }
 }

@@ -9,11 +9,11 @@ public class Comment_Tests
     {
         var commentWrapper = new CommentWrapper(null);
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
-        Assert.True(fg.Empty);
+        Assert.True(sb.Empty);
     }
 
     [Fact]
@@ -45,9 +45,9 @@ public class Comment_Tests
 
         commentWrapper.Summary.AppendLine("An awesome summary.");
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
@@ -56,7 +56,7 @@ public class Comment_Tests
             "/// </summary>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
@@ -66,16 +66,16 @@ public class Comment_Tests
 
         commentWrapper.AddParameter("name", "The name of the thing");
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
             "/// <param name=\"name\">The name of the thing</param>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
@@ -86,9 +86,9 @@ public class Comment_Tests
         commentWrapper.AddParameter("name", "The name of the thing");
         commentWrapper.AddParameter("thing", "The thing of the thing");
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
@@ -96,7 +96,7 @@ public class Comment_Tests
             "/// <param name=\"thing\">The thing of the thing</param>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
@@ -104,15 +104,15 @@ public class Comment_Tests
     {
         var commentWrapper = new CommentWrapper(null);
 
-        var description = new FileGeneration();
+        var description = new StructuredStringBuilder();
         description.AppendLine("The name of");
         description.AppendLine("the thing");
 
         commentWrapper.Parameters["name"] = description;
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
@@ -122,7 +122,7 @@ public class Comment_Tests
             "/// </param>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
@@ -132,16 +132,16 @@ public class Comment_Tests
 
         commentWrapper.Return.AppendLine("Awesomeness");
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
             "/// <returns>Awesomeness</returns>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
@@ -152,9 +152,9 @@ public class Comment_Tests
         commentWrapper.Return.AppendLine("Awesomeness,");
         commentWrapper.Return.AppendLine("sheer awesomeness!");
 
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        commentWrapper.Apply(fg);
+        commentWrapper.Apply(sb);
 
         var expected = new string[]
         {
@@ -164,18 +164,18 @@ public class Comment_Tests
             "/// </returns>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
     [Fact]
     public void WriteOnDispose()
     {
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        using (var commentWrapper = new CommentWrapper(fg))
+        using (var commentWrapper = new CommentWrapper(sb))
         {
             commentWrapper.Return.AppendLine("Awesomeness,");
-            var description = new FileGeneration();
+            var description = new StructuredStringBuilder();
             description.AppendLine("The name of");
             description.AppendLine("the thing");
 
@@ -203,7 +203,7 @@ public class Comment_Tests
             "/// </returns>",
         };
 
-        Assert.Equal(expected, fg);
+        Assert.Equal(expected, sb);
     }
 
 }

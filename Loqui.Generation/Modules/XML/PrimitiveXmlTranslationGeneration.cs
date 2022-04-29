@@ -28,7 +28,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
     }
 
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -37,7 +37,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         Accessor nameAccessor,
         Accessor translationMaskAccessor)
     {
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"{TypeName(typeGen)}XmlTranslation.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -52,7 +52,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -66,7 +66,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         WrapParseCall(
             new TranslationWrapParseArgs()
             {
-                FG = fg,
+                FG = sb,
                 TypeGen = typeGen,
                 TranslatorLine = $"{TypeName(typeGen)}XmlTranslation.Instance",
                 MaskAccessor = errorMaskAccessor,

@@ -177,37 +177,37 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         }
     }
 
-    private void ConvertFromStreamOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
+    private void ConvertFromStreamOut(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        fg.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
         internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
-        fg.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
+        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
     }
 
-    private void ConvertFromStreamIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
+    private void ConvertFromStreamIn(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        fg.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
         internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
     }
 
-    private void ConvertFromPathOut(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
+    private void ConvertFromPathOut(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        fg.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
         internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
-        fg.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
+        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
     }
 
-    private void ConvertFromPathIn(ObjectGeneration obj, FileGeneration fg, InternalTranslation internalToDo)
+    private void ConvertFromPathIn(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        fg.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
         internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
     }
 
-    protected virtual void FillPrivateElement(ObjectGeneration obj, FileGeneration fg)
+    protected virtual void FillPrivateElement(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
         {
-            using (var args = new FunctionWrapper(fg,
+            using (var args = new FunctionWrapper(sb,
                        $"protected static void FillPrivateElement{ModuleNickname}"))
             {
                 args.Add($"{obj.ObjectName} item");
@@ -216,10 +216,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
             }
-            using (new BraceWrapper(fg))
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine("switch (name)");
-                using (new BraceWrapper(fg))
+                sb.AppendLine("switch (name)");
+                using (sb.CurlyBrace())
                 {
                     foreach (var field in obj.IterateFields())
                     {
@@ -230,8 +230,8 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                             throw new ArgumentException("Unsupported type generator: " + field);
                         }
 
-                        fg.AppendLine($"case \"{field.Name}\":");
-                        using (new DepthWrapper(fg))
+                        sb.AppendLine($"case \"{field.Name}\":");
+                        using (new DepthWrapper(sb))
                         {
                             if (generator.ShouldGenerateCopyIn(field))
                             {
@@ -242,7 +242,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                 }
                                 if (conditions.Count > 0)
                                 {
-                                    using (var args = new IfWrapper(fg, ANDs: true))
+                                    using (var args = new IfWrapper(sb, ANDs: true))
                                     {
                                         foreach (var item in conditions)
                                         {
@@ -250,10 +250,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                         }
                                     }
                                 }
-                                using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                                using (sb.CurlyBrace(doIt: conditions.Count > 0))
                                 {
                                     generator.GenerateCopyIn(
-                                        fg: fg,
+                                        sb: sb,
                                         objGen: obj,
                                         typeGen: field,
                                         nodeAccessor: XElementLine.GetParameterName(obj).Result,
@@ -262,16 +262,16 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                         errorMaskAccessor: $"errorMask");
                                 }
                             }
-                            fg.AppendLine("break;");
+                            sb.AppendLine("break;");
                         }
                     }
 
-                    fg.AppendLine("default:");
-                    using (new DepthWrapper(fg))
+                    sb.AppendLine("default:");
+                    using (new DepthWrapper(sb))
                     {
                         if (obj.HasLoquiBaseObject)
                         {
-                            using (var args = new ArgsWrapper(fg,
+                            using (var args = new ArgsWrapper(sb,
                                        $"{obj.BaseClassName}.FillPrivateElement_" +
                                        $"{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
@@ -285,24 +285,24 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                 }
                             }
                         }
-                        fg.AppendLine("break;");
+                        sb.AppendLine("break;");
                     }
                 }
             }
-            fg.AppendLine();
+            sb.AppendLine();
         }
     }
 
-    public override async Task GenerateInTranslationWriteClass(ObjectGeneration obj, FileGeneration fg)
+    public override async Task GenerateInTranslationWriteClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        GenerateWriteToNode(obj, fg);
+        GenerateWriteToNode(obj, sb);
 
-        await base.GenerateInTranslationWriteClass(obj, fg);
+        await base.GenerateInTranslationWriteClass(obj, sb);
     }
 
-    public override async Task GenerateInTranslationCreateClass(ObjectGeneration obj, FileGeneration fg)
+    public override async Task GenerateInTranslationCreateClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(fg,
+        using (var args = new FunctionWrapper(sb,
                    $"public static void FillPublic{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
@@ -315,15 +315,15 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             args.Add($"ErrorMaskBuilder? errorMask");
             args.Add($"{nameof(TranslationCrystal)}? translationMask");
         }
-        using (new BraceWrapper(fg))
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine("try");
-            using (new BraceWrapper(fg))
+            sb.AppendLine("try");
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
+                using (sb.CurlyBrace())
                 {
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(sb,
                                $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                     {
                         args.Add("item: item");
@@ -342,22 +342,22 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                     }
                 }
             }
-            fg.AppendLine("catch (Exception ex)");
-            fg.AppendLine("when (errorMask != null)");
-            using (new BraceWrapper(fg))
+            sb.AppendLine("catch (Exception ex)");
+            sb.AppendLine("when (errorMask != null)");
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine("errorMask.ReportException(ex);");
+                sb.AppendLine("errorMask.ReportException(ex);");
             }
         }
-        fg.AppendLine();
+        sb.AppendLine();
 
-        FillPublicElement(obj, fg);
-        await base.GenerateInTranslationCreateClass(obj, fg);
+        FillPublicElement(obj, sb);
+        await base.GenerateInTranslationCreateClass(obj, sb);
     }
 
-    public virtual void GenerateWriteToNode(ObjectGeneration obj, FileGeneration fg)
+    public virtual void GenerateWriteToNode(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(fg,
+        using (var args = new FunctionWrapper(sb,
                    $"public static void WriteToNode{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Add($"{obj.Interface(internalInterface: true, getter: true)} item");
@@ -365,11 +365,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             args.Add($"ErrorMaskBuilder? errorMask");
             args.Add($"{nameof(TranslationCrystal)}? translationMask");
         }
-        using (new BraceWrapper(fg))
+        using (sb.CurlyBrace())
         {
             if (obj.HasLoquiBaseObject)
             {
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode{ModuleNickname}"))
                 {
                     args.Add($"item: item");
@@ -398,7 +398,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 }
                 if (conditions.Count > 0)
                 {
-                    using (var args = new IfWrapper(fg, ANDs: true))
+                    using (var args = new IfWrapper(sb, ANDs: true))
                     {
                         foreach (var item in conditions)
                         {
@@ -406,11 +406,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
                     }
                 }
-                using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                using (sb.CurlyBrace(doIt: conditions.Count > 0))
                 {
                     var maskType = Gen.MaskModule.GetMaskModule(field.Field.GetType()).GetErrorMaskTypeStr(field.Field);
                     generator.GenerateWrite(
-                        fg: fg,
+                        sb: sb,
                         objGen: obj,
                         typeGen: field.Field,
                         writerAccessor: $"{XElementLine.GetParameterName(obj)}",
@@ -421,12 +421,12 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 }
             }
         }
-        fg.AppendLine();
+        sb.AppendLine();
     }
 
-    protected virtual void FillPublicElement(ObjectGeneration obj, FileGeneration fg)
+    protected virtual void FillPublicElement(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(fg,
+        using (var args = new FunctionWrapper(sb,
                    $"public static void FillPublicElement{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false)} item");
@@ -435,10 +435,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             args.Add($"ErrorMaskBuilder? errorMask");
             args.Add($"{nameof(TranslationCrystal)}? translationMask");
         }
-        using (new BraceWrapper(fg))
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine("switch (name)");
-            using (new BraceWrapper(fg))
+            sb.AppendLine("switch (name)");
+            using (sb.CurlyBrace())
             {
                 foreach (var field in obj.IterateFields())
                 {
@@ -449,8 +449,8 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         throw new ArgumentException("Unsupported type generator: " + field);
                     }
 
-                    fg.AppendLine($"case \"{field.Name}\":");
-                    using (new DepthWrapper(fg))
+                    sb.AppendLine($"case \"{field.Name}\":");
+                    using (new DepthWrapper(sb))
                     {
                         if (generator.ShouldGenerateCopyIn(field))
                         {
@@ -461,7 +461,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                             }
                             if (conditions.Count > 0)
                             {
-                                using (var args = new IfWrapper(fg, ANDs: true))
+                                using (var args = new IfWrapper(sb, ANDs: true))
                                 {
                                     foreach (var item in conditions)
                                     {
@@ -469,10 +469,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                     }
                                 }
                             }
-                            using (new BraceWrapper(fg, doIt: conditions.Count > 0))
+                            using (sb.CurlyBrace(doIt: conditions.Count > 0))
                             {
                                 generator.GenerateCopyIn(
-                                    fg: fg,
+                                    sb: sb,
                                     objGen: obj,
                                     typeGen: field,
                                     nodeAccessor: XElementLine.GetParameterName(obj).Result,
@@ -481,16 +481,16 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                     errorMaskAccessor: $"errorMask");
                             }
                         }
-                        fg.AppendLine("break;");
+                        sb.AppendLine("break;");
                     }
                 }
 
-                fg.AppendLine("default:");
-                using (new DepthWrapper(fg))
+                sb.AppendLine("default:");
+                using (new DepthWrapper(sb))
                 {
                     if (obj.HasLoquiBaseObject)
                     {
-                        using (var args = new ArgsWrapper(fg,
+                        using (var args = new ArgsWrapper(sb,
                                    $"{obj.BaseClass.CommonClassName(LoquiInterfaceType.ISetter)}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                         {
                             args.Add("item: item");
@@ -503,11 +503,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                             }
                         }
                     }
-                    fg.AppendLine("break;");
+                    sb.AppendLine("break;");
                 }
             }
         }
-        fg.AppendLine();
+        sb.AppendLine();
     }
 
     public override async Task MiscellaneousGenerationActions(ObjectGeneration obj)
@@ -635,42 +635,42 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         streamWriter.Write(Environment.NewLine);
     }
 
-    protected virtual async Task PreCreateLoop(ObjectGeneration obj, FileGeneration fg)
+    protected virtual async Task PreCreateLoop(ObjectGeneration obj, StructuredStringBuilder sb)
     {
     }
 
-    protected virtual async Task PostCreateLoop(ObjectGeneration obj, FileGeneration fg)
+    protected virtual async Task PostCreateLoop(ObjectGeneration obj, StructuredStringBuilder sb)
     {
     }
 
-    protected override async Task GenerateNewSnippet(ObjectGeneration obj, FileGeneration fg)
+    protected override async Task GenerateNewSnippet(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         if (obj.Abstract)
         {
-            fg.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate<{obj.Name}>(node, out var ret, errorMask, translationMask))");
-            using (new BraceWrapper(fg))
+            sb.AppendLine($"if (!LoquiXmlTranslation.Instance.TryCreate<{obj.Name}>(node, out var ret, errorMask, translationMask))");
+            using (sb.CurlyBrace())
             {
-                fg.AppendLine($"throw new ArgumentException($\"Unknown {obj.Name} subclass: {{node.Name.LocalName}}\");");
+                sb.AppendLine($"throw new ArgumentException($\"Unknown {obj.Name} subclass: {{node.Name.LocalName}}\");");
             }
         }
         else
         {
-            fg.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
+            sb.AppendLine($"var ret = new {obj.Name}{obj.GetGenericTypes(MaskType.Normal)}();");
         }
     }
 
-    protected override async Task GenerateCopyInSnippet(ObjectGeneration obj, FileGeneration fg, Accessor accessor)
+    protected override async Task GenerateCopyInSnippet(ObjectGeneration obj, StructuredStringBuilder sb, Accessor accessor)
     {
-        fg.AppendLine("try");
-        using (new BraceWrapper(fg))
+        sb.AppendLine("try");
+        using (sb.CurlyBrace())
         {
-            await PreCreateLoop(obj, fg);
-            fg.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
-            using (new BraceWrapper(fg))
+            await PreCreateLoop(obj, sb);
+            sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
+            using (sb.CurlyBrace())
             {
                 if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                 {
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(sb,
                                $"FillPrivateElement{ModuleNickname}"))
                     {
                         args.Add($"item: {accessor}");
@@ -688,7 +688,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
                     }
                 }
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                 {
                     args.Add($"item: {accessor}");
@@ -706,26 +706,26 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                     }
                 }
             }
-            await PostCreateLoop(obj, fg);
+            await PostCreateLoop(obj, sb);
         }
-        fg.AppendLine("catch (Exception ex)");
-        fg.AppendLine("when (errorMask != null)");
-        using (new BraceWrapper(fg))
+        sb.AppendLine("catch (Exception ex)");
+        sb.AppendLine("when (errorMask != null)");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine("errorMask.ReportException(ex);");
+            sb.AppendLine("errorMask.ReportException(ex);");
         }
     }
 
-    protected override async Task GenerateWriteSnippet(ObjectGeneration obj, FileGeneration fg)
+    protected override async Task GenerateWriteSnippet(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        fg.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
-        fg.AppendLine($"{XElementLine.GetParameterName(obj)}.Add(elem);");
-        fg.AppendLine("if (name != null)");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
+        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Add(elem);");
+        sb.AppendLine("if (name != null)");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
+            sb.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
         }
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"WriteToNode{ModuleNickname}"))
         {
             args.Add($"item: item");
@@ -740,13 +740,13 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         }
     }
 
-    public override async Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
+    public override async Task GenerateInCommon(ObjectGeneration obj, StructuredStringBuilder sb, MaskTypeSet maskTypes)
     {
         if (maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal))
         {
-            FillPrivateElement(obj, fg);
+            FillPrivateElement(obj, sb);
         }
-        await base.GenerateInCommon(obj, fg, maskTypes);
+        await base.GenerateInCommon(obj, sb, maskTypes);
     }
 
     public override void ReplaceTypeAssociation<Target, Replacement>()

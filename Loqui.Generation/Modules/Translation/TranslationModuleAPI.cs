@@ -134,13 +134,13 @@ public class TranslationModuleAPI
 public class TranslationFunnel
 {
     public TranslationModuleAPI FunneledTo { get; private set; }
-    public Action<ObjectGeneration, FileGeneration, InternalTranslation> OutConverter { get; private set; }
-    public Action<ObjectGeneration, FileGeneration, InternalTranslation> InConverter { get; private set; }
+    public Action<ObjectGeneration, StructuredStringBuilder, InternalTranslation> OutConverter { get; private set; }
+    public Action<ObjectGeneration, StructuredStringBuilder, InternalTranslation> InConverter { get; private set; }
 
     public TranslationFunnel(
         TranslationModuleAPI funnelTo,
-        Action<ObjectGeneration, FileGeneration, InternalTranslation> outConverter,
-        Action<ObjectGeneration, FileGeneration, InternalTranslation> inConverter)
+        Action<ObjectGeneration, StructuredStringBuilder, InternalTranslation> outConverter,
+        Action<ObjectGeneration, StructuredStringBuilder, InternalTranslation> inConverter)
     {
         FunneledTo = funnelTo;
         OutConverter = outConverter;

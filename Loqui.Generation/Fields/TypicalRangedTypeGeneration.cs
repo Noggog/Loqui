@@ -38,12 +38,12 @@ public abstract class TypicalRangedTypeGeneration : PrimitiveType
         return base.GetValueSetString(accessor);
     }
 
-    public override async Task GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
-        await base.GenerateForClass(fg);
+        await base.GenerateForClass(sb);
         if (HasRange)
         {
-            fg.AppendLine($"public static {RangeTypeName(getter: false)} {RangeMemberName} = new {RangeTypeName(getter: false)}({Min}, {Max});");
+            sb.AppendLine($"public static {RangeTypeName(getter: false)} {RangeMemberName} = new {RangeTypeName(getter: false)}({Min}, {Max});");
         }
     }
 }

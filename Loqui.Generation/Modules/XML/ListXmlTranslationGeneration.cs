@@ -25,7 +25,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -46,7 +46,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
             typeName = loqui.TypeNameInternal(getter: true, internalInterface: true);
         }
 
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"{TranslatorName}<{typeName}>.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -70,10 +70,10 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
                     subTypeName = subLoqui.TypeNameInternal(getter: true, internalInterface: true);
                 }
                 gen.AppendLine($"transl: (XElement subNode, {subTypeName} subItem, ErrorMaskBuilder? listSubMask, {nameof(TranslationCrystal)}? listTranslMask) =>");
-                using (new BraceWrapper(gen))
+                using (new CurlyBrace(gen))
                 {
                     subTransl.GenerateWrite(
-                        fg: gen,
+                        sb: gen,
                         objGen: objGen,
                         typeGen: list.SubTypeGeneration,
                         writerAccessor: "subNode",
@@ -95,7 +95,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -104,7 +104,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
         Accessor translationMaskAccessor)
     {
         GenerateCopyInRet_Internal(
-            fg: fg,
+            sb: sb,
             objGen: objGen,
             typeGen: typeGen,
             nodeAccessor: nodeAccessor,
@@ -115,7 +115,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public void GenerateCopyInRet_Internal(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -136,11 +136,11 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
         }
 
         MaskGenerationUtility.WrapErrorFieldIndexPush(
-            fg: fg,
+            sb: sb,
             toDo: () =>
             {
                 using (var args = new FunctionWrapper(
-                           fg,
+                           sb,
                            $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>.Instance.Parse"))
                 {
                     args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
@@ -149,21 +149,21 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
                     args.Add("errorMask: errorMask");
                     args.Add($"translationMask: {translationMaskAccessor})");
                 }
-                using (new BraceWrapper(fg))
+                using (sb.CurlyBrace())
                 {
                     if (typeGen.Nullable)
                     {
-                        fg.AppendLine($"{itemAccessor.Access} = {typeGen.Name}Item.ToExtendedList();");
+                        sb.AppendLine($"{itemAccessor.Access} = {typeGen.Name}Item.ToExtendedList();");
                     }
                     else
                     {
-                        fg.AppendLine($"{itemAccessor.Access}.SetTo({typeGen.Name}Item);");
+                        sb.AppendLine($"{itemAccessor.Access}.SetTo({typeGen.Name}Item);");
                     }
                 }
-                fg.AppendLine("else");
-                using (new BraceWrapper(fg))
+                sb.AppendLine("else");
+                using (sb.CurlyBrace())
                 {
-                    list.GenerateClear(fg, itemAccessor);
+                    list.GenerateClear(sb, itemAccessor);
                 }
             },
             errorMaskAccessor: errorMaskAccessor,

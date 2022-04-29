@@ -13,7 +13,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -22,21 +22,21 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
         Accessor nameAccessor,
         Accessor translationMaskAccessor)
     {
-        using (new BraceWrapper(fg, doIt: !XmlMod.TranslationMaskParameter))
+        using (sb.CurlyBrace(doIt: !XmlMod.TranslationMaskParameter))
         {
             if (typeGen.Nullable)
             {
-                fg.AppendLine($"if ({itemAccessor.Access} is {{}} {typeGen.Name}Item)");
+                sb.AppendLine($"if ({itemAccessor.Access} is {{}} {typeGen.Name}Item)");
                 itemAccessor = $"{typeGen.Name}Item";
             }
             else
             {
                 // We want to cache retrievals, in case it's a wrapper being written
-                fg.AppendLine($"var {typeGen.Name}Item = {itemAccessor.Access};");
+                sb.AppendLine($"var {typeGen.Name}Item = {itemAccessor.Access};");
                 itemAccessor = $"{typeGen.Name}Item";
             }
 
-            using (new BraceWrapper(fg, doIt: typeGen.Nullable))
+            using (sb.CurlyBrace(doIt: typeGen.Nullable))
             {
                 var loquiGen = typeGen as LoquiType;
                 string line;
@@ -48,7 +48,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
                 {
                     line = $"(({XmlMod.TranslationWriteInterface})(({nameof(IXmlItem)}){typeGen.Name}Item).{XmlMod.TranslationWriteItemMember})";
                 }
-                using (var args = new ArgsWrapper(fg, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
+                using (var args = new ArgsWrapper(sb, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
                 {
                     args.Add($"item: {typeGen.Name}Item");
                     args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -81,7 +81,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -94,10 +94,10 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
         {
             if (loquiGen.SetterInterfaceType == LoquiInterfaceType.IGetter) return;
             MaskGenerationUtility.WrapErrorFieldIndexPush(
-                fg,
+                sb,
                 () =>
                 {
-                    using (var args = new ArgsWrapper(fg,
+                    using (var args = new ArgsWrapper(sb,
                                $"{itemAccessor.Access}.{XmlMod.CopyInFromPrefix}{XmlMod.ModuleNickname}{loquiGen.GetGenericTypes(getter: false, MaskType.Normal)}"))
                     {
                         args.Add($"node: {nodeAccessor}");
@@ -111,7 +111,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
         else
         {
             GenerateCopyInRet_Internal(
-                fg: fg,
+                sb: sb,
                 objGen: objGen,
                 typeGen: typeGen,
                 nodeAccessor: nodeAccessor,
@@ -123,7 +123,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public void GenerateCopyInRet_Internal(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -136,7 +136,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
         WrapParseCall(
             new TranslationWrapParseArgs()
             {
-                FG = fg,
+                FG = sb,
                 TypeGen = typeGen,
                 TranslatorLine = $"LoquiXmlTranslation<{loquiGen.TypeName(LoquiInterfaceType.Direct)}>.Instance",
                 MaskAccessor = errorMaskAccessor,

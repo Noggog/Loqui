@@ -4,13 +4,13 @@ namespace Loqui;
 
 public class CommaWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     string delimiter = ",";
     List<string> items = new List<string>();
 
-    public CommaWrapper(FileGeneration fg, string delimiter = ",")
+    public CommaWrapper(StructuredStringBuilder sb, string delimiter = ",")
     {
-        this.fg = fg;
+        this.sb = sb;
         this.delimiter = delimiter;
     }
 
@@ -24,9 +24,9 @@ public class CommaWrapper : IDisposable
         this.items.AddRange(items);
     }
 
-    public void Add(Action<FileGeneration> generator)
+    public void Add(Action<StructuredStringBuilder> generator)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         generator(gen);
         if (gen.Empty) return;
         Add(gen.ToArray());
@@ -38,14 +38,14 @@ public class CommaWrapper : IDisposable
         {
             if (item.Last)
             {
-                fg.AppendLine(item.Item);
+                sb.AppendLine(item.Item);
             }
             else
             {
-                using (new LineWrapper(fg))
+                using (new LineWrapper(sb))
                 {
-                    fg.Append(item.Item);
-                    fg.Append(delimiter);
+                    sb.Append(item.Item);
+                    sb.Append(delimiter);
                 }
             }
         }

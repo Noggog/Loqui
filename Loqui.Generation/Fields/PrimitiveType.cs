@@ -22,15 +22,15 @@ public abstract class PrimitiveType : TypicalTypeGeneration
         }
     }
 
-    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    public override void GenerateForCopy(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
     {
         if (!AlwaysCopy)
         {
-            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+            sb.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
-        using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+        using (sb.CurlyBrace(doIt: !AlwaysCopy))
         {
-            fg.AppendLine($"{accessor.Access} = {rhs};");
+            sb.AppendLine($"{accessor.Access} = {rhs};");
         }
     }
 

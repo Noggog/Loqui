@@ -2,18 +2,18 @@ namespace Loqui;
 
 public class DepthWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     bool doIt;
 
     public DepthWrapper(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         bool doIt = true)
     {
-        this.fg = fg;
+        this.sb = sb;
         this.doIt = doIt;
         if (doIt)
         {
-            this.fg.Depth++;
+            this.sb.Depth++;
         }
     }
 
@@ -21,7 +21,7 @@ public class DepthWrapper : IDisposable
     {
         if (doIt)
         {
-            fg.Depth--;
+            sb.Depth--;
         }
     }
 }

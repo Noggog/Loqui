@@ -2,18 +2,18 @@ namespace Loqui.Generation;
 
 public class IfWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     bool first;
     public List<(string str, bool wrap)> Checks = new List<(string str, bool wrap)>();
     bool ands;
     public bool Empty => Checks.Count == 0;
-    public Action<FileGeneration> Body;
+    public Action<StructuredStringBuilder> Body;
 
-    public IfWrapper(FileGeneration fg, bool ANDs, bool first = true)
+    public IfWrapper(StructuredStringBuilder sb, bool ANDs, bool first = true)
     {
         ands = ANDs;
         this.first = first;
-        this.fg = fg;
+        this.sb = sb;
     }
 
     public void Add(string str, bool wrapInParens = false)
@@ -33,38 +33,38 @@ public class IfWrapper : IDisposable
 
     private void GenerateIf()
     {
-        using (var line = new LineWrapper(fg))
+        using (var line = new LineWrapper(sb))
         {
             if (!first)
             {
-                fg.Append("else ");
+                sb.Append("else ");
             }
-            fg.Append("if (");
-            fg.Append(Get(0));
+            sb.Append("if (");
+            sb.Append(Get(0));
             if (Checks.Count == 1)
             {
-                fg.Append(")");
+                sb.Append(")");
                 return;
             }
         }
-        using (new DepthWrapper(fg))
+        using (new DepthWrapper(sb))
         {
             for (int i = 1; i < Checks.Count; i++)
             {
-                using (new LineWrapper(fg))
+                using (new LineWrapper(sb))
                 {
                     if (ands)
                     {
-                        fg.Append("&& ");
+                        sb.Append("&& ");
                     }
                     else
                     {
-                        fg.Append("|| ");
+                        sb.Append("|| ");
                     }
-                    fg.Append(Get(i));
+                    sb.Append(Get(i));
                     if (i == Checks.Count - 1)
                     {
-                        fg.Append(")");
+                        sb.Append(")");
                     }
                 }
             }
@@ -75,15 +75,15 @@ public class IfWrapper : IDisposable
     {
         if (Checks.Count == 0)
         {
-            Body?.Invoke(fg);
+            Body?.Invoke(sb);
             return;
         }
         GenerateIf();
         if (Body != null)
         {
-            using (new BraceWrapper(fg))
+            using (sb.CurlyBrace())
             {
-                Body(fg);
+                Body(sb);
             }
         }
     }

@@ -8,7 +8,7 @@ public class ByteArrayXmlTranslationGeneration : PrimitiveXmlTranslationGenerati
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -33,7 +33,7 @@ public class ByteArrayXmlTranslationGeneration : PrimitiveXmlTranslationGenerati
         WrapParseCall(
             new TranslationWrapParseArgs()
             {
-                FG = fg,
+                FG = sb,
                 TypeGen = typeGen,
                 TranslatorLine = $"{TypeName(typeGen)}XmlTranslation.Instance",
                 MaskAccessor = errorMaskAccessor,

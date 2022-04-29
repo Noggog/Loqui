@@ -4,12 +4,12 @@ namespace Loqui.Generation;
 
 public class PropertyCtorWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     List<string[]> args = new List<string[]>();
 
-    public PropertyCtorWrapper(FileGeneration fg)
+    public PropertyCtorWrapper(StructuredStringBuilder sb)
     {
-        this.fg = fg;
+        this.sb = sb;
     }
 
     public void Add(params string[] lines)
@@ -25,9 +25,9 @@ public class PropertyCtorWrapper : IDisposable
         Add($"{str}: {str}");
     }
 
-    public void Add(Action<FileGeneration> generator, bool removeSemicolon = true)
+    public void Add(Action<StructuredStringBuilder> generator, bool removeSemicolon = true)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         generator(gen);
         if (gen.Empty) return;
         if (removeSemicolon)
@@ -37,9 +37,9 @@ public class PropertyCtorWrapper : IDisposable
         args.Add(gen.ToArray());
     }
 
-    public async Task Add(Func<FileGeneration, Task> generator)
+    public async Task Add(Func<StructuredStringBuilder, Task> generator)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         await generator(gen);
         if (gen.Empty) return;
         args.Add(gen.ToArray());
@@ -47,7 +47,7 @@ public class PropertyCtorWrapper : IDisposable
 
     public void Dispose()
     {
-        using (new BraceWrapper(fg) { AppendSemicolon = true })
+        using (sb.CurlyBrace(appendSemiColon: true))
         {
             args.Last(
                 each: (arg) =>
@@ -55,7 +55,7 @@ public class PropertyCtorWrapper : IDisposable
                     arg.Last(
                         each: (item, last) =>
                         {
-                            fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                            sb.AppendLine($"{item}{(last ? "," : string.Empty)}");
                         });
                 },
                 last: (arg) =>
@@ -63,7 +63,7 @@ public class PropertyCtorWrapper : IDisposable
                     arg.Last(
                         each: (item, last) =>
                         {
-                            fg.AppendLine($"{item}");
+                            sb.AppendLine($"{item}");
                         });
                 });
         }

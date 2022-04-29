@@ -62,9 +62,9 @@ public class ClassGeneration : ObjectGeneration
         await base.Load();
     }
 
-    protected override async Task GenerateClassLine(FileGeneration fg)
+    protected override async Task GenerateClassLine(StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(fg, ObjectName))
+        using (var args = new ClassWrapper(sb, ObjectName))
         {
             args.Abstract = Abstract;
             args.Partial = true;
@@ -90,25 +90,25 @@ public class ClassGeneration : ObjectGeneration
         }
     }
         
-    protected override async Task GenerateCtor(FileGeneration fg)
+    protected override async Task GenerateCtor(StructuredStringBuilder sb)
     {
         if (BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
-        using (new RegionWrapper(fg, "Ctor"))
+        using (new RegionWrapper(sb, "Ctor"))
         {
-            fg.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}()");
-            using (new BraceWrapper(fg))
+            sb.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}()");
+            using (sb.CurlyBrace())
             {
                 List<Task> toDo = new List<Task>();
-                toDo.AddRange(gen.GenerationModules.Select(mod => mod.GenerateInCtor(this, fg)));
-                var fieldsTask = Task.WhenAll(IterateFields().Select(field => field.GenerateForCtor(fg)));
+                toDo.AddRange(gen.GenerationModules.Select(mod => mod.GenerateInCtor(this, sb)));
+                var fieldsTask = Task.WhenAll(IterateFields().Select(field => field.GenerateForCtor(sb)));
                 toDo.Add(fieldsTask);
                 await fieldsTask;
                 fieldCtorsGenerated.SetResult();
                 await Task.WhenAll(toDo);
-                await GenerateInitializer(fg);
-                fg.AppendLine("CustomCtor();");
+                await GenerateInitializer(sb);
+                sb.AppendLine("CustomCtor();");
             }
-            fg.AppendLine("partial void CustomCtor();");
+            sb.AppendLine("partial void CustomCtor();");
         }
     }
 

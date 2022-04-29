@@ -77,11 +77,11 @@ public class ArrayType : ListType
         }
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix)
     {
         if (Nullable)
         {
-            fg.AppendLine($"{accessorPrefix} = null;");
+            sb.AppendLine($"{accessorPrefix} = null;");
         }
         else
         {
@@ -90,49 +90,49 @@ public class ArrayType : ListType
                 if (SubTypeGeneration.IsNullable
                     && SubTypeGeneration.Nullable)
                 {
-                    fg.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
+                    sb.AppendLine($"{accessorPrefix.Access}.ResetToNull();");
                 }
                 else if (SubTypeGeneration is StringType)
                 {
-                    fg.AppendLine($"Array.Fill({accessorPrefix.Access}, string.Empty);");
+                    sb.AppendLine($"Array.Fill({accessorPrefix.Access}, string.Empty);");
                 }
                 else if (SubTypeGeneration is LoquiType loqui)
                 {
-                    fg.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
+                    sb.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
                 }
                 else
                 {
-                    fg.AppendLine($"{accessorPrefix.Access}.Reset();");
+                    sb.AppendLine($"{accessorPrefix.Access}.Reset();");
                 }
             }
             else
             {
-                fg.AppendLine($"{accessorPrefix.Access}.Clear();");
+                sb.AppendLine($"{accessorPrefix.Access}.Clear();");
             }
         }
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
-        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
         {
             if (SubTypeGeneration.IsIEquatable)
             {
                 if (Nullable)
                 {
-                    fg.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
+                    sb.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
                 }
-                fg.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
+                sb.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
             }
             else
             {
-                fg.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
+                sb.AppendLine($"if (!{accessor}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor})) return false;");
             }
         }
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         string funcStr;
         var loqui = SubTypeGeneration as LoquiType;
@@ -144,7 +144,7 @@ public class ArrayType : ListType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"ret.{Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
         {
             args.Add($"item.{Name}");
@@ -154,46 +154,46 @@ public class ArrayType : ListType
         }
     }
 
-    public override void GenerateForCopy(FileGeneration fg, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
+    public override void GenerateForCopy(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)
     {
         if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
         {
             if (!AlwaysCopy)
             {
-                fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+                sb.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
             }
-            using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+            using (sb.CurlyBrace(doIt: !AlwaysCopy))
             {
                 if (Nullable)
                 {
-                    fg.AppendLine($"{accessor} = {rhs}?.ToArray();");
+                    sb.AppendLine($"{accessor} = {rhs}?.ToArray();");
                 }
                 else
                 {
-                    fg.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
+                    sb.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
                 }
             }
         }
         else
         {
-            base.GenerateForCopy(fg, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
+            base.GenerateForCopy(sb, accessor, rhs, copyMaskAccessor, protectedMembers, deepCopy);
         }
     }
 
-    public override void WrapSet(FileGeneration fg, Accessor accessor, Action<FileGeneration> a)
+    public override void WrapSet(StructuredStringBuilder sb, Accessor accessor, Action<StructuredStringBuilder> a)
     {
         if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
         {
-            fg.AppendLine($"{accessor} = ");
-            using (new DepthWrapper(fg))
+            sb.AppendLine($"{accessor} = ");
+            using (new DepthWrapper(sb))
             {
-                a(fg);
-                fg.AppendLine($"{NullChar}.ToArray();");
+                a(sb);
+                sb.AppendLine($"{NullChar}.ToArray();");
             }
         }
         else
         {
-            base.WrapSet(fg, accessor, a);
+            base.WrapSet(sb, accessor, a);
         }
     }
 

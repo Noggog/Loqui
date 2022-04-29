@@ -4,7 +4,7 @@ public class XmlWriteGenerationParameters
 {
     public XmlTranslationModule XmlGen;
     public ObjectGeneration Object;
-    public FileGeneration FG;
+    public StructuredStringBuilder FG;
     public object Field;
     public string Accessor;
     public string Name;

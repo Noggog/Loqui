@@ -2,16 +2,16 @@ namespace Loqui;
 
 public class LineWrapper : IDisposable
 {
-    readonly FileGeneration _fg; 
+    readonly StructuredStringBuilder _sb; 
 
-    public LineWrapper(FileGeneration fg)
+    public LineWrapper(StructuredStringBuilder sb)
     {
-        _fg = fg;
-        _fg.Append(_fg.DepthStr);
+        _sb = sb;
+        _sb.Append(_sb.DepthStr);
     }
 
     public void Dispose()
     {
-        _fg.Append(Environment.NewLine);
+        _sb.Append(Environment.NewLine);
     }
 }

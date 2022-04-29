@@ -12,7 +12,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
 
     PrimitiveXmlTranslationGeneration<string> _subGen = new PrimitiveXmlTranslationGeneration<string>();
     public override void GenerateWrite(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor writerAccessor,
@@ -23,7 +23,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
         var eType = typeGen as EnumType;
 
-        using (var args = new ArgsWrapper(fg,
+        using (var args = new ArgsWrapper(sb,
                    $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -38,7 +38,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     }
 
     public override void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         ObjectGeneration objGen,
         TypeGeneration typeGen,
         Accessor nodeAccessor,
@@ -50,7 +50,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
         WrapParseCall(
             new TranslationWrapParseArgs()
             {
-                FG = fg,
+                FG = sb,
                 TypeGen = typeGen,
                 TranslatorLine = $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance",
                 MaskAccessor = errorMaskAccessor,

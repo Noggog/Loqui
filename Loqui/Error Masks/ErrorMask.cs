@@ -28,7 +28,7 @@ public class ErrorMask : IErrorMask
         }
     }
 
-    public void ToString(FileGeneration fg, string? name)
+    public void ToString(StructuredStringBuilder sb, string? name)
     {
         throw new NotImplementedException();
     }

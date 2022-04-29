@@ -262,7 +262,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
 
     public override bool CopyNeedsTryCatch => true;
 
-    public override async Task GenerateForClass(FileGeneration fg)
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
         if (_TargetObjectGeneration != null)
         {
@@ -274,43 +274,43 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         {
             if (Singleton)
             {
-                fg.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
+                sb.AppendLine($"private readonly {DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
+                sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                Comments?.Apply(sb, LoquiInterfaceType.Direct);
+                sb.AppendLine($"public {TypeName()} {Name} => {SingletonObjectName};");
             }
             else
             {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private {TypeName()}{NullChar} _{Name};");
-                Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public {OverrideStr}{TypeName()}{NullChar} {Name}");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                sb.AppendLine($"private {TypeName()}{NullChar} _{Name};");
+                Comments?.Apply(sb, LoquiInterfaceType.Direct);
+                sb.AppendLine($"public {OverrideStr}{TypeName()}{NullChar} {Name}");
+                using (sb.CurlyBrace())
                 {
-                    fg.AppendLine($"get => _{Name};");
-                    fg.AppendLine($"{SetPermissionStr}set => _{Name} = value;");
+                    sb.AppendLine($"get => _{Name};");
+                    sb.AppendLine($"{SetPermissionStr}set => _{Name} = value;");
                 }
             }
-            fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-            fg.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{ProtectedName};");
+            sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+            sb.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => this.{ProtectedName};");
         }
         else
         {
             if (Singleton)
             {
-                fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                fg.AppendLine($"private {(ThisConstruction ? null : "readonly ")}{DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
-                Comments?.Apply(fg, LoquiInterfaceType.Direct);
-                fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} => {SingletonObjectName};");
+                sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                sb.AppendLine($"private {(ThisConstruction ? null : "readonly ")}{DirectTypeName} {SingletonObjectName}{(ThisConstruction ? null : $" = new {DirectTypeName}()")};");
+                Comments?.Apply(sb, LoquiInterfaceType.Direct);
+                sb.AppendLine($"public {OverrideStr}{TypeName()} {Name} => {SingletonObjectName};");
                 if (GetterInterfaceType != LoquiInterfaceType.Direct)
                 {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: false)}.{Name} => {SingletonObjectName};");
+                    sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    sb.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: false)}.{Name} => {SingletonObjectName};");
                 }
             }
             else
             {
-                Comments?.Apply(fg, LoquiInterfaceType.Direct);
+                Comments?.Apply(sb, LoquiInterfaceType.Direct);
                 string? construction;
                 if (ThisConstruction)
                 {
@@ -327,11 +327,11 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                 {
                     construction = $" = new {DirectTypeName}();";
                 }
-                fg.AppendLine($"public {OverrideStr}{TypeName()} {Name} {{ get; {SetPermissionStr}set; }}{construction}");
+                sb.AppendLine($"public {OverrideStr}{TypeName()} {Name} {{ get; {SetPermissionStr}set; }}{construction}");
                 if (GetterInterfaceType != LoquiInterfaceType.Direct)
                 {
-                    fg.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                    fg.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {Name};");
+                    sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
+                    sb.AppendLine($"{TypeName(getter: true)} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {Name};");
                 }
             }
         }
@@ -481,7 +481,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     }
 
     public override void GenerateForCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs, 
         Accessor copyMaskAccessor,
@@ -490,24 +490,24 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
         if (!AlwaysCopy)
         {
-            fg.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
+            sb.AppendLine($"if ({(deepCopy ? GetTranslationIfAccessor(copyMaskAccessor) : SkipCheck(copyMaskAccessor, deepCopy))})");
         }
-        using (new BraceWrapper(fg, doIt: !AlwaysCopy))
+        using (sb.CurlyBrace(doIt: !AlwaysCopy))
         {
             MaskGenerationUtility.WrapErrorFieldIndexPush(
-                fg,
+                sb,
                 () =>
                 {
                     if (_TargetObjectGeneration is StructGeneration)
                     {
-                        fg.AppendLine($"{accessor.Access} = new {TargetObjectGeneration.Name}({rhs});");
+                        sb.AppendLine($"{accessor.Access} = new {TargetObjectGeneration.Name}({rhs});");
                         return;
                     }
 
                     if (Singleton)
                     {
                         GenerateCopyIn(
-                            fg,
+                            sb,
                             accessor: accessor,
                             rhs: rhs,
                             copyMaskAccessor: copyMaskAccessor,
@@ -519,20 +519,20 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                     {
                         if (deepCopy)
                         {
-                            fg.AppendLine($"if ({GetTranslationIfAccessor(copyMaskAccessor)})");
-                            using (new BraceWrapper(fg))
+                            sb.AppendLine($"if ({GetTranslationIfAccessor(copyMaskAccessor)})");
+                            using (sb.CurlyBrace())
                             {
                                 if (Nullable)
                                 {
-                                    fg.AppendLine($"if ({rhs} == null)");
-                                    using (new BraceWrapper(fg))
+                                    sb.AppendLine($"if ({rhs} == null)");
+                                    using (sb.CurlyBrace())
                                     {
-                                        fg.AppendLine($"{accessor.Access} = null;");
+                                        sb.AppendLine($"{accessor.Access} = null;");
                                     }
-                                    fg.AppendLine($"else");
-                                    using (new BraceWrapper(fg))
+                                    sb.AppendLine($"else");
+                                    using (sb.CurlyBrace())
                                     {
-                                        using (var args = new ArgsWrapper(fg,
+                                        using (var args = new ArgsWrapper(sb,
                                                    $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             if (deepCopy)
@@ -549,7 +549,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 }
                                 else
                                 {
-                                    using (var args = new ArgsWrapper(fg,
+                                    using (var args = new ArgsWrapper(sb,
                                                $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                     {
                                         if (deepCopy)
@@ -567,123 +567,123 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                         }
                         else
                         {
-                            fg.AppendLine($"switch ({copyMaskAccessor}?.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                            using (new BraceWrapper(fg))
+                            sb.AppendLine($"switch ({copyMaskAccessor}?.Overall ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            using (sb.CurlyBrace())
                             {
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                using (new DepthWrapper(sb))
                                 {
                                     if (GetterInterfaceType == LoquiInterfaceType.IGetter)
                                     {
-                                        fg.AppendLine($"{accessor.Access} = Utility.GetGetterInterfaceReference<{TypeName()}>({rhs});");
+                                        sb.AppendLine($"{accessor.Access} = Utility.GetGetterInterfaceReference<{TypeName()}>({rhs});");
                                     }
                                     else
                                     {
-                                        fg.AppendLine($"{accessor.Access} = {rhs};");
+                                        sb.AppendLine($"{accessor.Access} = {rhs};");
                                     }
-                                    fg.AppendLine("break;");
+                                    sb.AppendLine("break;");
                                 }
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
                                 if (SetterInterfaceType != LoquiInterfaceType.IGetter)
                                 {
-                                    using (new DepthWrapper(fg))
+                                    using (new DepthWrapper(sb))
                                     {
                                         GenerateCopyIn(
-                                            fg,
+                                            sb,
                                             accessor: accessor,
                                             rhs: rhs,
                                             copyMaskAccessor: copyMaskAccessor,
                                             deepCopy: deepCopy);
-                                        fg.AppendLine("break;");
+                                        sb.AppendLine("break;");
                                     }
                                 }
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                using (new DepthWrapper(sb))
                                 {
-                                    fg.AppendLine($"if ({rhs} == null)");
-                                    using (new BraceWrapper(fg))
+                                    sb.AppendLine($"if ({rhs} == null)");
+                                    using (sb.CurlyBrace())
                                     {
-                                        fg.AppendLine($"{accessor.Access} = null;");
+                                        sb.AppendLine($"{accessor.Access} = null;");
                                     }
-                                    fg.AppendLine($"else");
-                                    using (new BraceWrapper(fg))
+                                    sb.AppendLine($"else");
+                                    using (sb.CurlyBrace())
                                     {
-                                        using (var args = new ArgsWrapper(fg,
+                                        using (var args = new ArgsWrapper(sb,
                                                    $"{accessor.Access} = {rhs}.Copy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             args.Add($"{copyMaskAccessor}?.Specific");
                                         }
                                     }
-                                    fg.AppendLine("break;");
+                                    sb.AppendLine("break;");
                                 }
-                                fg.AppendLine($"default:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"default:");
+                                using (new DepthWrapper(sb))
                                 {
-                                    fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : Name)}}}. Cannot execute copy.\");");
+                                    sb.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : Name)}}}. Cannot execute copy.\");");
                                 }
                             }
                         }
                         return;
                     }
 
-                    fg.AppendLine($"if({rhs} is {{}} rhs{Name})");
-                    using (new BraceWrapper(fg))
+                    sb.AppendLine($"if({rhs} is {{}} rhs{Name})");
+                    using (sb.CurlyBrace())
                     {
                         if (ObjectGen.GenerateComplexCopySystems)
                         {
-                            fg.AppendLine($"switch ({copyMaskAccessor}{(RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
-                            using (new BraceWrapper(fg))
+                            sb.AppendLine($"switch ({copyMaskAccessor}{(RefType == LoquiRefType.Generic ? string.Empty : ".Overall")} ?? {nameof(CopyOption)}.{nameof(CopyOption.Reference)})");
+                            using (sb.CurlyBrace())
                             {
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
+                                using (new DepthWrapper(sb))
                                 {
                                     if (GetterInterfaceType == LoquiInterfaceType.IGetter)
                                     {
-                                        fg.AppendLine("throw new NotImplementedException(\"Need to implement an ISetter copy function to support reference copies.\");");
+                                        sb.AppendLine("throw new NotImplementedException(\"Need to implement an ISetter copy function to support reference copies.\");");
                                     }
                                     else
                                     {
-                                        fg.AppendLine($"{accessor.Access} = {rhs};");
-                                        fg.AppendLine("break;");
+                                        sb.AppendLine($"{accessor.Access} = {rhs};");
+                                        sb.AppendLine("break;");
                                     }
                                 }
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
                                 if (SetterInterfaceType != LoquiInterfaceType.IGetter)
                                 {
-                                    using (new DepthWrapper(fg))
+                                    using (new DepthWrapper(sb))
                                     {
                                         GenerateCopyIn(
-                                            fg,
+                                            sb,
                                             accessor: accessor,
                                             rhs: rhs,
                                             copyMaskAccessor: copyMaskAccessor,
                                             deepCopy: deepCopy);
-                                        fg.AppendLine("break;");
+                                        sb.AppendLine("break;");
                                     }
                                 }
-                                fg.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
+                                using (new DepthWrapper(sb))
                                 {
                                     GenerateTypicalMakeCopy(
-                                        fg,
+                                        sb,
                                         retAccessor: $"{accessor.Access} = ",
                                         rhsAccessor: rhs,
                                         copyMaskAccessor: copyMaskAccessor,
                                         deepCopy: deepCopy,
                                         doTranslationMask: true);
-                                    fg.AppendLine("break;");
+                                    sb.AppendLine("break;");
                                 }
-                                fg.AppendLine($"default:");
-                                using (new DepthWrapper(fg))
+                                sb.AppendLine($"default:");
+                                using (new DepthWrapper(sb))
                                 {
-                                    fg.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
+                                    sb.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                                 }
                             }
                         }
                         else
                         {
                             GenerateTypicalMakeCopy(
-                                fg,
+                                sb,
                                 retAccessor: $"{accessor.Access} = ",
                                 rhsAccessor: new Accessor($"rhs{Name}"),
                                 copyMaskAccessor: copyMaskAccessor,
@@ -691,10 +691,10 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 doTranslationMask: true);
                         }
                     }
-                    fg.AppendLine("else");
-                    using (new BraceWrapper(fg))
+                    sb.AppendLine("else");
+                    using (sb.CurlyBrace())
                     {
-                        fg.AppendLine($"{accessor.Access} = default;");
+                        sb.AppendLine($"{accessor.Access} = default;");
                     }
                 },
                 errorMaskAccessor: "errorMask",
@@ -704,7 +704,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     }
 
     public virtual void GenerateTypicalMakeCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor retAccessor,
         Accessor rhsAccessor,
         Accessor copyMaskAccessor,
@@ -714,7 +714,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         switch (RefType)
         {
             case LoquiRefType.Direct:
-                using (var args = new ArgsWrapper(fg,
+                using (var args = new ArgsWrapper(sb,
                            $"{retAccessor}{rhsAccessor.Access}.DeepCopy{GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
                 {
                     args.AddPassArg("errorMask");
@@ -738,21 +738,21 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             case LoquiRefType.Generic:
                 if (deepCopy)
                 {
-                    fg.AppendLine($"{retAccessor}(r.DeepCopy() as {_generic})!;");
+                    sb.AppendLine($"{retAccessor}(r.DeepCopy() as {_generic})!;");
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.Access}, null);");
+                    sb.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{_generic}, {_generic}Getter>()({rhsAccessor.Access}, null);");
                 }
                 break;
             case LoquiRefType.Interface:
                 if (deepCopy)
                 {
-                    fg.AppendLine($"{retAccessor}r.DeepCopy() as {TypeNameInternal(getter: false, internalInterface: true)};");
+                    sb.AppendLine($"{retAccessor}r.DeepCopy() as {TypeNameInternal(getter: false, internalInterface: true)};");
                 }
                 else
                 {
-                    fg.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{TypeName()}>(r.GetType())({rhsAccessor.Access}, null);");
+                    sb.AppendLine($"{retAccessor}{nameof(LoquiRegistration)}.GetCopyFunc<{TypeName()}>(r.GetType())({rhsAccessor.Access}, null);");
                 }
                 break;
             default:
@@ -761,7 +761,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     }
 
     private void GenerateCopyIn(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs,
         Accessor copyMaskAccessor,
@@ -772,7 +772,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             var funcStr = deepCopy
                 ? $"{accessor.Access}.DeepCopyIn"
                 : $"{accessor.Access}.CopyIn";
-            using (var args = new ArgsWrapper(fg, funcStr))
+            using (var args = new ArgsWrapper(sb, funcStr))
             {
                 args.Add($"rhs: {rhs}");
                 if (RefType == LoquiRefType.Direct)
@@ -796,54 +796,54 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         }
         else
         {
-            fg.AppendLine("throw new NotImplementedException();");
+            sb.AppendLine("throw new NotImplementedException();");
         }
     }
 
-    public override void GenerateUnsetNth(FileGeneration fg, Accessor identifier)
+    public override void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier)
     {
         if (Singleton)
         {
-            base.GenerateUnsetNth(fg, identifier);
+            base.GenerateUnsetNth(sb, identifier);
             return;
         }
         if (SetterInterfaceType == LoquiInterfaceType.IGetter)
         {
-            fg.AppendLine($"throw new ArgumentException(\"Cannot unset a get only singleton: {Name}\");");
+            sb.AppendLine($"throw new ArgumentException(\"Cannot unset a get only singleton: {Name}\");");
         }
         else
         {
-            fg.AppendLine($"{TargetObjectGeneration.CommonClassName(LoquiInterfaceType.ISetter)}.Clear({identifier.Access});");
-            fg.AppendLine("break;");
+            sb.AppendLine($"{TargetObjectGeneration.CommonClassName(LoquiInterfaceType.ISetter)}.Clear({identifier.Access});");
+            sb.AppendLine("break;");
         }
     }
 
-    public override void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse)
+    public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
         if (Singleton)
         {
             if (!internalUse && SetterInterfaceType == LoquiInterfaceType.IGetter)
             {
-                fg.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {Name}\");");
+                sb.AppendLine($"throw new ArgumentException(\"Cannot set singleton member {Name}\");");
             }
             else
             {
-                fg.AppendLine($"{accessor}.CopyIn{GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhs});");
-                fg.AppendLine("break;");
+                sb.AppendLine($"{accessor}.CopyIn{GetGenericTypes(getter: false, MaskType.Normal, MaskType.Copy)}(rhs: {rhs});");
+                sb.AppendLine("break;");
             }
         }
         else
         {
-            base.GenerateSetNth(fg, accessor, rhs, internalUse);
+            base.GenerateSetNth(sb, accessor, rhs, internalUse);
         }
     }
 
-    public override void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface)
+    public override void GenerateForInterface(StructuredStringBuilder sb, bool getter, bool internalInterface)
     {
         if (getter)
         {
-            Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-            fg.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {Name} {{ get; }}");
+            Comments?.Apply(sb, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
+            sb.AppendLine($"{TypeNameInternal(getter: true, internalInterface: true)}{NullChar} {Name} {{ get; }}");
         }
         else
         {
@@ -851,13 +851,13 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             {
                 if (GetterInterfaceType != SetterInterfaceType)
                 {
-                    Comments?.Apply(fg, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
-                    fg.AppendLine($"new {TypeName(getter: false)} {Name} {{ get; }}");
+                    Comments?.Apply(sb, getter ? LoquiInterfaceType.IGetter : LoquiInterfaceType.ISetter);
+                    sb.AppendLine($"new {TypeName(getter: false)} {Name} {{ get; }}");
                 }
             }
             else
             {
-                base.GenerateForInterface(fg, getter, internalInterface);
+                base.GenerateForInterface(sb, getter, internalInterface);
             }
         }
     }
@@ -870,16 +870,16 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         }
     }
 
-    public override void GenerateClear(FileGeneration fg, Accessor accessorPrefix)
+    public override void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix)
     {
         if (Singleton
             || !Nullable)
         {
-            fg.AppendLine($"{accessorPrefix}.Clear();");
+            sb.AppendLine($"{accessorPrefix}.Clear();");
         }
         else
         {
-            fg.AppendLine($"{accessorPrefix} = null;");
+            sb.AppendLine($"{accessorPrefix} = null;");
         }
     }
 
@@ -910,41 +910,41 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         }
     }
 
-    public override void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
         if (!IntegrateField) return;
-        fg.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
-        using (new BraceWrapper(fg))
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
         {
             if (GenericSpecification.Specifications.Count == 0)
             {
-                fg.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{Name}, out var rhs{Name}, out var is{Name}Equal))");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{Name}, out var rhs{Name}, out var is{Name}Equal))");
+                using (sb.CurlyBrace())
                 {
-                    fg.AppendLine($"if (!{TargetObjectGeneration.CommonClassInstance($"lhs{Name}", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(lhs{Name}, rhs{Name}, crystal?.GetSubCrystal({IndexEnumInt}))) return false;");
+                    sb.AppendLine($"if (!{TargetObjectGeneration.CommonClassInstance($"lhs{Name}", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(lhs{Name}, rhs{Name}, crystal?.GetSubCrystal({IndexEnumInt}))) return false;");
                 }
-                fg.AppendLine($"else if (!is{Name}Equal) return false;");
+                sb.AppendLine($"else if (!is{Name}Equal) return false;");
 
             }
             else
             {
                 // ToDo
                 // Upgrade to pass along translation crystal
-                fg.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{Name}, out var rhs{Name}, out var is{Name}Equal))");
-                using (new BraceWrapper(fg))
+                sb.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{Name}, out var rhs{Name}, out var is{Name}Equal))");
+                using (sb.CurlyBrace())
                 {
-                    fg.AppendLine($"if (!object.Equals(lhs{Name}, rhs{Name})) return false;");
+                    sb.AppendLine($"if (!object.Equals(lhs{Name}, rhs{Name})) return false;");
                 }
-                fg.AppendLine($"else if (!is{Name}Equal) return false;");
+                sb.AppendLine($"else if (!is{Name}Equal) return false;");
             }
         }
     }
 
-    public override void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor)
+    public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
         if (Nullable)
         {
-            using (var args = new ArgsWrapper(fg,
+            using (var args = new ArgsWrapper(sb,
                        $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
             {
                 args.Add(accessor.Access);
@@ -957,31 +957,31 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         {
             if (TargetObjectGeneration == null)
             {
-                fg.AppendLine($"{retAccessor} = new MaskItem<bool, {GenerateMaskString("bool")}>();");
-                using (new BraceWrapper(fg) { AppendSemicolon = true })
+                sb.AppendLine($"{retAccessor} = new MaskItem<bool, {GenerateMaskString("bool")}>();");
+                using (sb.CurlyBrace(appendSemiColon: true))
                 {
-                    fg.AppendLine($"Overall = object.Equals({accessor.Access}, {rhsAccessor.Access})");
+                    sb.AppendLine($"Overall = object.Equals({accessor.Access}, {rhsAccessor.Access})");
                 }
             }
             else
             {
-                fg.AppendLine($"{retAccessor} = MaskItemExt.Factory({accessor.Access}.GetEqualsMask({rhsAccessor.Access}, include), include);");
+                sb.AppendLine($"{retAccessor} = MaskItemExt.Factory({accessor.Access}.GetEqualsMask({rhsAccessor.Access}, include), include);");
             }
         }
     }
 
-    public override void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor)
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
-        fg.AppendLine($"{accessor.Access}?.ToString({fgAccessor}, \"{name}\");");
+        sb.AppendLine($"{accessor.Access}?.ToString({sbAccessor}, \"{name}\");");
     }
 
-    public override void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor)
+    public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)
     {
         if (!Nullable) return;
-        fg.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}.Overall.Value != {NullableAccessor(getter: true, accessor: accessor)}) return false;");
+        sb.AppendLine($"if ({checkMaskAccessor}?.Overall.HasValue ?? false && {checkMaskAccessor}.Overall.Value != {NullableAccessor(getter: true, accessor: accessor)}) return false;");
         if (TargetObjectGeneration != null)
         {
-            fg.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.Access} == null || !{accessor.Access}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
+            sb.AppendLine($"if ({checkMaskAccessor}?.Specific != null && ({accessor.Access} == null || !{accessor.Access}.HasBeenSet({checkMaskAccessor}.Specific))) return false;");
         }
     }
 

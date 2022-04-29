@@ -111,11 +111,11 @@ public abstract class TypeGeneration_Tests<T>
     public async Task TestClassComments(string commentString, string[] expected)
     {
         var thing = ThingWithComments(commentString);
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        await thing.GenerateForClass(fg);
+        await thing.GenerateForClass(sb);
 
-        Assert.Equal(expected, fg.Where(x => x.StartsWith("//")).ToArray());
+        Assert.Equal(expected, sb.Where(x => x.StartsWith("//")).ToArray());
     }
 
     public static TheoryData<bool> InterfaceOptionsData => new()
@@ -131,10 +131,10 @@ public abstract class TypeGeneration_Tests<T>
     public async Task TestInterfaceComments(string commentString, string[] expected, bool getter)
     {
         var thing = ThingWithInterfaceComments(commentString, getter);
-        var fg = new FileGeneration();
+        var sb = new StructuredStringBuilder();
 
-        thing.GenerateForInterface(fg, getter, false);
+        thing.GenerateForInterface(sb, getter, false);
 
-        Assert.Equal(expected, fg.Where(x => x.StartsWith("//")).ToArray());
+        Assert.Equal(expected, sb.Where(x => x.StartsWith("//")).ToArray());
     }
 }

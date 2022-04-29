@@ -2,26 +2,26 @@ namespace Loqui.Generation;
 
 public class NamespaceWrapper : IDisposable
 {
-    private readonly FileGeneration _fg;
+    private readonly StructuredStringBuilder _sb;
     private readonly bool _doThings;
     private readonly bool _fileScoped;
 
-    public NamespaceWrapper(FileGeneration fg, string str, bool fileScoped = true)
+    public NamespaceWrapper(StructuredStringBuilder sb, string str, bool fileScoped = true)
     {
         _fileScoped = fileScoped;
-        _fg = fg;
+        _sb = sb;
         _doThings = !string.IsNullOrWhiteSpace(str);
         if (_doThings)
         {
-            fg.AppendLine($"namespace {str}{(_fileScoped ? ";" : null)}");
+            sb.AppendLine($"namespace {str}{(_fileScoped ? ";" : null)}");
             if (_fileScoped)
             {
-                _fg.AppendLine();
+                _sb.AppendLine();
             }
             else
             {
-                fg.AppendLine("{");
-                fg.Depth++;
+                sb.AppendLine("{");
+                sb.Depth++;
             }
         }
     }
@@ -31,8 +31,8 @@ public class NamespaceWrapper : IDisposable
         if (!_doThings) return;
         if (!_fileScoped)
         {
-            _fg.Depth--;
-            _fg.AppendLine("}");
+            _sb.Depth--;
+            _sb.AppendLine("}");
         }
     }
 }

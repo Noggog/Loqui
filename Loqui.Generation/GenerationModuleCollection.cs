@@ -19,15 +19,15 @@ public class GenerationModuleCollection : IGenerationModule
         return module;
     }
 
-    public Task GenerateInVoid(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInVoid(obj, fg);
+                        await subGen.GenerateInVoid(obj, sb);
                     }
                 }));
     }
@@ -42,106 +42,106 @@ public class GenerationModuleCollection : IGenerationModule
                 }));
     }
 
-    public Task GenerateInClass(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInClass(obj, fg);
+                        await subGen.GenerateInClass(obj, sb);
                     }
                 }));
     }
 
-    public Task GenerateInNonGenericClass(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInNonGenericClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInNonGenericClass(obj, fg);
+                        await subGen.GenerateInNonGenericClass(obj, sb);
                     }
                 }));
     }
 
-    public Task GenerateInCommon(ObjectGeneration obj, FileGeneration fg, MaskTypeSet maskTypes)
+    public Task GenerateInCommon(ObjectGeneration obj, StructuredStringBuilder sb, MaskTypeSet maskTypes)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInCommon(obj, fg, maskTypes);
+                        await subGen.GenerateInCommon(obj, sb, maskTypes);
                     }
                 }));
     }
 
-    public Task GenerateInCommonMixin(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInCommonMixin(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInCommonMixin(obj, fg);
+                        await subGen.GenerateInCommonMixin(obj, sb);
                     }
                 }));
     }
 
-    public Task GenerateInCtor(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInCtor(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInCtor(obj, fg);
+                        await subGen.GenerateInCtor(obj, sb);
                     }
                 }));
     }
 
-    public Task GenerateInInterface(ObjectGeneration obj, FileGeneration fg, bool internalInterface, bool getter)
+    public Task GenerateInInterface(ObjectGeneration obj, StructuredStringBuilder sb, bool internalInterface, bool getter)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInInterface(obj, fg, internalInterface, getter);
+                        await subGen.GenerateInInterface(obj, sb, internalInterface, getter);
                     }
                 }));
     }
 
-    public Task GenerateInRegistration(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInRegistration(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInRegistration(obj, fg);
+                        await subGen.GenerateInRegistration(obj, sb);
                     }
                 }));
     }
 
-    public Task GenerateInStaticCtor(ObjectGeneration obj, FileGeneration fg)
+    public Task GenerateInStaticCtor(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(fg, subGen.RegionString))
+                    using (new RegionWrapper(sb, subGen.RegionString))
                     {
-                        await subGen.GenerateInStaticCtor(obj, fg);
+                        await subGen.GenerateInStaticCtor(obj, sb);
                     }
                 }));
     }
@@ -246,13 +246,13 @@ public class GenerationModuleCollection : IGenerationModule
                 }));
     }
 
-    public Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, FileGeneration fg, LoquiInterfaceType type)
+    public Task GenerateInField(ObjectGeneration obj, TypeGeneration typeGeneration, StructuredStringBuilder sb, LoquiInterfaceType type)
     {
         return Task.WhenAll(
             subModules.Select(
                 (subGen) =>
                 {
-                    return subGen.GenerateInField(obj, typeGeneration, fg, type);
+                    return subGen.GenerateInField(obj, typeGeneration, sb, type);
                 }));
     }
 }

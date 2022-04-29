@@ -94,7 +94,7 @@ public abstract class TranslationGeneration
                 {
                     if (param.AsyncMode == AsyncMode.Off)
                     {
-                        using (new BraceWrapper(param.FG))
+                        using (new CurlyBrace(param.FG))
                         {
                             param.FG.AppendLine($"{param.ItemAccessor.Access} = {param.TypeGen.Name}Parse;");
                         }
@@ -102,13 +102,13 @@ public abstract class TranslationGeneration
                     else
                     {
                         param.FG.AppendLine($"if ({param.TypeGen.Name}Parse.Succeeded)");
-                        using (new BraceWrapper(param.FG))
+                        using (new CurlyBrace(param.FG))
                         {
                             param.FG.AppendLine($"{param.ItemAccessor.Access} = {param.TypeGen.Name}Parse.Value;");
                         }
                     }
                     param.FG.AppendLine("else");
-                    using (new BraceWrapper(param.FG))
+                    using (new CurlyBrace(param.FG))
                     {
                         if (param.UnsetCall != null)
                         {
@@ -135,7 +135,7 @@ public abstract class TranslationGeneration
 
     public class TranslationWrapParseArgs
     {
-        public FileGeneration FG;
+        public StructuredStringBuilder FG;
         public TypeGeneration TypeGen;
         public string TranslatorLine;
         public Accessor MaskAccessor;
@@ -146,7 +146,7 @@ public abstract class TranslationGeneration
         public string FunctionNameOverride;
         public AsyncMode AsyncMode;
         public string DefaultOverride;
-        public Action<FileGeneration> UnsetCall;
+        public Action<StructuredStringBuilder> UnsetCall;
         public IEnumerable<string> ExtraArgs;
         public bool SkipErrorMask;
         public string Generic;

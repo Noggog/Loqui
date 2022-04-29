@@ -3,7 +3,7 @@ namespace Loqui.Generation;
 public static class MaskGenerationUtility
 {
     public static void WrapErrorFieldIndexPush(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Action toDo,
         Accessor errorMaskAccessor,
         Accessor indexAccessor,
@@ -16,28 +16,28 @@ public static class MaskGenerationUtility
         }
         if (!string.IsNullOrWhiteSpace(indexAccessor.Access))
         {
-            fg.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
+            sb.AppendLine($"{errorMaskAccessor}?.PushIndex({indexAccessor});");
         }
-        fg.AppendLine("try");
-        using (new BraceWrapper(fg))
+        sb.AppendLine("try");
+        using (sb.CurlyBrace())
         {
             toDo();
         }
-        GenerateExceptionCatcher(fg, errorMaskAccessor);
+        GenerateExceptionCatcher(sb, errorMaskAccessor);
     }
 
-    public static void GenerateExceptionCatcher(FileGeneration fg, Accessor errorMaskAccessor)
+    public static void GenerateExceptionCatcher(StructuredStringBuilder sb, Accessor errorMaskAccessor)
     {
-        fg.AppendLine("catch (Exception ex)");
-        fg.AppendLine($"when ({errorMaskAccessor} != null)");
-        using (new BraceWrapper(fg))
+        sb.AppendLine("catch (Exception ex)");
+        sb.AppendLine($"when ({errorMaskAccessor} != null)");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine($"{errorMaskAccessor}.ReportException(ex);");
+            sb.AppendLine($"{errorMaskAccessor}.ReportException(ex);");
         }
-        fg.AppendLine("finally");
-        using (new BraceWrapper(fg))
+        sb.AppendLine("finally");
+        using (sb.CurlyBrace())
         {
-            fg.AppendLine("errorMask?.PopIndex();");
+            sb.AppendLine("errorMask?.PopIndex();");
         }
     }
 }

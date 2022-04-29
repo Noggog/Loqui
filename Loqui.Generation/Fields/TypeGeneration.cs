@@ -124,73 +124,73 @@ public abstract class TypeGeneration
         yield break;
     }
 
-    public virtual async Task GenerateForCtor(FileGeneration fg)
+    public virtual async Task GenerateForCtor(StructuredStringBuilder sb)
     {
     }
 
-    public abstract Task GenerateForClass(FileGeneration fg);
+    public abstract Task GenerateForClass(StructuredStringBuilder sb);
 
-    public abstract void GenerateForInterface(FileGeneration fg, bool getter, bool internalInterface);
+    public abstract void GenerateForInterface(StructuredStringBuilder sb, bool getter, bool internalInterface);
 
     public abstract bool CopyNeedsTryCatch { get; }
 
     public abstract string SkipCheck(Accessor copyMaskAccessor, bool deepCopy);
 
     public abstract void GenerateForCopy(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         Accessor accessor,
         Accessor rhs,
         Accessor copyMaskAccessor,
         bool protectedMembers,
         bool deepCopy);
 
-    public virtual void GenerateCopySetToConverter(FileGeneration fg) { }
+    public virtual void GenerateCopySetToConverter(StructuredStringBuilder sb) { }
 
     public abstract string GenerateACopy(string rhsAccessor);
 
-    public abstract void GenerateSetNth(FileGeneration fg, Accessor accessor, Accessor rhs, bool internalUse);
+    public abstract void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse);
 
-    public abstract void GenerateUnsetNth(FileGeneration fg, Accessor identifier);
+    public abstract void GenerateUnsetNth(StructuredStringBuilder sb, Accessor identifier);
 
-    public abstract void GenerateGetNth(FileGeneration fg, Accessor identifier);
+    public abstract void GenerateGetNth(StructuredStringBuilder sb, Accessor identifier);
 
-    public abstract void GenerateClear(FileGeneration fg, Accessor accessorPrefix);
+    public abstract void GenerateClear(StructuredStringBuilder sb, Accessor accessorPrefix);
 
-    public abstract void GenerateForEquals(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor);
+    public abstract void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor);
 
-    public abstract void GenerateForEqualsMask(FileGeneration fg, Accessor accessor, Accessor rhsAccessor, string retAccessor);
+    public abstract void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor);
 
-    public abstract void GenerateForHash(FileGeneration fg, Accessor accessor, string hashResultAccessor);
+    public abstract void GenerateForHash(StructuredStringBuilder sb, Accessor accessor, string hashResultAccessor);
 
-    public virtual void GenerateInCommon(FileGeneration fg, MaskTypeSet maskTypes) { }
+    public virtual void GenerateInCommon(StructuredStringBuilder sb, MaskTypeSet maskTypes) { }
 
-    public virtual void GenerateForStaticCtor(FileGeneration fg) { }
+    public virtual void GenerateForStaticCtor(StructuredStringBuilder sb) { }
 
-    public virtual void GenerateGetNameIndex(FileGeneration fg)
+    public virtual void GenerateGetNameIndex(StructuredStringBuilder sb)
     {
         if (!IntegrateField || !Enabled) return;
-        fg.AppendLine($"return (ushort){ObjectGen.FieldIndexName}.{Name};");
+        sb.AppendLine($"return (ushort){ObjectGen.FieldIndexName}.{Name};");
     }
 
-    public virtual void GenerateGetNthName(FileGeneration fg)
+    public virtual void GenerateGetNthName(StructuredStringBuilder sb)
     {
         if (!IntegrateField || !Enabled) return;
-        fg.AppendLine($"return \"{Name}\";");
+        sb.AppendLine($"return \"{Name}\";");
     }
 
-    public virtual void GenerateGetNthType(FileGeneration fg)
+    public virtual void GenerateGetNthType(StructuredStringBuilder sb)
     {
         if (!IntegrateField || !Enabled) return;
-        fg.AppendLine($"return typeof({TypeName(getter: false)});");
+        sb.AppendLine($"return typeof({TypeName(getter: false)});");
     }
 
-    public virtual void GenerateInRegistration(FileGeneration fg)
+    public virtual void GenerateInRegistration(StructuredStringBuilder sb)
     { 
     }
 
-    public abstract void GenerateToString(FileGeneration fg, string name, Accessor accessor, string fgAccessor);
+    public abstract void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor);
 
-    public abstract void GenerateForNullableCheck(FileGeneration fg, Accessor accessor, string checkMaskAccessor);
+    public abstract void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor);
 
     public virtual string EqualsMaskAccessor(string accessor) => accessor;
 

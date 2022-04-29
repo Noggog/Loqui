@@ -11,7 +11,7 @@ public class ClassWrapper : IDisposable
         @interface
     }
 
-    private FileGeneration fg;
+    private StructuredStringBuilder sb;
     public string Name { get; }
     public PermissionLevel Public = PermissionLevel.@public;
     public bool Partial;
@@ -24,9 +24,9 @@ public class ClassWrapper : IDisposable
     public List<string> Wheres = new();
     public List<string> Attributes = new();
 
-    public ClassWrapper(FileGeneration fg, string name)
+    public ClassWrapper(StructuredStringBuilder sb, string name)
     {
-        this.fg = fg;
+        this.sb = sb;
         Name = name;
     }
 
@@ -34,7 +34,7 @@ public class ClassWrapper : IDisposable
     {
         foreach (var attr in Attributes)
         {
-            fg.AppendLine(attr);
+            sb.AppendLine(attr);
         }
         var classLine = $"{EnumExt.ToStringFast_Enum_Only<PermissionLevel>(Public)} {(Static ? "static " : null)}{(New ? "new " : null)}{(Abstract ? "abstract " : null)}{(Partial ? "partial " : null)}{EnumExt.ToStringFast_Enum_Only<ObjectType>(Type)} {Name}";
         var toAdd = Interfaces.OrderBy(x => x).ToList();
@@ -44,30 +44,30 @@ public class ClassWrapper : IDisposable
         }
         if (toAdd.Count > 1)
         {
-            fg.AppendLine($"{classLine} :");
-            fg.Depth++;
+            sb.AppendLine($"{classLine} :");
+            sb.Depth++;
             toAdd.Last(
                 each: (item, last) =>
                 {
-                    fg.AppendLine($"{item}{(last ? string.Empty : ",")}");
+                    sb.AppendLine($"{item}{(last ? string.Empty : ",")}");
                 });
-            fg.Depth--;
+            sb.Depth--;
         }
         else if (toAdd.Count == 1)
         {
-            fg.AppendLine($"{classLine} : {toAdd.First()}");
+            sb.AppendLine($"{classLine} : {toAdd.First()}");
         }
         else
         {
-            fg.AppendLine(classLine);
+            sb.AppendLine(classLine);
         }
         if (Wheres.Count > 0)
         {
-            using (new DepthWrapper(fg))
+            using (new DepthWrapper(sb))
             {
                 foreach (var where in Wheres)
                 {
-                    fg.AppendLine(where);
+                    sb.AppendLine(where);
                 }
             }
         }

@@ -2,68 +2,68 @@ namespace Loqui;
 
 public class CommentWrapper : IDisposable
 {
-    private readonly FileGeneration _fg;
-    public readonly FileGeneration Summary = new FileGeneration();
-    public readonly Dictionary<string, FileGeneration> Parameters = new Dictionary<string, FileGeneration>();
-    public readonly FileGeneration Return = new FileGeneration();
+    private readonly StructuredStringBuilder _sb;
+    public readonly StructuredStringBuilder Summary = new StructuredStringBuilder();
+    public readonly Dictionary<string, StructuredStringBuilder> Parameters = new Dictionary<string, StructuredStringBuilder>();
+    public readonly StructuredStringBuilder Return = new StructuredStringBuilder();
 
-    public CommentWrapper(FileGeneration fg)
+    public CommentWrapper(StructuredStringBuilder sb)
     {
-        _fg = fg;
+        _sb = sb;
     }
 
     public void AddParameter(string name, string comment)
     {
-        var fg = new FileGeneration();
-        fg.AppendLine(comment);
-        Parameters[name] = fg;
+        var sb = new StructuredStringBuilder();
+        sb.AppendLine(comment);
+        Parameters[name] = sb;
     }
 
-    public void Apply(FileGeneration fg)
+    public void Apply(StructuredStringBuilder sb)
     {
-        if (fg == null) return;
+        if (sb == null) return;
         if (Summary.Count > 0)
         {
-            fg.AppendLine("/// <summary>");
+            sb.AppendLine("/// <summary>");
             foreach (var line in Summary)
             {
-                fg.AppendLine($"/// {line}");
+                sb.AppendLine($"/// {line}");
             }
-            fg.AppendLine("/// </summary>");
+            sb.AppendLine("/// </summary>");
         }
         foreach (var param in Parameters)
         {
             if (param.Value.Count > 1)
             {
-                fg.AppendLine($"/// <param name=\"{param.Key}\">");
+                sb.AppendLine($"/// <param name=\"{param.Key}\">");
                 foreach (var line in param.Value)
                 {
-                    fg.AppendLine($"/// {line}");
+                    sb.AppendLine($"/// {line}");
                 }
-                fg.AppendLine("/// </param>");
+                sb.AppendLine("/// </param>");
             }
             else
             {
-                fg.AppendLine($"/// <param name=\"{param.Key}\">{param.Value[0]}</param>");
+                sb.AppendLine($"/// <param name=\"{param.Key}\">{param.Value[0]}</param>");
             }
         }
         if (Return.Count == 1)
         {
-            fg.AppendLine($"/// <returns>{Return[0]}</returns>");
+            sb.AppendLine($"/// <returns>{Return[0]}</returns>");
         }
         else if (Return.Count > 0)
         {
-            fg.AppendLine("/// <returns>");
+            sb.AppendLine("/// <returns>");
             foreach (var line in Return)
             {
-                fg.AppendLine($"/// {line}");
+                sb.AppendLine($"/// {line}");
             }
-            fg.AppendLine("/// </returns>");
+            sb.AppendLine("/// </returns>");
         }
     }
 
     public void Dispose()
     {
-        Apply(_fg);
+        Apply(_sb);
     }
 }

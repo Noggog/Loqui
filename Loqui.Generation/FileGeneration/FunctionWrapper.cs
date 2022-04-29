@@ -4,7 +4,7 @@ namespace Loqui.Generation;
 
 public class FunctionWrapper : IDisposable
 {
-    FileGeneration fg;
+    StructuredStringBuilder sb;
     List<string[]> args = new List<string[]>();
     string initialLine;
     public bool SemiColon = false;
@@ -12,10 +12,10 @@ public class FunctionWrapper : IDisposable
     private bool SemiColonAfterParenthesis => SemiColon && Wheres.Count == 0;
 
     public FunctionWrapper(
-        FileGeneration fg,
+        StructuredStringBuilder sb,
         string initialLine)
     {
-        this.fg = fg;
+        this.sb = sb;
         this.initialLine = initialLine;
     }
 
@@ -37,9 +37,9 @@ public class FunctionWrapper : IDisposable
         args.Add(new string[] { line });
     }
 
-    public void Add(Action<FileGeneration> generator)
+    public void Add(Action<StructuredStringBuilder> generator)
     {
-        var gen = new FileGeneration();
+        var gen = new StructuredStringBuilder();
         generator(gen);
         if (gen.Empty) return;
         args.Add(gen.ToArray());
@@ -51,32 +51,32 @@ public class FunctionWrapper : IDisposable
         {
             if (args.Count == 0)
             {
-                fg.AppendLine($"{initialLine}(){(SemiColonAfterParenthesis ? ";" : null)}");
+                sb.AppendLine($"{initialLine}(){(SemiColonAfterParenthesis ? ";" : null)}");
             }
             else if (args[0].Length == 1)
             {
-                fg.AppendLine($"{initialLine}({args[0][0]}){(SemiColonAfterParenthesis ? ";" : null)}");
+                sb.AppendLine($"{initialLine}({args[0][0]}){(SemiColonAfterParenthesis ? ";" : null)}");
             }
             else
             {
-                fg.AppendLine($"{initialLine}({(args.Count == 1 ? args[0][0] : null)}");
+                sb.AppendLine($"{initialLine}({(args.Count == 1 ? args[0][0] : null)}");
                 for (int i = 1; i < args[0].Length - 1; i++)
                 {
-                    fg.AppendLine(args[0][i]);
+                    sb.AppendLine(args[0][i]);
                 }
-                fg.AppendLine($"{args[0][args[0].Length - 1]}){(SemiColonAfterParenthesis ? ";" : null)}");
+                sb.AppendLine($"{args[0][args[0].Length - 1]}){(SemiColonAfterParenthesis ? ";" : null)}");
             }
-            fg.Depth++;
+            sb.Depth++;
             foreach (var where in Wheres.NotNull().IterateMarkLast())
             {
-                fg.AppendLine($"{where.Item}{(SemiColon && where.Last ? ";" : null)}");
+                sb.AppendLine($"{where.Item}{(SemiColon && where.Last ? ";" : null)}");
             }
-            fg.Depth--;
+            sb.Depth--;
             return;
         }
 
-        fg.AppendLine($"{initialLine}(");
-        fg.Depth++;
+        sb.AppendLine($"{initialLine}(");
+        sb.Depth++;
         if (args.Count != 0)
         {
             args.Last(
@@ -85,7 +85,7 @@ public class FunctionWrapper : IDisposable
                     arg.Last(
                         each: (item, last) =>
                         {
-                            fg.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                            sb.AppendLine($"{item}{(last ? "," : string.Empty)}");
                         });
                 },
                 last: (arg) =>
@@ -93,14 +93,14 @@ public class FunctionWrapper : IDisposable
                     arg.Last(
                         each: (item, last) =>
                         {
-                            fg.AppendLine($"{item}{(last ? $"){(SemiColonAfterParenthesis ? ";" : string.Empty)}" : string.Empty)}");
+                            sb.AppendLine($"{item}{(last ? $"){(SemiColonAfterParenthesis ? ";" : string.Empty)}" : string.Empty)}");
                         });
                 });
         }
         foreach (var where in Wheres.IterateMarkLast())
         {
-            fg.AppendLine($"{where.Item}{(SemiColon && where.Last ? ";" : null)}");
+            sb.AppendLine($"{where.Item}{(SemiColon && where.Last ? ";" : null)}");
         }
-        fg.Depth--;
+        sb.Depth--;
     }
 }
