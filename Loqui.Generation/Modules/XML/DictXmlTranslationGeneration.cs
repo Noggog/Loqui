@@ -37,7 +37,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
                 }
 
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                 {
                     args.Add($"node: {writerAccessor}");
@@ -92,8 +92,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     sb: sb,
                     toDo: () =>
                     {
-                        using (var args = new ArgsWrapper(
-                                   sb,
+                        using (var args = sb.Args(
                                    $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                         {
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -196,7 +195,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                 throw new NotImplementedException();
         }
 
-        using (var args = new ArgsWrapper(sb, funcStr))
+        using (var args = sb.Args( funcStr))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
             if (!ret)

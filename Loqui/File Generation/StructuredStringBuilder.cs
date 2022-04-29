@@ -156,7 +156,7 @@ public class StructuredStringBuilder : IEnumerable<string>
 
     public void AppendLine(string? str, bool extraLine = false)
     {
-        using (new LineWrapper(this))
+        using (new Line(this))
         {
             Append(str);
         }
@@ -227,5 +227,40 @@ public class StructuredStringBuilder : IEnumerable<string>
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+    
+    public CurlyBrace CurlyBrace(
+        bool extraLine = true, 
+        bool doIt = true,
+        bool appendParenthesis = false,
+        bool appendSemiColon = false,
+        bool appendComma = false)
+    {
+        return new CurlyBrace(this, doIt)
+        {
+            AppendSemicolon = appendSemiColon,
+            AppendParenthesis = appendParenthesis,
+            AppendComma = appendComma
+        };
+    }
+    
+    public Depth IncreaseDepth(bool doIt = true)
+    {
+        return new Depth(this, doIt);
+    }
+    
+    public Line Line()
+    {
+        return new Line(this);
+    }
+    
+    public Comment Comment()
+    {
+        return new Comment(this);
+    }
+    
+    public CommaCollection CommaCollection(string delimiter = ",")
+    {
+        return new CommaCollection(this, delimiter: delimiter);
     }
 }

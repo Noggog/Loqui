@@ -51,7 +51,7 @@ public class MaskModule : GenerationModule
         if (field.IntegrateField && field.Enabled)
         {
             sb.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 GetMaskModule(field.GetType()).GenerateSetException(sb, field);
                 sb.AppendLine("break;");
@@ -67,7 +67,7 @@ public class MaskModule : GenerationModule
     {
         if (!field.IntegrateField || !field.Enabled) return;
         sb.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             sb.AppendLine($"return {field.Name};");
         }
@@ -78,7 +78,7 @@ public class MaskModule : GenerationModule
         if (field.IntegrateField && field.Enabled)
         {
             sb.AppendLine($"case {field.ObjectGen.FieldIndexName}.{field.Name}:");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 GetMaskModule(field.GetType()).GenerateSetMask(sb, field);
                 sb.AppendLine("break;");
@@ -92,13 +92,13 @@ public class MaskModule : GenerationModule
 
     private void GenerateCopyMask(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(sb, obj.Mask(MaskType.Copy, addClassName: false)))
+        using (var args = sb.Class(obj.Mask(MaskType.Copy, addClassName: false)))
         {
             args.BaseClass = obj.HasLoquiBaseObject ? obj.BaseClass.Mask(MaskType.Copy, addClassName: true) : string.Empty;
             args.New = obj.HasLoquiBaseObject;
             args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Copy));
         }
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             sb.AppendLines(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Copy));
         }
@@ -120,7 +120,7 @@ public class MaskModule : GenerationModule
             }
             sb.AppendLine();
 
-            using (new RegionWrapper(sb, "Members"))
+            using (sb.Region("Members"))
             {
                 foreach (var field in obj.IterateFields())
                 {
@@ -133,7 +133,7 @@ public class MaskModule : GenerationModule
 
     private async Task GenerateErrorMask(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(sb, obj.Mask(MaskType.Error, addClassName: false)))
+        using (var args = sb.Class(obj.Mask(MaskType.Error, addClassName: false)))
         {
             args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Error, addClassName: true)}" : string.Empty;
             if (!obj.HasLoquiBaseObject)
@@ -146,7 +146,7 @@ public class MaskModule : GenerationModule
         }
         using (sb.CurlyBrace())
         {
-            using (new RegionWrapper(sb, "Members"))
+            using (sb.Region("Members"))
             {
                 if (!obj.HasLoquiBaseObject)
                 {
@@ -173,7 +173,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "IErrorMask"))
+            using (sb.Region("IErrorMask"))
             {
                 sb.AppendLine($"public{obj.FunctionOverride()}object? GetNthMask(int index)");
                 using (sb.CurlyBrace())
@@ -238,7 +238,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "To String"))
+            using (sb.Region("To String"))
             {
                 sb.AppendLine($"public override string ToString()");
                 using (sb.CurlyBrace())
@@ -254,7 +254,7 @@ public class MaskModule : GenerationModule
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{(name ?? \"{obj.Mask_BasicName(MaskType.Error)}\")}} =>\");");
                     sb.AppendLine($"sb.AppendLine(\"[\");");
-                    sb.AppendLine($"using (new DepthWrapper(sb))");
+                    sb.AppendLine($"using (sb.IncreaseDepth())");
                     using (sb.CurlyBrace())
                     {
                         sb.AppendLine($"if (this.Overall != null)");
@@ -262,7 +262,7 @@ public class MaskModule : GenerationModule
                         {
                             sb.AppendLine($"sb.AppendLine(\"Overall =>\");");
                             sb.AppendLine($"sb.AppendLine(\"[\");");
-                            sb.AppendLine($"using (new DepthWrapper(sb))");
+                            sb.AppendLine($"using (sb.IncreaseDepth())");
                             using (sb.CurlyBrace())
                             {
                                 sb.AppendLine("sb.AppendLine($\"{this.Overall}\");");
@@ -288,7 +288,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Combine"))
+            using (sb.Region("Combine"))
             {
                 sb.AppendLine($"public {obj.Mask(MaskType.Error, addClassName: false)} Combine({obj.Mask(MaskType.Error, addClassName: false)}? rhs)");
                 using (sb.CurlyBrace())
@@ -310,7 +310,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Factory"))
+            using (sb.Region("Factory"))
             {
                 sb.AppendLine($"public static{obj.NewOverride()}{obj.Mask(MaskType.Error, addClassName: false)} Factory(ErrorMaskBuilder errorMask)");
                 using (sb.CurlyBrace())
@@ -323,7 +323,7 @@ public class MaskModule : GenerationModule
 
     private async Task GenerateNormalMask(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(sb, $"Mask<{GenItem}>"))
+        using (var args = sb.Class($"Mask<{GenItem}>"))
         {
             args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.GetMaskString(GenItem)}" : string.Empty;
             args.Interfaces.Add($"IMask<{GenItem}>");
@@ -332,11 +332,11 @@ public class MaskModule : GenerationModule
         }
         using (sb.CurlyBrace())
         {
-            using (new RegionWrapper(sb, "Ctors"))
+            using (sb.Region("Ctors"))
             {
                 if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(1) || !obj.IterateFields(includeBaseClass: true).Any())
                 {
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public Mask"))
                     {
                         args.Add($"{GenItem} initialValue");
@@ -357,7 +357,7 @@ public class MaskModule : GenerationModule
 
                 if (obj.IterateFields(includeBaseClass: true).CountGreaterThan(0))
                 {
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public Mask"))
                     {
                         foreach (var field in obj.IterateFields(includeBaseClass: true))
@@ -367,7 +367,7 @@ public class MaskModule : GenerationModule
                     }
                     if (obj.HasLoquiBaseObject)
                     {
-                        using (var args = new FunctionWrapper(sb,
+                        using (var args = new Function(sb,
                                    $": base"))
                         {
                             foreach (var field in obj.BaseClass.IterateFields(includeBaseClass: true))
@@ -387,7 +387,7 @@ public class MaskModule : GenerationModule
                 sb.AppendLine();
 
                 sb.AppendLine("#pragma warning disable CS8618");
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"protected Mask"))
                 {
                 }
@@ -398,7 +398,7 @@ public class MaskModule : GenerationModule
                 sb.AppendLine();
             }
 
-            using (new RegionWrapper(sb, "Members"))
+            using (sb.Region("Members"))
             {
                 foreach (var field in obj.IterateFields())
                 {
@@ -406,7 +406,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Equals"))
+            using (sb.Region("Equals"))
             {
                 sb.AppendLine("public override bool Equals(object? obj)");
                 using (sb.CurlyBrace())
@@ -448,7 +448,7 @@ public class MaskModule : GenerationModule
                 sb.AppendLine();
             }
 
-            using (new RegionWrapper(sb, "All"))
+            using (sb.Region("All"))
             {
                 sb.AppendLine($"public{obj.FunctionOverride()}bool All(Func<{GenItem}, bool> eval)");
                 using (sb.CurlyBrace())
@@ -465,7 +465,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Any"))
+            using (sb.Region("Any"))
             {
                 sb.AppendLine($"public{obj.FunctionOverride()}bool Any(Func<{GenItem}, bool> eval)");
                 using (sb.CurlyBrace())
@@ -482,7 +482,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Translate"))
+            using (sb.Region("Translate"))
             {
                 sb.AppendLine($"public{obj.NewOverride()}Mask<R> Translate<R>(Func<{GenItem}, R> eval)");
                 using (sb.CurlyBrace())
@@ -507,7 +507,7 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "To String"))
+            using (sb.Region("To String"))
             {
                 sb.AppendLine($"public override string ToString()");
                 using (sb.CurlyBrace())
@@ -530,7 +530,7 @@ public class MaskModule : GenerationModule
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{nameof({obj.GetMaskString(GenItem)})}} =>\");");
                     sb.AppendLine($"sb.AppendLine(\"[\");");
-                    sb.AppendLine($"using (new DepthWrapper(sb))");
+                    sb.AppendLine($"using (sb.IncreaseDepth())");
                     using (sb.CurlyBrace())
                     {
                         foreach (var field in obj.IterateFields())
@@ -547,7 +547,7 @@ public class MaskModule : GenerationModule
 
     private async Task GenerateTranslationMask(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(sb, obj.Mask(MaskType.Translation, addClassName: false)))
+        using (var args = sb.Class(obj.Mask(MaskType.Translation, addClassName: false)))
         {
             args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: MaskType.Translation));
             args.BaseClass = obj.HasLoquiBaseObject ? $"{obj.BaseClass.Mask(MaskType.Translation, addClassName: true)}" : string.Empty;
@@ -556,7 +556,7 @@ public class MaskModule : GenerationModule
         }
         using (sb.CurlyBrace())
         {
-            using (new RegionWrapper(sb, "Members"))
+            using (sb.Region("Members"))
             {
                 if (!obj.HasLoquiBaseObject)
                 {
@@ -571,15 +571,15 @@ public class MaskModule : GenerationModule
                 }
             }
 
-            using (new RegionWrapper(sb, "Ctors"))
+            using (sb.Region("Ctors"))
             {
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public {obj.Mask_BasicName(MaskType.Translation)}"))
                 {
                     args.Add("bool defaultOn");
                     args.Add("bool onOverall = true");
                 }
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
                     if (obj.HasLoquiBaseObject)
                     {
@@ -681,7 +681,7 @@ public class MaskModule : GenerationModule
     public void GenerateStandardDefault(StructuredStringBuilder sb, ObjectGeneration obj, string functionName, string indexAccessor, bool ret, params string[] otherParameters)
     {
         sb.AppendLine("default:");
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             if (obj.HasLoquiBaseObject)
             {

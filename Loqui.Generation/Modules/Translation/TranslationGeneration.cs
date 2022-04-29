@@ -22,7 +22,7 @@ public abstract class TranslationGeneration
         MaskGenerationUtility.WrapErrorFieldIndexPush(param.FG,
             () =>
             {
-                ArgsWrapper args;
+                Args args;
                 bool parseInto = IsParseInto(param.TypeGen, param.ItemAccessor);
                 bool doIf = !parseInto && param.UnsetCall != null;
                 if (param.AsyncMode == AsyncMode.Off)
@@ -36,21 +36,17 @@ public abstract class TranslationGeneration
                     {
                         prefix = $"{param.ItemAccessor.Access}{param.ItemAccessor.AssignmentOperator}";
                     }
-                    args = new ArgsWrapper(param.FG,
+                    args = param.FG.Args(
                         $"{prefix}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{(param.Generic == null ? null : $"<{param.Generic}>")}",
-                        suffixLine: (doIf ? ")" : null))
-                    {
-                        SemiColon = !doIf,
-                    };
+                        suffixLine: (doIf ? ")" : null),
+                        semiColon: !doIf);
                 }
                 else if (param.AsyncMode == AsyncMode.Async)
                 {
-                    args = new ArgsWrapper(param.FG,
+                    args = param.FG.Args(
                         $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Utility.Await()}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{param.Generic}",
-                        suffixLine: Utility.ConfigAwait())
-                    {
-                        SemiColon = !doIf
-                    };
+                        suffixLine: Utility.ConfigAwait(),
+                        semiColon: !doIf);
                 }
                 else
                 {

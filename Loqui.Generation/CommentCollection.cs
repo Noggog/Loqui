@@ -2,13 +2,13 @@ namespace Loqui.Generation;
 
 public class CommentCollection
 {
-    public readonly CommentWrapper Comments;
-    public CommentWrapper SetterInterface;
-    public CommentWrapper GetterInterface;
+    public readonly Comment Comments;
+    public Comment SetterInterface;
+    public Comment GetterInterface;
 
     public CommentCollection()
     {
-        Comments = new CommentWrapper(null);
+        Comments = new Comment(null);
     }
 
     public void Apply(StructuredStringBuilder sb, LoquiInterfaceType type)

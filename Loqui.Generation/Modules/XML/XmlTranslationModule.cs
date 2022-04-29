@@ -207,7 +207,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
     {
         if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
         {
-            using (var args = new FunctionWrapper(sb,
+            using (var args = new Function(sb,
                        $"protected static void FillPrivateElement{ModuleNickname}"))
             {
                 args.Add($"{obj.ObjectName} item");
@@ -231,7 +231,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
 
                         sb.AppendLine($"case \"{field.Name}\":");
-                        using (new DepthWrapper(sb))
+                        using (sb.IncreaseDepth())
                         {
                             if (generator.ShouldGenerateCopyIn(field))
                             {
@@ -242,7 +242,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                 }
                                 if (conditions.Count > 0)
                                 {
-                                    using (var args = new IfWrapper(sb, ANDs: true))
+                                    using (var args = sb.If(ANDs: true))
                                     {
                                         foreach (var item in conditions)
                                         {
@@ -267,11 +267,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                     }
 
                     sb.AppendLine("default:");
-                    using (new DepthWrapper(sb))
+                    using (sb.IncreaseDepth())
                     {
                         if (obj.HasLoquiBaseObject)
                         {
-                            using (var args = new ArgsWrapper(sb,
+                            using (var args = sb.Args(
                                        $"{obj.BaseClassName}.FillPrivateElement_" +
                                        $"{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
@@ -302,7 +302,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
 
     public override async Task GenerateInTranslationCreateClass(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public static void FillPublic{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
@@ -323,7 +323,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
                 using (sb.CurlyBrace())
                 {
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                     {
                         args.Add("item: item");
@@ -357,7 +357,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
 
     public virtual void GenerateWriteToNode(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public static void WriteToNode{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Add($"{obj.Interface(internalInterface: true, getter: true)} item");
@@ -369,7 +369,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         {
             if (obj.HasLoquiBaseObject)
             {
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode{ModuleNickname}"))
                 {
                     args.Add($"item: item");
@@ -398,7 +398,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 }
                 if (conditions.Count > 0)
                 {
-                    using (var args = new IfWrapper(sb, ANDs: true))
+                    using (var args = sb.If(ANDs: true))
                     {
                         foreach (var item in conditions)
                         {
@@ -426,7 +426,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
 
     protected virtual void FillPublicElement(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public static void FillPublicElement{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false)} item");
@@ -450,7 +450,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                     }
 
                     sb.AppendLine($"case \"{field.Name}\":");
-                    using (new DepthWrapper(sb))
+                    using (sb.IncreaseDepth())
                     {
                         if (generator.ShouldGenerateCopyIn(field))
                         {
@@ -461,7 +461,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                             }
                             if (conditions.Count > 0)
                             {
-                                using (var args = new IfWrapper(sb, ANDs: true))
+                                using (var args = sb.If(ANDs: true))
                                 {
                                     foreach (var item in conditions)
                                     {
@@ -486,11 +486,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 }
 
                 sb.AppendLine("default:");
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
                     if (obj.HasLoquiBaseObject)
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{obj.BaseClass.CommonClassName(LoquiInterfaceType.ISetter)}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                         {
                             args.Add("item: item");
@@ -670,7 +670,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             {
                 if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                 {
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"FillPrivateElement{ModuleNickname}"))
                     {
                         args.Add($"item: {accessor}");
@@ -688,7 +688,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
                     }
                 }
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                 {
                     args.Add($"item: {accessor}");
@@ -725,7 +725,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         {
             sb.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
         }
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"WriteToNode{ModuleNickname}"))
         {
             args.Add($"item: item");

@@ -178,7 +178,7 @@ public class DictMaskFieldGeneration : MaskModuleField
         {
             sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{field.Name} =>\");");
             sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-            sb.AppendLine($"using (new DepthWrapper(sb))");
+            sb.AppendLine($"using (sb.IncreaseDepth())");
             using (sb.CurlyBrace())
             {
                 DictType dictType = field as DictType;
@@ -201,21 +201,21 @@ public class DictMaskFieldGeneration : MaskModuleField
                             var keyFieldGen = Module.GetMaskModule(dictType.KeyTypeGen.GetType());
                             var valFieldGen = Module.GetMaskModule(dictType.ValueTypeGen.GetType());
                             sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                            sb.AppendLine($"using (new DepthWrapper(sb))");
+                            sb.AppendLine($"using (sb.IncreaseDepth())");
                             using (sb.CurlyBrace())
                             {
                                 switch (dictType.Mode)
                                 {
                                     case DictMode.KeyValue:
                                         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"Key => [\");");
-                                        sb.AppendLine($"using (new DepthWrapper(sb))");
+                                        sb.AppendLine($"using (sb.IncreaseDepth())");
                                         using (sb.CurlyBrace())
                                         {
                                             keyFieldGen.GenerateMaskToString(sb, dictType.KeyTypeGen, $"subItem.{(valIsLoqui ? "Index" : "Key")}", topLevel: false, printMask: false);
                                         }
                                         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
                                         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"Value => [\");");
-                                        sb.AppendLine($"using (new DepthWrapper(sb))");
+                                        sb.AppendLine($"using (sb.IncreaseDepth())");
                                         using (sb.CurlyBrace())
                                         {
                                             valFieldGen.GenerateMaskToString(sb, dictType.ValueTypeGen, $"subItem.{(valIsLoqui ? "Specific" : "Value")}", topLevel: false, printMask: false);

@@ -169,7 +169,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
         sb.AppendLine($"public {DictInterface(getter: false)} {Name} => _{Name};");
 
         var member = $"_{Name}";
-        using (new RegionWrapper(sb, "Interface Members"))
+        using (sb.Region("Interface Members"))
         {
             if (!ReadOnly)
             {
@@ -209,7 +209,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                     var loqui = ValueTypeGen as LoquiType;
                     if (Nullable)
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add($"rhs.{Name}");
@@ -222,12 +222,12 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                                     using (new CurlyBrace(gen))
                                     {
                                         gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                        using (new DepthWrapper(gen))
+                                        using (gen.IncreaseDepth())
                                         {
                                             gen.AppendLine("return r;");
                                         }
                                         gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                        using (new DepthWrapper(gen))
+                                        using (gen.IncreaseDepth())
                                         {
                                             loqui.GenerateTypicalMakeCopy(
                                                 gen,
@@ -238,7 +238,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                                                 doTranslationMask: false);
                                         }
                                         gen.AppendLine($"default:");
-                                        using (new DepthWrapper(gen))
+                                        using (gen.IncreaseDepth())
                                         {
                                             gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{Name}.Overall}}. Cannot execute copy.\");");
                                         }
@@ -249,13 +249,13 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                     }
                     else
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add((gen) =>
                             {
                                 gen.AppendLine($"rhs.{Name}.Items");
-                                using (new DepthWrapper(gen))
+                                using (gen.IncreaseDepth())
                                 {
                                     gen.AppendLine(".Select((r) =>");
                                     using (new CurlyBrace(gen) { AppendParenthesis = true })
@@ -276,12 +276,12 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                                             using (new CurlyBrace(gen))
                                             {
                                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                                using (new DepthWrapper(gen))
+                                                using (gen.IncreaseDepth())
                                                 {
                                                     gen.AppendLine("return r;");
                                                 }
                                                 gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                                using (new DepthWrapper(gen))
+                                                using (gen.IncreaseDepth())
                                                 {
                                                     loqui.GenerateTypicalMakeCopy(
                                                         gen,
@@ -292,7 +292,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                                                         doTranslationMask: false);
                                                 }
                                                 gen.AppendLine($"default:");
-                                                using (new DepthWrapper(gen))
+                                                using (gen.IncreaseDepth())
                                                 {
                                                     gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{copyMask?.{Name}.Overall}}. Cannot execute copy.\");");
                                                 }
@@ -312,7 +312,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     private void GenerateCopy(StructuredStringBuilder sb, string accessorPrefix, string rhsAccessorPrefix, bool protectedUse)
     {
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"{accessorPrefix}.{GetName(protectedUse)}.SetTo"))
         {
             args.Add($"(IEnumerable<{ValueTypeGen.TypeName(getter: true)}>){rhsAccessorPrefix}.{GetName(false)}).Select((i) => i.Copy())");
@@ -321,7 +321,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"{accessor}.SetTo"))
         {
             args.Add($"(IEnumerable<{ValueTypeGen.TypeName(getter: true)}>){rhs}");
@@ -397,7 +397,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     public void GenerateForEqualsMaskCheck(StructuredStringBuilder sb, string accessor, string rhsAccessor, string retAccessor)
     {
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"{retAccessor} = EqualsMaskHelper.CacheEqualsHelper"))
         {
             args.Add($"lhs: {accessor}");
@@ -422,14 +422,14 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
     {
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-        sb.AppendLine($"using (new DepthWrapper(sb))");
+        sb.AppendLine($"using (sb.IncreaseDepth())");
         using (sb.CurlyBrace())
         {
             sb.AppendLine($"foreach (var subItem in {accessor})");
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using (new DepthWrapper({sbAccessor}))");
+                sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
                 using (sb.CurlyBrace())
                 {
                     ValueTypeGen.GenerateToString(sb, "Item", new Accessor("subItem.Value"), sbAccessor);

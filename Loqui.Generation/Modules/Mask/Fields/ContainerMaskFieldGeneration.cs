@@ -86,7 +86,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
 
     public override void GenerateMaskToString(StructuredStringBuilder sb, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
     {
-        using (var args = new IfWrapper(sb, ANDs: true))
+        using (var args = sb.If(ANDs: true))
         {
             if (printMask)
             {
@@ -98,7 +98,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
             {
                 sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{field.Name} =>\");");
                 sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using (new DepthWrapper(sb))");
+                sb.AppendLine($"using (sb.IncreaseDepth())");
                 using (sb.CurlyBrace())
                 {
                     ContainerType listType = field as ContainerType;
@@ -113,7 +113,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                             {
                                 sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
                                 var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                                sb.AppendLine($"using (new DepthWrapper(sb))");
+                                sb.AppendLine($"using (sb.IncreaseDepth())");
                                 using (sb.CurlyBrace())
                                 {
                                     fieldGen.GenerateMaskToString(sb, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
@@ -129,7 +129,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                         {
                             sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
                             var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                            sb.AppendLine($"using (new DepthWrapper(sb))");
+                            sb.AppendLine($"using (sb.IncreaseDepth())");
                             using (sb.CurlyBrace())
                             {
                                 fieldGen.GenerateMaskToString(sb, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);

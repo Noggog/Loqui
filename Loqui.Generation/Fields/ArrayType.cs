@@ -144,7 +144,7 @@ public class ArrayType : ListType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"ret.{Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
         {
             args.Add($"item.{Name}");
@@ -185,7 +185,7 @@ public class ArrayType : ListType
         if (FixedSize.HasValue && SubTypeGeneration is not LoquiType)
         {
             sb.AppendLine($"{accessor} = ");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 a(sb);
                 sb.AppendLine($"{NullChar}.ToArray();");

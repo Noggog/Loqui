@@ -2,21 +2,21 @@ using Noggog;
 
 namespace Loqui.Generation;
 
-public class PropertyCtorWrapper : IDisposable
+public class PropertyCtor : IDisposable
 {
-    StructuredStringBuilder sb;
-    List<string[]> args = new List<string[]>();
+    private readonly StructuredStringBuilder _sb;
+    private readonly List<string[]> _args = new List<string[]>();
 
-    public PropertyCtorWrapper(StructuredStringBuilder sb)
+    public PropertyCtor(StructuredStringBuilder sb)
     {
-        this.sb = sb;
+        _sb = sb;
     }
 
     public void Add(params string[] lines)
     {
         foreach (var line in lines)
         {
-            args.Add(new string[] { line });
+            _args.Add(new string[] { line });
         }
     }
 
@@ -34,7 +34,7 @@ public class PropertyCtorWrapper : IDisposable
         {
             gen[gen.Count - 1] = gen[gen.Count - 1].TrimEnd(';');
         }
-        args.Add(gen.ToArray());
+        _args.Add(gen.ToArray());
     }
 
     public async Task Add(Func<StructuredStringBuilder, Task> generator)
@@ -42,20 +42,20 @@ public class PropertyCtorWrapper : IDisposable
         var gen = new StructuredStringBuilder();
         await generator(gen);
         if (gen.Empty) return;
-        args.Add(gen.ToArray());
+        _args.Add(gen.ToArray());
     }
 
     public void Dispose()
     {
-        using (sb.CurlyBrace(appendSemiColon: true))
+        using (_sb.CurlyBrace(appendSemiColon: true))
         {
-            args.Last(
+            _args.Last(
                 each: (arg) =>
                 {
                     arg.Last(
                         each: (item, last) =>
                         {
-                            sb.AppendLine($"{item}{(last ? "," : string.Empty)}");
+                            _sb.AppendLine($"{item}{(last ? "," : string.Empty)}");
                         });
                 },
                 last: (arg) =>
@@ -63,7 +63,7 @@ public class PropertyCtorWrapper : IDisposable
                     arg.Last(
                         each: (item, last) =>
                         {
-                            sb.AppendLine($"{item}");
+                            _sb.AppendLine($"{item}");
                         });
                 });
         }

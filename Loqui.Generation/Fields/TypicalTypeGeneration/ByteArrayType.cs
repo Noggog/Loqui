@@ -132,7 +132,7 @@ public class ByteArrayType : ClassType
 
     public override void GenerateCopySetToConverter(StructuredStringBuilder sb)
     {
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             sb.AppendLine(".Select(b => new MemorySlice<byte>(b.ToArray()))");
         }

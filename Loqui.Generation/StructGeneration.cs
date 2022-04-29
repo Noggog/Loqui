@@ -28,9 +28,9 @@ public class StructGeneration : ObjectGeneration
             }
             for (int i = 0; i < lines.Count; i++)
             {
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
-                    using (new LineWrapper(sb))
+                    using (sb.Line())
                     {
                         sb.Append(lines[i]);
                         if (i != lines.Count - 1)
@@ -77,12 +77,12 @@ public class StructGeneration : ObjectGeneration
     protected override async Task GenerateClassLine(StructuredStringBuilder sb)
     {
         // Generate class header and interfaces
-        using (new LineWrapper(sb))
+        using (sb.Line())
         {
-            using (var args = new ClassWrapper(sb, $"{Name}{GetGenericTypes(MaskType.Normal)}"))
+            using (var args = sb.Class($"{Name}{GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Partial = true;
-                args.Type = ClassWrapper.ObjectType.@struct;
+                args.Type = Class.ObjectType.@struct;
                 args.Interfaces.Add(Interface(getter: true));
                 args.Interfaces.Add(Interfaces.Get(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(await GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());

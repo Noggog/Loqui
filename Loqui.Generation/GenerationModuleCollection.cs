@@ -25,7 +25,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInVoid(obj, sb);
                     }
@@ -48,7 +48,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInClass(obj, sb);
                     }
@@ -61,7 +61,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInNonGenericClass(obj, sb);
                     }
@@ -74,7 +74,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInCommon(obj, sb, maskTypes);
                     }
@@ -87,7 +87,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInCommonMixin(obj, sb);
                     }
@@ -100,7 +100,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInCtor(obj, sb);
                     }
@@ -113,7 +113,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInInterface(obj, sb, internalInterface, getter);
                     }
@@ -126,7 +126,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInRegistration(obj, sb);
                     }
@@ -139,7 +139,7 @@ public class GenerationModuleCollection : IGenerationModule
             subModules.Select(
                 async (subGen) =>
                 {
-                    using (new RegionWrapper(sb, subGen.RegionString))
+                    using (new Region(sb, subGen.RegionString))
                     {
                         await subGen.GenerateInStaticCtor(obj, sb);
                     }

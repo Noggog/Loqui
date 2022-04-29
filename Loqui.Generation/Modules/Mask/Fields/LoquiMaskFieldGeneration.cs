@@ -88,7 +88,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
     public override void GenerateMaskToString(StructuredStringBuilder sb, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
     {
         if (!field.IntegrateField) return;
-        using (var ifArg = new IfWrapper(sb, ANDs: true))
+        using (var ifArg = sb.If(ANDs: true))
         {
             if (printMask)
             {

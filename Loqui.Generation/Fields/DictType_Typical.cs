@@ -128,7 +128,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         sb.AppendLine($"public IDictionary<{TypeTuple(getter: false)}> {Name} => _{Name};");
 
         var member = "_" + Name;
-        using (new RegionWrapper(sb, "Interface Members"))
+        using (new Region(sb, "Interface Members"))
         {
             if (!ReadOnly)
             {
@@ -178,7 +178,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         {
             if (!KeyIsLoqui && !ValueIsLoqui)
             {
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{accessor}.SetTo"))
                 {
                     args.Add($"rhs.{Name}");
@@ -191,13 +191,13 @@ public class DictType_Typical : TypeGeneration, IDictType
                 {
                     throw new NotImplementedException();
                 }
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{accessor}.SetTo"))
                 {
                     args.Add((gen) =>
                     {
                         gen.AppendLine($"rhs.{Name}");
-                        using (new DepthWrapper(gen))
+                        using (gen.IncreaseDepth())
                         {
                             gen.AppendLine(".Select((r) =>");
                             using (new CurlyBrace(gen) { AppendParenthesis = true })
@@ -223,20 +223,20 @@ public class DictType_Typical : TypeGeneration, IDictType
                 {
                     if (!KeyIsLoqui && !ValueIsLoqui)
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add($"rhs.{Name}");
                         }
                         return;
                     }
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{accessor}.SetTo"))
                     {
                         args.Add((gen) =>
                         {
                             gen.AppendLine($"rhs.{Name}");
-                            using (new DepthWrapper(gen))
+                            using (gen.IncreaseDepth())
                             {
                                 gen.AppendLine(".Select((r) =>");
                                 using (new CurlyBrace(gen) { AppendParenthesis = true })
@@ -249,19 +249,19 @@ public class DictType_Typical : TypeGeneration, IDictType
                                         using (new CurlyBrace(gen))
                                         {
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 gen.AppendLine($"key = r.Key;");
                                                 gen.AppendLine($"break;");
                                             }
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 gen.AppendLine($"key = r.Key.Copy(copyMask: {copyMaskAccessor}?.Specific.{(BothAreLoqui ? "Key." : string.Empty)}Mask);");
                                                 gen.AppendLine($"break;");
                                             }
                                             gen.AppendLine($"default:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{Name}.Overall}}. Cannot execute copy.\");");
                                             }
@@ -274,13 +274,13 @@ public class DictType_Typical : TypeGeneration, IDictType
                                         using (new CurlyBrace(gen))
                                         {
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.Reference)}:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 gen.AppendLine($"val = r.Value;");
                                                 gen.AppendLine($"break;");
                                             }
                                             gen.AppendLine($"case {nameof(RefCopyType)}.{nameof(RefCopyType.MakeCopy)}:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 valLoqui.GenerateTypicalMakeCopy(
                                                     gen,
@@ -292,7 +292,7 @@ public class DictType_Typical : TypeGeneration, IDictType
                                                 gen.AppendLine($"break;");
                                             }
                                             gen.AppendLine($"default:");
-                                            using (new DepthWrapper(gen))
+                                            using (gen.IncreaseDepth())
                                             {
                                                 gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(RefCopyType)} {{copyMask?.{Name}.Overall}}. Cannot execute copy.\");");
                                             }
@@ -314,13 +314,13 @@ public class DictType_Typical : TypeGeneration, IDictType
     private void GenerateCopy(StructuredStringBuilder sb, string accessorPrefix, string rhsAccessorPrefix)
     {
         sb.AppendLine($"{accessorPrefix}.{Name}.SetTo(");
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             sb.AppendLine($"{rhsAccessorPrefix}.{Name}.Select(");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 sb.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
                     sb.AppendLine($"i.Key{(KeyIsLoqui ? ".CopyFieldsFrom()" : string.Empty) },");
                     sb.AppendLine($"i.Value{(ValueIsLoqui ? ".CopyFieldsFrom()" : string.Empty)})),");
@@ -332,13 +332,13 @@ public class DictType_Typical : TypeGeneration, IDictType
     public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
         sb.AppendLine($"{accessor}.SetTo(");
-        using (new DepthWrapper(sb))
+        using (sb.IncreaseDepth())
         {
             sb.AppendLine($"({rhs}).Select(");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 sb.AppendLine($"(i) => new KeyValuePair<{KeyTypeGen.TypeName(getter: false)}, {ValueTypeGen.TypeName(getter: false)}>(");
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
                     sb.AppendLine($"i.Key{(KeyIsLoqui ? ".Copy()" : string.Empty) },");
                     sb.AppendLine($"i.Value{(ValueIsLoqui ? ".Copy()" : string.Empty)})),");
@@ -397,7 +397,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else if (valLoqui != null)
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
@@ -408,7 +408,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
@@ -433,14 +433,14 @@ public class DictType_Typical : TypeGeneration, IDictType
     {
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-        sb.AppendLine($"using (new DepthWrapper(sb))");
+        sb.AppendLine($"using (sb.IncreaseDepth())");
         using (sb.CurlyBrace())
         {
             sb.AppendLine($"foreach (var subItem in {accessor.Access})");
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using (new DepthWrapper({sbAccessor}))");
+                sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
                 using (sb.CurlyBrace())
                 {
                     KeyTypeGen.GenerateToString(sb, "Key", new Accessor("subItem.Key"), sbAccessor);

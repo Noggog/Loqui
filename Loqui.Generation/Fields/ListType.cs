@@ -60,7 +60,7 @@ public class ListType : ContainerType
 
     public void GenerateInterfaceMembers(StructuredStringBuilder sb, string member)
     {
-        using (new RegionWrapper(sb, "Interface Members"))
+        using (sb.Region("Interface Members"))
         {
             sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             sb.AppendLine($"{ListTypeName(getter: true, internalInterface: true)}{NullChar} {ObjectGen.Interface(getter: true, internalInterface: InternalGetInterface)}.{Name} => {member};");
@@ -161,7 +161,7 @@ public class ListType : ContainerType
                 else
                 {
                     LoquiType loqui = SubTypeGeneration as LoquiType;
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{accessor}.SetTo<{SubTypeGeneration.TypeName(getter: false)}, {SubTypeGeneration.TypeName(getter: false)}>"))
                     {
                         args.Add($"items: {rhs}");
@@ -176,12 +176,12 @@ public class ListType : ContainerType
                                 using (new CurlyBrace(gen))
                                 {
                                     gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                    using (new DepthWrapper(gen))
+                                    using (gen.IncreaseDepth())
                                     {
                                         gen.AppendLine($"return ({loqui.TypeName()})r;");
                                     }
                                     gen.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                    using (new DepthWrapper(gen))
+                                    using (gen.IncreaseDepth())
                                     {
                                         loqui.GenerateTypicalMakeCopy(
                                             gen,
@@ -192,7 +192,7 @@ public class ListType : ContainerType
                                             doTranslationMask: false);
                                     }
                                     gen.AppendLine($"default:");
-                                    using (new DepthWrapper(gen))
+                                    using (gen.IncreaseDepth())
                                     {
                                         gen.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{accessorStr}}}. Cannot execute copy.\");");
                                     }
@@ -257,7 +257,7 @@ public class ListType : ContainerType
         if (Nullable)
         {
             sb.AppendLine($"{accessor} = ");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 a(sb);
                 sb.AppendLine($".ToExtendedList<{SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>();");
@@ -265,7 +265,7 @@ public class ListType : ContainerType
         }
         else
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));
@@ -289,14 +289,14 @@ public class ListType : ContainerType
     {
         sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
         sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-        sb.AppendLine($"using (new DepthWrapper({sbAccessor}))");
+        sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
         using (sb.CurlyBrace())
         {
             sb.AppendLine($"foreach (var subItem in {accessor.Access})");
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using (new DepthWrapper({sbAccessor}))");
+                sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
                 using (sb.CurlyBrace())
                 {
                     SubTypeGeneration.GenerateToString(sb, "Item", new Accessor("subItem"), sbAccessor);

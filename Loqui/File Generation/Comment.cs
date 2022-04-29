@@ -1,13 +1,13 @@
 namespace Loqui;
 
-public class CommentWrapper : IDisposable
+public class Comment : IDisposable
 {
     private readonly StructuredStringBuilder _sb;
-    public readonly StructuredStringBuilder Summary = new StructuredStringBuilder();
-    public readonly Dictionary<string, StructuredStringBuilder> Parameters = new Dictionary<string, StructuredStringBuilder>();
-    public readonly StructuredStringBuilder Return = new StructuredStringBuilder();
+    public readonly StructuredStringBuilder Summary = new();
+    public readonly Dictionary<string, StructuredStringBuilder> Parameters = new();
+    public readonly StructuredStringBuilder Return = new();
 
-    public CommentWrapper(StructuredStringBuilder sb)
+    public Comment(StructuredStringBuilder sb)
     {
         _sb = sb;
     }
@@ -21,7 +21,6 @@ public class CommentWrapper : IDisposable
 
     public void Apply(StructuredStringBuilder sb)
     {
-        if (sb == null) return;
         if (Summary.Count > 0)
         {
             sb.AppendLine("/// <summary>");

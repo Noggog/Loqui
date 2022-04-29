@@ -46,7 +46,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
             typeName = loqui.TypeNameInternal(getter: true, internalInterface: true);
         }
 
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"{TranslatorName}<{typeName}>.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -90,7 +90,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
     protected virtual void ExtraWriteArgs(
         Accessor itemAccessor,
         TypeGeneration typeGen,
-        ArgsWrapper args)
+        Args args)
     {
     }
 
@@ -139,7 +139,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
             sb: sb,
             toDo: () =>
             {
-                using (var args = new FunctionWrapper(
+                using (var args = new Function(
                            sb,
                            $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>.Instance.Parse"))
                 {

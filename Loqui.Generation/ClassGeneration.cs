@@ -64,7 +64,7 @@ public class ClassGeneration : ObjectGeneration
 
     protected override async Task GenerateClassLine(StructuredStringBuilder sb)
     {
-        using (var args = new ClassWrapper(sb, ObjectName))
+        using (var args = sb.Class(ObjectName))
         {
             args.Abstract = Abstract;
             args.Partial = true;
@@ -93,7 +93,7 @@ public class ClassGeneration : ObjectGeneration
     protected override async Task GenerateCtor(StructuredStringBuilder sb)
     {
         if (BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
-        using (new RegionWrapper(sb, "Ctor"))
+        using (sb.Region("Ctor"))
         {
             sb.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}()");
             using (sb.CurlyBrace())

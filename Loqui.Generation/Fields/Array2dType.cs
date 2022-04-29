@@ -67,7 +67,7 @@ public class Array2dType : ListType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"ret.{Name} = item.{Name}.Array2dEqualsHelper"))
         {
             args.Add($"rhs.{Name}");
@@ -81,7 +81,7 @@ public class Array2dType : ListType
         if (Nullable)
         {
             sb.AppendLine($"{accessor} = ");
-            using (new DepthWrapper(sb))
+            using (sb.IncreaseDepth())
             {
                 a(sb);
                 sb.AppendLine($".ShallowClone();");
@@ -89,7 +89,7 @@ public class Array2dType : ListType
         }
         else
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));

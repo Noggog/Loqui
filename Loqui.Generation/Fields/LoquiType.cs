@@ -532,7 +532,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine($"else");
                                     using (sb.CurlyBrace())
                                     {
-                                        using (var args = new ArgsWrapper(sb,
+                                        using (var args = sb.Args(
                                                    $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             if (deepCopy)
@@ -549,7 +549,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 }
                                 else
                                 {
-                                    using (var args = new ArgsWrapper(sb,
+                                    using (var args = sb.Args(
                                                $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                     {
                                         if (deepCopy)
@@ -571,7 +571,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                             using (sb.CurlyBrace())
                             {
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     if (GetterInterfaceType == LoquiInterfaceType.IGetter)
                                     {
@@ -586,7 +586,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
                                 if (SetterInterfaceType != LoquiInterfaceType.IGetter)
                                 {
-                                    using (new DepthWrapper(sb))
+                                    using (sb.IncreaseDepth())
                                     {
                                         GenerateCopyIn(
                                             sb,
@@ -598,7 +598,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     }
                                 }
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     sb.AppendLine($"if ({rhs} == null)");
                                     using (sb.CurlyBrace())
@@ -608,7 +608,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine($"else");
                                     using (sb.CurlyBrace())
                                     {
-                                        using (var args = new ArgsWrapper(sb,
+                                        using (var args = sb.Args(
                                                    $"{accessor.Access} = {rhs}.Copy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             args.Add($"{copyMaskAccessor}?.Specific");
@@ -617,7 +617,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine("break;");
                                 }
                                 sb.AppendLine($"default:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     sb.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : Name)}}}. Cannot execute copy.\");");
                                 }
@@ -635,7 +635,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                             using (sb.CurlyBrace())
                             {
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.Reference)}:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     if (GetterInterfaceType == LoquiInterfaceType.IGetter)
                                     {
@@ -650,7 +650,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.CopyIn)}:");
                                 if (SetterInterfaceType != LoquiInterfaceType.IGetter)
                                 {
-                                    using (new DepthWrapper(sb))
+                                    using (sb.IncreaseDepth())
                                     {
                                         GenerateCopyIn(
                                             sb,
@@ -662,7 +662,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     }
                                 }
                                 sb.AppendLine($"case {nameof(CopyOption)}.{nameof(CopyOption.MakeCopy)}:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     GenerateTypicalMakeCopy(
                                         sb,
@@ -674,7 +674,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine("break;");
                                 }
                                 sb.AppendLine($"default:");
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     sb.AppendLine($"throw new NotImplementedException($\"Unknown {nameof(CopyOption)} {{{copyMaskAccessor}{(RefType == LoquiRefType.Direct ? $"?.Overall" : string.Empty)}}}. Cannot execute copy.\");");
                                 }
@@ -714,7 +714,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         switch (RefType)
         {
             case LoquiRefType.Direct:
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{retAccessor}{rhsAccessor.Access}.DeepCopy{GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
                 {
                     args.AddPassArg("errorMask");
@@ -772,7 +772,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             var funcStr = deepCopy
                 ? $"{accessor.Access}.DeepCopyIn"
                 : $"{accessor.Access}.CopyIn";
-            using (var args = new ArgsWrapper(sb, funcStr))
+            using (var args = sb.Args( funcStr))
             {
                 args.Add($"rhs: {rhs}");
                 if (RefType == LoquiRefType.Direct)
@@ -944,7 +944,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
         if (Nullable)
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
             {
                 args.Add(accessor.Access);

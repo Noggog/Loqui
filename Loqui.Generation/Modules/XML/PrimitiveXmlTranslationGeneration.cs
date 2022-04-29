@@ -37,7 +37,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         Accessor nameAccessor,
         Accessor translationMaskAccessor)
     {
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"{TypeName(typeGen)}XmlTranslation.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");

@@ -234,9 +234,9 @@ public class ProtocolGeneration
             using (sb.CurlyBrace())
             {
                 sb.AppendLine("LoquiRegistration.Register(");
-                using (new DepthWrapper(sb))
+                using (sb.IncreaseDepth())
                 {
-                    using (var comma = new CommaWrapper(sb))
+                    using (var comma = sb.CommaCollection())
                     {
                         foreach (var obj in ObjectGenerationsByID.Values
                                      .OrderBy((o) => o.ID))

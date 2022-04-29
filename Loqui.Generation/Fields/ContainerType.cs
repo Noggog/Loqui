@@ -71,7 +71,7 @@ public abstract class ContainerType : WrapperType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = new ArgsWrapper(sb,
+        using (var args = sb.Args(
                    $"ret.{Name} = item.{Name}.CollectionEqualsHelper"))
         {
             args.Add($"rhs.{Name}");

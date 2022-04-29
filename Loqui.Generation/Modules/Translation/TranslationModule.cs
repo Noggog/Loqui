@@ -88,9 +88,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
     public override async Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (new NamespaceWrapper(sb, obj.Namespace, fileScoped: false))
+        using (new Namespace(sb, obj.Namespace, fileScoped: false))
         {
-            using (var args = new ClassWrapper(sb, TranslationWriteClass(obj)))
+            using (var args = new Class(sb, TranslationWriteClass(obj)))
             {
                 args.Partial = true;
                 args.BaseClass = obj.HasLoquiBaseObject ? TranslationWriteClass(obj.BaseClass) : null;
@@ -108,7 +108,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             sb.AppendLine();
 
-            using (var args = new ClassWrapper(sb, TranslationCreateClass(obj)))
+            using (var args = new Class(sb, TranslationCreateClass(obj)))
             {
                 args.Public = PermissionLevel.@internal;
                 args.Partial = true;
@@ -125,11 +125,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             sb.AppendLine();
         }
 
-        using (new NamespaceWrapper(sb, obj.Namespace, fileScoped: false))
+        using (new Namespace(sb, obj.Namespace, fileScoped: false))
         {
-            using (new RegionWrapper(sb, $"{ModuleNickname} Write Mixins"))
+            using (new Region(sb, $"{ModuleNickname} Write Mixins"))
             {
-                using (var args = new ClassWrapper(sb, TranslationMixInClass(obj)))
+                using (var args = new Class(sb, TranslationMixInClass(obj)))
                 {
                     args.Static = true;
                 }
@@ -155,7 +155,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         if (DoErrorMasks)
         {
             sb.AppendLine("[DebuggerStepThrough]");
-            using (var args = new FunctionWrapper(sb,
+            using (var args = new Function(sb,
                        $"public static {await ObjectReturn(obj, maskReturn: true, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
             {
                 args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -175,7 +175,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             using (sb.CurlyBrace())
             {
                 sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}",
                            suffixLine: Utility.ConfigAwait(asyncImport)))
                 {
@@ -203,7 +203,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             sb.AppendLine();
         }
 
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public static {await ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal));
@@ -219,7 +219,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         using (sb.CurlyBrace())
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
             {
                 args.AddPassArg("item");
@@ -245,7 +245,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             if (!minorAPI.When?.Invoke(obj, TranslationDirection.Reader) ?? false) continue;
             if (obj.CanAssume())
             {
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static {await ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal)));
@@ -266,7 +266,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}"))
                         {
                             args.AddPassArg("item");
@@ -286,7 +286,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
             if (DoErrorMasks)
             {
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static {await ObjectReturn(obj, maskReturn: true, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -307,9 +307,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{(asyncImport ? "return " : null)}{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}{errorLabel}"))
-                        using (new DepthWrapper(sb))
+                        using (sb.IncreaseDepth())
                         {
                             args.AddPassArg("item");
                             foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
@@ -329,7 +329,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 }
                 sb.AppendLine();
 
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static {await ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -350,9 +350,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}"))
-                        using (new DepthWrapper(sb))
+                        using (sb.IncreaseDepth())
                         {
                             args.AddPassArg("item");
                             foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, accessor))
@@ -416,14 +416,14 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
             sb.AppendLine($"object {TranslationItemInterface}.{TranslationWriteItemMember} => this.{TranslationWriteItemMember};");
         }
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"void {TranslationItemInterface}.WriteTo{TranslationTerm}"))
         {
             FillWriterArgs(args, obj, objParam: null);
         }
         using (sb.CurlyBrace())
         {
-            using (var args = new ArgsWrapper(sb,
+            using (var args = sb.Args(
                        $"{TranslatorReference(obj, "this")}.Write"))
             {
                 args.Add("item: this");
@@ -525,7 +525,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
     private async Task GenerateCreate(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (new RegionWrapper(sb, $"{ModuleNickname} Create"))
+        using (new Region(sb, $"{ModuleNickname} Create"))
         {
             var asyncImport = await AsyncImport(obj);
             var errorLabel = await ErrorLabel(obj);
@@ -533,7 +533,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             if (DoErrorMasks)
             {
                 sb.AppendLine("[DebuggerStepThrough]");
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static {await ObjectReturn(obj, maskReturn: DoErrorMasks)} {CreateFromPrefix}{TranslationTerm}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
@@ -555,7 +555,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
                     }
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}",
                                suffixLine: Utility.ConfigAwait(asyncImport)))
                     {
@@ -585,7 +585,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
             if (GenerateMainCreate(obj))
             {
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public{obj.NewOverride()}static {await ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{TranslationTerm}"))
                 {
                     foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(obj,
@@ -599,7 +599,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     await GenerateNewSnippet(obj, sb);
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
                     {
                         args.Add("item: ret");
@@ -630,7 +630,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 if (!minorAPI.When?.Invoke(obj, TranslationDirection.Reader) ?? false) continue;
                 if (obj.CanAssume())
                 {
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public static {await ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes())}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
@@ -650,7 +650,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = new ArgsWrapper(sb,
+                            using (var args = sb.Args(
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
                             {
                                 foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
@@ -669,7 +669,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
                 if (DoErrorMasks)
                 {
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public static {await ObjectReturn(obj, maskReturn: true)} {CreateFromPrefix}{TranslationTerm}{errorLabel}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
@@ -689,9 +689,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = new ArgsWrapper(sb,
+                            using (var args = sb.Args(
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}{errorLabel}"))
-                            using (new DepthWrapper(sb))
+                            using (sb.IncreaseDepth())
                             {
                                 foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
                                 {
@@ -711,7 +711,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     sb.AppendLine();
                 }
 
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static {await ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
@@ -731,9 +731,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
-                        using (new DepthWrapper(sb))
+                        using (sb.IncreaseDepth())
                         {
                             foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, accessor))
                             {
@@ -759,7 +759,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
     {
         if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Class, MaskType.Normal)) return;
 
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public virtual {await ObjectReturn(obj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}"))
         {
             args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
@@ -782,7 +782,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
         foreach (var baseObj in obj.BaseClassTrail())
         {
-            using (var args = new FunctionWrapper(sb,
+            using (var args = new Function(sb,
                        $"public override {await ObjectReturn(baseObj, maskReturn: false, hasReturn: false)} {CopyInFromPrefix}{TranslationTerm}"))
             {
                 args.Add($"{baseObj.Interface(getter: false, internalInterface: true)} item");
@@ -796,7 +796,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                using (var args = new ArgsWrapper(sb,
+                using (var args = sb.Args(
                            $"{CopyInFromPrefix}{TranslationTerm}"))
                 {
                     args.Add($"item: ({obj.ObjectName})item");
@@ -817,7 +817,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
     }
 
     private void FillWriterArgs(
-        FunctionWrapper args,
+        Function args,
         ObjectGeneration obj,
         bool? objParam = false,
         bool doFallbackCustom = true,
@@ -867,7 +867,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
     protected virtual async Task TranslationWrite(ObjectGeneration obj, StructuredStringBuilder sb)
     {
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public{obj.Virtual()}void Write{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
@@ -879,7 +879,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         sb.AppendLine();
 
-        using (var args = new FunctionWrapper(sb,
+        using (var args = new Function(sb,
                    $"public{obj.FunctionOverride()}void Write"))
         {
             FillWriterArgs(args, obj, objParam: true);
@@ -892,7 +892,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             else
             {
-                using (var args = new ArgsWrapper(sb, $"Write"))
+                using (var args = sb.Args( $"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                     args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -912,14 +912,14 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
         foreach (var baseObj in obj.BaseClassTrail())
         {
-            using (var args = new FunctionWrapper(sb,
+            using (var args = new Function(sb,
                        $"public override void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
                 FillWriterArgs(args, baseObj);
             }
             using (sb.CurlyBrace())
             {
-                using (var args = new ArgsWrapper(sb, $"Write"))
+                using (var args = sb.Args( $"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                     args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -940,7 +940,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         if (obj.IsTopClass
             && DoErrorMasks)
         {
-            using (var args = new FunctionWrapper(sb,
+            using (var args = new Function(sb,
                        $"public void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
@@ -954,7 +954,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     indexAccessor: "fieldIndex",
                     toDo: () =>
                     {
-                        using (var args = new ArgsWrapper(sb, $"Write"))
+                        using (var args = sb.Args( $"Write"))
                         {
                             args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                             args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -982,7 +982,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         {
             if (DoErrorMasks)
             {
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -1018,7 +1018,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
@@ -1043,7 +1043,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 foreach (var minorAPI in MinorAPIs)
                 {
                     if (!minorAPI.When?.Invoke(obj, TranslationDirection.Writer) ?? false) continue;
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -1062,9 +1062,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = new ArgsWrapper(sb,
+                            using (var args = sb.Args(
                                        $"{WriteToPrefix}{TranslationTerm}"))
-                            using (new DepthWrapper(sb))
+                            using (sb.IncreaseDepth())
                             {
                                 args.Add("item: item");
                                 foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, accessor))
@@ -1083,7 +1083,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
                     if (obj.IsTopClass)
                     {
-                        using (var args = new FunctionWrapper(sb,
+                        using (var args = new Function(sb,
                                    $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
                         {
                             args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal));
@@ -1102,9 +1102,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         {
                             minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                             {
-                                using (var args = new ArgsWrapper(sb,
+                                using (var args = sb.Args(
                                            $"{WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
-                                using (new DepthWrapper(sb))
+                                using (sb.IncreaseDepth())
                                 {
                                     args.Add("item: item");
                                     foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, accessor))
@@ -1131,7 +1131,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             {
                 if (DoErrorMasks)
                 {
-                    using (var args = new FunctionWrapper(sb,
+                    using (var args = new Function(sb,
                                $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: MaskType.Normal));
@@ -1166,7 +1166,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     }
                     using (sb.CurlyBrace())
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");
@@ -1188,7 +1188,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     sb.AppendLine();
                 }
 
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal, MaskType.Error))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
@@ -1208,7 +1208,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     CustomMainWriteMixInPreLoad(obj, sb);
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
@@ -1236,7 +1236,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             foreach (var minorAPI in MinorAPIs)
             {
                 if (!minorAPI.When?.Invoke(obj, TranslationDirection.Writer) ?? false) continue;
-                using (var args = new FunctionWrapper(sb,
+                using (var args = new Function(sb,
                            $"public static void {WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes(MaskType.Normal))}"))
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal)));
@@ -1253,7 +1253,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = new ArgsWrapper(sb,
+                        using (var args = sb.Args(
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");

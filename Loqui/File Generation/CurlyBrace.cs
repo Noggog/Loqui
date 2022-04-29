@@ -32,21 +32,3 @@ public class CurlyBrace : IDisposable
         }
     }
 }
-
-public static class CurlyBraceExt
-{
-    public static CurlyBrace CurlyBrace(this StructuredStringBuilder sb,
-        bool extraLine = true, 
-        bool doIt = true,
-        bool appendParenthesis = false,
-        bool appendSemiColon = false,
-        bool appendComma = false)
-    {
-        return new CurlyBrace(sb, doIt)
-        {
-            AppendSemicolon = appendSemiColon,
-            AppendParenthesis = appendParenthesis,
-            AppendComma = appendComma
-        };
-    }
-}

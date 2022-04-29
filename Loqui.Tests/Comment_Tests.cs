@@ -7,7 +7,7 @@ public class Comment_Tests
     [Fact]
     public void EmptyComments()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         var sb = new StructuredStringBuilder();
 
@@ -19,7 +19,7 @@ public class Comment_Tests
     [Fact]
     public void NoTargetEmpty()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.Apply(null);
 
@@ -29,7 +29,7 @@ public class Comment_Tests
     [Fact]
     public void NoTargetOneSummaryLine()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.Summary.AppendLine("An awesome summary.");
 
@@ -41,7 +41,7 @@ public class Comment_Tests
     [Fact]
     public void OneSummaryLine()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.Summary.AppendLine("An awesome summary.");
 
@@ -62,7 +62,7 @@ public class Comment_Tests
     [Fact]
     public void OneParameter()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.AddParameter("name", "The name of the thing");
 
@@ -81,7 +81,7 @@ public class Comment_Tests
     [Fact]
     public void TwoParameters()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.AddParameter("name", "The name of the thing");
         commentWrapper.AddParameter("thing", "The thing of the thing");
@@ -102,7 +102,7 @@ public class Comment_Tests
     [Fact]
     public void MultiLineParameter()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         var description = new StructuredStringBuilder();
         description.AppendLine("The name of");
@@ -128,7 +128,7 @@ public class Comment_Tests
     [Fact]
     public void Returns()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.Return.AppendLine("Awesomeness");
 
@@ -147,7 +147,7 @@ public class Comment_Tests
     [Fact]
     public void MultiLineReturns()
     {
-        var commentWrapper = new CommentWrapper(null);
+        var commentWrapper = new Comment(null);
 
         commentWrapper.Return.AppendLine("Awesomeness,");
         commentWrapper.Return.AppendLine("sheer awesomeness!");
@@ -172,7 +172,7 @@ public class Comment_Tests
     {
         var sb = new StructuredStringBuilder();
 
-        using (var commentWrapper = new CommentWrapper(sb))
+        using (var commentWrapper = new Comment(sb))
         {
             commentWrapper.Return.AppendLine("Awesomeness,");
             var description = new StructuredStringBuilder();

@@ -48,7 +48,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
                 {
                     line = $"(({XmlMod.TranslationWriteInterface})(({nameof(IXmlItem)}){typeGen.Name}Item).{XmlMod.TranslationWriteItemMember})";
                 }
-                using (var args = new ArgsWrapper(sb, $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
+                using (var args = sb.Args( $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
                 {
                     args.Add($"item: {typeGen.Name}Item");
                     args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -97,7 +97,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
                 sb,
                 () =>
                 {
-                    using (var args = new ArgsWrapper(sb,
+                    using (var args = sb.Args(
                                $"{itemAccessor.Access}.{XmlMod.CopyInFromPrefix}{XmlMod.ModuleNickname}{loquiGen.GetGenericTypes(getter: false, MaskType.Normal)}"))
                     {
                         args.Add($"node: {nodeAccessor}");
