@@ -17,28 +17,6 @@ public class Comment_Tests
     }
 
     [Fact]
-    public void NoTargetEmpty()
-    {
-        var commentWrapper = new Comment(null);
-
-        commentWrapper.Apply(null);
-
-        Assert.True(true);
-    }
-
-    [Fact]
-    public void NoTargetOneSummaryLine()
-    {
-        var commentWrapper = new Comment(null);
-
-        commentWrapper.Summary.AppendLine("An awesome summary.");
-
-        commentWrapper.Apply(null);
-
-        Assert.True(true);
-    }
-
-    [Fact]
     public void OneSummaryLine()
     {
         var commentWrapper = new Comment(null);
