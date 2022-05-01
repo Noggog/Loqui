@@ -1,4 +1,6 @@
 using Noggog;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -71,7 +73,7 @@ public abstract class ContainerType : WrapperType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"ret.{Name} = item.{Name}.CollectionEqualsHelper"))
         {
             args.Add($"rhs.{Name}");

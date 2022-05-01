@@ -1,5 +1,7 @@
 using Noggog;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -532,7 +534,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine($"else");
                                     using (sb.CurlyBrace())
                                     {
-                                        using (var args = sb.Args(
+                                        using (var args = sb.Call(
                                                    $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             if (deepCopy)
@@ -549,7 +551,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                 }
                                 else
                                 {
-                                    using (var args = sb.Args(
+                                    using (var args = sb.Call(
                                                $"{accessor.Access} = {rhs}.DeepCopy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                     {
                                         if (deepCopy)
@@ -608,7 +610,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                                     sb.AppendLine($"else");
                                     using (sb.CurlyBrace())
                                     {
-                                        using (var args = sb.Args(
+                                        using (var args = sb.Call(
                                                    $"{accessor.Access} = {rhs}.Copy{(SetterInterfaceType == LoquiInterfaceType.IGetter ? "_ToLoqui" : string.Empty)}"))
                                         {
                                             args.Add($"{copyMaskAccessor}?.Specific");
@@ -714,7 +716,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         switch (RefType)
         {
             case LoquiRefType.Direct:
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{retAccessor}{rhsAccessor.Access}.DeepCopy{GetGenericTypes(getter: true, MaskType.Normal, MaskType.NormalGetter)}"))
                 {
                     args.AddPassArg("errorMask");
@@ -772,7 +774,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
             var funcStr = deepCopy
                 ? $"{accessor.Access}.DeepCopyIn"
                 : $"{accessor.Access}.CopyIn";
-            using (var args = sb.Args( funcStr))
+            using (var args = sb.Call( funcStr))
             {
                 args.Add($"rhs: {rhs}");
                 if (RefType == LoquiRefType.Direct)
@@ -944,7 +946,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
         if (Nullable)
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{retAccessor} = EqualsMaskHelper.{nameof(EqualsMaskHelper.EqualsHelper)}"))
             {
                 args.Add(accessor.Access);

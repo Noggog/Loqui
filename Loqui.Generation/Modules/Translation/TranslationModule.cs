@@ -1,6 +1,8 @@
 using Loqui.Internal;
 using Noggog;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -110,7 +112,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
 
             using (var args = new Class(sb, TranslationCreateClass(obj)))
             {
-                args.Public = PermissionLevel.@internal;
+                args.AccessModifier = AccessModifier.Internal;
                 args.Partial = true;
                 args.BaseClass = obj.HasLoquiBaseObject ? TranslationCreateClass(obj.BaseClass) : null;
                 args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.ISetter, obj.Generics));
@@ -175,7 +177,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             using (sb.CurlyBrace())
             {
                 sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}",
                            suffixLine: Utility.ConfigAwait(asyncImport)))
                 {
@@ -219,7 +221,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         using (sb.CurlyBrace())
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
             {
                 args.AddPassArg("item");
@@ -266,7 +268,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}"))
                         {
                             args.AddPassArg("item");
@@ -307,7 +309,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{(asyncImport ? "return " : null)}{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}{errorLabel}"))
                         using (sb.IncreaseDepth())
                         {
@@ -350,7 +352,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}"))
                         using (sb.IncreaseDepth())
                         {
@@ -423,7 +425,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         using (sb.CurlyBrace())
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{TranslatorReference(obj, "this")}.Write"))
             {
                 args.Add("item: this");
@@ -555,7 +557,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
                     }
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}",
                                suffixLine: Utility.ConfigAwait(asyncImport)))
                     {
@@ -599,7 +601,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     await GenerateNewSnippet(obj, sb);
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
                     {
                         args.Add("item: ret");
@@ -650,7 +652,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
                             {
                                 foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
@@ -689,7 +691,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}{errorLabel}"))
                             using (sb.IncreaseDepth())
                             {
@@ -731,7 +733,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.InConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
                         using (sb.IncreaseDepth())
                         {
@@ -796,7 +798,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{CopyInFromPrefix}{TranslationTerm}"))
                 {
                     args.Add($"item: ({obj.ObjectName})item");
@@ -892,7 +894,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             else
             {
-                using (var args = sb.Args( $"Write"))
+                using (var args = sb.Call( $"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                     args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -919,7 +921,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args( $"Write"))
+                using (var args = sb.Call( $"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                     args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -954,7 +956,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     indexAccessor: "fieldIndex",
                     toDo: () =>
                     {
-                        using (var args = sb.Args( $"Write"))
+                        using (var args = sb.Call( $"Write"))
                         {
                             args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
                             args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
@@ -1018,7 +1020,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine("ErrorMaskBuilder errorMaskBuilder = new ErrorMaskBuilder();");
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
@@ -1062,7 +1064,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     {
                         minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                        $"{WriteToPrefix}{TranslationTerm}"))
                             using (sb.IncreaseDepth())
                             {
@@ -1102,7 +1104,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         {
                             minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                             {
-                                using (var args = sb.Args(
+                                using (var args = sb.Call(
                                            $"{WriteToPrefix}{TranslationTerm}{obj.GetGenericTypes(MaskType.Normal)}"))
                                 using (sb.IncreaseDepth())
                                 {
@@ -1166,7 +1168,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     }
                     using (sb.CurlyBrace())
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");
@@ -1208,7 +1210,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 using (sb.CurlyBrace())
                 {
                     CustomMainWriteMixInPreLoad(obj, sb);
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
@@ -1253,7 +1255,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     minorAPI.Funnel.OutConverter(obj, sb, (accessor) =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");

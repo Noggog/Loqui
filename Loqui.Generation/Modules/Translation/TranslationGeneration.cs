@@ -1,4 +1,6 @@
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -22,7 +24,7 @@ public abstract class TranslationGeneration
         MaskGenerationUtility.WrapErrorFieldIndexPush(param.FG,
             () =>
             {
-                Args args;
+                Call args;
                 bool parseInto = IsParseInto(param.TypeGen, param.ItemAccessor);
                 bool doIf = !parseInto && param.UnsetCall != null;
                 if (param.AsyncMode == AsyncMode.Off)
@@ -36,14 +38,14 @@ public abstract class TranslationGeneration
                     {
                         prefix = $"{param.ItemAccessor.Access}{param.ItemAccessor.AssignmentOperator}";
                     }
-                    args = param.FG.Args(
+                    args = param.FG.Call(
                         $"{prefix}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{(param.Generic == null ? null : $"<{param.Generic}>")}",
                         suffixLine: (doIf ? ")" : null),
                         semiColon: !doIf);
                 }
                 else if (param.AsyncMode == AsyncMode.Async)
                 {
-                    args = param.FG.Args(
+                    args = param.FG.Call(
                         $"{(doIf ? $"var {param.TypeGen.Name}Parse = " : null)}{Utility.Await()}{param.TranslatorLine}.{(param.FunctionNameOverride == null ? $"Parse{(parseInto ? "Into" : null)}" : param.FunctionNameOverride)}{param.Generic}",
                         suffixLine: Utility.ConfigAwait(),
                         semiColon: !doIf);

@@ -1,5 +1,7 @@
 using Noggog;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -178,7 +180,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         {
             if (!KeyIsLoqui && !ValueIsLoqui)
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{accessor}.SetTo"))
                 {
                     args.Add($"rhs.{Name}");
@@ -191,7 +193,7 @@ public class DictType_Typical : TypeGeneration, IDictType
                 {
                     throw new NotImplementedException();
                 }
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{accessor}.SetTo"))
                 {
                     args.Add((gen) =>
@@ -223,14 +225,14 @@ public class DictType_Typical : TypeGeneration, IDictType
                 {
                     if (!KeyIsLoqui && !ValueIsLoqui)
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add($"rhs.{Name}");
                         }
                         return;
                     }
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{accessor}.SetTo"))
                     {
                         args.Add((gen) =>
@@ -397,7 +399,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else if (valLoqui != null)
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");
@@ -408,7 +410,7 @@ public class DictType_Typical : TypeGeneration, IDictType
         }
         else
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{retAccessor} = EqualsMaskHelper.DictEqualsHelper"))
             {
                 args.Add($"lhs: {accessor}");

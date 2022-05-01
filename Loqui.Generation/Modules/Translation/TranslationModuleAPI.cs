@@ -1,4 +1,5 @@
 using Noggog;
+using Noggog.StructuredStrings;
 
 namespace Loqui.Generation;
 

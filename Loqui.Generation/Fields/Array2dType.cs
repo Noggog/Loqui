@@ -1,5 +1,7 @@
 using System.Xml.Linq;
 using Noggog;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -67,7 +69,7 @@ public class Array2dType : ListType
         {
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"ret.{Name} = item.{Name}.Array2dEqualsHelper"))
         {
             args.Add($"rhs.{Name}");
@@ -89,7 +91,7 @@ public class Array2dType : ListType
         }
         else
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));

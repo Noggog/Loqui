@@ -1,4 +1,6 @@
 using Noggog;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -82,7 +84,7 @@ public class StructGeneration : ObjectGeneration
             using (var args = sb.Class($"{Name}{GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Partial = true;
-                args.Type = Class.ObjectType.@struct;
+                args.Type = ObjectType.Struct;
                 args.Interfaces.Add(Interface(getter: true));
                 args.Interfaces.Add(Interfaces.Get(LoquiInterfaceType.Direct));
                 args.Interfaces.Add(await GetApplicableInterfaces(LoquiInterfaceType.Direct).ToListAsync());

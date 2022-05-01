@@ -1,4 +1,6 @@
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -161,7 +163,7 @@ public class ListType : ContainerType
                 else
                 {
                     LoquiType loqui = SubTypeGeneration as LoquiType;
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{accessor}.SetTo<{SubTypeGeneration.TypeName(getter: false)}, {SubTypeGeneration.TypeName(getter: false)}>"))
                     {
                         args.Add($"items: {rhs}");
@@ -265,7 +267,7 @@ public class ListType : ContainerType
         }
         else
         {
-            using (var args = sb.Args(
+            using (var args = sb.Call(
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));

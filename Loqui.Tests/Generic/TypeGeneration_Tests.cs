@@ -1,5 +1,6 @@
 using Loqui.Generation;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
 using Xunit;
 
 namespace Loqui.Tests;

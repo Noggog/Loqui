@@ -3,6 +3,8 @@ using Noggog;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 #if NETSTANDARD2_0 
 using TaskCompletionSource = Noggog.TaskCompletionSource;
 #else 
@@ -27,7 +29,7 @@ namespace Loqui.Generation
         public LoquiInterfaceType SetterInterfaceTypeDefault;
         public LoquiInterfaceType GetterInterfaceTypeDefault;
         public bool ObjectCentralized;
-        public PermissionLevel SetPermissionDefault;
+        public AccessModifier SetPermissionDefault;
         public RxBaseOption RxBaseOptionDefault;
         public bool DerivativeDefault;
         public int StartingIndex => HasLoquiBaseObject ? BaseClass.StartingIndex + BaseClass.IterateFields().Count() : 0;
@@ -185,14 +187,11 @@ namespace Loqui.Generation
             GenerateToString = ProtoGen.ToStringDefault;
             Disabled = DisabledLevel.Enabled;
 
-            RequiredNamespaces.Add("System");
-            RequiredNamespaces.Add("System.Collections");
-            RequiredNamespaces.Add("System.Collections.Generic");
-            RequiredNamespaces.Add("System.Linq");
-            RequiredNamespaces.Add("System.Text");
+            RequiredNamespaces.Add("Noggog");
+            RequiredNamespaces.Add("Noggog.StructuredStrings");
+            RequiredNamespaces.Add("Noggog.StructuredStrings.CSharp");
             RequiredNamespaces.Add("Loqui");
             RequiredNamespaces.Add("Loqui.Internal");
-            RequiredNamespaces.Add("Noggog");
             RequiredNamespaces.Add("System.Diagnostics");
         }
 
@@ -206,7 +205,7 @@ namespace Loqui.Generation
             Node.TransferAttribute<bool>(Constants.FORCE_INTERNAL_INTERFACE, (i) => ForceInternalInterface = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.SET_INTERFACE_TYPE_DEFAULT, (i) => SetterInterfaceTypeDefault = i);
             Node.TransferAttribute<LoquiInterfaceType>(Constants.GET_INTERFACE_TYPE_DEFAULT, (i) => GetterInterfaceTypeDefault = i);
-            Node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION_DEFAULT, (i) => SetPermissionDefault = i);
+            Node.TransferAttribute<AccessModifier>(Constants.SET_PERMISSION_DEFAULT, (i) => SetPermissionDefault = i);
             Node.TransferAttribute<bool>(Constants.DERIVATIVE_DEFAULT, (i) => DerivativeDefault = i);
             Node.TransferAttribute<DisabledLevel>(Constants.DISABLE, (i) => Disabled = i);
             Node.TransferAttribute<bool>(Constants.SET_BASE_CLASS, i => SetBaseClass = i);
@@ -587,7 +586,7 @@ namespace Loqui.Generation
             Comments?.Apply(sb, interfaceType);
             using (var args = sb.Class(interfaceLine))
             {
-                args.Type = Class.ObjectType.@interface;
+                args.Type = ObjectType.Interface;
                 args.Partial = true;
                 args.Interfaces.Add(Interface(getter: true, internalInterface: true));
                 if (HasLoquiBaseObject)
@@ -624,7 +623,7 @@ namespace Loqui.Generation
                 // Internal Interface
                 using (var args = sb.Class(Interface(internalInterface: true)))
                 {
-                    args.Type = Class.ObjectType.@interface;
+                    args.Type = ObjectType.Interface;
                     args.Partial = true;
                     args.BaseClass = BaseClassTrail().FirstOrDefault(b => b.HasInternalSetInterface)?.Interface(internalInterface: true);
                     args.Interfaces.Add(Interface(internalInterface: false));
@@ -665,7 +664,7 @@ namespace Loqui.Generation
             Comments?.Apply(sb, interfaceType);
             using (var args = sb.Class(interfaceLine))
             {
-                args.Type = Class.ObjectType.@interface;
+                args.Type = ObjectType.Interface;
                 args.Partial = true;
                 args.BaseClass = (HasLoquiBaseObject ? BaseClass.Interface(BaseGenericTypes, getter: true, internalInterface: false) : nameof(ILoquiObject));
                 args.Interfaces.Add(Interfaces.Get(interfaceType));
@@ -726,7 +725,7 @@ namespace Loqui.Generation
                     internalInterface: true);
                 using (var args = sb.Class(interfaceLine))
                 {
-                    args.Type = Class.ObjectType.@interface;
+                    args.Type = ObjectType.Interface;
                     args.Partial = true;
                     args.BaseClass = BaseClassTrail().FirstOrDefault()?.Interface(internalInterface: true, getter: true);
                     args.Interfaces.Add(Interface(getter: true, internalInterface: false));
@@ -782,7 +781,7 @@ namespace Loqui.Generation
                 {
                     args.Interfaces.Add(nameof(ILoquiRegistration));
                     args.Partial = true;
-                    args.Public = PermissionLevel.@internal;
+                    args.AccessModifier = AccessModifier.Internal;
                 }
                 using (sb.CurlyBrace())
                 {
@@ -932,7 +931,7 @@ namespace Loqui.Generation
                     sb.AppendLine();
                     using (var args = sb.Class($"{RegistrationName}{GetGenericTypes(MaskType.Normal)}"))
                     {
-                        args.Public = PermissionLevel.@internal;
+                        args.AccessModifier = AccessModifier.Internal;
                         args.Interfaces.Add(RegistrationName);
                         args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.Direct, Generics));
                     }
@@ -1026,7 +1025,7 @@ namespace Loqui.Generation
             var className = $"{CommonClassName(interfaceType, maskTypes)}{(classGen ? GetGenericTypes(maskTypes) : null)}";
             using (var args = sb.Class(className))
             {
-                args.Public = PermissionLevel.@internal;
+                args.AccessModifier = AccessModifier.Internal;
                 if (classGen)
                 {
                     args.Wheres.AddRange(GenericTypeMaskWheres(interfaceType, maskTypes));
@@ -1060,7 +1059,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.ToString"))
                 {
                     args.Add("item: item");
@@ -1081,7 +1080,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.ToString"))
                 {
                     args.AddPassArg("item");
@@ -1106,7 +1105,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"var sb = new {nameof(StructuredStringBuilder)}();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"ToString"))
                 {
                     args.AddPassArg("item");
@@ -1147,7 +1146,7 @@ namespace Loqui.Generation
                 sb.AppendLine($"using (sb.IncreaseDepth())");
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"ToStringFields"))
                     {
                         args.AddPassArg("item");
@@ -1170,7 +1169,7 @@ namespace Loqui.Generation
             {
                 if (HasLoquiBaseObject)
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"{BaseClass.CommonClass(LoquiInterfaceType.IGetter, CommonGenerics.Class)}.ToStringFields"))
                     {
                         args.AddPassArg("item");
@@ -1182,7 +1181,7 @@ namespace Loqui.Generation
                 {
                     if (!field.IntegrateField) continue;
                     Accessor accessor = Accessor.FromType(field, "item");
-                    using (var ifArgs = sb.If(ANDs: true))
+                    using (var ifArgs = sb.If(ands: true))
                     {
                         ifArgs.Add(gen.MaskModule.GetMaskModule(field.GetType()).GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
                         if (field.Nullable && field.CanBeNullable(getter: true))
@@ -1248,7 +1247,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"CopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Copy))}"))
                     {
                         args.AddPassArg($"lhs");
@@ -1271,7 +1270,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"CopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Copy))}"))
                 {
                     args.AddPassArg($"lhs");
@@ -1296,7 +1295,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"var errorMaskBuilder = doMasks ? new ErrorMaskBuilder() : null;");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Copy)}.CopyIn"))
                 {
                     args.Add("item: lhs");
@@ -1319,7 +1318,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Copy)}.CopyIn"))
                 {
                     args.Add("item: lhs");
@@ -1347,7 +1346,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                     {
                         args.Add("item: lhs");
@@ -1372,7 +1371,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                     {
                         args.Add("item: lhs");
@@ -1397,7 +1396,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"var errorMaskBuilder = new ErrorMaskBuilder();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
                     args.Add("item: lhs");
@@ -1421,7 +1420,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("lhs", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
                     args.Add("item: lhs");
@@ -1450,7 +1449,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Translation))}"))
                     {
                         args.AddPassArg($"lhs");
@@ -1473,7 +1472,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Assumed(MaskType.Error), GenericTypes_Nickname(MaskType.Translation))}"))
                 {
                     args.AddPassArg($"lhs");
@@ -1498,7 +1497,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"var errorMaskBuilder = new ErrorMaskBuilder();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClass(LoquiInterfaceType.IGetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.DeepCopyIn"))
                 {
                     args.Add("item: lhs");
@@ -1521,7 +1520,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClass(LoquiInterfaceType.IGetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)}.DeepCopyIn"))
                 {
                     args.Add("item: lhs");
@@ -1595,7 +1594,7 @@ namespace Loqui.Generation
                             internalCopy: true);
                         if (!BaseClassTrail().Any(b => b.HasInternalGetInterface || b.HasInternalSetInterface))
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                 $"DeepCopyIn{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                             {
                                 args.Add($"({Interface(getter: false)})item");
@@ -1651,7 +1650,7 @@ namespace Loqui.Generation
                         }
                         using (sb.CurlyBrace())
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                 $"this.DeepCopyIn"))
                             {
                                 args.Add($"item: ({Interface(getter: false, internalInterface: true)})item");
@@ -1679,7 +1678,7 @@ namespace Loqui.Generation
                     }
                     using (sb.CurlyBrace())
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                             $"this.DeepCopyIn"))
                         {
                             args.Add($"item: ({Interface(getter: false)})item");
@@ -1708,7 +1707,7 @@ namespace Loqui.Generation
                 var funcStr = deepCopy
                     ? $"base.DeepCopyIn{GetBaseGenericTypes(MaskType.Normal)}"
                     : $"base.CopyIn{GetBaseGenericTypes(MaskType.Normal, MaskType.Copy)}";
-                using (var args = sb.Args( funcStr))
+                using (var args = sb.Call( funcStr))
                 {
                     args.Add($"{(internalCopy ? null : $"({BaseClass.Interface(getter: false, internalInterface: false)})")}{accessorPrefix}");
                     args.Add($"{(internalCopy ? null : $"({BaseClass.Interface(getter: true, internalInterface: false)})")}{rhsAccessorPrefix}");
@@ -2337,7 +2336,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.GetEqualsMask"))
                 {
                     args.AddPassArg("item");
@@ -2360,7 +2359,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"var ret = new {GetMaskString("bool")}(false);");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.FillEqualsMask"))
                 {
                     args.AddPassArg("item");
@@ -2550,7 +2549,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
                     {
                         args.Add("lhs: item");
@@ -2570,7 +2569,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
                     {
                         args.Add("lhs: item");
@@ -2592,7 +2591,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals"))
                     {
                         args.Add("lhs: item");
@@ -2653,7 +2652,7 @@ namespace Loqui.Generation
                     }
                     using (sb.CurlyBrace())
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                             "return Equals"))
                         {
                             args.Add($"lhs: ({Interface(getter: true, internalInterface: true)}?)lhs");
@@ -2696,7 +2695,7 @@ namespace Loqui.Generation
                     }
                     using (sb.CurlyBrace())
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                             "return GetHashCode"))
                         {
                             args.Add($"item: ({Interface(getter: true, internalInterface: true)})item");
@@ -2760,7 +2759,7 @@ namespace Loqui.Generation
                     sb.AppendLine($"public override string ToString()");
                     using (sb.CurlyBrace())
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                             $"return {MixInClassName}.ToString"))
                         {
                             args.Add("item: this");
@@ -2778,7 +2777,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         $"{MixInClassName}.ToString"))
                     {
                         args.Add("item: this");
@@ -2840,7 +2839,7 @@ namespace Loqui.Generation
                 {
                     sb.AppendLine($"{ObjectName} ret = GetNew();");
                 }
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"ret.CopyIn{GetGenericTypes(MaskType.Normal, MaskType.Copy)}"))
                 {
                     args.Add("item");
@@ -2863,7 +2862,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.Copy"))
                 {
                     args.AddPassArg("item");
@@ -2887,7 +2886,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"{ObjectName} ret = ({ObjectName}){CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{GetGenericTypes(MaskType.Normal)}();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
                     args.Add("item: ret");
@@ -2912,7 +2911,7 @@ namespace Loqui.Generation
             {
                 sb.AppendLine($"var errorMaskBuilder = new ErrorMaskBuilder();");
                 sb.AppendLine($"{ObjectName} ret = ({ObjectName}){CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{GetGenericTypes(MaskType.Normal)}();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
                     args.Add("ret");
@@ -2937,7 +2936,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 sb.AppendLine($"{ObjectName} ret = ({ObjectName}){CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class, MaskType.NormalGetter)}.GetNew{GetGenericTypes(MaskType.Normal)}();");
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Translation)}.DeepCopyIn{GenerateGenericClause(GenericTypes_Nickname(MaskType.Normal), GenericTypes_Nickname(MaskType.NormalGetter))}"))
                 {
                     args.Add("item: ret");
@@ -2963,7 +2962,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.NormalGetter, MaskType.Translation)}.DeepCopy{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Translation)}"))
                 {
                     args.AddPassArg("item");
@@ -2982,7 +2981,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.NormalGetter, MaskType.Translation)}.DeepCopy{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter, MaskType.Error, MaskType.Translation)}"))
                 {
                     args.AddPassArg("item");
@@ -3002,7 +3001,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"return {CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.NormalGetter, MaskType.Translation)}.DeepCopy{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
                 {
                     args.AddPassArg("item");
@@ -3023,7 +3022,7 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"{CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.Clear"))
                 {
                     args.AddPassArg("item");
@@ -3087,7 +3086,7 @@ namespace Loqui.Generation
                 }
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                         "Clear"))
                     {
                         args.Add($"item: ({Interface(internalInterface: true)})item");
@@ -3099,7 +3098,7 @@ namespace Loqui.Generation
             foreach (var field in Fields)
             {
                 if (!field.CustomClear) continue;
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                     $"void {field.Name}CustomClear"))
                 {
                     args.Add($"{Interface(internalInterface: true)} item");

@@ -145,19 +145,19 @@
 
   <xs:simpleType name="PermissionLevel" final="restriction" >
     <xs:restriction base="xs:string">
-      <xs:enumeration value="public" />
-      <xs:enumeration value="private" />
-      <xs:enumeration value="protected" />
-      <xs:enumeration value="internal" />
+      <xs:enumeration value="Public" />
+      <xs:enumeration value="Private" />
+      <xs:enumeration value="Protected" />
+      <xs:enumeration value="Internal" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="CtorPermissionLevel" final="restriction" >
     <xs:restriction base="xs:string">
-      <xs:enumeration value="public" />
-      <xs:enumeration value="private" />
-      <xs:enumeration value="protected" />
-      <xs:enumeration value="internal" />
+      <xs:enumeration value="Public" />
+      <xs:enumeration value="Private" />
+      <xs:enumeration value="Protected" />
+      <xs:enumeration value="Internal" />
     </xs:restriction>
   </xs:simpleType>
 

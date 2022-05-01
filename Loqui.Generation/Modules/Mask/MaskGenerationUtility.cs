@@ -1,3 +1,5 @@
+using Noggog.StructuredStrings;
+
 namespace Loqui.Generation;
 
 public static class MaskGenerationUtility

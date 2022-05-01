@@ -1,5 +1,7 @@
 using Noggog;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -37,7 +39,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         Accessor nameAccessor,
         Accessor translationMaskAccessor)
     {
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"{TypeName(typeGen)}XmlTranslation.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");

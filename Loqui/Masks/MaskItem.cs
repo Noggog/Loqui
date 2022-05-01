@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Noggog.StructuredStrings;
 
 namespace Loqui;
 

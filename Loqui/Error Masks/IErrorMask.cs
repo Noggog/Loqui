@@ -1,3 +1,5 @@
+using Noggog.StructuredStrings;
+
 namespace Loqui;
 
 public interface IErrorMask : IPrintable

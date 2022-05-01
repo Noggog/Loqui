@@ -1,6 +1,5 @@
 using Noggog;
-using Noggog.Printing;
-using System.Collections;
+using Noggog.StructuredStrings;
 
 namespace Loqui;
 
@@ -45,83 +44,6 @@ public interface ILoquiReflectionSetter : ILoquiReflectionGetter, ILoquiObjectSe
 
 public static class ILoquiObjectExt
 {
-    public static string PrintPretty(ILoquiReflectionGetter obj)
-    {
-        return PrintPretty(obj, new DepthPrinter());
-    }
-
-    public static string PrintPretty(ILoquiReflectionGetter obj, DepthPrinter depthPrinter)
-    {
-        depthPrinter.AddLine(obj.Registration.Name + "=>");
-        return PrintPrettyInternal(obj, depthPrinter);
-    }
-
-    private static string PrintLoquiName(ILoquiReflectionGetter obj, ushort i)
-    {
-        return $"{obj.Registration.GetNthName(i)}({obj.Registration.GetNthType(i).Name}) => ";
-    }
-
-    private static string PrintPrettyInternal(this ILoquiReflectionGetter loqui, DepthPrinter depthPrinter)
-    {
-        depthPrinter.AddLine("[");
-        using (depthPrinter.IncrementDepth())
-        {
-            for (ushort i = 0; i < loqui.Registration.FieldCount; i++)
-            {
-                var obj = loqui.GetNthObject(i);
-                if (loqui.Registration.GetNthIsEnumerable(i))
-                {
-                    if (obj is IEnumerable listObj)
-                    {
-                        bool hasItems = listObj.Any();
-                        depthPrinter.AddLine(loqui.Registration.GetNthName(i) + " => " + (hasItems ? string.Empty : "[ ]"));
-                        if (hasItems)
-                        {
-                            depthPrinter.AddLine("[");
-                            using (depthPrinter.IncrementDepth())
-                            {
-                                foreach (var listItem in listObj)
-                                {
-                                    if (loqui.Registration.GetNthIsLoqui(i))
-                                    {
-                                        if (listItem is ILoquiReflectionGetter subLoqui)
-                                        {
-                                            depthPrinter.AddLine(PrintLoquiName(loqui, i));
-                                            PrintPrettyInternal(subLoqui, depthPrinter);
-                                        }
-                                        continue;
-                                    }
-
-                                    depthPrinter.AddLine(obj.ToString() + ",");
-                                }
-                            }
-                            depthPrinter.AddLine("]");
-                        }
-                    }
-                    continue;
-                }
-
-                if (loqui.Registration.GetNthIsLoqui(i))
-                {
-                    if (obj is ILoquiReflectionGetter subLoqui)
-                    {
-                        depthPrinter.AddLine(PrintLoquiName(loqui, i));
-                        PrintPrettyInternal(subLoqui, depthPrinter);
-                    }
-                    continue;
-                }
-
-                depthPrinter.AddLine(loqui.Registration.GetNthName(i) + ": " + obj?.ToString());
-            }
-        }
-        depthPrinter.AddLine("]");
-        return depthPrinter.ToString();
-    }
-
-    private static void PrintItem(ILoquiObjectGetter loqui, ushort i, object o, DepthPrinter dp)
-    {
-    }
-
     public static void CopyFieldsIn(
         ILoquiReflectionSetter obj,
         ILoquiReflectionGetter rhs,

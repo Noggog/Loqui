@@ -1,3 +1,5 @@
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 using static Loqui.Generation.LoquiType;
 
 namespace Loqui.Generation;
@@ -88,7 +90,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
     public override void GenerateMaskToString(StructuredStringBuilder sb, TypeGeneration field, Accessor accessor, bool topLevel, bool printMask)
     {
         if (!field.IntegrateField) return;
-        using (var ifArg = sb.If(ANDs: true))
+        using (var ifArg = sb.If(ands: true))
         {
             if (printMask)
             {

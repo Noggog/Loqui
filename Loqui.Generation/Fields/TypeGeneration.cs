@@ -1,6 +1,8 @@
 using Noggog;
 using System.Reactive.Subjects;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -21,8 +23,8 @@ public abstract class TypeGeneration
     public virtual bool IntegrateField { get; set; } = true;
     public bool Enabled = true;
     public bool ReadOnly;
-    public PermissionLevel SetPermission = PermissionLevel.@public;
-    public PermissionLevel GetPermission = PermissionLevel.@public;
+    public AccessModifier SetPermission = AccessModifier.Public;
+    public AccessModifier GetPermission = AccessModifier.Public;
     private CopyLevel _copy = CopyLevel.All;
     public virtual CopyLevel CopyLevel => _copy;
     public bool AlwaysCopy { get; set; }
@@ -43,7 +45,7 @@ public abstract class TypeGeneration
     public bool InternalSetInterface { get; set; }
     public bool InternalGetInterface { get; set; }
     public virtual bool IsIEquatable => true;
-    public string SetPermissionStr => SetPermission == PermissionLevel.@public ? null : $"{SetPermission.ToStringFast_Enum_Only()} ";
+    public string SetPermissionStr => SetPermission == AccessModifier.Public ? null : $"{SetPermission.ToCodeString()} ";
     public TypeGeneration Parent;
     public virtual bool IsNullable => Nullable;
     public string NullChar => IsNullable ? "?" : null;
@@ -82,11 +84,11 @@ public abstract class TypeGeneration
         node.TransferAttribute<bool>(Constants.DERIVATIVE, i => _derivative = i);
         if (_derivative ?? false)
         {
-            SetPermission = PermissionLevel.@protected;
+            SetPermission = AccessModifier.Protected;
         }
-        node.TransferAttribute<PermissionLevel>(Constants.SET_PERMISSION, i => SetPermission = i);
-        ReadOnly = SetPermission != PermissionLevel.@public || Derivative;
-        node.TransferAttribute<PermissionLevel>(Constants.GET_PERMISSION, i => GetPermission = i);
+        node.TransferAttribute<AccessModifier>(Constants.SET_PERMISSION, i => SetPermission = i);
+        ReadOnly = SetPermission != AccessModifier.Public || Derivative;
+        node.TransferAttribute<AccessModifier>(Constants.GET_PERMISSION, i => GetPermission = i);
         if (Derivative || !IntegrateField)
         {
             _copy = CopyLevel.None;

@@ -5,6 +5,8 @@ using System.Xml;
 using System.Text;
 using Loqui.Internal;
 using System.Drawing;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -242,7 +244,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                 }
                                 if (conditions.Count > 0)
                                 {
-                                    using (var args = sb.If(ANDs: true))
+                                    using (var args = sb.If(ands: true))
                                     {
                                         foreach (var item in conditions)
                                         {
@@ -271,7 +273,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                     {
                         if (obj.HasLoquiBaseObject)
                         {
-                            using (var args = sb.Args(
+                            using (var args = sb.Call(
                                        $"{obj.BaseClassName}.FillPrivateElement_" +
                                        $"{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
@@ -323,7 +325,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
                 using (sb.CurlyBrace())
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                     {
                         args.Add("item: item");
@@ -369,7 +371,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         {
             if (obj.HasLoquiBaseObject)
             {
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode{ModuleNickname}"))
                 {
                     args.Add($"item: item");
@@ -398,7 +400,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 }
                 if (conditions.Count > 0)
                 {
-                    using (var args = sb.If(ANDs: true))
+                    using (var args = sb.If(ands: true))
                     {
                         foreach (var item in conditions)
                         {
@@ -461,7 +463,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                             }
                             if (conditions.Count > 0)
                             {
-                                using (var args = sb.If(ANDs: true))
+                                using (var args = sb.If(ands: true))
                                 {
                                     foreach (var item in conditions)
                                     {
@@ -490,7 +492,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                 {
                     if (obj.HasLoquiBaseObject)
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{obj.BaseClass.CommonClassName(LoquiInterfaceType.ISetter)}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                         {
                             args.Add("item: item");
@@ -670,7 +672,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             {
                 if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
                 {
-                    using (var args = sb.Args(
+                    using (var args = sb.Call(
                                $"FillPrivateElement{ModuleNickname}"))
                     {
                         args.Add($"item: {accessor}");
@@ -688,7 +690,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
                     }
                 }
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                 {
                     args.Add($"item: {accessor}");
@@ -725,7 +727,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         {
             sb.AppendLine($"elem.SetAttributeValue(\"{XmlConstants.TYPE_ATTRIBUTE}\", \"{obj.FullName}\");");
         }
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"WriteToNode{ModuleNickname}"))
         {
             args.Add($"item: item");

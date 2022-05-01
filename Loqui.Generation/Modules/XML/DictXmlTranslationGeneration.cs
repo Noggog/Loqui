@@ -1,5 +1,7 @@
 using Loqui.Internal;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -37,7 +39,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     throw new ArgumentException("Unsupported type generator: " + dictType.KeyTypeGen);
                 }
 
-                using (var args = sb.Args(
+                using (var args = sb.Call(
                            $"DictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                 {
                     args.Add($"node: {writerAccessor}");
@@ -92,7 +94,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                     sb: sb,
                     toDo: () =>
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                         {
                             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -195,7 +197,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                 throw new NotImplementedException();
         }
 
-        using (var args = sb.Args( funcStr))
+        using (var args = sb.Call( funcStr))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
             if (!ret)

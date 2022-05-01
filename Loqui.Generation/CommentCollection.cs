@@ -1,3 +1,5 @@
+using Noggog.StructuredStrings;
+
 namespace Loqui.Generation;
 
 public class CommentCollection
@@ -8,7 +10,7 @@ public class CommentCollection
 
     public CommentCollection()
     {
-        Comments = new Comment(null);
+        Comments = new Comment(null!);
     }
 
     public void Apply(StructuredStringBuilder sb, LoquiInterfaceType type)

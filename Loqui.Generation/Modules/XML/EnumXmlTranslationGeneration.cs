@@ -1,4 +1,6 @@
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -23,7 +25,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
     {
         var eType = typeGen as EnumType;
 
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");

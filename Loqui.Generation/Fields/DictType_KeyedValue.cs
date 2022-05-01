@@ -1,5 +1,7 @@
 using Noggog;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -209,7 +211,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                     var loqui = ValueTypeGen as LoquiType;
                     if (Nullable)
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add($"rhs.{Name}");
@@ -249,7 +251,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
                     }
                     else
                     {
-                        using (var args = sb.Args(
+                        using (var args = sb.Call(
                                    $"{accessor}.SetTo"))
                         {
                             args.Add((gen) =>
@@ -312,7 +314,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     private void GenerateCopy(StructuredStringBuilder sb, string accessorPrefix, string rhsAccessorPrefix, bool protectedUse)
     {
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"{accessorPrefix}.{GetName(protectedUse)}.SetTo"))
         {
             args.Add($"(IEnumerable<{ValueTypeGen.TypeName(getter: true)}>){rhsAccessorPrefix}.{GetName(false)}).Select((i) => i.Copy())");
@@ -321,7 +323,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     public override void GenerateSetNth(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, bool internalUse)
     {
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"{accessor}.SetTo"))
         {
             args.Add($"(IEnumerable<{ValueTypeGen.TypeName(getter: true)}>){rhs}");
@@ -397,7 +399,7 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
 
     public void GenerateForEqualsMaskCheck(StructuredStringBuilder sb, string accessor, string rhsAccessor, string retAccessor)
     {
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"{retAccessor} = EqualsMaskHelper.CacheEqualsHelper"))
         {
             args.Add($"lhs: {accessor}");

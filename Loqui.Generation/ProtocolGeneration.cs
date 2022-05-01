@@ -2,6 +2,8 @@ using Noggog;
 using System.Xml.Linq;
 using System.Xml;
 using System.Text;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -17,7 +19,7 @@ public class ProtocolGeneration
     public DirectoryInfo DefFileLocation => GenerationFolder;
     public LoquiInterfaceType SetterInterfaceTypeDefault;
     public LoquiInterfaceType GetterInterfaceTypeDefault;
-    public PermissionLevel SetPermissionDefault;
+    public AccessModifier SetPermissionDefault;
     public RxBaseOption RxBaseOptionDefault;
     public bool DerivativeDefault;
     public bool ToStringDefault;

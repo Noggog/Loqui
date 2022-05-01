@@ -1,5 +1,7 @@
 using Loqui.Internal;
 using System.Xml.Linq;
+using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -46,7 +48,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
             typeName = loqui.TypeNameInternal(getter: true, internalInterface: true);
         }
 
-        using (var args = sb.Args(
+        using (var args = sb.Call(
                    $"{TranslatorName}<{typeName}>.Instance.Write"))
         {
             args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
@@ -90,7 +92,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
     protected virtual void ExtraWriteArgs(
         Accessor itemAccessor,
         TypeGeneration typeGen,
-        Args args)
+        Call args)
     {
     }
 

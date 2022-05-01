@@ -1,4 +1,5 @@
 using Noggog;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -21,7 +22,7 @@ public class LoquiGenerator
     public LoquiInterfaceType SetterInterfaceTypeDefault = LoquiInterfaceType.Direct;
     public LoquiInterfaceType GetterInterfaceTypeDefault = LoquiInterfaceType.IGetter;
     public List<string> Interfaces = new List<string>();
-    public PermissionLevel SetPermissionDefault;
+    public AccessModifier SetPermissionDefault;
     public RxBaseOption RxBaseOptionDefault;
     public bool DerivativeDefault;
     public bool NullableDefault;
