@@ -974,7 +974,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
 
     public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
-        sb.AppendLine($"{accessor.Access}?.ToString({sbAccessor}, \"{name}\");");
+        sb.AppendLine($"{accessor.Access}?.Print({sbAccessor}, \"{name}\");");
     }
 
     public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)

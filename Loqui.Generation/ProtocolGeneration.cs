@@ -2,6 +2,7 @@ using Noggog;
 using System.Xml.Linq;
 using System.Xml;
 using System.Text;
+using Noggog.IO;
 using Noggog.StructuredStrings;
 using Noggog.StructuredStrings.CSharp;
 
@@ -251,10 +252,12 @@ public class ProtocolGeneration
             }
         }
 
-        sb.Generate(
+        ExportStringToFile export = new();
+        export.ExportToFile( 
             new FileInfo(
                 DefFileLocation.FullName
-                + $"/{ProtocolDefinitionName}.cs"));
+                + $"/{ProtocolDefinitionName}.cs"),
+            sb.GetString());
     }
 
     public void AddSearchableFolder(DirectoryInfo dir)

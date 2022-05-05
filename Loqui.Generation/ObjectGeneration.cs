@@ -3,6 +3,7 @@ using Noggog;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Noggog.IO;
 using Noggog.StructuredStrings;
 using Noggog.StructuredStrings.CSharp;
 #if NETSTANDARD2_0 
@@ -368,7 +369,10 @@ namespace Loqui.Generation
             var fileName = Path.Combine(TargetDir.Path, FileName);
             var file = new FileInfo(fileName);
             GeneratedFiles[Path.GetFullPath(fileName)] = ProjItemType.Compile;
-            sb.Generate(file);
+            ExportStringToFile export = new();
+            export.ExportToFile( 
+                file,
+                sb.GetString());
             if (!gen.GeneratedFiles.Add(fileName))
             {
                 throw new ArgumentException();
@@ -1050,7 +1054,7 @@ namespace Loqui.Generation
         private async Task GenerateToStringMixIn(StructuredStringBuilder sb)
         {
             using (var args = new Function(sb,
-                $"public static string ToString{GetGenericTypes(MaskType.Normal)}"))
+                $"public static string Print{GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
                 args.Add($"this {Interface(getter: true, internalInterface: true)} item");
@@ -1060,7 +1064,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 using (var args = sb.Call(
-                    $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.ToString"))
+                    $"return {CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Print"))
                 {
                     args.Add("item: item");
                     args.Add("name: name");
@@ -1070,7 +1074,7 @@ namespace Loqui.Generation
             sb.AppendLine();
 
             using (var args = new Function(sb,
-                $"public static void ToString{GetGenericTypes(MaskType.Normal)}"))
+                $"public static void Print{GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(GenerateWhereClauses(LoquiInterfaceType.IGetter));
                 args.Add($"this {Interface(getter: true, internalInterface: true)} item");
@@ -1081,7 +1085,7 @@ namespace Loqui.Generation
             using (sb.CurlyBrace())
             {
                 using (var args = sb.Call(
-                    $"{CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.ToString"))
+                    $"{CommonClassInstance("item", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Print"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("sb");
@@ -1096,7 +1100,7 @@ namespace Loqui.Generation
         {
             if (!maskTypes.Applicable(LoquiInterfaceType.IGetter, CommonGenerics.Class)) return;
             using (var args = new Function(sb,
-                $"public string ToString"))
+                $"public string Print"))
             {
                 args.Add($"{Interface(getter: true, internalInterface: true)} item");
                 args.Add($"string? name = null");
@@ -1106,7 +1110,7 @@ namespace Loqui.Generation
             {
                 sb.AppendLine($"var sb = new {nameof(StructuredStringBuilder)}();");
                 using (var args = sb.Call(
-                    $"ToString"))
+                    $"Print"))
                 {
                     args.AddPassArg("item");
                     args.AddPassArg("sb");
@@ -1118,7 +1122,7 @@ namespace Loqui.Generation
             sb.AppendLine();
 
             using (var args = new Function(sb,
-                $"public void ToString"))
+                $"public void Print"))
             {
                 args.Add($"{Interface(getter: true, internalInterface: true)} item");
                 args.Add($"{nameof(StructuredStringBuilder)} sb");
@@ -2320,7 +2324,7 @@ namespace Loqui.Generation
 
         public void GenerateGetterInterfaceImplementations(StructuredStringBuilder sb)
         {
-            sb.AppendLine($"void {nameof(IPrintable)}.ToString({nameof(StructuredStringBuilder)} sb, string? name) => this.ToString(sb, name);");
+            sb.AppendLine($"void {nameof(IPrintable)}.{nameof(IPrintable.Print)}({nameof(StructuredStringBuilder)} sb, string? name) => this.{nameof(IPrintable.Print)}(sb, name);");
             //sb.AppendLine($"IMask<bool> IEqualsMask.GetEqualsMask(object rhs, EqualsMaskHelper.Include include) => this.GetEqualsMask(({this.Interface(getter: true, internalInterface: true)})rhs, include);");
             sb.AppendLine();
         }
@@ -2770,7 +2774,7 @@ namespace Loqui.Generation
                 sb.AppendLine();
 
                 using (var args = new Function(sb,
-                    $"public{FunctionOverride()}void ToString"))
+                    $"public{FunctionOverride()}void Print"))
                 {
                     args.Add($"{nameof(StructuredStringBuilder)} sb");
                     args.Add($"string? name = null");
@@ -2778,7 +2782,7 @@ namespace Loqui.Generation
                 using (sb.CurlyBrace())
                 {
                     using (var args = sb.Call(
-                        $"{MixInClassName}.ToString"))
+                        $"{MixInClassName}.Print"))
                     {
                         args.Add("item: this");
                         args.AddPassArg("sb");

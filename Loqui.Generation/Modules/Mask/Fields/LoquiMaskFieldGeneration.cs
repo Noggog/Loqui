@@ -96,7 +96,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
             {
                 ifArg.Add(GenerateBoolMaskCheck(field, "printMask"), wrapInParens: true);
             }
-            ifArg.Body = subSb => subSb.AppendLine($"{accessor}?.ToString(sb);");
+            ifArg.Body = subSb => subSb.AppendLine($"{accessor}?.Print(sb);");
         }
     }
 

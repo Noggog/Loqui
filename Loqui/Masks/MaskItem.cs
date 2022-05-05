@@ -100,14 +100,13 @@ public class MaskItemIndexed<TKey, TOverall, TSpecific> : MaskItem<TOverall, TSp
 
 public static class MaskItemExt
 {
-    public static void ToString<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, StructuredStringBuilder sb)
+    public static void Print<TOverall, TSpecific>(this MaskItem<TOverall, TSpecific> maskItem, StructuredStringBuilder sb)
     {
-        if (maskItem == null) return;
         if (maskItem.Overall != null)
         {
             if (maskItem.Overall is IPrintable printable)
             {
-                printable.ToString(sb, null);
+                printable.Print(sb, null);
             }
             else
             {
@@ -118,7 +117,7 @@ public static class MaskItemExt
         {
             if (maskItem.Specific is IPrintable printable)
             {
-                printable.ToString(sb, null);
+                printable.Print(sb, null);
             }
             else
             {
@@ -131,7 +130,6 @@ public static class MaskItemExt
     public static MaskItem<Exception, TRet>? Bubble<TSource, TRet>(this MaskItem<Exception, TSource> item)
         where TSource : TRet
     {
-        if (item == null) return null;
         return new MaskItem<Exception, TRet>(item.Overall, item.Specific);
     }
 

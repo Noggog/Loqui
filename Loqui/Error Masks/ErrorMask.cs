@@ -30,7 +30,7 @@ public class ErrorMask : IErrorMask
         }
     }
 
-    public void ToString(StructuredStringBuilder sb, string? name)
+    public void Print(StructuredStringBuilder sb, string? name)
     {
         throw new NotImplementedException();
     }

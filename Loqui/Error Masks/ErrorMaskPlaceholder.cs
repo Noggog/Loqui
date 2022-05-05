@@ -33,7 +33,7 @@ public class ErrorMaskPlaceholder : IErrorMask<ErrorMaskPlaceholder>
         throw new NotImplementedException();
     }
 
-    public void ToString(StructuredStringBuilder sb, string? name)
+    public void Print(StructuredStringBuilder sb, string? name)
     {
         throw new NotImplementedException();
     }

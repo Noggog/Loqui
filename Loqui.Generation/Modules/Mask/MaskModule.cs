@@ -242,16 +242,10 @@ public class MaskModule : GenerationModule
 
             using (sb.Region("To String"))
             {
-                sb.AppendLine($"public override string ToString()");
-                using (sb.CurlyBrace())
-                {
-                    sb.AppendLine($"var sb = new {nameof(StructuredStringBuilder)}();");
-                    sb.AppendLine($"ToString(sb, null);");
-                    sb.AppendLine("return sb.ToString();");
-                }
+                sb.AppendLine($"public override string ToString() => this.Print();");
                 sb.AppendLine();
 
-                sb.AppendLine($"public{obj.FunctionOverride()}void ToString({nameof(StructuredStringBuilder)} sb, string? name = null)");
+                sb.AppendLine($"public{obj.FunctionOverride()}void Print({nameof(StructuredStringBuilder)} sb, string? name = null)");
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{(name ?? \"{obj.Mask_BasicName(MaskType.Error)}\")}} =>\");");
@@ -271,17 +265,17 @@ public class MaskModule : GenerationModule
                             }
                             sb.AppendLine($"sb.AppendLine(\"]\");");
                         }
-                        sb.AppendLine($"ToString_FillInternal(sb);");
+                        sb.AppendLine($"PrintFillInternal(sb);");
                     }
                     sb.AppendLine($"sb.AppendLine(\"]\");");
                 }
 
-                sb.AppendLine($"protected{obj.FunctionOverride()}void ToString_FillInternal({nameof(StructuredStringBuilder)} sb)");
+                sb.AppendLine($"protected{obj.FunctionOverride()}void PrintFillInternal({nameof(StructuredStringBuilder)} sb)");
                 using (sb.CurlyBrace())
                 {
                     if (obj.HasLoquiBaseObject)
                     {
-                        sb.AppendLine("base.ToString_FillInternal(sb);");
+                        sb.AppendLine("base.PrintFillInternal(sb);");
                     }
                     foreach (var item in obj.IterateFields())
                     {
@@ -511,23 +505,19 @@ public class MaskModule : GenerationModule
 
             using (sb.Region("To String"))
             {
-                sb.AppendLine($"public override string ToString()");
-                using (sb.CurlyBrace())
-                {
-                    sb.AppendLine($"return ToString(printMask: null);");
-                }
+                sb.AppendLine($"public override string ToString() => this.Print();");
                 sb.AppendLine();
 
-                sb.AppendLine($"public string ToString({obj.GetMaskString("bool")}? printMask = null)");
+                sb.AppendLine($"public string Print({obj.GetMaskString("bool")}? printMask = null)");
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine($"var sb = new {nameof(StructuredStringBuilder)}();");
-                    sb.AppendLine($"ToString(sb, printMask);");
+                    sb.AppendLine($"Print(sb, printMask);");
                     sb.AppendLine("return sb.ToString();");
                 }
                 sb.AppendLine();
 
-                sb.AppendLine($"public void ToString({nameof(StructuredStringBuilder)} sb, {obj.GetMaskString("bool")}? printMask = null)");
+                sb.AppendLine($"public void Print({nameof(StructuredStringBuilder)} sb, {obj.GetMaskString("bool")}? printMask = null)");
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{nameof({obj.GetMaskString(GenItem)})}} =>\");");
