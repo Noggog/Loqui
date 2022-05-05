@@ -290,23 +290,19 @@ public class ListType : ContainerType
     public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
         sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
-        sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-        sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
+        sb.AppendLine($"using ({sbAccessor}.Brace())");
         using (sb.CurlyBrace())
         {
             sb.AppendLine($"foreach (var subItem in {accessor.Access})");
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
+                sb.AppendLine($"using ({sbAccessor}.Brace())");
                 using (sb.CurlyBrace())
                 {
                     SubTypeGeneration.GenerateToString(sb, "Item", new Accessor("subItem"), sbAccessor);
                 }
-                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
             }
         }
-        sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
     }
 
     public override void GenerateForNullableCheck(StructuredStringBuilder sb, Accessor accessor, string checkMaskAccessor)

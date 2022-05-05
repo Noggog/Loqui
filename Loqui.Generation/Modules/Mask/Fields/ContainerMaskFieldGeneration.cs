@@ -99,8 +99,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
             args.Body = (sb) =>
             {
                 sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{field.Name} =>\");");
-                sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                sb.AppendLine($"using (sb.IncreaseDepth())");
+                sb.AppendLine($"using (sb.Brace())");
                 using (sb.CurlyBrace())
                 {
                     ContainerType listType = field as ContainerType;
@@ -113,14 +112,12 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                             sb.AppendLine($"foreach (var subItem in {accessor}.Specific)");
                             using (sb.CurlyBrace())
                             {
-                                sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
                                 var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                                sb.AppendLine($"using (sb.IncreaseDepth())");
+                                sb.AppendLine($"using (sb.Brace())");
                                 using (sb.CurlyBrace())
                                 {
                                     fieldGen.GenerateMaskToString(sb, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
                                 }
-                                sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
                             }
                         }
                     }
@@ -129,18 +126,15 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                         sb.AppendLine($"foreach (var subItem in {accessor})");
                         using (sb.CurlyBrace())
                         {
-                            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
                             var fieldGen = Module.GetMaskModule(listType.SubTypeGeneration.GetType());
-                            sb.AppendLine($"using (sb.IncreaseDepth())");
+                            sb.AppendLine($"using (sb.Brace())");
                             using (sb.CurlyBrace())
                             {
                                 fieldGen.GenerateMaskToString(sb, listType.SubTypeGeneration, "subItem", topLevel: false, printMask: false);
                             }
-                            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
                         }
                     }
                 }
-                sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
             };
         }
     }

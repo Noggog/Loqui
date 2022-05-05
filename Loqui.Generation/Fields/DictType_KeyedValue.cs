@@ -423,20 +423,18 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
     public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
     {
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
-        sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-        sb.AppendLine($"using (sb.IncreaseDepth())");
+        sb.AppendLine($"using (sb.Brace())");
         using (sb.CurlyBrace())
         {
             sb.AppendLine($"foreach (var subItem in {accessor})");
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
                 sb.AppendLine($"using ({sbAccessor}.IncreaseDepth())");
+                sb.AppendLine($"using ({sbAccessor}.Brace())");
                 using (sb.CurlyBrace())
                 {
                     ValueTypeGen.GenerateToString(sb, "Item", new Accessor("subItem.Value"), sbAccessor);
                 }
-                sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
             }
         }
         sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");

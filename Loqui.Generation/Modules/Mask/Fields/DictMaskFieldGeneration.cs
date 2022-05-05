@@ -1,4 +1,5 @@
 using Noggog.StructuredStrings;
+using Noggog.StructuredStrings.CSharp;
 
 namespace Loqui.Generation;
 
@@ -179,8 +180,7 @@ public class DictMaskFieldGeneration : MaskModuleField
         using (sb.CurlyBrace(printMask))
         {
             sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"{field.Name} =>\");");
-            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-            sb.AppendLine($"using (sb.IncreaseDepth())");
+            sb.AppendLine($"using (sb.Brace())");
             using (sb.CurlyBrace())
             {
                 DictType dictType = field as DictType;
@@ -202,8 +202,7 @@ public class DictMaskFieldGeneration : MaskModuleField
                         {
                             var keyFieldGen = Module.GetMaskModule(dictType.KeyTypeGen.GetType());
                             var valFieldGen = Module.GetMaskModule(dictType.ValueTypeGen.GetType());
-                            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"[\");");
-                            sb.AppendLine($"using (sb.IncreaseDepth())");
+                            sb.AppendLine($"using (sb.Brace())");
                             using (sb.CurlyBrace())
                             {
                                 switch (dictType.Mode)
@@ -231,12 +230,10 @@ public class DictMaskFieldGeneration : MaskModuleField
                                         break;
                                 }
                             }
-                            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
                         }
                     }
                 }
             }
-            sb.AppendLine($"sb.{nameof(StructuredStringBuilder.AppendLine)}(\"]\");");
         }
     }
 

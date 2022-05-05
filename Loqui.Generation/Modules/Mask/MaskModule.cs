@@ -249,25 +249,21 @@ public class MaskModule : GenerationModule
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{(name ?? \"{obj.Mask_BasicName(MaskType.Error)}\")}} =>\");");
-                    sb.AppendLine($"sb.AppendLine(\"[\");");
-                    sb.AppendLine($"using (sb.IncreaseDepth())");
+                    sb.AppendLine($"using (sb.Brace())");
                     using (sb.CurlyBrace())
                     {
                         sb.AppendLine($"if (this.Overall != null)");
                         using (sb.CurlyBrace())
                         {
                             sb.AppendLine($"sb.AppendLine(\"Overall =>\");");
-                            sb.AppendLine($"sb.AppendLine(\"[\");");
-                            sb.AppendLine($"using (sb.IncreaseDepth())");
+                            sb.AppendLine($"using (sb.Brace())");
                             using (sb.CurlyBrace())
                             {
                                 sb.AppendLine("sb.AppendLine($\"{this.Overall}\");");
                             }
-                            sb.AppendLine($"sb.AppendLine(\"]\");");
                         }
                         sb.AppendLine($"PrintFillInternal(sb);");
                     }
-                    sb.AppendLine($"sb.AppendLine(\"]\");");
                 }
 
                 sb.AppendLine($"protected{obj.FunctionOverride()}void PrintFillInternal({nameof(StructuredStringBuilder)} sb)");
@@ -521,8 +517,7 @@ public class MaskModule : GenerationModule
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{nameof({obj.GetMaskString(GenItem)})}} =>\");");
-                    sb.AppendLine($"sb.AppendLine(\"[\");");
-                    sb.AppendLine($"using (sb.IncreaseDepth())");
+                    sb.AppendLine($"using (sb.Brace())");
                     using (sb.CurlyBrace())
                     {
                         foreach (var field in obj.IterateFields())
@@ -530,7 +525,6 @@ public class MaskModule : GenerationModule
                             GetMaskModule(field.GetType()).GenerateMaskToString(sb, field, field.Name, topLevel: true, printMask: true);
                         }
                     }
-                    sb.AppendLine($"sb.AppendLine(\"]\");");
                 }
             }
         }

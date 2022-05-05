@@ -1146,8 +1146,7 @@ namespace Loqui.Generation
                 {
                     sb.AppendLine($"sb.AppendLine($\"{{name}} ({Name}{generics}) =>\");");
                 }
-                sb.AppendLine($"sb.AppendLine(\"[\");");
-                sb.AppendLine($"using (sb.IncreaseDepth())");
+                sb.AppendLine($"using (sb.Brace())");
                 using (sb.CurlyBrace())
                 {
                     using (var args = sb.Call(
@@ -1158,7 +1157,6 @@ namespace Loqui.Generation
                         args.AddPassArg("printMask");
                     }
                 }
-                sb.AppendLine($"sb.AppendLine(\"]\");");
             }
             sb.AppendLine();
 
