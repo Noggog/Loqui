@@ -50,6 +50,7 @@ public class LoquiGenerator
         AddTypeAssociation<UInt16Type>("UInt16");
         AddTypeAssociation<UInt32Type>("UInt32");
         AddTypeAssociation<UInt64Type>("UInt64");
+        AddTypeAssociation<P2UInt8Type>("P2UInt8");
         AddTypeAssociation<P2Int32Type>("P2Int32");
         AddTypeAssociation<P2Int16Type>("P2Int16");
         AddTypeAssociation<P3UInt8Type>("P3UInt8");
