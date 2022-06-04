@@ -68,4 +68,5 @@ public static class Constants
     public const string FIXED_HEIGHT = "fixedHeight";
     public const string CUSTOM_CLEAR = "customClear";
     public const string ALWAYS_COPY = "alwaysCopy";
+    public const string DefaultType = "defaultType";
 }

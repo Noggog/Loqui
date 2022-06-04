@@ -183,6 +183,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     }
     public bool HasInternalGetInterface => TargetObjectGeneration?.HasInternalGetInterface ?? false;
     public bool HasInternalSetInterface => TargetObjectGeneration?.HasInternalSetInterface ?? false;
+    public string DefaultType;
 
     public enum LoquiRefType
     {
@@ -269,7 +270,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
         if (_TargetObjectGeneration != null)
         {
             await _TargetObjectGeneration.LoadingCompleteTask.Task;
-            _thisConstruction = _thisConstruction ?? _TargetObjectGeneration.Abstract && !Nullable;
+            _thisConstruction = _thisConstruction ?? _TargetObjectGeneration.Abstract && !Nullable && DefaultType.IsNullOrWhitespace();
         }
 
         if (Nullable)
@@ -325,6 +326,10 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                         construction = " = default!;";
                     }
                 }
+                else if (!DefaultType.IsNullOrWhitespace())
+                {
+                    construction = $" = new {DefaultType}();";
+                }
                 else
                 {
                     construction = $" = new {DirectTypeName}();";
@@ -358,6 +363,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
     {
         await base.Load(node, requireName);
         Singleton = node.GetAttribute(Constants.SINGLETON, false);
+        DefaultType = node.GetAttribute(Constants.DefaultType, null);
 
         XElement refNode = GetRefNode(node);
 

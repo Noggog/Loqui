@@ -1249,6 +1249,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="defaultType">
+      <xs:annotation>
+        <xs:documentation>
+			What type to instantiate as the default value if field is not nullable
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="apiIterfaceType" type="LoquiInterfaceType">
       <xs:annotation>
         <xs:documentation>
