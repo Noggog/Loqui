@@ -181,28 +181,28 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
 
     private void ConvertFromStreamOut(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-        internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
-        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().Save(stream);");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj, Context.Backend)} = new XElement(\"topnode\");");
+        internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer, Context.Backend).Select(a => a.API).ToArray());
+        sb.AppendLine($"{XElementLine.GetParameterName(obj, Context.Backend)}.Elements().First().Save(stream);");
     }
 
     private void ConvertFromStreamIn(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(stream).Root;");
-        internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj, Context.Backend)} = XDocument.Load(stream).Root;");
+        internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader, Context.Backend).Select(a => a.API).ToArray());
     }
 
     private void ConvertFromPathOut(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = new XElement(\"topnode\");");
-        internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer).Select(a => a.API).ToArray());
-        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Elements().First().SaveIfChanged(path);");
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj, Context.Backend)} = new XElement(\"topnode\");");
+        internalToDo(MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer, Context.Backend).Select(a => a.API).ToArray());
+        sb.AppendLine($"{XElementLine.GetParameterName(obj, Context.Backend)}.Elements().First().SaveIfChanged(path);");
     }
 
     private void ConvertFromPathIn(ObjectGeneration obj, StructuredStringBuilder sb, InternalTranslation internalToDo)
     {
-        sb.AppendLine($"var {XElementLine.GetParameterName(obj)} = XDocument.Load(path).Root;");
-        internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader).Select(a => a.API).ToArray());
+        sb.AppendLine($"var {XElementLine.GetParameterName(obj, Context.Backend)} = XDocument.Load(path).Root;");
+        internalToDo(MainAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader, Context.Backend).Select(a => a.API).ToArray());
     }
 
     protected virtual void FillPrivateElement(ObjectGeneration obj, StructuredStringBuilder sb)
@@ -213,7 +213,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                        $"protected static void FillPrivateElement{ModuleNickname}"))
             {
                 args.Add($"{obj.ObjectName} item");
-                args.Add($"XElement {XElementLine.GetParameterName(obj)}");
+                args.Add($"XElement {XElementLine.GetParameterName(obj, Context.Backend)}");
                 args.Add("string name");
                 args.Add($"ErrorMaskBuilder errorMask");
                 args.Add($"{nameof(TranslationCrystal)} translationMask");
@@ -258,7 +258,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                         sb: sb,
                                         objGen: obj,
                                         typeGen: field,
-                                        nodeAccessor: XElementLine.GetParameterName(obj).Result,
+                                        nodeAccessor: XElementLine.GetParameterName(obj, Context.Backend).Result,
                                         itemAccessor: Accessor.FromType(field, "item"),
                                         translationMaskAccessor: "translationMask",
                                         errorMaskAccessor: $"errorMask");
@@ -278,7 +278,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                        $"{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                             {
                                 args.Add("item: item");
-                                args.Add($"{XElementLine.GetParameterName(obj)}: {XElementLine.GetParameterName(obj)}");
+                                args.AddPassArg($"{XElementLine.GetParameterName(obj, Context.Backend)}");
                                 args.Add("name: name");
                                 args.Add("errorMask: errorMask");
                                 if (TranslationMaskParameter)
@@ -308,10 +308,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                    $"public static void FillPublic{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
-            args.Add($"XElement {XElementLine.GetParameterName(obj)}");
+            args.Add($"XElement {XElementLine.GetParameterName(obj, Context.Backend)}");
             foreach (var item in MainAPI.ReaderAPI.CustomAPI)
             {
-                if (!item.API.TryResolve(obj, TranslationDirection.Reader, out var line)) continue;
+                if (!item.API.TryResolve(obj, TranslationDirection.Reader, Context.Backend, out var line)) continue;
                 args.Add(line.Result);
             }
             args.Add($"ErrorMaskBuilder? errorMask");
@@ -322,14 +322,14 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
             sb.AppendLine("try");
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
+                sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj, Context.Backend)}.Elements())");
                 using (sb.CurlyBrace())
                 {
                     using (var args = sb.Call(
                                $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                     {
                         args.Add("item: item");
-                        args.Add($"{XElementLine.GetParameterName(obj)}: elem");
+                        args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: elem");
                         args.Add("name: elem.Name.LocalName");
                         args.Add("errorMask: errorMask");
                         if (TranslationMaskParameter)
@@ -338,7 +338,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         }
                         foreach (var item in MainAPI.ReaderAPI.CustomAPI)
                         {
-                            if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
+                            if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, Context.Backend, out var passthrough)) continue;
                             args.Add(passthrough);
                         }
                     }
@@ -363,7 +363,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                    $"public static void WriteToNode{ModuleNickname}{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Add($"{obj.Interface(internalInterface: true, getter: true)} item");
-            args.Add($"XElement {XElementLine.GetParameterName(obj)}");
+            args.Add($"XElement {XElementLine.GetParameterName(obj, Context.Backend)}");
             args.Add($"ErrorMaskBuilder? errorMask");
             args.Add($"{nameof(TranslationCrystal)}? translationMask");
         }
@@ -375,7 +375,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                            $"{TranslationWriteClass(obj.BaseClass)}.WriteToNode{ModuleNickname}"))
                 {
                     args.Add($"item: item");
-                    args.Add($"{XElementLine.GetParameterName(obj)}: {XElementLine.GetParameterName(obj)}");
+                    args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: {XElementLine.GetParameterName(obj, Context.Backend)}");
                     args.Add($"errorMask: errorMask");
                     args.Add($"translationMask: translationMask");
                 }
@@ -415,7 +415,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                         sb: sb,
                         objGen: obj,
                         typeGen: field.Field,
-                        writerAccessor: $"{XElementLine.GetParameterName(obj)}",
+                        writerAccessor: $"{XElementLine.GetParameterName(obj, Context.Backend)}",
                         itemAccessor: Accessor.FromType(field.Field, "item"),
                         errorMaskAccessor: $"errorMask",
                         translationMaskAccessor: "translationMask",
@@ -432,7 +432,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                    $"public static void FillPublicElement{ModuleNickname}"))
         {
             args.Add($"{obj.Interface(getter: false)} item");
-            args.Add($"XElement {XElementLine.GetParameterName(obj)}");
+            args.Add($"XElement {XElementLine.GetParameterName(obj, Context.Backend)}");
             args.Add("string name");
             args.Add($"ErrorMaskBuilder? errorMask");
             args.Add($"{nameof(TranslationCrystal)}? translationMask");
@@ -477,7 +477,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                     sb: sb,
                                     objGen: obj,
                                     typeGen: field,
-                                    nodeAccessor: XElementLine.GetParameterName(obj).Result,
+                                    nodeAccessor: XElementLine.GetParameterName(obj, Context.Backend).Result,
                                     itemAccessor: Accessor.FromType(field, "item"),
                                     translationMaskAccessor: "translationMask",
                                     errorMaskAccessor: $"errorMask");
@@ -496,7 +496,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                    $"{obj.BaseClass.CommonClassName(LoquiInterfaceType.ISetter)}.FillPublicElement{ModuleNickname}{obj.GetBaseMask_GenericTypes(MaskType.Error)}"))
                         {
                             args.Add("item: item");
-                            args.Add($"{XElementLine.GetParameterName(obj)}: {XElementLine.GetParameterName(obj)}");
+                            args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: {XElementLine.GetParameterName(obj, Context.Backend)}");
                             args.Add("name: name");
                             args.Add("errorMask: errorMask");
                             if (TranslationMaskParameter)
@@ -667,7 +667,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
         using (sb.CurlyBrace())
         {
             await PreCreateLoop(obj, sb);
-            sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj)}.Elements())");
+            sb.AppendLine($"foreach (var elem in {XElementLine.GetParameterName(obj, Context.Backend)}.Elements())");
             using (sb.CurlyBrace())
             {
                 if (obj.IterateFields(includeBaseClass: true).Any(f => f.ReadOnly))
@@ -676,11 +676,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                                $"FillPrivateElement{ModuleNickname}"))
                     {
                         args.Add($"item: {accessor}");
-                        args.Add($"{XElementLine.GetParameterName(obj)}: elem");
+                        args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: elem");
                         args.Add("name: elem.Name.LocalName");
                         foreach (var item in MainAPI.ReaderAPI.CustomAPI)
                         {
-                            if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
+                            if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, Context.Backend, out var passthrough)) continue;
                             args.Add(passthrough);
                         }
                         args.Add("errorMask: errorMask");
@@ -694,11 +694,11 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                            $"{TranslationCreateClass(obj)}.FillPublicElement{ModuleNickname}"))
                 {
                     args.Add($"item: {accessor}");
-                    args.Add($"{XElementLine.GetParameterName(obj)}: elem");
+                    args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: elem");
                     args.Add("name: elem.Name.LocalName");
                     foreach (var item in MainAPI.ReaderAPI.CustomAPI)
                     {
-                        if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
+                        if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, Context.Backend, out var passthrough)) continue;
                         args.Add(passthrough);
                     }
                     args.Add("errorMask: errorMask");
@@ -721,7 +721,7 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
     protected override async Task GenerateWriteSnippet(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         sb.AppendLine($"var elem = new XElement(name ?? \"{obj.FullName}\");");
-        sb.AppendLine($"{XElementLine.GetParameterName(obj)}.Add(elem);");
+        sb.AppendLine($"{XElementLine.GetParameterName(obj, Context.Backend)}.Add(elem);");
         sb.AppendLine("if (name != null)");
         using (sb.CurlyBrace())
         {
@@ -731,10 +731,10 @@ public class XmlTranslationModule : TranslationModule<XmlTranslationGeneration>
                    $"WriteToNode{ModuleNickname}"))
         {
             args.Add($"item: item");
-            args.Add($"{XElementLine.GetParameterName(obj)}: elem");
+            args.Add($"{XElementLine.GetParameterName(obj, Context.Backend)}: elem");
             foreach (var item in MainAPI.ReaderAPI.CustomAPI)
             {
-                if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, out var passthrough)) continue;
+                if (!item.API.TryGetPassthrough(obj, TranslationDirection.Reader, Context.Backend, out var passthrough)) continue;
                 args.Add(passthrough);
             }
             args.Add($"errorMask: errorMask");

@@ -51,7 +51,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
         using (var args = sb.Call(
                    $"{TranslatorName}<{typeName}>.Instance.Write"))
         {
-            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {writerAccessor}");
             args.Add($"name: {nameAccessor}");
             args.Add($"item: {GetWriteAccessor(itemAccessor)}");
             if (typeGen.HasIndex)
@@ -145,7 +145,7 @@ public class ListXmlTranslationGeneration : XmlTranslationGeneration
                            sb,
                            $"if ({TranslatorName}<{list.SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>.Instance.Parse"))
                 {
-                    args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
+                    args.AddPassArg($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}");
                     args.Add($"enumer: out var {typeGen.Name}Item");
                     args.Add($"transl: {subTransl.GetTranslatorInstance(list.SubTypeGeneration, getter: false)}.Parse");
                     args.Add("errorMask: errorMask");

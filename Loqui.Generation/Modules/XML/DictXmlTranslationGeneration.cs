@@ -97,7 +97,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
                         using (var args = sb.Call(
                                    $"KeyedDictXmlTranslation<{dictType.KeyTypeGen.TypeName(getter: true)}, {dictType.ValueTypeGen.TypeName(getter: true)}>.Instance.Write"))
                         {
-                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+                            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {writerAccessor}");
                             args.Add($"name: {nameAccessor}");
                             args.Add($"items: {itemAccessor.Access}.Items");
                             args.Add($"translationMask: {translationMaskAccessor}");
@@ -199,7 +199,7 @@ public class DictXmlTranslationGeneration : XmlTranslationGeneration
 
         using (var args = sb.Call( funcStr))
         {
-            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {XmlTranslationModule.XElementLine.GetParameterName(objGen)}");
+            args.AddPassArg($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}");
             if (!ret)
             {
                 args.Add($"item: {itemAccessor.Access}");

@@ -21,7 +21,7 @@ public class APIResult : IAPIItem
         Result = result;
     }
 
-    public APIResult Resolve(ObjectGeneration obj) => this;
+    public APIResult Resolve(ObjectGeneration obj, Context context) => this;
 
     public override string ToString()
     {

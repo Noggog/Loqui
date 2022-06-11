@@ -21,7 +21,7 @@ public class ByteArrayXmlTranslationGeneration : PrimitiveXmlTranslationGenerati
         var byteArray = typeGen as ByteArrayType;
 
         List<string> extraArgs = new List<string>();
-        extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}");
+        extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {nodeAccessor}");
 
         if (byteArray.Length != null)
         {

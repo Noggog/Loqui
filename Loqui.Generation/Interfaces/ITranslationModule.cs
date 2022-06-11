@@ -6,7 +6,7 @@ public interface ITranslationModule
 {
     string Namespace { get; }
     bool DoErrorMasks { get; }
-    Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, StructuredStringBuilder sb);
+    Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, StructuredStringBuilder sb, Context context);
     bool DoTranslationInterface(ObjectGeneration obj);
     void ReplaceTypeAssociation<Target, Replacement>()
         where Target : TypeGeneration

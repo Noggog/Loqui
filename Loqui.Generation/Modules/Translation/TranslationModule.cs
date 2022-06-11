@@ -103,7 +103,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"public{obj.NewOverride()}readonly static {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
+                sb.AppendLine($"public{obj.NewOverride()}static readonly {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
                 sb.AppendLine();
 
                 await GenerateInTranslationWriteClass(obj, sb);
@@ -119,7 +119,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"public{obj.NewOverride()}readonly static {TranslationCreateClass(obj)} Instance = new {TranslationCreateClass(obj)}();");
+                sb.AppendLine($"public{obj.NewOverride()}static readonly {TranslationCreateClass(obj)} Instance = new {TranslationCreateClass(obj)}();");
                 sb.AppendLine();
 
                 await GenerateInTranslationCreateClass(obj, sb);
@@ -165,7 +165,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(
                              obj,
                              TranslationDirection.Reader,
-                             new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
+                             Context.MixIn,
+                             new APILine(ErrorMaskKey, resolver: (o, c) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
                              GetTranslationMaskParameter()))
                 {
                     if (Public)
@@ -182,8 +183,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                            suffixLine: Utility.ConfigAwait(asyncImport)))
                 {
                     args.AddPassArg("item");
-                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                    foreach (var customArgs in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader))
+                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader, Context.MixIn, Context.Backend));
+                    foreach (var customArgs in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader, Context.MixIn))
                     {
                         args.Add(customArgs);
                     }
@@ -213,6 +214,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
             foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(obj,
                          TranslationDirection.Reader,
+                         Context.MixIn,
                          DoErrorMasks ? new APILine(ErrorMaskKey, "ErrorMaskBuilder? errorMask") : null,
                          new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask", (o, i) => TranslationMaskParameter)))
             {
@@ -225,8 +227,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                        $"{Utility.Await(asyncImport)}{obj.CommonClassInstance("item", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
             {
                 args.AddPassArg("item");
-                args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                foreach (var customArgs in MainAPI.InternalPassArgs(obj, TranslationDirection.Reader))
+                args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader, Context.MixIn, Context.Backend));
+                foreach (var customArgs in MainAPI.InternalPassArgs(obj, TranslationDirection.Reader, Context.MixIn, Context.Backend))
                 {
                     args.Add(customArgs);
                 }
@@ -252,7 +254,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Normal)));
                     args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
-                    foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader))
+                    foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader, Context.MixIn))
                     {
                         if (Public)
                         {
@@ -261,7 +263,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     }
                     if (TranslationMaskParameter)
                     {
-                        args.Add(GetTranslationMaskParameter().Resolver(obj).Result);
+                        args.Add(GetTranslationMaskParameter().Resolver(obj, Context.MixIn).Result);
                     }
                 }
                 using (sb.CurlyBrace())
@@ -272,7 +274,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                    $"{Utility.Await(asyncImport)}{CopyInFromPrefix}{TranslationTerm}"))
                         {
                             args.AddPassArg("item");
-                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
+                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, Context.MixIn, accessor))
                             {
                                 args.Add(item);
                             }
@@ -295,8 +297,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
                     foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                                  obj,
-                                 TranslationDirection.Reader,
-                                 new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
+                                 TranslationDirection.Reader, 
+                                 Context.MixIn,
+                                 new APILine(ErrorMaskKey, resolver: (o, c) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
                                  GetTranslationMaskParameter()))
                     {
                         if (Public)
@@ -314,7 +317,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         using (sb.IncreaseDepth())
                         {
                             args.AddPassArg("item");
-                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
+                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, Context.MixIn, accessor))
                             {
                                 args.Add(item);
                             }
@@ -338,7 +341,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     args.Add($"this {obj.Interface(getter: false, internalInterface: true)} item");
                     foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                                  obj,
-                                 TranslationDirection.Reader,
+                                 TranslationDirection.Reader, 
+                                 Context.MixIn,
                                  new APILine(ErrorMaskBuilderKey, $"ErrorMaskBuilder? errorMask"),
                                  GetTranslationMaskParameter()))
                     {
@@ -357,7 +361,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         using (sb.IncreaseDepth())
                         {
                             args.AddPassArg("item");
-                            foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, accessor))
+                            foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, Context.MixIn, accessor))
                             {
                                 args.Add(item);
                             }
@@ -401,7 +405,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         if (DoTranslationInterface(obj))
         {
-            await GenerateTranslationInterfaceImplementation(obj, sb);
+            await GenerateTranslationInterfaceImplementation(obj, sb, Context.Class);
         }
         if (!obj.Abstract || GenerateAbstractCreates)
         {
@@ -409,7 +413,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
     }
 
-    public async Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, StructuredStringBuilder sb)
+    public async Task GenerateTranslationInterfaceImplementation(ObjectGeneration obj, StructuredStringBuilder sb, Context context)
     {
         sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
         sb.AppendLine($"protected{await obj.FunctionOverride(async c => DoTranslationInterface(c))}object {TranslationWriteItemMember} => {TranslationWriteClass(obj)}.Instance;");
@@ -421,7 +425,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         using (var args = new Function(sb,
                    $"void {TranslationItemInterface}.WriteTo{TranslationTerm}"))
         {
-            FillWriterArgs(args, obj, objParam: null);
+            FillWriterArgs(args, obj, context, objParam: null);
         }
         using (sb.CurlyBrace())
         {
@@ -429,11 +433,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                        $"{TranslatorReference(obj, "this")}.Write"))
             {
                 args.Add("item: this");
-                foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer))
+                foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer, context, Context.Backend))
                 {
                     args.Add(item);
                 }
-                foreach (var item in MainAPI.InternalPassArgs(obj, TranslationDirection.Writer))
+                foreach (var item in MainAPI.InternalPassArgs(obj, TranslationDirection.Writer, context, Context.Backend))
                 {
                     args.Add(item);
                 }
@@ -470,7 +474,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         return new APILine(
             nicknameKey: TranslationMaskKey,
             when: (obj, i) => TranslationMaskParameter,
-            resolver: obj => $"{obj.Mask(MaskType.Translation)}{(nullable ? "?" : null)} translationMask{(nullable ? " = null" : null)}");
+            resolver: (obj, context) => $"{obj.Mask(MaskType.Translation)}{(nullable ? "?" : null)} translationMask{(nullable ? " = null" : null)}");
     }
 
     public virtual async Task<bool> AsyncImport(ObjectGeneration obj)
@@ -541,8 +545,9 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes(MaskType.Error)));
                     foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(
                                  obj,
-                                 TranslationDirection.Reader,
-                                 new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, d) => !asyncImport),
+                                 TranslationDirection.Reader, 
+                                 Context.Class,
+                                 new APILine(ErrorMaskKey, resolver: (o, c) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, d) => !asyncImport),
                                  GetTranslationMaskParameter()))
                     {
                         if (Public)
@@ -561,8 +566,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                $"var ret = {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}",
                                suffixLine: Utility.ConfigAwait(asyncImport)))
                     {
-                        args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                        foreach (var customArgs in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader))
+                        args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader, Context.Class, Context.Backend));
+                        foreach (var customArgs in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Reader, Context.Class))
                         {
                             args.Add(customArgs);
                         }
@@ -591,7 +596,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                            $"public{obj.NewOverride()}static {await ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{TranslationTerm}"))
                 {
                     foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(obj,
-                                 TranslationDirection.Reader,
+                                 TranslationDirection.Reader, 
+                                 Context.Class,
                                  DoErrorMasks ? new APILine(ErrorMaskKey, "ErrorMaskBuilder? errorMask") : null,
                                  DoErrorMasks ? new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask", (o, i) => TranslationMaskParameter) : null))
                     {
@@ -605,11 +611,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                $"{Utility.Await(await AsyncImport(obj))}{obj.CommonClassInstance("ret", LoquiInterfaceType.ISetter, CommonGenerics.Class)}.{CopyInFromPrefix}{TranslationTerm}"))
                     {
                         args.Add("item: ret");
-                        foreach (var arg in MainAPI.PassArgs(obj, TranslationDirection.Reader))
+                        foreach (var arg in MainAPI.PassArgs(obj, TranslationDirection.Reader, Context.Class, Context.Backend))
                         {
                             args.Add(arg);
                         }
-                        foreach (var arg in MainAPI.InternalPassArgs(obj, TranslationDirection.Reader))
+                        foreach (var arg in MainAPI.InternalPassArgs(obj, TranslationDirection.Reader, Context.Class, Context.Backend))
                         {
                             args.Add(arg);
                         }
@@ -636,7 +642,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                $"public static {await ObjectReturn(obj, maskReturn: false)} {CreateFromPrefix}{TranslationTerm}{obj.GetGenericTypes(GetMaskTypes())}"))
                     {
                         args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.Direct, maskTypes: GetMaskTypes()));
-                        foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader))
+                        foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(obj, TranslationDirection.Reader, Context.Class))
                         {
                             if (Public)
                             {
@@ -645,7 +651,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         }
                         if (TranslationMaskParameter)
                         {
-                            args.Add(GetTranslationMaskParameter().Resolver(obj).Result);
+                            args.Add(GetTranslationMaskParameter().Resolver(obj, Context.Class).Result);
                         }
                     }
                     using (sb.CurlyBrace())
@@ -655,7 +661,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                             using (var args = sb.Call(
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
                             {
-                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
+                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, Context.Class, accessor))
                                 {
                                     args.Add(item);
                                 }
@@ -678,7 +684,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                                      obj,
                                      TranslationDirection.Reader,
-                                     new APILine(ErrorMaskKey, resolver: (o) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
+                                     Context.Class,
+                                     new APILine(ErrorMaskKey, resolver: (o, c) => $"out {o.Mask(MaskType.Error)} errorMask", when: (o, i) => !asyncImport),
                                      GetTranslationMaskParameter()))
                         {
                             if (Public)
@@ -695,7 +702,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                        $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}{errorLabel}"))
                             using (sb.IncreaseDepth())
                             {
-                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, accessor))
+                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Reader, Context.Class, accessor))
                                 {
                                     args.Add(item);
                                 }
@@ -720,6 +727,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     foreach (var (API, Public) in minorAPI.ReaderAPI.IterateAPI(
                                  obj,
                                  TranslationDirection.Reader,
+                                 Context.Class,
                                  new APILine(ErrorMaskBuilderKey, $"ErrorMaskBuilder? errorMask"),
                                  GetTranslationMaskParameter()))
                     {
@@ -737,7 +745,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                    $"return {Utility.Await(asyncImport)}{CreateFromPrefix}{TranslationTerm}"))
                         using (sb.IncreaseDepth())
                         {
-                            foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, accessor))
+                            foreach (var item in MainAPI.WrapFinalAccessors(obj, TranslationDirection.Reader, Context.Class, accessor))
                             {
                                 args.Add(item);
                             }
@@ -766,7 +774,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         {
             args.Add($"{obj.Interface(getter: false, internalInterface: true)} item");
             foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(obj,
-                         TranslationDirection.Reader,
+                         TranslationDirection.Reader, 
+                         Context.Backend,
                          DoErrorMasks ? new APILine(ErrorMaskKey, "ErrorMaskBuilder? errorMask") : null,
                          new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask", (o, i) => TranslationMaskParameter)))
             {
@@ -790,6 +799,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 args.Add($"{baseObj.Interface(getter: false, internalInterface: true)} item");
                 foreach (var (API, Public) in MainAPI.ReaderAPI.IterateAPI(baseObj,
                              TranslationDirection.Reader,
+                             Context.Backend,
                              DoErrorMasks ? new APILine(ErrorMaskKey, "ErrorMaskBuilder? errorMask") : null,
                              new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask", (o, i) => TranslationMaskParameter)))
                 {
@@ -802,8 +812,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                            $"{CopyInFromPrefix}{TranslationTerm}"))
                 {
                     args.Add($"item: ({obj.ObjectName})item");
-                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader));
-                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Reader));
+                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Reader, Context.Backend, Context.Backend));
+                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Reader, Context.Backend, Context.Backend));
                     if (DoErrorMasks)
                     {
                         args.AddPassArg($"errorMask");
@@ -821,13 +831,14 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
     private void FillWriterArgs(
         Function args,
         ObjectGeneration obj,
+        Context context,
         bool? objParam = false,
         bool doFallbackCustom = true,
         bool addIndex = false)
     {
         foreach (var item in MainAPI.WriterAPI.MajorAPI)
         {
-            if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+            if (item.TryResolve(obj, TranslationDirection.Writer, context, out var line))
             {
                 args.Add(line.Result);
             }
@@ -840,7 +851,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         {
             foreach (var item in MainAPI.WriterAPI.CustomAPI)
             {
-                if (item.API.TryResolve(obj, TranslationDirection.Writer, out var line))
+                if (item.API.TryResolve(obj, TranslationDirection.Writer, context, out var line))
                 {
                     args.Add(line.Result);
                 }
@@ -860,7 +871,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         foreach (var item in MainAPI.WriterAPI.OptionalAPI)
         {
-            if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+            if (item.TryResolve(obj, TranslationDirection.Writer, context, out var line))
             {
                 args.Add(line.Result);
             }
@@ -873,7 +884,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                    $"public{obj.Virtual()}void Write{obj.GetGenericTypes(MaskType.Normal)}"))
         {
             args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
-            FillWriterArgs(args, obj);
+            FillWriterArgs(args, obj, Context.Backend);
         }
         using (sb.CurlyBrace())
         {
@@ -884,7 +895,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         using (var args = new Function(sb,
                    $"public{obj.FunctionOverride()}void Write"))
         {
-            FillWriterArgs(args, obj, objParam: true);
+            FillWriterArgs(args, obj, Context.Class, objParam: true);
         }
         using (sb.CurlyBrace())
         {
@@ -894,11 +905,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             else
             {
-                using (var args = sb.Call( $"Write"))
+                using (var args = sb.Call($"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
-                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
-                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer));
+                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.Class, Context.Backend));
+                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer, Context.Class, Context.Backend));
                     if (DoErrorMasks)
                     {
                         args.Add($"errorMask: errorMask");
@@ -917,15 +928,15 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             using (var args = new Function(sb,
                        $"public override void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
-                FillWriterArgs(args, baseObj);
+                FillWriterArgs(args, baseObj, Context.Backend);
             }
             using (sb.CurlyBrace())
             {
                 using (var args = sb.Call( $"Write"))
                 {
                     args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
-                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
-                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer));
+                    args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.Backend, Context.Backend));
+                    args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer, Context.Backend, Context.Backend));
                     if (DoErrorMasks)
                     {
                         args.Add($"errorMask: errorMask");
@@ -946,7 +957,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                        $"public void Write{obj.GetGenericTypes(MaskType.Normal)}"))
             {
                 args.Wheres.AddRange(obj.GenerateWhereClauses(LoquiInterfaceType.IGetter, defs: obj.Generics));
-                FillWriterArgs(args, obj, addIndex: true);
+                FillWriterArgs(args, obj, Context.Backend, addIndex: true);
             }
             using (sb.CurlyBrace())
             {
@@ -959,8 +970,8 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         using (var args = sb.Call( $"Write"))
                         {
                             args.Add($"item: ({obj.Interface(getter: true, internalInterface: true)})item");
-                            args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer));
-                            args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer));
+                            args.Add(MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.Backend, Context.Backend));
+                            args.Add(MainAPI.InternalPassArgs(obj, TranslationDirection.Writer, Context.Backend, Context.Backend));
                             if (DoErrorMasks)
                             {
                                 args.Add($"errorMask: errorMask");
@@ -991,7 +1002,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     args.Add($"this {obj.Interface(getter: true, internalInterface: true)} item");
                     foreach (var item in MainAPI.WriterAPI.MajorAPI)
                     {
-                        if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+                        if (item.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                         {
                             args.Add(line.Result);
                         }
@@ -999,7 +1010,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     foreach (var item in MainAPI.WriterAPI.CustomAPI)
                     {
                         if (!item.Public) continue;
-                        if (item.API.TryResolve(obj, TranslationDirection.Writer, out var line))
+                        if (item.API.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                         {
                             args.Add(line.Result);
                         }
@@ -1011,7 +1022,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                     }
                     foreach (var item in MainAPI.WriterAPI.OptionalAPI)
                     {
-                        if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+                        if (item.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                         {
                             args.Add(line.Result);
                         }
@@ -1024,11 +1035,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
-                        foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer))
+                        foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.MixIn, Context.Backend))
                         {
                             args.Add(item);
                         }
-                        foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer))
+                        foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer, Context.MixIn))
                         {
                             args.Add(item);
                         }
@@ -1053,6 +1064,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         foreach (var item in minorAPI.WriterAPI.IterateAPI(
                                      obj,
                                      TranslationDirection.Writer,
+                                     Context.MixIn,
                                      new APILine(ErrorMaskKey, $"out {obj.Mask(MaskType.Error)} errorMask"),
                                      new APILine(TranslationMaskKey, $"{obj.Mask(MaskType.Translation)}? translationMask = null", (o, i) => TranslationMaskParameter)))
                         {
@@ -1069,7 +1081,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                             using (sb.IncreaseDepth())
                             {
                                 args.Add("item: item");
-                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, accessor))
+                                foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, Context.MixIn, accessor))
                                 {
                                     args.Add(item);
                                 }
@@ -1093,6 +1105,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                             foreach (var item in minorAPI.WriterAPI.IterateAPI(
                                          obj,
                                          TranslationDirection.Writer,
+                                         Context.MixIn,
                                          new APILine(ErrorMaskKey, $"{nameof(ErrorMaskBuilder)}? errorMask"),
                                          new APILine(TranslationMaskKey, $"{nameof(TranslationCrystal)}? translationMask = null", (o, i) => TranslationMaskParameter)))
                             {
@@ -1109,7 +1122,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                 using (sb.IncreaseDepth())
                                 {
                                     args.Add("item: item");
-                                    foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, accessor))
+                                    foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, Context.MixIn, accessor))
                                     {
                                         args.Add(item);
                                     }
@@ -1140,7 +1153,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         args.Add($"this {obj.Interface(getter: true, internalInterface: true)} item");
                         foreach (var item in MainAPI.WriterAPI.MajorAPI)
                         {
-                            if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+                            if (item.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                             {
                                 args.Add(line.Result);
                             }
@@ -1148,7 +1161,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         foreach (var item in MainAPI.WriterAPI.CustomAPI)
                         {
                             if (!item.Public) continue;
-                            if (item.API.TryResolve(obj, TranslationDirection.Writer, out var line))
+                            if (item.API.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                             {
                                 args.Add(line.Result);
                             }
@@ -1160,7 +1173,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                         }
                         foreach (var item in MainAPI.WriterAPI.OptionalAPI)
                         {
-                            if (item.TryResolve(obj, TranslationDirection.Writer, out var line))
+                            if (item.TryResolve(obj, TranslationDirection.Writer, Context.MixIn, out var line))
                             {
                                 args.Add(line.Result);
                             }
@@ -1172,11 +1185,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");
-                            foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer))
+                            foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.MixIn, Context.Backend))
                             {
                                 args.Add(item);
                             }
-                            foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer))
+                            foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer, Context.MixIn))
                             {
                                 args.Add(item);
                             }
@@ -1195,7 +1208,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal, MaskType.Error)));
                     args.Add($"this {obj.Interface(getter: true, internalInterface: true)} item");
-                    foreach (var (API, Public) in MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer))
+                    foreach (var (API, Public) in MainAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer, Context.MixIn))
                     {
                         if (Public)
                         {
@@ -1214,11 +1227,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                $"{TranslatorReference(obj, "item")}.Write"))
                     {
                         args.Add("item: item");
-                        foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer))
+                        foreach (var item in MainAPI.PassArgs(obj, TranslationDirection.Writer, Context.MixIn, Context.Backend))
                         {
                             args.Add(item);
                         }
-                        foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer))
+                        foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer, Context.MixIn))
                         {
                             args.Add(item);
                         }
@@ -1243,7 +1256,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                 {
                     args.Wheres.AddRange(obj.GenericTypeMaskWheres(LoquiInterfaceType.IGetter, maskTypes: GetMaskTypes(MaskType.Normal)));
                     args.Add($"this {obj.Interface(getter: true, internalInterface: true)} item");
-                    foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer))
+                    foreach (var (API, Public) in minorAPI.WriterAPI.IterateAPI(obj, TranslationDirection.Writer, Context.MixIn))
                     {
                         if (Public)
                         {
@@ -1259,11 +1272,11 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
                                    $"{TranslatorReference(obj, "item")}.Write"))
                         {
                             args.Add("item: item");
-                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, accessor))
+                            foreach (var item in MainAPI.WrapAccessors(obj, TranslationDirection.Writer, Context.MixIn, accessor))
                             {
                                 args.Add(item);
                             }
-                            foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer))
+                            foreach (var item in MainAPI.InternalFallbackArgs(obj, TranslationDirection.Writer, Context.MixIn))
                             {
                                 args.Add(item);
                             }

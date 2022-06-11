@@ -2382,7 +2382,6 @@ namespace Loqui.Generation
             }
             using (sb.CurlyBrace())
             {
-                sb.AppendLine("if (rhs == null) return;");
                 foreach (var field in IterateFields())
                 {
                     if (!HasKeyField() || field.KeyField)

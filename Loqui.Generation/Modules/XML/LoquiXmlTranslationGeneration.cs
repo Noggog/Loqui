@@ -53,7 +53,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
                 using (var args = sb.Call( $"{line}.Write{loquiGen.GetGenericTypes(getter: true, additionalMasks: new MaskType[] { MaskType.Normal })}"))
                 {
                     args.Add($"item: {typeGen.Name}Item");
-                    args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+                    args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {writerAccessor}");
                     args.Add($"name: {nameAccessor}");
                     if (typeGen.HasIndex)
                     {
@@ -148,7 +148,7 @@ public class LoquiXmlTranslationGeneration : XmlTranslationGeneration
                 TranslationMaskAccessor = translationMaskAccessor == null ? "null" : $"{ translationMaskAccessor}?.GetSubCrystal({typeGen.IndexEnumInt})",
                 ExtraArgs = new string[]
                 {
-                    $"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration)}: {nodeAccessor}"
+                    $"{XmlTranslationModule.XElementLine.GetParameterName(loquiGen.TargetObjectGeneration, Context.Backend)}: {nodeAccessor}"
                 }
             });
     }

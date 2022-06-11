@@ -23,35 +23,47 @@ public class MethodAPI
     {
         MajorAPI.AddRange(api);
     }
-        
-    public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, TranslationDirection dir, params APILine[] customLines)
+
+    public IEnumerable<(APIResult API, bool Public)> IterateAPI(ObjectGeneration obj, TranslationDirection dir, Context context, params APILine[] customLines)
     {
-        foreach (var item in MajorAPI)
+        foreach (var item in IterateRawAPILines(obj, dir, customLines))
         {
-            if (item.TryResolve(obj, dir, out var line))
-            {
-                yield return (line, true);
-            }
-        }
-        foreach (var item in CustomAPI)
-        {
-            if (item.API.TryResolve(obj, dir, out var line))
+            if (item.API.TryResolve(obj, dir, context, out var line))
             {
                 yield return (line, item.Public);
             }
         }
+    }
+
+    public IEnumerable<(APILine API, bool Public)> IterateAPILines(ObjectGeneration obj, TranslationDirection dir, params APILine[] customLines)
+    {
+        foreach (var item in IterateRawAPILines(obj, dir, customLines))
+        {
+            if (item.API.When(obj, dir))
+            {
+                yield return item;
+            }
+        }
+    }
+
+    public IEnumerable<(APILine API, bool Public)> IterateRawAPILines(ObjectGeneration obj, TranslationDirection dir, params APILine[] customLines)
+    {
+        foreach (var item in MajorAPI)
+        {
+            yield return (item, true);
+        }
+        foreach (var item in CustomAPI)
+        {
+            yield return (item.API, item.Public);
+        }
         foreach (var item in customLines)
         {
             if (item == null) continue;
-            if (!item.When(obj, dir)) continue;
-            yield return (item.Resolver(obj), true);
+            yield return (item, true);
         }
         foreach (var item in OptionalAPI)
         {
-            if (item.TryResolve(obj, dir, out var line))
-            {
-                yield return (line, true);
-            }
+            yield return (item, true);
         }
     }
 }

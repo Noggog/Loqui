@@ -9,28 +9,22 @@ public class TranslationModuleAPI
     public MethodAPI WriterAPI { get; private set; }
     public MethodAPI ReaderAPI { get; private set; }
     private MethodAPI Get(TranslationDirection dir) => dir == TranslationDirection.Reader ? ReaderAPI : WriterAPI;
-    public IEnumerable<APIResult> PublicMembers(ObjectGeneration obj, TranslationDirection dir) => Get(dir).IterateAPI(obj, dir).Where((a) => a.Public).Select((r) => r.API);
-    public string[] PassArgs(ObjectGeneration obj, TranslationDirection dir) =>
-        ZipAccessors(
-                PublicMembers(obj, dir), 
-                PublicMembers(obj, dir))
-            .Select(api => 
-                CombineResults(
-                    api.lhs.GetParameterName(obj).Result,
-                    api.rhs.GetParameterName(obj).Result))
+    public IEnumerable<APILine> PublicMembers(ObjectGeneration obj, TranslationDirection dir) => Get(dir).IterateAPILines(obj, dir).Where((a) => a.Public).Select((r) => r.API);
+    public string[] PassArgs(ObjectGeneration obj, TranslationDirection dir, Context lhsContext, Context rhsContext) =>
+        PublicMembers(obj, dir)
+            .Select(api =>
+                CreatePassArgs(obj, api, lhsContext, rhsContext))
             .ToArray();
     public IEnumerable<CustomMethodAPI> InternalMembers(ObjectGeneration obj, TranslationDirection dir) => Get(dir).CustomAPI.Where((a) => !a.Public).Where(o => o.API.When(obj, dir));
-    public string[] InternalFallbackArgs(ObjectGeneration obj, TranslationDirection dir) =>
+    public string[] InternalFallbackArgs(ObjectGeneration obj, TranslationDirection dir, Context context) =>
         InternalMembers(obj, dir).Select(custom =>
                 CombineResults(
-                    custom.API.GetParameterName(obj),
+                    custom.API.GetParameterName(obj, context),
                     custom.DefaultFallback))
             .ToArray();
-    public string[] InternalPassArgs(ObjectGeneration obj, TranslationDirection dir) =>
+    public string[] InternalPassArgs(ObjectGeneration obj, TranslationDirection dir, Context lhsContext, Context rhsContext) =>
         InternalMembers(obj, dir).Select(custom =>
-                CombineResults(
-                    custom.API.GetParameterName(obj),
-                    custom.API.GetParameterName(obj)))
+                CreatePassArgs(obj, custom.API, lhsContext, rhsContext))
             .ToArray();
     public TranslationFunnel Funnel;
 
@@ -86,6 +80,12 @@ public class TranslationModuleAPI
         return CombineResults(lhs.Result, rhs.Result);
     }
 
+    private string CreatePassArgs(ObjectGeneration obj,
+        APILine line, Context lhsContext, Context rhsContext)
+    {
+        return $"{line.GetParameterName(obj, lhsContext)}: {(line.PassthroughConverter(obj, lhsContext, rhsContext) ?? line.GetParameterName(obj, rhsContext).Result)}";
+    }
+
     private string CombineResults(
         string lhs,
         string rhs)
@@ -107,20 +107,20 @@ public class TranslationModuleAPI
         }
     }
 
-    public IEnumerable<string> WrapAccessors(ObjectGeneration obj, TranslationDirection dir, IAPIItem[] accessors) =>
+    public IEnumerable<string> WrapAccessors(ObjectGeneration obj, TranslationDirection dir, Context context, IAPIItem[] accessors) =>
         ZipAccessors(
-                Get(dir).IterateAPI(obj, dir).Where((a) => a.Public).Select(a => a.API),
-                accessors.Select(api => api.Resolve(obj)))
+                Get(dir).IterateAPI(obj, dir, context).Where((a) => a.Public).Select(a => a.API),
+                accessors.Select(api => api.Resolve(obj, context)))
             .Select(api =>
                 CombineResults(
-                    api.lhs.GetParameterName(obj),
-                    api.rhs.GetParameterName(obj)));
+                    api.lhs.GetParameterName(obj, context),
+                    api.rhs.GetParameterName(obj, context)));
 
-    public IEnumerable<string> WrapFinalAccessors(ObjectGeneration obj, TranslationDirection dir, IAPIItem[] accessors) =>
+    public IEnumerable<string> WrapFinalAccessors(ObjectGeneration obj, TranslationDirection dir, Context context, IAPIItem[] accessors) =>
         ZipAccessors(
-                Get(dir).IterateAPI(obj, dir).Select(a => a.API),
+                Get(dir).IterateAPI(obj, dir, context).Select(a => a.API),
                 accessors
-                    .Select(api => api.GetParameterName(obj))
+                    .Select(api => api.GetParameterName(obj, context))
                     .And(
                         Get(dir).CustomAPI
                             .Where(a => !a.Public)
@@ -128,7 +128,7 @@ public class TranslationModuleAPI
                             .Select(a => a.DefaultFallback)))
             .Select(api =>
                 CombineResults(
-                    api.lhs.GetParameterName(obj),
+                    api.lhs.GetParameterName(obj, context),
                     api.rhs));
 }
 

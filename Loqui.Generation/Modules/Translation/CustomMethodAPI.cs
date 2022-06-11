@@ -20,9 +20,9 @@ public class CustomMethodAPI
     {
     }
 
-    public bool Applies(ObjectGeneration obj, TranslationDirection dir)
+    public bool Applies(ObjectGeneration obj, TranslationDirection dir, Context context)
     {
-        return API?.TryResolve(obj, dir, out var line) ?? true;
+        return API?.TryResolve(obj, dir, context, out var line) ?? true;
     }
 
     public static CustomMethodAPI FactoryPublic(
@@ -48,7 +48,7 @@ public class CustomMethodAPI
         };
     }
 
-    public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, TranslationDirection dir, out string result)
+    public bool TryGetPassthrough(ObjectGeneration baseGen, ObjectGeneration obj, TranslationDirection dir, Context context, out string result)
     {
         var get = API.When(obj, dir);
         if (!get)
@@ -56,7 +56,7 @@ public class CustomMethodAPI
             result = default;
             return false;
         }
-        var name = API.GetParameterName(obj);
+        var name = API.GetParameterName(obj, context);
         if (API.When(baseGen, dir))
         {
             result = $"{name}: {name}";

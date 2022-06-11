@@ -42,7 +42,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         using (var args = sb.Call(
                    $"{TypeName(typeGen)}XmlTranslation.Instance.Write"))
         {
-            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {writerAccessor}");
             args.Add($"name: {nameAccessor}");
             args.Add($"item: {ItemWriteAccess(typeGen, itemAccessor)}");
             if (typeGen.HasIndex)
@@ -63,7 +63,7 @@ public class PrimitiveXmlTranslationGeneration<T> : XmlTranslationGeneration
         Accessor translationMaskAccessor)
     {
         List<string> extraArgs = new List<string>();
-        extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}");
+        extraArgs.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {nodeAccessor}");
 
         WrapParseCall(
             new TranslationWrapParseArgs()

@@ -28,7 +28,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
         using (var args = sb.Call(
                    $"EnumXmlTranslation<{eType.NoNullTypeName}>.Instance.Write"))
         {
-            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {writerAccessor}");
+            args.Add($"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {writerAccessor}");
             args.Add($"name: {nameAccessor}");
             args.Add($"item: {itemAccessor.Access}");
             if (typeGen.HasIndex)
@@ -61,7 +61,7 @@ public class EnumXmlTranslationGeneration : XmlTranslationGeneration
                 IndexAccessor = typeGen.IndexEnumInt,
                 ExtraArgs = new string[]
                 {
-                    $"{XmlTranslationModule.XElementLine.GetParameterName(objGen)}: {nodeAccessor}"
+                    $"{XmlTranslationModule.XElementLine.GetParameterName(objGen, Context.Backend)}: {nodeAccessor}"
                 }
             });
     }
