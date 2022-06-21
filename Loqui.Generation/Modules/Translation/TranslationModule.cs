@@ -103,7 +103,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
             }
             using (sb.CurlyBrace())
             {
-                sb.AppendLine($"public{obj.NewOverride()}static readonly {TranslationWriteClass(obj)} Instance = new {TranslationWriteClass(obj)}();");
+                sb.AppendLine($"public{obj.NewOverride()}static readonly {TranslationWriteClass(obj)} Instance = new();");
                 sb.AppendLine();
 
                 await GenerateInTranslationWriteClass(obj, sb);
