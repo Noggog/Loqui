@@ -784,10 +784,7 @@ public abstract class TranslationModule<G> : GenerationModule, ITranslationModul
         }
         using (sb.CurlyBrace())
         {
-            if (!obj.Abstract || GenerateAbstractCreates)
-            {
-                await GenerateCopyInSnippet(obj, sb, "item");
-            }
+            await GenerateCopyInSnippet(obj, sb, "item");
         }
         sb.AppendLine();
 
