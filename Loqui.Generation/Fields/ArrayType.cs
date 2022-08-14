@@ -172,7 +172,15 @@ public class ArrayType : ListType
                 }
                 else
                 {
-                    sb.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
+                    var duplicate = SubTypeGeneration.GetDuplicate("x");
+                    if (duplicate == null)
+                    {
+                        sb.AppendLine($"{rhs}.Span.CopyTo({accessor}.AsSpan());");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"{accessor}.SetTo({rhs}.Select(x => {duplicate}));");
+                    }
                 }
             }
         }

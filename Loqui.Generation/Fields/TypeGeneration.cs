@@ -268,7 +268,7 @@ public abstract class TypeGeneration
 
     public virtual string GetDefault(bool getter) => "default";
 
-    public abstract string GetDuplicate(Accessor accessor);
+    public abstract string? GetDuplicate(Accessor accessor);
 
     public (int PublicIndex, int InternalIndex, TypeGeneration Field) GetIndexData()
     {
