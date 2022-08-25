@@ -125,7 +125,7 @@ public class ArrayType : ListType
                 {
                     sb.AppendLine($"if (!{nameof(ObjectExt)}.{nameof(ObjectExt.NullSame)}({accessor}, {rhsAccessor})) return false;");
                 }
-                sb.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
+                sb.AppendLine($"if (!MemoryExtensions.SequenceEqual<{SubTypeGeneration.TypeName(getter: true, needsCovariance: true)}>({accessor.Access}{(Nullable ? "!.Value" : null)}.Span!, {rhsAccessor.Access}{(Nullable ? "!.Value" : null)}.Span!)) return false;");
             }
             else
             {
@@ -147,7 +147,7 @@ public class ArrayType : ListType
             funcStr = $"(l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))}";
         }
         using (var args = sb.Call(
-                   $"ret.{Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
+                   $"ret.{Name} = {nameof(EqualsMaskHelper)}.SpanEqualsHelper<{SubTypeGeneration.TypeName(getter: true, needsCovariance: true)}{SubTypeGeneration.NullChar}{(loqui == null ? null : $", {loqui.GetMaskString("bool")}")}>"))
         {
             args.Add($"item.{Name}");
             args.Add($"rhs.{Name}");
