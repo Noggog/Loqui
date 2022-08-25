@@ -37,8 +37,5 @@ public abstract class PrimitiveType : TypicalTypeGeneration
         }
     }
 
-    public override string GetDuplicate(Accessor accessor)
-    {
-        return $"{accessor}";
-    }
+    public override string? GetDuplicate(Accessor accessor) => null;
 }
