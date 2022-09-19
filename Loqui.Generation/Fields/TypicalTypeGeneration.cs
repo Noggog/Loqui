@@ -82,7 +82,7 @@ public abstract class TypicalTypeGeneration : TypeGeneration
         if (HasDefault)
         {
             Comments?.Apply(sb, LoquiInterfaceType.Direct);
-            sb.AppendLine($"public readonly static {TypeName(getter: false)} {DefaultValueMemberName} = {DefaultValue};");
+            sb.AppendLine($"public static readonly {TypeName(getter: false)} {DefaultValueMemberName} = {DefaultValue};");
         }
         if (Nullable)
         {
