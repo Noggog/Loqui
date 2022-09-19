@@ -10,7 +10,7 @@ public abstract class TypicalTypeGeneration : TypeGeneration
     public abstract Type Type(bool getter);
     public override string TypeName(bool getter, bool needsCovariance = false) => Type(getter).GetName();
     public string DefaultValue;
-    public string DefaultValueMemberName => $"_{Name}_Default";
+    public string DefaultValueMemberName => $"{Name}Default";
     public override bool HasDefault => !string.IsNullOrWhiteSpace(DefaultValue);
     public override string ProtectedName => $"{Name}";
     public event Action<StructuredStringBuilder> PreSetEvent;
