@@ -247,7 +247,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
         {
             itemStr = $"MaskItem<Exception?, {loquiType.Mask(MaskType.Error)}?>";
         }
-        sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{itemStr}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
+        sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{itemStr}>?>(Noggog.ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), Noggog.ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
     }
 
     public override string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor)

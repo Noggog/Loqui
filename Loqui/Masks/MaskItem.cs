@@ -160,7 +160,7 @@ public static class MaskItemExt
     {
         if (rhs == null) return lhs;
         if (lhs == null) return rhs;
-        var overall = ExceptionExt.Combine(lhs.Overall, rhs.Overall);
+        var overall = Noggog.ExceptionExt.Combine(lhs.Overall, rhs.Overall);
         TMask? specific;
         if (lhs.Specific == null)
         {

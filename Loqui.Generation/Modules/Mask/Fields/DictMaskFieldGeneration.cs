@@ -395,11 +395,11 @@ public class DictMaskFieldGeneration : MaskModuleField
                     }
                     str = $"KeyValuePair<{dictType.KeyTypeGen.TypeName(getter: true)}, Exception?>";
                 }
-                sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{str}>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
+                sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<{str}>?>(Noggog.ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), Noggog.ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
                 break;
             case DictMode.KeyedValue:
                 var loqui = dictType.ValueTypeGen as LoquiType;
-                sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>>?>(ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
+                sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, IEnumerable<MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>>?>(Noggog.ExceptionExt.Combine({accessor}?.Overall, {rhsAccessor}?.Overall), Noggog.ExceptionExt.Combine({accessor}?.Specific, {rhsAccessor}?.Specific));");
                 break;
             default:
                 throw new NotImplementedException();

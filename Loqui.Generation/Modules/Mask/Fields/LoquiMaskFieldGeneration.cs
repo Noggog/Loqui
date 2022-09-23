@@ -167,7 +167,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
         }
         else
         {
-            sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>(ExceptionExt.Combine({accessor}.Overall, {rhsAccessor}.Overall), Loqui.Internal.LoquiHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
+            sb.AppendLine($"{retAccessor} = new MaskItem<Exception?, {loqui.Mask(MaskType.Error)}?>(Noggog.ExceptionExt.Combine({accessor}.Overall, {rhsAccessor}.Overall), Loqui.Internal.LoquiHelper.Combine({accessor}.Specific, {rhsAccessor}.Specific));");
         }
     }
 
