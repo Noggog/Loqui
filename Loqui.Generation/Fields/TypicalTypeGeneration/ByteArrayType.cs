@@ -16,7 +16,7 @@ public class ByteArrayType : ClassType
     {
         if (Nullable)
         {
-            return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.Equal({accessor.Access}, {rhsAccessor.Access})";
+            return $"{(negate ? "!" : null)}{nameof(MemorySliceExt)}.SequenceEqual({accessor.Access}, {rhsAccessor.Access})";
         }
         else
         {
