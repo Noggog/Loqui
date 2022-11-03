@@ -97,7 +97,7 @@ public class ClassGeneration : ObjectGeneration
         if (BasicCtorPermission == CtorPermissionLevel.noGeneration) return;
         using (sb.Region("Ctor"))
         {
-            sb.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}()");
+            sb.AppendLine($"{BasicCtorPermission.ToStringFast()} {Name}()");
             using (sb.CurlyBrace())
             {
                 List<Task> toDo = new List<Task>();

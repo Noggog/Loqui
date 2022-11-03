@@ -257,8 +257,7 @@ public static class EqualsMaskHelper
         {
             return new MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>(false, default);
         }
-            
-        int index = 0;
+        
         var overall = true;
         List<(P2Int Index, bool EqualValues) > masks = new();
         for (int y = 0; y < lhs.Height; y++)

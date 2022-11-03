@@ -9,7 +9,7 @@ public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
     where E : struct, Enum
 {
     public readonly static EnumXmlTranslation<E> Instance = new EnumXmlTranslation<E>();
-    public readonly static bool IsFlagsEnum = EnumExt<E>.IsFlagsEnum();
+    public readonly static bool IsFlagsEnum = Enums<E>.IsFlagsEnum;
     public readonly static string UnknownString = "Unknown";
 
     private bool TryParseToEnum(string str, out E value)
@@ -20,7 +20,7 @@ public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
             return true;
         }
         else if (int.TryParse(str, out var i)
-                 && EnumExt.TryParse<E>(i, out enumType))
+                 && Enums<E>.TryConvert(i, out enumType))
         {
             value = enumType;
             return true;
@@ -88,11 +88,11 @@ public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
         // Write normal values
         Enum e = item.Value as Enum;
         int intVal = Convert.ToInt32(e);
-        foreach (var eType in EnumExt<E>.Values)
+        foreach (var eType in Enums<E>.Values)
         {
             if (e.HasFlag(eType))
             {
-                node.Add(new XElement(eType.ToStringFast_Enum_Only()));
+                node.Add(new XElement(eType.ToStringFast()));
                 int intRhs = Convert.ToInt32(eType);
                 intVal -= intRhs;
             }
@@ -115,7 +115,7 @@ public class EnumXmlTranslation<E> : PrimitiveXmlTranslation<E>
     {
         IConvertible cv = (IConvertible)item;
         var i = cv.ToInt32(CultureInfo.InvariantCulture);
-        if (EnumExt.TryToStringFast_Enum_Only<E>(i, out var str))
+        if (Enums<E>.TryToStringFast(i, out var str))
         {
             return str;
         }

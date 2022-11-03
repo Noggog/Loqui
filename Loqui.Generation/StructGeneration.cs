@@ -62,7 +62,7 @@ public class StructGeneration : ObjectGeneration
             sb.AppendLine();
         }
 
-        sb.AppendLine($"{BasicCtorPermission.ToStringFast_Enum_Only()} {Name}({Interface(getter: true)} rhs)");
+        sb.AppendLine($"{BasicCtorPermission.ToStringFast()} {Name}({Interface(getter: true)} rhs)");
         using (sb.CurlyBrace())
         {
             foreach (var field in IterateFields())
