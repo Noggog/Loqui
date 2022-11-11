@@ -2520,14 +2520,14 @@ namespace Loqui.Generation
                     using (sb.CurlyBrace())
                     {
                         sb.AppendLine($"if (obj is not {Interface(getter: true, internalInterface: true)} rhs) return false;");
-                        sb.AppendLine($"return {CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, rhs, crystal: null);");
+                        sb.AppendLine($"return {CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, rhs, equalsMask: null);");
                     }
                     sb.AppendLine();
 
                     sb.AppendLine($"public bool Equals({Interface(getter: true, internalInterface: true)}? obj)");
                     using (sb.CurlyBrace())
                     {
-                        sb.AppendLine($"return {CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj, crystal: null);");
+                        sb.AppendLine($"return {CommonClassInstance("this", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(this, obj, equalsMask: null);");
                     }
                     sb.AppendLine();
 
@@ -2555,7 +2555,7 @@ namespace Loqui.Generation
                     {
                         args.Add("lhs: item");
                         args.AddPassArg("rhs");
-                        args.Add("crystal: null");
+                        args.Add("equalsMask: null");
                     }
                 }
                 sb.AppendLine();
@@ -2575,7 +2575,7 @@ namespace Loqui.Generation
                     {
                         args.Add("lhs: item");
                         args.AddPassArg("rhs");
-                        args.Add("crystal: equalsMask.GetCrystal()");
+                        args.Add("equalsMask: equalsMask.GetCrystal()");
                     }
                 }
                 sb.AppendLine();
@@ -2597,7 +2597,7 @@ namespace Loqui.Generation
                     {
                         args.Add("lhs: item");
                         args.AddPassArg("rhs");
-                        args.Add("crystal: equalsMask?.GetCrystal()");
+                        args.Add("equalsMask: equalsMask?.GetCrystal()");
                     }
                 }
                 sb.AppendLine();
@@ -2613,14 +2613,14 @@ namespace Loqui.Generation
                 {
                     args.Add($"{Interface(getter: true, internalInterface: true)}? lhs");
                     args.Add($"{Interface(getter: true, internalInterface: true)}? rhs");
-                    args.Add($"{nameof(TranslationCrystal)}? crystal");
+                    args.Add($"{nameof(TranslationCrystal)}? equalsMask");
                 }
                 using (sb.CurlyBrace())
                 {
                     sb.AppendLine("if (!EqualsMaskHelper.RefEquality(lhs, rhs, out var isEqual)) return isEqual;");
                     if (HasLoquiBaseObject)
                     {
-                        sb.AppendLine($"if (!base.Equals(({BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({BaseClass.Interface(getter: true, internalInterface: true)})rhs, crystal)) return false;");
+                        sb.AppendLine($"if (!base.Equals(({BaseClass.Interface(getter: true, internalInterface: true)})lhs, ({BaseClass.Interface(getter: true, internalInterface: true)})rhs, equalsMask)) return false;");
                     }
                     foreach (var field in IterateFields())
                     {
@@ -2630,11 +2630,11 @@ namespace Loqui.Generation
                             var rhsAccessor = Accessor.FromType(field, "rhs");
                             if (field.IntegrateField)
                             {
-                                field.GenerateForEquals(sb, lhsAccessor, rhsAccessor, "crystal");
+                                field.GenerateForEquals(sb, lhsAccessor, rhsAccessor, "equalsMask");
                             }
                             else
                             {
-                                field.GenerateForEquals(sb, lhsAccessor, rhsAccessor, "crystal");
+                                field.GenerateForEquals(sb, lhsAccessor, rhsAccessor, "equalsMask");
                             }
                         }
                     }
@@ -2649,7 +2649,7 @@ namespace Loqui.Generation
                     {
                         args.Add($"{baseObj.Interface(getter: true, internalInterface: true)}? lhs");
                         args.Add($"{baseObj.Interface(getter: true, internalInterface: true)}? rhs");
-                        args.Add($"{nameof(TranslationCrystal)}? crystal");
+                        args.Add($"{nameof(TranslationCrystal)}? equalsMask");
                     }
                     using (sb.CurlyBrace())
                     {
@@ -2658,7 +2658,7 @@ namespace Loqui.Generation
                         {
                             args.Add($"lhs: ({Interface(getter: true, internalInterface: true)}?)lhs");
                             args.Add($"rhs: rhs as {Interface(getter: true, internalInterface: true)}");
-                            args.AddPassArg($"crystal");
+                            args.AddPassArg($"equalsMask");
                         }
                     }
                     sb.AppendLine();

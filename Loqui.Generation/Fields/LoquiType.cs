@@ -929,7 +929,7 @@ public class LoquiType : PrimitiveType, IEquatable<LoquiType>
                 sb.AppendLine($"if (EqualsMaskHelper.RefEquality({accessor.Access}, {rhsAccessor.Access}, out var lhs{Name}, out var rhs{Name}, out var is{Name}Equal))");
                 using (sb.CurlyBrace())
                 {
-                    sb.AppendLine($"if (!{TargetObjectGeneration.CommonClassInstance($"lhs{Name}", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(lhs{Name}, rhs{Name}, crystal?.GetSubCrystal({IndexEnumInt}))) return false;");
+                    sb.AppendLine($"if (!{TargetObjectGeneration.CommonClassInstance($"lhs{Name}", LoquiInterfaceType.IGetter, CommonGenerics.Class)}.Equals(lhs{Name}, rhs{Name}, equalsMask?.GetSubCrystal({IndexEnumInt}))) return false;");
                 }
                 sb.AppendLine($"else if (!is{Name}Equal) return false;");
 
