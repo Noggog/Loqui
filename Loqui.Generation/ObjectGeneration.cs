@@ -1225,7 +1225,7 @@ namespace Loqui.Generation
                     sb.AppendLine("default:");
                     using (sb.IncreaseDepth())
                     {
-                        GenerateIndexOutOfRangeEx(sb, $"index.{nameof(EnumExt.ToStringFast_Enum_Only)}()");
+                        GenerateIndexOutOfRangeEx(sb, $"index.{nameof(Enums<MaskType>.ToStringFast)}()");
                     }
                 }
             }
