@@ -12,6 +12,15 @@ public class Array2dType : ListType
 
     public P2Int? FixedSize;
 
+    public override async Task GenerateForClass(StructuredStringBuilder sb)
+    {
+        if (FixedSize != null)
+        {
+            sb.AppendLine($"public static readonly {nameof(P2Int)} {Name}FixedSize = new {nameof(P2Int)}({FixedSize.Value.X}, {FixedSize.Value.Y});");
+        }
+        await base.GenerateForClass(sb);
+    }
+
     public override async Task Load(XElement node, bool requireName = true)
     {
         var width = node.GetAttribute(Constants.FIXED_WIDTH, default(int?));
