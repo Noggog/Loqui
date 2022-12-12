@@ -58,7 +58,7 @@ public class ArrayType : ListType
         }
         else
         {
-            return $"new {ItemTypeName(getter: false)}[0]";
+            return $"Array.Empty{SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}()";
         }
     }
 

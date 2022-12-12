@@ -123,7 +123,7 @@ public class ByteArrayType : ClassType
         }
         else
         {
-            sb.AppendLine($"{identifier.Access} = new byte[0];");
+            sb.AppendLine($"{identifier.Access} = Array.Empty<byte>();");
         }
     }
 
