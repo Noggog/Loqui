@@ -38,7 +38,7 @@
     </PackageReference>
     <PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="2.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
-    <PackageReference Include="Noggog.CSharpExt" Version="2.54.0.1-dev" />
+    <PackageReference Include="Noggog.CSharpExt" Version="2.55" />
     <PackageReference Include="NuGetizer" Version="0.9.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
