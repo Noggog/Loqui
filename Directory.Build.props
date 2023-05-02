@@ -1,8 +1,16 @@
 <Project>
-  <PropertyGroup>
-    <GitInfoReportImportance Condition="$(Configuration) == 'Release'">high</GitInfoReportImportance>
-  </PropertyGroup>
-
+ 
+  <PropertyGroup> 
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally> 
+  </PropertyGroup> 
+  
+  <ItemGroup> 
+    <PackageReference Include="GitInfo" > 
+      <PrivateAssets>all</PrivateAssets> 
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> 
+    </PackageReference>
+  </ItemGroup> 
+  
   <!-- To be redefined by GitInfo after restore. -->
   <Target Name="GitVersion" />
 
@@ -19,5 +27,5 @@
       <InformationalVersion>$(PackageVersion)</InformationalVersion>
     </PropertyGroup>
   </Target>
-
+  
 </Project>

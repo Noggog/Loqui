@@ -151,7 +151,7 @@ public static class ErrorMaskBuilderExt
         {
             try
             {
-                errorMask?.PushIndex(fieldIndex);
+                errorMask.PushIndex(fieldIndex);
                 a();
             }
             catch (Exception ex)
@@ -160,7 +160,7 @@ public static class ErrorMaskBuilderExt
             }
             finally
             {
-                errorMask?.PopIndex();
+                errorMask.PopIndex();
             }
         }
     }
