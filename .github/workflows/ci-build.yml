@@ -2,19 +2,20 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
     branches: [ master ]
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
+    
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-
+          
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET 6
@@ -32,4 +33,4 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Test
-      run: dotnet test --no-build -c Release 
+      run: dotnet test -c Release --no-build
