@@ -89,6 +89,7 @@ public class LoquiGenerator
         AddTypeAssociation<FieldBatchPointerType>("FieldBatch");
         AddTypeAssociation<DateTimeType>("DateTime");
         AddTypeAssociation<TimeOnlyType>("TimeOnly");
+        AddTypeAssociation<DateOnlyType>("DateOnly");
         AddTypeAssociation<ByteArrayType>("ByteArray");
         AddTypeAssociation<NothingType>("Nothing");
         AddTypeAssociation<ColorType>("Color");

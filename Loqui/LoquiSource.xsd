@@ -198,6 +198,8 @@
       <xs:element name="UDouble" type="RangedFloat" />
       <xs:element name="Double" type="RangedFloat" />
       <xs:element name="DateTime" type="DateTime" />
+      <xs:element name="TimeOnly" type="TimeOnly" />
+      <xs:element name="DateOnly" type="DateOnly" />
       <xs:element name="Ref" type="Ref" />
       <xs:element name="RefDirect" type="RefDirectField" />
       <xs:element name="RefList" type="RefListField" />
@@ -270,6 +272,8 @@
       <xs:element name="UDouble" type="NRangedFloat" />
       <xs:element name="Double" type="NRangedFloat" />
       <xs:element name="DateTime" type="NDateTime" />
+      <xs:element name="TimeOnly" type="NTimeOnly" />
+      <xs:element name="DateOnly" type="NDateOnly" />
       <xs:element name="Ref" type="NRef" />
       <xs:element name="RefDirect" type="NRefDirectField" />
       <xs:element name="RefList" type="NRefListField" />
@@ -1471,6 +1475,38 @@
   </xs:complexType>
 
   <xs:complexType name="NDateTime" >
+    <xs:complexContent>
+      <xs:extension base="Bool">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TimeOnly" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:date" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NTimeOnly" >
+    <xs:complexContent>
+      <xs:extension base="Bool">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="DateOnly" >
+    <xs:complexContent>
+      <xs:extension base="Field">
+        <xs:attribute name="default" type="xs:date" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="NDateOnly" >
     <xs:complexContent>
       <xs:extension base="Bool">
         <xs:attribute name="name" type="xs:string" use="required" />
