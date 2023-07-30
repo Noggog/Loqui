@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="Noggog.CSharpExt">
-      <Version>2.59.0.1-nightly-20230704-091177</Version>
+      <Version>[2.59.0.1-nightly-20230715-044535]</Version>
     </PackageVersion>
     <PackageVersion Include="GitInfo">
       <Version>3.0.4</Version>

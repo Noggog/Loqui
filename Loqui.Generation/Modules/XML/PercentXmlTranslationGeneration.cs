@@ -1,9 +1,0 @@
-﻿namespace Loqui.Generation;
-
-public class PercentXmlTranslationGeneration : PrimitiveXmlTranslationGeneration<double>
-{
-    public override string TypeName(TypeGeneration typeGen)
-    {
-        return "Percent";
-    }
-}
