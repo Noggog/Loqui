@@ -6,10 +6,6 @@ public interface ILoquiRegistration
 {
     ProtocolKey ProtocolKey { get; }
 
-    ObjectKey ObjectKey { get; }
-
-    string GUID { get; }
-
     ushort AdditionalFieldCount { get; }
 
     ushort FieldCount { get; }

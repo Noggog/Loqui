@@ -11,10 +11,9 @@ namespace Loqui.Generation;
 public class ProtocolGeneration
 {
     public ProtocolKey Protocol;
-    public readonly Dictionary<Guid, ObjectGeneration> ObjectGenerationsByID = new();
     public readonly Dictionary<string, ObjectGeneration> ObjectGenerationsByName = new(StringComparer.OrdinalIgnoreCase);
     public readonly Dictionary<string, FieldBatch> FieldBatchesByName = new(StringComparer.OrdinalIgnoreCase);
-    public bool Empty => ObjectGenerationsByID.Count == 0;
+    public bool Empty => ObjectGenerationsByName.Count == 0;
     public LoquiGenerator Gen { get; private set; }
     public DirectoryInfo GenerationFolder { get; private set; }
     public DirectoryInfo DefFileLocation => GenerationFolder;
@@ -88,27 +87,6 @@ public class ProtocolGeneration
                     objGen.Namespace = namespaceStr;
                 }
 
-                var guid = obj.GetAttribute("GUID");
-                if (string.IsNullOrWhiteSpace(guid))
-                {
-                    objGen.GUID = Guid.NewGuid();
-                }
-                else
-                {
-                    objGen.GUID = new Guid(guid);
-                }
-
-                if (obj.TryGetAttribute<ushort>("ID", out ushort id))
-                {
-                    objGen.ID = id;
-                }
-
-                if (ObjectGenerationsByID.ContainsKey(objGen.GUID))
-                {
-                    throw new ArgumentException($"Two objects in the same protocol cannot have the same ID: {objGen.GUID}");
-                }
-                ObjectGenerationsByID.Add(objGen.GUID, objGen);
-
                 var nameNode = obj.Attribute("name");
                 if (nameNode == null)
                 {
@@ -143,12 +121,12 @@ public class ProtocolGeneration
             (mod) => mod.PrepareGeneration(this)));
 
         await Task.WhenAll(
-            ObjectGenerationsByID.Values
+            ObjectGenerationsByName.Values
                 .SelectMany((obj) => Gen.GenerationModules
                     .Select((m) => m.PreLoad(obj))));
 
         await Task.WhenAll(
-            ObjectGenerationsByID.Values
+            ObjectGenerationsByName.Values
                 .Select(async (obj) =>
                 {
                     try
@@ -163,11 +141,11 @@ public class ProtocolGeneration
                 }));
 
         await Task.WhenAll(
-            ObjectGenerationsByID.Values
+            ObjectGenerationsByName.Values
                 .Select((obj) => obj.Resolve()));
 
         await Task.WhenAll(
-            ObjectGenerationsByID.Values
+            ObjectGenerationsByName.Values
                 .Select(async (obj) =>
                 {
                     try
@@ -184,11 +162,10 @@ public class ProtocolGeneration
 
         if (!DoGeneration) return;
 
-        await Task.WhenAll(ObjectGenerationsByID.Values
+        await Task.WhenAll(ObjectGenerationsByName.Values
             .Select(async (obj) =>
             {
                 await obj.Generate();
-                obj.RegenerateAndStampSourceXML();
             }));
 
         GenerateDefFile();
@@ -204,7 +181,7 @@ public class ProtocolGeneration
 
     private void MarkFailure(Exception ex)
     {
-        foreach (var obj in ObjectGenerationsByID.Values)
+        foreach (var obj in ObjectGenerationsByName.Values)
         {
             obj.MarkFailure(ex);
         }
@@ -213,7 +190,7 @@ public class ProtocolGeneration
     private void GenerateDefFile()
     {
         var namespaces = new HashSet<string>();
-        foreach (var obj in ObjectGenerationsByID.Values)
+        foreach (var obj in ObjectGenerationsByName.Values)
         {
             namespaces.Add(obj.Namespace);
         }
@@ -241,8 +218,8 @@ public class ProtocolGeneration
                 {
                     using (var comma = sb.CommaCollection())
                     {
-                        foreach (var obj in ObjectGenerationsByID.Values
-                                     .OrderBy((o) => o.ID))
+                        foreach (var obj in ObjectGenerationsByName.Values
+                                     .OrderBy((o) => o.Name))
                         {
                             comma.Add($"{obj.RegistrationName}.Instance");
                         }
@@ -366,9 +343,9 @@ public class ProtocolGeneration
         });
 
         Dictionary<FilePath, ProjItemType> generatedItems = new Dictionary<FilePath, ProjItemType>();
-        generatedItems.Set(ObjectGenerationsByID.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
+        generatedItems.Set(ObjectGenerationsByName.Select((kv) => kv.Value).SelectMany((objGen) => objGen.GeneratedFiles));
         generatedItems.Set(GeneratedFiles);
-        HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(ObjectGenerationsByID.Select(kv => new FilePath(kv.Value.SourceXMLFile.Path)));
+        HashSet<FilePath> sourceXMLs = new HashSet<FilePath>(ObjectGenerationsByName.Select(kv => new FilePath(kv.Value.SourceXMLFile.Path)));
 
         // Find which objects are present
         foreach (var subNode in includeNodes.SelectMany((n) => n.Elements()))

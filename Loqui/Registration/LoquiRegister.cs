@@ -10,7 +10,6 @@ public class LoquiRegister
 {
     public delegate object UntypedCopyFunction(object item, object copy);
     private readonly object _registersLock = new();
-    private readonly Dictionary<ObjectKey, ILoquiRegistration> _registers = new();
     private readonly Dictionary<string, ILoquiRegistration?> _nameRegisters = new();
     private readonly Dictionary<Type, ILoquiRegistration?> _typeRegister = new();
     private readonly Dictionary<Type, Type> _genericRegisters = new();
@@ -20,8 +19,9 @@ public class LoquiRegister
     private readonly Dictionary<(Type TSource, Type TResult), UntypedCopyFunction> _untypedCopyFuncRegister = new();
     private readonly Dictionary<string, Type?> _cache = new();
     private readonly HashSet<IProtocolRegistration> _registeredProtocols = new();
+    private readonly List<ILoquiRegistration> _registeredLoquis = new();
 
-    public IReadOnlyCollection<ILoquiRegistration> Registrations => _registers.Values;
+    public IReadOnlyCollection<ILoquiRegistration> Registrations => _registeredLoquis;
 
     public void Register(params IProtocolRegistration[] registrations)
     {
@@ -138,7 +138,7 @@ public class LoquiRegister
     private void RegisterInternal(ILoquiRegistration reg)
     {
         if (_typeRegister.ContainsKey(reg.ClassType)) return;
-        _registers.Add(reg.ObjectKey, reg);
+        _registeredLoquis.Add(reg);
         _nameRegisters.Add(reg.FullName, reg);
         var prefixStrs = reg.FullName.Split('.');
         var strs = prefixStrs.Take(prefixStrs.Length - 1);
@@ -270,20 +270,6 @@ public class LoquiRegister
         var customGenRegisterType = genRegisterType.MakeGenericType(subTypes);
         var instanceProp = customGenRegisterType.GetField("GenericInstance", BindingFlags.Static | BindingFlags.Public)!;
         return instanceProp.GetValue(null) as ILoquiRegistration;
-    }
-
-    public ILoquiRegistration GetRegister(ObjectKey key)
-    {
-        if (TryGetRegister(key, out var regis)) return regis;
-        throw new ArgumentException("Object Key was not a defined Loqui type: " + key);
-    }
-
-    public bool TryGetRegister(ObjectKey key, [MaybeNullWhen(false)] out ILoquiRegistration regis)
-    {
-        lock (_registersLock)
-        {
-            return _registers.TryGetValue(key, out regis);
-        }
     }
 
     public ILoquiRegistration? GetRegisterByFullName(string str)

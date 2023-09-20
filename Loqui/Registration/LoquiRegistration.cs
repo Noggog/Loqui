@@ -73,16 +73,6 @@ public static class LoquiRegistration
         return StaticRegister.TryLocateRegistration(t, out regis);
     }
 
-    public static ILoquiRegistration GetRegister(ObjectKey key)
-    {
-        return StaticRegister.GetRegister(key);
-    }
-
-    public static bool TryGetRegister(ObjectKey key, [MaybeNullWhen(false)] out ILoquiRegistration regis)
-    {
-        return StaticRegister.TryGetRegister(key, out regis);
-    }
-
     public static ILoquiRegistration? GetRegisterByFullName(string str)
     {
         return StaticRegister.GetRegisterByFullName(str);

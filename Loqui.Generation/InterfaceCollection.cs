@@ -48,7 +48,7 @@ public class InterfaceDeclaration : IEquatable<InterfaceDeclaration>
 
     public async Task Resolve(ObjectGeneration parent)
     {
-        foreach (var obj in parent.ProtoGen.ObjectGenerationsByID.Values)
+        foreach (var obj in parent.ProtoGen.ObjectGenerationsByName.Values)
         {
             await obj.LoadingCompleteTask.Task;
             if (obj.IsObjectInterface(Interface))
