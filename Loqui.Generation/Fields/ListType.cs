@@ -336,4 +336,14 @@ public class ListType : ContainerType
             await base.Load(node, requireName);
         }
     }
+
+    public override string GetDefault(bool getter)
+    {
+        if (Nullable)
+        {
+            return "default";
+        }
+
+        return $"new {ListTypeName(getter: getter, internalInterface: false)}()";
+    }
 }
