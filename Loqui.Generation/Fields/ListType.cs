@@ -344,6 +344,13 @@ public class ListType : ContainerType
             return "default";
         }
 
-        return $"new {ListTypeName(getter: getter, internalInterface: false)}()";
+        if (getter)
+        {
+            return $"Array.Empty<{ItemTypeName(getter: getter)}>()";
+        }
+        else
+        {
+            return $"new {ListTypeName(getter: getter, internalInterface: false)}()";
+        }
     }
 }
