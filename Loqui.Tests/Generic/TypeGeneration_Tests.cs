@@ -41,19 +41,18 @@ public abstract class TypeGeneration_Tests<T>
 
     [Theory]
     [MemberData(nameof(StaticValidElements))]
-    public async void TestValidLoad(XElement valid)
+    public async Task TestValidLoad(XElement valid)
     {
         await Thing.Load(valid);
     }
 
     [Theory]
     [MemberData(nameof(StaticInvalidElements))]
-    public void TestInvalidLoad(XElement invalid)
+    public async Task TestInvalidLoad(XElement invalid)
     {
-        Assert.Throws<AggregateException>(() =>
+        await Assert.ThrowsAnyAsync<Exception>(async () =>
         {
-            var task = Thing.Load(invalid);
-            task.Wait();
+            await Thing.Load(invalid);
         });
     }
 
