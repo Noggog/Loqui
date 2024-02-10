@@ -146,7 +146,10 @@ public abstract class TypeGeneration
         bool protectedMembers,
         bool deepCopy);
 
-    public virtual void GenerateCopySetToConverter(StructuredStringBuilder sb) { }
+    public virtual string? ReturnForCopySetToConverter(Accessor itemAccessor)
+    {
+        return null;
+    }
 
     public abstract string GenerateACopy(string rhsAccessor);
 

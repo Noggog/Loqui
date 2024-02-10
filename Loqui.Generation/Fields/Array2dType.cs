@@ -11,6 +11,7 @@ public class Array2dType : ListType
     public override bool CopyNeedsTryCatch => true;
 
     public P2Int? FixedSize;
+    private P2Int32Type PointTypeGen = new();
 
     public override async Task GenerateForClass(StructuredStringBuilder sb)
     {
@@ -63,8 +64,43 @@ public class Array2dType : ListType
         }
         else
         {
-            sb.AppendLine($"{accessor}.SetAllTo(default);");
+            sb.AppendLine($"{accessor}.SetAllTo({SubTypeGeneration.GetDefault(getter: false)});");
         }
+    }
+
+    protected override void TypicalSetTo(StructuredStringBuilder sb)
+    {
+        sb.AppendLine($"rhs.{Name}");
+        var ret = SubTypeGeneration.ReturnForCopySetToConverter("b.Value");
+        if (ret != null)
+        {
+            using (sb.IncreaseDepth())
+            {
+                sb.AppendLine($".Select(b => new KeyValuePair<P2Int, {SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>(b.Key, {ret}))"); 
+            }
+            sb.AppendLine($", {SubTypeGeneration.GetDefault(getter: false)}");
+        }
+    }
+
+    protected override void GenerateLoquiDeepCopy(
+        Accessor rhs, Accessor copyMaskAccessor, bool deepCopy,
+        StructuredStringBuilder sb,
+        LoquiType loqui)
+    {
+        sb.AppendLine(rhs.ToString());
+        sb.AppendLine(".Select(r =>");
+        using (new CurlyBrace(sb) { AppendParenthesis = true })
+        {
+            loqui.GenerateTypicalMakeCopy(
+                sb,
+                retAccessor: $"var item = ",
+                rhsAccessor: Accessor.FromType(loqui, "r.Value"),
+                copyMaskAccessor: copyMaskAccessor,
+                deepCopy: deepCopy,
+                doTranslationMask: false);
+            sb.AppendLine($"return new KeyValuePair<P2Int, {SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>(r.Key, item);");
+        }
+        sb.AppendLine($", () => {SubTypeGeneration.GetDefault(getter: false)}");
     }
 
     public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
@@ -104,6 +140,25 @@ public class Array2dType : ListType
                        $"{accessor}.SetTo"))
             {
                 args.Add(subFg => a(subFg));
+            }
+        }
+    }
+
+    public override void GenerateToString(StructuredStringBuilder sb, string name, Accessor accessor, string sbAccessor)
+    {
+        sb.AppendLine($"{sbAccessor}.{nameof(StructuredStringBuilder.AppendLine)}(\"{name} =>\");");
+        sb.AppendLine($"using ({sbAccessor}.Brace())");
+        using (sb.CurlyBrace())
+        {
+            sb.AppendLine($"foreach (var subItem in {accessor.Access})");
+            using (sb.CurlyBrace())
+            {
+                sb.AppendLine($"using ({sbAccessor}.Brace())");
+                using (sb.CurlyBrace())
+                {
+                    PointTypeGen.GenerateToString(sb, "Index", "subItem.Key", sbAccessor);
+                    SubTypeGeneration.GenerateToString(sb, "Value", new Accessor("subItem.Value"), sbAccessor);
+                }
             }
         }
     }

@@ -144,21 +144,7 @@ public class ListType : ContainerType
                 if (deepCopy)
                 {
                     LoquiType loqui = SubTypeGeneration as LoquiType;
-                    WrapSet(sb, accessor, (f) =>
-                    {
-                        f.AppendLine(rhs.ToString());
-                        f.AppendLine(".Select(r =>");
-                        using (new CurlyBrace(f) { AppendParenthesis = true })
-                        {
-                            loqui.GenerateTypicalMakeCopy(
-                                f,
-                                retAccessor: $"return ",
-                                rhsAccessor: Accessor.FromType(loqui, "r"),
-                                copyMaskAccessor: copyMaskAccessor,
-                                deepCopy: deepCopy,
-                                doTranslationMask: false);
-                        }
-                    });
+                    WrapSet(sb, accessor, (f) => { GenerateLoquiDeepCopy(rhs, copyMaskAccessor, deepCopy, f, loqui); });
                 }
                 else
                 {
@@ -206,11 +192,7 @@ public class ListType : ContainerType
             }
             else
             {
-                WrapSet(sb, accessor, (f) =>
-                {
-                    f.AppendLine($"rhs.{Name}");
-                    SubTypeGeneration.GenerateCopySetToConverter(f);
-                });
+                WrapSet(sb, accessor, TypicalSetTo);
             }
         }
 
@@ -245,6 +227,38 @@ public class ListType : ContainerType
                 errorMaskAccessor: "errorMask",
                 indexAccessor: HasIndex ? IndexEnumInt : default(Accessor),
                 doIt: CopyNeedsTryCatch);
+        }
+    }
+
+    protected virtual void GenerateLoquiDeepCopy(
+        Accessor rhs, Accessor copyMaskAccessor, bool deepCopy,
+        StructuredStringBuilder sb,
+        LoquiType loqui)
+    {
+        sb.AppendLine(rhs.ToString());
+        sb.AppendLine(".Select(r =>");
+        using (new CurlyBrace(sb) { AppendParenthesis = true })
+        {
+            loqui.GenerateTypicalMakeCopy(
+                sb,
+                retAccessor: $"return ",
+                rhsAccessor: Accessor.FromType(loqui, "r"),
+                copyMaskAccessor: copyMaskAccessor,
+                deepCopy: deepCopy,
+                doTranslationMask: false);
+        }
+    }
+
+    protected virtual void TypicalSetTo(StructuredStringBuilder sb)
+    {
+        sb.AppendLine($"rhs.{Name}");
+        var ret = SubTypeGeneration.ReturnForCopySetToConverter("b");
+        if (ret != null)
+        {
+            using (sb.IncreaseDepth())
+            {
+                sb.AppendLine($".Select(b => {ret})"); 
+            }
         }
     }
 

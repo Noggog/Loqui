@@ -132,11 +132,8 @@ public class ByteArrayType : ClassType
         throw new NotImplementedException();
     }
 
-    public override void GenerateCopySetToConverter(StructuredStringBuilder sb)
+    public override string ReturnForCopySetToConverter(Accessor itemAccessor)
     {
-        using (sb.IncreaseDepth())
-        {
-            sb.AppendLine(".Select(b => new MemorySlice<byte>(b.ToArray()))");
-        }
+        return $"new MemorySlice<byte>({itemAccessor}.ToArray())";
     }
 }
