@@ -47,7 +47,7 @@ public abstract class MaskModuleField
         if (!field.IntegrateField) return;
         sb.AppendLine($"hash.Add(this.{field.Name});");
     }
-    public abstract void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed);
+    public abstract void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, string? index);
     public abstract void GenerateForClearEnumerable(StructuredStringBuilder sb, TypeGeneration field);
     public abstract void GenerateForErrorMaskCombine(StructuredStringBuilder sb, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor);
     public abstract string GenerateBoolMaskCheck(TypeGeneration field, string boolMaskAccessor);

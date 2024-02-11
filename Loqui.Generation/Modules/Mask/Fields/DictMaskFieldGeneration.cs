@@ -329,7 +329,7 @@ public class DictMaskFieldGeneration : MaskModuleField
         }
     }
 
-    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
+    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, string? index)
     {
         DictType dictType = field as DictType;
 

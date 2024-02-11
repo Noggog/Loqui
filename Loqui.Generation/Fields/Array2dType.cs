@@ -53,7 +53,7 @@ public class Array2dType : ListType
     }
     protected override string GetActualItemClass(bool ctor = false)
     {
-        return $"new Array2d<{ItemTypeName(getter: false)}>{(ctor ? $"({FixedSize.Value.X}, {FixedSize.Value.Y})" : null)}";
+        return $"new Array2d<{ItemTypeName(getter: false)}>{(ctor ? $"({FixedSize.Value.X}, {FixedSize.Value.Y}, {SubTypeGeneration.GetDefault(getter: false)})" : null)}";
     }
 
     public override void GenerateClear(StructuredStringBuilder sb, Accessor accessor)
@@ -65,6 +65,23 @@ public class Array2dType : ListType
         else
         {
             sb.AppendLine($"{accessor}.SetAllTo({SubTypeGeneration.GetDefault(getter: false)});");
+        }
+    }
+
+    public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
+    {
+        sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
+        using (sb.CurlyBrace())
+        {
+            if (SubTypeGeneration is LoquiType subLoq
+                && subLoq.TargetObjectGeneration != null)
+            {
+                sb.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {subLoq.TargetObjectGeneration.CommonClassSpeccedInstance("l.Value", LoquiInterfaceType.IGetter, CommonGenerics.Class, subLoq.GenericSpecification)}.Equals(l.Value, r.Value, {maskAccessor}?.GetSubCrystal({IndexEnumInt})))) return false;");
+            }
+            else
+            {
+                sb.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+            }
         }
     }
 

@@ -494,7 +494,7 @@ public class MaskModule : GenerationModule
                     }
                     foreach (var field in obj.IterateFields())
                     {
-                        GetMaskModule(field.GetType()).GenerateForTranslate(sb, field, $"obj.{field.Name}", $"this.{field.Name}", indexed: false);
+                        GetMaskModule(field.GetType()).GenerateForTranslate(sb, field, $"obj.{field.Name}", $"this.{field.Name}", index: null);
                     }
                 }
             }

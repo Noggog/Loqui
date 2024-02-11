@@ -52,10 +52,10 @@ public class TypicalMaskFieldGeneration : MaskModuleField
         sb.AppendLine($"if (eval({accessor.Access}{(indexed ? ".Value" : null)})) return true;");
     }
 
-    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
+    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, string? index)
     {
         if (!field.IntegrateField) return;
-        sb.AppendLine($"{retAccessor} = eval({rhsAccessor}{(indexed ? ".Value" : null)});");
+        sb.AppendLine($"{retAccessor} = eval({rhsAccessor}{(index != null ? ".Value" : null)});");
     }
 
     public override void GenerateForErrorMaskCombine(StructuredStringBuilder sb, TypeGeneration field, string accessor, string retAccessor, string rhsAccessor)

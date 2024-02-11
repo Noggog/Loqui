@@ -237,6 +237,70 @@ public static class EqualsMaskHelper
         return null;
     }
 
+    public static MaskItem<bool, IEnumerable<MaskItemIndexed<P2Int, bool, M?>>?>? Array2dEqualsHelper<T, M>(
+        this IReadOnlyArray2d<T>? lhs,
+        IReadOnlyArray2d<T>? rhs,
+        Func<T, T, M> maskGetter,
+        Include include)
+        where M : class, IMask<bool>
+    {
+        if (lhs == null && rhs == null)
+        {
+            return include == Include.All ? new MaskItem<bool, IEnumerable<MaskItemIndexed<P2Int, bool, M?>>?>(true, default) : default;
+        }
+        if (lhs == null || rhs == null)
+        {
+            return new MaskItem<bool, IEnumerable<MaskItemIndexed<P2Int, bool, M?>>?>(false, default);
+        }
+
+        if (lhs.Width != rhs.Width
+            || lhs.Height != rhs.Height)
+        {
+            return new MaskItem<bool, IEnumerable<MaskItemIndexed<P2Int, bool, M?>>?>(false, default);
+        }
+        
+        var overall = true;
+        List<MaskItemIndexed<P2Int, bool, M?>> masks = new();
+        for (int y = 0; y < lhs.Height; y++)
+        {
+            for (int x = 0; x < lhs.Width; x++)
+            {
+                var lhsVal = lhs[x, y];
+                var rhsVal = rhs[x, y];
+                var val = new MaskItemIndexed<P2Int, bool, M?>(index:new P2Int(x, y), overall: false, specific: default);
+                EqualsHelper(val, lhsVal, rhsVal, maskGetter, include);
+                
+                if (include == Include.All || !val.Overall)
+                {
+                    masks.Add(val);
+                }
+                else
+                {
+                    overall = false;
+                }
+            }
+        }
+        if (overall)
+        {
+            switch (include)
+            {
+                case Include.All:
+                    overall = masks.All((b) => b.Overall);
+                    break;
+                case Include.OnlyFailures:
+                    overall = !masks.Any();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        if (!overall || include == Include.All)
+        {
+            return new MaskItem<bool, IEnumerable<MaskItemIndexed<P2Int, bool, M?>>?>(overall, masks);
+        }
+        return null;
+    }
+
     public static MaskItem<bool, IEnumerable<(P2Int Index, bool EqualValues)>?>? Array2dEqualsHelper<T>(
         this IReadOnlyArray2d<T>? lhs,
         IReadOnlyArray2d<T>? rhs,

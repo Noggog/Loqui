@@ -206,10 +206,4 @@ public class ArrayType : ListType
             base.WrapSet(sb, accessor, a);
         }
     }
-
-    public override string GetDefault(bool getter)
-    {
-        if (getter && Nullable) return $"default({TypeName(getter)}{NullChar})";
-        return base.GetDefault(getter);
-    }
 }

@@ -144,7 +144,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
         }
     }
 
-    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
+    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, string? index)
     {
         LoquiType loqui = field as LoquiType;
         if (IsUnknownGeneric(loqui))
@@ -154,7 +154,7 @@ public class LoquiMaskFieldGeneration : MaskModuleField
         }
         else
         {
-            sb.AppendLine($"{retAccessor} = {rhsAccessor} == null ? null : new MaskItem{(indexed ? "Indexed" : null)}<R, {loqui.GenerateMaskString("R")}?>({(indexed ? $"{rhsAccessor}.Index, " : null)}eval({rhsAccessor}.Overall), {rhsAccessor}.Specific?.Translate(eval));");
+            sb.AppendLine($"{retAccessor} = {rhsAccessor} == null ? null : new MaskItem{(index != null ? "Indexed" : null)}<{(index is null or "int" ? null : $"{index}, ")}R, {loqui.GenerateMaskString("R")}?>({(index != null ? $"{rhsAccessor}.Index, " : null)}eval({rhsAccessor}.Overall), {rhsAccessor}.Specific?.Translate(eval));");
         }
     }
 
@@ -186,10 +186,10 @@ public class LoquiMaskFieldGeneration : MaskModuleField
     {
     }
 
-    public override string GetMaskString(TypeGeneration field, string valueStr, string? indexed)
+    public override string GetMaskString(TypeGeneration field, string valueStr, string? index)
     {
         var loqui = field as LoquiType;
-        return $"MaskItem{(indexed != null ? "Indexed" : null)}<{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}?>";
+        return $"MaskItem{(index != null ? "Indexed" : null)}<{(index is null or "int" ? null : $"{index}, ")}{valueStr}, {(loqui.TargetObjectGeneration?.GetMaskString(valueStr) ?? $"IMask<{valueStr}>")}?>";
     }
 
     public override string GenerateForTranslationMaskCrystalization(TypeGeneration field)

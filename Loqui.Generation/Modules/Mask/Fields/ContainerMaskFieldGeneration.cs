@@ -187,7 +187,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
         }
     }
 
-    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, bool indexed)
+    public override void GenerateForTranslate(StructuredStringBuilder sb, TypeGeneration field, string retAccessor, string rhsAccessor, string? index)
     {
         ListType listType = field as ListType;
 
@@ -200,7 +200,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
             {
                 if (listType.SubTypeGeneration is LoquiType loqui)
                 {
-                    var submaskString = $"MaskItemIndexed<R, {loqui.GetMaskString("R")}?>";
+                    var submaskString = $"MaskItemIndexed<{(IndexStr == "int" ? null : $"{IndexStr}, ")}R, {loqui.GetMaskString("R")}?>";
                     sb.AppendLine($"var l = new List<{submaskString}>();");
                     sb.AppendLine($"{retAccessor}.Specific = l;");
                     sb.AppendLine($"foreach (var item in {field.Name}.Specific)");
@@ -210,7 +210,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                         fieldGen.GenerateForTranslate(sb, listType.SubTypeGeneration,
                             retAccessor: $"{submaskString}? mask",
                             rhsAccessor: $"item",
-                            indexed: true);
+                            index: IndexStr);
                         sb.AppendLine("if (mask == null) continue;");
                         sb.AppendLine($"l.Add(mask);");
                     }
@@ -226,7 +226,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
                         fieldGen.GenerateForTranslate(sb, listType.SubTypeGeneration,
                             retAccessor: $"R mask",
                             rhsAccessor: $"item",
-                            indexed: true);
+                            index: IndexStr);
                         sb.AppendLine($"l.Add((item.Index, mask));");
                     }
                 }

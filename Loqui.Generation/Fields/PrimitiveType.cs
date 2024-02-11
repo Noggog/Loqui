@@ -15,14 +15,7 @@ public abstract class PrimitiveType : TypicalTypeGeneration
 
     public override string GetDefault(bool getter)
     {
-        if (Nullable)
-        {
-            return $"default({TypeName(getter: getter)}?)";
-        }
-        else
-        {
-            return "default";
-        }
+        return $"default({TypeName(getter: getter)}{this.NullChar})";
     }
 
     public override void GenerateForCopy(StructuredStringBuilder sb, Accessor accessor, Accessor rhs, Accessor copyMaskAccessor, bool protectedMembers, bool deepCopy)

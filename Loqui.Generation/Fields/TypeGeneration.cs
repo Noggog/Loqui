@@ -269,7 +269,10 @@ public abstract class TypeGeneration
         return $"({translationCrystalAccessor}?.GetShouldTranslate({IndexEnumInt}) ?? true)";
     }
 
-    public virtual string GetDefault(bool getter) => "default";
+    public virtual string GetDefault(bool getter)
+    {
+        return $"default({TypeName(getter)}{NullChar})";
+    }
 
     public abstract string? GetDuplicate(Accessor accessor);
 
