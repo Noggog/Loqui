@@ -46,15 +46,11 @@ public class ArrayType : ListType
             {
                 return $"ArrayExt.Create({FixedSize}, (i) => new {loqui.TargetObjectGeneration.ObjectName}())";
             }
-            else if (SubTypeGeneration.IsNullable
-                     || SubTypeGeneration.CanBeNullable(getter: false))
+            else if (!SubTypeGeneration.GetDefault(getter: false).StartsWith("default("))
             {
-                return $"new {ItemTypeName(getter: false)}[{FixedSize}]";
+                return $"ArrayExt.Create({FixedSize}, {SubTypeGeneration.GetDefault(getter: false)})";
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            return $"new {ItemTypeName(getter: false)}[{FixedSize}]";
         }
         else
         {
@@ -67,15 +63,15 @@ public class ArrayType : ListType
         string itemTypeName = ItemTypeName(getter: getter);
         if (SubTypeGeneration is LoquiType loqui)
         {
-            itemTypeName = loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface);
+            itemTypeName = $"{loqui.TypeNameInternal(getter: getter, internalInterface: internalInterface)}{loqui.NullChar}";
         }
         if (getter)
         {
-            return $"ReadOnlyMemorySlice<{itemTypeName}{SubTypeGeneration.NullChar}>";
+            return $"ReadOnlyMemorySlice<{itemTypeName}>";
         }
         else
         {
-            return $"{itemTypeName}{SubTypeGeneration.NullChar}[]";
+            return $"{itemTypeName}[]";
         }
     }
 
@@ -102,9 +98,13 @@ public class ArrayType : ListType
                 {
                     sb.AppendLine($"{accessorPrefix.Access}.Fill(() => new {loqui.TargetObjectGeneration.ObjectName}());");
                 }
+                else if (!SubTypeGeneration.GetDefault(getter: false).StartsWith("default("))
+                {
+                    sb.AppendLine($"{accessorPrefix.Access}.Fill({SubTypeGeneration.GetDefault(getter: false)});");
+                }
                 else
                 {
-                    sb.AppendLine($"{accessorPrefix.Access}.Reset();");
+                    sb.AppendLine($"{accessorPrefix.Access}.Reset();"); 
                 }
             }
             else
@@ -206,4 +206,11 @@ public class ArrayType : ListType
             base.WrapSet(sb, accessor, a);
         }
     }
+ 
+    public override string GetDefault(bool getter) 
+    { 
+        // We need to specify explicitly, as default of ReadOnlySpan? is not null
+        if (getter && Nullable) return $"default({TypeName(getter)}{NullChar})"; 
+        return base.GetDefault(getter); 
+    } 
 }

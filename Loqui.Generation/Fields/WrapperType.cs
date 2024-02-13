@@ -9,7 +9,7 @@ public abstract class WrapperType : TypeGeneration
 
     public virtual string ItemTypeName(bool getter)
     {
-        return SubTypeGeneration.TypeName(getter, needsCovariance: true);
+        return $"{SubTypeGeneration.TypeName(getter, needsCovariance: true)}{SubTypeGeneration.NullChar}";
     }
 
     public override IEnumerable<string> GetRequiredNamespaces()
