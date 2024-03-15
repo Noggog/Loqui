@@ -1,21 +1,13 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="Noggog.CSharpExt">
-      <Version>[2.62.0.1-zdev]</Version>
-    </PackageVersion>
-    <PackageVersion Include="GitInfo" PrivateAssets="all">
-      <Version>3.3.4</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <Version>[2.62.0.1-zdev-nightly-20240315-063075]</Version>
     </PackageVersion>
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp">
       <Version>4.9.2</Version>
     </PackageVersion>
     <PackageVersion Include="Microsoft.NET.Test.Sdk">
       <Version>17.9.0</Version>
-    </PackageVersion>
-    <PackageVersion Include="NuGetizer" PrivateAssets="all">
-      <Version>1.2.1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
     <PackageVersion Include="xunit">
