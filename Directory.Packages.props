@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="Noggog.CSharpExt">
-      <Version>[2.64]</Version>
+      <Version>2.65.0-nightly-20240420-091891</Version>
     </PackageVersion>
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp">
       <Version>4.9.2</Version>
