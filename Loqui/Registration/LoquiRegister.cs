@@ -287,8 +287,8 @@ public class LoquiRegister
                 return regis != null;
             }
             if (str == null) return false;
-            int genIndex = str.IndexOf("<");
-            int genEndIndex = str.LastIndexOf(">");
+            int genIndex = str.IndexOf("<", StringComparison.OrdinalIgnoreCase);
+            int genEndIndex = str.LastIndexOf(">", StringComparison.OrdinalIgnoreCase);
             if (genIndex == -1 || genEndIndex == -1) return false;
             if (!TryGetRegisterByFullName(str.Substring(0, genIndex), out var baseReg)) return false;
             var genRegisterType = baseReg.GenericRegistrationType;

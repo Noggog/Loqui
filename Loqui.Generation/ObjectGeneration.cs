@@ -1613,8 +1613,31 @@ namespace Loqui.Generation
                         copyMaskAccessor: "copyMask",
                         deepCopy: true,
                         internalCopy: false);
+                    using (var args = sb.Call(
+                               $"DeepCopyInCustom{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
+                    {
+                        args.AddPassArg($"item");
+                        args.AddPassArg($"rhs");
+                        args.AddPassArg("errorMask");
+                        args.AddPassArg("copyMask");
+                        args.AddPassArg("deepCopy");
+                    }
                 }
                 sb.AppendLine();
+
+                using (var args = new Function(sb,
+                           $"partial void DeepCopyInCustom{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}")
+                       {
+                           SemiColon = true
+                       })
+                {
+                    args.Wheres.AddRange(GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                    args.Add($"{Interface(getter: false)} item");
+                    args.Add($"{Interface(GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
+                    args.Add($"ErrorMaskBuilder? errorMask");
+                    args.Add($"TranslationCrystal? copyMask");
+                    args.Add($"bool deepCopy");
+                }
 
                 foreach (var baseClass in BaseClassTrail())
                 {
