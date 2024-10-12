@@ -12,17 +12,26 @@ public class ArrayType : ListType
     public override bool HasDefault => true;
     public override string TypeName(bool getter, bool needsCovariance = false)
     {
+        var itemTypeName = ItemTypeName(getter);
         if (getter)
         {
-            return $"ReadOnlyMemorySlice<{ItemTypeName(getter)}>";
+            if (SimpleTarget)
+            {
+                return $"ReadOnlyMemorySlice<{itemTypeName}>";
+            }
+            else
+            {
+                return $"IReadOnlyList<{itemTypeName}>";
+            }
         }
         else
         {
-            return $"{ItemTypeName(getter)}[]";
+            return $"{itemTypeName}[]";
         }
     }
 
     public int? FixedSize;
+    public bool SimpleTarget => ItemTypeName(getter: false) == ItemTypeName(getter: true);
 
     public override async Task Load(XElement node, bool requireName = true)
     {
@@ -54,7 +63,7 @@ public class ArrayType : ListType
         }
         else
         {
-            return $"Array.Empty{SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}()";
+            return "[]";
         }
     }
 
@@ -67,7 +76,14 @@ public class ArrayType : ListType
         }
         if (getter)
         {
-            return $"ReadOnlyMemorySlice<{itemTypeName}>";
+            if (SimpleTarget)
+            {
+                return $"ReadOnlyMemorySlice<{itemTypeName}>";
+            }
+            else
+            {
+                return $"IReadOnlyList<{itemTypeName}>";
+            }
         }
         else
         {
@@ -116,6 +132,11 @@ public class ArrayType : ListType
 
     public override void GenerateForEquals(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, Accessor maskAccessor)
     {
+        if (!SimpleTarget)
+        {
+            base.GenerateForEquals(sb, accessor, rhsAccessor, maskAccessor);
+            return;
+        }
         sb.AppendLine($"if ({GetTranslationIfAccessor(maskAccessor)})");
         using (sb.CurlyBrace())
         {
@@ -136,6 +157,11 @@ public class ArrayType : ListType
 
     public override void GenerateForEqualsMask(StructuredStringBuilder sb, Accessor accessor, Accessor rhsAccessor, string retAccessor)
     {
+        if (!SimpleTarget)
+        {
+            base.GenerateForEqualsMask(sb, accessor, rhsAccessor, retAccessor);
+            return;
+        }
         string funcStr;
         var loqui = SubTypeGeneration as LoquiType;
         if (loqui != null)
