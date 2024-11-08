@@ -229,7 +229,7 @@ public class ProtocolGeneration
             }
         }
 
-        ExportStringToFile export = new();
+        ExportStringToFile export = new(IFileSystemExt.DefaultFilesystem);
         export.ExportToFile( 
             new FileInfo(
                 DefFileLocation.FullName

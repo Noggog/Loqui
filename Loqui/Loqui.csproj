@@ -3,21 +3,19 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
     <LangVersion>Latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702; 1998</NoWarn>
-    <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
-    <DocumentationFile>Loqui.xml</DocumentationFile>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702; 1998</NoWarn>
-    <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <LangVersion>preview</LangVersion>
+      <DebugType>portable</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+      <IsPackable>true</IsPackable>
+      <PublishRepositoryUrl>true</PublishRepositoryUrl>
+      <EmbedUntrackedSources>true</EmbedUntrackedSources>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <Nullable>enable</Nullable>
+      <WarningsAsErrors>nullable</WarningsAsErrors>
+      <NoWarn>1701;1702; 1998</NoWarn>
+      <WarningsAsErrors>NU1605, CS4014</WarningsAsErrors>
   </PropertyGroup>
   
   <PropertyGroup>

@@ -366,7 +366,7 @@ namespace Loqui.Generation
             var fileName = Path.Combine(TargetDir.Path, FileName);
             var file = new FileInfo(fileName);
             GeneratedFiles[Path.GetFullPath(fileName)] = ProjItemType.Compile;
-            ExportStringToFile export = new();
+            ExportStringToFile export = new(IFileSystemExt.DefaultFilesystem);
             export.ExportToFile( 
                 file,
                 sb.GetString());
