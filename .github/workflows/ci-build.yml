@@ -18,6 +18,8 @@ jobs:
           
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 400
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:

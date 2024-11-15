@@ -19,8 +19,8 @@ jobs:
       same_sha: ${{ steps.check.outputs.same_sha }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      with:
+        fetch-depth: 400
           
       - name: Get Activity Short Circuit
         id: check
@@ -52,6 +52,8 @@ jobs:
           
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 400
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
@@ -77,7 +79,7 @@ jobs:
         format: YYYYMMDD-HHmmSS
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 400
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
@@ -114,7 +116,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 400
     - name: Reset nightly to master
       run: |
         head_sha=$(git rev-parse --verify HEAD)
