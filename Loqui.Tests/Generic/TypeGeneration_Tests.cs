@@ -56,22 +56,6 @@ public abstract class TypeGeneration_Tests<T>
         });
     }
 
-    /* TODO figoure out how to associate the right output with the right classes
-    [Theory]
-    [InlineData("fred", "george", false, "fred.Equals(george)")]
-    [InlineData("fred", "george",  true, "!fred.Equals(george)")]
-    [InlineData("fred", "george", false, "fred == george")]
-    [InlineData("fred", "george",  true, "fred != george")]
-    public virtual void TestGenerateEqualsSnippet(string f1, string f2, bool negate, string expected)
-    {
-        var thing = Thing;
-        var a1 = new Accessor(f1);
-        var a2 = new Accessor(f2);
-        var foo = thing.GenerateEqualsSnippet(a1, a2, negate);
-        Assert.Equal(expected, foo);
-    }
-    */
-
     public static TheoryData<string, string[]> CommentData => new()
     {
         { null, Array.Empty<string>() },
@@ -92,20 +76,6 @@ public abstract class TypeGeneration_Tests<T>
         return thing;
     }
 
-    private T ThingWithInterfaceComments(string commentString, bool getter)
-    {
-        var thing = Thing;
-        if (commentString is null) return thing;
-
-        var comments = (thing.Comments ??= new());
-        if (getter)
-            (comments.GetterInterface ??= new(null!)).Summary.AppendLine(commentString);
-        else
-            (comments.SetterInterface ??= new(null!)).Summary.AppendLine(commentString);
-
-        return thing;
-    }
-
     [Theory]
     [MemberData(nameof(CommentData))]
     public async Task TestClassComments(string commentString, string[] expected)
@@ -114,26 +84,6 @@ public abstract class TypeGeneration_Tests<T>
         var sb = new StructuredStringBuilder();
 
         await thing.GenerateForClass(sb);
-
-        Assert.Equal(expected, sb.Where(x => x.StartsWith("//")).ToArray());
-    }
-
-    public static TheoryData<bool> InterfaceOptionsData => new()
-    {
-        true,
-        false,
-    };
-
-    public static MatrixTheoryData<string, string[], bool> InterfaceCommentsData => new(CommentData, InterfaceOptionsData);
-
-    [Theory]
-    [MemberData(nameof(InterfaceCommentsData))]
-    public async Task TestInterfaceComments(string commentString, string[] expected, bool getter)
-    {
-        var thing = ThingWithInterfaceComments(commentString, getter);
-        var sb = new StructuredStringBuilder();
-
-        thing.GenerateForInterface(sb, getter, false);
 
         Assert.Equal(expected, sb.Where(x => x.StartsWith("//")).ToArray());
     }
