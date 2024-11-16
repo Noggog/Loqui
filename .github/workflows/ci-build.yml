@@ -3,9 +3,12 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - main
+      - dev
   pull_request:
-    branches: [ master ]
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
@@ -19,11 +22,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 400
-    - name: Setup .NET 8
+        fetch-depth: 0
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.*
+        dotnet-version: 9.0.*
     - name: Install dependencies
       run: |
         dotnet clean -c Release && dotnet nuget locals all --clear

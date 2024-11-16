@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       with:
-        fetch-depth: 400
+        fetch-depth: 0
           
       - name: Get Activity Short Circuit
         id: check
@@ -53,11 +53,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 400
-    - name: Setup .NET 8
+        fetch-depth: 0
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.*
+        dotnet-version: 9.0.*
     - name: Install dependencies
       run: |
         dotnet clean -c Release && dotnet nuget locals all --clear
@@ -79,11 +79,11 @@ jobs:
         format: YYYYMMDD-HHmmSS
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 400
-    - name: Setup .NET 8
+        fetch-depth: 0
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.*
+        dotnet-version: 9.0.*
     - name: Install dependencies
       run: |
         dotnet clean -c Release && dotnet nuget locals all --clear
@@ -93,7 +93,7 @@ jobs:
     - name: Pack Preview
       if: ${{ success() && (github.event.release.prerelease || github.event_name != 'release') }}
       run: |
-        dotnet pack -c Release --no-build --no-restore -o out --version-suffix "nightly-${{ steps.current-time.outputs.formattedTime }}" --include-symbols -p:SymbolPackageFormat=snupkg
+        dotnet pack -c Release --no-build --no-restore -o out --include-symbols -p:SymbolPackageFormat=snupkg
     - name: Pack Release
       if: ${{ success() && !github.event.release.prerelease && github.event_name == 'release' }}
       run: | 
@@ -116,8 +116,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 400
-    - name: Reset nightly to master
+        fetch-depth: 0
+    - name: Reset nightly to main
       run: |
         head_sha=$(git rev-parse --verify HEAD)
         echo "head_sha=$head_sha"
