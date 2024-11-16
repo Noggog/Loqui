@@ -19,8 +19,8 @@ jobs:
       same_sha: ${{ steps.check.outputs.same_sha }}
     steps:
       - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+        with:
+          fetch-depth: 0
           
       - name: Get Activity Short Circuit
         id: check
