@@ -5,9 +5,9 @@
     <LangVersion>Latest</LangVersion>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
       <LangVersion>preview</LangVersion>
+      <IsPackable>true</IsPackable>
       <DebugType>portable</DebugType>
       <DebugSymbols>true</DebugSymbols>
-      <IsPackable>true</IsPackable>
       <PublishRepositoryUrl>true</PublishRepositoryUrl>
       <EmbedUntrackedSources>true</EmbedUntrackedSources>
       <IncludeSymbols>true</IncludeSymbols>
