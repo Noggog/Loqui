@@ -43,7 +43,6 @@ public static class Constants
     public const string GENERATE_EQUALS = "generateEquals";
     public const string GENERATE_TO_STRING = "generateToString";
     public const string CTOR_PERMISSION = "ctorPermission";
-    public const string VERSION = "version";
     public const string DERIVATIVE_DEFAULT = "derivativeDefault";
     public const string DISABLE = "disable";
     public const string NAMESPACES = "Namespaces";
@@ -61,6 +60,7 @@ public static class Constants
     public const string SETTER_VARIANCE = "setterVariance";
     public const string OVERRIDE = "override";
     public const string SET_BASE_CLASS = "setBaseClass";
+    public const string GENERATE_DEEP_COPY_NEW = "generateDeepCopyNew";
     public const string TYPE = "type";
     public const string RX_BASE_OPTION = "rxBase";
     public const string FIXED_SIZE = "fixedSize";
