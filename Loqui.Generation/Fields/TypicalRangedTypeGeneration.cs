@@ -11,7 +11,7 @@ public abstract class TypicalRangedTypeGeneration : PrimitiveType
     public bool RangeThrowException;
     public bool HasRange;
 
-    public virtual string RangeTypeName(bool getter) => $"Range{TypeName(getter).TrimEnd("?")}";
+    public virtual string RangeTypeName(bool getter) => $"Range{TypeName(getter).TrimStringFromEnd("?")}";
     public string RangeMemberName => $"{Name}_Range";
 
     public override async Task Load(XElement node, bool requireName = true)

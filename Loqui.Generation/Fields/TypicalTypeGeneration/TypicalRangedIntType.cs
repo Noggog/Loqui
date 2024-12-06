@@ -25,5 +25,5 @@ public class TypicalRangedIntType<T> : TypicalWholeNumberTypeGeneration
         defaultTo = split[1];
     }
 
-    protected override string GenerateDefaultValue() => $"new {Type(getter: false).GetName().TrimEnd("?")}({defaultFrom}, {defaultTo})";
+    protected override string GenerateDefaultValue() => $"new {Type(getter: false).GetName().TrimStringFromEnd("?")}({defaultFrom}, {defaultTo})";
 }
