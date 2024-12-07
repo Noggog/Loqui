@@ -278,3 +278,5 @@ __pycache__/
 Loqui/Loqui.xml
 
 Loqui.Generation/Loqui.Generation.xml
+
+outputPackages/
