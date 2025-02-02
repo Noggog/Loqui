@@ -9,8 +9,8 @@ public abstract class Translator<ObjTransl>
     public GetResponse<ObjTransl> NullTranslationItem;
     public Type? NullType = default;
 
-    public Dictionary<Type, GetResponse<ObjTransl>> typeDict = new Dictionary<Type, GetResponse<ObjTransl>>();
-    public HashSet<Type> GenericTypes = new HashSet<Type>();
+    public Dictionary<Type, GetResponse<ObjTransl>> typeDict = new();
+    public HashSet<Type> GenericTypes = new();
 
     private Type genericCaster;
     private Type loquiTranslation;
