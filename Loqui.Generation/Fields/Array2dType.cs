@@ -85,20 +85,6 @@ public class Array2dType : ListType
         }
     }
 
-    protected override void TypicalSetTo(StructuredStringBuilder sb)
-    {
-        sb.AppendLine($"rhs.{Name}");
-        var ret = SubTypeGeneration.ReturnForCopySetToConverter("b.Value");
-        if (ret != null)
-        {
-            using (sb.IncreaseDepth())
-            {
-                sb.AppendLine($".Select(b => new KeyValuePair<P2Int, {SubTypeGeneration.TypeName(getter: false, needsCovariance: true)}>(b.Key, {ret}))"); 
-            }
-            sb.AppendLine($", {SubTypeGeneration.GetDefault(getter: false)}");
-        }
-    }
-
     protected override void GenerateLoquiDeepCopy(
         Accessor rhs, Accessor copyMaskAccessor, bool deepCopy,
         StructuredStringBuilder sb,
@@ -147,8 +133,15 @@ public class Array2dType : ListType
             sb.AppendLine($"{accessor} = ");
             using (sb.IncreaseDepth())
             {
-                a(sb);
-                sb.AppendLine($".ShallowClone();");
+                var ret = SubTypeGeneration.ReturnForCopySetToConverter("b.Value");
+                if (ret != null)
+                {
+                    sb.AppendLine($"Array2dCopyHelper.DeepCopy(rhs.{Name}, b => {ret});");
+                }
+                else
+                {
+                    sb.AppendLine($"rhs.{Name}.ShallowClone();"); 
+                }
             }
         }
         else
