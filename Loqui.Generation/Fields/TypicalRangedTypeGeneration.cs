@@ -1,3 +1,4 @@
+using System.Globalization;
 using Noggog;
 using System.Xml.Linq;
 using Noggog.StructuredStrings;
@@ -19,11 +20,13 @@ public abstract class TypicalRangedTypeGeneration : PrimitiveType
         await base.Load(node, requireName);
         if (node.GetAttribute(Constants.MIN) != null)
         {
-            HasRange = node.TryGetAttribute(Constants.MIN, out Min);
+            HasRange = node.TryGetAttribute(Constants.MIN, out Min, 
+                culture: CultureInfo.InvariantCulture);
         }
         if (node.GetAttribute(Constants.MAX) != null)
         {
-            HasRange = node.TryGetAttribute(Constants.MAX, out Max);
+            HasRange = node.TryGetAttribute(Constants.MAX, out Max, 
+                culture: CultureInfo.InvariantCulture);
         }
         RangeThrowException = node.GetAttribute<bool>(Constants.RANGE_THROW_EXCEPTION, false);
     }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using Noggog;
 using System.Xml.Linq;
 
@@ -38,7 +39,8 @@ public class EnumType : PrimitiveType
         if (node.TryGetAttribute<string>(
                 Constants.ENUM_NAME,
                 out var item,
-                throwException: true))
+                throwException: true,
+                CultureInfo.InvariantCulture))
         {
             EnumName = item;
         }

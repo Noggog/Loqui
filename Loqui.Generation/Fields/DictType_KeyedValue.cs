@@ -1,3 +1,4 @@
+using System.Globalization;
 using Noggog;
 using System.Xml.Linq;
 using Noggog.StructuredStrings;
@@ -77,7 +78,10 @@ public class DictType_KeyedValue : TypeGeneration, IDictType
         }
         else
         {
-            if (!keyedValNode.TryGetAttribute<string>(Constants.KEY_TYPE, out var keyTypeName))
+            if (!keyedValNode.TryGetAttribute<string>(
+                    Constants.KEY_TYPE, 
+                    out var keyTypeName, 
+                    culture: CultureInfo.InvariantCulture))
             {
                 throw new ArgumentException("Cannot have a generic keyed reference without manually specifying keyType");
             }

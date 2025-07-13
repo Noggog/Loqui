@@ -1,3 +1,4 @@
+using System.Globalization;
 using Noggog;
 using System.Xml.Linq;
 using Noggog.StructuredStrings;
@@ -32,7 +33,8 @@ public abstract class TypicalTypeGeneration : TypeGeneration
     public override async Task Load(XElement node, bool requireName = true)
     {
         await base.Load(node, requireName);
-        node.TryGetAttribute("default", out DefaultValue);
+        node.TryGetAttribute("default", out DefaultValue, 
+            culture: CultureInfo.InvariantCulture);
     }
 
     private void WrapSetCode(StructuredStringBuilder sb, Action<StructuredStringBuilder> toDo)
