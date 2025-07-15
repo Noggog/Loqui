@@ -24,7 +24,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Noggog.CSharpExt" />
-    <PackageReference Include="System.Linq.Async" />
       <PackageReference Include="GitVersion.MsBuild">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
