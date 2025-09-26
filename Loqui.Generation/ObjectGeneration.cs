@@ -3807,7 +3807,7 @@ namespace Loqui.Generation
                                 {
                                     if (!kv.Value.Loqui && maskTypes.Contains(MaskType.Normal))
                                     {
-                                        return Enumerable.Empty<KeyValuePair<string, GenericDefinition>>();
+                                        return [];
                                     }
                                     return new KeyValuePair<string, GenericDefinition>(MaskNickname(kv.Key, MaskType.NormalGetter), kv.Value).AsEnumerable();
                                 }));
@@ -3861,7 +3861,7 @@ namespace Loqui.Generation
                                 }
                                 if (maskTypes.Contains(MaskType.Normal))
                                 {
-                                    return Enumerable.Empty<string>();
+                                    return [];
                                 }
                                 else
                                 {

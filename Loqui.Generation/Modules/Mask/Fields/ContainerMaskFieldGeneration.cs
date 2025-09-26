@@ -194,7 +194,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
         sb.AppendLine($"if ({field.Name} != null)");
         using (sb.CurlyBrace())
         {
-            sb.AppendLine($"{retAccessor} = new {GetMaskString(listType, "R")}(eval({rhsAccessor}.Overall), Enumerable.Empty<{GetItemString(listType, "R")}>());");
+            sb.AppendLine($"{retAccessor} = new {GetMaskString(listType, "R")}(eval({rhsAccessor}.Overall), []);");
             sb.AppendLine($"if ({field.Name}.Specific != null)");
             using (sb.CurlyBrace())
             {
@@ -257,7 +257,7 @@ public class ContainerMaskFieldGeneration : MaskModuleField
 
     public override void GenerateForCtor(StructuredStringBuilder sb, TypeGeneration field, string typeStr, string valueStr)
     {
-        sb.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, typeStr)}({valueStr}, Enumerable.Empty<{GetItemString(field as ContainerType, typeStr)}>());");
+        sb.AppendLine($"this.{field.Name} = new {GetMaskString(field as ContainerType, typeStr)}({valueStr}, []);");
     }
 
     public override string GetErrorMaskTypeStr(TypeGeneration field)
