@@ -360,7 +360,7 @@ public class ListType : ContainerType
 
         if (getter)
         {
-            return $"Array.Empty<{ItemTypeName(getter: getter)}>()";
+            return $"[]";
         }
         else
         {

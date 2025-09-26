@@ -58,7 +58,7 @@ public abstract class TypeGeneration_Tests<T>
 
     public static TheoryData<string, string[]> CommentData => new()
     {
-        { null, Array.Empty<string>() },
+        { null, [] },
         { "An awesome comment", new string[] 
             { 
                 "/// <summary>",
