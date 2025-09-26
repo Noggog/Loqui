@@ -280,3 +280,7 @@ Loqui/Loqui.xml
 Loqui.Generation/Loqui.Generation.xml
 
 nupkg/
+
+# Claude Code files
+CLAUDE.md
+.claude
