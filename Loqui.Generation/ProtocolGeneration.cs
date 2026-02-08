@@ -361,7 +361,7 @@ public class ProtocolGeneration
             if (objGens.Key.Directory.Value.IsUnderneath(projFile.Directory.Value)
                 || objGens.Key.Directory.Equals(projFile.Directory))
             {
-                string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path);
+                string filePath = objGens.Key.Path.TrimStart(projFile.Directory.Value.Path, StringComparison.OrdinalIgnoreCase);
                 filePath = filePath.TrimStart('\\');
                 List<XElement> nodes;
                 XElement includeNode;

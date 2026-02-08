@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Loqui.Generation/Loqui.Generation.csproj" />
+  <Project Path="Loqui.Tests/Loqui.Tests.csproj" />
+  <Project Path="Loqui/Loqui.csproj" />
+</Solution>
