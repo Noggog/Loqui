@@ -264,7 +264,7 @@ namespace Loqui.Generation
 
             if (directlyInheritingObjs.Count > 0)
             {
-                (Comments ??= new()).Comments.Summary.AppendLine($"Implemented by: [{string.Join(", ", directlyInheritingObjs.Select(x => x.ObjectName))}]");
+                (Comments ??= new()).Comments.Summary.AppendLine($"Implemented by: [{string.Join(", ", directlyInheritingObjs.Select(x => x.ObjectName).OrderBy(x => x))}]");
             }
 
             await Task.WhenAll(
