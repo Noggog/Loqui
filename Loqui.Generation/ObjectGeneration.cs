@@ -1547,6 +1547,16 @@ namespace Loqui.Generation
             //}
         }
 
+        private IDisposable? WrapDeepCopyIn(StructuredStringBuilder sb, string sourceAccessor)
+        {
+            foreach (var mod in ProtoGen.Gen.GenerationModules)
+            {
+                var wrapper = mod.WrapDeepCopyIn(this, sb, sourceAccessor);
+                if (wrapper != null) return wrapper;
+            }
+            return null;
+        }
+
         protected virtual void GenerateDeepCopyInCommon(StructuredStringBuilder sb, MaskTypeSet maskTypes)
         {
             if (!maskTypes.Applicable(LoquiInterfaceType.ISetter, CommonGenerics.Functions, MaskType.Normal, MaskType.Translation)) return;
@@ -1594,17 +1604,20 @@ namespace Loqui.Generation
                     sb.AppendLine();
                 }
 
-                using (var args = new Function(sb,
-                    $"public{Virtual()}void DeepCopyIn{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
+                void GenerateDeepCopyInSignature(string declaration)
                 {
-                    args.Wheres.AddRange(GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
-                    args.Add($"{Interface(getter: false)} item");
-                    args.Add($"{Interface(GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
-                    args.Add($"ErrorMaskBuilder? errorMask");
-                    args.Add($"TranslationCrystal? copyMask");
-                    args.Add($"bool deepCopy");
+                    using (var args = new Function(sb, declaration))
+                    {
+                        args.Wheres.AddRange(GenericTypeMaskWheres(LoquiInterfaceType.ISetter, MaskType.Normal, MaskType.NormalGetter));
+                        args.Add($"{Interface(getter: false)} item");
+                        args.Add($"{Interface(GetGenericTypes(MaskType.NormalGetter), getter: true)} rhs");
+                        args.Add($"ErrorMaskBuilder? errorMask");
+                        args.Add($"TranslationCrystal? copyMask");
+                        args.Add($"bool deepCopy");
+                    }
                 }
-                using (sb.CurlyBrace())
+
+                void GenerateDeepCopyInBody()
                 {
                     GenerateCopyForFields(
                         sb,
@@ -1624,7 +1637,48 @@ namespace Loqui.Generation
                         args.AddPassArg("deepCopy");
                     }
                 }
+
+                // When a module wraps the deep copy (e.g. major records enriching exceptions with the
+                // record being copied), the body stays in a private DeepCopyInInternal and the public
+                // DeepCopyIn delegates to it within the wrapper.  This keeps the (potentially large) body
+                // at its original indentation rather than nesting it inside a try.
+                GenerateDeepCopyInSignature($"public{Virtual()}void DeepCopyIn{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}");
+                bool wrappedDeepCopyIn = false;
+                using (sb.CurlyBrace())
+                {
+                    var deepCopyInWrapper = WrapDeepCopyIn(sb, "rhs");
+                    wrappedDeepCopyIn = deepCopyInWrapper != null;
+                    using (deepCopyInWrapper)
+                    {
+                        if (wrappedDeepCopyIn)
+                        {
+                            using (var args = sb.Call(
+                                       $"DeepCopyInInternal{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}"))
+                            {
+                                args.AddPassArg($"item");
+                                args.AddPassArg($"rhs");
+                                args.AddPassArg("errorMask");
+                                args.AddPassArg("copyMask");
+                                args.AddPassArg("deepCopy");
+                            }
+                        }
+                        else
+                        {
+                            GenerateDeepCopyInBody();
+                        }
+                    }
+                }
                 sb.AppendLine();
+
+                if (wrappedDeepCopyIn)
+                {
+                    GenerateDeepCopyInSignature($"private void DeepCopyInInternal{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}");
+                    using (sb.CurlyBrace())
+                    {
+                        GenerateDeepCopyInBody();
+                    }
+                    sb.AppendLine();
+                }
 
                 using (var args = new Function(sb,
                            $"partial void DeepCopyInCustom{GetGenericTypes(MaskType.Normal, MaskType.NormalGetter)}")

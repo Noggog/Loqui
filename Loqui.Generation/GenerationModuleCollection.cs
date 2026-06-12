@@ -96,6 +96,16 @@ public class GenerationModuleCollection : IGenerationModule
                 }));
     }
 
+    public IDisposable? WrapDeepCopyIn(ObjectGeneration obj, StructuredStringBuilder sb, string sourceAccessor)
+    {
+        foreach (var subGen in subModules)
+        {
+            var wrapper = subGen.WrapDeepCopyIn(obj, sb, sourceAccessor);
+            if (wrapper != null) return wrapper;
+        }
+        return null;
+    }
+
     public Task GenerateInCtor(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return Task.WhenAll(

@@ -21,6 +21,7 @@ public interface IGenerationModule
     Task GenerateInCtor(ObjectGeneration obj, StructuredStringBuilder sb);
     Task GenerateInCommon(ObjectGeneration obj, StructuredStringBuilder sb, MaskTypeSet maskTypes);
     Task GenerateInCommonMixin(ObjectGeneration obj, StructuredStringBuilder sb);
+    IDisposable? WrapDeepCopyIn(ObjectGeneration obj, StructuredStringBuilder sb, string sourceAccessor);
     Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb);
     Task GenerateInInterface(ObjectGeneration obj, StructuredStringBuilder sb, bool internalInterface, bool getter);
     Task GenerateInRegistration(ObjectGeneration obj, StructuredStringBuilder sb);
@@ -100,6 +101,11 @@ public abstract class GenerationModule : IGenerationModule
     public virtual Task GenerateInCommonMixin(ObjectGeneration obj, StructuredStringBuilder sb)
     {
         return SubModules.GenerateInCommonMixin(obj, sb);
+    }
+
+    public virtual IDisposable? WrapDeepCopyIn(ObjectGeneration obj, StructuredStringBuilder sb, string sourceAccessor)
+    {
+        return SubModules.WrapDeepCopyIn(obj, sb, sourceAccessor);
     }
 
     public virtual Task GenerateInVoid(ObjectGeneration obj, StructuredStringBuilder sb)
