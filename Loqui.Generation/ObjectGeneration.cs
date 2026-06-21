@@ -251,15 +251,17 @@ namespace Loqui.Generation
             }
 
             var directlyInheritingObjs = new ExtendedList<ObjectGeneration>();
-            await Task.WhenAll(
-                ProtoGen.Gen.ObjectGenerations.Select(
-                    async (obj) =>
-                    {
-                        await obj.WiredBaseClassTask;
-                        if (!obj.HasLoquiBaseObject) return;
-                        if (!ReferenceEquals(obj.BaseClass, this)) return;
-                        directlyInheritingObjs.Add(obj);
-                    }));
+            directlyInheritingObjs.AddRange(
+                (await Task.WhenAll(
+                    ProtoGen.Gen.ObjectGenerations.Select(
+                        async (obj) =>
+                        {
+                            await obj.WiredBaseClassTask;
+                            if (!obj.HasLoquiBaseObject) return null;
+                            if (!ReferenceEquals(obj.BaseClass, this)) return null;
+                            return obj;
+                        })))
+                .NotNull());
             _directlyInheritingObjectsTcs.SetResult(directlyInheritingObjs);
 
             if (directlyInheritingObjs.Count > 0)
