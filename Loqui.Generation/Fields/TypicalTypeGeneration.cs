@@ -112,7 +112,7 @@ public abstract class TypicalTypeGeneration : TypeGeneration
             if (subFg.Count > 1)
             {
                 sb.AppendLine($"[DebuggerBrowsable(DebuggerBrowsableState.Never)]");
-                sb.AppendLine($"private {TypeName(getter: false)} _{Name};");
+                sb.AppendLine($"private {TypeName(getter: false)} _{Name}{(HasDefault ? $" = {DefaultValueMemberName}" : null)};");
                 Comments?.Apply(sb, LoquiInterfaceType.Direct);
                 sb.AppendLine($"public {OverrideStr}{TypeName(getter: false)} {Name}");
                 using (sb.CurlyBrace())
