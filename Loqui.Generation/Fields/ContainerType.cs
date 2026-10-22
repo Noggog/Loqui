@@ -55,9 +55,16 @@ public abstract class ContainerType : WrapperType
             {
                 sb.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {subLoq.TargetObjectGeneration.CommonClassSpeccedInstance("l", LoquiInterfaceType.IGetter, CommonGenerics.Class, subLoq.GenericSpecification)}.Equals(l, r, {maskAccessor}?.GetSubCrystal({IndexEnumInt})))) return false;");
             }
+            else if (SubTypeGeneration is LoquiType)
+            {
+                // A Loqui type's equality snippet compares references, while its Equals compares fields.
+                sb.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+            }
             else
             {
-                sb.AppendLine($"if (!{accessor.Access}.{nameof(EnumerableExt.SequenceEqualNullable)}({rhsAccessor.Access})) return false;");
+                // Compare items the way their type compares, as GenerateForEqualsMask does. The default comparer
+                // would compare a ReadOnlyMemorySlice<byte> by the array it views rather than by its bytes.
+                sb.AppendLine($"if (!{accessor.Access}.{(Nullable ? nameof(ICollectionExt.SequenceEqualNullable) : nameof(ICollectionExt.SequenceEqual))}({rhsAccessor.Access}, (l, r) => {SubTypeGeneration.GenerateEqualsSnippet(new Accessor("l"), new Accessor("r"))})) return false;");
             }
         }
     }
